@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
+import 'package:ssc/src/viewModel/shared/sharedProvider.dart';
 import 'package:ssc/utilities/appTheme.dart';
 import 'package:ssc/utilities/constants.dart';
 import 'package:ssc/utilities/language/appLocalizations.dart';
@@ -82,6 +83,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HomeProvider(), lazy: true),
+        ChangeNotifierProvider(create: (_) => SharedProvider(), lazy: true),
       ],
       child: Consumer<GlobalAppProvider>(builder: (context, model, child) {
           return MaterialApp(
