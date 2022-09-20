@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
-import 'language/app_localizations.dart';
+import 'language/appLocalizations.dart';
 
 String getExtension(String url) {
   String reversed = url.split('').toList().reversed.join();

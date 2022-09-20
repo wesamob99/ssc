@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import '../utilities/util.dart';
-import 'UserSecuredStorage.dart';
+import 'userSecuredStorage.dart';
 
 dynamic httpErrorMessage(dynamic responseData) {
   var jsonData;
