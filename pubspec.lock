@@ -2,7 +2,7 @@
 # See https://dart.dev/tools/pub/glossary#lockfile
 packages:
   another_flushbar:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: another_flushbar
       url: "https://pub.dartlang.org"
@@ -77,38 +77,38 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_cupertino_localizations:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_cupertino_localizations
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
   flutter_lints:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_lints
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
   flutter_localizations:
-    dependency: "direct dev"
+    dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
   flutter_phoenix:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_phoenix
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
   flutter_smart_dialog:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_smart_dialog
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.5.5+2"
+    version: "4.5.5+3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -120,7 +120,7 @@ packages:
     source: sdk
     version: "0.0.0"
   internet_connection_checker:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: internet_connection_checker
       url: "https://pub.dartlang.org"
@@ -169,7 +169,7 @@ packages:
     source: hosted
     version: "1.8.0"
   mutex:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: mutex
       url: "https://pub.dartlang.org"
@@ -232,14 +232,14 @@ packages:
     source: hosted
     version: "4.2.4"
   provider:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.3"
   shared_preferences:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
