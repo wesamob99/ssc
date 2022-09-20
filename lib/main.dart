@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:ssc/src/view/intro/testProvider.dart';
+import 'package:ssc/src/viewModel/home/homeProvider.dart';
 import 'package:ssc/utilities/appTheme.dart';
 import 'package:ssc/utilities/constants.dart';
 import 'package:ssc/utilities/language/app_localizations.dart';
 import 'package:ssc/utilities/language/global_app_provider.dart';
 import 'package:ssc/utilities/themeProvider.dart';
-import 'package:ssc/src/view/intro/splash_screen.dart';
+import 'package:ssc/src/view/home/homeScreen.dart';
 
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
@@ -82,7 +82,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => TestProvider(), lazy: true),
+        ChangeNotifierProvider(create: (_) => HomeProvider(), lazy: true),
       ],
       child: Consumer<GlobalAppProvider>(builder: (context, model, child) {
           return MaterialApp(
@@ -104,7 +104,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate
             ],
-            home: const SplashScreen(),
+            home: const HomeScreen(),
           );
         }
       ),
