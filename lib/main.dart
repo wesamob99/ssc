@@ -13,8 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-
-import 'helpers/userConfig.dart';
+import 'infrastructure/userConfig.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 

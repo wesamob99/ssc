@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ssc/utilities/themes.dart';
 
-import '../helpers/userConfig.dart';
+import '../infrastructure/userConfig.dart';
 import 'hexColor.dart';
 
 class AppTheme {
