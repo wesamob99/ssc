@@ -6,10 +6,6 @@ import 'package:ssc/infrastructure/userConfig.dart';
 import '../utilities/util.dart';
 import 'UserSecuredStorage.dart';
 
-//Local testing http://192.168.2.44:9000/
-//Staging  https://realsoftapps.com/Adaa_Stage/adaastageapi/
-//Normal   https://realsoftapps.com/Adaa_new/adaaapi
-
 dynamic httpErrorMessage(dynamic responseData) {
   var jsonData;
   if (responseData != null && !isHTML(responseData.data)) {
@@ -26,9 +22,8 @@ dynamic httpErrorMessage(dynamic responseData) {
   }
 }
 
-///Current URL :Staging
+///Current URL :[development] ***
 class HTTPClientContract {
-  //static const String BASE_URL = 'http://192.168.2.44:9000/';
   static const String BASE_URL = 'http://192.168.2.44:9000/';
   static final _dio = _createDio();
   static const int _MAX_RETRY = 7;
@@ -88,28 +83,17 @@ class HTTPClientContract {
             }
             _retryCount++;
             final RequestOptions? options = e.response?.requestOptions;
-
-            // await UserSecuredStorage.instance
-            //     .refreshToken(UserSecuredStorage.instance.token);
             options?.headers['Authorization'] =
                 UserSecuredStorage.instance.token;
             final Response response = await dio.fetch(options!);
             _retryCount = 0;
             return handler.resolve(response);
           } on DioError catch(e){
-            // if (e.response.realUri.toString().contains('RefreshExpiredToken'))
-            //   await _sessionTimeout();
-            // else
             _retryCount = 0;
             return handler.next(e);
           }
         } else {
           _retryCount = 0;
-          // if (e != null &&
-          //     e.response != null &&
-          //     e.response.realUri.toString().contains('RefreshExpiredToken'))
-          //   await _sessionTimeout();
-          // else
           return handler.next(e);
         }
       }, onResponse: (response, handler) {

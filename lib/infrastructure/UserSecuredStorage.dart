@@ -13,11 +13,9 @@ class UserSecuredStorage {
   String _email = "";
   String _userNameEn = "";
   String _userNameAr = "";
-  String _empID = "";
   String _userImage = "";
   String _userJson = "";
   String _token = "";
-  bool _isAdmin = false;
   var _box;
 
   static UserSecuredStorage? _instance;
@@ -32,30 +30,9 @@ class UserSecuredStorage {
     return _userJson;
   }
 
-  bool get isAdmin {
-    _isAdmin = _box.get('isAdmin');
-    return _isAdmin;
-  }
-
-  set isAdmin(bool value) {
-    addKeyPair('isAdmin', value);
-
-    _isAdmin = value;
-  }
-
   set userJson(String value) {
     addKeyPair('user', value);
     _userJson = value;
-  }
-
-  String get empID {
-    _empID = _box.get('empID');
-    return _empID;
-  }
-
-  set empID(String value) {
-    addKeyPair('empID', value);
-    _empID = value;
   }
 
   String get token {
@@ -112,7 +89,7 @@ class UserSecuredStorage {
   void addKeyPair(dynamic key, dynamic value) {
     _box.put(key, value);
   }
-//
+
   Future<void> initSecuredBox() async {
     await hive_flutter.Hive.initFlutter();
     if (Platform.isAndroid) {
