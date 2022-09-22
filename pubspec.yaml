@@ -48,6 +48,8 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_secure_storage: ^6.0.0
   hive: ^2.2.3
+  flutter_image_slideshow: ^0.1.4
+  curved_navigation_bar: ^1.0.3
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +60,7 @@ flutter:
   assets:
     - i18n/en.json
     - i18n/ar.json
+    - assets/images/test_slider_images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
