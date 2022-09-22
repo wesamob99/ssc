@@ -10,7 +10,7 @@ class AppTheme {
     primarySwatch: Colors.red,
     //accentColor: Colors.amber,
     appBarTheme: AppBarTheme(
-        color: HexColor('#121212'), centerTitle: true, elevation: 0),
+        color: HexColor('#445740'), centerTitle: true, elevation: 0),
     scaffoldBackgroundColor: HexColor('#212121'),
     backgroundColor: HexColor('#212121'),
     primaryTextTheme: const TextTheme(
@@ -57,13 +57,13 @@ class AppTheme {
         hintStyle: TextStyle(color: Colors.grey),
       ),
       appBarTheme: AppBarTheme(
-          color: HexColor('#ffffff'),
+          color: HexColor('#445740'),
           centerTitle: true,
           elevation: 0,
           actionsIconTheme: const IconThemeData(color: Colors.black),
           iconTheme: const IconThemeData(color: Colors.black),
           titleTextStyle: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 18,
               fontFamily: UserConfig.instance.checkLanguage() ? 'nunito' : 'sans_full'
