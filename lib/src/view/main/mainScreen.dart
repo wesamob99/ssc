@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final PageController _pageController = PageController(initialPage: 2);
   int pageIndex = 2;
-  List<String> pageTitle = ['profile', 'gallery', 'home', 'notifications', 'settings'];
+  List<String> pageTitle = ['profile', 'services', 'home', 'notifications', 'settings'];
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +62,9 @@ class _MainScreenState extends State<MainScreen> {
       buttonBackgroundColor: HexColor('#445740'),
       items: const <Widget>[
         Icon(Icons.person, size: 30, color: Colors.white),
-        Icon(Icons.filter_rounded, size: 30, color: Colors.white),
+        Icon(Icons.list, size: 30, color: Colors.white),
         Icon(Icons.home, size: 30, color: Colors.white),
-        Icon(Icons.add_alert, size: 30, color: Colors.white),
+        Icon(Icons.notifications_active, size: 30, color: Colors.white),
         Icon(Icons.settings, size: 30, color: Colors.white),
       ],
       onTap: (index) {
