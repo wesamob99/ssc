@@ -3,17 +3,17 @@ import 'package:ssc/src/view/introduction/introductionScreen.dart';
 import 'package:ssc/src/view/main/mainScreen.dart';
 import 'package:ssc/src/viewModel/main/mainProvider.dart';
 import 'package:ssc/src/viewModel/shared/sharedProvider.dart';
-import 'package:ssc/utilities/appTheme.dart';
+import 'package:ssc/src/viewModel/utilities/language/globalAppProvider.dart';
+import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/constants.dart';
 import 'package:ssc/utilities/language/appLocalizations.dart';
-import 'package:ssc/utilities/language/globalAppProvider.dart';
-import 'package:ssc/utilities/themeProvider.dart';
 
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:ssc/utilities/theme/appTheme.dart';
 
 import 'infrastructure/userConfig.dart';
 
