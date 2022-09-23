@@ -1,4 +1,8 @@
 {
   "retryAgain": "Retry Again",
-  "home": "Home"
+  "home": "Home",
+  "profile": "Profile",
+  "gallery": "Gallery",
+  "notifications": "Notifications",
+  "settings": "Settings"
 }

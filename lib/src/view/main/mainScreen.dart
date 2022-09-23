@@ -17,12 +17,14 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
 
   final PageController _pageController = PageController(initialPage: 2);
+  int pageIndex = 2;
+  List<String> pageTitle = ['profile', 'gallery', 'home', 'notifications', 'settings'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(translate('home', context)),
+        title: Text(translate(pageTitle[pageIndex], context)),
         centerTitle: true,
       ),
       body: PageView(
@@ -42,18 +44,21 @@ class _MainScreenState extends State<MainScreen> {
 
   curvedNavigationBar(){
     return CurvedNavigationBar(
-      index: 2,
+      index: pageIndex,
       backgroundColor: Colors.transparent,
       color: HexColor('#445740'),
       buttonBackgroundColor: HexColor('#445740'),
       items: const <Widget>[
-        Icon(Icons.compare_arrows, size: 30, color: Colors.white),
-        Icon(Icons.list, size: 30, color: Colors.white),
+        Icon(Icons.person, size: 30, color: Colors.white),
+        Icon(Icons.filter_rounded, size: 30, color: Colors.white),
         Icon(Icons.home, size: 30, color: Colors.white),
         Icon(Icons.add_alert, size: 30, color: Colors.white),
         Icon(Icons.settings, size: 30, color: Colors.white),
       ],
       onTap: (index) {
+        setState(() {
+          pageIndex = index;
+        });
         _pageController.jumpToPage(index);
       },
     );
