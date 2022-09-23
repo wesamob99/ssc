@@ -4,5 +4,7 @@
   "profile": "Profile",
   "gallery": "Gallery",
   "notifications": "Notifications",
-  "settings": "Settings"
+  "settings": "Settings",
+  "select_app_language": "Select app language",
+  "select_app_theme": "Select app theme"
 }
