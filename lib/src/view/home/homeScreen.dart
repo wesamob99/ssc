@@ -35,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
         width: double.infinity,
         height: height(.23, context),
         initialPage: 0,
-        indicatorColor: Colors.blue,
-        indicatorBackgroundColor: Colors.grey,
+        indicatorColor: HexColor('#445740'),
+        indicatorBackgroundColor: Colors.grey.shade400,
         onPageChanged: (value) {
           // print('Page changed: $value');
         },
@@ -70,13 +70,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   curvedNavigationBar(){
     return CurvedNavigationBar(
+      index: 2,
       backgroundColor: Colors.transparent,
       color: HexColor('#445740'),
       buttonBackgroundColor: HexColor('#445740'),
       items: const <Widget>[
-        Icon(Icons.home, size: 30, color: Colors.white),
-        Icon(Icons.list, size: 30, color: Colors.white),
         Icon(Icons.compare_arrows, size: 30, color: Colors.white),
+        Icon(Icons.list, size: 30, color: Colors.white),
+        Icon(Icons.home, size: 30, color: Colors.white),
         Icon(Icons.add_alert, size: 30, color: Colors.white),
         Icon(Icons.settings, size: 30, color: Colors.white),
       ],
