@@ -30,12 +30,24 @@ class _MainScreenState extends State<MainScreen> {
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
-          Center(child: Text('page 1')),
-          Center(child: Text('page 2')),
-          HomeScreen(),
-          Center(child: Text('page 4')),
-          SettingsScreen(),
+        children: [
+          Center(
+            child: Text(
+              translate(pageTitle[0], context)
+            )
+          ),
+          Center(
+            child: Text(
+              translate(pageTitle[1], context)
+            )
+          ),
+          const HomeScreen(),
+          Center(
+            child: Text(
+              translate(pageTitle[3], context)
+            )
+          ),
+          const SettingsScreen(),
         ],
       ),
       bottomNavigationBar: curvedNavigationBar(),
