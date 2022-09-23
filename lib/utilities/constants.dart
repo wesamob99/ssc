@@ -7,4 +7,5 @@ class Constants {
   static const String SYSTEM_DEFAULT = "System default";
   static const String MAIN_SCREEN_TUTORIAL = "mainScreenTutorial";
   static const List<String> THEMES = ["System default", "Light", "Dark"];
+  static const List<String> LANGUAGES = ["en", "ar"];
 }
