@@ -2,9 +2,9 @@
   "retryAgain": "إعادة المحاولة",
   "home": "الصفحة الرئيسية",
   "profile": "الصفحة الشخصية",
-  "gallery": "المعرض",
+  "services": "خدماتي",
   "notifications": "الاشعارات",
   "settings": "الاعدادات",
-  "select_app_language": "اختر لغة التطبيق",
-  "select_app_theme": "اختر سمة التطبيق"
+  "select_app_language": "لغة التطبيق",
+  "select_app_theme": "سمة التطبيق"
 }

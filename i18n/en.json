@@ -2,9 +2,9 @@
   "retryAgain": "Retry Again",
   "home": "Home",
   "profile": "Profile",
-  "gallery": "Gallery",
+  "services": "My services",
   "notifications": "Notifications",
   "settings": "Settings",
-  "select_app_language": "Select app language",
-  "select_app_theme": "Select app theme"
+  "select_app_language": "App language",
+  "select_app_theme": "App theme"
 }
