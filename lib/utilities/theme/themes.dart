@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ssc/utilities/themeProvider.dart';
+import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 
-import 'hexColor.dart';
+import '../hexColor.dart';
 import 'package:provider/provider.dart';
 
 Color primaryColor = HexColor('#1897D4');

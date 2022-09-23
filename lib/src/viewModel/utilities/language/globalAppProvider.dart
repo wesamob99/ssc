@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../infrastructure/userConfig.dart';
+import '../../../../infrastructure/userConfig.dart';
 
 class GlobalAppProvider extends ChangeNotifier {
   String languageText = "English";
