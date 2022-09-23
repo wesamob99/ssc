@@ -1,7 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:ssc/src/view/home/homeScreen.dart';
+import 'package:ssc/src/view/settings/settingsScreen.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../utilities/util.dart';
@@ -15,7 +16,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-  final PageController _pageController = PageController();
+  final PageController _pageController = PageController(initialPage: 2);
 
   @override
   Widget build(BuildContext context) {
@@ -27,60 +28,15 @@ class _MainScreenState extends State<MainScreen> {
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
-        // onPageChanged: (index){
-        //
-        // },
-        children: [
-          const Center(child: Text('page 1')),
-          const Center(child: Text('page 2')),
-          Column(
-            children: [
-              imageSlideShow(),
-            ],
-          ),
-          const Center(child: Text('page 4')),
-          const Center(child: Text('page 5')),
+        children: const [
+          Center(child: Text('page 1')),
+          Center(child: Text('page 2')),
+          HomeScreen(),
+          Center(child: Text('page 4')),
+          SettingsScreen(),
         ],
       ),
       bottomNavigationBar: curvedNavigationBar(),
-    );
-  }
-
-  imageSlideShow(){
-    return ImageSlideshow(
-        width: double.infinity,
-        height: height(.23, context),
-        initialPage: 0,
-        indicatorColor: HexColor('#445740'),
-        indicatorBackgroundColor: HexColor('#b8a56b'),
-        onPageChanged: (value) {
-          // print('Page changed: $value');
-        },
-        autoPlayInterval: 3000,
-        isLoop: true,
-        children: [
-          InkWell(
-            onTap: (){},
-            child: Image.asset(
-              'assets/images/test_slider_images/1.jpg',
-              fit: BoxFit.cover,
-            ),
-          ),
-          InkWell(
-            onTap: (){},
-            child: Image.asset(
-              'assets/images/test_slider_images/2.jpg',
-              fit: BoxFit.cover,
-            ),
-          ),
-          InkWell(
-            onTap: (){},
-            child: Image.asset(
-              'assets/images/test_slider_images/3.jpg',
-              fit: BoxFit.cover,
-            ),
-          ),
-        ]
     );
   }
 
