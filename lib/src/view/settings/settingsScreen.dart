@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ssc/src/viewModel/utilities/language/globalAppProvider.dart';
+import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 import 'package:ssc/utilities/util.dart';
@@ -32,43 +35,63 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     getAppTheme();
+
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+    GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
           margin: const EdgeInsets.only(top: 5.0),
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          color: getSSCColor(context).withOpacity(0.7),
+          padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+          color: getSSCColor(context).withOpacity(0.6),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                translate('select_app_theme', context),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold
-                ),
+              Row(
+                children: [
+                  Icon(
+                    themeNotifier.isLight()
+                        ? Icons.light_mode_outlined
+                        : Icons.dark_mode_outlined,
+                    color: themeNotifier.isLight()
+                        ? HexColor('#445740')
+                        : Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 5.0,
+                  ),
+                  Text(
+                    translate('select_app_theme', context),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ],
               ),
               Container(
                 margin: const EdgeInsets.all(5.0).copyWith(right: 0),
                 padding: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    color: HexColor('#445740'),
-                  ),
-                  borderRadius: BorderRadius.circular(8)
+                    color: themeNotifier.isLight() ? Colors.white : getShadowColor(context),
+                    border: Border.all(
+                      color: HexColor('#445740'),
+                    ),
+                    borderRadius: BorderRadius.circular(8)
                 ),
                 child: DropdownButton<String>(
                   isDense: true,
                   value: selectedTheme,
                   icon: Icon(
                     Icons.arrow_drop_down_outlined,
-                    color: HexColor('#445740'),
+                    color: themeNotifier.isLight()
+                        ? HexColor('#445740')
+                        : Colors.white,
                   ),
                   elevation: 16,
                   style: const TextStyle(color: Colors.black),
@@ -80,6 +103,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     setState(() {
                       selectedTheme = value!;
                     });
+                    themeNotifier.setThemeMode(
+                        selectedTheme == 'Light'
+                            ? ThemeMode.light : selectedTheme == 'Dark'
+                            ? ThemeMode.dark : ThemeMode.system
+                    );
                     prefs.then((value) {
                       value.setString(Constants.APP_THEME, selectedTheme!);
                     });
@@ -88,11 +116,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(
-                        value,
+                        translate(value, context),
                         style: TextStyle(
-                          color: selectedTheme == value
+                          color: themeNotifier.isLight()
                               ? HexColor('#445740')
-                              : Colors.black,
+                              : Colors.white,
                         ),
                       ),
                     );
@@ -104,34 +132,51 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         Container(
           margin: const EdgeInsets.only(top: 5.0),
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          color: getSSCColor(context).withOpacity(0.7),
+          padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+          color: getSSCColor(context).withOpacity(0.6),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                translate('select_app_language', context),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold
-                ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.language,
+                    color: themeNotifier.isLight()
+                      ? HexColor('#445740')
+                      : Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 5.0,
+                  ),
+                  Text(
+                    translate('select_app_language', context),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ],
               ),
               Container(
                 margin: const EdgeInsets.all(5.0).copyWith(right: 0),
                 padding: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    color: HexColor('#445740'),
-                  ),
-                  borderRadius: BorderRadius.circular(8)
+                    color: themeNotifier.isLight()
+                        ? Colors.white
+                        : getShadowColor(context),
+                    border: Border.all(
+                      color: HexColor('#445740'),
+                    ),
+                    borderRadius: BorderRadius.circular(8)
                 ),
                 child: DropdownButton<String>(
                   isDense: true,
                   value: selectedLanguage,
                   icon: Icon(
                     Icons.arrow_drop_down_outlined,
-                    color: HexColor('#445740'),
+                    color: themeNotifier.isLight()
+                        ? HexColor('#445740')
+                        : Colors.white,
                   ),
                   elevation: 16,
                   style: const TextStyle(color: Colors.black),
@@ -143,6 +188,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     setState(() {
                       selectedLanguage = value!;
                     });
+                    globalAppProvider.changeLanguage(Locale(selectedLanguage!));
+                    globalAppProvider.notifyMe();
                     prefs.then((value) {
                       value.setString('language_code', selectedLanguage!);
                     });
@@ -153,9 +200,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       child: Text(
                         value == 'en' ? 'English' : 'عربي',
                         style: TextStyle(
-                          color: selectedLanguage == value
+                          color: themeNotifier.isLight()
                               ? HexColor('#445740')
-                              : Colors.black,
+                              : Colors.white,
                         ),
                       ),
                     );
