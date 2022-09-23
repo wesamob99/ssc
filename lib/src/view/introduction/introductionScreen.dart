@@ -68,7 +68,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   length: singleIntroductionScreen.length,
                   currentIndex: currentIndex,
                   currentColor: HexColor('#445740'),
-                  otherColor: HexColor('#b8a56b'),
+                  otherColor: Colors.white,
                 ),
                 GestureDetector(
                   onTap: (){
