@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ssc/src/view/home/homeScreen.dart';
 import 'package:ssc/src/view/introduction/introductionScreen.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
 import 'package:ssc/src/viewModel/shared/sharedProvider.dart';
@@ -22,6 +23,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   prefs.then((value){
+    Widget screen = (value.getBool('seen') ?? false) ? const HomeScreen() : const IntroductionScreen();
+    value.setBool('seen', true);
     runApp(
       Phoenix(
         child: MultiProvider(
@@ -61,7 +64,7 @@ void main() {
               lazy: false,
             )
           ],
-          child: const MyApp(),
+          child: MyApp(screen: screen),
         ),
       ),
     );
@@ -69,14 +72,15 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final Widget screen;
+  const MyApp({super.key, required this.screen});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  // @override
+
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
@@ -105,7 +109,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate
             ],
-            home: const IntroductionScreen(),
+            home: widget.screen,
           );
         }
       ),
