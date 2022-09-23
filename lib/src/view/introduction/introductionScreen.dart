@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_page_view_indicator/flutter_page_view_indicator.dart';
-import 'package:ssc/src/view/home/homeScreen.dart';
 import 'package:ssc/utilities/hexColor.dart';
+
+import '../main/mainScreen.dart';
 
 class IntroductionScreen extends StatefulWidget {
   const IntroductionScreen({Key? key}) : super(key: key);
@@ -74,7 +75,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     if(currentIndex == singleIntroductionScreen.length - 1){
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                          builder: (context) => const HomeScreen()
+                          builder: (context) => const MainScreen()
                         ),
                         (route) => false,
                       );
