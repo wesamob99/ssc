@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
         height: height(.23, context),
         initialPage: 0,
         indicatorColor: HexColor('#445740'),
-        indicatorBackgroundColor: Colors.grey.shade400,
+        indicatorBackgroundColor: HexColor('#b8a56b'),
         onPageChanged: (value) {
           // print('Page changed: $value');
         },
