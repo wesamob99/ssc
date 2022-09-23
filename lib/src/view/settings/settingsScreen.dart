@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/utilities/hexColor.dart';
+import 'package:ssc/utilities/theme/themes.dart';
 import 'package:ssc/utilities/util.dart';
 
 import '../../../utilities/constants.dart';
@@ -39,107 +40,127 @@ class _SettingsScreenState extends State<SettingsScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          width: width(0.9, context),
           margin: const EdgeInsets.only(top: 5.0),
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: HexColor('#445740'),
-            ),
-            borderRadius: BorderRadius.circular(8)
-          ),
+          color: getSSCColor(context).withOpacity(0.7),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                translate('select_app_theme', context)+': ',
+                translate('select_app_theme', context),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold
+                ),
               ),
-              DropdownButton<String>(
-                value: selectedTheme,
-                icon: Icon(
-                  Icons.arrow_drop_down_outlined,
-                  color: HexColor('#445740'),
+              Container(
+                margin: const EdgeInsets.all(5.0).copyWith(right: 0),
+                padding: const EdgeInsets.all(5.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    color: HexColor('#445740'),
+                  ),
+                  borderRadius: BorderRadius.circular(8)
                 ),
-                elevation: 16,
-                style: const TextStyle(color: Colors.black),
-                underline: Container(
-                  height: 2,
-                  color: HexColor('#445740'),
-                ),
-                onChanged: (String? value) async{
-                  setState(() {
-                    selectedTheme = value!;
-                  });
-                  prefs.then((value) {
-                    value.setString(Constants.APP_THEME, selectedTheme!);
-                  });
-                },
-                items: Constants.THEMES.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(
-                        color: selectedTheme == value
-                            ? HexColor('#445740')
-                            : Colors.black,
+                child: DropdownButton<String>(
+                  isDense: true,
+                  value: selectedTheme,
+                  icon: Icon(
+                    Icons.arrow_drop_down_outlined,
+                    color: HexColor('#445740'),
+                  ),
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.black),
+                  underline: Container(
+                    height: 0,
+                    color: HexColor('#445740'),
+                  ),
+                  onChanged: (String? value) async{
+                    setState(() {
+                      selectedTheme = value!;
+                    });
+                    prefs.then((value) {
+                      value.setString(Constants.APP_THEME, selectedTheme!);
+                    });
+                  },
+                  items: Constants.THEMES.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: TextStyle(
+                          color: selectedTheme == value
+                              ? HexColor('#445740')
+                              : Colors.black,
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    );
+                  }).toList(),
+                ),
               ),
             ],
           ),
         ),
         Container(
-          width: width(0.9, context),
           margin: const EdgeInsets.only(top: 5.0),
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          decoration: BoxDecoration(
-              border: Border.all(
-                color: HexColor('#445740'),
-              ),
-              borderRadius: BorderRadius.circular(8)
-          ),
+          color: getSSCColor(context).withOpacity(0.7),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                translate('select_app_language', context)+': ',
+                translate('select_app_language', context),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold
+                ),
               ),
-              DropdownButton<String>(
-                value: selectedLanguage,
-                icon: Icon(
-                  Icons.arrow_drop_down_outlined,
-                  color: HexColor('#445740'),
+              Container(
+                margin: const EdgeInsets.all(5.0).copyWith(right: 0),
+                padding: const EdgeInsets.all(5.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    color: HexColor('#445740'),
+                  ),
+                  borderRadius: BorderRadius.circular(8)
                 ),
-                elevation: 16,
-                style: const TextStyle(color: Colors.black),
-                underline: Container(
-                  height: 2,
-                  color: HexColor('#445740'),
-                ),
-                onChanged: (String? value) async{
-                  setState(() {
-                    selectedLanguage = value!;
-                  });
-                  prefs.then((value) {
-                    value.setString('language_code', selectedLanguage!);
-                  });
-                },
-                items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(
-                        color: selectedLanguage == value
-                            ? HexColor('#445740')
-                            : Colors.black,
+                child: DropdownButton<String>(
+                  isDense: true,
+                  value: selectedLanguage,
+                  icon: Icon(
+                    Icons.arrow_drop_down_outlined,
+                    color: HexColor('#445740'),
+                  ),
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.black),
+                  underline: Container(
+                    height: 0,
+                    color: HexColor('#445740'),
+                  ),
+                  onChanged: (String? value) async{
+                    setState(() {
+                      selectedLanguage = value!;
+                    });
+                    prefs.then((value) {
+                      value.setString('language_code', selectedLanguage!);
+                    });
+                  },
+                  items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value == 'en' ? 'English' : 'عربي',
+                        style: TextStyle(
+                          color: selectedLanguage == value
+                              ? HexColor('#445740')
+                              : Colors.black,
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    );
+                  }).toList(),
+                ),
               ),
             ],
           ),

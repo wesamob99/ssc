@@ -42,7 +42,7 @@ const MaterialColor materialWhite = MaterialColor(
 );
 
 Color getSSCColor(BuildContext context){
-  return HexColor('#1A4314');
+  return HexColor('#445740');
 }
 
 Color getRedColor(BuildContext context) {
