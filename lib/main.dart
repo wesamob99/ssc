@@ -51,6 +51,7 @@ void main() {
 
                 if (value.getString('language_code') == null) {
                   UserConfig.instance.language = "English";
+                  value.setString('language_code', 'en');
                 } else {
                   appLocale = Locale(value.getString('language_code')!);
                   UserConfig.instance.language =
