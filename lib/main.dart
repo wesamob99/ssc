@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ssc/src/view/home/homeScreen.dart';
 import 'package:ssc/src/view/introduction/introductionScreen.dart';
-import 'package:ssc/src/viewModel/home/homeProvider.dart';
+import 'package:ssc/src/view/main/mainScreen.dart';
+import 'package:ssc/src/viewModel/main/mainProvider.dart';
 import 'package:ssc/src/viewModel/shared/sharedProvider.dart';
 import 'package:ssc/utilities/appTheme.dart';
 import 'package:ssc/utilities/constants.dart';
@@ -23,7 +23,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   prefs.then((value){
-    Widget screen = (value.getBool('seen') ?? false) ? const HomeScreen() : const IntroductionScreen();
+    Widget screen = (value.getBool('seen') ?? false) ? const MainScreen() : const IntroductionScreen();
     value.setBool('seen', true);
     runApp(
       Phoenix(
@@ -86,7 +86,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => HomeProvider(), lazy: true),
+        ChangeNotifierProvider(create: (_) => MainProvider(), lazy: true),
         ChangeNotifierProvider(create: (_) => SharedProvider(), lazy: true),
       ],
       child: Consumer<GlobalAppProvider>(builder: (context, model, child) {

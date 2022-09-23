@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class HomeProvider extends ChangeNotifier {
+class MainProvider extends ChangeNotifier {
 
   void notifyMe() {
     notifyListeners();

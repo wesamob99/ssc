@@ -6,14 +6,17 @@ import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../utilities/util.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MainScreenState extends State<MainScreen> {
+
+  final PageController _pageController = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,9 +24,22 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(translate('home', context)),
         centerTitle: true,
       ),
-      body: Column(
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        // onPageChanged: (index){
+        //
+        // },
         children: [
-          imageSlideShow(),
+          const Center(child: Text('page 1')),
+          const Center(child: Text('page 2')),
+          Column(
+            children: [
+              imageSlideShow(),
+            ],
+          ),
+          const Center(child: Text('page 4')),
+          const Center(child: Text('page 5')),
         ],
       ),
       bottomNavigationBar: curvedNavigationBar(),
@@ -82,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Icon(Icons.settings, size: 30, color: Colors.white),
       ],
       onTap: (index) {
-        //Handle button tap
+        _pageController.jumpToPage(index);
       },
     );
   }
