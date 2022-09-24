@@ -9,5 +9,8 @@
   "select_app_theme": "App theme",
   "System default": "System default",
   "Light": "Light",
-  "Dark": "Dark"
+  "Dark": "Dark",
+  "skip": "Skip",
+  "done": "Done",
+  "next": "Next"
 }

@@ -9,5 +9,8 @@
   "select_app_theme": "سمة التطبيق",
   "System default": "النظام الافتراضي",
   "Light": "ضوء",
-  "Dark": "ليلي"
+  "Dark": "ليلي",
+  "skip": "تخطي",
+  "done": "انهاء",
+  "next": "التالي"
 }

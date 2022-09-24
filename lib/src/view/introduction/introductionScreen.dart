@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_page_view_indicator/flutter_page_view_indicator.dart';
+import 'package:ssc/utilities/util.dart';
 
 import '../../../utilities/theme/themes.dart';
 import '../main/mainScreen.dart';
@@ -56,9 +57,9 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   onTap: (){
                     _pageController.jumpToPage(singleIntroductionScreen.length - 1);
                   },
-                  child: const Text(
-                    'Skip',
-                    style: TextStyle(
+                  child: Text(
+                    translate('skip', context),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16
                     ),
@@ -88,7 +89,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   },
                   child: Text(
                     currentIndex == singleIntroductionScreen.length - 1
-                    ? 'Done' : 'Next',
+                    ? translate('done', context) : translate('next', context),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16
