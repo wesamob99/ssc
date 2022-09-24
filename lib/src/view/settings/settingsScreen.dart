@@ -18,13 +18,13 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-  String? selectedTheme = Constants.SYSTEM_DEFAULT;
-  String? selectedLanguage = 'en';
+  String? selectedTheme;
+  String? selectedLanguage;
 
   getAppTheme(){
     prefs.then((value) {
       setState((){
-        selectedTheme = value.getString(Constants.APP_THEME);
+        selectedTheme = value.getString(Constants.APP_THEME) ?? Constants.SYSTEM_DEFAULT;
         selectedLanguage = value.getString('language_code') ?? 'en';
       });
     });
