@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_page_view_indicator/flutter_page_view_indicator.dart';
-import 'package:ssc/utilities/hexColor.dart';
 
+import '../../../utilities/theme/themes.dart';
 import '../main/mainScreen.dart';
 
 class IntroductionScreen extends StatefulWidget {
@@ -67,7 +67,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                 PageViewIndicator(
                   length: singleIntroductionScreen.length,
                   currentIndex: currentIndex,
-                  currentColor: HexColor('#445740'),
+                  currentColor: getSSCColor(context),
                   otherColor: Colors.white,
                 ),
                 GestureDetector(

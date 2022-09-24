@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
-import '../../../utilities/hexColor.dart';
+import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         width: double.infinity,
         height: height(.23, context),
         initialPage: 0,
-        indicatorColor: HexColor('#445740'),
+        indicatorColor: getSSCColor(context),
         indicatorBackgroundColor: Colors.white,
         onPageChanged: (value) {
           // print('Page changed: $value');

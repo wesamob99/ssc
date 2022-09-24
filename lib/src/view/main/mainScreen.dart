@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ssc/src/view/home/homeScreen.dart';
 import 'package:ssc/src/view/settings/settingsScreen.dart';
-import 'package:ssc/utilities/hexColor.dart';
 
+import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
 
 class MainScreen extends StatefulWidget {
@@ -58,8 +58,8 @@ class _MainScreenState extends State<MainScreen> {
     return CurvedNavigationBar(
       index: pageIndex,
       backgroundColor: Colors.transparent,
-      color: HexColor('#445740'),
-      buttonBackgroundColor: HexColor('#445740'),
+      color: getSSCColor(context),
+      buttonBackgroundColor: getSSCColor(context),
       items: const <Widget>[
         Icon(Icons.person, size: 30, color: Colors.white),
         Icon(Icons.list, size: 30, color: Colors.white),
