@@ -4,8 +4,8 @@ import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import '../hexColor.dart';
 import 'package:provider/provider.dart';
 
-Color primaryColor = HexColor('#1897D4');
-Color primaryColorDark = HexColor('#2866BD');
+Color primaryColor = HexColor('#445740');
+Color primaryColorDark = HexColor('#013220');
 Color headerColor = HexColor('#1379AA');
 Color whiteColor = HexColor('#FFFFFF');
 Color screenDefaultBackgroundColor = HexColor('#FFFFFF');
@@ -41,8 +41,8 @@ const MaterialColor materialWhite = MaterialColor(
   },
 );
 
-Color getSSCColor(BuildContext context){
-  return HexColor('#445740');
+Color getPrimaryColor(BuildContext context, ThemeNotifier themeNotifier){
+  return themeNotifier.isLight() ? primaryColor : primaryColorDark;
 }
 
 Color getRedColor(BuildContext context) {
