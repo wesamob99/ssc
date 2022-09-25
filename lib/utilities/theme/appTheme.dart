@@ -10,7 +10,10 @@ class AppTheme {
     primarySwatch: Colors.red,
     //accentColor: Colors.amber,
     appBarTheme: AppBarTheme(
-        color: HexColor('#445740'), centerTitle: true, elevation: 0),
+      color: HexColor('#013220'),
+      centerTitle: true,
+      elevation: 0
+    ),
     scaffoldBackgroundColor: HexColor('#212121'),
     backgroundColor: HexColor('#212121'),
     primaryTextTheme: const TextTheme(
