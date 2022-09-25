@@ -51,8 +51,11 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               });
             },
           ),
-          Transform.translate(
-            offset: const Offset(0, 750),
+          Container(
+            alignment: Alignment.bottomCenter,
+            padding: EdgeInsets.only(
+              bottom: height(0.1, context)
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
