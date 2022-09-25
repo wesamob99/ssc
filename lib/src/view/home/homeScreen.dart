@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
   imageSlideShow(List<Widget> children, ThemeNotifier themeNotifier){
     return ImageSlideshow(
         width: double.infinity,
-        height: height(.23, context),
+        height: height(.28, context),
         initialPage: 0,
         indicatorColor: getPrimaryColor(context, themeNotifier),
         indicatorBackgroundColor: Colors.white,
