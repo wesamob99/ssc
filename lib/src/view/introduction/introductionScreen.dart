@@ -61,10 +61,15 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               children: [
                 GestureDetector(
                   onTap: (){
-                    _pageController.jumpToPage(singleIntroductionScreen.length - 1);
+                    if(currentIndex != 2){
+                      _pageController.jumpToPage(singleIntroductionScreen.length - 1);
+                    } else{
+                      _pageController.jumpToPage(0);
+                    }
                   },
                   child: Text(
-                    translate('skip', context),
+                    currentIndex != 2
+                    ? translate('skip', context) : translate('back', context),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16
