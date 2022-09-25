@@ -46,7 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         Container(
           margin: const EdgeInsets.only(top: 5.0),
           padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-          color: getSSCColor(context).withOpacity(0.6),
+          color: getPrimaryColor(context, themeNotifier).withOpacity(0.5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -57,7 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ? Icons.light_mode_outlined
                         : Icons.dark_mode_outlined,
                     color: themeNotifier.isLight()
-                        ? getSSCColor(context)
+                        ? primaryColor
                         : Colors.white,
                   ),
                   const SizedBox(
@@ -78,7 +78,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 decoration: BoxDecoration(
                     color: themeNotifier.isLight() ? Colors.white : getShadowColor(context),
                     border: Border.all(
-                      color: getSSCColor(context),
+                      color: getPrimaryColor(context, themeNotifier),
                     ),
                     borderRadius: BorderRadius.circular(8)
                 ),
@@ -88,14 +88,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   icon: Icon(
                     Icons.arrow_drop_down_outlined,
                     color: themeNotifier.isLight()
-                        ? getSSCColor(context)
+                        ? primaryColor
                         : Colors.white,
                   ),
                   elevation: 16,
                   style: const TextStyle(color: Colors.black),
                   underline: Container(
                     height: 0,
-                    color: getSSCColor(context),
+                    color: primaryColor,
                   ),
                   onChanged: (String? value) async{
                     setState(() {
@@ -117,7 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         translate(value, context),
                         style: TextStyle(
                           color: themeNotifier.isLight()
-                              ? getSSCColor(context)
+                              ? primaryColor
                               : Colors.white,
                         ),
                       ),
@@ -131,7 +131,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         Container(
           margin: const EdgeInsets.only(top: 5.0),
           padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-          color: getSSCColor(context).withOpacity(0.6),
+          color: getPrimaryColor(context, themeNotifier).withOpacity(0.5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -140,7 +140,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Icon(
                     Icons.language,
                     color: themeNotifier.isLight()
-                      ? getSSCColor(context)
+                      ? primaryColor
                       : Colors.white,
                   ),
                   const SizedBox(
@@ -163,7 +163,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ? Colors.white
                         : getShadowColor(context),
                     border: Border.all(
-                      color: getSSCColor(context),
+                      color: getPrimaryColor(context, themeNotifier),
                     ),
                     borderRadius: BorderRadius.circular(8)
                 ),
@@ -173,14 +173,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   icon: Icon(
                     Icons.arrow_drop_down_outlined,
                     color: themeNotifier.isLight()
-                        ? getSSCColor(context)
+                        ? primaryColor
                         : Colors.white,
                   ),
                   elevation: 16,
                   style: const TextStyle(color: Colors.black),
                   underline: Container(
                     height: 0,
-                    color: getSSCColor(context),
+                    color: primaryColor,
                   ),
                   onChanged: (String? value) async{
                     setState(() {
@@ -199,7 +199,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         value == 'en' ? 'English' : 'عربي',
                         style: TextStyle(
                           color: themeNotifier.isLight()
-                              ? getSSCColor(context)
+                              ? primaryColor
                               : Colors.white,
                         ),
                       ),

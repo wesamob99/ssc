@@ -1,11 +1,13 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ssc/src/view/home/homeScreen.dart';
 import 'package:ssc/src/view/settings/settingsScreen.dart';
 
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
+import '../../viewModel/utilities/theme/themeProvider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -22,6 +24,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(translate(pageTitle[pageIndex], context)),
@@ -50,16 +53,16 @@ class _MainScreenState extends State<MainScreen> {
           const SettingsScreen(),
         ],
       ),
-      bottomNavigationBar: curvedNavigationBar(),
+      bottomNavigationBar: curvedNavigationBar(themeNotifier),
     );
   }
 
-  curvedNavigationBar(){
+  curvedNavigationBar(ThemeNotifier themeNotifier){
     return CurvedNavigationBar(
       index: pageIndex,
       backgroundColor: Colors.transparent,
-      color: getSSCColor(context),
-      buttonBackgroundColor: getSSCColor(context),
+      color: getPrimaryColor(context, themeNotifier),
+      buttonBackgroundColor: getPrimaryColor(context, themeNotifier),
       items: const <Widget>[
         Icon(Icons.person, size: 30, color: Colors.white),
         Icon(Icons.list, size: 30, color: Colors.white),

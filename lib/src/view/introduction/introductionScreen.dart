@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_page_view_indicator/flutter_page_view_indicator.dart';
+import 'package:provider/provider.dart';
 import 'package:ssc/utilities/util.dart';
 
 import '../../../utilities/theme/themes.dart';
+import '../../viewModel/utilities/theme/themeProvider.dart';
 import '../main/mainScreen.dart';
 
 class IntroductionScreen extends StatefulWidget {
@@ -30,6 +32,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -68,7 +71,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                 PageViewIndicator(
                   length: singleIntroductionScreen.length,
                   currentIndex: currentIndex,
-                  currentColor: getSSCColor(context),
+                  currentColor: getPrimaryColor(context, themeNotifier),
                   otherColor: Colors.white,
                 ),
                 GestureDetector(
