@@ -71,9 +71,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Icon(
                         Icons.miscellaneous_services,
                         color: getPrimaryColor(context, themeNotifier),
+                        size: height(0.05, context),
                       ),
                     ),
-                    Text('data #$index')
+                    Text('data #$index', style: TextStyle(fontSize: height(0.015, context)),)
                   ],
                 ),
               );
