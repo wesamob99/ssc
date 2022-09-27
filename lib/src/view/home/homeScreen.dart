@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:provider/provider.dart';
@@ -50,37 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       children: [
         imageSlideShow(ads, themeNotifier),
-        SizedBox(height: height(0.02, context),),
-        Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              mainAxisSpacing: 5,
-              crossAxisSpacing: 5
-            ),
-            itemCount: 8,
-            itemBuilder: (context, index){
-              return SizedBox(
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      radius: width(0.09, context),
-                      backgroundColor: themeNotifier.isLight()
-                        ? getGrey2Color(context)
-                        : getContainerColor(context),
-                      child: Icon(
-                        Icons.miscellaneous_services,
-                        color: getPrimaryColor(context, themeNotifier),
-                        size: height(0.05, context),
-                      ),
-                    ),
-                    Text('data #$index', style: TextStyle(fontSize: height(0.015, context)),)
-                  ],
-                ),
-              );
-            },
-          ),
-        )
       ],
     );
   }
@@ -88,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
   imageSlideShow(List<Widget> children, ThemeNotifier themeNotifier){
     return ImageSlideshow(
         width: double.infinity,
-        height: height(.28, context),
+        height: height(.25, context),
         initialPage: 0,
         indicatorColor: getPrimaryColor(context, themeNotifier),
         indicatorBackgroundColor: Colors.white,

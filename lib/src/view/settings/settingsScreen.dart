@@ -44,8 +44,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          margin: const EdgeInsets.only(top: 5.0),
-          padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+          margin: EdgeInsets.only(top: height(0.004, context)),
+          padding: EdgeInsets.all(height(0.004, context)),
           color: getPrimaryColor(context, themeNotifier).withOpacity(0.5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,8 +73,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
               Container(
-                margin: const EdgeInsets.all(5.0).copyWith(right: 0),
-                padding: const EdgeInsets.all(5.0),
+                margin: EdgeInsets.all(height(0.004, context)).copyWith(right: 0),
+                padding: EdgeInsets.all(height(0.004, context)),
                 decoration: BoxDecoration(
                     color: themeNotifier.isLight() ? Colors.white : getShadowColor(context),
                     border: Border.all(
@@ -129,8 +129,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 5.0),
-          padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+          margin: EdgeInsets.only(top: height(0.004, context)),
+          padding: EdgeInsets.all(height(0.004, context)),
           color: getPrimaryColor(context, themeNotifier).withOpacity(0.5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,8 +156,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
               Container(
-                margin: const EdgeInsets.all(5.0).copyWith(right: 0),
-                padding: const EdgeInsets.all(5.0),
+                margin: EdgeInsets.all(height(0.004, context)).copyWith(right: 0),
+                padding: EdgeInsets.all(height(0.004, context)),
                 decoration: BoxDecoration(
                     color: themeNotifier.isLight()
                         ? Colors.white
