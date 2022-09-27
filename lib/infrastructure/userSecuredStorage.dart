@@ -36,7 +36,7 @@ class UserSecuredStorage {
   }
 
   String get token {
-    _token = _box.get('token');
+    _token = _box != null ? _box.get('token') : "";
     return _token;
   }
 
