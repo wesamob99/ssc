@@ -26,7 +26,7 @@ dynamic httpErrorMessage(dynamic responseData) {
 /// Development: http://172.16.3.40:8081/
 /// stable:
 class HTTPClientContract {
-  static const String BASE_URL = 'http://172.16.3.40:8081/';
+  static const String BASE_URL = 'http://172.16.3.40:8081/api';
   static final _dio = _createDio();
   static const int _MAX_RETRY = 7;
   static const ResponseType _DEFAULT_RESPONSE_TYPE = ResponseType.plain;
