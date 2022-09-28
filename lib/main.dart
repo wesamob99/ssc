@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ssc/src/view/introduction/introductionScreen.dart';
-import 'package:ssc/src/view/main/mainScreen.dart';
+import 'package:ssc/src/view/login/landingScreen.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
+import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/main/mainProvider.dart';
 import 'package:ssc/src/viewModel/shared/sharedProvider.dart';
 import 'package:ssc/src/viewModel/utilities/language/globalAppProvider.dart';
@@ -24,7 +25,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   prefs.then((value){
-    Widget screen = (value.getBool('seen') ?? false) ? const MainScreen() : const IntroductionScreen();
+    Widget screen = (value.getBool('seen') ?? false) ? const LandingScreen() : const IntroductionScreen();
     value.setBool('seen', true);
     runApp(
       Phoenix(
@@ -91,6 +92,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (_) => MainProvider(), lazy: true),
         ChangeNotifierProvider(create: (_) => SharedProvider(), lazy: true),
         ChangeNotifierProvider(create: (_) => HomeProvider(), lazy: true),
+        ChangeNotifierProvider(create: (_) => LoginProvider(), lazy: true),
       ],
       child: Consumer<GlobalAppProvider>(builder: (context, model, child) {
           return MaterialApp(
