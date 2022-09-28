@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
@@ -26,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool obscurePassword = true;
 
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
   String? selectedLanguage;
 
   getAppLanguage(){
@@ -91,11 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextButton(
                     onPressed: () async {
                       var token = await loginProvider.login(nationalIdController.text, passwordController.text);
-                      if(token != null){
-                        loginProvider.token = token;
-                      }else{
-                        loginProvider.token = "null";
-                      }
+                      userSecuredStorage.token = token ?? "";
                       loginProvider.notifyMe();
                     },
                     style: TextButton.styleFrom(

@@ -18,8 +18,7 @@ class LoginRepository{
     );
 
     if (response != null && response.statusCode == 200) {
-      var data = jsonDecode(response.data);
-      return data["token"];
+      return response;
     }
   }
 
