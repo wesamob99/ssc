@@ -16,6 +16,7 @@
   "back": "رجوع",
   "login": "تسجيل دخول",
   "enterNationalId": "أدخل الرقم الوطني الخاص بك",
-  "enterPassword": "أدخل كلمة المرور"
+  "enterPassword": "أدخل كلمة المرور",
+  "nationalIdEx": "مثال: ٩٩٠٢٠٤٢٦٢٣"
 
 }
