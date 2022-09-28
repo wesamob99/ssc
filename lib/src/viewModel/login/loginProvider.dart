@@ -9,6 +9,7 @@ class LoginProvider extends ChangeNotifier {
 
   LoginRepository loginRepository = LoginRepository();
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+  bool tokenUpdated = false;
 
   Future login(String nationalId, String password) async{
     final response = await loginRepository.loginService(nationalId, password);
