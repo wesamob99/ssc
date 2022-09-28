@@ -94,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () async {
                       var token = await loginProvider.login(nationalIdController.text, passwordController.text);
                       userSecuredStorage.token = token ?? "";
+                      loginProvider.tokenUpdated = token != null ? true : false;
                       loginProvider.notifyMe();
                     },
                     style: TextButton.styleFrom(
@@ -101,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       foregroundColor: Colors.white,
                       fixedSize: Size(width(0.3, context), height(0.04, context))
                     ),
-                    child: const Text('LogIn'),
+                    child: Text(translate('login', context)),
                   )
                 ],
               ),
@@ -170,7 +171,10 @@ class _LoginScreenState extends State<LoginScreen> {
       decoration: InputDecoration(
         hintText: controller == nationalIdController ? translate('nationalIdEx', context) : '',
         hintStyle: TextStyle(
-          color: getGrey2Color(context),
+          color: getGrey2Color(context).withOpacity(
+              themeNotifier.isLight()
+              ? 1 : 0.5
+          ),
           fontSize: 14
         ),
         suffixIcon: InkWell(
@@ -182,7 +186,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Icon(
             obscurePassword ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
             size: controller == passwordController ? 23 : 0,
-            color: getPrimaryColor(context, themeNotifier),
+            color: themeNotifier.isLight()
+                ? getPrimaryColor(context, themeNotifier)
+                : Colors.white,
           ),
         ),
         contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
