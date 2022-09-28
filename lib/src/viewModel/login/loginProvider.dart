@@ -6,8 +6,8 @@ class LoginProvider extends ChangeNotifier {
 
   LoginRepository loginRepository = LoginRepository();
 
-  Future login() async{
-    return await loginRepository.loginService('200', 'abcd@1234');
+  Future login(String nationalId, String password) async{
+    return await loginRepository.loginService(nationalId, password);
   }
 
   void notifyMe() {
