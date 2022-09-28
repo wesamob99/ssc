@@ -21,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String? selectedTheme;
   String? selectedLanguage;
 
-  getAppTheme(){
+  getAppThemeAndLanguage(){
     prefs.then((value) {
       setState((){
         selectedTheme = value.getString(Constants.APP_THEME) ?? Constants.SYSTEM_DEFAULT;
@@ -32,8 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   void initState() {
-    getAppTheme();
-
+    getAppThemeAndLanguage();
     super.initState();
   }
   @override
