@@ -89,12 +89,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: height(0.06, context)),
                   TextButton(
-                    onPressed: (){
-                      if (kDebugMode) {
-                        print('NatID: ${nationalIdController.text}');
-                        print('Password: ${passwordController.text}');
+                    onPressed: () async {
+                      var token = await loginProvider.login(nationalIdController.text, passwordController.text);
+                      if(token != null){
+                        loginProvider.token = token;
+                      }else{
+                        loginProvider.token = "null";
                       }
-                      loginProvider.login(nationalIdController.text, passwordController.text);
+                      loginProvider.notifyMe();
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: getPrimaryColor(context, themeNotifier),
