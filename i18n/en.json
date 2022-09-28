@@ -14,5 +14,7 @@
   "done": "Done",
   "next": "Next",
   "back": "Back",
-  "login": "LogIn"
+  "login": "LogIn",
+  "enterNationalId": "Enter your National ID",
+  "enterPassword": "Enter your password"
 }
