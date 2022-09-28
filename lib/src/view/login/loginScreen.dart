@@ -52,6 +52,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(translate('login', context)),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(50)
+          )
+        ),
       ),
       body: Form(
         key: _formKey,

@@ -43,7 +43,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          margin: EdgeInsets.only(top: height(0.004, context)),
           padding: EdgeInsets.all(height(0.004, context)),
           color: getPrimaryColor(context, themeNotifier).withOpacity(0.5),
           child: Row(

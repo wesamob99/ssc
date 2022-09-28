@@ -28,30 +28,37 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(translate(pageTitle[pageIndex], context)),
-        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(50)
+            )
+        ),
       ),
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          Center(
-            child: Text(
-              translate(pageTitle[0], context)
-            )
-          ),
-          Center(
-            child: Text(
-              translate(pageTitle[1], context)
-            )
-          ),
-          const HomeScreen(),
-          Center(
-            child: Text(
-              translate(pageTitle[3], context)
-            )
-          ),
-          const SettingsScreen(),
-        ],
+      body: Container(
+        margin: EdgeInsets.only(top: height(0.004, context)),
+        child: PageView(
+          controller: _pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            Center(
+              child: Text(
+                translate(pageTitle[0], context)
+              )
+            ),
+            Center(
+              child: Text(
+                translate(pageTitle[1], context)
+              )
+            ),
+            const HomeScreen(),
+            Center(
+              child: Text(
+                translate(pageTitle[3], context)
+              )
+            ),
+            const SettingsScreen(),
+          ],
+        ),
       ),
       bottomNavigationBar: curvedNavigationBar(themeNotifier),
     );
