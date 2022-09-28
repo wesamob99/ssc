@@ -26,7 +26,7 @@ class UserSecuredStorage {
       _instance ??= UserSecuredStorage._();
 
   String get userJson {
-    _userJson = _box.get('user');
+    _userJson = _box.get('user') ?? "";
     return _userJson;
   }
 
@@ -36,7 +36,7 @@ class UserSecuredStorage {
   }
 
   String get token {
-    _token = _box != null ? _box.get('token') : "";
+    _token = _box.get('token') ?? "";
     return _token;
   }
 
@@ -47,7 +47,7 @@ class UserSecuredStorage {
   }
 
   String get email {
-    _email = _box.get('email');
+    _email = _box.get('email') ?? "";
     return _email;
   }
 
@@ -57,7 +57,7 @@ class UserSecuredStorage {
   }
 
   String get userNameAr {
-    _userNameEn = _box.get('userNameAr');
+    _userNameEn = _box.get('userNameAr') ?? "";
     return _userNameAr;
   }
 
@@ -67,7 +67,7 @@ class UserSecuredStorage {
   }
 
   String get userNameEn {
-    _userNameEn = _box.get('userName');
+    _userNameEn = _box.get('userName') ?? "";
     return _userNameEn;
   }
 
@@ -77,7 +77,7 @@ class UserSecuredStorage {
   }
 
   String get userImage {
-    _userImage = _box.get('userImage');
+    _userImage = _box.get('userImage') ?? "";
     return _userImage;
   }
 
