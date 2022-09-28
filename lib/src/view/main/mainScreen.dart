@@ -64,11 +64,11 @@ class _MainScreenState extends State<MainScreen> {
       color: getPrimaryColor(context, themeNotifier),
       buttonBackgroundColor: getPrimaryColor(context, themeNotifier),
       items: const <Widget>[
-        Icon(Icons.person, size: 30, color: Colors.white),
-        Icon(Icons.list, size: 30, color: Colors.white),
-        Icon(Icons.home, size: 30, color: Colors.white),
-        Icon(Icons.notifications_active, size: 30, color: Colors.white),
-        Icon(Icons.settings, size: 30, color: Colors.white),
+        Icon(Icons.person, size: 26, color: Colors.white),
+        Icon(Icons.list, size: 26, color: Colors.white),
+        Icon(Icons.home, size: 26, color: Colors.white),
+        Icon(Icons.notifications_active, size: 26, color: Colors.white),
+        Icon(Icons.settings, size: 26, color: Colors.white),
       ],
       onTap: (index) {
         setState(() {
