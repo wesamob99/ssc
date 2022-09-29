@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/introduction/introductionScreen.dart';
 import 'package:ssc/src/view/login/landingScreen.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
@@ -24,53 +25,57 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-  prefs.then((value){
-    Widget screen = (value.getBool('seen') ?? false) ? const LandingScreen() : const IntroductionScreen();
-    value.setBool('seen', true);
-    runApp(
-      Phoenix(
-        child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider<ThemeNotifier>(
-              create: (BuildContext context) {
-                String? theme = value.getString(Constants.APP_THEME);
+  UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+  userSecuredStorage.initSecuredBox().whenComplete(() {
+    userSecuredStorage.token;
+  }).then((value) {
+    prefs.then((value){
+      Widget screen = (value.getBool('seen') ?? false) ? const LandingScreen() : const IntroductionScreen();
+      value.setBool('seen', true);
+      runApp(
+        Phoenix(
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider<ThemeNotifier>(
+                create: (BuildContext context) {
+                  String? theme = value.getString(Constants.APP_THEME);
 
-                if (theme == "" || theme == Constants.SYSTEM_DEFAULT) {
-                  value.setString(
-                    Constants.APP_THEME, Constants.SYSTEM_DEFAULT
+                  if (theme == "" || theme == Constants.SYSTEM_DEFAULT) {
+                    value.setString(
+                        Constants.APP_THEME, Constants.SYSTEM_DEFAULT
+                    );
+                    return ThemeNotifier(ThemeMode.system);
+                  }
+                  return ThemeNotifier(
+                      theme == Constants.DARK ? ThemeMode.dark : ThemeMode.light
                   );
-                  return ThemeNotifier(ThemeMode.system);
-                }
-                return ThemeNotifier(
-                  theme == Constants.DARK ? ThemeMode.dark : ThemeMode.light
-                );
-              },
-              lazy: false,
-            ),
-            ChangeNotifierProvider<GlobalAppProvider>(
-              create: (BuildContext context) {
-                Locale appLocale = const Locale('en');
+                },
+                lazy: false,
+              ),
+              ChangeNotifierProvider<GlobalAppProvider>(
+                create: (BuildContext context) {
+                  Locale appLocale = const Locale('en');
 
-                if (value.getString('language_code') == null) {
-                  UserConfig.instance.language = "English";
-                  value.setString('language_code', 'en');
-                } else {
-                  appLocale = Locale(value.getString('language_code')!);
-                  UserConfig.instance.language =
-                  value.getString('language_code') == "en"
-                      ? "English"
-                      : "عربي";
-                }
-
-                return GlobalAppProvider(appLocale);
-              },
-              lazy: false,
-            )
-          ],
-          child: MyApp(screen: screen),
+                  if (value.getString('language_code') == null) {
+                    UserConfig.instance.language = "English";
+                    value.setString('language_code', 'en');
+                  } else {
+                    appLocale = Locale(value.getString('language_code')!);
+                    UserConfig.instance.language =
+                    value.getString('language_code') == "en"
+                        ? "English"
+                        : "عربي";
+                  }
+                  return GlobalAppProvider(appLocale);
+                },
+                lazy: false,
+              )
+            ],
+            child: MyApp(screen: screen),
+          ),
         ),
-      ),
-    );
+      );
+    });
   });
 }
 
