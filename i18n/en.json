@@ -17,5 +17,6 @@
   "login": "LogIn",
   "enterNationalId": "Enter your National ID",
   "enterPassword": "Enter your password",
-  "nationalIdEx": "Ex: 9902042623"
+  "nationalIdEx": "Ex: 9902042623",
+  "continue": "Continue"
 }
