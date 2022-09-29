@@ -27,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late LoginProvider loginProvider;
   final _formKey = GlobalKey<FormState>();
   bool obscurePassword = true;
+  bool showError = false;
 
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
@@ -114,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(height: height(0.01, context)),
-                      buildTextFormField(themeNotifier,  nationalIdController, TextInputType.number),
+                      buildTextFormField(themeNotifier, loginProvider,  nationalIdController, TextInputType.number),
                     ],
                   ),
                   SizedBox(height: height(0.025, context)),
@@ -128,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(height: height(0.01, context)),
-                      buildTextFormField(themeNotifier, passwordController, TextInputType.visiblePassword),
+                      buildTextFormField(themeNotifier, loginProvider, passwordController, TextInputType.visiblePassword),
                     ],
                   ),
                   SizedBox(height: height(0.05, context)),
@@ -137,6 +138,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       var token = await loginProvider.login(nationalIdController.text, passwordController.text);
                       userSecuredStorage.token = token ?? "";
                       loginProvider.tokenUpdated = token != null ? true : false;
+                      loginProvider.loginComplete = token != null ? 'true' : 'false';
+                      loginProvider.errorType.clear();
+                      if(!_formKey.currentState!.validate()){
+                        loginProvider.loginComplete = 'null';
+                        loginProvider.errorType.length = 0;
+                      } else{
+                        if(nationalIdController.text.isEmpty){
+                          loginProvider.errorType.add(1);
+                        }
+                        if(passwordController.text.isEmpty){
+                          loginProvider.errorType.add(2);
+                        }
+                        if(loginProvider.loginComplete == 'false'){
+                          loginProvider.errorType.add(0);
+                        }
+                      }
                       loginProvider.notifyMe();
                     },
                     style: ButtonStyle(
@@ -214,13 +231,36 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  buildTextFormField(themeNotifier, controller, inputType){
+  buildTextFormField(themeNotifier, loginProvider, controller, inputType){
+    String errorText = '';
+    if(Provider.of<LoginProvider>(context).errorType.contains(1) &&
+    controller == nationalIdController){
+      errorText = translate('loginErrorEmptyNationalId', context);
+    }
+    if(Provider.of<LoginProvider>(context).errorType.contains(2) &&
+    controller == passwordController){
+      errorText = translate('loginErrorEmptyPassword', context);
+    }
+    if(Provider.of<LoginProvider>(context).errorType.contains(0) &&
+    Provider.of<LoginProvider>(context).errorType.length == 1){
+      errorText = translate('loginErrorInvalidInputs', context);
+    }
     return TextFormField(
       controller: controller,
       keyboardType: inputType,
       obscureText: controller == passwordController ? obscurePassword : false,
+      validator: (_){
+        if(loginProvider.loginComplete != 'null' &&
+          loginProvider.loginComplete == 'true'){
+          return translate('loginError', context);
+        }
+        return null;
+      },
       decoration: InputDecoration(
         hintText: controller == nationalIdController ? translate('nationalIdEx', context) : '',
+        errorText: Provider.of<LoginProvider>(context).loginComplete == 'false'
+            ? errorText
+            : null,
         hintStyle: TextStyle(
           color: getGrey2Color(context).withOpacity(
               themeNotifier.isLight()
