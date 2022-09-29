@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_page_view_indicator/flutter_page_view_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:ssc/src/view/login/landingScreen.dart';
 import 'package:ssc/utilities/util.dart';
 
 import '../../../utilities/theme/themes.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
-import '../main/mainScreen.dart';
 
 class IntroductionScreen extends StatefulWidget {
   const IntroductionScreen({Key? key}) : super(key: key);
@@ -87,7 +87,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     if(currentIndex == singleIntroductionScreen.length - 1){
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                          builder: (context) => const MainScreen()
+                          builder: (context) => const LandingScreen()
                         ),
                         (route) => false,
                       );
