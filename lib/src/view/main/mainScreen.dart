@@ -1,9 +1,11 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/src/view/home/homeScreen.dart';
 import 'package:ssc/src/view/settings/settingsScreen.dart';
+import 'package:ssc/src/viewModel/utilities/language/globalAppProvider.dart';
 
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
@@ -25,13 +27,44 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+    GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(translate(pageTitle[pageIndex], context)),
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(50)
-            )
+        titleSpacing: 5,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 18,
+              backgroundColor: Colors.transparent,
+              child: SvgPicture.asset('assets/logo/logo.svg'),
+            ),
+            SizedBox(width: width(0.01, context)),
+            // SvgPicture.asset('assets/logo/logo.svg'),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const[
+                Text('وسام عبيدات', style: TextStyle(fontSize: 14),),
+                Text('9991060554', style: TextStyle(fontSize: 12),),
+              ],
+            ),
+          ],
+        ),
+        actions: [
+          SvgPicture.asset('assets/icons/search.svg'),
+          SizedBox(width: width(0.06, context)),
+          SvgPicture.asset('assets/icons/location.svg'),
+          SizedBox(width: width(0.06, context)),
+          SvgPicture.asset('assets/icons/notifications.svg'),
+          SizedBox(width: width(0.08, context)),
+        ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(globalAppProvider.appLocal == const Locale('en') ?  0 : 50),
+            bottomRight: Radius.circular(globalAppProvider.appLocal == const Locale('en') ?  50 : 0)
+          )
         ),
       ),
       body: Container(
