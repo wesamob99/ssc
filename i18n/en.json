@@ -1,4 +1,5 @@
 {
+  "wesam": "wesam obeidat",
   "retryAgain": "Retry Again",
   "home": "Home",
   "profile": "Profile",
@@ -21,5 +22,10 @@
   "continue": "Continue",
   "loginErrorInvalidInputs": "Invalid national ID or password",
   "loginErrorEmptyNationalId": "National ID is Empty",
-  "loginErrorEmptyPassword": "Password is Empty"
+  "loginErrorEmptyPassword": "Password is Empty",
+  "overview": "overview",
+  "circularsAdvertisements": "circulars and advertisements",
+  "subscriptions": "subscriptions",
+  "idleBalance": "Idle Balance",
+  "jd": " J.D"
 }

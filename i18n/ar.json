@@ -1,4 +1,5 @@
 {
+  "wesam": "وسام عبيدات",
   "retryAgain": "إعادة المحاولة",
   "home": "الصفحة الرئيسية",
   "profile": "الصفحة الشخصية",
@@ -21,6 +22,10 @@
   "continue": "الإستمرار",
   "loginErrorInvalidInputs": "خطأ في الرقم الوطني أو كلمة المرور",
   "loginErrorEmptyNationalId": "الرقم الوطني فارغ",
-  "loginErrorEmptyPassword": "كلمة المرور فارغة"
-
+  "loginErrorEmptyPassword": "كلمة المرور فارغة",
+  "overview": "نظرة عامة",
+  "CircularsAdvertisements": "تعاميم وإعلانات",
+  "subscriptions": "عدد الإشتراكات",
+  "idleBalance": "رصيد التعطل",
+  "jd": " د.أ"
 }
