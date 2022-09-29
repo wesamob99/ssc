@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
-import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 import 'package:ssc/utilities/util.dart';
 
@@ -65,45 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: height(0.06, context),
-                        height: height(0.06, context),
-                        decoration: BoxDecoration(
-                            color: HexColor('#B69443'),
-                            borderRadius: BorderRadius.circular(9999)
-                        ),
-                        child: SvgPicture.asset(
-                          'assets/logo/logo.svg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      SizedBox(width: width(0.02, context)),
-                      SizedBox(
-                        height: height(0.05, context),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
-                            Text(
-                              'المؤسسة العامة للضمان الإجتماعي',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500
-                              ),
-                            ),
-                            Text(
-                              'Social Security Corporation',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  SvgPicture.asset('assets/logo/logo_with_name.svg'),
                   SizedBox(height: height(0.1, context)),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
