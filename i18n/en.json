@@ -18,5 +18,8 @@
   "enterNationalId": "Enter your National ID",
   "enterPassword": "Enter your password",
   "nationalIdEx": "Ex: 9902042623",
-  "continue": "Continue"
+  "continue": "Continue",
+  "loginErrorInvalidInputs": "Invalid national ID or password",
+  "loginErrorEmptyNationalId": "National ID is Empty",
+  "loginErrorEmptyPassword": "Password is Empty"
 }

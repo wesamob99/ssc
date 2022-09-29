@@ -18,6 +18,9 @@
   "enterNationalId": "أدخل الرقم الوطني الخاص بك",
   "enterPassword": "أدخل كلمة المرور",
   "nationalIdEx": "مثال : ٩٩٠٢٠٤٢٦٢٣",
-  "continue": "الإستمرار"
+  "continue": "الإستمرار",
+  "loginErrorInvalidInputs": "خطأ في الرقم الوطني أو كلمة المرور",
+  "loginErrorEmptyNationalId": "الرقم الوطني فارغ",
+  "loginErrorEmptyPassword": "كلمة المرور فارغة"
 
 }
