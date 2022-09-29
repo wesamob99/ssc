@@ -45,9 +45,9 @@ class _MainScreenState extends State<MainScreen> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const[
-                Text('وسام عبيدات', style: TextStyle(fontSize: 14),),
-                Text('9991060554', style: TextStyle(fontSize: 12),),
+              children:[
+                Text(translate('wesam', context), style: TextStyle(fontSize: 14),),
+                const Text('9991060554', style: TextStyle(fontSize: 12),),
               ],
             ),
           ],
