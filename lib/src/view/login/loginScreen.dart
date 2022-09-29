@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
+import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 import 'package:ssc/utilities/util.dart';
 
@@ -51,12 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(translate('login', context)),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(50)
-          )
-        ),
+        backgroundColor: Colors.transparent,
       ),
       body: Form(
         key: _formKey,
@@ -67,6 +64,46 @@ class _LoginScreenState extends State<LoginScreen> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: height(0.06, context),
+                        height: height(0.06, context),
+                        decoration: BoxDecoration(
+                            color: HexColor('#B69443'),
+                            borderRadius: BorderRadius.circular(9999)
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/logo/logo.svg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(width: width(0.02, context)),
+                      SizedBox(
+                        height: height(0.05, context),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text(
+                              'المؤسسة العامة للضمان الإجتماعي',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500
+                              ),
+                            ),
+                            Text(
+                              'Social Security Corporation',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: height(0.1, context)),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -94,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       buildTextFormField(themeNotifier, passwordController, TextInputType.visiblePassword),
                     ],
                   ),
-                  SizedBox(height: height(0.06, context)),
+                  SizedBox(height: height(0.05, context)),
                   TextButton(
                     onPressed: () async {
                       var token = await loginProvider.login(nationalIdController.text, passwordController.text);
@@ -102,12 +139,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       loginProvider.tokenUpdated = token != null ? true : false;
                       loginProvider.notifyMe();
                     },
-                    style: TextButton.styleFrom(
-                      backgroundColor: getPrimaryColor(context, themeNotifier),
-                      foregroundColor: Colors.white,
-                      fixedSize: Size(width(0.3, context), height(0.04, context))
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        getPrimaryColor(context, themeNotifier),
+                      ),
+                      foregroundColor:  MaterialStateProperty.all<Color>(
+                        Colors.white
+                      ),
+                      fixedSize:  MaterialStateProperty.all<Size>(
+                        Size(width(0.7, context), height(0.055, context)),
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)
+                        )
+                      )
                     ),
-                    child: Text(translate('login', context)),
+                    child: Text(translate('continue', context)),
                   )
                 ],
               ),
@@ -115,10 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 alignment: Alignment.topLeft,
                 child: Row(
                   children: [
-                    Icon(
-                      Icons.language,
-                      color: getGrey5Color(context),
-                      size: 23,
+                    SvgPicture.asset(
+                      'assets/icons/global.svg'
                     ),
                     const SizedBox(width: 4.0),
                     DropdownButton<String>(
