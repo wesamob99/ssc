@@ -24,8 +24,9 @@
   "loginErrorEmptyNationalId": "الرقم الوطني فارغ",
   "loginErrorEmptyPassword": "كلمة المرور فارغة",
   "overview": "نظرة عامة",
-  "CircularsAdvertisements": "تعاميم وإعلانات",
+  "circularsAdvertisements": "تعاميم وإعلانات",
   "subscriptions": "عدد الإشتراكات",
   "idleBalance": "رصيد التعطل",
-  "jd": " د.أ"
+  "jd": " د.أ",
+  "pastYearsPays": "أجور السنوات الماضية"
 }

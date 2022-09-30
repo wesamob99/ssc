@@ -105,7 +105,7 @@ class AppTheme {
         ),
       ),
       fontFamily: UserConfig.instance.checkLanguage() ? 'nunito' : 'sans_full',
-      scaffoldBackgroundColor: HexColor('#ffffff'),
+      scaffoldBackgroundColor: Colors.grey.shade50,
       backgroundColor: HexColor('#ffffff'),
       highlightColor: primaryColor,
       colorScheme:

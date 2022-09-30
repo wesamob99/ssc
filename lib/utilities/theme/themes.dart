@@ -148,7 +148,7 @@ Color getCardColor(BuildContext context) {
 Color getContainerColor(BuildContext context) {
   return context.read<ThemeNotifier>().isLight()
       ? Colors.white
-      : HexColor('#505050');
+      : Colors.black45;
 }
 
 Color getContainerColorLevel2(BuildContext context) {
