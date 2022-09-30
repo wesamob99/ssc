@@ -5,8 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/src/view/home/homeScreen.dart';
 import 'package:ssc/src/view/settings/settingsScreen.dart';
-import 'package:ssc/src/viewModel/utilities/language/globalAppProvider.dart';
 
+import '../../../infrastructure/userConfig.dart';
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
@@ -20,14 +20,13 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-  final PageController _pageController = PageController(initialPage: 2);
-  int pageIndex = 2;
-  List<String> pageTitle = ['profile', 'services', 'home', 'notifications', 'settings'];
+  final PageController _pageController = PageController(initialPage: 0);
+  int pageIndex = 0;
+  List<String> pageTitle = ['services', 'home', 'pastOrders', 'settings'];
 
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-    GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 5,
@@ -41,12 +40,11 @@ class _MainScreenState extends State<MainScreen> {
               child: SvgPicture.asset('assets/logo/logo.svg'),
             ),
             SizedBox(width: width(0.01, context)),
-            // SvgPicture.asset('assets/logo/logo.svg'),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children:[
-                Text(translate('wesam', context), style: TextStyle(fontSize: 14),),
+                Text(translate('wesam', context), style: const TextStyle(fontSize: 14),),
                 const Text('9991060554', style: TextStyle(fontSize: 12),),
               ],
             ),
@@ -62,8 +60,8 @@ class _MainScreenState extends State<MainScreen> {
         ],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(globalAppProvider.appLocal == const Locale('en') ?  0 : 50),
-            bottomRight: Radius.circular(globalAppProvider.appLocal == const Locale('en') ?  50 : 0)
+            bottomLeft: Radius.circular(UserConfig.instance.checkLanguage() ?  0 : 50),
+            bottomRight: Radius.circular(UserConfig.instance.checkLanguage() ?  50 : 0)
           )
         ),
       ),
@@ -73,20 +71,15 @@ class _MainScreenState extends State<MainScreen> {
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            Center(
-              child: Text(
-                translate(pageTitle[0], context)
-              )
-            ),
-            Center(
-              child: Text(
-                translate(pageTitle[1], context)
-              )
-            ),
             const HomeScreen(),
             Center(
+                child: Text(
+                    translate(pageTitle[0], context)
+                )
+            ),
+            Center(
               child: Text(
-                translate(pageTitle[3], context)
+                translate(pageTitle[2], context)
               )
             ),
             const SettingsScreen(),
@@ -104,10 +97,9 @@ class _MainScreenState extends State<MainScreen> {
       color: getPrimaryColor(context, themeNotifier),
       buttonBackgroundColor: getPrimaryColor(context, themeNotifier),
       items: const <Widget>[
-        Icon(Icons.person, size: 26, color: Colors.white),
-        Icon(Icons.list, size: 26, color: Colors.white),
         Icon(Icons.home, size: 26, color: Colors.white),
-        Icon(Icons.notifications_active, size: 26, color: Colors.white),
+        Icon(Icons.list, size: 26, color: Colors.white),
+        Icon(Icons.refresh, size: 26, color: Colors.white),
         Icon(Icons.settings, size: 26, color: Colors.white),
       ],
       onTap: (index) {
