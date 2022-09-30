@@ -1,10 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../infrastructure/userConfig.dart';
 import '../hexColor.dart';
 
 class AppTheme {
+  TextTheme textTheme = const TextTheme(
+    headline6: TextStyle(
+      color: Colors.white,
+    ),
+    bodyText2: TextStyle(
+      color: Colors.white,
+    ),
+    bodyText1: TextStyle(
+      color: Colors.white,
+    ),
+    headline1: TextStyle(
+      color: Colors.white,
+    ),
+    headline2: TextStyle(
+      color: Colors.white,
+    ),
+    headline3: TextStyle(
+      color: Colors.white,
+    ),
+    headline4: TextStyle(
+      color: Colors.white,
+    ),
+    headline5: TextStyle(
+      color: Colors.white,
+    ),
+    subtitle1: TextStyle(
+      color: Colors.white,
+    ),
+    subtitle2: TextStyle(
+      color: Colors.white,
+    ),
+  );
   get darkTheme => ThemeData(
     brightness: Brightness.dark,
     primarySwatch: Colors.red,
@@ -12,44 +45,18 @@ class AppTheme {
     appBarTheme: AppBarTheme(
       color: HexColor('#013220'),
       centerTitle: true,
-      elevation: 0
+      elevation: 0,
+      titleTextStyle: UserConfig.instance.checkLanguage()
+          ? GoogleFonts.mukta()
+          : GoogleFonts.tajawal(),
     ),
     scaffoldBackgroundColor: HexColor('#212121'),
     backgroundColor: HexColor('#212121'),
-    primaryTextTheme: const TextTheme(
-      headline6: TextStyle(
-        color: Colors.white,
-      ),
-      bodyText2: TextStyle(
-        color: Colors.white,
-      ),
-      bodyText1: TextStyle(
-        color: Colors.white,
-      ),
-      headline1: TextStyle(
-        color: Colors.white,
-      ),
-      headline2: TextStyle(
-        color: Colors.white,
-      ),
-      headline3: TextStyle(
-        color: Colors.white,
-      ),
-      headline4: TextStyle(
-        color: Colors.white,
-      ),
-      headline5: TextStyle(
-        color: Colors.white,
-      ),
-      subtitle1: TextStyle(
-        color: Colors.white,
-      ),
-      subtitle2: TextStyle(
-        color: Colors.white,
-      ),
-    ),
     fontFamily:
     UserConfig.instance.checkLanguage() ? 'nunito' : 'sans_full',
+    textTheme: UserConfig.instance.checkLanguage()
+        ? GoogleFonts.muktaTextTheme().merge(textTheme)
+        : GoogleFonts.tajawalTextTheme().merge(textTheme),
   );
 
   get lightTheme => ThemeData(
@@ -65,49 +72,17 @@ class AppTheme {
           elevation: 0,
           actionsIconTheme: const IconThemeData(color: Colors.black),
           iconTheme: const IconThemeData(color: Colors.black),
-          titleTextStyle: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              fontFamily: UserConfig.instance.checkLanguage() ? 'nunito' : 'sans_full'
-          )
-      ),
-      primaryTextTheme: const TextTheme(
-        headline6: TextStyle(
-          color: Colors.black,
-        ),
-        bodyText2: TextStyle(
-          color: Colors.black,
-        ),
-        bodyText1: TextStyle(
-          color: Colors.black,
-        ),
-        headline1: TextStyle(
-          color: Colors.black,
-        ),
-        headline2: TextStyle(
-          color: Colors.black,
-        ),
-        headline3: TextStyle(
-          color: Colors.black,
-        ),
-        headline4: TextStyle(
-          color: Colors.black,
-        ),
-        headline5: TextStyle(
-          color: Colors.black,
-        ),
-        subtitle1: TextStyle(
-          color: Colors.black,
-        ),
-        subtitle2: TextStyle(
-          color: Colors.black,
-        ),
+          titleTextStyle: UserConfig.instance.checkLanguage()
+              ? GoogleFonts.mukta()
+              : GoogleFonts.tajawal(),
       ),
       fontFamily: UserConfig.instance.checkLanguage() ? 'nunito' : 'sans_full',
       scaffoldBackgroundColor: Colors.grey.shade50,
       backgroundColor: HexColor('#ffffff'),
       highlightColor: primaryColor,
+      textTheme: UserConfig.instance.checkLanguage()
+          ? GoogleFonts.muktaTextTheme()
+          : GoogleFonts.tajawalTextTheme(),
       colorScheme:
       ColorScheme.fromSwatch().copyWith(secondary: orangeColorDark));
 }
