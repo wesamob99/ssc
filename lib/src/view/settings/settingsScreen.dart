@@ -49,6 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Icon(
                     themeNotifier.isLight()
@@ -57,15 +58,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     color: themeNotifier.isLight()
                         ? primaryColor
                         : Colors.white,
+                    size: width(0.058, context),
                   ),
                   const SizedBox(
                     width: 5.0,
                   ),
                   Text(
                     translate('select_app_theme', context),
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: width(0.036, context)
                     ),
                   ),
                 ],
@@ -134,21 +137,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.language,
                     color: themeNotifier.isLight()
                       ? primaryColor
                       : Colors.white,
+                    size: width(0.058, context),
                   ),
                   const SizedBox(
                     width: 5.0,
                   ),
                   Text(
                     translate('select_app_language', context),
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: width(0.036, context)
                     ),
                   ),
                 ],
