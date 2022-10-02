@@ -54,6 +54,7 @@ dependencies:
   flutter_svg: ^1.1.5
   google_fonts: ^3.0.1
   ai_progress: ^2.0.0
+  flutter_native_splash: ^2.2.10+1
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +69,25 @@ flutter:
     - assets/logo/
     - assets/icons/bottomNavigationIcons/
     - assets/icons/
+
+#flutter_native_splash:
+#  color: "#212121"
+#  color_dark: "#ffffff"
+#  image: "assets/logo/splash.png"
+#  android: true
+#  ios: true
+#  web: false
+#  fullscreen: true
+#  android_gravity: fill
+#  ios_content_mode: fill
+#  android_12:
+#    color: "#212121"
+#    color_dark: "#ffffff"
+#    background_image: "assets/logo/splash.png"
+#    android: true
+#    web: false
+#    fullscreen: true
+#    android_gravity: fill
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
