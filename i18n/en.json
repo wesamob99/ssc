@@ -24,10 +24,16 @@
   "loginErrorEmptyNationalId": "National ID is Empty",
   "loginErrorEmptyPassword": "Password is Empty",
   "overview": "overview",
-  "circularsAdvertisements": "circulars and advertisements",
-  "subscriptions": "subscriptions",
-  "idleBalance": "Idle Balance",
+  "advertisements": "Advertisements",
+  "subscriptions": "Number of contributions",
+  "idleBalance": "Saving balance",
   "jd": " J.D",
-  "pastYearsPays": "Past years pays",
-  "pastOrders": "Past orders"
+  "pastYearsPays": "Fees of the past years",
+  "pastOrders": "Past orders",
+  "salary": "Salary",
+  "deductionValue": "Deduction value",
+  "lastPayment": "Last payment date",
+  "number_of_contributions_to_retirement": "Number of contributions left to retirement entitlement"
+
+
 }

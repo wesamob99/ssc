@@ -4,6 +4,7 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
+import '../../../infrastructure/userConfig.dart';
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
@@ -134,7 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           color: themeNotifier.isLight()
                                               ? Colors.black
                                               : Colors.white,
-                                          fontWeight: FontWeight.bold,
                                           fontSize: width(0.03, context)),
                                     ),
                                   ],
@@ -166,13 +166,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text('شركة القواسمي وشركاة',
-                                style:
-                                    TextStyle(fontSize: width(0.03, context))),
+                            Text(UserConfig.instance.checkLanguage()
+                                ? 'Al-Qawasmi Company'
+                                : 'شركة القواسمي وشركاة',
+                                style: TextStyle(fontSize: width(0.03, context))),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('الأجر الخاضع للضمان',
+                                Text(translate('salary', context),
                                     style: TextStyle(
                                         fontSize: width(0.03, context))),
                                 Row(
@@ -191,7 +192,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           color: themeNotifier.isLight()
                                               ? Colors.black
                                               : Colors.white,
-                                          fontWeight: FontWeight.bold,
                                           fontSize: width(0.03, context)),
                                     ),
                                   ],
@@ -201,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('قيمة الإقتطاع',
+                                Text(translate('deductionValue', context),
                                     style: TextStyle(
                                         fontSize: width(0.03, context))),
                                 Row(
@@ -220,7 +220,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           color: themeNotifier.isLight()
                                               ? Colors.black
                                               : Colors.white,
-                                          fontWeight: FontWeight.bold,
                                           fontSize: width(0.03, context)),
                                     ),
                                   ],
@@ -230,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('تاريخ آخر دفعه',
+                                Text(translate('lastPayment', context),
                                     style: TextStyle(
                                         fontSize: width(0.03, context))),
                                 Text('22/7/2022',
@@ -273,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              'عدد الإشتراكات المتبقية لإستحقاق التقاعد',
+                              translate('number_of_contributions_to_retirement', context),
                               style: TextStyle(fontSize: width(0.03, context)),
                             ),
                             SizedBox(
@@ -318,7 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
-            child: Text(translate('circularsAdvertisements', context)),
+            child: Text(translate('advertisements', context)),
           ),
           imageSlideShow(ads, themeNotifier),
           SizedBox(

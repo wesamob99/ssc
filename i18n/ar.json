@@ -24,10 +24,14 @@
   "loginErrorEmptyNationalId": "الرقم الوطني فارغ",
   "loginErrorEmptyPassword": "كلمة المرور فارغة",
   "overview": "نظرة عامة",
-  "circularsAdvertisements": "تعاميم وإعلانات",
+  "advertisements": "تعاميم وإعلانات",
   "subscriptions": "عدد الإشتراكات",
   "idleBalance": "رصيد التعطل",
   "jd": " د.أ",
   "pastYearsPays": "أجور السنوات الماضية",
-  "pastOrders": "طلباتي السابقة"
+  "pastOrders": "طلباتي السابقة",
+  "salary": "الأجر الخاضع للضمان",
+  "deductionValue": "قيمة الإقتطاع",
+  "lastPayment": "تاريخ آخر دفعه",
+  "number_of_contributions_to_retirement": "عدد الإشتراكات المتبقية لإستحقاق التقاعد"
 }
