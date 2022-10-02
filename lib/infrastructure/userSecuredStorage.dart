@@ -10,11 +10,22 @@ import 'package:hive_flutter/hive_flutter.dart' as hive_flutter;
 
 class UserSecuredStorage {
   static const String _BOX_NAME = 'user_key';
-  String _email = "";
   String _userNameEn = "";
   String _userNameAr = "";
   String _userImage = "";
   String _userJson = "";
+  /// ***
+  String _userName = "";
+  // String _userGroup = "";
+  // String _internalKey = "";
+  String _nationalId = "";
+  // String _status = "";
+  // String _statusDescriptionAr = "";
+  // String _statusDescriptionEn = "";
+  String _email = "";
+  // String _internationalCode = "";
+  // String _mobileNumber = "";
+  // String _nationality = "";
   String _token = "";
   var _box;
 
@@ -24,6 +35,29 @@ class UserSecuredStorage {
 
   static UserSecuredStorage get instance =>
       _instance ??= UserSecuredStorage._();
+
+
+  /// ******
+  String get userName {
+    _userName = _box.get('userName') ?? "";
+    return _userName;
+  }
+
+  set userName(String value) {
+    addKeyPair('userName', value);
+    _userName = value;
+  }
+
+  String get nationalId {
+    _nationalId = _box.get('nationalId') ?? "";
+    return _nationalId;
+  }
+
+  set nationalId(String value) {
+    addKeyPair('nationalId', value);
+    _nationalId = value;
+  }
+  /// ******
 
   String get userJson {
     _userJson = _box.get('user') ?? "";
@@ -67,12 +101,12 @@ class UserSecuredStorage {
   }
 
   String get userNameEn {
-    _userNameEn = _box.get('userName') ?? "";
+    _userNameEn = _box.get('userNameEn') ?? "";
     return _userNameEn;
   }
 
   set userNameEn(String value) {
-    addKeyPair('userName', value);
+    addKeyPair('userNameEn', value);
     _userNameEn = value;
   }
 
