@@ -10,13 +10,14 @@ class LoginRepository{
       data = jsonEncode({
         "userId": userId,
         "password": value,
-        "isWebsite": true
+        "isWebsite": false
       });
     });
     var response = await HTTPClientContract.instance.postHTTP(
         '/users/login', data
     );
 
+    print(response);
     if (response != null && response.statusCode == 200) {
       return response;
     }
