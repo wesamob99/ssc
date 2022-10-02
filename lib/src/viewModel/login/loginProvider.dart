@@ -16,7 +16,7 @@ class LoginProvider extends ChangeNotifier {
   Future login(String nationalId, String password) async{
     final response = await loginRepository.loginService(nationalId, password);
     var data = jsonDecode(response.data);
-    return data["token"];
+    return data;
   }
 
   void notifyMe() {
