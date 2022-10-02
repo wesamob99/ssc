@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/home/homeScreen.dart';
 import 'package:ssc/src/view/settings/settingsScreen.dart';
 
@@ -20,6 +21,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
+  UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
   final PageController _pageController = PageController(initialPage: 0);
   int pageIndex = 0;
   List<String> pageTitle = ['services', 'home', 'pastOrders', 'settings'];
@@ -44,8 +46,8 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children:[
-                Text(translate('wesam', context), style: const TextStyle(fontSize: 14),),
-                const Text('9991060554', style: TextStyle(fontSize: 12),),
+                Text(userSecuredStorage.userName, style: const TextStyle(fontSize: 14),),
+                Text(userSecuredStorage.nationalId, style: const TextStyle(fontSize: 12),),
               ],
             ),
           ],
