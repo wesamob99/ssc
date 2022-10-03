@@ -8,6 +8,7 @@ import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 import 'package:ssc/utilities/util.dart';
 
+import '../../../infrastructure/userConfig.dart';
 import '../../../utilities/constants.dart';
 import '../../viewModel/utilities/language/globalAppProvider.dart';
 
@@ -103,6 +104,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           userSecuredStorage.userName = val['data']['PO_NAME'] ?? ''; // PO_NAME -> user name
                           userSecuredStorage.nationalId = val['data']['PO_USER_NAME'] ?? ''; // PO_USER_NAME -> user national ID
                           userSecuredStorage.internalKey = val['data']['PO_INTERNAL_KEY'] ?? ''; // PO_USER_NAME -> user national ID
+                        }
+                        if(val['PO_STATUS_DESC_EN'] != null){
+                          loginProvider.errorMessage = UserConfig.instance.checkLanguage()
+                          ? val['PO_STATUS_DESC_EN'] : val['PO_STATUS_DESC_AR'];
+                        } else{
+                          loginProvider.errorMessage = '';
                         }
                         loginProvider.tokenUpdated = val['token'] != null ? true : false;
                         loginProvider.loginComplete = val['token'] != null ? 'true' : 'false';
@@ -201,19 +208,19 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   buildTextFormField(themeNotifier, loginProvider, controller, inputType){
-    String errorText = '';
-    if(Provider.of<LoginProvider>(context).errorType.contains(1) &&
-    controller == nationalIdController){
-      errorText = translate('loginErrorEmptyNationalId', context);
-    }
-    if(Provider.of<LoginProvider>(context).errorType.contains(2) &&
-    controller == passwordController){
-      errorText = translate('loginErrorEmptyPassword', context);
-    }
-    if(Provider.of<LoginProvider>(context).errorType.contains(0) &&
-    Provider.of<LoginProvider>(context).errorType.length == 1){
-      errorText = translate('loginErrorInvalidInputs', context);
-    }
+    // String errorText = '';
+    // if(Provider.of<LoginProvider>(context).errorType.contains(1) &&
+    // controller == nationalIdController){
+    //   errorText = translate('loginErrorEmptyNationalId', context);
+    // }
+    // if(Provider.of<LoginProvider>(context).errorType.contains(2) &&
+    // controller == passwordController){
+    //   errorText = translate('loginErrorEmptyPassword', context);
+    // }
+    // if(Provider.of<LoginProvider>(context).errorType.contains(0) &&
+    // Provider.of<LoginProvider>(context).errorType.length == 1){
+    //   errorText = translate('loginErrorInvalidInputs', context);
+    // }
     return TextFormField(
       controller: controller,
       keyboardType: inputType,
@@ -228,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
       decoration: InputDecoration(
         hintText: controller == nationalIdController ? translate('nationalIdEx', context) : '',
         errorText: Provider.of<LoginProvider>(context).loginComplete == 'false'
-            ? errorText
+            ? loginProvider.errorMessage
             : null,
         hintStyle: TextStyle(
           color: getGrey2Color(context).withOpacity(
