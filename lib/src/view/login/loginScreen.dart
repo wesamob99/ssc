@@ -98,9 +98,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       await loginProvider.login(nationalIdController.text, passwordController.text)
                           .whenComplete((){})
                           .then((val){
-                        userSecuredStorage.token = val['token'] ?? '';
-                        userSecuredStorage.userName = val['data']['PO_NAME'] ?? '';
-                        userSecuredStorage.nationalId = val['data']['PO_USER_NAME'] ?? '';
+                        userSecuredStorage.token = val['token'] ?? ''; // user token
+                        if(val['data'] != null){
+                          userSecuredStorage.userName = val['data']['PO_NAME'] ?? ''; // PO_NAME -> user name
+                          userSecuredStorage.nationalId = val['data']['PO_USER_NAME'] ?? ''; // PO_USER_NAME -> user national ID
+                          userSecuredStorage.internalKey = val['data']['PO_INTERNAL_KEY'] ?? ''; // PO_USER_NAME -> user national ID
+                        }
                         loginProvider.tokenUpdated = val['token'] != null ? true : false;
                         loginProvider.loginComplete = val['token'] != null ? 'true' : 'false';
                       });
