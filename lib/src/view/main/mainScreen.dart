@@ -54,9 +54,9 @@ class _MainScreenState extends State<MainScreen> {
         ),
         actions: [
           SvgPicture.asset('assets/icons/search.svg'),
-          SizedBox(width: width(0.06, context)),
+          SizedBox(width: width(0.05, context)),
           SvgPicture.asset('assets/icons/location.svg'),
-          SizedBox(width: width(0.06, context)),
+          SizedBox(width: width(0.05, context)),
           SvgPicture.asset('assets/icons/notifications.svg'),
           SizedBox(width: width(0.08, context)),
         ],
@@ -93,16 +93,17 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   curvedNavigationBar(ThemeNotifier themeNotifier){
+    Color iconColor = themeNotifier.isLight() ? primaryColor : Colors.white;
     return CurvedNavigationBar(
       index: pageIndex,
       backgroundColor: Colors.transparent,
-      color: getPrimaryColor(context, themeNotifier),
-      buttonBackgroundColor: getPrimaryColor(context, themeNotifier),
-      items: const <Widget>[
-        Icon(Icons.home, size: 26, color: Colors.white),
-        Icon(Icons.list, size: 26, color: Colors.white),
-        Icon(Icons.refresh, size: 26, color: Colors.white),
-        Icon(Icons.settings, size: 26, color: Colors.white),
+      color: themeNotifier.isLight() ? Colors.white : Colors.black54,
+      buttonBackgroundColor: themeNotifier.isLight() ? Colors.white : Colors.black54,
+      items: <Widget>[
+        Icon(Icons.home, size: 26, color: iconColor),
+        Icon(Icons.list, size: 26, color: iconColor),
+        Icon(Icons.refresh, size: 26, color: iconColor),
+        Icon(Icons.settings, size: 26, color: iconColor),
       ],
       onTap: (index) {
         setState(() {
