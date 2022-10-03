@@ -77,7 +77,7 @@ class AppTheme {
               : GoogleFonts.tajawal(),
       ),
       fontFamily: UserConfig.instance.checkLanguage() ? 'nunito' : 'sans_full',
-      scaffoldBackgroundColor: Colors.grey.shade50,
+      scaffoldBackgroundColor: Colors.grey.shade100,
       backgroundColor: HexColor('#ffffff'),
       highlightColor: primaryColor,
       textTheme: UserConfig.instance.checkLanguage()
