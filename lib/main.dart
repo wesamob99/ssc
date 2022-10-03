@@ -32,6 +32,7 @@ void main() {
     prefs.then((value){
       Widget screen = (value.getBool('seen') ?? false) ? const LandingScreen() : const IntroductionScreen();
       value.setBool('seen', true);
+      value.setBool('amountToBePaid', true);
       runApp(
         Phoenix(
           child: MultiProvider(

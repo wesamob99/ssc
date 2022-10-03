@@ -4,6 +4,7 @@ import 'package:ssc/src/model/home/homeRepository.dart';
 class HomeProvider extends ChangeNotifier {
 
   HomeRepository homeRepository = HomeRepository();
+  bool showFloatingButton = true;
 
   Future getStatistics() async{
     return await homeRepository.getStatisticsService();

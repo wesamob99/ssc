@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -29,12 +30,17 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   late TooltipBehavior _tooltipBehavior;
   late Future statisticsFuture;
+  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   @override
   void initState(){
     HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
     _tooltipBehavior = TooltipBehavior(enable: true);
     statisticsFuture = homeProvider.getStatistics();
+    prefs.then((value){
+      homeProvider.showFloatingButton = value.getBool('amountToBePaid') ?? true;
+      homeProvider.notifyMe();
+    });
     super.initState();
   }
 
@@ -106,7 +112,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      floatingActionButton: floatingSlidablePayButton(themeNotifier),
+      floatingActionButton: Provider.of<HomeProvider>(context).showFloatingButton
+        ? floatingSlidablePayButton(themeNotifier)
+        : const SizedBox.shrink(),
     );
   }
 
@@ -238,7 +246,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    data['po_salary'].toStringAsFixed(2),                                    style: TextStyle(
+                                    data['po_salary'].toStringAsFixed(2),
+                                    style: TextStyle(
                                         color: HexColor('#37662D'),
                                         fontWeight: FontWeight.bold,
                                         fontSize: width(0.03, context)),
@@ -265,7 +274,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    data['po_reg_amt'].toStringAsFixed(2),                                     style: TextStyle(
+                                    data['po_reg_amt'].toStringAsFixed(2),
+                                    style: TextStyle(
                                         color: HexColor('#BE8703'),
                                         fontWeight: FontWeight.bold,
                                         fontSize: width(0.03, context)),
@@ -422,13 +432,19 @@ class _HomeScreenState extends State<HomeScreen> {
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(
           onDismissed: () {
-            print('dismissed');
+            prefs.then((value){
+              value.setBool('amountToBePaid', false);
+            });
           }
         ),
         children: [
           SlidableAction(
             onPressed: (_){
-              print('must dismiss');
+              prefs.then((value){
+                value.setBool('amountToBePaid', false);
+              });
+              Provider.of<HomeProvider>(context, listen: false).showFloatingButton = false;
+              Provider.of<HomeProvider>(context, listen: false).notifyMe();
             },
             backgroundColor: Colors.black26,
             foregroundColor: Colors.white,
