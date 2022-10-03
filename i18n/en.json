@@ -35,7 +35,8 @@
   "lastPayment": "Last payment date",
   "number_of_contributions_to_retirement": "Number of contributions left to retirement entitlement",
   "totalAmountToPay": "Amount to be paid",
-  "pay": "Pay"
+  "pay": "Pay",
+  "hide": "Hide"
 
 
 }

@@ -35,5 +35,6 @@
   "lastPayment": "تاريخ آخر إشتراك",
   "number_of_contributions_to_retirement": "عدد الإشتراكات المتبقية لإستحقاق التقاعد",
   "totalAmountToPay": "المبلغ المطلوب للدفع",
-  "pay": "إدفع"
+  "pay": "إدفع",
+  "hide": "إخفاء"
 }
