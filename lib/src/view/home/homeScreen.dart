@@ -2,6 +2,7 @@ import 'package:ai_progress/ai_progress.dart';
 import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -105,77 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      floatingActionButton: Container(
-        width: width(0.93, context),
-        height: height(0.071, context),
-        decoration: BoxDecoration(
-          color: getPrimaryColor(context, themeNotifier),
-          borderRadius: BorderRadius.circular(15)
-        ),
-        child: Padding(
-          padding:  EdgeInsets.symmetric(
-            horizontal: width(0.04, context),
-            vertical: height(0.017, context)
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    translate('totalAmountToPay', context),
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  SizedBox(
-                    width: width(0.05, context),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        '455',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      Text(
-                        translate('jd', context),
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              Container(
-                alignment: Alignment.center,
-                width: width(0.2, context),
-                decoration: BoxDecoration(
-                  color: HexColor('#DBC89C4A').withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: InkWell(
-                  onTap: (){},
-                  child: Text(
-                    translate('pay', context),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+      floatingActionButton: floatingSlidablePayButton(themeNotifier),
     );
   }
 
@@ -480,6 +411,103 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
         )
+      ),
+    );
+  }
+
+  floatingSlidablePayButton(themeNotifier){
+    return Slidable(
+      key: const ValueKey(0),
+      startActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        dismissible: DismissiblePane(
+          onDismissed: () {
+            print('dismissed');
+          }
+        ),
+        children: [
+          SlidableAction(
+            onPressed: (_){
+              print('must dismiss');
+            },
+            backgroundColor: Colors.black26,
+            foregroundColor: Colors.white,
+            icon: Icons.not_interested,
+            label: translate('hide', context),
+          ),
+        ],
+      ),
+      child: Container(
+        margin: EdgeInsets.only(right: width(0.07, context)),
+        width: width(0.93, context),
+        height: height(0.071, context),
+        decoration: BoxDecoration(
+            color: getPrimaryColor(context, themeNotifier),
+            borderRadius: BorderRadius.circular(15)
+        ),
+        child: Padding(
+          padding:  EdgeInsets.symmetric(
+              horizontal: width(0.04, context),
+              vertical: height(0.017, context)
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    translate('totalAmountToPay', context),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(
+                    width: width(0.05, context),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        '455',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text(
+                        translate('jd', context),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              Container(
+                alignment: Alignment.center,
+                width: width(0.2, context),
+                decoration: BoxDecoration(
+                  color: HexColor('#DBC89C4A').withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: InkWell(
+                  onTap: (){},
+                  child: Text(
+                    translate('pay', context),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
