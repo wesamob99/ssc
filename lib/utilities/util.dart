@@ -78,7 +78,7 @@ bool checkTextLanguage(String text) {
     'L',
     'M',
     'N'
-        'O',
+    'O',
     'P',
     'Q',
     'R',
