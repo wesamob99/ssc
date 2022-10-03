@@ -72,7 +72,7 @@ class HTTPClientContract {
       ..interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
         options.headers.addAll({
           if (UserSecuredStorage.instance.token.isNotEmpty)
-            "Authorization": UserSecuredStorage.instance.token,
+            "Authorization": "Bearer ${UserSecuredStorage.instance.token}",
           // Headers.contentTypeHeader: Headers.jsonContentType,
         });
         return handler.next(options);
