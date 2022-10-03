@@ -1,4 +1,5 @@
 import 'package:ai_progress/ai_progress.dart';
+import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../infrastructure/userConfig.dart';
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
+import '../../viewModel/home/homeProvider.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,10 +27,13 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/images/test_slider_images/3.jpg',
   ];
   late TooltipBehavior _tooltipBehavior;
+  late Future statisticsFuture;
 
   @override
   void initState(){
+    HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
     _tooltipBehavior = TooltipBehavior(enable: true);
+    statisticsFuture = homeProvider.getStatistics();
     super.initState();
   }
 
@@ -56,40 +61,125 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Text(translate('overview', context)),
-            ),
-            overViewWidget(themeNotifier),
-            SizedBox(
-              height: height(0.015, context),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Text(translate('advertisements', context)),
-            ),
-            imageSlideShow(ads, themeNotifier),
-            SizedBox(
-              height: height(0.015, context),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Text(translate('pastYearsPays', context)),
-            ),
-            pastYearsChart(),
-          ],
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: FutureBuilder(
+              future: statisticsFuture,
+              builder: (context, snapshot){
+                if(snapshot.hasData && !snapshot.hasError){
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Text(translate('overview', context)),
+                      ),
+                      overViewWidget(themeNotifier, snapshot.data),
+                      SizedBox(
+                        height: height(0.015, context),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Text(translate('advertisements', context)),
+                      ),
+                      imageSlideShow(ads, themeNotifier),
+                      SizedBox(
+                        height: height(0.015, context),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Text(translate('pastYearsPays', context)),
+                      ),
+                      pastYearsChart(themeNotifier, snapshot.data),
+                      SizedBox(
+                        height: height(0.075, context),
+                      ),
+                    ],
+                  );
+                } else{
+                  return shimmerLoader();
+                }
+              }
+          ),
+        ),
+      ),
+      floatingActionButton: Container(
+        width: width(0.93, context),
+        height: height(0.071, context),
+        decoration: BoxDecoration(
+          color: getPrimaryColor(context, themeNotifier),
+          borderRadius: BorderRadius.circular(15)
+        ),
+        child: Padding(
+          padding:  EdgeInsets.symmetric(
+            horizontal: width(0.04, context),
+            vertical: height(0.017, context)
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    translate('totalAmountToPay', context),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(
+                    width: width(0.05, context),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        '455',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text(
+                        translate('jd', context),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              Container(
+                alignment: Alignment.center,
+                width: width(0.2, context),
+                decoration: BoxDecoration(
+                  color: HexColor('#DBC89C4A').withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: InkWell(
+                  onTap: (){},
+                  child: Text(
+                    translate('pay', context),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  overViewWidget(ThemeNotifier themeNotifier){
+  overViewWidget(ThemeNotifier themeNotifier, data){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -122,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: height(0.002, context),
                               ),
                               Text(
-                                '40',
+                                data['po_months_count'].toString(),
                                 style: TextStyle(
                                     color: HexColor('#37662D'),
                                     fontWeight: FontWeight.bold,
@@ -159,9 +249,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '455-',
+                                    data['po_idle_balance'].toStringAsFixed(2),
                                     style: TextStyle(
-                                        color: HexColor('#BC0D0D'),
+                                        color: data['po_idle_balance'] >= 0
+                                        ? HexColor('#37662D') : HexColor('#BC0D0D'),
                                         fontWeight: FontWeight.bold,
                                         fontSize: width(0.03, context)),
                                   ),
@@ -216,8 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '1400',
-                                    style: TextStyle(
+                                    data['po_salary'].toStringAsFixed(2),                                    style: TextStyle(
                                         color: HexColor('#37662D'),
                                         fontWeight: FontWeight.bold,
                                         fontSize: width(0.03, context)),
@@ -244,8 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '105',
-                                    style: TextStyle(
+                                    data['po_reg_amt'].toStringAsFixed(2),                                     style: TextStyle(
                                         color: HexColor('#BE8703'),
                                         fontWeight: FontWeight.bold,
                                         fontSize: width(0.03, context)),
@@ -367,31 +456,103 @@ class _HomeScreenState extends State<HomeScreen> {
         children: children);
   }
 
-  pastYearsChart(){
+  pastYearsChart(themeNotifier, data){
+    List<SalaryData> dataSource = [];
+    data['cur_getdata'][0].forEach((element){
+      dataSource.add(
+        SalaryData(element['FOR_YEAR'], double.parse(element['SALARY'].toString()))
+      );
+    });
     return SizedBox(
       height: height(0.23, context),
       child: Center(
           child: SfCartesianChart(
             primaryXAxis: CategoryAxis(),
-            // legend: Legend(isVisible: true),
+            legend: Legend(isVisible: false),
             tooltipBehavior: _tooltipBehavior,
             series: <LineSeries<SalaryData, String>>[
               LineSeries<SalaryData, String>(
-                dataSource:  <SalaryData>[
-                  SalaryData('2010', 500),
-                  SalaryData('2012', 600),
-                  SalaryData('2014', 1000),
-                  SalaryData('2016', 2000),
-                  SalaryData('2018', 4300),
-                  SalaryData('2020', 2600)
-                ],
+                dataSource: dataSource,
                 xValueMapper: (SalaryData sales, _) => sales.year,
                 yValueMapper: (SalaryData sales, _) => sales.salary,
+                pointColorMapper: (SalaryData sales, _) => getPrimaryColor(context, themeNotifier),
                 dataLabelSettings: const DataLabelSettings(isVisible: true)
               )
             ],
         )
       ),
+    );
+  }
+
+  shimmerLoader(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CardLoading(
+          height: height(0.01, context),
+          width: width(0.3, context),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          margin: const EdgeInsets.only(bottom: 10),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CardLoading(
+                  height: height(0.08, context),
+                  width: width(0.35, context),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  margin: const EdgeInsets.only(bottom: 10),
+                ),
+                CardLoading(
+                  height: height(0.08, context),
+                  width: width(0.35, context),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  margin: const EdgeInsets.only(bottom: 10),
+                ),
+              ],
+            ),
+            CardLoading(
+              height: height(0.17, context),
+              width: width(0.55, context),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              margin: const EdgeInsets.only(bottom: 10),
+            ),
+          ],
+        ),
+        CardLoading(
+          height: height(0.05, context),
+          width: width(1, context),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          margin: const EdgeInsets.only(bottom: 10),
+        ),
+        CardLoading(
+          height: height(0.01, context),
+          width: width(0.3, context),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          margin: const EdgeInsets.only(bottom: 10),
+        ),
+        CardLoading(
+          height: height(0.23, context),
+          width: width(1, context),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          margin: const EdgeInsets.only(bottom: 10),
+        ),
+        CardLoading(
+          height: height(0.01, context),
+          width: width(0.3, context),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          margin: const EdgeInsets.only(bottom: 10),
+        ),
+        CardLoading(
+          height: height(0.23, context),
+          width: width(1, context),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          margin: const EdgeInsets.only(bottom: 10),
+        ),
+      ],
     );
   }
 }
