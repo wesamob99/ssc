@@ -25,7 +25,7 @@
   "loginErrorEmptyPassword": "Password is Empty",
   "overview": "overview",
   "advertisements": "Advertisements",
-  "subscriptions": "Number of contributions",
+  "subscriptions": "Subscriptions",
   "idleBalance": "Saving balance",
   "jd": " J.D",
   "pastYearsPays": "Fees of the past years",
@@ -33,7 +33,9 @@
   "salary": "Salary",
   "deductionValue": "Deduction value",
   "lastPayment": "Last payment date",
-  "number_of_contributions_to_retirement": "Number of contributions left to retirement entitlement"
+  "number_of_contributions_to_retirement": "Number of contributions left to retirement entitlement",
+  "totalAmountToPay": "Amount to be paid",
+  "pay": "Pay"
 
 
 }

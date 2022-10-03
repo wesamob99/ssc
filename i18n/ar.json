@@ -32,6 +32,8 @@
   "pastOrders": "طلباتي السابقة",
   "salary": "الأجر الخاضع للضمان",
   "deductionValue": "قيمة الإقتطاع",
-  "lastPayment": "تاريخ آخر دفعه",
-  "number_of_contributions_to_retirement": "عدد الإشتراكات المتبقية لإستحقاق التقاعد"
+  "lastPayment": "تاريخ آخر إشتراك",
+  "number_of_contributions_to_retirement": "عدد الإشتراكات المتبقية لإستحقاق التقاعد",
+  "totalAmountToPay": "المبلغ المطلوب للدفع",
+  "pay": "إدفع"
 }
