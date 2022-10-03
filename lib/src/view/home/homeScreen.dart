@@ -438,7 +438,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       child: Container(
-        margin: EdgeInsets.only(right: width(0.07, context)),
+        margin: EdgeInsets.only(
+          right: UserConfig.instance.checkLanguage() ? 0 : width(0.07, context),
+          left: UserConfig.instance.checkLanguage() ? width(0.07, context) : 0
+        ),
         width: width(0.93, context),
         height: height(0.071, context),
         decoration: BoxDecoration(
