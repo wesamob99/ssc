@@ -1,5 +1,4 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -8,9 +7,11 @@ import 'package:ssc/src/view/home/homeScreen.dart';
 import 'package:ssc/src/view/settings/settingsScreen.dart';
 
 import '../../../infrastructure/userConfig.dart';
+import '../../../utilities/hexColor.dart';
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
+import '../services/servicesScreen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -74,11 +75,7 @@ class _MainScreenState extends State<MainScreen> {
           physics: const NeverScrollableScrollPhysics(),
           children: [
             const HomeScreen(),
-            Center(
-                child: Text(
-                    translate(pageTitle[0], context)
-                )
-            ),
+            const ServicesScreen(),
             Center(
               child: Text(
                 translate(pageTitle[2], context)
@@ -97,13 +94,18 @@ class _MainScreenState extends State<MainScreen> {
     return CurvedNavigationBar(
       index: pageIndex,
       backgroundColor: Colors.transparent,
-      color: themeNotifier.isLight() ? Colors.white : Colors.black54,
-      buttonBackgroundColor: themeNotifier.isLight() ? Colors.white : Colors.black54,
+      color: themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
+      buttonBackgroundColor: themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
       items: <Widget>[
-        Icon(Icons.home, size: 26, color: iconColor),
-        Icon(Icons.list, size: 26, color: iconColor),
-        Icon(Icons.refresh, size: 26, color: iconColor),
-        Icon(Icons.settings, size: 26, color: iconColor),
+        SvgPicture.asset('assets/icons/bottomNavigationIcons/home.svg',
+          color: themeNotifier.isLight() ? HexColor('#171717') : Colors.white,
+        ),
+        SvgPicture.asset('assets/icons/bottomNavigationIcons/services.svg',
+          color: themeNotifier.isLight() ? HexColor('#171717') : Colors.white,),
+        SvgPicture.asset('assets/icons/bottomNavigationIcons/pastOrders.svg',
+          color: themeNotifier.isLight() ? HexColor('#171717') : Colors.white,),
+        SvgPicture.asset('assets/icons/bottomNavigationIcons/more.svg',
+          color: themeNotifier.isLight() ? HexColor('#171717') : Colors.white,),
       ],
       onTap: (index) {
         setState(() {
