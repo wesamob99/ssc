@@ -1,12 +1,12 @@
 import 'package:ai_progress/ai_progress.dart';
-import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ssc/src/view/home/components/homeChartWidget.dart';
+import 'package:ssc/src/view/home/components/homeLoaderWidget.dart';
+import 'package:ssc/src/view/home/components/homeSlideShowWidget.dart';
 import 'package:ssc/utilities/hexColor.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../infrastructure/userConfig.dart';
 import '../../../utilities/theme/themes.dart';
@@ -23,19 +23,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  List<String> images = [
-    'assets/images/test_slider_images/1.jpg',
-    'assets/images/test_slider_images/2.jpg',
-    'assets/images/test_slider_images/3.jpg',
-  ];
-  late TooltipBehavior _tooltipBehavior;
   late Future statisticsFuture;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   @override
   void initState(){
     HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
-    _tooltipBehavior = TooltipBehavior(enable: true);
     statisticsFuture = homeProvider.getStatistics();
     prefs.then((value){
       homeProvider.showFloatingButton = value.getBool('amountToBePaid') ?? true;
@@ -47,26 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-
-    List<Widget> ads = [];
-    for (int i = 0; i < images.length; i++) {
-      ads.add(
-        InkWell(
-          onTap: () {},
-          child: Image.asset(
-            images[i],
-            fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) {
-              return const Icon(
-                Icons.error_outline,
-                color: Colors.red,
-                size: 36,
-              );
-            },
-          ),
-        ),
-      );
-    }
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -91,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Text(translate('advertisements', context)),
                       ),
-                      imageSlideShow(ads, themeNotifier),
+                      const HomeSlideShowWidget(),
                       SizedBox(
                         height: height(0.015, context),
                       ),
@@ -99,14 +72,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Text(translate('pastYearsPays', context)),
                       ),
-                      pastYearsChart(themeNotifier, snapshot.data),
+                      HomeChartWidget(data: snapshot.data),
                       SizedBox(
                         height: height(0.075, context),
                       ),
                     ],
                   );
                 } else{
-                  return shimmerLoader();
+                  return const HomeLoaderWidget();
                 }
               }
           ),
@@ -382,49 +355,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  imageSlideShow(List<Widget> children, ThemeNotifier themeNotifier) {
-    return ImageSlideshow(
-        width: double.infinity,
-        height: height(.22, context),
-        initialPage: 0,
-        indicatorColor: getPrimaryColor(context, themeNotifier),
-        indicatorBackgroundColor: Colors.white,
-        onPageChanged: (value) {
-          // print('Page changed: $value');
-        },
-        autoPlayInterval: 3000,
-        isLoop: true,
-        children: children);
-  }
-
-  pastYearsChart(themeNotifier, data){
-    List<SalaryData> dataSource = [];
-    data['cur_getdata'][0].forEach((element){
-      dataSource.add(
-        SalaryData(element['FOR_YEAR'], double.parse(element['SALARY'].toString()))
-      );
-    });
-    return SizedBox(
-      height: height(0.23, context),
-      child: Center(
-          child: SfCartesianChart(
-            primaryXAxis: CategoryAxis(),
-            legend: Legend(isVisible: false),
-            tooltipBehavior: _tooltipBehavior,
-            series: <LineSeries<SalaryData, String>>[
-              LineSeries<SalaryData, String>(
-                dataSource: dataSource,
-                xValueMapper: (SalaryData sales, _) => sales.year,
-                yValueMapper: (SalaryData sales, _) => sales.salary,
-                pointColorMapper: (SalaryData sales, _) => getPrimaryColor(context, themeNotifier),
-                dataLabelSettings: const DataLabelSettings(isVisible: true)
-              )
-            ],
-        )
-      ),
-    );
-  }
-
   floatingSlidablePayButton(themeNotifier){
     return Slidable(
       key: const ValueKey(0),
@@ -531,81 +461,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  shimmerLoader(){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CardLoading(
-          height: height(0.01, context),
-          width: width(0.3, context),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          margin: const EdgeInsets.only(bottom: 10),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CardLoading(
-                  height: height(0.08, context),
-                  width: width(0.35, context),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  margin: const EdgeInsets.only(bottom: 10),
-                ),
-                CardLoading(
-                  height: height(0.08, context),
-                  width: width(0.35, context),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  margin: const EdgeInsets.only(bottom: 10),
-                ),
-              ],
-            ),
-            CardLoading(
-              height: height(0.17, context),
-              width: width(0.55, context),
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              margin: const EdgeInsets.only(bottom: 10),
-            ),
-          ],
-        ),
-        CardLoading(
-          height: height(0.05, context),
-          width: width(1, context),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          margin: const EdgeInsets.only(bottom: 10),
-        ),
-        CardLoading(
-          height: height(0.01, context),
-          width: width(0.3, context),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          margin: const EdgeInsets.only(bottom: 10),
-        ),
-        CardLoading(
-          height: height(0.23, context),
-          width: width(1, context),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          margin: const EdgeInsets.only(bottom: 10),
-        ),
-        CardLoading(
-          height: height(0.01, context),
-          width: width(0.3, context),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          margin: const EdgeInsets.only(bottom: 10),
-        ),
-        CardLoading(
-          height: height(0.23, context),
-          width: width(1, context),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          margin: const EdgeInsets.only(bottom: 10),
-        ),
-      ],
-    );
-  }
-}
-
-class SalaryData {
-  SalaryData(this.year, this.salary);
-  final String year;
-  final double salary;
 }
