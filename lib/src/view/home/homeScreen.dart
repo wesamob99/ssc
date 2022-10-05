@@ -74,7 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       HomeChartWidget(data: snapshot.data),
                       SizedBox(
-                        height: height(0.075, context),
+                        height: height(
+                            Provider.of<HomeProvider>(context).showFloatingButton
+                                ? 0.075 : 0.0,
+                          context
+                        ),
                       ),
                     ],
                   );
@@ -365,6 +369,8 @@ class _HomeScreenState extends State<HomeScreen> {
             prefs.then((value){
               value.setBool('amountToBePaid', false);
             });
+            Provider.of<HomeProvider>(context, listen: false).showFloatingButton = false;
+            Provider.of<HomeProvider>(context, listen: false).notifyMe();
           }
         ),
         children: [
