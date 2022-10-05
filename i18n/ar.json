@@ -8,6 +8,7 @@
   "settings": "الاعدادات",
   "select_app_language": "اللغة",
   "select_app_theme": "سمة التطبيق",
+  "select_text_size": "حجم الخط",
   "System default": "النظام الافتراضي",
   "Light": "ضوء",
   "Dark": "ليلي",
@@ -36,5 +37,8 @@
   "number_of_contributions_to_retirement": "عدد الإشتراكات المتبقية لإستحقاق التقاعد",
   "totalAmountToPay": "المبلغ المطلوب للدفع",
   "pay": "إدفع",
-  "hide": "إخفاء"
+  "hide": "إخفاء",
+  "s": "صغير",
+  "m": "وسط",
+  "l": "كبير"
 }

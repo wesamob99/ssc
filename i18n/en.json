@@ -8,6 +8,7 @@
   "settings": "Settings",
   "select_app_language": "Language",
   "select_app_theme": "App theme",
+  "select_text_size": "Text size",
   "System default": "System default",
   "Light": "Light",
   "Dark": "Dark",
@@ -36,7 +37,10 @@
   "number_of_contributions_to_retirement": "Number of contributions left to retirement entitlement",
   "totalAmountToPay": "Amount to be paid",
   "pay": "Pay",
-  "hide": "Hide"
+  "hide": "Hide",
+  "s": "Small",
+  "m": "Medium",
+  "l": "Large"
 
 
 }
