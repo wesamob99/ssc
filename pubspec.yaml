@@ -71,6 +71,7 @@ flutter:
     - assets/images/test_slider_images/
     - assets/logo/
     - assets/icons/bottomNavigationIcons/
+    - assets/icons/sideBarIcons/
     - assets/icons/
 
 #flutter_native_splash:
