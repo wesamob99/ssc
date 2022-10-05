@@ -40,5 +40,18 @@
   "hide": "إخفاء",
   "s": "صغير",
   "m": "وسط",
-  "l": "كبير"
+  "l": "كبير",
+  "mostVisitedServices": "خدمات أكثر زياره",
+  "retiredServices": "خدمات المتقاعدين",
+  "individualsServices": "خدمات الأفراد",
+  "maternityServices": "خدمات الأمومه",
+  "financeServices": "خدمات الماليه",
+  "suggestedServices": "خدمات مقترحه",
+  "otherServices": "خدمات أخرى",
+  "retired": "متقاعدين",
+  "requestRetiredLoan": "طلب سلفة المتقاعدين",
+  "individuals": "أفراد",
+  "maternity": "أمومه",
+  "unemploymentApplication": "طلب تعطل"
+
 }

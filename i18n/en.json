@@ -40,7 +40,18 @@
   "hide": "Hide",
   "s": "Small",
   "m": "Medium",
-  "l": "Large"
-
+  "l": "Large",
+  "mostVisitedServices": "Most visited services",
+  "retiredServices": "Retired services",
+  "individualsServices": "Individuals services",
+  "maternityServices": "Maternity services",
+  "financeServices": "Finance services",
+  "suggestedServices": "Suggested services",
+  "otherServices": "Other services",
+  "retired": "Retired",
+  "requestRetiredLoan": "retiree's loan application",
+  "individuals": "Individuals",
+  "maternity": "Maternity",
+  "unemploymentApplication": "Unemployment application"
 
 }
