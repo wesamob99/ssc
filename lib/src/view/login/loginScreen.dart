@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -96,6 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: height(0.05, context)),
                   TextButton(
                     onPressed: () async {
+                      try{
                       await loginProvider.login(nationalIdController.text, passwordController.text)
                           .whenComplete((){})
                           .then((val){
@@ -114,7 +116,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         loginProvider.tokenUpdated = val['token'] != null ? true : false;
                         loginProvider.loginComplete = val['token'] != null ? 'true' : 'false';
                       });
-
+                    }catch(e){
+                        if (kDebugMode) {
+                          print(e.toString());
+                        }
+                      }
                       loginProvider.errorType.clear();
                       if(!_formKey.currentState!.validate()){
                         loginProvider.loginComplete = 'null';
