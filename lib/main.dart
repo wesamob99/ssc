@@ -29,6 +29,7 @@ void main() {
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
   userSecuredStorage.initSecuredBox().whenComplete(() {
     userSecuredStorage.token;
+    // userSecuredStorage.token = '';
   }).then((value) {
     prefs.then((value){
       Widget screen = (value.getBool('seen') ?? false) ? const LandingScreen() : const IntroductionScreen();
