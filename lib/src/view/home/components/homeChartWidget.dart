@@ -32,11 +32,12 @@ class HomeChartWidget extends StatelessWidget {
             tooltipBehavior: tooltipBehavior,
             series: <LineSeries<SalaryData, String>>[
               LineSeries<SalaryData, String>(
-                  dataSource: dataSource,
-                  xValueMapper: (SalaryData sales, _) => sales.year,
-                  yValueMapper: (SalaryData sales, _) => sales.salary,
-                  pointColorMapper: (SalaryData sales, _) => getPrimaryColor(context, themeNotifier),
-                  dataLabelSettings: const DataLabelSettings(isVisible: true)
+                name: 'Salary',
+                dataSource: dataSource,
+                xValueMapper: (SalaryData sales, _) => sales.year,
+                yValueMapper: (SalaryData sales, _) => sales.salary,
+                pointColorMapper: (SalaryData sales, _) => getPrimaryColor(context, themeNotifier),
+                dataLabelSettings: const DataLabelSettings(isVisible: true)
               )
             ],
           )
