@@ -395,15 +395,15 @@ class _HomeScreenState extends State<HomeScreen> {
           left: UserConfig.instance.checkLanguage() ? width(0.07, context) : 0
         ),
         width: width(0.93, context),
-        height: height(0.071, context),
+        height: height(0.068, context),
         decoration: BoxDecoration(
             color: getPrimaryColor(context, themeNotifier),
             borderRadius: BorderRadius.circular(15)
         ),
         child: Padding(
           padding:  EdgeInsets.symmetric(
-              horizontal: width(0.04, context),
-              vertical: height(0.017, context)
+              horizontal: width(0.035, context),
+              vertical: height(0.015, context)
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

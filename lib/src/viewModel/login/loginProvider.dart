@@ -10,6 +10,7 @@ class LoginProvider extends ChangeNotifier {
   String loginComplete = 'null';
   List<int> errorType = [];
   String errorMessage = '';
+  bool enabledSubmitButton = false;
 
   Future login(String nationalId, String password) async{
     final response = await loginRepository.loginService(nationalId, password);

@@ -44,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    loginProvider.enabledSubmitButton = false;
     getAppLanguage();
     super.initState();
   }
@@ -140,7 +141,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                        getPrimaryColor(context, themeNotifier),
+                        loginProvider.enabledSubmitButton
+                        ? getPrimaryColor(context, themeNotifier) : Colors.grey,
                       ),
                       foregroundColor:  MaterialStateProperty.all<Color>(
                         Colors.white
@@ -280,6 +282,11 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         )
       ),
+      onChanged: (val){
+        loginProvider.enabledSubmitButton = (nationalIdController.text.isNotEmpty &&
+            passwordController.text.isNotEmpty);
+        loginProvider.notifyMe();
+      },
     );
   }
 }

@@ -32,7 +32,7 @@ class HomeChartWidget extends StatelessWidget {
             tooltipBehavior: tooltipBehavior,
             series: <LineSeries<SalaryData, String>>[
               LineSeries<SalaryData, String>(
-                name: 'Salary',
+                name: translate('salary', context),
                 dataSource: dataSource,
                 xValueMapper: (SalaryData sales, _) => sales.year,
                 yValueMapper: (SalaryData sales, _) => sales.salary,
