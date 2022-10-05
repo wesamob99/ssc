@@ -7,6 +7,7 @@ import 'package:ssc/utilities/theme/themes.dart';
 import 'package:ssc/utilities/util.dart';
 
 import '../../../utilities/constants.dart';
+import '../../viewModel/settings/settingsProvider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -18,14 +19,17 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  late SettingsProvider settingsProvider;
   String? selectedTheme;
   String? selectedLanguage;
+  String? selectedTextSize;
 
   getAppThemeAndLanguage(){
     prefs.then((value) {
       setState((){
         selectedTheme = value.getString(Constants.APP_THEME) ?? Constants.SYSTEM_DEFAULT;
         selectedLanguage = value.getString('language_code') ?? 'en';
+        selectedTextSize = value.getString('text_size') ?? 's';
       });
     });
   }
@@ -33,6 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     getAppThemeAndLanguage();
+    settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
     super.initState();
   }
   @override
@@ -201,6 +206,91 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       value: value,
                       child: Text(
                         value == 'en' ? 'English' : 'عربي',
+                        style: TextStyle(
+                          color: themeNotifier.isLight()
+                              ? primaryColor
+                              : Colors.white,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: height(0.004, context)),
+          padding: EdgeInsets.all(height(0.004, context)),
+          color: getPrimaryColor(context, themeNotifier).withOpacity(0.5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.text_fields,
+                    color: themeNotifier.isLight()
+                      ? primaryColor
+                      : Colors.white,
+                    size: width(0.058, context),
+                  ),
+                  const SizedBox(
+                    width: 5.0,
+                  ),
+                  Text(
+                    translate('select_text_size', context),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: width(0.036, context)
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.all(height(0.004, context)).copyWith(right: 0),
+                padding: EdgeInsets.all(height(0.004, context)),
+                decoration: BoxDecoration(
+                    color: themeNotifier.isLight()
+                        ? Colors.white
+                        : getShadowColor(context),
+                    border: Border.all(
+                      color: getPrimaryColor(context, themeNotifier),
+                    ),
+                    borderRadius: BorderRadius.circular(8)
+                ),
+                child: DropdownButton<String>(
+                  isDense: true,
+                  value: selectedTextSize,
+                  icon: Icon(
+                    Icons.arrow_drop_down_outlined,
+                    color: themeNotifier.isLight()
+                        ? primaryColor
+                        : Colors.white,
+                  ),
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.black),
+                  underline: Container(
+                    height: 0,
+                    color: primaryColor,
+                  ),
+                  onChanged: (String? value) async{
+                    setState(() {
+                      selectedTextSize = value!;
+                    });
+                    globalAppProvider.changeLanguage(Locale(selectedLanguage!));
+                    // globalAppProvider.notifyMe();
+                    prefs.then((value) {
+                      value.setString('text_size', selectedTextSize!);
+                    });
+                  },
+                  items: Constants.TEXT_SIZE.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        translate(value, context),
                         style: TextStyle(
                           color: themeNotifier.isLight()
                               ? primaryColor
