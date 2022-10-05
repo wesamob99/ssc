@@ -8,4 +8,5 @@ class Constants {
   static const String MAIN_SCREEN_TUTORIAL = "mainScreenTutorial";
   static const List<String> THEMES = ["System default", "Light", "Dark"];
   static const List<String> LANGUAGES = ["en", "ar"];
+  static const List<String> TEXT_SIZE = ["s", "m", "l"];
 }
