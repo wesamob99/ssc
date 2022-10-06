@@ -11,6 +11,7 @@ import '../../../utilities/hexColor.dart';
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
+import '../profile/profileScreen.dart';
 import '../services/servicesScreen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -43,13 +44,20 @@ class _MainScreenState extends State<MainScreen> {
               child: SvgPicture.asset('assets/logo/logo.svg'),
             ),
             SizedBox(width: width(0.01, context)),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children:[
-                Text(userSecuredStorage.userName, style: const TextStyle(fontSize: 14),),
-                Text(userSecuredStorage.nationalId, style: const TextStyle(fontSize: 12),),
-              ],
+            InkWell(
+              onTap: (){
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const ProfileScreen())
+                );
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:[
+                  Text(userSecuredStorage.userName, style: const TextStyle(fontSize: 14),),
+                  Text(userSecuredStorage.nationalId, style: const TextStyle(fontSize: 12),),
+                ],
+              ),
             ),
           ],
         ),
