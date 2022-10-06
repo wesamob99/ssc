@@ -57,7 +57,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   child: Text(
                     translate(sideBarItems[selectedIndex]['title'], context),
                     style: TextStyle(
-                      color: HexColor('#2D452E')
+                      color: HexColor('#2D452E'),
+                      fontSize: width(0.035, context)
                     ),
                   ),
                 ),
@@ -122,7 +123,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
                             ? themeNotifier.isLight()
                             ? HexColor('#171717') : HexColor('#8A8A8A')
                             : themeNotifier.isLight()
-                            ? HexColor('#A1A1A1') : HexColor('#ffffff')
+                            ? HexColor('#A1A1A1') : HexColor('#ffffff'),
+                        fontSize: width(0.03, context)
                         ),
                       )
                     ],
