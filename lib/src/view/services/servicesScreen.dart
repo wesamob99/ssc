@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/src/view/services/components/mostVisited/mostVisitedBody.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/util.dart';
@@ -76,16 +77,18 @@ class _ServicesScreenState extends State<ServicesScreen> {
   sideBarWidget(ThemeNotifier themeNotifier){
     return Material(
       elevation: 0.8,
-      borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(10)
+      borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(UserConfig.instance.checkLanguage() ? 0 : 10),
+        bottomRight: Radius.circular(UserConfig.instance.checkLanguage() ? 10 : 0)
       ),
       child: Container(
         decoration: BoxDecoration(
           color: themeNotifier.isLight()
             ? HexColor('#F0F2F0') : HexColor('#454545'),
-          borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(8)
-          ),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(UserConfig.instance.checkLanguage() ? 0 : 8),
+            bottomRight: Radius.circular(UserConfig.instance.checkLanguage() ? 8 : 0)
+        ),
         ),
         width: width(0.31, context),
         child: ListView.builder(
