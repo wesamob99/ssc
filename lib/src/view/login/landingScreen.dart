@@ -23,8 +23,7 @@ class _LandingScreenState extends State<LandingScreen> {
     }
 
     return (userSecuredStorage.token.isEmpty ||
-    userSecuredStorage.nationalId.isEmpty ||
-    userSecuredStorage.internalKey.isEmpty)
+    userSecuredStorage.nationalId.isEmpty)
         ? const LoginScreen()
         : const MainScreen();
   }
