@@ -17,11 +17,13 @@ class HomeChartWidget extends StatelessWidget {
     TooltipBehavior tooltipBehavior = TooltipBehavior(enable: true);
 
     List<SalaryData> dataSource = [];
-    data['cur_getdata'][0].forEach((element){
+    if(data['cur_getdata'].length != 0) {
+      data['cur_getdata'][0].forEach((element){
       dataSource.add(
           SalaryData(element['FOR_YEAR'], double.parse(element['SALARY'].toString()))
       );
     });
+    }
 
     return SizedBox(
       height: height(0.23, context),

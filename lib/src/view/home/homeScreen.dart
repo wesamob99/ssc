@@ -223,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    data['po_salary'].toStringAsFixed(2),
+                                    (data['po_salary'] ?? 0).toStringAsFixed(2),
                                     style: TextStyle(
                                         color: HexColor('#37662D'),
                                         fontWeight: FontWeight.bold,
@@ -251,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    data['po_reg_amt'].toStringAsFixed(2),
+                                    (data['po_reg_amt'] ?? 0).toStringAsFixed(2),
                                     style: TextStyle(
                                         color: HexColor('#BE8703'),
                                         fontWeight: FontWeight.bold,
