@@ -95,7 +95,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: themeNotifier.isLight()
                                             ? Colors.black
                                             : Colors.white,
-                                        fontSize: width(0.038, context)),
+                                        fontSize: width(0.033, context)),
                                   ),
                                 ],
                               )
@@ -152,7 +152,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: themeNotifier.isLight()
                                             ? Colors.black
                                             : Colors.white,
-                                        fontSize: width(0.038, context)),
+                                        fontSize: width(0.033, context)),
                                   ),
                                 ],
                               )
@@ -180,7 +180,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: themeNotifier.isLight()
                                             ? Colors.black
                                             : Colors.white,
-                                        fontSize: width(0.038, context)),
+                                        fontSize: width(0.033, context)),
                                   ),
                                 ],
                               )
