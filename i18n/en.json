@@ -16,6 +16,7 @@
   "next": "Next",
   "back": "Back",
   "login": "LogIn",
+  "logout":  "logout",
   "enterNationalId": "Enter your national/personal ID",
   "enterPassword": "Enter your password",
   "nationalIdEx": "Ex: 9661001073",
