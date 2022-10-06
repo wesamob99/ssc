@@ -1,5 +1,4 @@
 {
-  "wesam": "wesam obeidat",
   "retryAgain": "Retry Again",
   "home": "Home",
   "profile": "Profile",
@@ -27,7 +26,7 @@
   "overview": "overview",
   "advertisements": "Advertisements",
   "subscriptions": "Subscriptions",
-  "idleBalance": "Saving balance",
+  "idleBalance": "Idle balance",
   "jd": " J.D",
   "pastYearsPays": "Fees of the past years",
   "pastOrders": "Past orders",
