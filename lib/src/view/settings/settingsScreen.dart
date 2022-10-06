@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ssc/infrastructure/userSecuredStorage.dart';
+import 'package:ssc/src/view/login/landingScreen.dart';
 import 'package:ssc/src/viewModel/utilities/language/globalAppProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
@@ -19,6 +21,8 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+
   late SettingsProvider settingsProvider;
   String? selectedTheme;
   String? selectedLanguage;
@@ -45,264 +49,321 @@ class _SettingsScreenState extends State<SettingsScreen> {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          padding: EdgeInsets.all(height(0.004, context)),
-          color: getPrimaryColor(context, themeNotifier).withOpacity(0.5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+        Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(height(0.004, context)),
+              color: getPrimaryColor(context, themeNotifier).withOpacity(0.5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
-                    themeNotifier.isLight()
-                        ? Icons.light_mode_outlined
-                        : Icons.dark_mode_outlined,
-                    color: themeNotifier.isLight()
-                        ? primaryColor
-                        : Colors.white,
-                    size: width(0.058, context),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        themeNotifier.isLight()
+                            ? Icons.light_mode_outlined
+                            : Icons.dark_mode_outlined,
+                        color: themeNotifier.isLight()
+                            ? primaryColor
+                            : Colors.white,
+                        size: width(0.058, context),
+                      ),
+                      const SizedBox(
+                        width: 5.0,
+                      ),
+                      Text(
+                        translate('select_app_theme', context),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: width(0.036, context)
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  Text(
-                    translate('select_app_theme', context),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: width(0.036, context)
+                  Container(
+                    margin: EdgeInsets.all(height(0.004, context)).copyWith(right: 0),
+                    padding: EdgeInsets.all(height(0.004, context)),
+                    decoration: BoxDecoration(
+                        color: themeNotifier.isLight() ? Colors.white : getShadowColor(context),
+                        border: Border.all(
+                          color: getPrimaryColor(context, themeNotifier),
+                        ),
+                        borderRadius: BorderRadius.circular(8)
+                    ),
+                    child: DropdownButton<String>(
+                      isDense: true,
+                      value: selectedTheme,
+                      icon: Icon(
+                        Icons.arrow_drop_down_outlined,
+                        color: themeNotifier.isLight()
+                            ? primaryColor
+                            : Colors.white,
+                      ),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.black),
+                      underline: Container(
+                        height: 0,
+                        color: primaryColor,
+                      ),
+                      onChanged: (String? value) async{
+                        setState(() {
+                          selectedTheme = value!;
+                        });
+                        themeNotifier.setThemeMode(
+                            selectedTheme == 'Light'
+                                ? ThemeMode.light : selectedTheme == 'Dark'
+                                ? ThemeMode.dark : ThemeMode.system
+                        );
+                        prefs.then((value) {
+                          value.setString(Constants.APP_THEME, selectedTheme!);
+                        });
+                      },
+                      items: Constants.THEMES.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            translate(value, context),
+                            style: TextStyle(
+                              color: themeNotifier.isLight()
+                                  ? primaryColor
+                                  : Colors.white,
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ],
               ),
-              Container(
-                margin: EdgeInsets.all(height(0.004, context)).copyWith(right: 0),
-                padding: EdgeInsets.all(height(0.004, context)),
-                decoration: BoxDecoration(
-                    color: themeNotifier.isLight() ? Colors.white : getShadowColor(context),
-                    border: Border.all(
-                      color: getPrimaryColor(context, themeNotifier),
-                    ),
-                    borderRadius: BorderRadius.circular(8)
-                ),
-                child: DropdownButton<String>(
-                  isDense: true,
-                  value: selectedTheme,
-                  icon: Icon(
-                    Icons.arrow_drop_down_outlined,
-                    color: themeNotifier.isLight()
-                        ? primaryColor
-                        : Colors.white,
-                  ),
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.black),
-                  underline: Container(
-                    height: 0,
-                    color: primaryColor,
-                  ),
-                  onChanged: (String? value) async{
-                    setState(() {
-                      selectedTheme = value!;
-                    });
-                    themeNotifier.setThemeMode(
-                        selectedTheme == 'Light'
-                            ? ThemeMode.light : selectedTheme == 'Dark'
-                            ? ThemeMode.dark : ThemeMode.system
-                    );
-                    prefs.then((value) {
-                      value.setString(Constants.APP_THEME, selectedTheme!);
-                    });
-                  },
-                  items: Constants.THEMES.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        translate(value, context),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: height(0.004, context)),
+              padding: EdgeInsets.all(height(0.004, context)),
+              color: getPrimaryColor(context, themeNotifier).withOpacity(0.5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.language,
+                        color: themeNotifier.isLight()
+                            ? primaryColor
+                            : Colors.white,
+                        size: width(0.058, context),
+                      ),
+                      const SizedBox(
+                        width: 5.0,
+                      ),
+                      Text(
+                        translate('select_app_language', context),
                         style: TextStyle(
-                          color: themeNotifier.isLight()
-                              ? primaryColor
-                              : Colors.white,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: width(0.036, context)
                         ),
                       ),
-                    );
-                  }).toList(),
-                ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(height(0.004, context)).copyWith(right: 0),
+                    padding: EdgeInsets.all(height(0.004, context)),
+                    decoration: BoxDecoration(
+                        color: themeNotifier.isLight()
+                            ? Colors.white
+                            : getShadowColor(context),
+                        border: Border.all(
+                          color: getPrimaryColor(context, themeNotifier),
+                        ),
+                        borderRadius: BorderRadius.circular(8)
+                    ),
+                    child: DropdownButton<String>(
+                      isDense: true,
+                      value: selectedLanguage,
+                      icon: Icon(
+                        Icons.arrow_drop_down_outlined,
+                        color: themeNotifier.isLight()
+                            ? primaryColor
+                            : Colors.white,
+                      ),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.black),
+                      underline: Container(
+                        height: 0,
+                        color: primaryColor,
+                      ),
+                      onChanged: (String? value) async{
+                        setState(() {
+                          selectedLanguage = value!;
+                        });
+                        globalAppProvider.changeLanguage(Locale(selectedLanguage!));
+                        globalAppProvider.notifyMe();
+                        prefs.then((value) {
+                          value.setString('language_code', selectedLanguage!);
+                        });
+                      },
+                      items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value == 'en' ? 'English' : 'عربي',
+                            style: TextStyle(
+                              color: themeNotifier.isLight()
+                                  ? primaryColor
+                                  : Colors.white,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: height(0.004, context)),
+              padding: EdgeInsets.all(height(0.004, context)),
+              color: getPrimaryColor(context, themeNotifier).withOpacity(0.5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.text_fields,
+                        color: themeNotifier.isLight()
+                            ? primaryColor
+                            : Colors.white,
+                        size: width(0.058, context),
+                      ),
+                      const SizedBox(
+                        width: 5.0,
+                      ),
+                      Text(
+                        translate('select_text_size', context),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: width(0.036, context)
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(height(0.004, context)).copyWith(right: 0),
+                    padding: EdgeInsets.all(height(0.004, context)),
+                    decoration: BoxDecoration(
+                        color: themeNotifier.isLight()
+                            ? Colors.white
+                            : getShadowColor(context),
+                        border: Border.all(
+                          color: getPrimaryColor(context, themeNotifier),
+                        ),
+                        borderRadius: BorderRadius.circular(8)
+                    ),
+                    child: DropdownButton<String>(
+                      isDense: true,
+                      value: selectedTextSize,
+                      icon: Icon(
+                        Icons.arrow_drop_down_outlined,
+                        color: themeNotifier.isLight()
+                            ? primaryColor
+                            : Colors.white,
+                      ),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.black),
+                      underline: Container(
+                        height: 0,
+                        color: primaryColor,
+                      ),
+                      onChanged: (String? value) async{
+                        setState(() {
+                          selectedTextSize = value!;
+                        });
+                        globalAppProvider.changeLanguage(Locale(selectedLanguage!));
+                        // globalAppProvider.notifyMe();
+                        prefs.then((value) {
+                          value.setString('text_size', selectedTextSize!);
+                        });
+                      },
+                      items: Constants.TEXT_SIZE.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            translate(value, context),
+                            style: TextStyle(
+                              color: themeNotifier.isLight()
+                                  ? primaryColor
+                                  : Colors.white,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
         Container(
-          margin: EdgeInsets.only(top: height(0.004, context)),
+          margin: EdgeInsets.only(bottom: height(0.01, context)),
           padding: EdgeInsets.all(height(0.004, context)),
-          color: getPrimaryColor(context, themeNotifier).withOpacity(0.5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.language,
-                    color: themeNotifier.isLight()
-                      ? primaryColor
-                      : Colors.white,
-                    size: width(0.058, context),
-                  ),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  Text(
-                    translate('select_app_language', context),
-                    style: TextStyle(
-                      color: Colors.white,
+          decoration: BoxDecoration(
+            color: getPrimaryColor(context, themeNotifier).withOpacity(0.2),
+            borderRadius: BorderRadius.circular(500)
+          ),
+          width: width(0.5, context),
+          child: InkWell(
+            onTap: () async{
+              try{
+                await settingsProvider.logout().then((value) {
+                  print(value);
+                  if(value.toString() == 'true'){
+                    setState(() {
+                      userSecuredStorage.token = '';
+                    });
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const LandingScreen()
+                        ), (route) => false);
+                  }
+                });
+              }catch(e){
+                print(e.toString());
+              }
+            },
+            child:Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.logout,
+                  color: themeNotifier.isLight()
+                      ? Colors.red
+                      : Colors.red,
+                  size: width(0.058, context),
+                ),
+                const SizedBox(
+                  width: 5.0,
+                ),
+                Text(
+                  translate('logout', context),
+                  style: TextStyle(
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: width(0.036, context)
-                    ),
                   ),
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.all(height(0.004, context)).copyWith(right: 0),
-                padding: EdgeInsets.all(height(0.004, context)),
-                decoration: BoxDecoration(
-                    color: themeNotifier.isLight()
-                        ? Colors.white
-                        : getShadowColor(context),
-                    border: Border.all(
-                      color: getPrimaryColor(context, themeNotifier),
-                    ),
-                    borderRadius: BorderRadius.circular(8)
                 ),
-                child: DropdownButton<String>(
-                  isDense: true,
-                  value: selectedLanguage,
-                  icon: Icon(
-                    Icons.arrow_drop_down_outlined,
-                    color: themeNotifier.isLight()
-                        ? primaryColor
-                        : Colors.white,
-                  ),
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.black),
-                  underline: Container(
-                    height: 0,
-                    color: primaryColor,
-                  ),
-                  onChanged: (String? value) async{
-                    setState(() {
-                      selectedLanguage = value!;
-                    });
-                    globalAppProvider.changeLanguage(Locale(selectedLanguage!));
-                    globalAppProvider.notifyMe();
-                    prefs.then((value) {
-                      value.setString('language_code', selectedLanguage!);
-                    });
-                  },
-                  items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value == 'en' ? 'English' : 'عربي',
-                        style: TextStyle(
-                          color: themeNotifier.isLight()
-                              ? primaryColor
-                              : Colors.white,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: height(0.004, context)),
-          padding: EdgeInsets.all(height(0.004, context)),
-          color: getPrimaryColor(context, themeNotifier).withOpacity(0.5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.text_fields,
-                    color: themeNotifier.isLight()
-                      ? primaryColor
-                      : Colors.white,
-                    size: width(0.058, context),
-                  ),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  Text(
-                    translate('select_text_size', context),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: width(0.036, context)
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.all(height(0.004, context)).copyWith(right: 0),
-                padding: EdgeInsets.all(height(0.004, context)),
-                decoration: BoxDecoration(
-                    color: themeNotifier.isLight()
-                        ? Colors.white
-                        : getShadowColor(context),
-                    border: Border.all(
-                      color: getPrimaryColor(context, themeNotifier),
-                    ),
-                    borderRadius: BorderRadius.circular(8)
-                ),
-                child: DropdownButton<String>(
-                  isDense: true,
-                  value: selectedTextSize,
-                  icon: Icon(
-                    Icons.arrow_drop_down_outlined,
-                    color: themeNotifier.isLight()
-                        ? primaryColor
-                        : Colors.white,
-                  ),
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.black),
-                  underline: Container(
-                    height: 0,
-                    color: primaryColor,
-                  ),
-                  onChanged: (String? value) async{
-                    setState(() {
-                      selectedTextSize = value!;
-                    });
-                    globalAppProvider.changeLanguage(Locale(selectedLanguage!));
-                    // globalAppProvider.notifyMe();
-                    prefs.then((value) {
-                      value.setString('text_size', selectedTextSize!);
-                    });
-                  },
-                  items: Constants.TEXT_SIZE.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        translate(value, context),
-                        style: TextStyle(
-                          color: themeNotifier.isLight()
-                              ? primaryColor
-                              : Colors.white,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          )
         ),
       ],
     );
