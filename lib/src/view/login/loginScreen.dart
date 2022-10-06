@@ -148,46 +148,48 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: height(0.05, context)),
                     TextButton(
                       onPressed: () async {
-                        try{
-                          await loginProvider.login(nationalIdController.text, passwordController.text)
-                              .whenComplete((){})
-                              .then((val){
-                            userSecuredStorage.token = val['token'] ?? ''; // user token
-                            if(val['data'] != null){
-                              userSecuredStorage.userName = val['data']['PO_NAME'] ?? ''; // PO_NAME -> user name
-                              userSecuredStorage.nationalId = val['data']['PO_USER_NAME'] ?? ''; // PO_USER_NAME -> user national ID
-                              userSecuredStorage.internalKey = val['data']['PO_INTERNAL_KEY'] ?? ''; // PO_USER_NAME -> user national ID
+                        if(loginProvider.enabledSubmitButton){
+                          try{
+                            await loginProvider.login(nationalIdController.text, passwordController.text)
+                                .whenComplete((){})
+                                .then((val){
+                              userSecuredStorage.token = val['token'] ?? ''; // user token
+                              if(val['data'] != null){
+                                userSecuredStorage.userName = val['data']['PO_NAME'] ?? ''; // PO_NAME -> user name
+                                userSecuredStorage.nationalId = val['data']['PO_USER_NAME'] ?? ''; // PO_USER_NAME -> user national ID
+                                userSecuredStorage.internalKey = val['data']['PO_INTERNAL_KEY'] ?? ''; // PO_USER_NAME -> user national ID
+                              }
+                              if(val['PO_STATUS_DESC_EN'] != null){
+                                loginProvider.errorMessage = UserConfig.instance.checkLanguage()
+                                    ? val['PO_STATUS_DESC_EN'] : val['PO_STATUS_DESC_AR'];
+                              } else{
+                                loginProvider.errorMessage = '';
+                              }
+                              loginProvider.tokenUpdated = val['token'] != null ? true : false;
+                              loginProvider.loginComplete = val['token'] != null ? 'true' : 'false';
+                            });
+                          }catch(e){
+                            if (kDebugMode) {
+                              print(e.toString());
                             }
-                            if(val['PO_STATUS_DESC_EN'] != null){
-                              loginProvider.errorMessage = UserConfig.instance.checkLanguage()
-                                  ? val['PO_STATUS_DESC_EN'] : val['PO_STATUS_DESC_AR'];
-                            } else{
-                              loginProvider.errorMessage = '';
+                          }
+                          loginProvider.errorType.clear();
+                          if(!_formKey.currentState!.validate()){
+                            loginProvider.loginComplete = 'null';
+                            loginProvider.errorType.length = 0;
+                          } else{
+                            if(nationalIdController.text.isEmpty){
+                              loginProvider.errorType.add(1);
                             }
-                            loginProvider.tokenUpdated = val['token'] != null ? true : false;
-                            loginProvider.loginComplete = val['token'] != null ? 'true' : 'false';
-                          });
-                        }catch(e){
-                          if (kDebugMode) {
-                            print(e.toString());
+                            if(passwordController.text.isEmpty){
+                              loginProvider.errorType.add(2);
+                            }
+                            if(loginProvider.loginComplete == 'false'){
+                              loginProvider.errorType.add(0);
+                            }
                           }
+                          loginProvider.notifyMe();
                         }
-                        loginProvider.errorType.clear();
-                        if(!_formKey.currentState!.validate()){
-                          loginProvider.loginComplete = 'null';
-                          loginProvider.errorType.length = 0;
-                        } else{
-                          if(nationalIdController.text.isEmpty){
-                            loginProvider.errorType.add(1);
-                          }
-                          if(passwordController.text.isEmpty){
-                            loginProvider.errorType.add(2);
-                          }
-                          if(loginProvider.loginComplete == 'false'){
-                            loginProvider.errorType.add(0);
-                          }
-                        }
-                        loginProvider.notifyMe();
                       },
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
