@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/introduction/introductionScreen.dart';
 import 'package:ssc/src/view/login/landingScreen.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/main/mainProvider.dart';
+import 'package:ssc/src/viewModel/profile/profileProvider.dart';
 import 'package:ssc/src/viewModel/settings/settingsProvider.dart';
 import 'package:ssc/src/viewModel/shared/sharedProvider.dart';
 import 'package:ssc/src/viewModel/utilities/language/globalAppProvider.dart';
@@ -23,62 +25,61 @@ import 'infrastructure/userConfig.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, DeviceOrientation.portraitDown
+  ]);
+  await UserSecuredStorage.instance.initSecuredBox();
+  await UserConfig.instance.initSharedPreferences();
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-  UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-  userSecuredStorage.initSecuredBox().whenComplete(() {
-    userSecuredStorage.token;
-    // userSecuredStorage.token = '';
-  }).then((value) {
-    prefs.then((value){
-      Widget screen = (value.getBool('seen') ?? false) ? const LandingScreen() : const IntroductionScreen();
-      value.setBool('seen', true);
-      value.setBool('amountToBePaid', true);
-      runApp(
-        Phoenix(
-          child: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<ThemeNotifier>(
-                create: (BuildContext context) {
-                  String? theme = value.getString(Constants.APP_THEME);
+  prefs.then((value){
+    Widget screen = (value.getBool('seen') ?? false) ? const LandingScreen() : const IntroductionScreen();
+    value.setBool('seen', true);
+    value.setBool('amountToBePaid', true);
+    runApp(
+      Phoenix(
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<ThemeNotifier>(
+              create: (BuildContext context) {
+                String? theme = value.getString(Constants.APP_THEME);
 
-                  if (theme == "" || theme == Constants.SYSTEM_DEFAULT) {
-                    value.setString(
-                        Constants.APP_THEME, Constants.SYSTEM_DEFAULT
-                    );
-                    return ThemeNotifier(ThemeMode.system);
-                  }
-                  return ThemeNotifier(
-                      theme == Constants.DARK ? ThemeMode.dark : ThemeMode.light
+                if (theme == "" || theme == Constants.SYSTEM_DEFAULT) {
+                  value.setString(
+                      Constants.APP_THEME, Constants.SYSTEM_DEFAULT
                   );
-                },
-                lazy: false,
-              ),
-              ChangeNotifierProvider<GlobalAppProvider>(
-                create: (BuildContext context) {
-                  Locale appLocale = const Locale('en');
+                  return ThemeNotifier(ThemeMode.system);
+                }
+                return ThemeNotifier(
+                    theme == Constants.DARK ? ThemeMode.dark : ThemeMode.light
+                );
+              },
+              lazy: false,
+            ),
+            ChangeNotifierProvider<GlobalAppProvider>(
+              create: (BuildContext context) {
+                Locale appLocale = const Locale('en');
 
-                  if (value.getString('language_code') == null) {
-                    UserConfig.instance.language = "English";
-                    value.setString('language_code', 'en');
-                  } else {
-                    appLocale = Locale(value.getString('language_code')!);
-                    UserConfig.instance.language =
-                    value.getString('language_code') == "en"
-                        ? "English"
-                        : "عربي";
-                  }
-                  return GlobalAppProvider(appLocale);
-                },
-                lazy: false,
-              )
-            ],
-            child: MyApp(screen: screen),
-          ),
+                if (value.getString('language_code') == null) {
+                  UserConfig.instance.language = "English";
+                  value.setString('language_code', 'en');
+                } else {
+                  appLocale = Locale(value.getString('language_code')!);
+                  UserConfig.instance.language =
+                  value.getString('language_code') == "en"
+                      ? "English"
+                      : "عربي";
+                }
+                return GlobalAppProvider(appLocale);
+              },
+              lazy: false,
+            )
+          ],
+          child: MyApp(screen: screen),
         ),
-      );
-    });
+      ),
+    );
   });
 }
 
@@ -93,6 +94,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
+  void didChangePlatformBrightness() {
+    if(mounted){
+      ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+      themeNotifier.notifyMe();
+    }
+    super.didChangePlatformBrightness();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     return MultiProvider(
@@ -102,6 +112,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (_) => HomeProvider(), lazy: true),
         ChangeNotifierProvider(create: (_) => LoginProvider(), lazy: true),
         ChangeNotifierProvider(create: (_) => SettingsProvider(), lazy: true),
+        ChangeNotifierProvider(create: (_) => ProfileProvider(), lazy: true),
       ],
       child: Consumer<GlobalAppProvider>(builder: (context, model, child) {
           return MaterialApp(
