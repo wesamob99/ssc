@@ -123,14 +123,14 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Container(
         margin: EdgeInsets.only(
-          right: UserConfig.instance.checkLanguage() ? 0 : width(0.07, context),
-          left: UserConfig.instance.checkLanguage() ? width(0.07, context) : 0
+          right: UserConfig.instance.checkLanguage() ? 0 : width(0.075, context),
+          left: UserConfig.instance.checkLanguage() ? width(0.075, context) : 0
         ),
         width: width(0.93, context),
-        height: height(0.068, context),
+        height: height(0.07, context),
         decoration: BoxDecoration(
             color: getPrimaryColor(context, themeNotifier),
-            borderRadius: BorderRadius.circular(15)
+            borderRadius: BorderRadius.circular(12)
         ),
         child: Padding(
           padding:  EdgeInsets.symmetric(
@@ -145,9 +145,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     translate('totalAmountToPay', context),
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: width(0.035, context),
                     ),
                   ),
                   SizedBox(
@@ -156,18 +157,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         '455',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: width(0.035, context),
                         ),
                       ),
                       Text(
                         translate('jd', context),
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: width(0.035, context),
                         ),
                       ),
                     ],
@@ -179,15 +182,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: width(0.2, context),
                 decoration: BoxDecoration(
                   color: HexColor('#DBC89C4A').withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(6),
                 ),
                 child: InkWell(
                   onTap: (){},
                   child: Text(
                     translate('pay', context),
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: width(0.035, context),
                     ),
                   ),
                 ),
