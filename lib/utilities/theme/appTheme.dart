@@ -71,7 +71,7 @@ class AppTheme {
           centerTitle: true,
           elevation: 0,
           actionsIconTheme: const IconThemeData(color: Colors.black),
-          iconTheme: const IconThemeData(color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.white),
           titleTextStyle: UserConfig.instance.checkLanguage()
               ? GoogleFonts.mukta()
               : GoogleFonts.tajawal(),
