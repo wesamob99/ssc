@@ -246,7 +246,9 @@ class _LoginScreenState extends State<LoginScreen> {
         return null;
       },
       decoration: InputDecoration(
-        hintText: controller == nationalIdController ? translate('nationalIdEx', context) : '',
+        hintText: controller == nationalIdController
+            ? translate('ex', context) + '9661001073'
+            : '',
         errorText: Provider.of<LoginProvider>(context).loginComplete == 'false'
             ? loginProvider.errorMessage
             : null,

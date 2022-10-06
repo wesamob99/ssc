@@ -19,7 +19,7 @@
   "logout":  "تسجيل خروج",
   "enterNationalId": "أدخل الرقم الوطني/الشخصي الخاص بك",
   "enterPassword": "أدخل كلمة المرور",
-  "nationalIdEx": "مثال : ٩٦٦١٠٠١٠٧٣",
+  "ex": "مثال : ",
   "continue": "الإستمرار",
   "loginErrorInvalidInputs": "خطأ في الرقم الوطني أو كلمة المرور",
   "loginErrorEmptyNationalId": "الرقم الوطني فارغ",
