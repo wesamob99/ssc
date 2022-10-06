@@ -1,4 +1,3 @@
-import 'package:ai_progress/ai_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -54,32 +53,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
+                        padding: EdgeInsets.only(bottom: height(0.003, context)),
                         child: Text(translate('overview', context)),
                       ),
                       HomeOverviewWidget(data: snapshot.data),
                       SizedBox(
-                        height: height(0.015, context),
+                        height: height(0.02, context),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
+                        padding: EdgeInsets.only(bottom: height(0.006, context)),
                         child: Text(translate('advertisements', context)),
                       ),
                       const HomeSlideShowWidget(),
                       SizedBox(
-                        height: height(0.015, context),
+                        height: height(0.02, context),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
+                        padding: EdgeInsets.zero,
                         child: Text(translate('pastYearsPays', context)),
                       ),
                       HomeChartWidget(data: snapshot.data),
                       SizedBox(
-                        height: height(
-                            Provider.of<HomeProvider>(context).showFloatingButton
-                                ? 0.075 : 0.0,
-                          context
-                        ),
+                        height: height(Provider.of<HomeProvider>(context).showFloatingButton ? 0.075 : 0.0, context),
                       ),
                     ],
                   );
