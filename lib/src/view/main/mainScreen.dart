@@ -8,7 +8,6 @@ import 'package:ssc/src/view/settings/settingsScreen.dart';
 
 import '../../../infrastructure/userConfig.dart';
 import '../../../utilities/hexColor.dart';
-import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
 import '../profile/profileScreen.dart';
@@ -98,7 +97,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   curvedNavigationBar(ThemeNotifier themeNotifier){
-    Color iconColor = themeNotifier.isLight() ? primaryColor : Colors.white;
+    Color iconColor = themeNotifier.isLight() ? HexColor('#171717') : Colors.white;
     return CurvedNavigationBar(
       index: pageIndex,
       backgroundColor: Colors.transparent,
@@ -106,14 +105,14 @@ class _MainScreenState extends State<MainScreen> {
       buttonBackgroundColor: themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
       items: <Widget>[
         SvgPicture.asset('assets/icons/bottomNavigationIcons/home.svg',
-          color: themeNotifier.isLight() ? HexColor('#171717') : Colors.white,
+          color: iconColor,
         ),
         SvgPicture.asset('assets/icons/bottomNavigationIcons/services.svg',
-          color: themeNotifier.isLight() ? HexColor('#171717') : Colors.white,),
+          color: iconColor),
         SvgPicture.asset('assets/icons/bottomNavigationIcons/pastOrders.svg',
-          color: themeNotifier.isLight() ? HexColor('#171717') : Colors.white,),
+          color: iconColor),
         SvgPicture.asset('assets/icons/bottomNavigationIcons/more.svg',
-          color: themeNotifier.isLight() ? HexColor('#171717') : Colors.white,),
+          color: iconColor),
       ],
       onTap: (index) {
         setState(() {
