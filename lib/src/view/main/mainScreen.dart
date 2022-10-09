@@ -101,7 +101,7 @@ class _MainScreenState extends State<MainScreen> {
   curvedNavigationBar(ThemeNotifier themeNotifier){
     Color iconColor = Colors.white; //themeNotifier.isLight() ? HexColor('#171717') : Colors.white;
     TextStyle textStyle = TextStyle(
-      fontSize: width(0.025, context),
+      fontSize: width(0.023, context),
       color: Colors.white,
     );
     return CurvedNavigationBar(
