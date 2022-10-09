@@ -177,6 +177,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               forgotPassword = true;
                               nationalIdController.clear();
                               passwordController.clear();
+                              loginProvider.enabledSubmitButton = false;
+                              loginProvider.notifyMe();
                             });
                           },
                           child: Container(
