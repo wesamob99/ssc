@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../infrastructure/userConfig.dart';
+import '../../../../models/home/userInformationsDashboard.dart';
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class HomeOverviewWidget extends StatefulWidget {
-  final data;
+  final UserInformation data;
   const HomeOverviewWidget({Key key, @required this.data}) : super(key: key);
 
   @override
@@ -18,7 +19,7 @@ class HomeOverviewWidget extends StatefulWidget {
 
 class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
 
-  overViewWidget(ThemeNotifier themeNotifier, data){
+  overViewWidget(ThemeNotifier themeNotifier, UserInformation data){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,7 +49,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                   style: TextStyle(
                                       fontSize: width(0.033, context))),
                               Text(
-                                data['po_months_count'].toString(),
+                                data.poMonthsCount.toString(),
                                 style: TextStyle(
                                     color: HexColor('#37662D'),
                                     fontWeight: FontWeight.bold,
@@ -82,9 +83,9 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    data['po_idle_balance'].toStringAsFixed(2),
+                                    data.poIdleBalance.toStringAsFixed(2),
                                     style: TextStyle(
-                                        color: data['po_idle_balance'] >= 0
+                                        color: data.poIdleBalance >= 0
                                             ? HexColor('#37662D') : HexColor('#BC0D0D'),
                                         fontWeight: FontWeight.bold,
                                         fontSize: width(0.038, context)),
@@ -140,7 +141,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    (data['po_salary'] ?? 0).toStringAsFixed(2),
+                                    (data.poSalary ?? 0).toStringAsFixed(2),
                                     style: TextStyle(
                                         color: HexColor('#37662D'),
                                         fontWeight: FontWeight.bold,
@@ -168,7 +169,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    (data['po_reg_amt'] ?? 0).toStringAsFixed(2),
+                                    (data.poRegAmt ?? 0).toStringAsFixed(2),
                                     style: TextStyle(
                                         color: HexColor('#BE8703'),
                                         fontWeight: FontWeight.bold,

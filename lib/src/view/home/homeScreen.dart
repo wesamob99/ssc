@@ -8,6 +8,7 @@ import 'package:ssc/src/view/home/components/homeSlideShowWidget.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../infrastructure/userConfig.dart';
+import '../../../models/home/userInformationsDashboard.dart';
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/home/homeProvider.dart';
@@ -49,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
               future: statisticsFuture,
               builder: (context, snapshot){
                 if(snapshot.hasData && !snapshot.hasError){
+                  UserInformation userInformation = snapshot.data;
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -56,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: EdgeInsets.only(bottom: height(0.003, context)),
                         child: Text(translate('overview', context)),
                       ),
-                      HomeOverviewWidget(data: snapshot.data),
+                      HomeOverviewWidget(data: userInformation),
                       SizedBox(
                         height: height(0.02, context),
                       ),
@@ -72,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: EdgeInsets.zero,
                         child: Text(translate('pastYearsPays', context)),
                       ),
-                      HomeChartWidget(data: snapshot.data),
+                      HomeChartWidget(data: userInformation),
                       SizedBox(
                         height: height(Provider.of<HomeProvider>(context).showFloatingButton ? 0.075 : 0.0, context),
                       ),

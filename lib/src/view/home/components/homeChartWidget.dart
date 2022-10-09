@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../../../models/home/userInformationsDashboard.dart';
 import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class HomeChartWidget extends StatelessWidget {
-  final data;
+  final UserInformation data;
   const HomeChartWidget({Key key, @required this.data}) : super(key: key);
 
 
@@ -17,8 +18,8 @@ class HomeChartWidget extends StatelessWidget {
     TooltipBehavior tooltipBehavior = TooltipBehavior(enable: true);
 
     List<SalaryData> dataSource = [];
-    if(data['cur_getdata'].length != 0) {
-      data['cur_getdata'][0].forEach((element){
+    if(data.curGetdata.isNotEmpty) {
+      data.curGetdata[0].forEach((element){
       dataSource.add(
           SalaryData(element['FOR_YEAR'], double.parse(element['SALARY'].toString()))
       );

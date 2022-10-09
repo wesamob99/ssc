@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:ssc/models/home/userInformationsDashboard.dart';
 import 'package:ssc/src/model/home/homeRepository.dart';
 
 class HomeProvider extends ChangeNotifier {
@@ -6,7 +7,7 @@ class HomeProvider extends ChangeNotifier {
   HomeRepository homeRepository = HomeRepository();
   bool showFloatingButton = true;
 
-  Future getStatistics() async{
+  Future<UserInformation> getStatistics() async{
     return await homeRepository.getStatisticsService();
   }
 
