@@ -1,3 +1,6 @@
+// ignore_for_file: file_names
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/models/profile/userProfileData.dart';
@@ -54,7 +57,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 if(snapshot.hasData && !snapshot.hasError){
                   UserProfileData userProfileData = snapshot.data;
                   CurGetdatum data = userProfileData.curGetdata[0][0];
-                  print(data);
+                  if (kDebugMode) {
+                    print(data);
+                  }
                   return SizedBox(
                     height: height(1, context),
                     width: width(1, context),

@@ -1,4 +1,8 @@
+// ignore_for_file: file_names
+
 import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 
 import '../../../infrastructure/HTTPClientContract.dart';
 import '../../../models/login/resetPasswordGetDetail.dart';
@@ -19,7 +23,9 @@ class LoginRepository{
         '/users/login', data
     );
 
-    print(response);
+    if (kDebugMode) {
+      print(response);
+    }
     if (response != null && response.statusCode == 200) {
       return userDataFromJson(response.toString());
     }
@@ -38,9 +44,10 @@ class LoginRepository{
   }
 
   Future<ResetPasswordGetDetail> resetPasswordGetDetailService(String userId) async {
-    print(userId);
     var response = await HTTPClientContract.instance.getHTTP('/users/resetPasswordGetDetail?userId=$userId');
-    print(response);
+    if (kDebugMode) {
+      print(response);
+    }
     if (response != null && response.statusCode == 200) {
       return resetPasswordGetDetailFromJson(response.toString());
     }

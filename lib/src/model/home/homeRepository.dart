@@ -1,3 +1,6 @@
+// ignore_for_file: file_names
+
+import 'package:flutter/foundation.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/models/home/userInformationsDashboard.dart';
 
@@ -9,7 +12,9 @@ class HomeRepository{
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.internalKey.toString();
     var response = await HTTPClientContract.instance.getHTTP('/individuals/getIndvStatistics?sceNo=$internalKey');
-    print(response);
+    if (kDebugMode) {
+      print(response);
+    }
     if (response != null && response.statusCode == 200) {
       return userInformationFromJson(response.toString());
     } else if(userInformationFromJson(response.toString()).success == false){

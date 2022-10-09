@@ -85,7 +85,7 @@ void main() async{
 
 class MyApp extends StatefulWidget {
   final Widget screen;
-  const MyApp({Key key, @required this.screen});
+  const MyApp({Key key, @required this.screen}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();

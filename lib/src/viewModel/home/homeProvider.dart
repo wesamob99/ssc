@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/cupertino.dart';
 import 'package:ssc/models/home/userInformationsDashboard.dart';
 import 'package:ssc/src/model/home/homeRepository.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:ai_progress/ai_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

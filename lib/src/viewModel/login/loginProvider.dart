@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/cupertino.dart';
 import '../../../models/login/resetPasswordGetDetail.dart';
 import '../../model/login/loginRepository.dart';
