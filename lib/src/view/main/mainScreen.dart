@@ -109,6 +109,7 @@ class _MainScreenState extends State<MainScreen> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: height(pageIndex != 0 ? 0.01 : 0, context),),
             SvgPicture.asset('assets/icons/bottomNavigationIcons/home.svg',
               color: iconColor, width: height(0.03, context),
             ),
@@ -121,6 +122,7 @@ class _MainScreenState extends State<MainScreen> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: height(pageIndex != 1 ? 0.01 : 0, context),),
             SvgPicture.asset('assets/icons/bottomNavigationIcons/services.svg',
               color: iconColor, width: height(0.03, context),
             ),
@@ -133,6 +135,7 @@ class _MainScreenState extends State<MainScreen> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: height(pageIndex != 2 ? 0.01 : 0, context),),
             SvgPicture.asset('assets/icons/bottomNavigationIcons/pastOrders.svg',
               color: iconColor, width: height(0.03, context),
             ),
@@ -145,7 +148,8 @@ class _MainScreenState extends State<MainScreen> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          SvgPicture.asset('assets/icons/bottomNavigationIcons/more.svg',
+            SizedBox(height: height(pageIndex != 3 ? 0.01 : 0, context),),
+            SvgPicture.asset('assets/icons/bottomNavigationIcons/more.svg',
               color: iconColor, width: height(0.03, context),
           ),
           SizedBox(height: height(pageIndex != 3 ? 0.002 : 0, context),),
