@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ssc/models/profile/userProfileData.dart';
 
 import '../../../infrastructure/userConfig.dart';
 import '../../../infrastructure/userSecuredStorage.dart';
@@ -51,26 +52,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
               future: accountDataFuture,
               builder: (context, snapshot){
                 if(snapshot.hasData && !snapshot.hasError){
-                  dynamic data = snapshot.data['CUR_getdata'][0][0];
-                  List<Widget> children = [];
-                  data.keys.forEach((key){
-                    children.add(
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("$key"),
-                          Text(data[key].toString())
-                        ],
-                      )
-                    );
-                  });
+                  UserProfileData userProfileData = snapshot.data;
+                  CurGetdatum data = userProfileData.curGetdata[0][0];
                   print(data);
                   return SizedBox(
                     height: height(1, context),
                     width: width(1, context),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: children,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("name"),
+                            Text(data.userName.toString())
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("email"),
+                            Text(data.email.toString())
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("gender"),
+                            Text(data.gender.toString())
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("mobile number"),
+                            Text(data.mobilenumber.toString())
+                          ],
+                        )
+                      ],
                     ),
                   );
                 } else{
