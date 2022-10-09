@@ -196,9 +196,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       UserData userData = val;
                                   userSecuredStorage.token = userData.token ?? ''; // user token
                                   if(userData.data != null){
-                                    userSecuredStorage.userName = userData.data.poName ?? ''; // PO_NAME -> user name
-                                    userSecuredStorage.nationalId = userData.data.poUserName ?? ''; // PO_USER_NAME -> user national ID
-                                    userSecuredStorage.internalKey = userData.data.poInternalKey ?? ''; // PO_USER_NAME -> user national ID
+                                    userSecuredStorage.userName = userData.data.poName ?? ''; // poName -> user name
+                                    userSecuredStorage.nationalId = userData.data.poUserName ?? ''; // poUserName -> user national ID
+                                    userSecuredStorage.internalKey = userData.data.poInternalKey ?? ''; // poInternalKey -> user national ID
                                   }
                                   if(userData.poStatusDescEn != null){
                                     loginProvider.errorMessage = UserConfig.instance.checkLanguage()
