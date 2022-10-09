@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import '../../model/login/loginRepository.dart';
 
@@ -14,8 +12,7 @@ class LoginProvider extends ChangeNotifier {
 
   Future login(String nationalId, String password) async{
     final response = await loginRepository.loginService(nationalId, password);
-    var data = jsonDecode(response.data);
-    return data;
+    return response;
   }
 
   void notifyMe() {

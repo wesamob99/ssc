@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
+import 'package:ssc/models/login/userData.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
@@ -149,30 +150,31 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextButton(
                       onPressed: () async {
                         if(loginProvider.enabledSubmitButton){
-                          try{
+                          // try{
                             await loginProvider.login(nationalIdController.text, passwordController.text)
                                 .whenComplete((){})
                                 .then((val){
-                              userSecuredStorage.token = val['token'] ?? ''; // user token
-                              if(val['data'] != null){
-                                userSecuredStorage.userName = val['data']['PO_NAME'] ?? ''; // PO_NAME -> user name
-                                userSecuredStorage.nationalId = val['data']['PO_USER_NAME'] ?? ''; // PO_USER_NAME -> user national ID
-                                userSecuredStorage.internalKey = val['data']['PO_INTERNAL_KEY'] ?? ''; // PO_USER_NAME -> user national ID
+                                  UserData userData = val;
+                              userSecuredStorage.token = userData.token ?? ''; // user token
+                              if(userData.data != null){
+                                userSecuredStorage.userName = userData.data.poName ?? ''; // PO_NAME -> user name
+                                userSecuredStorage.nationalId = userData.data.poUserName ?? ''; // PO_USER_NAME -> user national ID
+                                userSecuredStorage.internalKey = userData.data.poInternalKey ?? ''; // PO_USER_NAME -> user national ID
                               }
-                              if(val['PO_STATUS_DESC_EN'] != null){
+                              if(userData.poStatusDescEn != null){
                                 loginProvider.errorMessage = UserConfig.instance.checkLanguage()
-                                    ? val['PO_STATUS_DESC_EN'] : val['PO_STATUS_DESC_AR'];
+                                    ? userData.poStatusDescEn : userData.poStatusDescAr;
                               } else{
                                 loginProvider.errorMessage = '';
                               }
-                              loginProvider.tokenUpdated = val['token'] != null ? true : false;
-                              loginProvider.loginComplete = val['token'] != null ? 'true' : 'false';
+                              loginProvider.tokenUpdated = userData.token != null ? true : false;
+                              loginProvider.loginComplete = userData.token != null ? 'true' : 'false';
                             });
-                          }catch(e){
-                            if (kDebugMode) {
-                              print(e.toString());
-                            }
-                          }
+                          // }catch(e){
+                          //   if (kDebugMode) {
+                          //     print(e.toString());
+                          //   }
+                          // }
                           loginProvider.errorType.clear();
                           if(!_formKey.currentState.validate()){
                             loginProvider.loginComplete = 'null';

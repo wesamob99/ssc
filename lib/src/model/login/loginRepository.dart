@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import '../../../infrastructure/HTTPClientContract.dart';
+import '../../../models/login/userData.dart';
 
 class LoginRepository{
 
-  Future loginService(String userId, String password) async {
+  Future<UserData> loginService(String userId, String password) async {
     dynamic data;
     await getEncryptedPasswordService(password).then((value) {
       data = jsonEncode({
@@ -19,8 +20,9 @@ class LoginRepository{
 
     print(response);
     if (response != null && response.statusCode == 200) {
-      return response;
+      return userDataFromJson(response.toString());
     }
+    return null;
   }
 
   Future<String> getEncryptedPasswordService(String password) async {

@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final userData = userDataFromJson(jsonString);
+
 import 'dart:convert';
 
 UserData userDataFromJson(String str) => UserData.fromJson(json.decode(str));
@@ -6,100 +10,108 @@ String userDataToJson(UserData data) => json.encode(data.toJson());
 
 class UserData {
   UserData({
-    required this.data,
-    required this.token,
+    this.data,
+    this.token,
+    this.poStatusDescEn,
+    this.poStatusDescAr
   });
-
-  Data data;
-  String token;
+// ['PO_STATUS_DESC_EN']
+  final Data data;
+  final String token;
+  final String poStatusDescEn;
+  final String poStatusDescAr;
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
-    data: Data.fromJson(json["data"]),
-    token: json["token"],
+    data: json["data"] == null ? null : Data.fromJson(json["data"]),
+    token: json["token"] == null ? null : json["token"],
+    poStatusDescEn: json["PO_STATUS_DESC_EN"] == null ? null : json["PO_STATUS_DESC_EN"],
+    poStatusDescAr: json["PO_STATUS_DESC_AR"] == null ? null : json["PO_STATUS_DESC_AR"],
   );
 
   Map<String, dynamic> toJson() => {
-    "data": data.toJson(),
-    "token": token,
+    "data": data == null ? null : data.toJson(),
+    "token": token == null ? null : token,
+    "PO_STATUS_DESC_EN": poStatusDescEn == null ? null : poStatusDescEn,
+    "PO_STATUS_DESC_AR": poStatusDescAr == null ? null : poStatusDescAr,
   };
 }
 
 class Data {
   Data({
-    required this.poUserGroup,
-    required this.poName,
-    required this.poInternalKey,
-    required this.poUserName,
-    required this.poStatus,
+    this.poUserGroup,
+    this.poName,
+    this.poInternalKey,
+    this.poUserName,
+    this.poStatus,
     this.poStatusDescAr,
     this.poStatusDescEn,
-    required this.curGetdata,
+    this.curGetdata,
   });
 
-  String poUserGroup;
-  String poName;
-  String poInternalKey;
-  String poUserName;
-  int poStatus;
-  dynamic poStatusDescAr;
-  dynamic poStatusDescEn;
-  List<List<CurGetdatum>> curGetdata;
+  final String poUserGroup;
+  final String poName;
+  final dynamic poInternalKey;
+  final String poUserName;
+  final int poStatus;
+  final dynamic poStatusDescAr;
+  final dynamic poStatusDescEn;
+  final List<List<CurGetdatum>> curGetdata;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    poUserGroup: json["PO_USER_GROUP"],
-    poName: json["PO_NAME"],
+    poUserGroup: json["PO_USER_GROUP"] == null ? null : json["PO_USER_GROUP"],
+    poName: json["PO_NAME"] == null ? null : json["PO_NAME"],
     poInternalKey: json["PO_INTERNAL_KEY"],
-    poUserName: json["PO_USER_NAME"],
-    poStatus: json["PO_STATUS"],
+    poUserName: json["PO_USER_NAME"] == null ? null : json["PO_USER_NAME"],
+    poStatus: json["PO_STATUS"] == null ? null : json["PO_STATUS"],
     poStatusDescAr: json["PO_STATUS_DESC_AR"],
     poStatusDescEn: json["PO_STATUS_DESC_EN"],
-    curGetdata: List<List<CurGetdatum>>.from(json["cur_getdata"].map((x) => List<CurGetdatum>.from(x.map((x) => CurGetdatum.fromJson(x))))),
+    curGetdata: json["cur_getdata"] == null ? null : List<List<CurGetdatum>>.from(json["cur_getdata"].map((x) => List<CurGetdatum>.from(x.map((x) => CurGetdatum.fromJson(x))))),
   );
 
   Map<String, dynamic> toJson() => {
-    "PO_USER_GROUP": poUserGroup,
-    "PO_NAME": poName,
+    "PO_USER_GROUP": poUserGroup == null ? null : poUserGroup,
+    "PO_NAME": poName == null ? null : poName,
     "PO_INTERNAL_KEY": poInternalKey,
-    "PO_USER_NAME": poUserName,
-    "PO_STATUS": poStatus,
+    "PO_USER_NAME": poUserName == null ? null : poUserName,
+    "PO_STATUS": poStatus == null ? null : poStatus,
     "PO_STATUS_DESC_AR": poStatusDescAr,
     "PO_STATUS_DESC_EN": poStatusDescEn,
-    "cur_getdata": List<dynamic>.from(curGetdata.map((x) => List<dynamic>.from(x.map((x) => x.toJson())))),
+    "cur_getdata": curGetdata == null ? null : List<dynamic>.from(curGetdata.map((x) => List<dynamic>.from(x.map((x) => x.toJson())))),
   };
 }
 
 class CurGetdatum {
   CurGetdatum({
-    required this.email,
+    this.email,
     this.internationalcode,
     this.mobileno,
     this.token,
-    required this.nationality,
+    this.nationality,
     this.timeTo,
   });
 
-  String email;
-  dynamic internationalcode;
-  dynamic mobileno;
-  dynamic token;
-  int nationality;
-  dynamic timeTo;
+  final String email;
+  final dynamic internationalcode;
+  final dynamic mobileno;
+  final dynamic token;
+  final int nationality;
+  final dynamic timeTo;
 
   factory CurGetdatum.fromJson(Map<String, dynamic> json) => CurGetdatum(
-    email: json["EMAIL"],
+    email: json["EMAIL"] == null ? null : json["EMAIL"],
     internationalcode: json["INTERNATIONALCODE"],
     mobileno: json["MOBILENO"],
     token: json["TOKEN"],
-    nationality: json["NATIONALITY"],
+    nationality: json["NATIONALITY"] == null ? null : json["NATIONALITY"],
     timeTo: json["TIME_TO"],
   );
 
   Map<String, dynamic> toJson() => {
-    "EMAIL": email,
+    "EMAIL": email == null ? null : email,
     "INTERNATIONALCODE": internationalcode,
     "MOBILENO": mobileno,
     "TOKEN": token,
-    "NATIONALITY": nationality,
+    "NATIONALITY": nationality == null ? null : nationality,
     "TIME_TO": timeTo,
   };
 }
