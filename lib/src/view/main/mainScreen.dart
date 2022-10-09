@@ -7,9 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/home/homeScreen.dart';
 import 'package:ssc/src/view/settings/settingsScreen.dart';
+import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../../infrastructure/userConfig.dart';
-import '../../../utilities/hexColor.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
 import '../profile/profileScreen.dart';
@@ -99,22 +99,61 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   curvedNavigationBar(ThemeNotifier themeNotifier){
-    Color iconColor = themeNotifier.isLight() ? HexColor('#171717') : Colors.white;
+    Color iconColor = Colors.white; //themeNotifier.isLight() ? HexColor('#171717') : Colors.white;
     return CurvedNavigationBar(
       index: pageIndex,
       backgroundColor: Colors.transparent,
-      color: themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
-      buttonBackgroundColor: themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
+      color: getPrimaryColor(context, themeNotifier), //themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
+      buttonBackgroundColor: getPrimaryColor(context, themeNotifier), //themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
       items: <Widget>[
-        SvgPicture.asset('assets/icons/bottomNavigationIcons/home.svg',
-          color: iconColor,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/icons/bottomNavigationIcons/home.svg',
+              color: iconColor, width: height(0.03, context),
+            ),
+            SizedBox(height: height(pageIndex != 0 ? 0.002 : 0, context),),
+            pageIndex != 0
+                ? SvgPicture.asset('assets/icons/bottomNavigationIcons/homeText.svg', color: iconColor)
+                : const SizedBox.shrink(),
+          ],
         ),
-        SvgPicture.asset('assets/icons/bottomNavigationIcons/services.svg',
-          color: iconColor),
-        SvgPicture.asset('assets/icons/bottomNavigationIcons/pastOrders.svg',
-          color: iconColor),
-        SvgPicture.asset('assets/icons/bottomNavigationIcons/more.svg',
-          color: iconColor),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/icons/bottomNavigationIcons/services.svg',
+              color: iconColor, width: height(0.03, context),
+            ),
+            SizedBox(height: height(pageIndex != 1 ? 0.002 : 0, context),),
+            pageIndex != 1
+                ? SvgPicture.asset('assets/icons/bottomNavigationIcons/servicesText.svg', color: iconColor)
+                : const SizedBox.shrink(),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/icons/bottomNavigationIcons/pastOrders.svg',
+              color: iconColor, width: height(0.03, context),
+            ),
+            SizedBox(height: height(pageIndex != 2 ? 0.002 : 0, context),),
+            pageIndex != 2
+                ? SvgPicture.asset('assets/icons/bottomNavigationIcons/pastOrdersText.svg', color: iconColor)
+                : const SizedBox.shrink(),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+          SvgPicture.asset('assets/icons/bottomNavigationIcons/more.svg',
+              color: iconColor, width: height(0.03, context),
+          ),
+          SizedBox(height: height(pageIndex != 3 ? 0.002 : 0, context),),
+          pageIndex != 3
+              ? SvgPicture.asset('assets/icons/bottomNavigationIcons/moreText.svg', color: iconColor)
+              : const SizedBox.shrink(),
+          ],
+        ),
       ],
       onTap: (index) {
         setState(() {
