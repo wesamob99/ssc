@@ -59,5 +59,9 @@
   "register": "Register now !",
   "loginFailed": "فشل الدخول",
   "resetPasswordFailed": "Reset password failed",
-  "resetPassword": "Reset your password"
+  "resetPassword": "Reset your password",
+  "bottomHome": "Home",
+  "bottomServices": "Services",
+  "bottomMyOrders": "My orders",
+  "bottomMore": "More"
 }

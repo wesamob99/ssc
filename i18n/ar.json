@@ -59,6 +59,10 @@
   "register": "إفتح حساب الآن !",
   "loginFailed": "فشل الدخول",
   "resetPasswordFailed": "فشل إعادة تعيين كلمة المرور",
-  "resetPassword": "إعادة تعيين كلمة المرور"
+  "resetPassword": "إعادة تعيين كلمة المرور",
+  "bottomHome": "رئيسية",
+  "bottomServices": "الخدمات",
+  "bottomMyOrders": "طلباتي السابقة",
+  "bottomMore": "المزيد"
 
 }

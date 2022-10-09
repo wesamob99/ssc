@@ -100,6 +100,10 @@ class _MainScreenState extends State<MainScreen> {
 
   curvedNavigationBar(ThemeNotifier themeNotifier){
     Color iconColor = Colors.white; //themeNotifier.isLight() ? HexColor('#171717') : Colors.white;
+    TextStyle textStyle = TextStyle(
+      fontSize: width(0.025, context),
+      color: Colors.white,
+    );
     return CurvedNavigationBar(
       index: pageIndex,
       backgroundColor: Colors.transparent,
@@ -115,7 +119,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             SizedBox(height: height(pageIndex != 0 ? 0.002 : 0, context),),
             pageIndex != 0
-                ? SvgPicture.asset('assets/icons/bottomNavigationIcons/homeText.svg', color: iconColor)
+                ? Text(translate("bottomHome", context), style: textStyle,)
                 : const SizedBox.shrink(),
           ],
         ),
@@ -128,7 +132,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             SizedBox(height: height(pageIndex != 1 ? 0.002 : 0, context),),
             pageIndex != 1
-                ? SvgPicture.asset('assets/icons/bottomNavigationIcons/servicesText.svg', color: iconColor)
+                ? Text(translate("bottomServices", context), style: textStyle,)
                 : const SizedBox.shrink(),
           ],
         ),
@@ -141,7 +145,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             SizedBox(height: height(pageIndex != 2 ? 0.002 : 0, context),),
             pageIndex != 2
-                ? SvgPicture.asset('assets/icons/bottomNavigationIcons/pastOrdersText.svg', color: iconColor)
+                ? Text(translate("bottomMyOrders", context), style: textStyle,)
                 : const SizedBox.shrink(),
           ],
         ),
@@ -154,7 +158,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           SizedBox(height: height(pageIndex != 3 ? 0.002 : 0, context),),
           pageIndex != 3
-              ? SvgPicture.asset('assets/icons/bottomNavigationIcons/moreText.svg', color: iconColor)
+              ? Text(translate("bottomMore", context), style: textStyle,)
               : const SizedBox.shrink(),
           ],
         ),
