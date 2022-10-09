@@ -8,7 +8,7 @@ import '../../viewModel/profile/profileProvider.dart';
 import '../home/components/homeLoaderWidget.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key key}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -16,7 +16,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-  late Future accountDataFuture;
+  Future accountDataFuture;
 
   @override
   void initState(){

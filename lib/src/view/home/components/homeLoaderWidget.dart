@@ -6,7 +6,7 @@ import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import '../../../../utilities/util.dart';
 
 class HomeLoaderWidget extends StatelessWidget {
-  const HomeLoaderWidget({Key? key}) : super(key: key);
+  const HomeLoaderWidget({Key key}) : super(key: key);
 
   shimmerLoader(BuildContext context, ThemeNotifier themeNotifier){
     CardLoadingTheme cardLoadingTheme = CardLoadingTheme(

@@ -10,7 +10,7 @@ import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class HomeOverviewWidget extends StatefulWidget {
   final data;
-  const HomeOverviewWidget({Key? key, required this.data}) : super(key: key);
+  const HomeOverviewWidget({Key key, @required this.data}) : super(key: key);
 
   @override
   State<HomeOverviewWidget> createState() => _HomeOverviewWidgetState();

@@ -31,10 +31,10 @@ class HTTPClientContract {
   static const int _MAX_RETRY = 7;
   static const ResponseType _DEFAULT_RESPONSE_TYPE = ResponseType.plain;
   static int _retryCount = 0;
-  static CancelToken? _cancelToken;
+  static CancelToken _cancelToken;
   static final _baseAPI = _addInterceptors(_dio);
   static final bytesAPI = _addInterceptors(_createBytesDio());
-  static HTTPClientContract? _instance;
+  static HTTPClientContract _instance;
 
   HTTPClientContract._();
 
@@ -84,10 +84,10 @@ class HTTPClientContract {
               return handler.next(e);
             }
             _retryCount++;
-            final RequestOptions? options = e.response?.requestOptions;
+            final RequestOptions options = e.response?.requestOptions;
             options?.headers['Authorization'] =
                 UserSecuredStorage.instance.token;
-            final Response response = await dio.fetch(options!);
+            final Response response = await dio.fetch(options);
             _retryCount = 0;
             return handler.resolve(response);
           } on DioError catch(e){
@@ -103,7 +103,7 @@ class HTTPClientContract {
       }));
   }
 
-  Future<Response?> getHTTP(String url) async {
+  Future<Response> getHTTP(String url) async {
     try {
       Response response = await _baseAPI.get(url, cancelToken: _cancelToken);
       return response;
@@ -120,7 +120,7 @@ class HTTPClientContract {
     }
   }
 
-  Future<Response?> postHTTP(String url, dynamic data) async {
+  Future<Response> postHTTP(String url, dynamic data) async {
     try {
       Response response = await _baseAPI.post(url, data: data);
 
@@ -130,7 +130,7 @@ class HTTPClientContract {
     }
   }
 
-  Future<Response?> putHTTP(String url, dynamic data) async {
+  Future<Response> putHTTP(String url, dynamic data) async {
     try {
       Response response = await _baseAPI.put(url, data: data);
       return response;
@@ -139,7 +139,7 @@ class HTTPClientContract {
     }
   }
 
-  Future<Response?> deleteHTTP(String url) async {
+  Future<Response> deleteHTTP(String url) async {
     try {
       Response response = await _baseAPI.delete(url);
       return response;
@@ -148,7 +148,7 @@ class HTTPClientContract {
     }
   }
 
-  Future<Response?> patchHTTP(String url, dynamic data) async {
+  Future<Response> patchHTTP(String url, dynamic data) async {
     try {
       Response response =
           await _baseAPI.patch(url, data: data);

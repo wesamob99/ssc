@@ -9,7 +9,7 @@ import 'package:ssc/utilities/util.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
 
 class ServicesScreen extends StatefulWidget {
-  const ServicesScreen({Key? key}) : super(key: key);
+  const ServicesScreen({Key key}) : super(key: key);
 
   @override
   State<ServicesScreen> createState() => _ServicesScreenState();

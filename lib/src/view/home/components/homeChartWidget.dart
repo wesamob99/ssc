@@ -8,7 +8,7 @@ import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class HomeChartWidget extends StatelessWidget {
   final data;
-  const HomeChartWidget({Key? key, required this.data}) : super(key: key);
+  const HomeChartWidget({Key key, @required this.data}) : super(key: key);
 
 
   @override

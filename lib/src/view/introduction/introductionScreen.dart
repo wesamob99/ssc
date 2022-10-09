@@ -8,7 +8,7 @@ import '../../../utilities/theme/themes.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
 
 class IntroductionScreen extends StatefulWidget {
-  const IntroductionScreen({Key? key}) : super(key: key);
+  const IntroductionScreen({Key key}) : super(key: key);
 
   @override
   State<IntroductionScreen> createState() => _IntroductionScreenState();

@@ -22,7 +22,7 @@ class GlobalAppProvider extends ChangeNotifier {
       UserConfig.instance.language = "English";
       return Null;
     }
-    _appLocale = Locale(UserConfig.instance.prefs!.getString('language_code')!);
+    _appLocale = Locale(UserConfig.instance.prefs.getString('language_code'));
     UserConfig.instance.language =
         UserConfig.instance.prefs?.getString('language_code') == "en"
             ? "English"

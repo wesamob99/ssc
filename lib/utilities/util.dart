@@ -100,7 +100,7 @@ bool checkTextLanguage(String text) {
   return found;
 }
 
-String? emailValidation(String value, BuildContext context) {
+String emailValidation(String value, BuildContext context) {
   return (value.isEmpty)
       ? AppLocalizations.of(context)?.translate('empty_email')
       : (!isEmail(value))
@@ -108,7 +108,7 @@ String? emailValidation(String value, BuildContext context) {
       : null;
 }
 
-String? passwordValidation(String value, BuildContext context) {
+String passwordValidation(String value, BuildContext context) {
   return (value.isEmpty)
       ? AppLocalizations.of(context)?.translate('Cant_leave_pass_empty')
       : (!isValidPassword(value))
@@ -120,7 +120,7 @@ bool isStringIsEmptyOrNull(String value) {
   return value.isEmpty ? true : false;
 }
 
-String? textValidation(String value, BuildContext context) {
+String textValidation(String value, BuildContext context) {
   return (value.isEmpty)
       ? AppLocalizations.of(context)?.translate('text_empty')
       : null;

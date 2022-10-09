@@ -4,7 +4,7 @@ import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/util.dart';
 
 class MostVisitedBody extends StatefulWidget {
-  const MostVisitedBody({Key? key}) : super(key: key);
+  const MostVisitedBody({Key key}) : super(key: key);
 
   @override
   State<MostVisitedBody> createState() => _MostVisitedBodyState();

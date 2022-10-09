@@ -29,7 +29,7 @@ class UserSecuredStorage {
   String _token = "";
   var _box;
 
-  static UserSecuredStorage? _instance;
+  static UserSecuredStorage _instance;
 
   UserSecuredStorage._();
 
@@ -145,15 +145,15 @@ class UserSecuredStorage {
             key: _BOX_NAME, value: base64UrlEncode(Hive.generateSecureKey()));
       }
 
-      String? read = await secureStorage.read(key: _BOX_NAME);
+      String read = await secureStorage.read(key: _BOX_NAME);
       await UserSecuredStorage.instance.openBox(
-          hiveCipher: HiveAesCipher(base64Url.decode(read!)));
+          hiveCipher: HiveAesCipher(base64Url.decode(read)));
     } else {
       await UserSecuredStorage.instance.openBox();
     }
   }
 
-  Future<void> openBox({HiveCipher? hiveCipher}) async {
+  Future<void> openBox({HiveCipher hiveCipher}) async {
     _box = await Hive.openBox(_BOX_NAME,
         encryptionCipher: Platform.isAndroid ? hiveCipher : null);
   }

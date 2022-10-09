@@ -7,7 +7,7 @@ import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'loginScreen.dart';
 
 class LandingScreen extends StatefulWidget {
-  const LandingScreen({Key? key}) : super(key: key);
+  const LandingScreen({Key key}) : super(key: key);
 
   @override
   State<LandingScreen> createState() => _LandingScreenState();

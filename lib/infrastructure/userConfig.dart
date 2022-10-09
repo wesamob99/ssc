@@ -14,15 +14,15 @@ enum ENV_TYPE { DEV, PROD }
 
 class UserConfig {
   static const ENV_TYPE env_type = ENV_TYPE.DEV;
-  static UserConfig? _instance;
+  static UserConfig _instance;
 
   UserConfig._();
 
   static UserConfig get instance => _instance ??= UserConfig._();
 
-  Future<Flushbar>? flushBar;
-  StreamSubscription? networkListener;
-  SharedPreferences? _prefs;
+  Future<Flushbar> flushBar;
+  StreamSubscription networkListener;
+  SharedPreferences _prefs;
   bool gms = false, hms = false;
   bool googleServicesActivated = false;
   bool lightTheme = true;
@@ -31,7 +31,7 @@ class UserConfig {
 
   String language = "English";
 
-  SharedPreferences? get prefs {
+  SharedPreferences get prefs {
     if (_prefs == null) {
       initSharedPreferences();
     }
@@ -39,7 +39,7 @@ class UserConfig {
     return _prefs;
   }
 
-  set prefs(SharedPreferences? value) {
+  set prefs(SharedPreferences value) {
     _prefs = value;
   }
 
@@ -98,7 +98,7 @@ class UserConfig {
                       checkLanguage()
                           ? 'You have successfully connected to the internet.'
                           : 'تم الاتصال بالشبكة.',
-                      navigatorKey.currentContext!,
+                      navigatorKey.currentContext,
                       seconds: 3);
                   flushBar = null;
                 } finally {
@@ -119,7 +119,7 @@ class UserConfig {
                       checkLanguage()
                           ? 'Please make sure your device is connected to internet.'
                           : 'الرجاء التاكد من اتصال الانترنت.',
-                      navigatorKey.currentContext!,
+                      navigatorKey.currentContext,
                       seconds: 200);
                 } finally {
                   m.release();

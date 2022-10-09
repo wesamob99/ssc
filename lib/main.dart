@@ -43,7 +43,7 @@ void main() async{
           providers: [
             ChangeNotifierProvider<ThemeNotifier>(
               create: (BuildContext context) {
-                String? theme = value.getString(Constants.APP_THEME);
+                String theme = value.getString(Constants.APP_THEME);
 
                 if (theme == "" || theme == Constants.SYSTEM_DEFAULT) {
                   value.setString(
@@ -65,7 +65,7 @@ void main() async{
                   UserConfig.instance.language = "English";
                   value.setString('language_code', 'en');
                 } else {
-                  appLocale = Locale(value.getString('language_code')!);
+                  appLocale = Locale(value.getString('language_code'));
                   UserConfig.instance.language =
                   value.getString('language_code') == "en"
                       ? "English"
@@ -85,7 +85,7 @@ void main() async{
 
 class MyApp extends StatefulWidget {
   final Widget screen;
-  const MyApp({super.key, required this.screen});
+  const MyApp({Key key, @required this.screen});
 
   @override
   State<MyApp> createState() => _MyAppState();

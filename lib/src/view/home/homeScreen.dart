@@ -15,7 +15,7 @@ import '../../viewModel/utilities/theme/themeProvider.dart';
 import 'components/homeOverviewWidget.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  late Future statisticsFuture;
+  Future statisticsFuture;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   @override

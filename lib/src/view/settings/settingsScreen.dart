@@ -13,7 +13,7 @@ import '../../../utilities/constants.dart';
 import '../../viewModel/settings/settingsProvider.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({Key key}) : super(key: key);
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -24,10 +24,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
 
-  late SettingsProvider settingsProvider;
-  String? selectedTheme;
-  String? selectedLanguage;
-  String? selectedTextSize;
+  SettingsProvider settingsProvider;
+  String selectedTheme;
+  String selectedLanguage;
+  String selectedTextSize;
 
   getAppThemeAndLanguage(){
     prefs.then((value) {
@@ -110,9 +110,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         height: 0,
                         color: primaryColor,
                       ),
-                      onChanged: (String? value) async{
+                      onChanged: (String value) async{
                         setState(() {
-                          selectedTheme = value!;
+                          selectedTheme = value;
                         });
                         themeNotifier.setThemeMode(
                             selectedTheme == 'Light'
@@ -120,7 +120,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 ? ThemeMode.dark : ThemeMode.system
                         );
                         prefs.then((value) {
-                          value.setString(Constants.APP_THEME, selectedTheme!);
+                          value.setString(Constants.APP_THEME, selectedTheme);
                         });
                       },
                       items: Constants.THEMES.map<DropdownMenuItem<String>>((String value) {
@@ -198,14 +198,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         height: 0,
                         color: primaryColor,
                       ),
-                      onChanged: (String? value) async{
+                      onChanged: (String value) async{
                         setState(() {
-                          selectedLanguage = value!;
+                          selectedLanguage = value;
                         });
-                        globalAppProvider.changeLanguage(Locale(selectedLanguage!));
+                        globalAppProvider.changeLanguage(Locale(selectedLanguage));
                         globalAppProvider.notifyMe();
                         prefs.then((value) {
-                          value.setString('language_code', selectedLanguage!);
+                          value.setString('language_code', selectedLanguage);
                         });
                       },
                       items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {

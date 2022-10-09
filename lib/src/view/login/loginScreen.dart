@@ -14,7 +14,7 @@ import '../../../utilities/constants.dart';
 import '../../viewModel/utilities/language/globalAppProvider.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -24,14 +24,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextEditingController nationalIdController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  late LoginProvider loginProvider;
+  LoginProvider loginProvider;
   final _formKey = GlobalKey<FormState>();
   bool obscurePassword = true;
   bool showError = false;
 
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-  String? selectedLanguage;
+  String selectedLanguage;
 
   getAppLanguage(){
     prefs.then((value) {
@@ -86,14 +86,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 0,
                             color: primaryColor,
                           ),
-                          onChanged: (String? value) async{
+                          onChanged: (String value) async{
                             setState(() {
-                              selectedLanguage = value!;
+                              selectedLanguage = value;
                             });
-                            globalAppProvider.changeLanguage(Locale(selectedLanguage!));
+                            globalAppProvider.changeLanguage(Locale(selectedLanguage));
                             globalAppProvider.notifyMe();
                             prefs.then((value) {
-                              value.setString('language_code', selectedLanguage!);
+                              value.setString('language_code', selectedLanguage);
                             });
                           },
                           items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           }
                           loginProvider.errorType.clear();
-                          if(!_formKey.currentState!.validate()){
+                          if(!_formKey.currentState.validate()){
                             loginProvider.loginComplete = 'null';
                             loginProvider.errorType.length = 0;
                           } else{

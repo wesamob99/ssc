@@ -7,7 +7,7 @@ import '../../../../utilities/util.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class HomeSlideShowWidget extends StatelessWidget {
-  const HomeSlideShowWidget({Key? key}) : super(key: key);
+  const HomeSlideShowWidget({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
