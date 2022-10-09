@@ -18,7 +18,7 @@
   "login": "تسجيل دخول",
   "logout":  "تسجيل خروج",
   "enterNationalId": "أدخل الرقم الوطني/الشخصي الخاص بك",
-  "enterPassword": "أدخل كلمة المرور",
+  "password": "كلمة المرور",
   "ex": "مثال : ",
   "continue": "الإستمرار",
   "loginErrorInvalidInputs": "خطأ في الرقم الوطني أو كلمة المرور",
@@ -53,7 +53,12 @@
   "individuals": "أفراد",
   "maternity": "أمومه",
   "unemploymentApplication": "طلب تعطل",
-  "hello": "مرحبا، "
-
+  "hello": "مرحبا، ",
+  "forgotPassword": "نسيت كلمة المرور",
+  "dontHaveAnAccount": "لا تملك حساب ؟",
+  "register": "إفتح حساب الآن !",
+  "loginFailed": "فشل الدخول",
+  "resetPasswordFailed": "فشل إعادة تعيين كلمة المرور",
+  "resetPassword": "إعادة تعيين كلمة المرور"
 
 }

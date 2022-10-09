@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../../../infrastructure/HTTPClientContract.dart';
+import '../../../models/login/resetPasswordGetDetail.dart';
 import '../../../models/login/userData.dart';
 
 class LoginRepository{
@@ -35,4 +36,15 @@ class LoginRepository{
     }
     return '';
   }
+
+  Future<ResetPasswordGetDetail> resetPasswordGetDetailService(String userId) async {
+    print(userId);
+    var response = await HTTPClientContract.instance.getHTTP('/users/resetPasswordGetDetail?userId=$userId');
+    print(response);
+    if (response != null && response.statusCode == 200) {
+      return resetPasswordGetDetailFromJson(response.toString());
+    }
+  }
+
+  /// users/resetPasswordGetDetail?userId=9661001073
 }

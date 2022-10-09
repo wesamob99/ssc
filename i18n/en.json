@@ -18,7 +18,7 @@
   "login": "LogIn",
   "logout":  "logout",
   "enterNationalId": "Enter your national/personal ID",
-  "enterPassword": "Enter your password",
+  "password": "password",
   "ex": "Ex: ",
   "continue": "Continue",
   "loginErrorInvalidInputs": "Invalid national ID or password",
@@ -53,6 +53,11 @@
   "individuals": "Individuals",
   "maternity": "Maternity",
   "unemploymentApplication": "Unemployment application",
-  "hello": "Hello، "
-
+  "hello": "Hello، ",
+  "forgotPassword": "Forgot your password",
+  "dontHaveAnAccount": "Don't have an account ?",
+  "register": "Register now !",
+  "loginFailed": "فشل الدخول",
+  "resetPasswordFailed": "Reset password failed",
+  "resetPassword": "Reset your password"
 }
