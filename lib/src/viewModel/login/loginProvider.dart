@@ -12,6 +12,7 @@ class LoginProvider extends ChangeNotifier {
   List<int> errorType = [];
   String errorMessage = '';
   bool enabledSubmitButton = false;
+  bool showResetPasswordBody = false;
 
   Future login(String nationalId, String password) async{
     final response = await loginRepository.loginService(nationalId, password);
