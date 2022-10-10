@@ -120,53 +120,53 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ],
                               )
                       ),
-                      Container(
-                            alignment: Alignment.topLeft,
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                    'assets/icons/global.svg'
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/icons/global.svg'
+                              ),
+                              const SizedBox(width: 4.0),
+                              DropdownButton<String>(
+                                isDense: true,
+                                value: selectedLanguage,
+                                icon: const Icon(
+                                  Icons.arrow_drop_down_outlined,
+                                  size: 0,
                                 ),
-                                const SizedBox(width: 4.0),
-                                DropdownButton<String>(
-                                  isDense: true,
-                                  value: selectedLanguage,
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down_outlined,
-                                    size: 0,
-                                  ),
-                                  elevation: 16,
-                                  style: const TextStyle(color: Colors.black),
-                                  underline: Container(
-                                    height: 0,
-                                    color: primaryColor,
-                                  ),
-                                  onChanged: (String value) async{
-                                    setState(() {
-                                      selectedLanguage = value;
-                                    });
-                                    globalAppProvider.changeLanguage(Locale(selectedLanguage));
-                                    globalAppProvider.notifyMe();
-                                    prefs.then((value) {
-                                      value.setString('language_code', selectedLanguage);
-                                    });
-                                  },
-                                  items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(
-                                        value == 'en' ? 'English' : 'عربي',
-                                        style: TextStyle(
-                                          color: themeNotifier.isLight()
-                                              ? primaryColor
-                                              : Colors.white,
-                                        ),
+                                elevation: 16,
+                                style: const TextStyle(color: Colors.black),
+                                underline: Container(
+                                  height: 0,
+                                  color: primaryColor,
+                                ),
+                                onChanged: (String value) async{
+                                  setState(() {
+                                    selectedLanguage = value;
+                                  });
+                                  globalAppProvider.changeLanguage(Locale(selectedLanguage));
+                                  globalAppProvider.notifyMe();
+                                  prefs.then((value) {
+                                    value.setString('language_code', selectedLanguage);
+                                  });
+                                },
+                                items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(
+                                      value == 'en' ? 'English' : 'عربي',
+                                      style: TextStyle(
+                                        color: themeNotifier.isLight()
+                                            ? primaryColor
+                                            : Colors.white,
                                       ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ],
-                            )
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          )
                         ),
                       ],
                     ),
