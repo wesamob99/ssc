@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/models/login/userData.dart';
+import 'package:ssc/src/view/login/resetPasswordBody.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
@@ -53,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     loginProvider.enabledSubmitButton = false;
+    loginProvider.showResetPasswordBody = false;
     getAppLanguage();
     super.initState();
   }
@@ -82,226 +84,95 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(height: height(0.08, context),),
-                    Container(
-                        alignment: Alignment.topLeft,
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                                'assets/icons/global.svg'
-                            ),
-                            const SizedBox(width: 4.0),
-                            DropdownButton<String>(
-                              isDense: true,
-                              value: selectedLanguage,
-                              icon: const Icon(
-                                Icons.arrow_drop_down_outlined,
-                                size: 0,
-                              ),
-                              elevation: 16,
-                              style: const TextStyle(color: Colors.black),
-                              underline: Container(
-                                height: 0,
-                                color: primaryColor,
-                              ),
-                              onChanged: (String value) async{
-                                setState(() {
-                                  selectedLanguage = value;
-                                });
-                                globalAppProvider.changeLanguage(Locale(selectedLanguage));
-                                globalAppProvider.notifyMe();
-                                prefs.then((value) {
-                                  value.setString('language_code', selectedLanguage);
-                                });
-                              },
-                              items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value == 'en' ? 'English' : 'عربي',
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight()
-                                          ? primaryColor
-                                          : Colors.white,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if(forgotPassword)
+                        Container(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                      if(loginProvider.showResetPasswordBody){
+                                        loginProvider.showResetPasswordBody = false;
+                                        loginProvider.notifyMe();
+                                      }else{
+                                        setState(() {
+                                          nationalIdController.clear();
+                                          passwordController.clear();
+                                          forgotPassword = false;
+                                        });
+                                      }
+                                    },
+                                    child: SvgPicture.asset(
+                                        'assets/icons/back.svg'
                                     ),
                                   ),
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        )
-                    ),
-                    SizedBox(height: height(0.08, context),),
-                    Column(
-                      children: [
-                        SvgPicture.asset('assets/logo/logo_with_name.svg'),
-                        if(forgotPassword)
-                        SizedBox(height: height(0.05, context)),
-                        if(forgotPassword)
-                          Text(
-                          translate('forgotPassword', context),
-                          style: TextStyle(
-                            fontSize: width(0.045, context),
-                            fontWeight: FontWeight.w500
-                          ),
-                        ),
-                        SizedBox(height: height(forgotPassword ? 0.05 : 0.1, context)),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              translate('enterNationalId', context),
-                            ),
-                            SizedBox(height: height(0.01, context)),
-                            buildTextFormField(themeNotifier, loginProvider,  nationalIdController, TextInputType.number),
-                          ],
-                        ),
-                        // if(!forgotPassword)
-                        SizedBox(height: height(0.025, context)),
-                        if(!forgotPassword)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              translate('password', context),
-                            ),
-                            SizedBox(height: height(0.01, context)),
-                            buildTextFormField(themeNotifier, loginProvider, passwordController, TextInputType.visiblePassword),
-                          ],
-                        ),
-                        // if(!forgotPassword)
-                        SizedBox(height: height(0.01, context)),
-                        if(!forgotPassword)
-                        InkWell(
-                          onTap: (){
-                            setState(() {
-                              forgotPassword = true;
-                              nationalIdController.clear();
-                              passwordController.clear();
-                              loginProvider.enabledSubmitButton = false;
-                              loginProvider.notifyMe();
-                            });
-                          },
-                          child: Container(
-                            alignment: UserConfig.instance.checkLanguage()
-                            ? Alignment.bottomLeft : Alignment.bottomRight,
-                            child: Text(
-                              translate('forgotPassword', context) + (UserConfig.instance.checkLanguage() ? ' ?' : ' ؟'),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: height(0.05, context)),
-                        TextButton(
-                          onPressed: () async {
-                            if(loginProvider.enabledSubmitButton && !forgotPassword){
-                              try{
-                                await loginProvider.login(nationalIdController.text, passwordController.text)
-                                    .whenComplete((){})
-                                    .then((val){
-                                      UserData userData = val;
-                                  userSecuredStorage.token = userData.token ?? ''; // user token
-                                  if(userData.data != null){
-                                    userSecuredStorage.userName = userData.data.poName ?? ''; // poName -> user name
-                                    userSecuredStorage.nationalId = userData.data.poUserName ?? ''; // poUserName -> user national ID
-                                    userSecuredStorage.internalKey = userData.data.poInternalKey ?? ''; // poInternalKey -> user national ID
-                                  }
-                                  if(userData.poStatusDescEn != null){
-                                    loginProvider.errorMessage = UserConfig.instance.checkLanguage()
-                                        ? userData.poStatusDescEn : userData.poStatusDescAr;
-                                  } else{
-                                    loginProvider.errorMessage = '';
-                                  }
-                                  loginProvider.tokenUpdated = userData.token != null ? true : false;
-                                  loginProvider.formValid = userData.token != null ? 'true' : 'false';
-                                });
-                              }catch(e){
-                                if (kDebugMode) {
-                                  print(e.toString());
-                                }
-                              }
-                              loginProvider.errorType.clear();
-                              if(loginProvider.formValid == 'true'){
-                                loginProvider.formValid = 'null';
-                                loginProvider.errorType.length = 0;
-                              } else{
-                                _showMyDialog('loginFailed', loginProvider.errorMessage, themeNotifier);
-                                if(nationalIdController.text.isEmpty){
-                                  loginProvider.errorType.add(1);
-                                }
-                                if(passwordController.text.isEmpty){
-                                  loginProvider.errorType.add(2);
-                                }
-                                if(loginProvider.formValid == 'false'){
-                                  loginProvider.errorType.add(0);
-                                }
-                              }
-                              loginProvider.notifyMe();
-                            } else if(loginProvider.enabledSubmitButton && forgotPassword){
-                                await loginProvider.resetPasswordGetDetail(nationalIdController.text).whenComplete((){})
-                                    .then((val){
-                                  ResetPasswordGetDetail resetPasswordGetDetail = val;
-                                  if(resetPasswordGetDetail.poStatusDescEn != null && resetPasswordGetDetail.poStatus == -1){
-                                    loginProvider.errorMessage = UserConfig.instance.checkLanguage()
-                                        ? resetPasswordGetDetail.poStatusDescEn : resetPasswordGetDetail.poStatusDescAr;
-                                  } else{
-                                    loginProvider.errorMessage = '';
-                                  }
-                                  loginProvider.formValid = resetPasswordGetDetail.poStatus == 1 ? 'true' : 'false';
-                                });
-
-                                loginProvider.errorType.clear();
-                                if(loginProvider.formValid == 'true'){
-                                  loginProvider.formValid = 'null';
-                                  loginProvider.errorType.length = 0;
-                                } else{
-                                  _showMyDialog('resetPasswordFailed', loginProvider.errorMessage, themeNotifier);
-                                  if(nationalIdController.text.isEmpty){
-                                    loginProvider.errorType.add(1);
-                                  }
-                                  if(loginProvider.formValid == 'false'){
-                                    loginProvider.errorType.add(0);
-                                  }
-                                }
-                                loginProvider.notifyMe();
-                            }
-                          },
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                Provider.of<LoginProvider>(context).enabledSubmitButton
-                                    ? getPrimaryColor(context, themeNotifier) : Colors.grey,
-                              ),
-                              foregroundColor:  MaterialStateProperty.all<Color>(
-                                  Colors.white
-                              ),
-                              fixedSize:  MaterialStateProperty.all<Size>(
-                                Size(width(0.7, context), height(0.055, context)),
-                              ),
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12)
-                                  )
+                                  SizedBox(width: width(0.03, context)),
+                                  Text(
+                                    translate('forgotPassword', context),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700
+                                    ),
+                                  ),
+                                ],
                               )
-                          ),
-                          child: Text(translate('continue', context)),
-                        ),
-                        SizedBox(height: height(0.045, context)),
-                        if(!forgotPassword)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              translate('dontHaveAnAccount', context),
-                            ),
-                            SizedBox(width: width(0.005, context)),
-                            Text(
-                              translate('register', context),
-                              style: TextStyle(
-                                color: HexColor('#003C97')
-                              ),
-                            ),
-                          ],
+                      ),
+                      Container(
+                            alignment: Alignment.topLeft,
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                    'assets/icons/global.svg'
+                                ),
+                                const SizedBox(width: 4.0),
+                                DropdownButton<String>(
+                                  isDense: true,
+                                  value: selectedLanguage,
+                                  icon: const Icon(
+                                    Icons.arrow_drop_down_outlined,
+                                    size: 0,
+                                  ),
+                                  elevation: 16,
+                                  style: const TextStyle(color: Colors.black),
+                                  underline: Container(
+                                    height: 0,
+                                    color: primaryColor,
+                                  ),
+                                  onChanged: (String value) async{
+                                    setState(() {
+                                      selectedLanguage = value;
+                                    });
+                                    globalAppProvider.changeLanguage(Locale(selectedLanguage));
+                                    globalAppProvider.notifyMe();
+                                    prefs.then((value) {
+                                      value.setString('language_code', selectedLanguage);
+                                    });
+                                  },
+                                  items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value == 'en' ? 'English' : 'عربي',
+                                        style: TextStyle(
+                                          color: themeNotifier.isLight()
+                                              ? primaryColor
+                                              : Colors.white,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            )
                         ),
                       ],
-                    )
+                    ),
+                    SizedBox(height: height(0.08, context),),
+                    Provider.of<LoginProvider>(context).showResetPasswordBody
+                    ? const ResetPasswordBody()
+                    : loginBody(themeNotifier)
                   ],
                 ),
               ),
@@ -312,7 +183,197 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  buildTextFormField(themeNotifier, loginProvider, controller, inputType){
+  Column loginBody(themeNotifier){
+    return Column(
+      children: [
+        if(!forgotPassword)
+          SvgPicture.asset('assets/logo/logo_with_name.svg'),
+        if(!forgotPassword)
+          SizedBox(height: height(0.05, context)),
+        if(!forgotPassword)
+          Text(
+            translate('login', context),
+            style: TextStyle(
+                fontSize: width(0.045, context),
+                fontWeight: FontWeight.w700
+            ),
+          ),
+        if(!forgotPassword)
+          SizedBox(height: height(0.05, context)),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              translate('enterNationalId', context),
+            ),
+            SizedBox(height: height(0.01, context)),
+            buildTextFormField(themeNotifier, loginProvider,  nationalIdController, TextInputType.number),
+          ],
+        ),
+        // if(!forgotPassword)
+        SizedBox(height: height(0.025, context)),
+        if(!forgotPassword)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                translate('password', context),
+              ),
+              SizedBox(height: height(0.01, context)),
+              buildTextFormField(themeNotifier, loginProvider, passwordController, TextInputType.visiblePassword),
+            ],
+          ),
+        // if(!forgotPassword)
+        SizedBox(height: height(0.01, context)),
+        if(!forgotPassword)
+          InkWell(
+            onTap: (){
+              setState(() {
+                forgotPassword = true;
+                nationalIdController.clear();
+                passwordController.clear();
+                loginProvider.enabledSubmitButton = false;
+                loginProvider.notifyMe();
+              });
+            },
+            child: Container(
+              alignment: UserConfig.instance.checkLanguage()
+                  ? Alignment.bottomLeft : Alignment.bottomRight,
+              child: Text(
+                translate('forgotPassword', context) + (UserConfig.instance.checkLanguage() ? ' ?' : ' ؟'),
+              ),
+            ),
+          ),
+        SizedBox(height: height(0.05, context)),
+        submitButton(themeNotifier),
+        SizedBox(height: height(0.04, context)),
+        if(!forgotPassword)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                translate('dontHaveAnAccount', context),
+              ),
+              SizedBox(width: width(0.005, context)),
+              Text(
+                translate('register', context),
+                style: TextStyle(
+                    color: HexColor('#003C97')
+                ),
+              ),
+            ],
+          ),
+      ],
+    );
+  }
+
+  TextButton submitButton(themeNotifier){
+    return  TextButton(
+      onPressed: () async {
+        // when user press continue to login
+        if(loginProvider.enabledSubmitButton && !forgotPassword){
+          try{
+            await loginProvider.login(nationalIdController.text, passwordController.text)
+                .whenComplete((){})
+                .then((val){
+              UserData userData = val;
+              userSecuredStorage.token = userData.token ?? ''; // user token
+              if(userData.data != null){
+                userSecuredStorage.userName = userData.data.poName ?? ''; // poName -> user name
+                userSecuredStorage.nationalId = userData.data.poUserName ?? ''; // poUserName -> user national ID
+                userSecuredStorage.internalKey = userData.data.poInternalKey ?? ''; // poInternalKey -> user national ID
+              }
+              if(userData.poStatusDescEn != null){
+                loginProvider.errorMessage = UserConfig.instance.checkLanguage()
+                    ? userData.poStatusDescEn : userData.poStatusDescAr;
+              } else{
+                loginProvider.errorMessage = '';
+              }
+              loginProvider.tokenUpdated = userData.token != null ? true : false;
+              loginProvider.formValid = userData.token != null ? 'true' : 'false';
+            });
+          }catch(e){
+            if (kDebugMode) {
+              print(e.toString());
+            }
+          }
+          loginProvider.errorType.clear();
+          if(loginProvider.formValid == 'true'){
+            loginProvider.formValid = 'null';
+            loginProvider.errorType.length = 0;
+          } else{
+            _showMyDialog('loginFailed', loginProvider.errorMessage, themeNotifier);
+            if(nationalIdController.text.isEmpty){
+              loginProvider.errorType.add(1);
+            }
+            if(passwordController.text.isEmpty){
+              loginProvider.errorType.add(2);
+            }
+            if(loginProvider.formValid == 'false'){
+              loginProvider.errorType.add(0);
+            }
+          }
+          loginProvider.notifyMe();
+          // when user press continue to submit natID to reset password
+        } else if(loginProvider.enabledSubmitButton && forgotPassword){
+          try{
+            await loginProvider.resetPasswordGetDetail(nationalIdController.text).whenComplete((){})
+                .then((val){
+              ResetPasswordGetDetail resetPasswordGetDetail = val;
+              if(resetPasswordGetDetail.poStatusDescEn != null && resetPasswordGetDetail.poStatus == -1){
+                loginProvider.errorMessage = UserConfig.instance.checkLanguage()
+                    ? resetPasswordGetDetail.poStatusDescEn : resetPasswordGetDetail.poStatusDescAr;
+              } else{
+                loginProvider.errorMessage = '';
+                userSecuredStorage.email = resetPasswordGetDetail.poEmail ?? ''; // poEmail -> user email
+                userSecuredStorage.mobileNumber = resetPasswordGetDetail.poMobileno ?? ''; // poMobileno -> user mobile number
+              }
+              loginProvider.formValid = resetPasswordGetDetail.poStatus == 1 ? 'true' : 'false';
+            });
+          }catch(e){
+            if (kDebugMode) {
+              print(e.toString());
+            }
+          }
+          loginProvider.errorType.clear();
+          if(loginProvider.formValid == 'true'){
+            loginProvider.formValid = 'null';
+            loginProvider.errorType.length = 0;
+            loginProvider.showResetPasswordBody = true;
+          } else{
+            _showMyDialog('resetPasswordFailed', loginProvider.errorMessage, themeNotifier);
+            if(nationalIdController.text.isEmpty){
+              loginProvider.errorType.add(1);
+            }
+            if(loginProvider.formValid == 'false'){
+              loginProvider.errorType.add(0);
+            }
+          }
+          loginProvider.notifyMe();
+        }
+      },
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+            Provider.of<LoginProvider>(context).enabledSubmitButton
+                ? getPrimaryColor(context, themeNotifier) : Colors.grey,
+          ),
+          foregroundColor:  MaterialStateProperty.all<Color>(
+              Colors.white
+          ),
+          fixedSize:  MaterialStateProperty.all<Size>(
+            Size(width(0.7, context), height(0.055, context)),
+          ),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)
+              )
+          )
+      ),
+      child: Text(translate('continue', context)),
+    );
+  }
+
+  TextFormField buildTextFormField(themeNotifier, loginProvider, controller, inputType){
     // String errorText = '';
     // if(Provider.of<LoginProvider>(context).errorType.contains(1) &&
     // controller == nationalIdController){
