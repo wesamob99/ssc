@@ -101,12 +101,12 @@ class UserSecuredStorage {
   }
 
   String get mobileNumber {
-    _mobileNumber = _box.get('email') ?? "";
+    _mobileNumber = _box.get('mobile') ?? "";
     return _mobileNumber;
   }
 
   set mobileNumber(String value) {
-    addKeyPair('email', value);
+    addKeyPair('mobile', value);
     _mobileNumber = value;
   }
 
