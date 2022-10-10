@@ -272,7 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return  TextButton(
       onPressed: () async {
         // when user press continue to login
-        if(loginProvider.enabledSubmitButton && !forgotPassword){
+        if(loginProvider.enabledSubmitButton && !forgotPassword && loginProvider.numberOfAttempts > 4){
           try{
             await loginProvider.login(nationalIdController.text, passwordController.text)
                 .whenComplete((){})
@@ -303,7 +303,12 @@ class _LoginScreenState extends State<LoginScreen> {
             loginProvider.formValid = 'null';
             loginProvider.errorType.length = 0;
           } else{
-            _showMyDialog('loginFailed', loginProvider.errorMessage, themeNotifier);
+            loginProvider.numberOfAttempts++;
+            if(loginProvider.numberOfAttempts > 4){
+              _showMyDialog('exceedNumberOfAllowedAttempts', loginProvider.numberOfAttempts > 4 ? "" : loginProvider.errorMessage, 'resetPassword', themeNotifier);
+            }else{
+              _showMyDialog('loginFailed', loginProvider.errorMessage, 'retryAgain', themeNotifier);
+            }
             if(nationalIdController.text.isEmpty){
               loginProvider.errorType.add(1);
             }
@@ -342,7 +347,7 @@ class _LoginScreenState extends State<LoginScreen> {
             loginProvider.errorType.length = 0;
             loginProvider.showResetPasswordBody = true;
           } else{
-            _showMyDialog('resetPasswordFailed', loginProvider.errorMessage, themeNotifier);
+            _showMyDialog('resetPasswordFailed', loginProvider.errorMessage, 'retryAgain', themeNotifier);
             if(nationalIdController.text.isEmpty){
               loginProvider.errorType.add(1);
             }
@@ -458,7 +463,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> _showMyDialog(String title, String body, ThemeNotifier themeNotifier) async {
+  Future<void> _showMyDialog(String title, String body, String buttonText, ThemeNotifier themeNotifier) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
@@ -490,7 +495,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 fontWeight: FontWeight.bold
               ),
             ),
-            content: SingleChildScrollView(
+            content: body != ''
+            ? SingleChildScrollView(
               child: Container(
                 alignment: Alignment.center,
                 child: Text(
@@ -502,7 +508,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               )
-            ),
+            ) : const SizedBox.shrink(),
             actions: <Widget>[
               TextButton(
                 onPressed: () async {
@@ -524,7 +530,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                     )
                 ),
-                child: Text(translate('retryAgain', context)),
+                child: Text(translate(buttonText, context)),
               ),
             ],
             shape: const RoundedRectangleBorder(

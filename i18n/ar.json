@@ -70,6 +70,7 @@
   "useAnotherMethod": "إستخدم طريقة اخرى",
   "cancel": "إلغاء",
   "dontHaveAnyMethod": "لا تملك اي من هذه الطرق ؟",
-  "sendCode": "إرسال الكود"
+  "sendCode": "إرسال الكود",
+  "exceedNumberOfAllowedAttempts": "لقد تجاوزت عدد المحاولات المسموح بيها لادخال كلمة المرور"
 
 }

@@ -70,6 +70,7 @@
   "useAnotherMethod": "Use another method",
   "cancel": "Cancel",
   "dontHaveAnyMethod": "Don't have any of these methods?",
-  "sendCode": "Send code"
+  "sendCode": "Send code",
+  "exceedNumberOfAllowedAttempts": "You have exceeded the number of allowed attempts to enter your password"
 
 }

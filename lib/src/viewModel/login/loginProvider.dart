@@ -14,6 +14,7 @@ class LoginProvider extends ChangeNotifier {
   bool enabledSubmitButton = false;
   bool enabledSendCodeButton = false;
   bool showResetPasswordBody = false;
+  int numberOfAttempts = 0;
 
   Future login(String nationalId, String password) async{
     final response = await loginRepository.loginService(nationalId, password);
