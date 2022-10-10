@@ -48,17 +48,20 @@ class AppTheme {
       color: HexColor('#013220'),
       centerTitle: true,
       elevation: 0,
-      titleTextStyle: UserConfig.instance.checkLanguage()
-          ? GoogleFonts.mukta()
-          : GoogleFonts.tajawal(),
+      titleTextStyle: TextStyle(
+        fontFamily: UserConfig.instance.checkLanguage() ? 'Noor' : 'Noor',
+      )
+      // titleTextStyle: UserConfig.instance.checkLanguage()
+      //     ? GoogleFonts.mukta()
+      //     : GoogleFonts.tajawal(),
     ),
     scaffoldBackgroundColor: HexColor('#212121'),
     backgroundColor: HexColor('#212121'),
-    fontFamily:
-    UserConfig.instance.checkLanguage() ? 'nunito' : 'sans_full',
-    textTheme: UserConfig.instance.checkLanguage()
-        ? GoogleFonts.muktaTextTheme().merge(textTheme)
-        : GoogleFonts.tajawalTextTheme().merge(textTheme),
+    fontFamily: UserConfig.instance.checkLanguage() ? 'Noor' : 'Noor',
+
+    // textTheme: UserConfig.instance.checkLanguage()
+    //     ? GoogleFonts.muktaTextTheme().merge(textTheme)
+    //     : GoogleFonts.tajawalTextTheme().merge(textTheme),
   );
 
   get lightTheme => ThemeData(
@@ -74,17 +77,20 @@ class AppTheme {
           elevation: 0,
           actionsIconTheme: const IconThemeData(color: Colors.black),
           iconTheme: const IconThemeData(color: Colors.white),
-          titleTextStyle: UserConfig.instance.checkLanguage()
-              ? GoogleFonts.mukta()
-              : GoogleFonts.tajawal(),
+          titleTextStyle: TextStyle(
+            fontFamily: UserConfig.instance.checkLanguage() ? 'Noor' : 'Noor',
+          )
+          // titleTextStyle: UserConfig.instance.checkLanguage()
+          //     ? GoogleFonts.mukta()
+          //     : GoogleFonts.tajawal(),
       ),
-      fontFamily: UserConfig.instance.checkLanguage() ? 'nunito' : 'sans_full',
+      fontFamily: UserConfig.instance.checkLanguage() ? 'Noor' : 'Noor',
       scaffoldBackgroundColor: Colors.grey.shade50,
       backgroundColor: HexColor('#ffffff'),
       highlightColor: primaryColor,
-      textTheme: UserConfig.instance.checkLanguage()
-          ? GoogleFonts.muktaTextTheme()
-          : GoogleFonts.tajawalTextTheme(),
+      // textTheme: UserConfig.instance.checkLanguage()
+      //     ? GoogleFonts.muktaTextTheme()
+      //     : GoogleFonts.tajawalTextTheme(),
       colorScheme:
       ColorScheme.fromSwatch().copyWith(secondary: orangeColorDark));
 }
