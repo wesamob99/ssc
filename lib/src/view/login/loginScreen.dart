@@ -101,6 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         setState(() {
                                           nationalIdController.clear();
                                           passwordController.clear();
+                                          loginProvider.enabledSubmitButton = false;
                                           forgotPassword = false;
                                         });
                                       }
