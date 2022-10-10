@@ -63,5 +63,7 @@
   "bottomHome": "Home",
   "bottomServices": "Services",
   "bottomMyOrders": "My orders",
-  "bottomMore": "More"
+  "bottomMore": "More",
+  "identityVerify": "We need to verify your identity",
+  "enterVerificationCode": "Enter the verification code that was sent to the mobile number"
 }

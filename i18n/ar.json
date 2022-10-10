@@ -63,6 +63,7 @@
   "bottomHome": "رئيسية",
   "bottomServices": "الخدمات",
   "bottomMyOrders": "طلباتي السابقة",
-  "bottomMore": "المزيد"
-
+  "bottomMore": "المزيد",
+  "identityVerify": "نحتاج التحقق من هويتك",
+  "enterVerificationCode": "ادخل رمز التحقق الذي تم ارساله الى رقم الجوال"
 }
