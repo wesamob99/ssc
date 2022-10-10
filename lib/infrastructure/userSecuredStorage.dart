@@ -24,7 +24,7 @@ class UserSecuredStorage {
   // String _statusDescriptionEn = "";
   String _email = "";
   // String _internationalCode = "";
-  // String _mobileNumber = "";
+  String _mobileNumber = "";
   // String _nationality = "";
   String _token = "";
   var _box;
@@ -98,6 +98,16 @@ class UserSecuredStorage {
   set email(String value) {
     addKeyPair('email', value);
     _email = value;
+  }
+
+  String get mobileNumber {
+    _mobileNumber = _box.get('email') ?? "";
+    return _mobileNumber;
+  }
+
+  set mobileNumber(String value) {
+    addKeyPair('email', value);
+    _mobileNumber = value;
   }
 
   String get userNameAr {
