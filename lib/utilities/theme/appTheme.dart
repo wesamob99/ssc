@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../infrastructure/userConfig.dart';
@@ -59,6 +58,7 @@ class AppTheme {
     backgroundColor: HexColor('#212121'),
     fontFamily: UserConfig.instance.checkLanguage() ? 'Noor' : 'Noor',
 
+    textTheme: textTheme
     // textTheme: UserConfig.instance.checkLanguage()
     //     ? GoogleFonts.muktaTextTheme().merge(textTheme)
     //     : GoogleFonts.tajawalTextTheme().merge(textTheme),
