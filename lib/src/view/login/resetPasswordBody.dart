@@ -227,7 +227,8 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
               side: BorderSide(
-                color: Colors.grey.shade600
+                color: Colors.grey.shade600,
+                width: 0.4
               )
             ),
           )

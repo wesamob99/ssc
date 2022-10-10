@@ -272,7 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return  TextButton(
       onPressed: () async {
         // when user press continue to login
-        if(loginProvider.enabledSubmitButton && !forgotPassword && loginProvider.numberOfAttempts > 4){
+        if(loginProvider.enabledSubmitButton && !forgotPassword && loginProvider.numberOfAttempts < 5){
           try{
             await loginProvider.login(nationalIdController.text, passwordController.text)
                 .whenComplete((){})
@@ -360,7 +360,8 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
-            Provider.of<LoginProvider>(context).enabledSubmitButton
+            Provider.of<LoginProvider>(context).enabledSubmitButton &&
+                (Provider.of<LoginProvider>(context).numberOfAttempts < 5 || forgotPassword)
                 ? getPrimaryColor(context, themeNotifier) : Colors.grey,
           ),
           foregroundColor:  MaterialStateProperty.all<Color>(
