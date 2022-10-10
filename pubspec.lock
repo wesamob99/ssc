@@ -252,13 +252,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  google_fonts:
-    dependency: "direct main"
-    description:
-      name: google_fonts
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.1"
   hive:
     dependency: "direct main"
     description:
@@ -280,13 +273,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.15.0"
-  http:
-    dependency: transitive
-    description:
-      name: http
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.13.5"
   http_parser:
     dependency: transitive
     description:
@@ -441,6 +427,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  pinput:
+    dependency: "direct main"
+    description:
+      name: pinput
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.16"
   platform:
     dependency: transitive
     description:
@@ -530,6 +523,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  smart_auth:
+    dependency: transitive
+    description:
+      name: smart_auth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   source_span:
     dependency: transitive
     description:
