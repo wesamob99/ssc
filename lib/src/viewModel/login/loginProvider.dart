@@ -12,6 +12,7 @@ class LoginProvider extends ChangeNotifier {
   List<int> errorType = [];
   String errorMessage = '';
   bool enabledSubmitButton = false;
+  bool enabledSendCodeButton = false;
   bool showResetPasswordBody = false;
 
   Future login(String nationalId, String password) async{
