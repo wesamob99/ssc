@@ -65,5 +65,11 @@
   "bottomMyOrders": "My orders",
   "bottomMore": "More",
   "identityVerify": "We need to verify your identity",
-  "enterVerificationCode": "Enter the verification code that was sent to the mobile number"
+  "enterMobileVerificationCode": "Enter the verification code that was sent to the mobile number:",
+  "enterEmailVerificationCode": "To make sure that you are the person carrying this email, please fill in the hidden part of the email and then choose Send the code to be sent to your email:",
+  "useAnotherMethod": "Use another method",
+  "cancel": "Cancel",
+  "dontHaveAnyMethod": "Don't have any of these methods?",
+  "sendCode": "Send code"
+
 }
