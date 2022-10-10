@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: FutureBuilder(
               future: statisticsFuture,
               builder: (context, snapshot){
-                if(snapshot.hasData && !snapshot.hasError){
+                if(snapshot.hasData){
                   UserInformation userInformation = snapshot.data;
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   );
                 } else{
+                  print(snapshot.error);
                   return const HomeLoaderWidget();
                 }
               }

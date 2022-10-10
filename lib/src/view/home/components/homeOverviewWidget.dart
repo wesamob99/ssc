@@ -45,17 +45,17 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(translate('subscriptions', context),
                                   style: TextStyle(
-                                      fontSize: width(0.033, context))),
+                                      fontSize: width(0.031, context))),
                               Text(
                                 data.poMonthsCount.toString(),
                                 style: TextStyle(
                                     color: HexColor('#37662D'),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: width(0.038, context)),
+                                    fontSize: width(0.036, context)),
                               ),
                             ],
                           ),
@@ -76,11 +76,11 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(translate('idleBalance', context),
                                   style: TextStyle(
-                                      fontSize: width(0.033, context))),
+                                      fontSize: width(0.031, context))),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -90,7 +90,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: data.poIdleBalance >= 0
                                             ? HexColor('#37662D') : HexColor('#BC0D0D'),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: width(0.038, context)),
+                                        fontSize: width(0.036, context)),
                                   ),
                                   Text(
                                     translate('jd', context),
@@ -98,7 +98,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: themeNotifier.isLight()
                                             ? Colors.black
                                             : Colors.white,
-                                        fontSize: width(0.033, context)),
+                                        fontSize: width(0.031, context)),
                                   ),
                                 ],
                               )
@@ -132,13 +132,13 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                           Text(UserConfig.instance.checkLanguage()
                               ? 'Al-Qawasmi Company'
                               : 'شركة القواسمي وشركاة',
-                              style: TextStyle(fontSize: width(0.033, context))),
+                              style: TextStyle(fontSize: width(0.031, context))),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(translate('salary', context),
                                   style: TextStyle(
-                                      fontSize: width(0.033, context))),
+                                      fontSize: width(0.031, context))),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -147,7 +147,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                     style: TextStyle(
                                         color: HexColor('#37662D'),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: width(0.038, context)),
+                                        fontSize: width(0.036, context)),
                                   ),
                                   Text(
                                     translate('jd', context),
@@ -155,7 +155,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: themeNotifier.isLight()
                                             ? Colors.black
                                             : Colors.white,
-                                        fontSize: width(0.033, context)),
+                                        fontSize: width(0.031, context)),
                                   ),
                                 ],
                               )
@@ -166,7 +166,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             children: [
                               Text(translate('deductionValue', context),
                                   style: TextStyle(
-                                      fontSize: width(0.033, context))),
+                                      fontSize: width(0.031, context))),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -175,7 +175,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                     style: TextStyle(
                                         color: HexColor('#BE8703'),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: width(0.038, context)),
+                                        fontSize: width(0.036, context)),
                                   ),
                                   Text(
                                     translate('jd', context),
@@ -183,7 +183,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: themeNotifier.isLight()
                                             ? Colors.black
                                             : Colors.white,
-                                        fontSize: width(0.033, context)),
+                                        fontSize: width(0.031, context)),
                                   ),
                                 ],
                               )
@@ -194,10 +194,10 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             children: [
                               Text(translate('lastPayment', context),
                                   style: TextStyle(
-                                      fontSize: width(0.033, context))),
+                                      fontSize: width(0.031, context))),
                               Text('22/7/2022',
                                   style: TextStyle(
-                                      fontSize: width(0.033, context))),
+                                      fontSize: width(0.031, context))),
                             ],
                           )
                         ],
@@ -236,7 +236,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                         children: [
                           Text(
                             translate('number_of_contributions_to_retirement', context),
-                            style: TextStyle(fontSize: width(0.033, context)),
+                            style: TextStyle(fontSize: width(0.031, context)),
                           ),
                           SizedBox(
                             width: width(1, context),

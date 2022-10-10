@@ -23,7 +23,7 @@ class UserInformation {
 
   final List<dynamic> curGetdata;
   final int poMonthsCount;
-  final int poIdleBalance;
+  final dynamic poIdleBalance;
   final dynamic poSalary;
   final dynamic poRegPer;
   final dynamic poRegAmt;
