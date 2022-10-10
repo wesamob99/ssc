@@ -24,9 +24,9 @@ class _LandingScreenState extends State<LandingScreen> {
       Provider.of<LoginProvider>(context, listen: false).tokenUpdated = false;
     }
 
-    return (userSecuredStorage.token.isEmpty ||
-    userSecuredStorage.nationalId.isEmpty)
-        ? const LoginScreen()
-        : const MainScreen();
+    return (userSecuredStorage.token.isNotEmpty &&
+    userSecuredStorage.nationalId.isNotEmpty)
+        ? const MainScreen()
+        : const LoginScreen();
   }
 }
