@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 
 import 'dart:ui' as ui;
 
@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/models/login/userData.dart';
 import 'package:ssc/src/view/login/resetPasswordBody.dart';
+import 'package:ssc/src/view/main/mainScreen.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
@@ -290,7 +291,6 @@ class _LoginScreenState extends State<LoginScreen> {
               } else{
                 loginProvider.errorMessage = '';
               }
-              loginProvider.tokenUpdated = userData.token != null ? true : false;
               loginProvider.formValid = userData.token != null ? 'true' : 'false';
             });
           }catch(e){
@@ -302,6 +302,8 @@ class _LoginScreenState extends State<LoginScreen> {
           if(loginProvider.formValid == 'true'){
             loginProvider.formValid = 'null';
             loginProvider.errorType.length = 0;
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const MainScreen()), (route) => false);
           } else{
             loginProvider.numberOfAttempts++;
             if(loginProvider.numberOfAttempts > 4){
