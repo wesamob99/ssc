@@ -352,7 +352,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   color: themeNotifier.isLight()
                       ? Colors.red
                       : Colors.red,
-                  size: width(0.058, context),
+                  size: width(0.053, context),
                 ),
                 const SizedBox(
                   width: 5.0,
@@ -362,7 +362,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontSize: width(0.036, context)
+                      fontSize: width(0.032, context)
                   ),
                 ),
               ],
