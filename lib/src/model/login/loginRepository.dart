@@ -51,7 +51,6 @@ class LoginRepository{
     if (response != null && response.statusCode == 200) {
       return resetPasswordGetDetailFromJson(response.toString());
     }
+    return null;
   }
-
-  /// users/resetPasswordGetDetail?userId=9661001073
 }

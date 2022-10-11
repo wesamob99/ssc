@@ -21,5 +21,6 @@ class HomeRepository{
       // return userInformationFromJson(response.toString()).success;
       /// TODO: check if session expired
     }
+    return null;
   }
 }

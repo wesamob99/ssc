@@ -18,5 +18,6 @@ class ProfileRepository{
     if (response != null && response.statusCode == 200) {
       return userProfileDataFromJson(response.toString());
     }
+    return null;
   }
 }
