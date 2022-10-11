@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
-import 'package:ssc/src/view/introduction/splashScreen.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
@@ -13,6 +12,7 @@ import '../../../infrastructure/userSecuredStorage.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/login/loginProvider.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
+import '../splash/splashScreen.dart';
 
 class ResetPasswordBody extends StatefulWidget {
   const ResetPasswordBody({Key key}) : super(key: key);

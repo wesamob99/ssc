@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
-import 'package:ssc/src/view/introduction/splashScreen.dart';
+import 'package:ssc/src/view/splash/splashScreen.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/main/mainProvider.dart';
