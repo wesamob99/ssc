@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
-import 'package:ssc/src/view/login/landingScreen.dart';
+import 'package:ssc/src/view/introduction/splashScreen.dart';
 import 'package:ssc/src/viewModel/utilities/language/globalAppProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
@@ -333,7 +333,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: (context) => const LandingScreen()
+                            builder: (context) => const SplashScreen()
                         ), (route) => false);
                   }
                 });
