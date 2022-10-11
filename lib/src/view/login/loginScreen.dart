@@ -496,11 +496,14 @@ class _LoginScreenState extends State<LoginScreen> {
               horizontal: width(0.07, context)
             ).copyWith(top: 0),
             icon: SvgPicture.asset('assets/icons/loginError.svg'),
-            title: Text(
-              translate(title, context),
-              style: TextStyle(
-                color: HexColor('#ED3124'),
-                fontWeight: FontWeight.bold
+            title: Padding(
+              padding: EdgeInsets.symmetric(horizontal: width(0.03, context)),
+              child: Text(
+                translate(title, context),
+                style: TextStyle(
+                  color: HexColor('#ED3124'),
+                  fontWeight: FontWeight.bold
+                ),
               ),
             ),
             content: body != ''
