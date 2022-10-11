@@ -99,69 +99,16 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   curvedNavigationBar(ThemeNotifier themeNotifier){
-    Color iconColor = Colors.white; //themeNotifier.isLight() ? HexColor('#171717') : Colors.white;
-    TextStyle textStyle = TextStyle(
-      fontSize: width(0.023, context),
-      color: Colors.white,
-    );
     return CurvedNavigationBar(
       index: pageIndex,
       backgroundColor: Colors.transparent,
       color: getPrimaryColor(context, themeNotifier), //themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
       buttonBackgroundColor: getPrimaryColor(context, themeNotifier), //themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
       items: <Widget>[
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: height(pageIndex != 0 ? 0.01 : 0, context),),
-            SvgPicture.asset('assets/icons/bottomNavigationIcons/home.svg',
-              color: iconColor, width: height(0.03, context),
-            ),
-            SizedBox(height: height(pageIndex != 0 ? 0.002 : 0, context),),
-            pageIndex != 0
-                ? Text(translate("bottomHome", context), style: textStyle,)
-                : const SizedBox.shrink(),
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: height(pageIndex != 1 ? 0.01 : 0, context),),
-            SvgPicture.asset('assets/icons/bottomNavigationIcons/services.svg',
-              color: iconColor, width: height(0.03, context),
-            ),
-            SizedBox(height: height(pageIndex != 1 ? 0.002 : 0, context),),
-            pageIndex != 1
-                ? Text(translate("bottomServices", context), style: textStyle,)
-                : const SizedBox.shrink(),
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: height(pageIndex != 2 ? 0.01 : 0, context),),
-            SvgPicture.asset('assets/icons/bottomNavigationIcons/pastOrders.svg',
-              color: iconColor, width: height(0.03, context),
-            ),
-            SizedBox(height: height(pageIndex != 2 ? 0.002 : 0, context),),
-            pageIndex != 2
-                ? Text(translate("bottomMyOrders", context), style: textStyle,)
-                : const SizedBox.shrink(),
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: height(pageIndex != 3 ? 0.01 : 0, context),),
-            SvgPicture.asset('assets/icons/bottomNavigationIcons/more.svg',
-              color: iconColor, width: height(0.03, context),
-          ),
-          SizedBox(height: height(pageIndex != 3 ? 0.002 : 0, context),),
-          pageIndex != 3
-              ? Text(translate("bottomMore", context), style: textStyle,)
-              : const SizedBox.shrink(),
-          ],
-        ),
+        buildCurvedAnimationBarItem(0, 'assets/icons/bottomNavigationIcons/home.svg', "bottomHome"),
+        buildCurvedAnimationBarItem(1, 'assets/icons/bottomNavigationIcons/services.svg', "bottomServices"),
+        buildCurvedAnimationBarItem(2, 'assets/icons/bottomNavigationIcons/pastOrders.svg', "bottomMyOrders"),
+        buildCurvedAnimationBarItem(3, 'assets/icons/bottomNavigationIcons/more.svg', "bottomMore"),
       ],
       onTap: (index) {
         setState(() {
@@ -172,4 +119,22 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  buildCurvedAnimationBarItem(index, icon, text){
+    Color iconColor = Colors.white; //themeNotifier.isLight() ? HexColor('#171717') : Colors.white;
+    TextStyle textStyle = TextStyle(
+      fontSize: width(0.023, context),
+      color: Colors.white,
+    );
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(height: height(pageIndex != index ? 0.01 : 0, context),),
+        SvgPicture.asset(icon, color: iconColor, width: height(0.03, context),),
+        SizedBox(height: height(pageIndex != index ? 0.002 : 0, context),),
+        pageIndex != index
+            ? Text(translate(text, context), style: textStyle,)
+            : const SizedBox.shrink(),
+      ],
+    );
+  }
 }
