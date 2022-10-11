@@ -64,123 +64,128 @@ class _LoginScreenState extends State<LoginScreen> {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
 
-    return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      // ),
-      body: Stack(
-        children: [
-          Container(
-            alignment: Alignment.bottomLeft,
-            child: SvgPicture.asset(
-                'assets/logo/logo_tree.svg'
+    return GestureDetector(
+      onTap: (){
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        // ),
+        body: Stack(
+          children: [
+            Container(
+              alignment: Alignment.bottomLeft,
+              child: SvgPicture.asset(
+                  'assets/logo/logo_tree.svg'
+              ),
             ),
-          ),
-          SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 14.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: height(0.08, context),),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        if(forgotPassword)
-                        Container(
-                              alignment: Alignment.topLeft,
-                              child: Row(
-                                children: [
-                                  InkWell(
-                                    onTap: (){
-                                      if(loginProvider.showResetPasswordBody){
-                                        loginProvider.showResetPasswordBody = false;
-                                        loginProvider.notifyMe();
-                                      }else{
-                                        setState(() {
-                                          nationalIdController.clear();
-                                          passwordController.clear();
-                                          loginProvider.enabledSubmitButton = false;
-                                          forgotPassword = false;
-                                        });
-                                      }
-                                    },
-                                    child: SvgPicture.asset(
-                                        'assets/icons/back.svg'
-                                    ),
-                                  ),
-                                  SizedBox(width: width(0.03, context)),
-                                  Text(
-                                    translate('forgotPassword', context),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w700
-                                    ),
-                                  ),
-                                ],
-                              )
-                      ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/icons/global.svg'
-                              ),
-                              const SizedBox(width: 4.0),
-                              DropdownButton<String>(
-                                isDense: true,
-                                value: selectedLanguage,
-                                icon: const Icon(
-                                  Icons.arrow_drop_down_outlined,
-                                  size: 0,
-                                ),
-                                elevation: 16,
-                                style: const TextStyle(color: Colors.black),
-                                underline: Container(
-                                  height: 0,
-                                  color: primaryColor,
-                                ),
-                                onChanged: (String value) async{
-                                  setState(() {
-                                    selectedLanguage = value;
-                                  });
-                                  globalAppProvider.changeLanguage(Locale(selectedLanguage));
-                                  globalAppProvider.notifyMe();
-                                  prefs.then((value) {
-                                    value.setString('language_code', selectedLanguage);
-                                  });
-                                },
-                                items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value == 'en' ? 'English' : 'عربي',
-                                      style: TextStyle(
-                                        color: themeNotifier.isLight()
-                                            ? primaryColor
-                                            : Colors.white,
+            SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 14.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(height: height(0.08, context),),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if(forgotPassword)
+                          Container(
+                                alignment: Alignment.topLeft,
+                                child: Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: (){
+                                        if(loginProvider.showResetPasswordBody){
+                                          loginProvider.showResetPasswordBody = false;
+                                          loginProvider.notifyMe();
+                                        }else{
+                                          setState(() {
+                                            nationalIdController.clear();
+                                            passwordController.clear();
+                                            loginProvider.enabledSubmitButton = false;
+                                            forgotPassword = false;
+                                          });
+                                        }
+                                      },
+                                      child: SvgPicture.asset(
+                                          'assets/icons/back.svg'
                                       ),
                                     ),
-                                  );
-                                }).toList(),
-                              ),
-                            ],
-                          )
+                                    SizedBox(width: width(0.03, context)),
+                                    Text(
+                                      translate('forgotPassword', context),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w700
+                                      ),
+                                    ),
+                                  ],
+                                )
                         ),
-                      ],
-                    ),
-                    SizedBox(height: height(0.08, context),),
-                    Provider.of<LoginProvider>(context).showResetPasswordBody
-                    ? const ResetPasswordBody()
-                    : loginBody(themeNotifier)
-                  ],
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                    'assets/icons/global.svg'
+                                ),
+                                const SizedBox(width: 4.0),
+                                DropdownButton<String>(
+                                  isDense: true,
+                                  value: selectedLanguage,
+                                  icon: const Icon(
+                                    Icons.arrow_drop_down_outlined,
+                                    size: 0,
+                                  ),
+                                  elevation: 16,
+                                  style: const TextStyle(color: Colors.black),
+                                  underline: Container(
+                                    height: 0,
+                                    color: primaryColor,
+                                  ),
+                                  onChanged: (String value) async{
+                                    setState(() {
+                                      selectedLanguage = value;
+                                    });
+                                    globalAppProvider.changeLanguage(Locale(selectedLanguage));
+                                    globalAppProvider.notifyMe();
+                                    prefs.then((value) {
+                                      value.setString('language_code', selectedLanguage);
+                                    });
+                                  },
+                                  items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value == 'en' ? 'English' : 'عربي',
+                                        style: TextStyle(
+                                          color: themeNotifier.isLight()
+                                              ? primaryColor
+                                              : Colors.white,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            )
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: height(0.08, context),),
+                      Provider.of<LoginProvider>(context).showResetPasswordBody
+                      ? const ResetPasswordBody()
+                      : loginBody(themeNotifier)
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
