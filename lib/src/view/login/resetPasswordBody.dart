@@ -57,17 +57,17 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                 + (useAnotherMethod ? '  ${userSecuredStorage.email}' : ''),
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontSize: width(0.033, context)
+                    fontSize: width(0.034, context)
                 ),
               ),
-              SizedBox(height: height(0.017, context),),
+              SizedBox(height: height(0.015, context),),
               if(!useAnotherMethod)
               Text(
                 userSecuredStorage.mobileNumber,
                 textDirection: TextDirection.ltr,
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: width(0.033, context),
+                  fontSize: width(0.034, context),
                 ),
               )
             ],
