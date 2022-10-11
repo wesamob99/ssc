@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
-import 'package:ssc/src/view/introduction/introductionScreen.dart';
-import 'package:ssc/src/view/login/landingScreen.dart';
+import 'package:ssc/src/view/introduction/splashScreen.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/main/mainProvider.dart';
@@ -34,8 +33,6 @@ void main() async{
   await UserConfig.instance.initSharedPreferences();
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   prefs.then((value){
-    Widget screen = (value.getBool('seen') ?? false) ? const LandingScreen() : const IntroductionScreen();
-    value.setBool('seen', true);
     value.setBool('amountToBePaid', true);
     runApp(
       Phoenix(
@@ -76,7 +73,7 @@ void main() async{
               lazy: false,
             )
           ],
-          child: MyApp(screen: screen),
+          child: const MyApp(),
         ),
       ),
     );
@@ -84,8 +81,7 @@ void main() async{
 }
 
 class MyApp extends StatefulWidget {
-  final Widget screen;
-  const MyApp({Key key, @required this.screen}) : super(key: key);
+  const MyApp({Key key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -134,7 +130,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate
             ],
-            home: widget.screen,
+            home: const SplashScreen(),
           );
         }
       ),
