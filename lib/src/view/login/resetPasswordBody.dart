@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
-import 'package:ssc/src/view/login/landingScreen.dart';
+import 'package:ssc/src/view/introduction/splashScreen.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
@@ -127,7 +127,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
           textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
             HexColor('#DADADA')), HexColor('#363636'), (){
             Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const LandingScreen()),
+            MaterialPageRoute(builder: (context) => const SplashScreen()),
                     (route) => false
             );
           }),
