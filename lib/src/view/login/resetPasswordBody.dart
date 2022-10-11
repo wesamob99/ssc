@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -112,7 +113,9 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                   (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
                       ? HexColor('#363636') : Colors.white,
                   (){if(loginProvider.enabledSendCodeButton && isEmail(emailController.text)){
-                print('send code!');
+                if (kDebugMode) {
+                  print('send code!');
+                }
               }}),
           if(!useAnotherMethod)
           textButton(
@@ -121,7 +124,9 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
             ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),),
             pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
               (){if(pinController.length == 4){
-                print('submitted!');
+                if (kDebugMode) {
+                  print('submitted!');
+                }
               }}),
           SizedBox(height: height(0.018, context),),
           textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
