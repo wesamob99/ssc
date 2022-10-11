@@ -7,7 +7,6 @@ import '../../model/login/loginRepository.dart';
 class LoginProvider extends ChangeNotifier {
 
   LoginRepository loginRepository = LoginRepository();
-  bool tokenUpdated = false;
   String formValid = 'null';
   List<int> errorType = [];
   String errorMessage = '';
