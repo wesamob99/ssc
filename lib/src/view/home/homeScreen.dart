@@ -51,41 +51,48 @@ class _HomeScreenState extends State<HomeScreen> {
           child: FutureBuilder(
               future: statisticsFuture,
               builder: (context, snapshot){
-                if(snapshot.hasData){
-                  UserInformation userInformation = snapshot.data;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: height(0.003, context)),
-                        child: Text(translate('overview', context)),
-                      ),
-                      HomeOverviewWidget(data: userInformation),
-                      SizedBox(
-                        height: height(0.02, context),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: height(0.006, context)),
-                        child: Text(translate('advertisements', context)),
-                      ),
-                      const HomeSlideShowWidget(),
-                      SizedBox(
-                        height: height(0.02, context),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.zero,
-                        child: Text(translate('pastYearsPays', context)),
-                      ),
-                      HomeChartWidget(data: userInformation),
-                      SizedBox(
-                        height: height(Provider.of<HomeProvider>(context).showFloatingButton ? 0.075 : 0.0, context),
-                      ),
-                    ],
-                  );
-                } else{
-                  print(snapshot.error);
-                  return const HomeLoaderWidget();
+                switch(snapshot.connectionState){
+                  case ConnectionState.none:
+                    return somethingWrongWidget(context, translate('key', context)); break;
+                  case ConnectionState.waiting:
+                  case ConnectionState.active:
+                    return const HomeLoaderWidget(); break;
+                  case ConnectionState.done:
+                    if(!snapshot.hasError && snapshot.hasData){
+                      UserInformation userInformation = snapshot.data;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(bottom: height(0.003, context)),
+                            child: Text(translate('overview', context)),
+                          ),
+                          HomeOverviewWidget(data: userInformation),
+                          SizedBox(
+                            height: height(0.02, context),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: height(0.006, context)),
+                            child: Text(translate('advertisements', context)),
+                          ),
+                          const HomeSlideShowWidget(),
+                          SizedBox(
+                            height: height(0.02, context),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.zero,
+                            child: Text(translate('pastYearsPays', context)),
+                          ),
+                          HomeChartWidget(data: userInformation),
+                          SizedBox(
+                            height: height(Provider.of<HomeProvider>(context).showFloatingButton ? 0.075 : 0.0, context),
+                          ),
+                        ],
+                      );
+                    }
+                    break;
                 }
+                return somethingWrongWidget(context, translate('key', context));
               }
           ),
         ),

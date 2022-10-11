@@ -54,51 +54,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: FutureBuilder(
               future: accountDataFuture,
               builder: (context, snapshot){
-                if(snapshot.hasData && !snapshot.hasError){
-                  UserProfileData userProfileData = snapshot.data;
-                  CurGetdatum data = userProfileData.curGetdata[0][0];
-                  if (kDebugMode) {
-                    print(data);
-                  }
-                  return SizedBox(
-                    height: height(1, context),
-                    width: width(1, context),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                switch(snapshot.connectionState){
+                  case ConnectionState.none:
+                    return somethingWrongWidget(context, translate('key', context)); break;
+                  case ConnectionState.waiting:
+                  case ConnectionState.active:
+                    return const HomeLoaderWidget(); break;
+                  case ConnectionState.done:
+                    if(snapshot.hasData && !snapshot.hasError){
+                      UserProfileData userProfileData = snapshot.data;
+                      CurGetdatum data = userProfileData.curGetdata[0][0];
+                      if (kDebugMode) {
+                        print(data);
+                      }
+                      return SizedBox(
+                        height: height(1, context),
+                        width: width(1, context),
+                        child: Column(
                           children: [
-                            const Text("name"),
-                            Text(data.userName.toString())
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text("name"),
+                                Text(data.userName.toString())
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text("email"),
+                                Text(data.email.toString())
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text("gender"),
+                                Text(data.gender.toString())
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text("mobile number"),
+                                Text(data.mobilenumber.toString())
+                              ],
+                            )
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("email"),
-                            Text(data.email.toString())
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("gender"),
-                            Text(data.gender.toString())
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("mobile number"),
-                            Text(data.mobilenumber.toString())
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                } else{
-                  return const HomeLoaderWidget();
+                      );
+                    }
+                    break;
                 }
+                return somethingWrongWidget(context, translate('key', context));
               }
           ),
         ),
