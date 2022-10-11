@@ -71,7 +71,7 @@
   "cancel": "إلغاء",
   "dontHaveAnyMethod": "لا تملك اي من هذه الطرق ؟",
   "sendCode": "إرسال الكود",
-  "exceedNumberOfAllowedAttempts": "لقد تجاوزت عدد المحاولات المسموح بيها لادخال كلمة المرور",
+  "exceedNumberOfAllowedAttempts": "لقد تجاوزت عدد المحاولات المسموح بها لادخال كلمة المرور",
   "networkError": "خطأ في الشبكة",
   "networkErrorDescription": "غير قادر على الاتصال بالانترنت",
   "ok": "موافق",
