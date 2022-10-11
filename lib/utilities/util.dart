@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path/path.dart' as path;
+import 'package:provider/provider.dart';
+import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
+import 'package:ssc/utilities/theme/themes.dart';
 import 'language/appLocalizations.dart';
 
 String getExtension(String url) {
@@ -171,4 +175,59 @@ bool isProbablyArabic(String s) {
     i += c.toString().runes.length;
   }
   return false;
+}
+
+Widget somethingWrongWidget(BuildContext context, String text){
+  ThemeNotifier themeNotifier = context.read<ThemeNotifier>();
+  return Container(
+    // height: height(0.25, context),
+    alignment: Alignment.center,
+    child: Card(
+      color: getPrimaryColor(context, themeNotifier).withOpacity(0.4),
+      elevation: 8.0,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: width(0.05, context),
+          vertical: height(0.035, context)
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: height(0.01, context),
+            ),
+            Center(
+              child: SvgPicture.asset(
+                'assets/icons/loginError.svg',
+                height: width(0.18, context),
+              ),
+            ),
+            SizedBox(
+              height: height(0.01, context),
+            ),
+            Text(
+              translate('somethingWrongHappened', context),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: width(0.04, context)
+              ),
+            ),
+            SizedBox(
+              height: height(0.01, context),
+            ),
+            Text(
+              translate('somethingWrongHappenedDesc', context),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: width(0.04, context)
+              ),
+            )
+          ],
+        ),
+      ),
+    ),
+  );
 }

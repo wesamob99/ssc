@@ -74,6 +74,8 @@
   "exceedNumberOfAllowedAttempts": "You have exceeded the number of allowed attempts to enter your password",
   "networkError": "Network error",
   "networkErrorDescription": "Unable to connect to the internet",
-  "ok": "OK"
+  "ok": "OK",
+  "somethingWrongHappened": "Something went wrong !",
+  "somethingWrongHappenedDesc": "Please try again and contact us if the problem persists."
 
 }

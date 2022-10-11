@@ -74,6 +74,8 @@
   "exceedNumberOfAllowedAttempts": "لقد تجاوزت عدد المحاولات المسموح بيها لادخال كلمة المرور",
   "networkError": "خطأ في الشبكة",
   "networkErrorDescription": "غير قادر على الاتصال بالانترنت",
-  "ok": "موافق"
+  "ok": "موافق",
+  "somethingWrongHappened": "هناك خطأ ما !",
+  "somethingWrongHappenedDesc": "حاول مجددا، يرجى الإتصال بنا إذا استمرت المشكله."
 
 }
