@@ -29,6 +29,12 @@ class _MainScreenState extends State<MainScreen> {
   int pageIndex = 0;
   List<String> pageTitle = ['services', 'home', 'pastOrders', 'settings'];
 
+
+  @override
+  void initState() {
+    UserConfig.instance.checkDataConnection();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
