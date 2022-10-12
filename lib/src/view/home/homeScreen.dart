@@ -10,6 +10,7 @@ import 'package:ssc/src/view/home/components/homeSlideShowWidget.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../infrastructure/userConfig.dart';
+import '../../../models/home/payOffFinancialInformations.dart';
 import '../../../models/home/userInformationsDashboard.dart';
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
@@ -27,12 +28,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   Future statisticsFuture;
+  Future amountToBePaidFuture;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   @override
   void initState(){
     HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
     statisticsFuture = homeProvider.getStatistics();
+    amountToBePaidFuture = homeProvider.getAmountToBePaid();
     prefs.then((value){
       homeProvider.showFloatingButton = value.getBool('amountToBePaid') ?? true;
       homeProvider.notifyMe();
@@ -53,12 +56,13 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context, snapshot){
                 switch(snapshot.connectionState){
                   case ConnectionState.none:
-                    return somethingWrongWidget(context, translate('key', context)); break;
+                    return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc'); break;
                   case ConnectionState.waiting:
                   case ConnectionState.active:
                     return const HomeLoaderWidget(); break;
                   case ConnectionState.done:
                     if(!snapshot.hasError && snapshot.hasData){
+
                       UserInformation userInformation = snapshot.data;
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                     break;
                 }
-                return somethingWrongWidget(context, translate('key', context));
+                return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc');
               }
           ),
         ),
@@ -104,114 +108,133 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   floatingSlidablePayButton(themeNotifier){
-    return Slidable(
-      key: const ValueKey(0),
-      startActionPane: ActionPane(
-        motion: const ScrollMotion(),
-        dismissible: DismissiblePane(
-          onDismissed: () {
-            prefs.then((value){
-              value.setBool('amountToBePaid', false);
-            });
-            Provider.of<HomeProvider>(context, listen: false).showFloatingButton = false;
-            Provider.of<HomeProvider>(context, listen: false).notifyMe();
-          }
-        ),
-        children: [
-          SlidableAction(
-            onPressed: (_){
-              prefs.then((value){
-                value.setBool('amountToBePaid', false);
-              });
-              Provider.of<HomeProvider>(context, listen: false).showFloatingButton = false;
-              Provider.of<HomeProvider>(context, listen: false).notifyMe();
-            },
-            backgroundColor: Colors.black26,
-            foregroundColor: Colors.white,
-            icon: Icons.not_interested,
-            label: translate('hide', context),
-          ),
-        ],
-      ),
-      child: Container(
-        margin: EdgeInsets.only(
-          right: UserConfig.instance.checkLanguage() ? 0 : width(0.075, context),
-          left: UserConfig.instance.checkLanguage() ? width(0.075, context) : 0
-        ),
-        width: width(0.93, context),
-        height: height(0.07, context),
-        decoration: BoxDecoration(
-            color: getPrimaryColor(context, themeNotifier),
-            borderRadius: BorderRadius.circular(12)
-        ),
-        child: Padding(
-          padding:  EdgeInsets.symmetric(
-              horizontal: width(0.035, context),
-              vertical: height(0.015, context)
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    translate('totalAmountToPay', context),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: width(0.035, context),
+    return FutureBuilder(
+        future: amountToBePaidFuture,
+        builder: (context, snapshot){
+          switch(snapshot.connectionState){
+            case ConnectionState.none:
+              return const SizedBox.shrink(); break;
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              return const SizedBox.shrink(); break;
+            case ConnectionState.done:
+              if(!snapshot.hasError && snapshot.hasData){
+                PayOffFinancialInformation financialInformation = snapshot.data;
+                print('financialInformation: ${financialInformation.mainPayCur[0][0].amt}');
+                return Slidable(
+                  key: const ValueKey(0),
+                  startActionPane: ActionPane(
+                    motion: const ScrollMotion(),
+                    dismissible: DismissiblePane(
+                        onDismissed: () {
+                          prefs.then((value){
+                            value.setBool('amountToBePaid', false);
+                          });
+                          Provider.of<HomeProvider>(context, listen: false).showFloatingButton = false;
+                          Provider.of<HomeProvider>(context, listen: false).notifyMe();
+                        }
                     ),
-                  ),
-                  SizedBox(
-                    width: width(0.05, context),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        '455',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: width(0.035, context),
-                        ),
-                      ),
-                      Text(
-                        translate('jd', context),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: width(0.035, context),
-                        ),
+                      SlidableAction(
+                        onPressed: (_){
+                          prefs.then((value){
+                            value.setBool('amountToBePaid', false);
+                          });
+                          Provider.of<HomeProvider>(context, listen: false).showFloatingButton = false;
+                          Provider.of<HomeProvider>(context, listen: false).notifyMe();
+                        },
+                        backgroundColor: Colors.black26,
+                        foregroundColor: Colors.white,
+                        icon: Icons.not_interested,
+                        label: translate('hide', context),
                       ),
                     ],
-                  )
-                ],
-              ),
-              Container(
-                alignment: Alignment.center,
-                width: width(0.2, context),
-                decoration: BoxDecoration(
-                  color: HexColor('#DBC89C4A').withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: InkWell(
-                  onTap: (){},
-                  child: Text(
-                    translate('pay', context),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: width(0.035, context),
+                  ),
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        right: UserConfig.instance.checkLanguage() ? 0 : width(0.075, context),
+                        left: UserConfig.instance.checkLanguage() ? width(0.075, context) : 0
+                    ),
+                    width: width(0.93, context),
+                    height: height(0.07, context),
+                    decoration: BoxDecoration(
+                        color: getPrimaryColor(context, themeNotifier),
+                        borderRadius: BorderRadius.circular(12)
+                    ),
+                    child: Padding(
+                      padding:  EdgeInsets.symmetric(
+                          horizontal: width(0.035, context),
+                          vertical: height(0.015, context)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                translate('totalAmountToPay', context),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: width(0.035, context),
+                                ),
+                              ),
+                              SizedBox(
+                                width: width(0.05, context),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: width(0.035, context),
+                                    ),
+                                  ),
+                                  Text(
+                                    translate('jd', context),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: width(0.035, context),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            width: width(0.2, context),
+                            decoration: BoxDecoration(
+                              color: HexColor('#DBC89C4A').withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: InkWell(
+                              onTap: (){},
+                              child: Text(
+                                translate('pay', context),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: width(0.035, context),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+                );
+              }
+              break;
+          }
+          return const SizedBox.shrink();
+        }
     );
   }
 

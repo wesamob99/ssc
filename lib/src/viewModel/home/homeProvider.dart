@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:ssc/models/home/userInformationsDashboard.dart';
 import 'package:ssc/src/model/home/homeRepository.dart';
 
+import '../../../models/home/payOffFinancialInformations.dart';
+
 class HomeProvider extends ChangeNotifier {
 
   HomeRepository homeRepository = HomeRepository();
@@ -11,6 +13,10 @@ class HomeProvider extends ChangeNotifier {
 
   Future<UserInformation> getStatistics() async{
     return await homeRepository.getStatisticsService();
+  }
+
+  Future<PayOffFinancialInformation> getAmountToBePaid() async{
+    return await homeRepository.getAmountToBePaidService();
   }
 
   void notifyMe() {
