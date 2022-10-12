@@ -177,7 +177,7 @@ bool isProbablyArabic(String s) {
   return false;
 }
 
-Widget somethingWrongWidget(BuildContext context, String text){
+Widget somethingWrongWidget(BuildContext context, String title, String desc){
   ThemeNotifier themeNotifier = context.read<ThemeNotifier>();
   return Container(
     // height: height(0.25, context),
@@ -207,7 +207,7 @@ Widget somethingWrongWidget(BuildContext context, String text){
               height: height(0.01, context),
             ),
             Text(
-              translate('somethingWrongHappened', context),
+              translate(title, context),
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
@@ -218,7 +218,7 @@ Widget somethingWrongWidget(BuildContext context, String text){
               height: height(0.01, context),
             ),
             Text(
-              translate('somethingWrongHappenedDesc', context),
+              translate(desc, context),
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
