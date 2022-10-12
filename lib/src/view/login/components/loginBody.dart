@@ -327,7 +327,7 @@ class _LoginBodyState extends State<LoginBody> {
         } else if(loginProvider.enabledSubmitButton && forgotPassword){
           try{
             await loginProvider.resetPasswordGetDetail(nationalIdController.text).whenComplete((){})
-                .then((val){
+                .then((val) async {
               ResetPasswordGetDetail resetPasswordGetDetail = val;
               if(resetPasswordGetDetail.poStatusDescEn != null && resetPasswordGetDetail.poStatus == -1){
                 loginProvider.errorMessage = UserConfig.instance.checkLanguage()
@@ -336,6 +336,10 @@ class _LoginBodyState extends State<LoginBody> {
                 loginProvider.errorMessage = '';
                 userSecuredStorage.email = resetPasswordGetDetail.poEmail ?? ''; // poEmail -> user email
                 userSecuredStorage.mobileNumber = resetPasswordGetDetail.poMobileno ?? ''; // poMobileno -> user mobile number
+                userSecuredStorage.nationalId = nationalIdController.text ?? ''; // poUserName -> user national ID
+                await loginProvider.resetPasswordSendMobileOTP(nationalIdController.text).then((value){
+                  print(value);
+                });
               }
               loginProvider.formValid = resetPasswordGetDetail.poStatus == 1 ? 'true' : 'false';
             });

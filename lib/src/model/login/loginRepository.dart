@@ -53,4 +53,20 @@ class LoginRepository{
     }
     return null;
   }
+
+  Future resetPasswordSendMobileOTPService(String userId) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/users/resetPasswordSendOtp', {
+      "params": {
+        "userId": userId
+      }
+    }
+    );
+    print(response);
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
 }

@@ -26,6 +26,11 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
+  Future resetPasswordSendMobileOTP(String userId) async{
+    final response = await loginRepository.resetPasswordSendMobileOTPService(userId);
+    return response;
+  }
+
   void notifyMe() {
     notifyListeners();
   }
