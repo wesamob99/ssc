@@ -71,6 +71,7 @@ flutter:
     - assets/images/test_slider_images/
     - assets/logo/
     - assets/icons/mainBottomNavigationIcons/
+    - assets/icons/loginBottomNavigationIcons/
     - assets/icons/sideBarIcons/
     - assets/icons/
 
