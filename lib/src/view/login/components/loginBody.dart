@@ -20,7 +20,7 @@ import '../../../viewModel/login/loginProvider.dart';
 import '../../../viewModel/utilities/language/globalAppProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../main/mainScreen.dart';
-import 'loginBodyComponents/resetPasswordBody.dart';
+import 'resetPasswordBody.dart';
 
 class LoginBody extends StatefulWidget {
   const LoginBody({Key key}) : super(key: key);
