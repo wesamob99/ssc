@@ -69,4 +69,22 @@ class LoginRepository{
     return '';
   }
 
+  Future resetPasswordCheckMobileOTPService(String userId, int otp) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/users/resetPasswordCheckOtp',
+      {
+        "userId": userId,
+        "otpCode": otp,
+        "token": "",
+        "password": "",
+        "reRegisterPass": false
+      }
+    );
+    print(response);
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
 }
