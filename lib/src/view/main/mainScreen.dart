@@ -10,6 +10,7 @@ import 'package:ssc/src/view/settings/settingsScreen.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../../infrastructure/userConfig.dart';
+import '../../../utilities/hexColor.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
 import '../profile/profileScreen.dart';
@@ -108,8 +109,8 @@ class _MainScreenState extends State<MainScreen> {
     return CurvedNavigationBar(
       index: pageIndex,
       backgroundColor: Colors.transparent,
-      color: getPrimaryColor(context, themeNotifier), //themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
-      buttonBackgroundColor: getPrimaryColor(context, themeNotifier), //themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
+      color: themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
+      buttonBackgroundColor: getPrimaryColor(context, themeNotifier),
       items: <Widget>[
         buildCurvedAnimationBarItem(0, 'assets/icons/bottomNavigationIcons/home.svg', "bottomHome"),
         buildCurvedAnimationBarItem(1, 'assets/icons/bottomNavigationIcons/services.svg', "bottomServices"),
@@ -126,10 +127,13 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   buildCurvedAnimationBarItem(index, icon, text){
-    Color iconColor = Colors.white; //themeNotifier.isLight() ? HexColor('#171717') : Colors.white;
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+    Color iconColor = themeNotifier.isLight()
+    ? (pageIndex == index ? Colors.white : getPrimaryColor(context, themeNotifier))
+    : Colors.white;
     TextStyle textStyle = TextStyle(
       fontSize: width(0.023, context),
-      color: Colors.white,
+      color: themeNotifier.isLight() ? getPrimaryColor(context, themeNotifier) : Colors.white,
     );
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
