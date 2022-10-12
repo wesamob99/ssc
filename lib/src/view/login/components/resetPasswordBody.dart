@@ -106,17 +106,35 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
             ),
             SizedBox(height: height(0.1, context),),
             if(useAnotherMethod)
-            textButton(
+              textButton(
                 themeNotifier, 'sendCode',
                 MaterialStateProperty.all<Color>(
                   (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
                     ? HexColor('#DADADA') : getPrimaryColor(context, themeNotifier),),
                     (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
                         ? HexColor('#363636') : Colors.white,
-                    (){if(loginProvider.enabledSendCodeButton && isEmail(emailController.text)){
-                  if (kDebugMode) {
-                    print('send code!');
-                  }
+                    () async {if(loginProvider.enabledSendCodeButton && isEmail(emailController.text)){
+                      errorMessage = "";
+                      //TODO: : check if [emailController.text] is the real email before send the code
+                      try{
+                        await loginProvider.resetPasswordSendEmailCode(userSecuredStorage.nationalId)
+                            .then((value){
+                          if(value["PO_STATUS"] == 1){
+                            errorMessage = UserConfig.instance.checkLanguage()
+                                ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
+                            showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier).then((value){
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                      (route) => false
+                              );
+                            });
+                          }else{
+                            print("true OTP");
+                          }
+                        });
+                      }catch(e){
+                        print(e.toString());
+                      }
                 }}),
             if(!useAnotherMethod)
             textButton(
