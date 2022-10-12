@@ -1,5 +1,4 @@
 // ignore_for_file: file_names
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
@@ -28,6 +27,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
   final focusNode = FocusNode();
   bool enableContinue = false;
   bool useAnotherMethod = false;
+  String errorMessage = "";
 
   @override
   void initState() {
@@ -124,9 +124,23 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
               MaterialStateProperty.all<Color>(pinController.text.length == 4
               ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),),
               pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
-                (){if(pinController.length == 4){
-                  if (kDebugMode) {
-                    print('submitted!');
+                () async {if(pinController.length == 4){
+                  errorMessage = "";
+                  try{
+                  await loginProvider.resetPasswordCheckMobileOTP(
+                      userSecuredStorage.nationalId,
+                      int.parse(pinController.text))
+                      .then((value){
+                    if(value["PO_STATUS"] == 0){
+                      errorMessage = UserConfig.instance.checkLanguage()
+                          ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
+                      showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                    }else{
+                      print("true OTP");
+                    }
+                  });
+                  }catch(e){
+                    print(e.toString());
                   }
                 }}),
             SizedBox(height: height(0.018, context),),
@@ -283,6 +297,5 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
       },
     );
   }
-
 
 }

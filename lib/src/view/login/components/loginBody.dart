@@ -1,7 +1,4 @@
 // ignore_for_file: file_names, use_build_context_synchronously
-
-import 'dart:ui' as ui;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -299,9 +296,9 @@ class _LoginBodyState extends State<LoginBody> {
               }else{
                 loginProvider.numberOfAttempts++;
                 if(loginProvider.numberOfAttempts > 4){
-                  _showMyDialog('exceedNumberOfAllowedAttempts', loginProvider.numberOfAttempts > 4 ? "" : errorMessage, 'resetPassword', themeNotifier);
+                  showMyDialog(context, 'exceedNumberOfAllowedAttempts', loginProvider.numberOfAttempts > 4 ? "" : errorMessage, 'resetPassword', themeNotifier);
                 }else{
-                  _showMyDialog('loginFailed', errorMessage, 'retryAgain', themeNotifier);
+                  showMyDialog(context, 'loginFailed', errorMessage, 'retryAgain', themeNotifier);
                 }
               }
               loginProvider.notifyMe();
@@ -335,7 +332,7 @@ class _LoginBodyState extends State<LoginBody> {
                 forgotPassword = false;
                 loginProvider.showBottomNavigationBar = false;
               }else{
-                _showMyDialog('resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
               }
               loginProvider.notifyMe();
             });
@@ -422,88 +419,6 @@ class _LoginBodyState extends State<LoginBody> {
           loginProvider.enabledSubmitButton = nationalIdController.text.isNotEmpty;
         }
         loginProvider.notifyMe();
-      },
-    );
-  }
-
-  Future<void> _showMyDialog(String title, String body, String buttonText, ThemeNotifier themeNotifier) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      barrierColor: Colors.white24,
-      builder: (BuildContext context) {
-        return BackdropFilter(
-          filter: ui.ImageFilter.blur(
-            sigmaX: 5.0,
-            sigmaY: 5.0,
-          ),
-          child: AlertDialog(
-            elevation: 20,
-            alignment: Alignment.center,
-            actionsAlignment: MainAxisAlignment.center,
-            iconPadding: EdgeInsets.symmetric(vertical: height(0.035, context)),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: width(0.07, context),
-              vertical: height(0.025, context),
-            ),
-            actionsPadding: EdgeInsets.symmetric(
-                vertical: height(0.03, context),
-                horizontal: width(0.07, context)
-            ).copyWith(top: 0),
-            icon: SvgPicture.asset('assets/icons/loginError.svg'),
-            title: Padding(
-              padding: EdgeInsets.symmetric(horizontal: width(0.03, context)),
-              child: Text(
-                translate(title, context),
-                style: TextStyle(
-                    color: HexColor('#ED3124'),
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-            ),
-            content: body != ''
-                ? SingleChildScrollView(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    body,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: HexColor('#5F5F5F'),
-                        fontWeight: FontWeight.w500
-                    ),
-                  ),
-                )
-            ) : const SizedBox.shrink(),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                },
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      getPrimaryColor(context, themeNotifier),
-                    ),
-                    foregroundColor:  MaterialStateProperty.all<Color>(
-                        Colors.white
-                    ),
-                    fixedSize:  MaterialStateProperty.all<Size>(
-                      Size(width(1, context), height(0.05, context)),
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)
-                        )
-                    )
-                ),
-                child: Text(translate(buttonText, context)),
-              ),
-            ],
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            ),
-          ),
-        );
       },
     );
   }

@@ -2,6 +2,8 @@
 //
 //     final payOffFinancialInformation = payOffFinancialInformationFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 PayOffFinancialInformation payOffFinancialInformationFromJson(String str) => PayOffFinancialInformation.fromJson(json.decode(str));

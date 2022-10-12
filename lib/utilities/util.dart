@@ -4,7 +4,9 @@ import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
+import 'hexColor.dart';
 import 'language/appLocalizations.dart';
+import 'dart:ui' as ui;
 
 String getExtension(String url) {
   String reversed = url.split('').toList().reversed.join();
@@ -229,5 +231,87 @@ Widget somethingWrongWidget(BuildContext context, String title, String desc){
         ),
       ),
     ),
+  );
+}
+
+Future<void> showMyDialog(BuildContext context, String title, String body, String buttonText, ThemeNotifier themeNotifier) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: true,
+    barrierColor: Colors.white24,
+    builder: (BuildContext context) {
+      return BackdropFilter(
+        filter: ui.ImageFilter.blur(
+          sigmaX: 5.0,
+          sigmaY: 5.0,
+        ),
+        child: AlertDialog(
+          elevation: 20,
+          alignment: Alignment.center,
+          actionsAlignment: MainAxisAlignment.center,
+          iconPadding: EdgeInsets.symmetric(vertical: height(0.035, context)),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: width(0.07, context),
+            vertical: height(0.025, context),
+          ),
+          actionsPadding: EdgeInsets.symmetric(
+              vertical: height(0.03, context),
+              horizontal: width(0.07, context)
+          ).copyWith(top: 0),
+          icon: SvgPicture.asset('assets/icons/loginError.svg'),
+          title: Padding(
+            padding: EdgeInsets.symmetric(horizontal: width(0.03, context)),
+            child: Text(
+              translate(title, context),
+              style: TextStyle(
+                  color: HexColor('#ED3124'),
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
+          content: body != ''
+              ? SingleChildScrollView(
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  body,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: HexColor('#5F5F5F'),
+                      fontWeight: FontWeight.w500
+                  ),
+                ),
+              )
+          ) : const SizedBox.shrink(),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    getPrimaryColor(context, themeNotifier),
+                  ),
+                  foregroundColor:  MaterialStateProperty.all<Color>(
+                      Colors.white
+                  ),
+                  fixedSize:  MaterialStateProperty.all<Size>(
+                    Size(width(1, context), height(0.05, context)),
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)
+                      )
+                  )
+              ),
+              child: Text(translate(buttonText, context)),
+            ),
+          ],
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+        ),
+      );
+    },
   );
 }
