@@ -381,7 +381,8 @@ class _LoginBodyState extends State<LoginBody> {
               ),
               fontSize: 14
           ),
-          suffixIcon: InkWell(
+          suffixIcon: controller == passwordController
+          ? InkWell(
             onTap: (){
               setState(() {
                 obscurePassword = !obscurePassword;
@@ -389,12 +390,12 @@ class _LoginBodyState extends State<LoginBody> {
             },
             child: Icon(
               obscurePassword ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
-              size: controller == passwordController ? 23 : 0,
+              size: 23,
               color: themeNotifier.isLight()
                   ? getPrimaryColor(context, themeNotifier)
                   : Colors.white,
             ),
-          ),
+          ) : const SizedBox.shrink(),
           contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4),
