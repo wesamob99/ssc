@@ -7,9 +7,6 @@ import '../../model/login/loginRepository.dart';
 class LoginProvider extends ChangeNotifier {
 
   LoginRepository loginRepository = LoginRepository();
-  String formValid = 'null';
-  List<int> errorType = [];
-  String errorMessage = '';
   bool enabledSubmitButton = false;
   bool enabledSendCodeButton = false;
   bool showResetPasswordBody = false;
@@ -28,6 +25,11 @@ class LoginProvider extends ChangeNotifier {
 
   Future resetPasswordSendMobileOTP(String userId) async{
     final response = await loginRepository.resetPasswordSendMobileOTPService(userId);
+    return response;
+  }
+
+  Future resetPasswordCheckMobileOTP(String userId, int otp) async{
+    final response = await loginRepository.resetPasswordCheckMobileOTPService(userId, otp);
     return response;
   }
 
