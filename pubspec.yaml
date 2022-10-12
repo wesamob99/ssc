@@ -70,7 +70,7 @@ flutter:
     - i18n/ar.json
     - assets/images/test_slider_images/
     - assets/logo/
-    - assets/icons/bottomNavigationIcons/
+    - assets/icons/mainBottomNavigationIcons/
     - assets/icons/sideBarIcons/
     - assets/icons/
 

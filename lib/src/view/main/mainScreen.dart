@@ -112,10 +112,10 @@ class _MainScreenState extends State<MainScreen> {
       color: themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
       buttonBackgroundColor: getPrimaryColor(context, themeNotifier),
       items: <Widget>[
-        buildCurvedAnimationBarItem(0, 'assets/icons/bottomNavigationIcons/home.svg', "bottomHome"),
-        buildCurvedAnimationBarItem(1, 'assets/icons/bottomNavigationIcons/services.svg', "bottomServices"),
-        buildCurvedAnimationBarItem(2, 'assets/icons/bottomNavigationIcons/pastOrders.svg', "bottomMyOrders"),
-        buildCurvedAnimationBarItem(3, 'assets/icons/bottomNavigationIcons/more.svg', "bottomMore"),
+        buildCurvedAnimationBarItem(0, 'assets/icons/mainBottomNavigationIcons/home.svg', "bottomHome"),
+        buildCurvedAnimationBarItem(1, 'assets/icons/mainBottomNavigationIcons/services.svg', "bottomServices"),
+        buildCurvedAnimationBarItem(2, 'assets/icons/mainBottomNavigationIcons/pastOrders.svg', "bottomMyOrders"),
+        buildCurvedAnimationBarItem(3, 'assets/icons/mainBottomNavigationIcons/more.svg', "bottomMore"),
       ],
       onTap: (index) {
         setState(() {
