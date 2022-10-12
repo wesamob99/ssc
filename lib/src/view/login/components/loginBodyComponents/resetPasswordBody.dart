@@ -8,11 +8,11 @@ import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
-import '../../../infrastructure/userSecuredStorage.dart';
-import '../../../utilities/util.dart';
-import '../../viewModel/login/loginProvider.dart';
-import '../../viewModel/utilities/theme/themeProvider.dart';
-import '../splash/splashScreen.dart';
+import '../../../../../infrastructure/userSecuredStorage.dart';
+import '../../../../../utilities/util.dart';
+import '../../../../viewModel/login/loginProvider.dart';
+import '../../../../viewModel/utilities/theme/themeProvider.dart';
+import '../../../splash/splashScreen.dart';
 
 class ResetPasswordBody extends StatefulWidget {
   const ResetPasswordBody({Key key}) : super(key: key);
@@ -38,105 +38,107 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: width(0.05, context)),
-      child: Column(
-        children: [
-          SizedBox(height: height(0.05, context),),
-          Text(
-            translate('identityVerify', context),
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: width(0.04, context)
-            ),
-          ),
-          SizedBox(height: height(0.04, context),),
-          Column(
-            children: [
-              Text(
-                translate(useAnotherMethod ? 'enterEmailVerificationCode' : 'enterMobileVerificationCode', context)
-                + (useAnotherMethod ? '  ${userSecuredStorage.email}' : ''),
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: width(0.034, context)
-                ),
-              ),
-              SizedBox(height: height(0.015, context),),
-              if(!useAnotherMethod)
-              Text(
-                userSecuredStorage.mobileNumber,
-                textDirection: TextDirection.ltr,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: width(0.034, context),
-                ),
-              )
-            ],
-          ),
-          SizedBox(height: height(0.025, context),),
-          if(!useAnotherMethod)
-          pinPut(themeNotifier),
-          if(useAnotherMethod)
-          buildTextFormField(themeNotifier, loginProvider, emailController, TextInputType.emailAddress),
-          SizedBox(height: height(0.022, context),),
-          InkWell(
-            onTap: (){
-              setState(() {
-                useAnotherMethod = true;
-              });
-            },
-            overlayColor: MaterialStateProperty.all<Color>(
-                Colors.transparent
-            ),
-            splashColor: getPrimaryColor(context, themeNotifier),
-            child: Container(
-              alignment: UserConfig.instance.checkLanguage()
-                  ? Alignment.topLeft : Alignment.topRight,
-              // padding: EdgeInsets.symmetric(horizontal: width(0.11, context)),
-              child: Text(
-                translate(useAnotherMethod ?'dontHaveAnyMethod' : 'useAnotherMethod', context),
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: width(0.033, context),
-                    color: HexColor('#003C97')
-                ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: width(0.05, context)),
+        child: Column(
+          children: [
+            SizedBox(height: height(0.05, context),),
+            Text(
+              translate('identityVerify', context),
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: width(0.04, context)
               ),
             ),
-          ),
-          SizedBox(height: height(0.1, context),),
-          if(useAnotherMethod)
-          textButton(
-              themeNotifier, 'sendCode',
-              MaterialStateProperty.all<Color>(
-                (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
-                  ? HexColor('#DADADA') : getPrimaryColor(context, themeNotifier),),
+            SizedBox(height: height(0.04, context),),
+            Column(
+              children: [
+                Text(
+                  translate(useAnotherMethod ? 'enterEmailVerificationCode' : 'enterMobileVerificationCode', context)
+                  + (useAnotherMethod ? '  ${userSecuredStorage.email}' : ''),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: width(0.034, context)
+                  ),
+                ),
+                SizedBox(height: height(0.015, context),),
+                if(!useAnotherMethod)
+                Text(
+                  userSecuredStorage.mobileNumber,
+                  textDirection: TextDirection.ltr,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: width(0.034, context),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: height(0.025, context),),
+            if(!useAnotherMethod)
+            pinPut(themeNotifier),
+            if(useAnotherMethod)
+            buildTextFormField(themeNotifier, loginProvider, emailController, TextInputType.emailAddress),
+            SizedBox(height: height(0.022, context),),
+            InkWell(
+              onTap: (){
+                setState(() {
+                  useAnotherMethod = true;
+                });
+              },
+              overlayColor: MaterialStateProperty.all<Color>(
+                  Colors.transparent
+              ),
+              splashColor: getPrimaryColor(context, themeNotifier),
+              child: Container(
+                alignment: UserConfig.instance.checkLanguage()
+                    ? Alignment.topLeft : Alignment.topRight,
+                // padding: EdgeInsets.symmetric(horizontal: width(0.11, context)),
+                child: Text(
+                  translate(useAnotherMethod ?'dontHaveAnyMethod' : 'useAnotherMethod', context),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: width(0.033, context),
+                      color: HexColor('#003C97')
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: height(0.1, context),),
+            if(useAnotherMethod)
+            textButton(
+                themeNotifier, 'sendCode',
+                MaterialStateProperty.all<Color>(
                   (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
-                      ? HexColor('#363636') : Colors.white,
-                  (){if(loginProvider.enabledSendCodeButton && isEmail(emailController.text)){
-                if (kDebugMode) {
-                  print('send code!');
-                }
-              }}),
-          if(!useAnotherMethod)
-          textButton(
-            themeNotifier, 'continue',
-            MaterialStateProperty.all<Color>(pinController.text.length == 4
-            ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),),
-            pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
-              (){if(pinController.length == 4){
-                if (kDebugMode) {
-                  print('submitted!');
-                }
-              }}),
-          SizedBox(height: height(0.018, context),),
-          textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
-            HexColor('#DADADA')), HexColor('#363636'), (){
-            Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const SplashScreen()),
-                    (route) => false
-            );
-          }),
-        ],
+                    ? HexColor('#DADADA') : getPrimaryColor(context, themeNotifier),),
+                    (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
+                        ? HexColor('#363636') : Colors.white,
+                    (){if(loginProvider.enabledSendCodeButton && isEmail(emailController.text)){
+                  if (kDebugMode) {
+                    print('send code!');
+                  }
+                }}),
+            if(!useAnotherMethod)
+            textButton(
+              themeNotifier, 'continue',
+              MaterialStateProperty.all<Color>(pinController.text.length == 4
+              ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),),
+              pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
+                (){if(pinController.length == 4){
+                  if (kDebugMode) {
+                    print('submitted!');
+                  }
+                }}),
+            SizedBox(height: height(0.018, context),),
+            textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
+              HexColor('#DADADA')), HexColor('#363636'), (){
+              Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const SplashScreen()),
+                      (route) => false
+              );
+            }),
+          ],
+        ),
       ),
     );
   }
