@@ -13,6 +13,7 @@ class LoginProvider extends ChangeNotifier {
   bool enabledSubmitButton = false;
   bool enabledSendCodeButton = false;
   bool showResetPasswordBody = false;
+  bool showBottomNavigationBar = true;
   int numberOfAttempts = 0;
 
   Future login(String nationalId, String password) async{
