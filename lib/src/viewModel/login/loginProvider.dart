@@ -33,6 +33,11 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
+  Future resetPasswordSendEmailCode(String userId) async{
+    final response = await loginRepository.resetPasswordSendEmailCodeService(userId);
+    return response;
+  }
+
   void notifyMe() {
     notifyListeners();
   }

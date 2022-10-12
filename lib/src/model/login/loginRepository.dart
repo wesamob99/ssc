@@ -87,4 +87,17 @@ class LoginRepository{
     return '';
   }
 
+  Future resetPasswordSendEmailCodeService(String userId) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/users/sendResetPasswordEmail',
+        {
+          "userId": userId
+        }
+    );
+    print(response);
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
 }
