@@ -57,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                 switch(snapshot.connectionState){
                   case ConnectionState.none:
-                    return somethingWrongWidget(context, translate('key', context)); break;
+                    return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc'); break;
                   case ConnectionState.waiting:
                   case ConnectionState.active:
                     return const HomeLoaderWidget(); break;
@@ -107,7 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     }
                     break;
                 }
-                return somethingWrongWidget(context, translate('key', context));
+                return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc');
               }
           ),
         ),
