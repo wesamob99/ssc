@@ -112,14 +112,7 @@ class HTTPClientContract {
       }
       return response;
     } on DioError catch (e) {
-      if (CancelToken.isCancel(e)) {
-        // showFlushBar(
-        //     UserConfig.instance.checkLanguage() ? 'Download' : 'التحميل',
-        //     UserConfig.instance.checkLanguage()
-        //         ? 'File downloading canceled by user'
-        //         : 'تم إلغاء تنزيل الملف من قبل المستخدم',
-        //     navigatorKey.currentState.context);
-      }
+      if (CancelToken.isCancel(e)) {}
       return e.response;
     }
   }
