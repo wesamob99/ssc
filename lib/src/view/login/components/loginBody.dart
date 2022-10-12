@@ -275,6 +275,7 @@ class _LoginBodyState extends State<LoginBody> {
       onPressed: () async {
         // when user press continue to login
         if(loginProvider.enabledSubmitButton && !forgotPassword && loginProvider.numberOfAttempts < 5){
+          String errorMessage = "";
           try{
             await loginProvider.login(nationalIdController.text, passwordController.text)
                 .whenComplete((){})
@@ -287,53 +288,41 @@ class _LoginBodyState extends State<LoginBody> {
                 userSecuredStorage.internalKey = userData.data.poInternalKey ?? ''; // poInternalKey -> user national ID
               }
               if(userData.poStatusDescEn != null){
-                loginProvider.errorMessage = UserConfig.instance.checkLanguage()
+                errorMessage = UserConfig.instance.checkLanguage()
                     ? userData.poStatusDescEn : userData.poStatusDescAr;
               } else{
-                loginProvider.errorMessage = '';
+                errorMessage = '';
               }
-              loginProvider.formValid = userData.token != null ? 'true' : 'false';
+              if(userData.token != null){
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const MainScreen()), (route) => false);
+              }else{
+                loginProvider.numberOfAttempts++;
+                if(loginProvider.numberOfAttempts > 4){
+                  _showMyDialog('exceedNumberOfAllowedAttempts', loginProvider.numberOfAttempts > 4 ? "" : errorMessage, 'resetPassword', themeNotifier);
+                }else{
+                  _showMyDialog('loginFailed', errorMessage, 'retryAgain', themeNotifier);
+                }
+              }
+              loginProvider.notifyMe();
             });
           }catch(e){
             if (kDebugMode) {
               print(e.toString());
             }
           }
-          loginProvider.errorType.clear();
-          if(loginProvider.formValid == 'true'){
-            loginProvider.formValid = 'null';
-            loginProvider.errorType.length = 0;
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const MainScreen()), (route) => false);
-          } else{
-            loginProvider.numberOfAttempts++;
-            if(loginProvider.numberOfAttempts > 4){
-              _showMyDialog('exceedNumberOfAllowedAttempts', loginProvider.numberOfAttempts > 4 ? "" : loginProvider.errorMessage, 'resetPassword', themeNotifier);
-            }else{
-              _showMyDialog('loginFailed', loginProvider.errorMessage, 'retryAgain', themeNotifier);
-            }
-            if(nationalIdController.text.isEmpty){
-              loginProvider.errorType.add(1);
-            }
-            if(passwordController.text.isEmpty){
-              loginProvider.errorType.add(2);
-            }
-            if(loginProvider.formValid == 'false'){
-              loginProvider.errorType.add(0);
-            }
-          }
-          loginProvider.notifyMe();
           // when user press continue to submit natID to reset password
         } else if(loginProvider.enabledSubmitButton && forgotPassword){
+          String errorMessage = "";
           try{
             await loginProvider.resetPasswordGetDetail(nationalIdController.text).whenComplete((){})
                 .then((val) async {
               ResetPasswordGetDetail resetPasswordGetDetail = val;
               if(resetPasswordGetDetail.poStatusDescEn != null && resetPasswordGetDetail.poStatus == -1){
-                loginProvider.errorMessage = UserConfig.instance.checkLanguage()
+                errorMessage = UserConfig.instance.checkLanguage()
                     ? resetPasswordGetDetail.poStatusDescEn : resetPasswordGetDetail.poStatusDescAr;
               } else{
-                loginProvider.errorMessage = '';
+                errorMessage = '';
                 userSecuredStorage.email = resetPasswordGetDetail.poEmail ?? ''; // poEmail -> user email
                 userSecuredStorage.mobileNumber = resetPasswordGetDetail.poMobileno ?? ''; // poMobileno -> user mobile number
                 userSecuredStorage.nationalId = nationalIdController.text ?? ''; // poUserName -> user national ID
@@ -341,30 +330,20 @@ class _LoginBodyState extends State<LoginBody> {
                   print(value);
                 });
               }
-              loginProvider.formValid = resetPasswordGetDetail.poStatus == 1 ? 'true' : 'false';
+              if(resetPasswordGetDetail.poStatus == 1){
+                loginProvider.showResetPasswordBody = true;
+                forgotPassword = false;
+                loginProvider.showBottomNavigationBar = false;
+              }else{
+                _showMyDialog('resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+              }
+              loginProvider.notifyMe();
             });
           }catch(e){
             if (kDebugMode) {
               print(e.toString());
             }
           }
-          loginProvider.errorType.clear();
-          if(loginProvider.formValid == 'true'){
-            loginProvider.formValid = 'null';
-            loginProvider.errorType.length = 0;
-            loginProvider.showResetPasswordBody = true;
-            forgotPassword = false;
-            loginProvider.showBottomNavigationBar = false;
-          } else{
-            _showMyDialog('resetPasswordFailed', loginProvider.errorMessage, 'retryAgain', themeNotifier);
-            if(nationalIdController.text.isEmpty){
-              loginProvider.errorType.add(1);
-            }
-            if(loginProvider.formValid == 'false'){
-              loginProvider.errorType.add(0);
-            }
-          }
-          loginProvider.notifyMe();
         }
       },
       style: ButtonStyle(
