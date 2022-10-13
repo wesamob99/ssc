@@ -79,6 +79,15 @@
   "networkErrorDescription": "غير قادر على الاتصال بالانترنت",
   "ok": "موافق",
   "somethingWrongHappened": "هناك خطأ ما !",
-  "somethingWrongHappenedDesc": "حاول مجددا، يرجى الإتصال بنا إذا استمرت المشكله."
+  "somethingWrongHappenedDesc": "حاول مجددا، يرجى الإتصال بنا إذا استمرت المشكله.",
+  "createAnAccount": "إنشاء حساب",
+  "firstStep": "الخطوة الأولى:",
+  "personalInformations": "المعلومات الشخصية",
+  "nationality": "الجنسية",
+  "countryOfResidence": "بلد الإقامة",
+  "mobileNumber": "رقم الهاتف",
+  "and": "و",
+  "jordanian": "اردني",
+  "nonJordanian": "غير اردني"
 
 }

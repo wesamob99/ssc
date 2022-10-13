@@ -79,6 +79,15 @@
   "networkErrorDescription": "Unable to connect to the internet",
   "ok": "OK",
   "somethingWrongHappened": "Something went wrong !",
-  "somethingWrongHappenedDesc": "Please try again and contact us if the problem persists."
+  "somethingWrongHappenedDesc": "Please try again and contact us if the problem persists.",
+  "createAnAccount": "Create an account",
+  "firstStep": "First step",
+  "personalInformations": "Personal informations",
+  "nationality": "Nationality",
+  "countryOfResidence": "Country of residence",
+  "mobileNumber": "Mobile number",
+  "and": "and",
+  "jordanian": "jordanian",
+  "nonJordanian": "non jordanian"
 
 }
