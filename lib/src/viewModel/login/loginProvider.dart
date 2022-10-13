@@ -1,11 +1,14 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/cupertino.dart';
+import '../../../models/login/countries.dart';
 import '../../../models/login/resetPasswordGetDetail.dart';
 import '../../model/login/loginRepository.dart';
 
 class LoginProvider extends ChangeNotifier {
 
+  TextEditingController nationalIdController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   LoginRepository loginRepository = LoginRepository();
   bool enabledSubmitButton = false;
   bool enabledSendCodeButton = false;
@@ -35,6 +38,11 @@ class LoginProvider extends ChangeNotifier {
 
   Future resetPasswordSendEmailCode(String userId) async{
     final response = await loginRepository.resetPasswordSendEmailCodeService(userId);
+    return response;
+  }
+
+  Future<List<Countries>> getCountries() async{
+    final response = await loginRepository.getCountriesService();
     return response;
   }
 
