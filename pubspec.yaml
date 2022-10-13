@@ -58,6 +58,8 @@ dependencies:
   pinput: ^2.2.16
   internet_connection_checker: ^1.0.0+1
   flutter_dialogs: ^3.0.0
+  group_radio_button: ^1.2.0
+  drop_down_list: ^0.0.4
 
 dev_dependencies:
   flutter_test:
