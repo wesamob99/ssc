@@ -83,11 +83,13 @@
   "createAnAccount": "Create an account",
   "firstStep": "First step",
   "personalInformations": "Personal informations",
+  "contactInformations": "Contact information",
   "nationality": "Nationality",
   "countryOfResidence": "Country of residence",
   "mobileNumber": "Mobile number",
-  "and": "and",
+  "and": "and ",
   "jordanian": "jordanian",
-  "nonJordanian": "non jordanian"
+  "nonJordanian": "non jordanian",
+  "secondStep": "Second step"
 
 }

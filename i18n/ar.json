@@ -83,11 +83,13 @@
   "createAnAccount": "إنشاء حساب",
   "firstStep": "الخطوة الأولى:",
   "personalInformations": "المعلومات الشخصية",
+  "contactInformations": "معلومات الإتصال",
   "nationality": "الجنسية",
   "countryOfResidence": "بلد الإقامة",
   "mobileNumber": "رقم الهاتف",
   "and": "و",
   "jordanian": "اردني",
-  "nonJordanian": "غير اردني"
+  "nonJordanian": "غير اردني",
+  "secondStep": "الخطوة الثانيه"
 
 }
