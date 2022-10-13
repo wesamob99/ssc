@@ -4,6 +4,7 @@ import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
+import '../src/view/login/forgotPasswordScreen.dart';
 import 'hexColor.dart';
 import 'language/appLocalizations.dart';
 import 'dart:ui' as ui;
@@ -234,7 +235,16 @@ Widget somethingWrongWidget(BuildContext context, String title, String desc){
   );
 }
 
-Future<void> showMyDialog(BuildContext context, String title, String body, String buttonText, ThemeNotifier themeNotifier) async {
+Future<void> showMyDialog(
+    BuildContext context,
+    String title,
+    String body,
+    String buttonText,
+    ThemeNotifier themeNotifier,
+    {exceedAttempts = false,
+    titleColor = '#ED3124',
+    icon = 'assets/icons/loginError.svg'}
+    ) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: true,
@@ -242,8 +252,8 @@ Future<void> showMyDialog(BuildContext context, String title, String body, Strin
     builder: (BuildContext context) {
       return BackdropFilter(
         filter: ui.ImageFilter.blur(
-          sigmaX: 5.0,
-          sigmaY: 5.0,
+          sigmaX: 7.0,
+          sigmaY: 7.0,
         ),
         child: AlertDialog(
           elevation: 20,
@@ -258,13 +268,13 @@ Future<void> showMyDialog(BuildContext context, String title, String body, Strin
               vertical: height(0.03, context),
               horizontal: width(0.07, context)
           ).copyWith(top: 0),
-          icon: SvgPicture.asset('assets/icons/loginError.svg'),
+          icon: SvgPicture.asset(icon, height: height(0.1, context),),
           title: Padding(
             padding: EdgeInsets.symmetric(horizontal: width(0.03, context)),
             child: Text(
               translate(title, context),
               style: TextStyle(
-                  color: HexColor('#ED3124'),
+                  color: HexColor(titleColor),
                   fontWeight: FontWeight.bold
               ),
             ),
@@ -286,7 +296,13 @@ Future<void> showMyDialog(BuildContext context, String title, String body, Strin
           actions: <Widget>[
             TextButton(
               onPressed: () async {
-                Navigator.of(context).pop();
+                if(exceedAttempts){
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context)=> const ForgotPasswordScreen()),
+                  );
+                }else{
+                  Navigator.of(context).pop();
+                }
               },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
