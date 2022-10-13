@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
@@ -13,14 +14,14 @@ import '../../../viewModel/login/loginProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../splash/splashScreen.dart';
 
-class ResetPasswordBody extends StatefulWidget {
-  const ResetPasswordBody({Key key}) : super(key: key);
+class ForgotPasswordBody extends StatefulWidget {
+  const ForgotPasswordBody({Key key}) : super(key: key);
 
   @override
-  State<ResetPasswordBody> createState() => _ResetPasswordBodyState();
+  State<ForgotPasswordBody> createState() => _ForgotPasswordBodyState();
 }
 
-class _ResetPasswordBodyState extends State<ResetPasswordBody> {
+class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
   final pinController = TextEditingController();
   final emailController = TextEditingController();
   LoginProvider loginProvider;
@@ -28,6 +29,8 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
   bool enableContinue = false;
   bool useAnotherMethod = false;
   String errorMessage = "";
+  int endTime = DateTime.now().millisecondsSinceEpoch + 300000;
+  bool isTimerEnded = false;
 
   @override
   void initState() {
@@ -104,7 +107,62 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                 ),
               ),
             ),
-            SizedBox(height: height(0.1, context),),
+            SizedBox(height: height(0.05, context),),
+            if(!useAnotherMethod)
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: height(0.02, context)),
+              child: Column(
+                children: [
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: width(isTimerEnded ? 0.5 : 0.23, context),
+                      height: height(0.04, context),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                              color: HexColor('#A4A4A4')
+                          )
+                      ),
+                      child: CountdownTimer(
+                        textStyle: TextStyle(color: HexColor('#FF0000')),
+                        endWidget: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'code has been disabled',
+                            style: TextStyle(color: HexColor('#FF0000')),
+                          ),
+                        ),
+                        //TODO: make time starts when user open screen
+                        endTime: endTime,
+                        onEnd: () {
+                          setState(() {
+                            isTimerEnded = true;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: height(0.01, context),),
+                  InkWell(
+                    onTap: () async{
+                      if(isTimerEnded) {
+                        await loginProvider.resetPasswordSendMobileOTP( loginProvider.nationalIdController.text);
+                        setState((){
+                          endTime = DateTime.now().millisecondsSinceEpoch + 300000;
+                        });
+                      }
+                    },
+                    child: Text(
+                      'إعاده الارسال',
+                      style: TextStyle(color: isTimerEnded ? HexColor('#003C97') : HexColor('#DADADA')),
+                    )
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: height(0.05, context),),
             if(useAnotherMethod)
               textButton(
                 themeNotifier, 'sendCode',
@@ -122,14 +180,16 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                           if(value["PO_STATUS"] == 1){
                             errorMessage = UserConfig.instance.checkLanguage()
                                 ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
-                            showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier).then((value){
+                            showMyDialog(context, 'resetPassword', errorMessage, 'ok', themeNotifier, titleColor: '#445740', icon: 'assets/icons/emailSent.svg').then((value){
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(builder: (context) => const SplashScreen()),
                                       (route) => false
                               );
                             });
                           }else{
-                            print("true OTP");
+                            errorMessage = UserConfig.instance.checkLanguage()
+                                ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
+                            showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
                           }
                         });
                       }catch(e){
