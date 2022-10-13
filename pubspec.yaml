@@ -60,6 +60,7 @@ dependencies:
   flutter_dialogs: ^3.0.0
   group_radio_button: ^1.2.0
   drop_down_list: ^0.0.4
+  flutter_countdown_timer: ^4.1.0
 
 dev_dependencies:
   flutter_test:
