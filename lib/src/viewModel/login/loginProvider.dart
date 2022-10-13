@@ -9,12 +9,14 @@ class LoginProvider extends ChangeNotifier {
 
   TextEditingController nationalIdController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController mobileNumberController = TextEditingController();
   LoginRepository loginRepository = LoginRepository();
   bool enabledSubmitButton = false;
   bool enabledSendCodeButton = false;
   bool showResetPasswordBody = false;
-  bool showBottomNavigationBar = true;
+  bool registerContinueEnabled = false;
   int numberOfAttempts = 0;
+  int stepNumber = 1;
 
   Future login(String nationalId, String password) async{
     final response = await loginRepository.loginService(nationalId, password);

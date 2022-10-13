@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../infrastructure/userConfig.dart';
 import '../../../../infrastructure/userSecuredStorage.dart';
-import '../../../../models/login/resetPasswordGetDetail.dart';
 import '../../../../models/login/userData.dart';
 import '../../../../utilities/constants.dart';
 import '../../../../utilities/hexColor.dart';
@@ -17,8 +16,8 @@ import '../../../viewModel/login/loginProvider.dart';
 import '../../../viewModel/utilities/language/globalAppProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../main/mainScreen.dart';
+import '../forgotPasswordScreen.dart';
 import '../registerScreen.dart';
-import 'resetPasswordBody.dart';
 
 class LoginBody extends StatefulWidget {
   const LoginBody({Key key}) : super(key: key);
@@ -31,8 +30,6 @@ class _LoginBodyState extends State<LoginBody> {
 
   LoginProvider loginProvider;
   bool obscurePassword = true;
-  bool showError = false;
-  bool forgotPassword = false;
 
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
@@ -50,7 +47,8 @@ class _LoginBodyState extends State<LoginBody> {
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     loginProvider.enabledSubmitButton = false;
-    loginProvider.showResetPasswordBody = false;
+    loginProvider.nationalIdController.clear();
+    loginProvider.passwordController.clear();
     getAppLanguage();
     super.initState();
   }
@@ -73,45 +71,9 @@ class _LoginBodyState extends State<LoginBody> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // SizedBox(height: height(0.08, context),),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if(forgotPassword)
-                    Container(
-                          alignment: Alignment.topLeft,
-                          child: Row(
-                            children: [
-                              InkWell(
-                                onTap: (){
-                                  if(loginProvider.showResetPasswordBody){
-                                    loginProvider.showResetPasswordBody = false;
-                                    loginProvider.notifyMe();
-                                  }else{
-                                    setState(() {
-                                      loginProvider.nationalIdController.clear();
-                                      loginProvider.passwordController.clear();
-                                      loginProvider.enabledSubmitButton = false;
-                                      forgotPassword = false;
-                                      loginProvider.showBottomNavigationBar = true;
-                                      loginProvider.notifyMe();
-                                    });
-                                  }
-                                },
-                                child: SvgPicture.asset(
-                                    'assets/icons/back.svg'
-                                ),
-                              ),
-                              SizedBox(width: width(0.03, context)),
-                              Text(
-                                translate('forgotPassword', context),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700
-                                ),
-                              ),
-                            ],
-                          )
-                  ),
                     Container(
                         alignment: Alignment.topLeft,
                         child: Row(
@@ -163,14 +125,95 @@ class _LoginBodyState extends State<LoginBody> {
                   ],
                 ),
                 SizedBox(height: height(0.03, context),),
-                if(forgotPassword)
-                  Divider(
-                    color: HexColor('#DADADA')
-                  ),
                 SizedBox(height: height(0.03, context),),
-                Provider.of<LoginProvider>(context).showResetPasswordBody
-                    ? const ResetPasswordBody()
-                    : loginBodyWidget(themeNotifier)
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SvgPicture.asset('assets/logo/logo_with_name.svg'),
+                      SizedBox(height: height(0.04, context)),
+                      Text(
+                        translate('login', context),
+                        style: TextStyle(
+                            fontSize: width(0.045, context),
+                            fontWeight: FontWeight.w700
+                        ),
+                      ),
+                      SizedBox(height: height(0.04, context)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            translate('enterNationalId', context),
+                          ),
+                          SizedBox(height: height(0.015, context)),
+                          buildTextFormField(themeNotifier, loginProvider,  loginProvider.nationalIdController, TextInputType.number),
+                        ],
+                      ),
+                      // if(!forgotPassword)
+                      SizedBox(height: height(0.025, context)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            translate('password', context),
+                          ),
+                          SizedBox(height: height(0.015, context)),
+                          buildTextFormField(themeNotifier, loginProvider,  loginProvider.passwordController, TextInputType.visiblePassword),
+                        ],
+                      ),
+                      // if(!forgotPassword)
+                      SizedBox(height: height(0.015, context)),
+                      InkWell(
+                        onTap: (){
+                          // setState(() {
+                          //   forgotPassword = true;
+                          //   loginProvider.showBottomNavigationBar = false;
+                          //   loginProvider.nationalIdController.clear();
+                          //   loginProvider.passwordController.clear();
+                          //   loginProvider.enabledSubmitButton = false;
+                          //   loginProvider.notifyMe();
+                          // });
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context)=> const ForgotPasswordScreen()),
+                          );
+
+                        },
+                        child: Container(
+                          alignment: UserConfig.instance.checkLanguage()
+                              ? Alignment.bottomLeft : Alignment.bottomRight,
+                          child: Text(
+                            translate('forgotPassword', context) + (UserConfig.instance.checkLanguage() ? ' ?' : ' ؟'),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: height(0.05, context)),
+                      submitButton(themeNotifier),
+                      SizedBox(height: height(0.03, context)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            translate('dontHaveAnAccount', context),
+                          ),
+                          SizedBox(width: width(0.005, context)),
+                          InkWell(
+                            onTap: (){
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => const RegisterScreen())
+                              );
+                            },
+                            child: Text(
+                              translate('register', context),
+                              style: TextStyle(
+                                  color: HexColor('#003C97')
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
@@ -179,105 +222,10 @@ class _LoginBodyState extends State<LoginBody> {
     );
   }
 
-  SingleChildScrollView loginBodyWidget(themeNotifier){
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          if(!forgotPassword)
-            SvgPicture.asset('assets/logo/logo_with_name.svg'),
-          if(!forgotPassword)
-            SizedBox(height: height(0.04, context)),
-          if(!forgotPassword)
-            Text(
-              translate('login', context),
-              style: TextStyle(
-                  fontSize: width(0.045, context),
-                  fontWeight: FontWeight.w700
-              ),
-            ),
-          if(!forgotPassword)
-            SizedBox(height: height(0.04, context)),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                translate('enterNationalId', context),
-              ),
-              SizedBox(height: height(0.015, context)),
-              buildTextFormField(themeNotifier, loginProvider,  loginProvider.nationalIdController, TextInputType.number),
-            ],
-          ),
-          // if(!forgotPassword)
-          SizedBox(height: height(0.025, context)),
-          if(!forgotPassword)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  translate('password', context),
-                ),
-                SizedBox(height: height(0.015, context)),
-                buildTextFormField(themeNotifier, loginProvider,  loginProvider.passwordController, TextInputType.visiblePassword),
-              ],
-            ),
-          // if(!forgotPassword)
-          SizedBox(height: height(0.015, context)),
-          if(!forgotPassword)
-            InkWell(
-              onTap: (){
-                setState(() {
-                  forgotPassword = true;
-                  loginProvider.showBottomNavigationBar = false;
-                  loginProvider.nationalIdController.clear();
-                  loginProvider.passwordController.clear();
-                  loginProvider.enabledSubmitButton = false;
-                  loginProvider.notifyMe();
-                });
-              },
-              child: Container(
-                alignment: UserConfig.instance.checkLanguage()
-                    ? Alignment.bottomLeft : Alignment.bottomRight,
-                child: Text(
-                  translate('forgotPassword', context) + (UserConfig.instance.checkLanguage() ? ' ?' : ' ؟'),
-                ),
-              ),
-            ),
-          SizedBox(height: height(0.05, context)),
-          submitButton(themeNotifier),
-          SizedBox(height: height(0.04, context)),
-          if(!forgotPassword)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  translate('dontHaveAnAccount', context),
-                ),
-                SizedBox(width: width(0.005, context)),
-                InkWell(
-                  onTap: (){
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const RegisterScreen())
-                    );
-                  },
-                  child: Text(
-                    translate('register', context),
-                    style: TextStyle(
-                        color: HexColor('#003C97')
-                    ),
-                  ),
-                ),
-              ],
-            ),
-        ],
-      ),
-    );
-  }
-
   TextButton submitButton(themeNotifier){
     return  TextButton(
       onPressed: () async {
-        // when user press continue to login
-        if(loginProvider.enabledSubmitButton && !forgotPassword && loginProvider.numberOfAttempts < 5){
+        if(loginProvider.enabledSubmitButton && loginProvider.numberOfAttempts < 5){
           String errorMessage = "";
           try{
             await loginProvider.login( loginProvider.nationalIdController.text,  loginProvider.passwordController.text)
@@ -302,7 +250,7 @@ class _LoginBodyState extends State<LoginBody> {
               }else{
                 loginProvider.numberOfAttempts++;
                 if(loginProvider.numberOfAttempts > 4){
-                  showMyDialog(context, 'exceedNumberOfAllowedAttempts', loginProvider.numberOfAttempts > 4 ? "" : errorMessage, 'resetPassword', themeNotifier);
+                  showMyDialog(context, 'exceedNumberOfAllowedAttempts', loginProvider.numberOfAttempts > 4 ? "" : errorMessage, 'resetPassword', themeNotifier, exceedAttempts: true);
                 }else{
                   showMyDialog(context, 'loginFailed', errorMessage, 'retryAgain', themeNotifier);
                 }
@@ -315,44 +263,12 @@ class _LoginBodyState extends State<LoginBody> {
             }
           }
           // when user press continue to submit natID to reset password
-        } else if(loginProvider.enabledSubmitButton && forgotPassword){
-          String errorMessage = "";
-          try{
-            await loginProvider.resetPasswordGetDetail( loginProvider.nationalIdController.text).whenComplete((){})
-                .then((val) async {
-              ResetPasswordGetDetail resetPasswordGetDetail = val;
-              if(resetPasswordGetDetail.poStatusDescEn != null && resetPasswordGetDetail.poStatus == -1){
-                errorMessage = UserConfig.instance.checkLanguage()
-                    ? resetPasswordGetDetail.poStatusDescEn : resetPasswordGetDetail.poStatusDescAr;
-              } else{
-                errorMessage = '';
-                userSecuredStorage.email = resetPasswordGetDetail.poEmail ?? ''; // poEmail -> user email
-                userSecuredStorage.mobileNumber = resetPasswordGetDetail.poMobileno ?? ''; // poMobileno -> user mobile number
-                userSecuredStorage.nationalId =  loginProvider.nationalIdController.text ?? ''; // poUserName -> user national ID
-                await loginProvider.resetPasswordSendMobileOTP( loginProvider.nationalIdController.text).then((value){
-                  print(value);
-                });
-              }
-              if(resetPasswordGetDetail.poStatus == 1){
-                loginProvider.showResetPasswordBody = true;
-                forgotPassword = false;
-                loginProvider.showBottomNavigationBar = false;
-              }else{
-                showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
-              }
-              loginProvider.notifyMe();
-            });
-          }catch(e){
-            if (kDebugMode) {
-              print(e.toString());
-            }
-          }
         }
       },
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
             Provider.of<LoginProvider>(context).enabledSubmitButton &&
-                (Provider.of<LoginProvider>(context).numberOfAttempts < 5 || forgotPassword)
+                Provider.of<LoginProvider>(context).numberOfAttempts < 5
                 ? getPrimaryColor(context, themeNotifier) : Colors.grey,
           ),
           foregroundColor:  MaterialStateProperty.all<Color>(
@@ -377,54 +293,49 @@ class _LoginBodyState extends State<LoginBody> {
       keyboardType: inputType,
       obscureText: controller ==  loginProvider.passwordController ? obscurePassword : false,
       decoration: InputDecoration(
-          hintText: controller ==  loginProvider.nationalIdController
-              ? translate('ex', context) + '9661001073'
-              : '',
-          hintStyle: TextStyle(
-              color: getGrey2Color(context).withOpacity(
-                  themeNotifier.isLight()
-                      ? 1 : 0.5
-              ),
-              fontSize: 14
+        hintText: controller ==  loginProvider.nationalIdController
+            ? translate('ex', context) + '9661001073'
+            : '',
+        hintStyle: TextStyle(
+          color: getGrey2Color(context).withOpacity(
+            themeNotifier.isLight() ? 1 : 0.5,
           ),
-          suffixIcon: controller ==  loginProvider.passwordController
-          ? InkWell(
-            onTap: (){
-              setState(() {
-                obscurePassword = !obscurePassword;
-              });
-            },
-            child: Icon(
-              obscurePassword ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
-              size: 23,
-              color: themeNotifier.isLight()
-                  ? getPrimaryColor(context, themeNotifier)
-                  : Colors.white,
-            ),
-          ) : const SizedBox.shrink(),
-          contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(
-              color: getPrimaryColor(context, themeNotifier),
-              width: 0.5,
-            ),
+          fontSize: 14,
+        ),
+        suffixIcon: controller ==  loginProvider.passwordController
+        ? InkWell(
+          onTap: (){
+            setState(() {
+              obscurePassword = !obscurePassword;
+            });
+          },
+          child: Icon(
+            obscurePassword ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
+            size: 20,
+            color: themeNotifier.isLight()
+                ? getPrimaryColor(context, themeNotifier)
+                : Colors.white,
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(
-              color: getPrimaryColor(context, themeNotifier),
-              width: 0.8,
-            ),
-          )
+        ) : const SizedBox.shrink(),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4),
+          borderSide: BorderSide(
+            color: getPrimaryColor(context, themeNotifier),
+            width: 0.5,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4),
+          borderSide: BorderSide(
+            color: getPrimaryColor(context, themeNotifier),
+            width: 0.8,
+          ),
+        )
       ),
       onChanged: (val){
-        if(!forgotPassword){
-          loginProvider.enabledSubmitButton = ( loginProvider.nationalIdController.text.isNotEmpty &&
-              loginProvider.passwordController.text.isNotEmpty);
-        }else{
-          loginProvider.enabledSubmitButton =  loginProvider.nationalIdController.text.isNotEmpty;
-        }
+        loginProvider.enabledSubmitButton = ( loginProvider.nationalIdController.text.isNotEmpty &&
+            loginProvider.passwordController.text.isNotEmpty);
         loginProvider.notifyMe();
       },
     );

@@ -28,7 +28,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    loginProvider.showBottomNavigationBar = true;
     super.initState();
   }
   @override
@@ -65,8 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: Provider.of<LoginProvider>(context).showBottomNavigationBar
-          ? curvedNavigationBar(themeNotifier) : const SizedBox.shrink(),
+        bottomNavigationBar: curvedNavigationBar(themeNotifier),
       ),
     );
   }
