@@ -17,6 +17,7 @@ import '../../../viewModel/login/loginProvider.dart';
 import '../../../viewModel/utilities/language/globalAppProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../main/mainScreen.dart';
+import '../registerScreen.dart';
 import 'resetPasswordBody.dart';
 
 class LoginBody extends StatefulWidget {
@@ -28,8 +29,6 @@ class LoginBody extends StatefulWidget {
 
 class _LoginBodyState extends State<LoginBody> {
 
-  TextEditingController nationalIdController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   LoginProvider loginProvider;
   bool obscurePassword = true;
   bool showError = false;
@@ -90,8 +89,8 @@ class _LoginBodyState extends State<LoginBody> {
                                     loginProvider.notifyMe();
                                   }else{
                                     setState(() {
-                                      nationalIdController.clear();
-                                      passwordController.clear();
+                                      loginProvider.nationalIdController.clear();
+                                      loginProvider.passwordController.clear();
                                       loginProvider.enabledSubmitButton = false;
                                       forgotPassword = false;
                                       loginProvider.showBottomNavigationBar = true;
@@ -205,7 +204,7 @@ class _LoginBodyState extends State<LoginBody> {
                 translate('enterNationalId', context),
               ),
               SizedBox(height: height(0.015, context)),
-              buildTextFormField(themeNotifier, loginProvider,  nationalIdController, TextInputType.number),
+              buildTextFormField(themeNotifier, loginProvider,  loginProvider.nationalIdController, TextInputType.number),
             ],
           ),
           // if(!forgotPassword)
@@ -218,7 +217,7 @@ class _LoginBodyState extends State<LoginBody> {
                   translate('password', context),
                 ),
                 SizedBox(height: height(0.015, context)),
-                buildTextFormField(themeNotifier, loginProvider, passwordController, TextInputType.visiblePassword),
+                buildTextFormField(themeNotifier, loginProvider,  loginProvider.passwordController, TextInputType.visiblePassword),
               ],
             ),
           // if(!forgotPassword)
@@ -229,8 +228,8 @@ class _LoginBodyState extends State<LoginBody> {
                 setState(() {
                   forgotPassword = true;
                   loginProvider.showBottomNavigationBar = false;
-                  nationalIdController.clear();
-                  passwordController.clear();
+                  loginProvider.nationalIdController.clear();
+                  loginProvider.passwordController.clear();
                   loginProvider.enabledSubmitButton = false;
                   loginProvider.notifyMe();
                 });
@@ -254,10 +253,17 @@ class _LoginBodyState extends State<LoginBody> {
                   translate('dontHaveAnAccount', context),
                 ),
                 SizedBox(width: width(0.005, context)),
-                Text(
-                  translate('register', context),
-                  style: TextStyle(
-                      color: HexColor('#003C97')
+                InkWell(
+                  onTap: (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const RegisterScreen())
+                    );
+                  },
+                  child: Text(
+                    translate('register', context),
+                    style: TextStyle(
+                        color: HexColor('#003C97')
+                    ),
                   ),
                 ),
               ],
@@ -274,7 +280,7 @@ class _LoginBodyState extends State<LoginBody> {
         if(loginProvider.enabledSubmitButton && !forgotPassword && loginProvider.numberOfAttempts < 5){
           String errorMessage = "";
           try{
-            await loginProvider.login(nationalIdController.text, passwordController.text)
+            await loginProvider.login( loginProvider.nationalIdController.text,  loginProvider.passwordController.text)
                 .whenComplete((){})
                 .then((val){
               UserData userData = val;
@@ -312,7 +318,7 @@ class _LoginBodyState extends State<LoginBody> {
         } else if(loginProvider.enabledSubmitButton && forgotPassword){
           String errorMessage = "";
           try{
-            await loginProvider.resetPasswordGetDetail(nationalIdController.text).whenComplete((){})
+            await loginProvider.resetPasswordGetDetail( loginProvider.nationalIdController.text).whenComplete((){})
                 .then((val) async {
               ResetPasswordGetDetail resetPasswordGetDetail = val;
               if(resetPasswordGetDetail.poStatusDescEn != null && resetPasswordGetDetail.poStatus == -1){
@@ -322,8 +328,8 @@ class _LoginBodyState extends State<LoginBody> {
                 errorMessage = '';
                 userSecuredStorage.email = resetPasswordGetDetail.poEmail ?? ''; // poEmail -> user email
                 userSecuredStorage.mobileNumber = resetPasswordGetDetail.poMobileno ?? ''; // poMobileno -> user mobile number
-                userSecuredStorage.nationalId = nationalIdController.text ?? ''; // poUserName -> user national ID
-                await loginProvider.resetPasswordSendMobileOTP(nationalIdController.text).then((value){
+                userSecuredStorage.nationalId =  loginProvider.nationalIdController.text ?? ''; // poUserName -> user national ID
+                await loginProvider.resetPasswordSendMobileOTP( loginProvider.nationalIdController.text).then((value){
                   print(value);
                 });
               }
@@ -369,9 +375,9 @@ class _LoginBodyState extends State<LoginBody> {
     return TextFormField(
       controller: controller,
       keyboardType: inputType,
-      obscureText: controller == passwordController ? obscurePassword : false,
+      obscureText: controller ==  loginProvider.passwordController ? obscurePassword : false,
       decoration: InputDecoration(
-          hintText: controller == nationalIdController
+          hintText: controller ==  loginProvider.nationalIdController
               ? translate('ex', context) + '9661001073'
               : '',
           hintStyle: TextStyle(
@@ -381,7 +387,7 @@ class _LoginBodyState extends State<LoginBody> {
               ),
               fontSize: 14
           ),
-          suffixIcon: controller == passwordController
+          suffixIcon: controller ==  loginProvider.passwordController
           ? InkWell(
             onTap: (){
               setState(() {
@@ -414,10 +420,10 @@ class _LoginBodyState extends State<LoginBody> {
       ),
       onChanged: (val){
         if(!forgotPassword){
-          loginProvider.enabledSubmitButton = (nationalIdController.text.isNotEmpty &&
-              passwordController.text.isNotEmpty);
+          loginProvider.enabledSubmitButton = ( loginProvider.nationalIdController.text.isNotEmpty &&
+              loginProvider.passwordController.text.isNotEmpty);
         }else{
-          loginProvider.enabledSubmitButton = nationalIdController.text.isNotEmpty;
+          loginProvider.enabledSubmitButton =  loginProvider.nationalIdController.text.isNotEmpty;
         }
         loginProvider.notifyMe();
       },
