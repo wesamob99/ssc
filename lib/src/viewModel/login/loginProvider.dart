@@ -18,6 +18,12 @@ class LoginProvider extends ChangeNotifier {
 
   /// register ***
   TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController natIdController = TextEditingController();
+  TextEditingController natIdNumberController = TextEditingController();
+  TextEditingController relativeNatIdController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController registerPasswordController = TextEditingController();
+  TextEditingController registerVerifyPasswordController = TextEditingController();
   bool registerContinueEnabled = false;
   int stepNumber = 1;
 
