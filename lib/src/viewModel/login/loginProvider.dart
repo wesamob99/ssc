@@ -18,8 +18,8 @@ class LoginProvider extends ChangeNotifier {
 
   /// register ***
   TextEditingController mobileNumberController = TextEditingController();
-  TextEditingController natIdController = TextEditingController();
-  TextEditingController natIdNumberController = TextEditingController();
+  TextEditingController registerNationalIdController = TextEditingController();
+  TextEditingController nationalIdNumberController = TextEditingController();
   TextEditingController relativeNatIdController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController registerPasswordController = TextEditingController();
