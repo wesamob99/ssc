@@ -193,7 +193,9 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                           }
                         });
                       }catch(e){
-                        print(e.toString());
+                        if (kDebugMode) {
+                          print(e.toString());
+                        }
                       }
                 }}),
             if(!useAnotherMethod)
@@ -214,11 +216,15 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                           ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
                       showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
                     }else{
-                      print("true OTP");
+                      if (kDebugMode) {
+                        print("true OTP");
+                      }
                     }
                   });
                   }catch(e){
-                    print(e.toString());
+                    if (kDebugMode) {
+                      print(e.toString());
+                    }
                   }
                 }}),
             SizedBox(height: height(0.018, context),),
