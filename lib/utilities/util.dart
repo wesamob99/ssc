@@ -331,3 +331,39 @@ Future<void> showMyDialog(
     },
   );
 }
+
+animatedLoader(){
+  return Image.asset(
+    "assets/logo/loaderLogo.gif",
+  );
+}
+
+TextButton textButton(context, themeNotifier, text, buttonColor, textColor, onPressed){
+  return  TextButton(
+    onPressed: onPressed,
+    style: ButtonStyle(
+        backgroundColor: buttonColor,
+        foregroundColor:  MaterialStateProperty.all<Color>(
+            Colors.white
+        ),
+        fixedSize:  MaterialStateProperty.all<Size>(
+          Size(width(0.7, context), height(0.055, context)),
+        ),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: BorderSide(
+                  color: Colors.grey.shade600,
+                  width: 0.4
+              )
+          ),
+        )
+    ),
+    child: Text(
+      translate(text, context),
+      style: TextStyle(
+          color: textColor
+      ),
+    ),
+  );
+}
