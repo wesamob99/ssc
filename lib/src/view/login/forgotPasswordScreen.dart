@@ -34,6 +34,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
   String selectedLanguage;
+  bool showResetPasswordBody;
 
   getAppLanguage(){
     prefs.then((value) {
@@ -47,7 +48,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     loginProvider.enabledSubmitButton = false;
-    loginProvider.showResetPasswordBody = false;
+    showResetPasswordBody = false;
     loginProvider.nationalIdController.clear();
     loginProvider.passwordController.clear();
     getAppLanguage();
@@ -83,7 +84,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if(!loginProvider.showResetPasswordBody)
+                      if(!showResetPasswordBody)
                         Container(
                             alignment: Alignment.topLeft,
                             child: Row(
@@ -171,7 +172,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       color: HexColor('#DADADA')
                   ),
                   SizedBox(height: height(0.03, context),),
-                  if(!loginProvider.showResetPasswordBody)
+                  if(!showResetPasswordBody)
                   SingleChildScrollView(
                     child: Column(
                       children: [
@@ -192,7 +193,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       ],
                     ),
                   ),
-                  if(loginProvider.showResetPasswordBody)
+                  if(showResetPasswordBody)
                   const ForgotPasswordBody()
                 ],
               ),
@@ -223,7 +224,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 await loginProvider.resetPasswordSendMobileOTP(loginProvider.nationalIdController.text);
               }
               if(resetPasswordGetDetail.poStatus == 1){
-                loginProvider.showResetPasswordBody = true;
+                setState((){
+                  showResetPasswordBody = true;
+                });
               }else{
                 showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
               }
