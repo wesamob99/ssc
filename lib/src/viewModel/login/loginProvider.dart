@@ -65,4 +65,31 @@ class LoginProvider extends ChangeNotifier {
   void notifyMe() {
     notifyListeners();
   }
+
+
+  clearLoginDate(){
+    passwordController.clear();
+    numberOfAttempts = 0;
+    notifyMe();
+  }
+
+  clearForgotPasswordDate(){
+    enabledSendCodeButton = false;
+
+    notifyMe();
+  }
+
+  clearRegisterDate(){
+    mobileNumberController.clear();
+    registerNationalIdController.clear();
+    nationalIdNumberController.clear();
+    relativeNatIdController.clear();
+    emailController.clear();
+    registerPasswordController.clear();
+    registerVerifyPasswordController.clear();
+
+    registerContinueEnabled = false;
+    stepNumber = 1;
+    notifyMe();
+  }
 }
