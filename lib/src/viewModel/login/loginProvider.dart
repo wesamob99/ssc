@@ -7,16 +7,24 @@ import '../../model/login/loginRepository.dart';
 
 class LoginProvider extends ChangeNotifier {
 
-  TextEditingController nationalIdController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController mobileNumberController = TextEditingController();
   LoginRepository loginRepository = LoginRepository();
-  bool enabledSubmitButton = false;
-  bool enabledSendCodeButton = false;
-  bool showResetPasswordBody = false;
-  bool registerContinueEnabled = false;
+
+  /// login ***
+  TextEditingController passwordController = TextEditingController();
   int numberOfAttempts = 0;
+
+  /// forgot password ***
+  bool enabledSendCodeButton = false;
+
+  /// register ***
+  TextEditingController mobileNumberController = TextEditingController();
+  bool registerContinueEnabled = false;
   int stepNumber = 1;
+
+  /// login | forgot password
+  TextEditingController nationalIdController = TextEditingController();
+  bool enabledSubmitButton = false;
+
 
   Future login(String nationalId, String password) async{
     final response = await loginRepository.loginService(nationalId, password);
