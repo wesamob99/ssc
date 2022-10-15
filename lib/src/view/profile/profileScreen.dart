@@ -60,7 +60,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc'); break;
                   case ConnectionState.waiting:
                   case ConnectionState.active:
-                    return const HomeLoaderWidget(); break;
+                    return Container(
+                        height: height(0.7, context),
+                        alignment: Alignment.center,
+                        child: animatedLoader()
+                    ); break;
                   case ConnectionState.done:
                     if(snapshot.hasData && !snapshot.hasError){
                       UserProfileData userProfileData = snapshot.data;
