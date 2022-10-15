@@ -9,7 +9,6 @@ import '../../../infrastructure/userConfig.dart';
 import '../../../infrastructure/userSecuredStorage.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/profile/profileProvider.dart';
-import '../home/components/homeLoaderWidget.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
