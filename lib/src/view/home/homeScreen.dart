@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(bottom: height(0.003, context)),
+                            padding: EdgeInsets.only(bottom: height(0.007, context)),
                             child: Text(translate('overview', context)),
                           ),
                           HomeOverviewWidget(data: userInformation),
@@ -76,17 +76,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: height(0.02, context),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(bottom: height(0.006, context)),
+                            padding: EdgeInsets.only(bottom: height(0.007, context)),
                             child: Text(translate('advertisements', context)),
                           ),
                           const HomeSlideShowWidget(),
                           SizedBox(
                             height: height(0.02, context),
                           ),
-                          Padding(
-                            padding: EdgeInsets.zero,
-                            child: Text(translate('pastYearsPays', context)),
-                          ),
+                          Text(translate('pastYearsPays', context)),
                           HomeChartWidget(data: userInformation),
                           SizedBox(
                             height: height(Provider.of<HomeProvider>(context).showFloatingButton ? 0.075 : 0.0, context),
