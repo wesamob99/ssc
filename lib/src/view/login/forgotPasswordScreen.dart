@@ -47,10 +47,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    loginProvider.enabledSubmitButton = false;
-    showResetPasswordBody = false;
-    loginProvider.nationalIdController.clear();
-    loginProvider.passwordController.clear();
+    loginProvider.clearLoginData();
+    loginProvider.clearForgotPasswordData();
+    loginProvider.clearRegisterData();
     getAppLanguage();
     super.initState();
   }

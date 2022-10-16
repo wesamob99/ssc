@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
-import 'package:ssc/models/login/registerData.dart';
 
 import '../../../utilities/constants.dart';
 import '../../../utilities/hexColor.dart';
@@ -41,9 +40,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    loginProvider.registerData = RegisterData();
-    loginProvider.mobileNumberController.clear();
-    loginProvider.registerContinueEnabled = false;
+    loginProvider.clearLoginData();
+    loginProvider.clearForgotPasswordData();
+    loginProvider.clearRegisterData();
     getAppLanguage();
     super.initState();
   }

@@ -28,6 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    loginProvider.clearLoginData();
+    loginProvider.clearForgotPasswordData();
+    loginProvider.clearRegisterData();
     super.initState();
   }
   @override
