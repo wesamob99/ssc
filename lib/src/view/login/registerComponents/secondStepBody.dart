@@ -112,7 +112,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 ),
               ),
               SizedBox(height: height(0.015, context),),
-              dropDownList(loginProvider.selectedRelativeType, relationTypes, themeNotifier, loginProvider),
+              dropDownList(relationTypes, themeNotifier, loginProvider, 0),
               SizedBox(height: height(0.02, context),),
               Text(
                 translate('academicLevel', context),
@@ -122,7 +122,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 ),
               ),
               SizedBox(height: height(0.015, context),),
-              dropDownList(loginProvider.selectedAcademicLevel, academicLevels, themeNotifier, loginProvider),
+              dropDownList(academicLevels, themeNotifier, loginProvider, 1),
             ],
           ),
           SizedBox(height: height(0.04, context),),
@@ -184,8 +184,8 @@ class _SecondStepBodyState extends State<SecondStepBody> {
               loginProvider.registerNationalIdController.text.isNotEmpty &&
               loginProvider.civilIdNumberController.text.isNotEmpty &&
               loginProvider.relativeNatIdController.text.isNotEmpty &&
-              loginProvider.selectedAcademicLevel != 'choose' &&
-              loginProvider.selectedRelativeType != 'choose'
+              loginProvider.thirdStepSelection[0] != 'choose' &&
+              loginProvider.thirdStepSelection[1] != 'choose'
           );
           loginProvider.notifyMe();
         },
@@ -193,7 +193,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
     );
   }
 
-  dropDownList(dropDownValue, List<String> menuList, themeNotifier, loginProvider){
+  dropDownList(List<String> menuList, ThemeNotifier themeNotifier, LoginProvider loginProvider, index){
     return Container(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       height: height(0.05, context),
@@ -207,7 +207,8 @@ class _SecondStepBodyState extends State<SecondStepBody> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             DropdownButton<String>(
-              value: dropDownValue,
+              key: ObjectKey(loginProvider.thirdStepSelection[index]),
+              value: loginProvider.thirdStepSelection[index],
               icon: const Icon(
                 Icons.arrow_drop_down_outlined,
                 size: 0,
@@ -220,10 +221,10 @@ class _SecondStepBodyState extends State<SecondStepBody> {
               ),
               onChanged: (String value){
                 setState(() {
-                  if(dropDownValue == loginProvider.selectedRelativeType){
-                    loginProvider.selectedRelativeType = value;
-                  } else if(dropDownValue == loginProvider.selectedAcademicLevel){
-                    loginProvider.selectedAcademicLevel = value;
+                  if(index == 0){
+                    loginProvider.thirdStepSelection[0] = value;
+                  } else if(index == 1){
+                    loginProvider.thirdStepSelection[1] = value;
                   }
                   loginProvider.notifyMe();
                 });
@@ -231,8 +232,8 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                     loginProvider.registerNationalIdController.text.isNotEmpty &&
                         loginProvider.civilIdNumberController.text.isNotEmpty &&
                         loginProvider.relativeNatIdController.text.isNotEmpty &&
-                        loginProvider.selectedAcademicLevel != 'choose' &&
-                        loginProvider.selectedRelativeType != 'choose'
+                        loginProvider.thirdStepSelection[0] != 'choose' &&
+                        loginProvider.thirdStepSelection[1] != 'choose'
                 );
                 loginProvider.notifyMe();
               },

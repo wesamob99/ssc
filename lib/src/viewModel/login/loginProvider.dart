@@ -26,8 +26,8 @@ class LoginProvider extends ChangeNotifier {
   TextEditingController emailController = TextEditingController();
   TextEditingController registerPasswordController = TextEditingController();
   TextEditingController registerVerifyPasswordController = TextEditingController();
-  String selectedRelativeType = 'choose';
-  String selectedAcademicLevel = 'choose';
+  // at index 0 -> relative type | index 1 -> academic level
+  List thirdStepSelection = ['choose', 'choose'];
   bool registerContinueEnabled = false;
 
   /// login | forgot password
@@ -95,8 +95,7 @@ class LoginProvider extends ChangeNotifier {
     registerPasswordController.clear();
     registerVerifyPasswordController.clear();
     registerContinueEnabled = false;
-    selectedRelativeType = 'choose';
-    selectedAcademicLevel = 'choose';
+    thirdStepSelection = ['choose', 'choose'];
     notifyMe();
   }
 }
