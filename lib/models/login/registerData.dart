@@ -1,6 +1,6 @@
 // To parse this JSON data, do
 //
-//     final registerData = registerDataFromJson(jsonString);
+//     registerData = registerDataFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -41,35 +41,35 @@ class RegisterData {
     this.isWebsite,
   });
 
-  final int nationality;
-  final int nationalNumber;
-  final dynamic personalNumber;
-  final String personalCardNo;
-  final int relativeNatId;
-  final int relativeType;
-  final dynamic gender;
-  final dynamic dateOfBirth;
-  final String countryCodeNo;
-  final String mobileNo;
-  final dynamic passportNo;
-  final dynamic dateOfEntry;
-  final dynamic insuranceNo;
-  final int residentCountry;
-  final String academicLevel;
-  final String email;
-  final String confirmEmail;
-  final dynamic bankCode;
-  final dynamic iban;
-  final String password;
-  final int userId;
-  final int activationBy;
-  final int language;
-  final String recaptchaReactive;
-  final dynamic nationalId;
-  final dynamic nationalMobile;
-  final dynamic nationalMobileCode;
-  final String hashedCaptcha;
-  final bool isWebsite;
+  int nationality;
+  int nationalNumber;
+  dynamic personalNumber;
+  String personalCardNo;
+  int relativeNatId;
+  int relativeType;
+  dynamic gender;
+  dynamic dateOfBirth;
+  String countryCodeNo;
+  String mobileNo;
+  dynamic passportNo;
+  dynamic dateOfEntry;
+  dynamic insuranceNo;
+  int residentCountry;
+  String academicLevel;
+  String email;
+  String confirmEmail;
+  dynamic bankCode;
+  dynamic iban;
+  String password;
+  int userId;
+  int activationBy;
+  int language;
+  String recaptchaReactive;
+  dynamic nationalId;
+  dynamic nationalMobile;
+  dynamic nationalMobileCode;
+  String hashedCaptcha;
+  bool isWebsite;
 
   factory RegisterData.fromJson(Map<String, dynamic> json) => RegisterData(
     nationality: json["nationality"],
