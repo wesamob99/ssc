@@ -108,5 +108,11 @@
   "ba": "Bachelor",
   "highSchool": "High school",
   "lessHighSchool": "Less than high school",
-  "professionalCertificate": "Professional certificate"
+  "professionalCertificate": "Professional certificate",
+  "setPassword": "Set password",
+  "chooseHowToReceiveMessages": "How would you like to receive your messages",
+  "sms": "Sms",
+  "email": "Email",
+  "choosingEmailPreferable": "It is preferable to choose the e-mail also to receive better services"
+
 }

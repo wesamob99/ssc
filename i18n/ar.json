@@ -108,6 +108,11 @@
   "ba": "بكالوريوس",
   "highSchool": "ثانويه عامه",
   "lessHighSchool": "اقل من ثانويه عامه",
-  "professionalCertificate": "شهادة مهنيه"
+  "professionalCertificate": "شهادة مهنيه",
+  "setPassword": "تعيين كلمة المرور",
+  "chooseHowToReceiveMessages": "كيف تفضل استلام الرسائل الخاصة بك",
+  "sms": "رسائل نصية",
+  "email": "البريد الالكتروني",
+  "choosingEmailPreferable": "يفضل اختيار البريد الالكتروني ايضا لتصلك الخدمات بشكل افضل"
 
 }
