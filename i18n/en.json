@@ -91,6 +91,11 @@
   "and": "and ",
   "jordanian": "jordanian",
   "nonJordanian": "non jordanian",
-  "secondStep": "Second step"
+  "secondStep": "Second step",
+  "civilIdNumber": "Civil ID number",
+  "relativeNationalNumber": "A relative's national number",
+  "relativeRelation": "Relative relation",
+  "academicLevel": "Academic level",
+  "choose": "Choose"
 
 }

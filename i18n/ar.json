@@ -91,6 +91,11 @@
   "and": "و",
   "jordanian": "اردني",
   "nonJordanian": "غير اردني",
-  "secondStep": "الخطوة الثانيه"
+  "secondStep": "الخطوة الثانيه",
+  "civilIdNumber": "رقم الهوية المدنيه",
+  "relativeNationalNumber": "رقم وطني لأحد الاقارب",
+  "relativeRelation": "صلة القرابة",
+  "academicLevel": "المستوى الاكاديمي",
+  "choose": "اختر"
 
 }
