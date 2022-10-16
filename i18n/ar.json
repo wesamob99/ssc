@@ -96,6 +96,18 @@
   "relativeNationalNumber": "رقم وطني لأحد الاقارب",
   "relativeRelation": "صلة القرابة",
   "academicLevel": "المستوى الاكاديمي",
-  "choose": "اختر"
+  "choose": "اختر",
+  "parent": "الوالدين",
+  "brother": "الأخوه/الأخوات",
+  "wife": "الزوج/الزوجه",
+  "child": "أبناء/بنات",
+  "phd": "دكتوراه",
+  "master": "ماجستير",
+  "hDiploma": "دبلوم عالي",
+  "mDiploma": "دبلوم متوسط",
+  "ba": "بكالوريوس",
+  "highSchool": "ثانويه عامه",
+  "lessHighSchool": "اقل من ثانويه عامه",
+  "professionalCertificate": "شهادة مهنيه"
 
 }

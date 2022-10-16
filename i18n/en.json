@@ -96,6 +96,17 @@
   "relativeNationalNumber": "A relative's national number",
   "relativeRelation": "Relative relation",
   "academicLevel": "Academic level",
-  "choose": "Choose"
-
+  "choose": "Choose",
+  "parent": "Parents",
+  "brother": "Brothers/Sisters",
+  "wife": "Husband/Wife",
+  "child": "Sons/Daughters",
+  "phd": "PhD",
+  "master": "Master's",
+  "hDiploma": "High diploma",
+  "mDiploma": "Medium diploma",
+  "ba": "Bachelor",
+  "highSchool": "High school",
+  "lessHighSchool": "Less than high school",
+  "professionalCertificate": "Professional certificate"
 }
