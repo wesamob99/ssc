@@ -17,7 +17,7 @@ import '../../../viewModel/utilities/language/globalAppProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../main/mainScreen.dart';
 import '../forgotPasswordScreen.dart';
-import '../registerScreen.dart';
+import '../registerComponents/firstStepBody.dart';
 
 class LoginBody extends StatefulWidget {
   const LoginBody({Key key}) : super(key: key);
@@ -199,7 +199,7 @@ class _LoginBodyState extends State<LoginBody> {
                           InkWell(
                             onTap: (){
                               Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => const RegisterScreen())
+                                  MaterialPageRoute(builder: (context) => const FirstStepBody())
                               );
                             },
                             child: Text(
