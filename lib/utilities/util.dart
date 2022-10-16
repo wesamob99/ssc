@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 import '../src/view/login/forgotPasswordScreen.dart';
+import '../src/viewModel/login/loginProvider.dart';
 import 'hexColor.dart';
 import 'language/appLocalizations.dart';
 import 'dart:ui' as ui;
@@ -364,6 +365,40 @@ TextButton textButton(context, themeNotifier, text, buttonColor, textColor, onPr
       style: TextStyle(
           color: textColor
       ),
+    ),
+  );
+}
+
+SizedBox buildTextFormField(context, ThemeNotifier themeNotifier, LoginProvider loginProvider, TextEditingController controller, String hintText, onChanged){
+  return SizedBox(
+    height: height(0.05, context),
+    child: TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+          hintText: translate('ex', context) + hintText,
+          hintStyle: TextStyle(
+            color: getGrey2Color(context).withOpacity(
+              themeNotifier.isLight() ? 1 : 0.5,
+            ),
+            fontSize: 14,
+          ),
+          contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4),
+            borderSide: BorderSide(
+              color: getPrimaryColor(context, themeNotifier),
+              width: 0.5,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4),
+            borderSide: BorderSide(
+              color: getPrimaryColor(context, themeNotifier),
+              width: 0.8,
+            ),
+          )
+      ),
+      onChanged: onChanged,
     ),
   );
 }
