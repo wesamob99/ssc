@@ -113,6 +113,7 @@
   "chooseHowToReceiveMessages": "How would you like to receive your messages",
   "sms": "Sms",
   "email": "Email",
-  "choosingEmailPreferable": "It is preferable to choose the e-mail also to receive better services"
+  "choosingEmailPreferable": "It is preferable to choose the e-mail also to receive better services",
+  "optionalChoose": "Choose (optional)"
 
 }
