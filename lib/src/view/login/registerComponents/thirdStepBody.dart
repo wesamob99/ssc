@@ -25,6 +25,15 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
   Map item1 = {"title": 'sms', "value": false};
   Map item2 = {"title": 'email', "value": false};
 
+
+  @override
+  void initState() {
+    LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    loginProvider.registerContinueEnabled = true;
+    super.initState();
+  }
+
+
   void _onItemCheckedChange(itemValue, bool checked, loginProvider) {
     setState(() {
       itemValue['value'] = checked;
