@@ -212,7 +212,8 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                               loginProvider.registerData.mobileNo = loginProvider.mobileNumberController.text;
                               loginProvider.notifyMe();
                               Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => MobileNumberOTP(mobileNumber: loginProvider.mobileNumberController.text))
+                                  MaterialPageRoute(builder: (context) => MobileNumberOTP(
+                                      mobileNumber: loginProvider.mobileNumberController.text))
                               );
                             }
                           }),
