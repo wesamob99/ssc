@@ -94,7 +94,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                     fontSize: width(0.032, context)
                 ),
               ),
-              SizedBox(height: height(0.015, context),),
+              SizedBox(height: height(0.01, context),),
               CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 checkColor: Colors.white,
@@ -121,19 +121,31 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                 ),
               ),
               if(item2['value'])
-              SizedBox(height: height(0.02, context),),
-              if(item2['value'])
-              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.emailController, 'example@example.com', (value){
-                if(item2['value'] == true){
-                  loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
-                } else{
-                  loginProvider.registerContinueEnabled = true;
-                }
-                loginProvider.notifyMe();
-              }),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: height(0.025, context),),
+                  Text(
+                    translate('email', context),
+                    style: TextStyle(
+                        color: HexColor('#363636'),
+                        fontSize: width(0.032, context)
+                    ),
+                  ),
+                  SizedBox(height: height(0.015, context),),
+                  buildTextFormField(context, themeNotifier, loginProvider, loginProvider.emailController, 'example@example.com', (value){
+                    if(item2['value'] == true){
+                      loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
+                    } else{
+                      loginProvider.registerContinueEnabled = true;
+                    }
+                    loginProvider.notifyMe();
+                  }),
+                ],
+              ),
             ],
           ),
-          SizedBox(height: height(item2['value'] == true ? 0.28 : 0.35, context),),
+          SizedBox(height: height(item2['value'] == true ? 0.242 : 0.35, context),),
           textButton(context, themeNotifier, 'continue', MaterialStateProperty.all<Color>(
               !Provider.of<LoginProvider>(context).registerContinueEnabled
                   ? HexColor('#DADADA')
