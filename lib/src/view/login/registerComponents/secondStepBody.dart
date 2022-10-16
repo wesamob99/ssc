@@ -188,8 +188,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
 
   dropDownList(dropDownValue, List<String> menuList, themeNotifier){
     return Container(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        width: width(1, context),
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       height: height(0.05, context),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
@@ -198,6 +197,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
         )
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             DropdownButton<String>(
               value: dropDownValue,
@@ -224,7 +224,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: SizedBox(
-                    width: width(0.84, context),
+                    width: width(0.7, context),
                     child: Text(
                       translate(value, context),
                       style: TextStyle(
@@ -237,6 +237,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 );
               }).toList(),
             ),
+            const Icon(Icons.arrow_drop_down_outlined)
           ],
         )
     );
