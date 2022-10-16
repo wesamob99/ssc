@@ -168,8 +168,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ],
                   ),
                   SizedBox(height: height(0.03, context),),
+                  if(!showResetPasswordBody)
                   Divider(
-                      color: HexColor('#DADADA')
+                    color: HexColor('#DADADA')
                   ),
                   SizedBox(height: height(0.03, context),),
                   if(!showResetPasswordBody)
