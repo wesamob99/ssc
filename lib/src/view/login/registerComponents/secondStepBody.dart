@@ -131,7 +131,6 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   : getPrimaryColor(context, themeNotifier)),
               HexColor('#ffffff'), (){
                 if(loginProvider.registerContinueEnabled){
-                  loginProvider.stepNumber++;
                   loginProvider.registerContinueEnabled = false;
                   loginProvider.registerData.nationalId = int.tryParse(loginProvider.registerNationalIdController.text);
                   loginProvider.registerData.personalCardNo = loginProvider.civilIdNumberController.text;
@@ -228,9 +227,10 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                     child: Text(
                       translate(value, context),
                       style: TextStyle(
-                        color: themeNotifier.isLight()
+                        color: value != 'choose'
+                            ? (themeNotifier.isLight()
                             ? primaryColor
-                            : Colors.white,
+                              : Colors.white) : HexColor('#A6A6A6'),
                       ),
                     ),
                   ),

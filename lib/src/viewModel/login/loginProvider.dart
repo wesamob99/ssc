@@ -27,7 +27,6 @@ class LoginProvider extends ChangeNotifier {
   TextEditingController registerPasswordController = TextEditingController();
   TextEditingController registerVerifyPasswordController = TextEditingController();
   bool registerContinueEnabled = false;
-  int stepNumber = 1;
 
   /// login | forgot password
   TextEditingController nationalIdController = TextEditingController();
@@ -91,7 +90,6 @@ class LoginProvider extends ChangeNotifier {
     registerVerifyPasswordController.clear();
 
     registerContinueEnabled = false;
-    stepNumber = 1;
     notifyMe();
   }
 }

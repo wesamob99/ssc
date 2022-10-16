@@ -42,7 +42,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     loginProvider.registerData = RegisterData();
     loginProvider.mobileNumberController.clear();
     loginProvider.registerContinueEnabled = false;
-    loginProvider.stepNumber = 1;
     getAppLanguage();
     super.initState();
   }
