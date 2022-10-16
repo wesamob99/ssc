@@ -1,3 +1,6 @@
+// ignore_for_file: file_names
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/models/login/registerData.dart';
@@ -141,7 +144,9 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                       MaterialPageRoute(builder: (context) => const ThirdStepBody())
                   );
                 }
-                print(registerDataToJson(loginProvider.registerData));
+                if (kDebugMode) {
+                  print(registerDataToJson(loginProvider.registerData));
+                }
               }),
         ],
       ),

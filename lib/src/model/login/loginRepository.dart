@@ -63,7 +63,9 @@ class LoginRepository{
       }
     }
     );
-    print(response);
+    if (kDebugMode) {
+      print(response);
+    }
     if (response != null && response.statusCode == 200) {
       return jsonDecode(response.data);
     }
@@ -81,7 +83,9 @@ class LoginRepository{
         "reRegisterPass": false
       }
     );
-    print(response);
+    if (kDebugMode) {
+      print(response);
+    }
     if (response != null && response.statusCode == 200) {
       return jsonDecode(response.data);
     }
@@ -95,7 +99,9 @@ class LoginRepository{
           "userId": userId
         }
     );
-    print(response);
+    if (kDebugMode) {
+      print(response);
+    }
     if (response != null && response.statusCode == 200) {
       return jsonDecode(response.data);
     }

@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -117,7 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
             case ConnectionState.done:
               if(!snapshot.hasError && snapshot.hasData){
                 PayOffFinancialInformation financialInformation = snapshot.data;
-                print('financialInformation: ${financialInformation.mainPayCur[0][0].amt}');
+                if (kDebugMode) {
+                  print('financialInformation: ${financialInformation.mainPayCur[0][0].amt}');
+                }
                 return Slidable(
                   key: const ValueKey(0),
                   startActionPane: ActionPane(

@@ -1,3 +1,6 @@
+// ignore_for_file: file_names
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/models/login/registerData.dart';
@@ -158,7 +161,9 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                   loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
                   loginProvider.notifyMe();
                 }
-                print(registerDataToJson(loginProvider.registerData));
+                if (kDebugMode) {
+                  print(registerDataToJson(loginProvider.registerData));
+                }
               }),
         ],
       ),
