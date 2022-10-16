@@ -22,9 +22,6 @@ class SecondStepBody extends StatefulWidget {
 
 class _SecondStepBodyState extends State<SecondStepBody> {
 
-  String selectedRelativeType = 'choose';
-  String selectedAcademicLevel = 'choose';
-
   List<String> relationTypes = ['choose', 'parent', 'brother', 'wife', 'child'];
   List<String> academicLevels = ['choose', 'phd', 'master', 'hDiploma', 'mDiploma', 'ba', 'highSchool', 'lessHighSchool', 'professionalCertificate'];
 
@@ -115,7 +112,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 ),
               ),
               SizedBox(height: height(0.015, context),),
-              dropDownList(selectedRelativeType, relationTypes, themeNotifier, loginProvider),
+              dropDownList(loginProvider.selectedRelativeType, relationTypes, themeNotifier, loginProvider),
               SizedBox(height: height(0.02, context),),
               Text(
                 translate('academicLevel', context),
@@ -125,7 +122,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 ),
               ),
               SizedBox(height: height(0.015, context),),
-              dropDownList(selectedAcademicLevel, academicLevels, themeNotifier, loginProvider),
+              dropDownList(loginProvider.selectedAcademicLevel, academicLevels, themeNotifier, loginProvider),
             ],
           ),
           SizedBox(height: height(0.04, context),),
@@ -187,8 +184,8 @@ class _SecondStepBodyState extends State<SecondStepBody> {
               loginProvider.registerNationalIdController.text.isNotEmpty &&
               loginProvider.civilIdNumberController.text.isNotEmpty &&
               loginProvider.relativeNatIdController.text.isNotEmpty &&
-              selectedAcademicLevel != 'choose' &&
-              selectedRelativeType != 'choose'
+              loginProvider.selectedAcademicLevel != 'choose' &&
+              loginProvider.selectedRelativeType != 'choose'
           );
           loginProvider.notifyMe();
         },
@@ -223,18 +220,19 @@ class _SecondStepBodyState extends State<SecondStepBody> {
               ),
               onChanged: (String value){
                 setState(() {
-                  if(dropDownValue == selectedRelativeType){
-                    selectedRelativeType = value;
-                  } else if(dropDownValue == selectedAcademicLevel){
-                    selectedAcademicLevel = value;
+                  if(dropDownValue == loginProvider.selectedRelativeType){
+                    loginProvider.selectedRelativeType = value;
+                  } else if(dropDownValue == loginProvider.selectedAcademicLevel){
+                    loginProvider.selectedAcademicLevel = value;
                   }
+                  loginProvider.notifyMe();
                 });
                 loginProvider.registerContinueEnabled =  (
                     loginProvider.registerNationalIdController.text.isNotEmpty &&
                         loginProvider.civilIdNumberController.text.isNotEmpty &&
                         loginProvider.relativeNatIdController.text.isNotEmpty &&
-                        selectedAcademicLevel != 'choose' &&
-                        selectedRelativeType != 'choose'
+                        loginProvider.selectedAcademicLevel != 'choose' &&
+                        loginProvider.selectedRelativeType != 'choose'
                 );
                 loginProvider.notifyMe();
               },
