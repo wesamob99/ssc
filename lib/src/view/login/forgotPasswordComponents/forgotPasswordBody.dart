@@ -134,7 +134,6 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                             style: TextStyle(color: HexColor('#FF0000')),
                           ),
                         ),
-                        //TODO: make time starts when user open screen
                         endTime: endTime,
                         onEnd: () {
                           setState(() {
