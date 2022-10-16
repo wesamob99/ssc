@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/models/login/registerData.dart';
+import 'package:ssc/src/view/login/registerComponents/thirdStepBody.dart';
 import 'package:ssc/src/view/login/registerScreen.dart';
 
 import '../../../../utilities/hexColor.dart';
@@ -111,7 +112,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 ),
               ),
               SizedBox(height: height(0.015, context),),
-              dropDownList(selectedRelativeType, relationTypes, themeNotifier),
+              dropDownList(selectedRelativeType, relationTypes, themeNotifier, loginProvider),
               SizedBox(height: height(0.02, context),),
               Text(
                 translate('academicLevel', context),
@@ -121,7 +122,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 ),
               ),
               SizedBox(height: height(0.015, context),),
-              dropDownList(selectedAcademicLevel, academicLevels, themeNotifier),
+              dropDownList(selectedAcademicLevel, academicLevels, themeNotifier, loginProvider),
             ],
           ),
           SizedBox(height: height(0.04, context),),
@@ -136,6 +137,9 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   loginProvider.registerData.personalCardNo = loginProvider.civilIdNumberController.text;
                   loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
                   loginProvider.notifyMe();
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const ThirdStepBody())
+                  );
                 }
                 print(registerDataToJson(loginProvider.registerData));
               }),
@@ -177,7 +181,9 @@ class _SecondStepBodyState extends State<SecondStepBody> {
           loginProvider.registerContinueEnabled =  (
               loginProvider.registerNationalIdController.text.isNotEmpty &&
               loginProvider.civilIdNumberController.text.isNotEmpty &&
-              loginProvider.relativeNatIdController.text.isNotEmpty
+              loginProvider.relativeNatIdController.text.isNotEmpty &&
+              selectedAcademicLevel != 'choose' &&
+              selectedRelativeType != 'choose'
           );
           loginProvider.notifyMe();
         },
@@ -185,7 +191,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
     );
   }
 
-  dropDownList(dropDownValue, List<String> menuList, themeNotifier){
+  dropDownList(dropDownValue, List<String> menuList, themeNotifier, loginProvider){
     return Container(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       height: height(0.05, context),
@@ -218,6 +224,14 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                     selectedAcademicLevel = value;
                   }
                 });
+                loginProvider.registerContinueEnabled =  (
+                    loginProvider.registerNationalIdController.text.isNotEmpty &&
+                        loginProvider.civilIdNumberController.text.isNotEmpty &&
+                        loginProvider.relativeNatIdController.text.isNotEmpty &&
+                        selectedAcademicLevel != 'choose' &&
+                        selectedRelativeType != 'choose'
+                );
+                loginProvider.notifyMe();
               },
               items: menuList.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
