@@ -23,7 +23,7 @@ class SecondStepBody extends StatefulWidget {
 class _SecondStepBodyState extends State<SecondStepBody> {
 
   List<String> relationTypes = ['choose', 'parent', 'brother', 'wife', 'child'];
-  List<String> academicLevels = ['choose', 'phd', 'master', 'hDiploma', 'mDiploma', 'ba', 'highSchool', 'lessHighSchool', 'professionalCertificate'];
+  List<String> academicLevels = ['optionalChoose', 'phd', 'master', 'hDiploma', 'mDiploma', 'ba', 'highSchool', 'lessHighSchool', 'professionalCertificate'];
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +185,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
               loginProvider.civilIdNumberController.text.isNotEmpty &&
               loginProvider.relativeNatIdController.text.isNotEmpty &&
               loginProvider.thirdStepSelection[0] != 'choose' &&
-              loginProvider.thirdStepSelection[1] != 'choose'
+              loginProvider.thirdStepSelection[1] != 'optionalChoose'
           );
           loginProvider.notifyMe();
         },
@@ -233,7 +233,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                         loginProvider.civilIdNumberController.text.isNotEmpty &&
                         loginProvider.relativeNatIdController.text.isNotEmpty &&
                         loginProvider.thirdStepSelection[0] != 'choose' &&
-                        loginProvider.thirdStepSelection[1] != 'choose'
+                        loginProvider.thirdStepSelection[1] != 'optionalChoose'
                 );
                 loginProvider.notifyMe();
               },
@@ -245,7 +245,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                     child: Text(
                       translate(value, context),
                       style: TextStyle(
-                        color: value != 'choose'
+                        color: value != 'choose' && value != 'optionalChoose'
                             ? (themeNotifier.isLight()
                             ? primaryColor
                               : Colors.white) : HexColor('#A6A6A6'),
