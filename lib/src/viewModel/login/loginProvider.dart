@@ -26,6 +26,8 @@ class LoginProvider extends ChangeNotifier {
   TextEditingController emailController = TextEditingController();
   TextEditingController registerPasswordController = TextEditingController();
   TextEditingController registerVerifyPasswordController = TextEditingController();
+  String selectedRelativeType = 'choose';
+  String selectedAcademicLevel = 'choose';
   bool registerContinueEnabled = false;
 
   /// login | forgot password
@@ -68,19 +70,23 @@ class LoginProvider extends ChangeNotifier {
   }
 
 
-  clearLoginDate(){
+  clearLoginData(){
     passwordController.clear();
     numberOfAttempts = 0;
+    nationalIdController.clear();
+    enabledSubmitButton = false;
     notifyMe();
   }
 
-  clearForgotPasswordDate(){
+  clearForgotPasswordData(){
     enabledSendCodeButton = false;
-
+    nationalIdController.clear();
+    enabledSubmitButton = false;
     notifyMe();
   }
 
-  clearRegisterDate(){
+  clearRegisterData(){
+    registerData = RegisterData();
     mobileNumberController.clear();
     registerNationalIdController.clear();
     civilIdNumberController.clear();
@@ -88,8 +94,9 @@ class LoginProvider extends ChangeNotifier {
     emailController.clear();
     registerPasswordController.clear();
     registerVerifyPasswordController.clear();
-
     registerContinueEnabled = false;
+    selectedRelativeType = 'choose';
+    selectedAcademicLevel = 'choose';
     notifyMe();
   }
 }
