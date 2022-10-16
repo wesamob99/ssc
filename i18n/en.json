@@ -68,6 +68,7 @@
   "bottomTools": "Tools",
   "bottomMore": "More",
   "identityVerify": "We need to verify your identity",
+  "mobileNumberVerify": "Verify your phone number",
   "enterMobileVerificationCode": "Enter the verification code that was sent to the mobile number:",
   "enterEmailVerificationCode": "To make sure that you are the person carrying this email, please fill in the hidden part of the email and then choose Send the code to be sent to your email:",
   "useAnotherMethod": "Use another method",
