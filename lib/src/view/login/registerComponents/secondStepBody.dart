@@ -31,6 +31,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
     LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
 
     return RegisterScreen(
+      stepNumber: 2,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

@@ -45,6 +45,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
     LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
 
     return RegisterScreen(
+      stepNumber: 1,
       body: FutureBuilder(
           future: countriesFuture,
           builder: (context, snapshot){

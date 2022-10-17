@@ -57,6 +57,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
     LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
 
     return RegisterScreen(
+      stepNumber: 3,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
