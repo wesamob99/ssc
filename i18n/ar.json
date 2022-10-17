@@ -19,6 +19,7 @@
   "logout":  "تسجيل خروج",
   "enterNationalId": "أدخل الرقم الوطني/الشخصي الخاص بك",
   "password": "كلمة المرور",
+  "confirmPassword": "تأكيد كلمة المرور",
   "ex": "مثال : ",
   "continue": "الإستمرار",
   "loginErrorInvalidInputs": "خطأ في الرقم الوطني أو كلمة المرور",
@@ -95,6 +96,7 @@
   "nonJordanian": "غير اردني",
   "secondStep": "الخطوة الثانيه",
   "thirdStep": "الخطوة الثالثه",
+  "forthStep": "الخطوة الرابعه",
   "civilIdNumber": "رقم الهوية المدنيه",
   "relativeNationalNumber": "رقم وطني لأحد الاقارب",
   "relativeRelation": "صلة القرابة",
@@ -113,11 +115,17 @@
   "lessHighSchool": "اقل من ثانويه عامه",
   "professionalCertificate": "شهادة مهنيه",
   "setPassword": "تعيين كلمة المرور",
+  "setPassword2": "كلمة السر و تأكيد كلمة السر",
   "chooseHowToReceiveMessages": "كيف تفضل استلام الرسائل الخاصة بك",
   "sms": "رسائل نصية",
   "email": "البريد الالكتروني",
   "choosingEmailPreferable": "يفضل اختيار البريد الالكتروني ايضا لتصلك الخدمات بشكل افضل",
   "optional": "إختياري",
-  "optionalChoose": "اختر (حقل إختياري)"
+  "optionalChoose": "اختر (حقل إختياري)",
+  "finished": "انتهينا !",
+  "termsAndConditionsAndPoliciesAgreement1": "بالتسجيل فإنك توافق على",
+  "termsAndConditionsAndPoliciesAgreement2": " الشروط والأحكام وسياسة ",
+  "termsAndConditionsAndPoliciesAgreement3": "الاستخدام ",
+  "termsAndConditionsAndPoliciesAgreement4": "لتطبيق الضمان الاجتماعي"
 
 }

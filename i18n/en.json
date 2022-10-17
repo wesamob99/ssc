@@ -19,6 +19,7 @@
   "logout":  "logout",
   "enterNationalId": "Enter your national/personal ID",
   "password": "password",
+  "confirmPassword": "Confirm password",
   "ex": "Ex: ",
   "continue": "Continue",
   "loginErrorInvalidInputs": "Invalid national ID or password",
@@ -95,6 +96,7 @@
   "nonJordanian": "non jordanian",
   "secondStep": "Second step",
   "thirdStep": "Third step",
+  "forthStep": "Forth step",
   "civilIdNumber": "Civil ID number",
   "relativeNationalNumber": "A relative's national number",
   "relativeRelation": "Relative relation",
@@ -113,9 +115,15 @@
   "lessHighSchool": "Less than high school",
   "professionalCertificate": "Professional certificate",
   "setPassword": "Set password",
+  "setPassword2": "Set and confirm password",
   "chooseHowToReceiveMessages": "How would you like to receive your messages",
   "sms": "Sms",
   "email": "Email",
   "choosingEmailPreferable": "It is preferable to choose the e-mail also to receive better services",
-  "optionalChoose": "Choose (optional)"
+  "optionalChoose": "Choose (optional)",
+  "finished": "We finished !",
+  "termsAndConditionsAndPoliciesAgreement1": "By registering, you agree to the",
+  "termsAndConditionsAndPoliciesAgreement2": " terms and conditions ",
+  "termsAndConditionsAndPoliciesAgreement3": "and usage policy ",
+  "termsAndConditionsAndPoliciesAgreement4": "of the SSC app"
 }
