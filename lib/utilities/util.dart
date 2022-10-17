@@ -420,7 +420,7 @@ SizedBox buildTextFormField(context, ThemeNotifier themeNotifier,
   );
 }
 
-modalBottomSheet(context){
+modalBottomSheet(context, themeNotifier){
   return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0))
@@ -491,7 +491,18 @@ modalBottomSheet(context){
                           ),
                           SizedBox(height: height(0.04, context),),
                           TextButton(
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.of(context).pop();
+                              showMyDialog(
+                                context,
+                                'fingerprintActivated',
+                                translate('fingerprintActivatedDesc', context),
+                                'ok',
+                                themeNotifier,
+                                titleColor: '#363636',
+                                icon: 'assets/icons/fingerprint.svg'
+                              );
+                            },
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all<Color>(
                                     HexColor('#E7EFE5')
@@ -513,7 +524,9 @@ modalBottomSheet(context){
                           ),
                           SizedBox(height: height(0.015, context),),
                           TextButton(
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.of(context).pop();
+                            },
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all<Color>(
                                     HexColor('#E7EFE5')
