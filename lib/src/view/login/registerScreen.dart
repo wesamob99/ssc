@@ -56,7 +56,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     loginProvider.emailController.clear();
     loginProvider.registerPasswordController.clear();
     loginProvider.registerVerifyPasswordController.clear();
-    loginProvider.registerContinueEnabled = false;
     loginProvider.thirdStepSelection = ['choose', 'optionalChoose'];
     getAppLanguage();
     super.initState();
@@ -103,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 InkWell(
                                   onTap: (){
                                     Navigator.of(context).pop();
-                                    if(widget.stepNumber == 2) {
+                                    if(widget.stepNumber == 2 || widget.stepNumber == 4) {
                                       Navigator.of(context).pop();
                                     }
                                     setState(() {
