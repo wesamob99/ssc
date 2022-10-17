@@ -69,7 +69,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    translate('secondStep', context),
+                    translate('thirdStep', context),
                     style: TextStyle(
                         color: HexColor('#979797'),
                         fontSize: width(0.03, context)
@@ -163,7 +163,8 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
               !Provider.of<LoginProvider>(context).registerContinueEnabled
                   ? HexColor('#DADADA')
                   : getPrimaryColor(context, themeNotifier)),
-              HexColor('#ffffff'), (){
+              Provider.of<LoginProvider>(context).registerContinueEnabled
+                  ? HexColor('#ffffff') : HexColor('#363636'), (){
                 if(loginProvider.registerContinueEnabled){
                   loginProvider.registerContinueEnabled = false;
                   loginProvider.registerData.nationalId = int.tryParse(loginProvider.registerNationalIdController.text);
