@@ -50,6 +50,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     loginProvider.clearLoginData();
     loginProvider.clearForgotPasswordData();
     loginProvider.clearRegisterData();
+    showResetPasswordBody = false;
     getAppLanguage();
     super.initState();
   }
