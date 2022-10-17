@@ -148,7 +148,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                   SizedBox(height: height(0.015, context),),
                   buildTextFormField(context, themeNotifier, loginProvider, loginProvider.emailController, 'example@example.com', (value){
                     if(item2['value'] == true){
-                      loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
+                      loginProvider.registerContinueEnabled = isEmail(loginProvider.emailController.text);
                     } else{
                       loginProvider.registerContinueEnabled = true;
                     }
