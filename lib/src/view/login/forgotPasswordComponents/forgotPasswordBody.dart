@@ -180,6 +180,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                             errorMessage = UserConfig.instance.checkLanguage()
                                 ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
                             showMyDialog(context, 'resetPassword', errorMessage, 'ok', themeNotifier, titleColor: '#445740', icon: 'assets/icons/emailSent.svg').then((value){
+                              if (!mounted) return;
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(builder: (context) => const SplashScreen()),
                                       (route) => false
@@ -229,6 +230,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
             SizedBox(height: height(0.018, context),),
             textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
               HexColor('#DADADA')), HexColor('#363636'), (){
+              if (!mounted) return;
               Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => const SplashScreen()),
                       (route) => false
