@@ -2,7 +2,6 @@
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
@@ -40,9 +39,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      modalBottomSheet(context, themeNotifier);
-    });
+    ///TODO: remove modalBottomSheet comment from mainScreen.dart
+    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    //   modalBottomSheet(context, themeNotifier);
+    // });
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 5,

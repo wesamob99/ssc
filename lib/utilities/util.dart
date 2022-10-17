@@ -420,6 +420,8 @@ SizedBox buildTextFormField(context, ThemeNotifier themeNotifier,
   );
 }
 
+
+///TODO: remove modalBottomSheet comment from mainScreen.dart
 modalBottomSheet(context, themeNotifier){
   return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
