@@ -130,6 +130,9 @@
   "defineAnotherWayToEnter": "تعريف طريقة اخرى للدخول",
   "defineAnotherWayToEnterDesc": "ان تعريف احد الطرق التاليه يساعدك للدخول الى التطبيق بسهوله ويسر في المرات القادمة",
   "fingerprintOrFace": "بصمة الإصبع او الوجه",
-  "passcode": "رمز المرور"
-
+  "passcode": "رمز المرور",
+  "fingerprintActivated": "تم تفعيل بصمة اليد بنجاح",
+  "fingerprintActivatedDesc": "في المرة القادمة سوف تتمكن من الدخول الى التطبيق عن طريق بصمة الاصبع",
+  "facePrintActivated": "تم تفعيل بصمة الوجه بنجاح",
+  "facePrintActivatedDesc": "في المرة القادمة سوف تتمكن من الدخول الى التطبيق عن طريق بصمة الوجه"
 }

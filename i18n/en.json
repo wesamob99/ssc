@@ -129,6 +129,9 @@
   "defineAnotherWayToEnter": "Define another way to enter",
   "defineAnotherWayToEnterDesc": "The definition of one of the following methods helps you to enter the application easily and conveniently in the coming times",
   "fingerprintOrFace": "Fingerprint or face",
-  "passcode": "Passcode"
-
+  "passcode": "Passcode",
+  "fingerprintActivated": "The fingerprint has been activated successfully",
+  "fingerprintActivatedDesc": "Next time you will be able to enter the application by fingerprint",
+  "facePrintActivated": "The face print has been activated successfully",
+  "facePrintActivatedDesc": "Next time you will be able to enter the application by face print"
 }
