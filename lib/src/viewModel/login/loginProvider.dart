@@ -29,6 +29,7 @@ class LoginProvider extends ChangeNotifier {
   // at index 0 -> relative type | index 1 -> academic level
   List thirdStepSelection = ['choose', 'optionalChoose'];
   bool registerContinueEnabled = false;
+  bool obscurePassword = false;
 
   /// login | forgot password
   TextEditingController nationalIdController = TextEditingController();
@@ -95,6 +96,7 @@ class LoginProvider extends ChangeNotifier {
     registerPasswordController.clear();
     registerVerifyPasswordController.clear();
     registerContinueEnabled = false;
+    obscurePassword = false;
     thirdStepSelection = ['choose', 'optionalChoose'];
     notifyMe();
   }
