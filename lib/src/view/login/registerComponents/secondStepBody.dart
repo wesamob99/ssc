@@ -131,7 +131,8 @@ class _SecondStepBodyState extends State<SecondStepBody> {
               !Provider.of<LoginProvider>(context).registerContinueEnabled
                   ? HexColor('#DADADA')
                   : getPrimaryColor(context, themeNotifier)),
-              HexColor('#ffffff'), (){
+              Provider.of<LoginProvider>(context).registerContinueEnabled
+                  ? HexColor('#ffffff') : HexColor('#363636'), (){
                 if(loginProvider.registerContinueEnabled){
                   loginProvider.registerContinueEnabled = false;
                   loginProvider.registerData.nationalId = int.tryParse(loginProvider.registerNationalIdController.text);

@@ -269,10 +269,12 @@ class _LoginBodyState extends State<LoginBody> {
           backgroundColor: MaterialStateProperty.all<Color>(
             Provider.of<LoginProvider>(context).enabledSubmitButton &&
                 Provider.of<LoginProvider>(context).numberOfAttempts < 5
-                ? getPrimaryColor(context, themeNotifier) : Colors.grey,
+                ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
           ),
           foregroundColor:  MaterialStateProperty.all<Color>(
-              Colors.white
+              Provider.of<LoginProvider>(context).enabledSubmitButton &&
+                  Provider.of<LoginProvider>(context).numberOfAttempts < 5
+                  ? Colors.white : HexColor('#363636'),
           ),
           fixedSize:  MaterialStateProperty.all<Size>(
             Size(width(0.7, context), height(0.055, context)),

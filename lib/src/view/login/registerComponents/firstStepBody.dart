@@ -205,7 +205,8 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                           !Provider.of<LoginProvider>(context).registerContinueEnabled
                               ? HexColor('#DADADA')
                               : getPrimaryColor(context, themeNotifier)),
-                          HexColor('#ffffff'), (){
+                          Provider.of<LoginProvider>(context).registerContinueEnabled
+                              ? HexColor('#ffffff') : HexColor('#363636'), (){
                             if(loginProvider.registerContinueEnabled){
                               loginProvider.registerContinueEnabled = false;
                               /// add (nationality / country of resident / mobile number) to loginProvider.registerData
