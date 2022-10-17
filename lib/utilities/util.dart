@@ -375,7 +375,7 @@ SizedBox buildTextFormField(context, ThemeNotifier themeNotifier, LoginProvider 
     child: TextFormField(
       controller: controller,
       decoration: InputDecoration(
-          hintText: translate('ex', context) + hintText,
+          hintText: hintText == '' ? '' : translate('ex', context) + hintText,
           hintStyle: TextStyle(
             color: getGrey2Color(context).withOpacity(
               themeNotifier.isLight() ? 1 : 0.5,

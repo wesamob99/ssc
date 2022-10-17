@@ -196,7 +196,10 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                             ),
                           ),
                           SizedBox(height: height(0.015, context),),
-                          buildTextFormField(themeNotifier, loginProvider, loginProvider.mobileNumberController),
+                          buildTextFormField(context, themeNotifier, loginProvider, loginProvider.mobileNumberController, '', (val){
+                            loginProvider.registerContinueEnabled =  loginProvider.mobileNumberController.text.isNotEmpty;
+                            loginProvider.notifyMe();
+                          },),
                           SizedBox(height: height(0.015, context),),
                         ],
                       ),
@@ -229,33 +232,6 @@ class _FirstStepBodyState extends State<FirstStepBody> {
             return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc');
           }
       ),
-    );
-  }
-
-  TextFormField buildTextFormField(ThemeNotifier themeNotifier, LoginProvider loginProvider, TextEditingController controller){
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(
-              color: getPrimaryColor(context, themeNotifier),
-              width: 0.5,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(
-              color: getPrimaryColor(context, themeNotifier),
-              width: 0.8,
-            ),
-          )
-      ),
-      onChanged: (val){
-        loginProvider.registerContinueEnabled =  loginProvider.mobileNumberController.text.isNotEmpty;
-        loginProvider.notifyMe();
-      },
     );
   }
 

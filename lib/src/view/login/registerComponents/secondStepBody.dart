@@ -82,7 +82,16 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 ),
               ),
               SizedBox(height: height(0.015, context),),
-              buildTextFormField(themeNotifier, loginProvider, loginProvider.registerNationalIdController, '9661001073'),
+              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerNationalIdController, '9661001073', (val){
+                loginProvider.registerContinueEnabled =  (
+                    loginProvider.registerNationalIdController.text.isNotEmpty &&
+                        loginProvider.civilIdNumberController.text.isNotEmpty &&
+                        loginProvider.relativeNatIdController.text.isNotEmpty &&
+                        loginProvider.thirdStepSelection[0] != 'choose' &&
+                        loginProvider.thirdStepSelection[1] != 'optionalChoose'
+                );
+                loginProvider.notifyMe();
+              },),
               SizedBox(height: height(0.02, context),),
               Text(
                 translate('civilIdNumber', context),
@@ -92,7 +101,16 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 ),
               ),
               SizedBox(height: height(0.015, context),),
-              buildTextFormField(themeNotifier, loginProvider, loginProvider.civilIdNumberController, 'XC454F'),
+              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.civilIdNumberController, 'XC454F', (val){
+                loginProvider.registerContinueEnabled =  (
+                    loginProvider.registerNationalIdController.text.isNotEmpty &&
+                        loginProvider.civilIdNumberController.text.isNotEmpty &&
+                        loginProvider.relativeNatIdController.text.isNotEmpty &&
+                        loginProvider.thirdStepSelection[0] != 'choose' &&
+                        loginProvider.thirdStepSelection[1] != 'optionalChoose'
+                );
+                loginProvider.notifyMe();
+              },),
               SizedBox(height: height(0.02, context),),
               Text(
                 translate('relativeNationalNumber', context),
@@ -102,7 +120,16 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 ),
               ),
               SizedBox(height: height(0.015, context),),
-              buildTextFormField(themeNotifier, loginProvider, loginProvider.relativeNatIdController, '9661001073'),
+              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.relativeNatIdController, '9661001073', (val){
+                loginProvider.registerContinueEnabled =  (
+                    loginProvider.registerNationalIdController.text.isNotEmpty &&
+                        loginProvider.civilIdNumberController.text.isNotEmpty &&
+                        loginProvider.relativeNatIdController.text.isNotEmpty &&
+                        loginProvider.thirdStepSelection[0] != 'choose' &&
+                        loginProvider.thirdStepSelection[1] != 'optionalChoose'
+                );
+                loginProvider.notifyMe();
+              },),
               SizedBox(height: height(0.02, context),),
               /// ***>
               Text(
@@ -148,49 +175,6 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 }
               }),
         ],
-      ),
-    );
-  }
-
-  SizedBox buildTextFormField(ThemeNotifier themeNotifier, LoginProvider loginProvider, TextEditingController controller, String hintText){
-    return SizedBox(
-      height: height(0.05, context),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-            hintText: translate('ex', context) + hintText,
-            hintStyle: TextStyle(
-              color: getGrey2Color(context).withOpacity(
-                themeNotifier.isLight() ? 1 : 0.5,
-              ),
-              fontSize: 14,
-            ),
-            contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(
-                color: getPrimaryColor(context, themeNotifier),
-                width: 0.5,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(
-                color: getPrimaryColor(context, themeNotifier),
-                width: 0.8,
-              ),
-            )
-        ),
-        onChanged: (val){
-          loginProvider.registerContinueEnabled =  (
-              loginProvider.registerNationalIdController.text.isNotEmpty &&
-              loginProvider.civilIdNumberController.text.isNotEmpty &&
-              loginProvider.relativeNatIdController.text.isNotEmpty &&
-              loginProvider.thirdStepSelection[0] != 'choose' &&
-              loginProvider.thirdStepSelection[1] != 'optionalChoose'
-          );
-          loginProvider.notifyMe();
-        },
       ),
     );
   }
