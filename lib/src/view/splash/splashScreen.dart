@@ -39,8 +39,10 @@ class _SplashScreenState extends State<SplashScreen> {
       } else{
         screen = const LoginScreen();
       }
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => screen), (route) => false);
+      if(mounted){
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => screen), (route) => false);
+      }
     }else if(InternetConnectionStatus.disconnected == connection){
       _showAlert(context);
     }
