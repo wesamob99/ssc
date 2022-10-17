@@ -67,205 +67,207 @@ class _OTPScreenState extends State<OTPScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 14.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                    alignment: Alignment.topLeft,
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                            'assets/icons/global.svg'
-                        ),
-                        const SizedBox(width: 4.0),
-                        DropdownButton<String>(
-                          isDense: true,
-                          value: selectedLanguage,
-                          icon: const Icon(
-                            Icons.arrow_drop_down_outlined,
-                            size: 0,
-                          ),
-                          elevation: 16,
-                          style: const TextStyle(color: Colors.black),
-                          underline: Container(
-                            height: 0,
-                            color: primaryColor,
-                          ),
-                          onChanged: (String value) async{
-                            setState(() {
-                              selectedLanguage = value;
-                            });
-                            globalAppProvider.changeLanguage(Locale(selectedLanguage));
-                            globalAppProvider.notifyMe();
-                            prefs.then((value) {
-                              value.setString('language_code', selectedLanguage);
-                            });
-                          },
-                          items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value == 'en' ? 'English' : 'عربي',
-                                style: TextStyle(
-                                  color: themeNotifier.isLight()
-                                      ? primaryColor
-                                      : Colors.white,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    )
-                ),
-              ],
-            ),
-            SizedBox(height: height(0.06, context),),
-            SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: width(0.05, context)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: height(0.05, context),),
-                    Text(
-                      widget.type == 'phone'
-                          ? translate('mobileNumberVerify', context)
-                          : translate('emailVerify', context),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: width(0.04, context)
-                      ),
-                    ),
-                    SizedBox(height: height(0.04, context),),
-                    Column(
-                      children: [
-                        Text(
-                          widget.type == 'phone'
-                          ? translate('enterMobileVerificationCode', context)
-                          : translate('enterEmailVerificationCode2', context),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: width(0.034, context)
-                          ),
-                        ),
-                        SizedBox(height: height(0.015, context),),
-                        Text(
-                          widget.contactTarget,
-                          textDirection: TextDirection.ltr,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: width(0.034, context),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: height(0.025, context),),
-                    pinPut(themeNotifier),
-                    SizedBox(height: height(0.072, context),),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: height(0.02, context)),
-                      child: Column(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                      alignment: Alignment.topLeft,
+                      child: Row(
                         children: [
-                          Directionality(
-                            textDirection: TextDirection.ltr,
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: width(isTimerEnded ? 0.5 : 0.23, context),
-                              height: height(0.04, context),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                      color: HexColor('#A4A4A4')
-                                  )
-                              ),
-                              child: CountdownTimer(
-                                textStyle: TextStyle(color: HexColor('#FF0000')),
-                                endWidget: Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'code has been disabled',
-                                    style: TextStyle(color: HexColor('#FF0000')),
+                          SvgPicture.asset(
+                              'assets/icons/global.svg'
+                          ),
+                          const SizedBox(width: 4.0),
+                          DropdownButton<String>(
+                            isDense: true,
+                            value: selectedLanguage,
+                            icon: const Icon(
+                              Icons.arrow_drop_down_outlined,
+                              size: 0,
+                            ),
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.black),
+                            underline: Container(
+                              height: 0,
+                              color: primaryColor,
+                            ),
+                            onChanged: (String value) async{
+                              setState(() {
+                                selectedLanguage = value;
+                              });
+                              globalAppProvider.changeLanguage(Locale(selectedLanguage));
+                              globalAppProvider.notifyMe();
+                              prefs.then((value) {
+                                value.setString('language_code', selectedLanguage);
+                              });
+                            },
+                            items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value == 'en' ? 'English' : 'عربي',
+                                  style: TextStyle(
+                                    color: themeNotifier.isLight()
+                                        ? primaryColor
+                                        : Colors.white,
                                   ),
                                 ),
-                                endTime: endTime,
-                                onEnd: () {
-                                  setState(() {
-                                    isTimerEnded = true;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: height(0.01, context),),
-                          InkWell(
-                              onTap: () async{
-                                if(isTimerEnded) {
-                                  await loginProvider.resetPasswordSendMobileOTP(loginProvider.nationalIdController.text);
-                                  setState((){
-                                    endTime = DateTime.now().millisecondsSinceEpoch + 300000;
-                                  });
-                                }
-                              },
-                              child: Text(
-                                'إعاده الارسال',
-                                style: TextStyle(color: isTimerEnded ? HexColor('#003C97') : HexColor('#DADADA')),
-                              )
+                              );
+                            }).toList(),
                           ),
                         ],
+                      )
+                  ),
+                ],
+              ),
+              SizedBox(height: height(0.06, context),),
+              SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width(0.05, context)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: height(0.05, context),),
+                      Text(
+                        widget.type == 'phone'
+                            ? translate('mobileNumberVerify', context)
+                            : translate('emailVerify', context),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: width(0.04, context)
+                        ),
                       ),
-                    ),
-                    SizedBox(height: height(0.05, context),),
-                    textButton(
-                        themeNotifier, 'continue',
-                        MaterialStateProperty.all<Color>(pinController.text.length == 4
-                            ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),),
-                        pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
-                            () async {if(pinController.length == 4){
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => widget.type == 'phone'
-                                    ? const SecondStepBody() : const ForthStepBody()),
-                              );
-                          // errorMessage = "";
-                          // try{
-                          //   await loginProvider.resetPasswordCheckMobileOTP(
-                          //       userSecuredStorage.nationalId,
-                          //       int.parse(pinController.text))
-                          //       .then((value){
-                          //     if(value["PO_STATUS"] == 0){
-                          //       errorMessage = UserConfig.instance.checkLanguage()
-                          //           ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
-                          //       showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
-                          //     }else{
-                          //       if (kDebugMode) {
-                          //         print("true OTP");
-                          //       }
-                          //     }
-                          //   });
-                          // }catch(e){
-                          //   if (kDebugMode) {
-                          //     print(e.toString());
-                          //   }
-                          // }
-                        }}
-                    ),
-                    SizedBox(height: height(0.018, context),),
-                    textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
-                        HexColor('#DADADA')), HexColor('#363636'), (){
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => const SplashScreen()),
-                              (route) => false
-                      );
-                    }),
-                  ],
+                      SizedBox(height: height(0.04, context),),
+                      Column(
+                        children: [
+                          Text(
+                            widget.type == 'phone'
+                            ? translate('enterMobileVerificationCode', context)
+                            : translate('enterEmailVerificationCode2', context),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: width(0.034, context)
+                            ),
+                          ),
+                          SizedBox(height: height(0.015, context),),
+                          Text(
+                            widget.contactTarget,
+                            textDirection: TextDirection.ltr,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: width(0.034, context),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: height(0.025, context),),
+                      pinPut(themeNotifier),
+                      SizedBox(height: height(0.072, context),),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: height(0.02, context)),
+                        child: Column(
+                          children: [
+                            Directionality(
+                              textDirection: TextDirection.ltr,
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: width(isTimerEnded ? 0.5 : 0.23, context),
+                                height: height(0.04, context),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: HexColor('#A4A4A4')
+                                    )
+                                ),
+                                child: CountdownTimer(
+                                  textStyle: TextStyle(color: HexColor('#FF0000')),
+                                  endWidget: Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'code has been disabled',
+                                      style: TextStyle(color: HexColor('#FF0000')),
+                                    ),
+                                  ),
+                                  endTime: endTime,
+                                  onEnd: () {
+                                    setState(() {
+                                      isTimerEnded = true;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: height(0.01, context),),
+                            InkWell(
+                                onTap: () async{
+                                  if(isTimerEnded) {
+                                    await loginProvider.resetPasswordSendMobileOTP(loginProvider.nationalIdController.text);
+                                    setState((){
+                                      endTime = DateTime.now().millisecondsSinceEpoch + 300000;
+                                    });
+                                  }
+                                },
+                                child: Text(
+                                  'إعاده الارسال',
+                                  style: TextStyle(color: isTimerEnded ? HexColor('#003C97') : HexColor('#DADADA')),
+                                )
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: height(0.05, context),),
+                      textButton(
+                          themeNotifier, 'continue',
+                          MaterialStateProperty.all<Color>(pinController.text.length == 4
+                              ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),),
+                          pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
+                              () async {if(pinController.length == 4){
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => widget.type == 'phone'
+                                      ? const SecondStepBody() : const ForthStepBody()),
+                                );
+                            // errorMessage = "";
+                            // try{
+                            //   await loginProvider.resetPasswordCheckMobileOTP(
+                            //       userSecuredStorage.nationalId,
+                            //       int.parse(pinController.text))
+                            //       .then((value){
+                            //     if(value["PO_STATUS"] == 0){
+                            //       errorMessage = UserConfig.instance.checkLanguage()
+                            //           ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
+                            //       showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                            //     }else{
+                            //       if (kDebugMode) {
+                            //         print("true OTP");
+                            //       }
+                            //     }
+                            //   });
+                            // }catch(e){
+                            //   if (kDebugMode) {
+                            //     print(e.toString());
+                            //   }
+                            // }
+                          }}
+                      ),
+                      SizedBox(height: height(0.018, context),),
+                      textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
+                          HexColor('#DADADA')), HexColor('#363636'), (){
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                (route) => false
+                        );
+                      }),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

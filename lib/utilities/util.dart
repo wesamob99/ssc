@@ -373,7 +373,6 @@ SizedBox buildTextFormField(context, ThemeNotifier themeNotifier,
     LoginProvider loginProvider, TextEditingController controller,
     String hintText, onChanged, {isPassword = false}){
   return SizedBox(
-    height: height(0.05, context),
     child: TextFormField(
       controller: controller,
       obscureText: false, // Provider.of<LoginProvider>(context).obscurePassword,
@@ -401,14 +400,14 @@ SizedBox buildTextFormField(context, ThemeNotifier themeNotifier,
           ),
           contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
               color: getPrimaryColor(context, themeNotifier),
               width: 0.5,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
               color: getPrimaryColor(context, themeNotifier),
               width: 0.8,

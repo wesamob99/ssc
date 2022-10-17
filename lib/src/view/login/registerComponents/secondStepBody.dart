@@ -131,7 +131,6 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 loginProvider.notifyMe();
               },),
               SizedBox(height: height(0.02, context),),
-              /// ***>
               Text(
                 translate('relativeRelation', context),
                 style: TextStyle(
@@ -181,10 +180,9 @@ class _SecondStepBodyState extends State<SecondStepBody> {
 
   dropDownList(List<String> menuList, ThemeNotifier themeNotifier, LoginProvider loginProvider, index){
     return Container(
-      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-      height: height(0.05, context),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: HexColor('#979797'),
         )

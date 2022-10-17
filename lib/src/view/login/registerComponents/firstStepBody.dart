@@ -171,7 +171,8 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                             },
                             child: Container(
                               width: width(1, context),
-                              padding: const EdgeInsets.all(16.0),
+                              alignment: Alignment.centerRight,
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                               decoration: BoxDecoration(
                                   color: Colors.transparent,
                                   borderRadius: BorderRadius.circular(8.0),
