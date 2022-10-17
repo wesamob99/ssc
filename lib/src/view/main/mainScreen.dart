@@ -41,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      modalBottomSheet(context);
+      modalBottomSheet(context, themeNotifier);
     });
     return Scaffold(
       appBar: AppBar(
