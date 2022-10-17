@@ -8,6 +8,7 @@ import 'package:ssc/src/view/login/loginComponents/loginBody.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 
+import '../../../models/login/registerData.dart';
 import '../../../utilities/hexColor.dart';
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
@@ -28,9 +29,26 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    loginProvider.clearLoginData();
-    loginProvider.clearForgotPasswordData();
-    loginProvider.clearRegisterData();
+    ///login
+    loginProvider.passwordController.clear();
+    loginProvider.numberOfAttempts = 0;
+    loginProvider.nationalIdController.clear();
+    loginProvider.enabledSubmitButton = false;
+    /// forgot password
+    loginProvider.enabledSendCodeButton = false;
+    loginProvider.nationalIdController.clear();
+    loginProvider.enabledSubmitButton = false;
+    ///register
+    loginProvider.registerData = RegisterData();
+    loginProvider.mobileNumberController.clear();
+    loginProvider.registerNationalIdController.clear();
+    loginProvider.civilIdNumberController.clear();
+    loginProvider.relativeNatIdController.clear();
+    loginProvider.emailController.clear();
+    loginProvider.registerPasswordController.clear();
+    loginProvider.registerVerifyPasswordController.clear();
+    loginProvider.registerContinueEnabled = false;
+    loginProvider.thirdStepSelection = ['choose', 'optionalChoose'];
     super.initState();
   }
   @override
