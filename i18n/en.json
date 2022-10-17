@@ -125,5 +125,10 @@
   "termsAndConditionsAndPoliciesAgreement1": "By registering, you agree to the",
   "termsAndConditionsAndPoliciesAgreement2": " terms and conditions ",
   "termsAndConditionsAndPoliciesAgreement3": "and usage policy ",
-  "termsAndConditionsAndPoliciesAgreement4": "of the SSC app"
+  "termsAndConditionsAndPoliciesAgreement4": "of the SSC app",
+  "defineAnotherWayToEnter": "Define another way to enter",
+  "defineAnotherWayToEnterDesc": "The definition of one of the following methods helps you to enter the application easily and conveniently in the coming times",
+  "fingerprintOrFace": "Fingerprint or face",
+  "passcode": "Passcode"
+
 }

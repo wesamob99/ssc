@@ -126,6 +126,10 @@
   "termsAndConditionsAndPoliciesAgreement1": "بالتسجيل فإنك توافق على",
   "termsAndConditionsAndPoliciesAgreement2": " الشروط والأحكام وسياسة ",
   "termsAndConditionsAndPoliciesAgreement3": "الاستخدام ",
-  "termsAndConditionsAndPoliciesAgreement4": "لتطبيق الضمان الاجتماعي"
+  "termsAndConditionsAndPoliciesAgreement4": "لتطبيق الضمان الاجتماعي",
+  "defineAnotherWayToEnter": "تعريف طريقة اخرى للدخول",
+  "defineAnotherWayToEnterDesc": "ان تعريف احد الطرق التاليه يساعدك للدخول الى التطبيق بسهوله ويسر في المرات القادمة",
+  "fingerprintOrFace": "بصمة الإصبع او الوجه",
+  "passcode": "رمز المرور"
 
 }
