@@ -55,7 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     loginProvider.relativeNatIdController.clear();
     loginProvider.emailController.clear();
     loginProvider.registerPasswordController.clear();
-    loginProvider.registerVerifyPasswordController.clear();
+    loginProvider.registerConfirmPasswordController.clear();
     loginProvider.thirdStepSelection = ['choose', 'optionalChoose'];
     getAppLanguage();
     super.initState();
