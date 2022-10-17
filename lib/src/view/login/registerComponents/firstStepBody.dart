@@ -128,6 +128,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                           ),
                           SizedBox(height: height(0.01, context),),
                           RadioGroup<String>.builder(
+                            activeColor: HexColor('#2D452E'),
                             direction: Axis.horizontal,
                             horizontalAlignment: MainAxisAlignment.start,
                             groupValue: selectedNationality,
