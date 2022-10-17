@@ -369,12 +369,29 @@ TextButton textButton(context, themeNotifier, text, buttonColor, textColor, onPr
   );
 }
 
-SizedBox buildTextFormField(context, ThemeNotifier themeNotifier, LoginProvider loginProvider, TextEditingController controller, String hintText, onChanged){
+SizedBox buildTextFormField(context, ThemeNotifier themeNotifier,
+    LoginProvider loginProvider, TextEditingController controller,
+    String hintText, onChanged, {isPassword = false}){
   return SizedBox(
     height: height(0.05, context),
     child: TextFormField(
       controller: controller,
+      obscureText: false, // Provider.of<LoginProvider>(context).obscurePassword,
       decoration: InputDecoration(
+          suffixIcon: isPassword
+          ? InkWell(
+            onTap: (){
+              loginProvider.obscurePassword = !loginProvider.obscurePassword;
+              loginProvider.notifyMe();
+            },
+            child: Icon(
+              Provider.of<LoginProvider>(context).obscurePassword ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
+              size: 20,
+              color: themeNotifier.isLight()
+                  ? getPrimaryColor(context, themeNotifier)
+                  : Colors.white,
+            ),
+          ) : const SizedBox.shrink(),
           hintText: hintText == '' ? '' : translate('ex', context) + hintText,
           hintStyle: TextStyle(
             color: getGrey2Color(context).withOpacity(
