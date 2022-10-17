@@ -69,7 +69,9 @@
   "bottomMore": "More",
   "identityVerify": "We need to verify your identity",
   "mobileNumberVerify": "Verify your phone number",
+  "emailVerify": "Verify your email",
   "enterMobileVerificationCode": "Enter the verification code that was sent to the mobile number:",
+  "enterEmailVerificationCode2": "Enter the verification code that was sent to the email:",
   "enterEmailVerificationCode": "To make sure that you are the person carrying this email, please fill in the hidden part of the email and then choose Send the code to be sent to your email:",
   "useAnotherMethod": "Use another method",
   "cancel": "Cancel",
@@ -116,5 +118,4 @@
   "email": "Email",
   "choosingEmailPreferable": "It is preferable to choose the e-mail also to receive better services",
   "optionalChoose": "Choose (optional)"
-
 }
