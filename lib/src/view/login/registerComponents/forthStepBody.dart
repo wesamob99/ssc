@@ -8,6 +8,7 @@ import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/login/loginProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
+import '../../splash/splashScreen.dart';
 
 class ForthStepBody extends StatefulWidget {
   const ForthStepBody({Key key}) : super(key: key);
@@ -84,8 +85,10 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                 ),
               ),
               SizedBox(height: height(0.015, context),),
-              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerNationalIdController, '', (val){
-                loginProvider.notifyMe();
+              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerPasswordController, '', (val){
+                loginProvider.registerContinueEnabled = (loginProvider.registerPasswordController.text.isNotEmpty &&
+                    loginProvider.registerConfirmPasswordController.text.isNotEmpty && termsChecked);
+                    loginProvider.notifyMe();
               }, isPassword: false),
               SizedBox(height: height(0.02, context),),
               Text(
@@ -96,7 +99,9 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                 ),
               ),
               SizedBox(height: height(0.015, context),),
-              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.civilIdNumberController, '', (val){
+              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerConfirmPasswordController, '', (val){
+                loginProvider.registerContinueEnabled = (loginProvider.registerPasswordController.text.isNotEmpty &&
+                    loginProvider.registerConfirmPasswordController.text.isNotEmpty && termsChecked);
                 loginProvider.notifyMe();
               }, isPassword: false),
             ],
@@ -111,6 +116,8 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                   setState(() {
                     termsChecked = !termsChecked;
                   });
+                  loginProvider.registerContinueEnabled = (loginProvider.registerPasswordController.text.isNotEmpty &&
+                      loginProvider.registerConfirmPasswordController.text.isNotEmpty && termsChecked);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(3.0),
@@ -158,13 +165,10 @@ class _ForthStepBodyState extends State<ForthStepBody> {
               Provider.of<LoginProvider>(context).registerContinueEnabled
                   ? HexColor('#ffffff') : HexColor('#363636'), (){
                 if(loginProvider.registerContinueEnabled){
-                  loginProvider.registerContinueEnabled = false;
-                  loginProvider.registerData.nationalId = int.tryParse(loginProvider.registerNationalIdController.text);
-                  loginProvider.registerData.personalCardNo = loginProvider.civilIdNumberController.text;
-                  loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
-                  loginProvider.notifyMe();
-                }
-                if (kDebugMode) {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => const SplashScreen()),
+                          (route) => false
+                  );
                 }
               }),
         ],
