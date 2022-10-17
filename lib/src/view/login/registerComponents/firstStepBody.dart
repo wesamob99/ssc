@@ -14,7 +14,7 @@ import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/login/loginProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
-import 'mobileNumberOTP.dart';
+import 'OTPScreen.dart';
 
 class FirstStepBody extends StatefulWidget {
   const FirstStepBody({Key key}) : super(key: key);
@@ -215,8 +215,9 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                               loginProvider.registerData.mobileNo = loginProvider.mobileNumberController.text;
                               loginProvider.notifyMe();
                               Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => MobileNumberOTP(
-                                      mobileNumber: loginProvider.mobileNumberController.text))
+                                  MaterialPageRoute(builder: (context) => OTPScreen(
+                                    type: 'phone',
+                                    contactTarget: loginProvider.mobileNumberController.text))
                               );
                             }
                           }),

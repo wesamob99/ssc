@@ -11,6 +11,8 @@ import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/login/loginProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
+import 'OTPScreen.dart';
+import 'forthStepBody.dart';
 
 class ThirdStepBody extends StatefulWidget {
   const ThirdStepBody({Key key}) : super(key: key);
@@ -171,6 +173,17 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                   loginProvider.registerData.personalCardNo = loginProvider.civilIdNumberController.text;
                   loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
                   loginProvider.notifyMe();
+                  if(item2['value']) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => OTPScreen(
+                          type: 'email',
+                          contactTarget: loginProvider.emailController.text))
+                  );
+                  }else{
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => const ForthStepBody())
+                    );
+                  }
                 }
                 if (kDebugMode) {
                   print(registerDataToJson(loginProvider.registerData));

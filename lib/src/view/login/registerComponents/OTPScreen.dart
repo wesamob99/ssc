@@ -15,16 +15,18 @@ import '../../../viewModel/login/loginProvider.dart';
 import '../../../viewModel/utilities/language/globalAppProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../splash/splashScreen.dart';
+import 'forthStepBody.dart';
 
-class MobileNumberOTP extends StatefulWidget {
-  final String mobileNumber;
-  const MobileNumberOTP({Key key, this.mobileNumber}) : super(key: key);
+class OTPScreen extends StatefulWidget {
+  final String contactTarget;
+  final String type;
+  const OTPScreen({Key key, this.contactTarget, this.type}) : super(key: key);
 
   @override
-  State<MobileNumberOTP> createState() => _MobileNumberOTPState();
+  State<OTPScreen> createState() => _OTPScreenState();
 }
 
-class _MobileNumberOTPState extends State<MobileNumberOTP> {
+class _OTPScreenState extends State<OTPScreen> {
 
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   final pinController = TextEditingController();
@@ -130,7 +132,9 @@ class _MobileNumberOTPState extends State<MobileNumberOTP> {
                   children: [
                     SizedBox(height: height(0.05, context),),
                     Text(
-                      translate('mobileNumberVerify', context),
+                      widget.type == 'phone'
+                          ? translate('mobileNumberVerify', context)
+                          : translate('emailVerify', context),
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: width(0.04, context)
@@ -140,7 +144,10 @@ class _MobileNumberOTPState extends State<MobileNumberOTP> {
                     Column(
                       children: [
                         Text(
-                          translate('enterMobileVerificationCode', context),
+                          widget.type == 'phone'
+                          ? translate('enterMobileVerificationCode', context)
+                          : translate('enterEmailVerificationCode2', context),
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: width(0.034, context)
@@ -148,7 +155,7 @@ class _MobileNumberOTPState extends State<MobileNumberOTP> {
                         ),
                         SizedBox(height: height(0.015, context),),
                         Text(
-                          widget.mobileNumber,
+                          widget.contactTarget,
                           textDirection: TextDirection.ltr,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
@@ -220,7 +227,8 @@ class _MobileNumberOTPState extends State<MobileNumberOTP> {
                         pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
                             () async {if(pinController.length == 4){
                               Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => const SecondStepBody()),
+                                MaterialPageRoute(builder: (context) => widget.type == 'phone'
+                                    ? const SecondStepBody() : const ForthStepBody()),
                               );
                           // errorMessage = "";
                           // try{
