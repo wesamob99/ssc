@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
     loginProvider.relativeNatIdController.clear();
     loginProvider.emailController.clear();
     loginProvider.registerPasswordController.clear();
-    loginProvider.registerVerifyPasswordController.clear();
+    loginProvider.registerConfirmPasswordController.clear();
     loginProvider.registerContinueEnabled = false;
     loginProvider.thirdStepSelection = ['choose', 'optionalChoose'];
     super.initState();
