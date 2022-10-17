@@ -419,3 +419,152 @@ SizedBox buildTextFormField(context, ThemeNotifier themeNotifier,
     ),
   );
 }
+
+modalBottomSheet(context){
+  return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25.0))
+      ),
+      context: context,
+      barrierColor: Colors.white24,
+      builder: (context) {
+        return BackdropFilter(
+          filter: ui.ImageFilter.blur(
+            sigmaX: 6.0,
+            sigmaY: 6.0,
+          ),
+          child: Material(
+            elevation: 100,
+            borderRadius: BorderRadius.circular(25.0),
+            color: Colors.white,
+            shadowColor: Colors.black,
+            child: SizedBox(
+              height: height(0.5, context),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: height(0.02, context),
+                      horizontal: width(0.07, context),
+                    ).copyWith(bottom: height(0.01, context)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          translate('defineAnotherWayToEnter', context),
+                          style: TextStyle(
+                            color: HexColor('#363636'),
+                            fontWeight: FontWeight.bold,
+                            fontSize: width(0.04, context),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: (){
+                            Navigator.of(context).pop();
+                          },
+                          child: SvgPicture.asset('assets/icons/close.svg'),
+                        )
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    color: HexColor('#DADADA'),
+                    thickness: 1,
+                  ),
+                  Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: height(0.02, context),
+                        horizontal: width(0.07, context),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            translate('defineAnotherWayToEnterDesc', context),
+                            style: TextStyle(
+                                color: HexColor('#363636'),
+                                height: 1.5
+                            ),
+                          ),
+                          SizedBox(height: height(0.04, context),),
+                          TextButton(
+                            onPressed: (){},
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(
+                                    HexColor('#E7EFE5')
+                                ),
+                                fixedSize:  MaterialStateProperty.all<Size>(
+                                  Size(width(1, context), height(0.07, context)),
+                                ),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(12),),
+                                )
+                            ),
+                            child: Text(
+                              translate('fingerprintOrFace', context),
+                              style: TextStyle(
+                                  color: HexColor('#363636'),
+                                  fontWeight: FontWeight.w200
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: height(0.015, context),),
+                          TextButton(
+                            onPressed: (){},
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(
+                                    HexColor('#E7EFE5')
+                                ),
+                                fixedSize:  MaterialStateProperty.all<Size>(
+                                  Size(width(1, context), height(0.07, context)),
+                                ),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(12),),
+                                )
+                            ),
+                            child: Text(
+                              translate('passcode', context),
+                              style: TextStyle(
+                                color: HexColor('#363636'),
+                                fontWeight: FontWeight.w200,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: height(0.015, context),),
+                          TextButton(
+                            onPressed: (){
+                              Navigator.of(context).pop();
+                            },
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(
+                                    HexColor('#ffffff')
+                                ),
+                                fixedSize:  MaterialStateProperty.all<Size>(
+                                  Size(width(1, context), height(0.07, context)),
+                                ),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(12),),
+                                )
+                            ),
+                            child: Text(
+                              translate('skip', context),
+                              style: TextStyle(
+                                color: HexColor('#363636'),
+                                fontWeight: FontWeight.w200,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+  );
+}
