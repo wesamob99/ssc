@@ -23,34 +23,19 @@ class ThirdStepBody extends StatefulWidget {
 
 class _ThirdStepBodyState extends State<ThirdStepBody> {
 
-  final List _selectedValues = [];
-  Map item1 = {"title": 'sms', "value": false};
+  Map item1 = {"title": 'sms', "value": true};
   Map item2 = {"title": 'email', "value": false};
 
 
   @override
   void initState() {
     LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    loginProvider.registerContinueEnabled = true;
+    if(!item2['value']){
+      loginProvider.registerContinueEnabled = true;
+    } else{
+      loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
+    }
     super.initState();
-  }
-
-
-  void _onItemCheckedChange(itemValue, bool checked, loginProvider) {
-    setState(() {
-      itemValue['value'] = checked;
-      if (checked) {
-        _selectedValues.add(itemValue);
-      } else {
-        _selectedValues.remove(itemValue);
-      }
-
-      if(!item2['value']){
-        loginProvider.registerContinueEnabled = true;
-      } else{
-        loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
-      }
-    });
   }
 
   @override
@@ -109,25 +94,78 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                     fontSize: width(0.032, context)
                 ),
               ),
+              SizedBox(height: height(0.02, context),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        if(!item2['value']){
+                          loginProvider.registerContinueEnabled = true;
+                        } else{
+                          loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
+                        }
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(3.0),
+                      decoration: BoxDecoration(
+                          color: HexColor('#DADADA'),
+                          borderRadius: BorderRadius.circular(3.0)
+                      ),
+                      child: Container(
+                        width: width(0.04, context),
+                        height: width(0.04, context),
+                        decoration: BoxDecoration(
+                            color: item1['value'] ? HexColor('#2D452E') : HexColor('#DADADA'),
+                            borderRadius: BorderRadius.circular(4.0)
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: width(0.03, context),),
+                  Text(translate(item1['title'], context)),
+                ],
+              ),
               SizedBox(height: height(0.01, context),),
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                checkColor: Colors.white,
-                activeColor: HexColor('##445740'),
-                value: true,
-                title: Text(translate(item1['title'], context)),
-                controlAffinity: ListTileControlAffinity.leading,
-                onChanged: (checked) => _onItemCheckedChange(item1, checked, loginProvider),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        item2['value'] = !item2['value'];
+                        if(!item2['value']){
+                          loginProvider.registerContinueEnabled = true;
+                        } else{
+                          loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
+                        }
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(3.0),
+                      decoration: BoxDecoration(
+                          color: HexColor('#DADADA'),
+                          borderRadius: BorderRadius.circular(3.0)
+                      ),
+                      child: Container(
+                        width: width(0.04, context),
+                        height: width(0.04, context),
+                        decoration: BoxDecoration(
+                            color: item2['value'] ? HexColor('#2D452E') : HexColor('#DADADA'),
+                            borderRadius: BorderRadius.circular(4.0)
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: width(0.03, context),),
+                  Text(translate(item2['title'], context)),
+                ],
               ),
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                checkColor: Colors.white,
-                activeColor: HexColor('##445740'),
-                value: item2['value'],
-                title: Text(translate(item2['title'], context)),
-                controlAffinity: ListTileControlAffinity.leading,
-                onChanged: (checked) => _onItemCheckedChange(item2, checked, loginProvider),
-              ),
+              SizedBox(height: height(0.015, context),),
               Text(
                 translate('choosingEmailPreferable', context),
                 style: TextStyle(
@@ -149,7 +187,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                   ),
                   SizedBox(height: height(0.015, context),),
                   buildTextFormField(context, themeNotifier, loginProvider, loginProvider.emailController, 'example@example.com', (value){
-                    if(item2['value'] == true){
+                    if(item2['value']){
                       loginProvider.registerContinueEnabled = isEmail(loginProvider.emailController.text);
                     } else{
                       loginProvider.registerContinueEnabled = true;
@@ -167,8 +205,8 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                   : getPrimaryColor(context, themeNotifier)),
               Provider.of<LoginProvider>(context).registerContinueEnabled
                   ? HexColor('#ffffff') : HexColor('#363636'), (){
-                if(loginProvider.registerContinueEnabled){
-                  loginProvider.registerContinueEnabled = false;
+                if(loginProvider.registerContinueEnabled || !item2['value']){
+                  print('true 221');
                   loginProvider.registerData.nationalId = int.tryParse(loginProvider.registerNationalIdController.text);
                   loginProvider.registerData.personalCardNo = loginProvider.civilIdNumberController.text;
                   loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
