@@ -216,7 +216,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                               ? HexColor('#ffffff') : HexColor('#363636'), (){
                             if(loginProvider.registerContinueEnabled){
                               loginProvider.registerContinueEnabled = false;
-                              /// add (nationality / country of resident / mobile number) to loginProvider.registerData
+                              ///TODO: add (nationality / country of resident / mobile number) to loginProvider.registerData
                               loginProvider.registerData.nationality = (selectedNationality == 'jordanian' ? 1 : 2);
                               loginProvider.registerData.residentCountry = selectedCountry.natCode;
                               loginProvider.registerData.mobileNo = loginProvider.mobileNumberController.text;
