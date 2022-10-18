@@ -41,202 +41,205 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width(0.05, context)),
-        child: Column(
-          children: [
-            SizedBox(height: height(0.05, context),),
-            Text(
-              translate('identityVerify', context),
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: width(0.04, context)
-              ),
-            ),
-            SizedBox(height: height(0.04, context),),
-            Column(
-              children: [
-                Text(
-                  translate(useAnotherMethod ? 'enterEmailVerificationCode' : 'enterMobileVerificationCode', context)
-                  + (useAnotherMethod ? '  ${userSecuredStorage.email}' : ''),
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: width(0.034, context)
-                  ),
-                ),
-                SizedBox(height: height(0.015, context),),
-                if(!useAnotherMethod)
-                Text(
-                  userSecuredStorage.mobileNumber,
-                  textDirection: TextDirection.ltr,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: width(0.034, context),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: height(0.025, context),),
-            if(!useAnotherMethod)
-            pinPut(themeNotifier),
-            if(useAnotherMethod)
-            buildTextFormField(themeNotifier, loginProvider, emailController, TextInputType.emailAddress),
-            SizedBox(height: height(0.022, context),),
-            InkWell(
-              onTap: (){
-                setState(() {
-                  useAnotherMethod = true;
-                });
-              },
-              overlayColor: MaterialStateProperty.all<Color>(
-                  Colors.transparent
-              ),
-              splashColor: getPrimaryColor(context, themeNotifier),
-              child: Container(
-                alignment: UserConfig.instance.checkLanguage()
-                    ? Alignment.topLeft : Alignment.topRight,
-                // padding: EdgeInsets.symmetric(horizontal: width(0.11, context)),
-                child: Text(
-                  translate(useAnotherMethod ?'dontHaveAnyMethod' : 'useAnotherMethod', context),
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: width(0.033, context),
-                      color: HexColor('#003C97')
-                  ),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width(0.05, context)),
+          child: Column(
+            children: [
+              SizedBox(height: height(0.05, context),),
+              Text(
+                translate('identityVerify', context),
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: width(0.04, context)
                 ),
               ),
-            ),
-            SizedBox(height: height(0.05, context),),
-            if(!useAnotherMethod)
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: height(0.02, context)),
-              child: Column(
+              SizedBox(height: height(0.04, context),),
+              Column(
                 children: [
-                  Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: width(isTimerEnded ? 0.5 : 0.23, context),
-                      height: height(0.04, context),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                              color: HexColor('#A4A4A4')
-                          )
-                      ),
-                      child: CountdownTimer(
-                        textStyle: TextStyle(color: HexColor('#FF0000')),
-                        endWidget: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'code has been disabled',
-                            style: TextStyle(color: HexColor('#FF0000')),
-                          ),
-                        ),
-                        endTime: endTime,
-                        onEnd: () {
-                          setState(() {
-                            isTimerEnded = true;
-                          });
-                        },
-                      ),
+                  Text(
+                    translate(useAnotherMethod ? 'enterEmailVerificationCode' : 'enterMobileVerificationCode', context)
+                    + (useAnotherMethod ? '  ${userSecuredStorage.email}' : ''),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: width(0.034, context)
                     ),
                   ),
-                  SizedBox(height: height(0.01, context),),
-                  InkWell(
-                    onTap: () async{
-                      if(isTimerEnded) {
-                        await loginProvider.resetPasswordSendMobileOTP( loginProvider.nationalIdController.text);
-                        setState((){
-                          endTime = DateTime.now().millisecondsSinceEpoch + 300000;
-                        });
-                      }
-                    },
-                    child: Text(
-                      'إعاده الارسال',
-                      style: TextStyle(color: isTimerEnded ? HexColor('#003C97') : HexColor('#DADADA')),
-                    )
-                  ),
+                  SizedBox(height: height(0.015, context),),
+                  if(!useAnotherMethod)
+                  Text(
+                    userSecuredStorage.mobileNumber,
+                    textDirection: TextDirection.ltr,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: width(0.034, context),
+                    ),
+                  )
                 ],
               ),
-            ),
-            SizedBox(height: height(0.05, context),),
-            if(useAnotherMethod)
-              textButton(
-                themeNotifier, 'sendCode',
-                MaterialStateProperty.all<Color>(
-                  (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
-                    ? HexColor('#DADADA') : getPrimaryColor(context, themeNotifier),),
-                    (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
-                        ? HexColor('#363636') : Colors.white,
-                    () async {if(loginProvider.enabledSendCodeButton && isEmail(emailController.text)){
-                      errorMessage = "";
-                      //TODO: : check if [emailController.text] is the real email before send the code
-                      try{
-                        await loginProvider.resetPasswordSendEmailCode(userSecuredStorage.nationalId)
-                            .then((value){
-                          if(value["PO_STATUS"] == 1){
-                            errorMessage = UserConfig.instance.checkLanguage()
-                                ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
-                            showMyDialog(context, 'resetPassword', errorMessage, 'ok', themeNotifier, titleColor: '#445740', icon: 'assets/icons/emailSent.svg').then((value){
-                              if (!mounted) return;
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                      (route) => false
-                              );
+              SizedBox(height: height(0.025, context),),
+              if(!useAnotherMethod)
+              pinPut(themeNotifier),
+              if(useAnotherMethod)
+              buildTextFormField(themeNotifier, loginProvider, emailController, TextInputType.emailAddress),
+              SizedBox(height: height(0.022, context),),
+              InkWell(
+                onTap: (){
+                  setState(() {
+                    useAnotherMethod = true;
+                  });
+                },
+                overlayColor: MaterialStateProperty.all<Color>(
+                    Colors.transparent
+                ),
+                splashColor: getPrimaryColor(context, themeNotifier),
+                child: Container(
+                  alignment: UserConfig.instance.checkLanguage()
+                      ? Alignment.topLeft : Alignment.topRight,
+                  // padding: EdgeInsets.symmetric(horizontal: width(0.11, context)),
+                  child: Text(
+                    translate(useAnotherMethod ?'dontHaveAnyMethod' : 'useAnotherMethod', context),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: width(0.033, context),
+                        color: HexColor('#003C97')
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: height(0.05, context),),
+              if(!useAnotherMethod)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: height(0.02, context)),
+                child: Column(
+                  children: [
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: width(isTimerEnded ? 0.5 : 0.23, context),
+                        height: height(0.04, context),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                                color: HexColor('#A4A4A4')
+                            )
+                        ),
+                        child: CountdownTimer(
+                          textStyle: TextStyle(color: HexColor('#FF0000')),
+                          endWidget: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'code has been disabled',
+                              style: TextStyle(color: HexColor('#FF0000')),
+                            ),
+                          ),
+                          endTime: endTime,
+                          onEnd: () {
+                            setState(() {
+                              isTimerEnded = true;
                             });
-                          }else{
-                            errorMessage = UserConfig.instance.checkLanguage()
-                                ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
-                            showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: height(0.01, context),),
+                    InkWell(
+                      onTap: () async{
+                        if(isTimerEnded) {
+                          await loginProvider.resetPasswordSendMobileOTP(loginProvider.nationalIdController.text);
+                          setState((){
+                            endTime = DateTime.now().millisecondsSinceEpoch + 300000;
+                          });
+                        }
+                      },
+                      child: Text(
+                        'إعاده الارسال',
+                        style: TextStyle(color: isTimerEnded ? HexColor('#003C97') : HexColor('#DADADA')),
+                      )
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: height(0.05, context),),
+              if(useAnotherMethod)
+                textButton(
+                  themeNotifier, 'sendCode',
+                  MaterialStateProperty.all<Color>(
+                    (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
+                      ? HexColor('#DADADA') : getPrimaryColor(context, themeNotifier),),
+                      (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
+                          ? HexColor('#363636') : Colors.white,
+                      () async {if(loginProvider.enabledSendCodeButton && isEmail(emailController.text)){
+                        errorMessage = "";
+                        //TODO: : check if [emailController.text] is the real email before send the code
+                        try{
+                          await loginProvider.resetPasswordSendEmailCode(userSecuredStorage.nationalId)
+                              .then((value){
+                            if(value["PO_STATUS"] == 1){
+                              errorMessage = UserConfig.instance.checkLanguage()
+                                  ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
+                              showMyDialog(context, 'resetPassword', errorMessage, 'ok', themeNotifier, titleColor: '#445740', icon: 'assets/icons/emailSent.svg').then((value){
+                                if (!mounted) return;
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                        (route) => false
+                                );
+                              });
+                            }else{
+                              errorMessage = UserConfig.instance.checkLanguage()
+                                  ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
+                              showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                            }
+                          });
+                        }catch(e){
+                          if (kDebugMode) {
+                            print(e.toString());
                           }
-                        });
-                      }catch(e){
+                        }
+                  }}),
+              if(!useAnotherMethod)
+              textButton(
+                themeNotifier, 'continue',
+                MaterialStateProperty.all<Color>(pinController.text.length == 4
+                ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),),
+                pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
+                  () async {if(pinController.length == 4){
+                    errorMessage = "";
+                    try{
+                    await loginProvider.resetPasswordCheckMobileOTP(
+                        userSecuredStorage.nationalId,
+                        int.parse(pinController.text))
+                        .then((value){
+                      if(value["PO_STATUS"] == 0){
+                        errorMessage = UserConfig.instance.checkLanguage()
+                            ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
+                        showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                      }else{
                         if (kDebugMode) {
-                          print(e.toString());
+                          print("true OTP");
                         }
                       }
-                }}),
-            if(!useAnotherMethod)
-            textButton(
-              themeNotifier, 'continue',
-              MaterialStateProperty.all<Color>(pinController.text.length == 4
-              ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),),
-              pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
-                () async {if(pinController.length == 4){
-                  errorMessage = "";
-                  try{
-                  await loginProvider.resetPasswordCheckMobileOTP(
-                      userSecuredStorage.nationalId,
-                      int.parse(pinController.text))
-                      .then((value){
-                    if(value["PO_STATUS"] == 0){
-                      errorMessage = UserConfig.instance.checkLanguage()
-                          ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
-                      showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
-                    }else{
+                    });
+                    }catch(e){
                       if (kDebugMode) {
-                        print("true OTP");
+                        print(e.toString());
                       }
                     }
-                  });
-                  }catch(e){
-                    if (kDebugMode) {
-                      print(e.toString());
-                    }
-                  }
-                }}),
-            SizedBox(height: height(0.018, context),),
-            textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
-              HexColor('#DADADA')), HexColor('#363636'), (){
-              if (!mounted) return;
-              Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => const SplashScreen()),
-                      (route) => false
-              );
-            }),
-          ],
+                  }}),
+              SizedBox(height: height(0.018, context),),
+              textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
+                HexColor('#DADADA')), HexColor('#363636'), (){
+                if (!mounted) return;
+                Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const SplashScreen()),
+                        (route) => false
+                );
+              }),
+            ],
+          ),
         ),
       ),
     );
