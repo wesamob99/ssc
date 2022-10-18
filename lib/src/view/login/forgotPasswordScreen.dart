@@ -75,10 +75,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
       body: Stack(
         children: [
-          Container(
-            alignment: Alignment.bottomLeft,
-            child: SvgPicture.asset(
-                'assets/logo/logo_tree.svg'
+          Opacity(
+            opacity: 0.5,
+            child: Container(
+              alignment: Alignment.bottomLeft,
+              child: SvgPicture.asset(
+                  'assets/logo/logo_tree.svg'
+              ),
             ),
           ),
           Padding(

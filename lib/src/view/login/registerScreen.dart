@@ -79,10 +79,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
         child: Stack(
           children: [
-            Container(
-              alignment: Alignment.bottomLeft,
-              child: SvgPicture.asset(
-                  'assets/logo/logo_tree.svg'
+            Opacity(
+              opacity: 0.5,
+              child: Container(
+                alignment: Alignment.bottomLeft,
+                child: SvgPicture.asset(
+                    'assets/logo/logo_tree.svg'
+                ),
               ),
             ),
             SingleChildScrollView(

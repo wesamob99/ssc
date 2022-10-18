@@ -59,10 +59,13 @@ class _LoginBodyState extends State<LoginBody> {
     GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
     return Stack(
       children: [
-        Container(
-          alignment: Alignment.bottomLeft,
-          child: SvgPicture.asset(
-              'assets/logo/logo_tree.svg'
+        Opacity(
+          opacity: 0.5,
+          child: Container(
+            alignment: Alignment.bottomLeft,
+            child: SvgPicture.asset(
+                'assets/logo/logo_tree.svg'
+            ),
           ),
         ),
         Padding(
