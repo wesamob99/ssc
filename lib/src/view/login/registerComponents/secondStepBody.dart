@@ -30,147 +30,150 @@ class _SecondStepBodyState extends State<SecondStepBody> {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
 
-    return RegisterScreen(
-      stepNumber: 2,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: height(0.02, context),),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    translate('secondStep', context),
-                    style: TextStyle(
-                        color: HexColor('#979797'),
-                        fontSize: width(0.03, context)
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: RegisterScreen(
+        stepNumber: 2,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: height(0.02, context),),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      translate('secondStep', context),
+                      style: TextStyle(
+                          color: HexColor('#979797'),
+                          fontSize: width(0.03, context)
+                      ),
                     ),
-                  ),
-                  SizedBox(height: height(0.006, context),),
-                  Text(
-                    translate('personalInformations', context),
-                    style: TextStyle(
-                        color: HexColor('#5F5F5F'),
-                        fontSize: width(0.035, context)
+                    SizedBox(height: height(0.006, context),),
+                    Text(
+                      translate('personalInformations', context),
+                      style: TextStyle(
+                          color: HexColor('#5F5F5F'),
+                          fontSize: width(0.035, context)
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: height(0.01, context),),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox.shrink(),
-                  Text(
-                    '${translate('next', context)}: ${translate('contactInformations', context)}',
-                    style: TextStyle(
-                        color: HexColor('#979797'),
-                        fontSize: width(0.032, context)
+                  ],
+                ),
+                SizedBox(height: height(0.01, context),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox.shrink(),
+                    Text(
+                      '${translate('next', context)}: ${translate('contactInformations', context)}',
+                      style: TextStyle(
+                          color: HexColor('#979797'),
+                          fontSize: width(0.032, context)
+                      ),
                     ),
+                  ],
+                ),
+                SizedBox(height: height(0.02, context),),
+                Text(
+                  translate('enterNationalId', context),
+                  style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontSize: width(0.032, context)
                   ),
-                ],
-              ),
-              SizedBox(height: height(0.02, context),),
-              Text(
-                translate('enterNationalId', context),
-                style: TextStyle(
-                    color: HexColor('#363636'),
-                    fontSize: width(0.032, context)
                 ),
-              ),
-              SizedBox(height: height(0.015, context),),
-              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerNationalIdController, '9661001073', (val){
-                loginProvider.registerContinueEnabled =  (
-                    loginProvider.registerNationalIdController.text.isNotEmpty &&
-                        loginProvider.civilIdNumberController.text.isNotEmpty &&
-                        loginProvider.relativeNatIdController.text.isNotEmpty &&
-                        loginProvider.thirdStepSelection[0] != 'choose'
-                );
-                loginProvider.notifyMe();
-              },),
-              SizedBox(height: height(0.02, context),),
-              Text(
-                translate('civilIdNumber', context),
-                style: TextStyle(
-                    color: HexColor('#363636'),
-                    fontSize: width(0.032, context)
-                ),
-              ),
-              SizedBox(height: height(0.015, context),),
-              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.civilIdNumberController, 'XC454F', (val){
-                loginProvider.registerContinueEnabled =  (
-                    loginProvider.registerNationalIdController.text.isNotEmpty &&
-                        loginProvider.civilIdNumberController.text.isNotEmpty &&
-                        loginProvider.relativeNatIdController.text.isNotEmpty &&
-                        loginProvider.thirdStepSelection[0] != 'choose'
-                );
-                loginProvider.notifyMe();
-              },),
-              SizedBox(height: height(0.02, context),),
-              Text(
-                translate('relativeNationalNumber', context),
-                style: TextStyle(
-                    color: HexColor('#363636'),
-                    fontSize: width(0.032, context)
-                ),
-              ),
-              SizedBox(height: height(0.015, context),),
-              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.relativeNatIdController, '9661001073', (val){
-                loginProvider.registerContinueEnabled =  (
-                    loginProvider.registerNationalIdController.text.isNotEmpty &&
-                        loginProvider.civilIdNumberController.text.isNotEmpty &&
-                        loginProvider.relativeNatIdController.text.isNotEmpty &&
-                        loginProvider.thirdStepSelection[0] != 'choose'
-                );
-                loginProvider.notifyMe();
-              },),
-              SizedBox(height: height(0.02, context),),
-              Text(
-                translate('relativeRelation', context),
-                style: TextStyle(
-                    color: HexColor('#363636'),
-                    fontSize: width(0.032, context)
-                ),
-              ),
-              SizedBox(height: height(0.015, context),),
-              dropDownList(relationTypes, themeNotifier, loginProvider, 0),
-              SizedBox(height: height(0.02, context),),
-              Text(
-                translate('academicLevel', context),
-                style: TextStyle(
-                    color: HexColor('#363636'),
-                    fontSize: width(0.032, context)
-                ),
-              ),
-              SizedBox(height: height(0.015, context),),
-              dropDownList(academicLevels, themeNotifier, loginProvider, 1),
-            ],
-          ),
-          SizedBox(height: height(0.04, context),),
-          textButton(context, themeNotifier, 'continue', MaterialStateProperty.all<Color>(
-              !Provider.of<LoginProvider>(context).registerContinueEnabled
-                  ? HexColor('#DADADA')
-                  : getPrimaryColor(context, themeNotifier)),
-              Provider.of<LoginProvider>(context).registerContinueEnabled
-                  ? HexColor('#ffffff') : HexColor('#363636'), (){
-                if(loginProvider.registerContinueEnabled){
-                  loginProvider.registerContinueEnabled = false;
-                  loginProvider.registerData.nationalId = int.tryParse(loginProvider.registerNationalIdController.text);
-                  loginProvider.registerData.personalCardNo = loginProvider.civilIdNumberController.text;
-                  loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
-                  loginProvider.notifyMe();
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const ThirdStepBody())
+                SizedBox(height: height(0.015, context),),
+                buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerNationalIdController, '9661001073', (val){
+                  loginProvider.registerContinueEnabled =  (
+                      loginProvider.registerNationalIdController.text.isNotEmpty &&
+                          loginProvider.civilIdNumberController.text.isNotEmpty &&
+                          loginProvider.relativeNatIdController.text.isNotEmpty &&
+                          loginProvider.thirdStepSelection[0] != 'choose'
                   );
-                }
-                if (kDebugMode) {
-                  print(registerDataToJson(loginProvider.registerData));
-                }
-              }),
-        ],
+                  loginProvider.notifyMe();
+                },),
+                SizedBox(height: height(0.02, context),),
+                Text(
+                  translate('civilIdNumber', context),
+                  style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontSize: width(0.032, context)
+                  ),
+                ),
+                SizedBox(height: height(0.015, context),),
+                buildTextFormField(context, themeNotifier, loginProvider, loginProvider.civilIdNumberController, 'XC454F', (val){
+                  loginProvider.registerContinueEnabled =  (
+                      loginProvider.registerNationalIdController.text.isNotEmpty &&
+                          loginProvider.civilIdNumberController.text.isNotEmpty &&
+                          loginProvider.relativeNatIdController.text.isNotEmpty &&
+                          loginProvider.thirdStepSelection[0] != 'choose'
+                  );
+                  loginProvider.notifyMe();
+                },),
+                SizedBox(height: height(0.02, context),),
+                Text(
+                  translate('relativeNationalNumber', context),
+                  style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontSize: width(0.032, context)
+                  ),
+                ),
+                SizedBox(height: height(0.015, context),),
+                buildTextFormField(context, themeNotifier, loginProvider, loginProvider.relativeNatIdController, '9661001073', (val){
+                  loginProvider.registerContinueEnabled =  (
+                      loginProvider.registerNationalIdController.text.isNotEmpty &&
+                          loginProvider.civilIdNumberController.text.isNotEmpty &&
+                          loginProvider.relativeNatIdController.text.isNotEmpty &&
+                          loginProvider.thirdStepSelection[0] != 'choose'
+                  );
+                  loginProvider.notifyMe();
+                },),
+                SizedBox(height: height(0.02, context),),
+                Text(
+                  translate('relativeRelation', context),
+                  style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontSize: width(0.032, context)
+                  ),
+                ),
+                SizedBox(height: height(0.015, context),),
+                dropDownList(relationTypes, themeNotifier, loginProvider, 0),
+                SizedBox(height: height(0.02, context),),
+                Text(
+                  translate('academicLevel', context),
+                  style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontSize: width(0.032, context)
+                  ),
+                ),
+                SizedBox(height: height(0.015, context),),
+                dropDownList(academicLevels, themeNotifier, loginProvider, 1),
+              ],
+            ),
+            SizedBox(height: height(0.04, context),),
+            textButton(context, themeNotifier, 'continue', MaterialStateProperty.all<Color>(
+                !Provider.of<LoginProvider>(context).registerContinueEnabled
+                    ? HexColor('#DADADA')
+                    : getPrimaryColor(context, themeNotifier)),
+                Provider.of<LoginProvider>(context).registerContinueEnabled
+                    ? HexColor('#ffffff') : HexColor('#363636'), (){
+                  if(loginProvider.registerContinueEnabled){
+                    loginProvider.registerContinueEnabled = false;
+                    loginProvider.registerData.nationalId = int.tryParse(loginProvider.registerNationalIdController.text);
+                    loginProvider.registerData.personalCardNo = loginProvider.civilIdNumberController.text;
+                    loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
+                    loginProvider.notifyMe();
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => const ThirdStepBody())
+                    );
+                  }
+                  if (kDebugMode) {
+                    print(registerDataToJson(loginProvider.registerData));
+                  }
+                }),
+          ],
+        ),
       ),
     );
   }
