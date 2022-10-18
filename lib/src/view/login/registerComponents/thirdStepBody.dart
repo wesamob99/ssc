@@ -206,7 +206,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
               Provider.of<LoginProvider>(context).registerContinueEnabled
                   ? HexColor('#ffffff') : HexColor('#363636'), (){
                 if(loginProvider.registerContinueEnabled || !item2['value']){
-                  print('true 221');
+                  loginProvider.registerContinueEnabled = true;
                   loginProvider.registerData.nationalId = int.tryParse(loginProvider.registerNationalIdController.text);
                   loginProvider.registerData.personalCardNo = loginProvider.civilIdNumberController.text;
                   loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);

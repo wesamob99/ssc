@@ -87,8 +87,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                     loginProvider.registerNationalIdController.text.isNotEmpty &&
                         loginProvider.civilIdNumberController.text.isNotEmpty &&
                         loginProvider.relativeNatIdController.text.isNotEmpty &&
-                        loginProvider.thirdStepSelection[0] != 'choose' &&
-                        loginProvider.thirdStepSelection[1] != 'optionalChoose'
+                        loginProvider.thirdStepSelection[0] != 'choose'
                 );
                 loginProvider.notifyMe();
               },),
@@ -106,8 +105,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                     loginProvider.registerNationalIdController.text.isNotEmpty &&
                         loginProvider.civilIdNumberController.text.isNotEmpty &&
                         loginProvider.relativeNatIdController.text.isNotEmpty &&
-                        loginProvider.thirdStepSelection[0] != 'choose' &&
-                        loginProvider.thirdStepSelection[1] != 'optionalChoose'
+                        loginProvider.thirdStepSelection[0] != 'choose'
                 );
                 loginProvider.notifyMe();
               },),
@@ -125,8 +123,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                     loginProvider.registerNationalIdController.text.isNotEmpty &&
                         loginProvider.civilIdNumberController.text.isNotEmpty &&
                         loginProvider.relativeNatIdController.text.isNotEmpty &&
-                        loginProvider.thirdStepSelection[0] != 'choose' &&
-                        loginProvider.thirdStepSelection[1] != 'optionalChoose'
+                        loginProvider.thirdStepSelection[0] != 'choose'
                 );
                 loginProvider.notifyMe();
               },),
@@ -216,8 +213,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                     loginProvider.registerNationalIdController.text.isNotEmpty &&
                         loginProvider.civilIdNumberController.text.isNotEmpty &&
                         loginProvider.relativeNatIdController.text.isNotEmpty &&
-                        loginProvider.thirdStepSelection[0] != 'choose' &&
-                        loginProvider.thirdStepSelection[1] != 'optionalChoose'
+                        loginProvider.thirdStepSelection[0] != 'choose'
                 );
                 loginProvider.notifyMe();
               },
