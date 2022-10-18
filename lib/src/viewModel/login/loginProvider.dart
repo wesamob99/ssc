@@ -16,6 +16,9 @@ class LoginProvider extends ChangeNotifier {
 
   /// forgot password ***
   bool enabledSendCodeButton = false;
+  bool resetContinueEnabled = false;
+  TextEditingController resetPasswordController = TextEditingController();
+  TextEditingController resetConfirmPasswordController = TextEditingController();
 
   /// register ***
   RegisterData registerData = RegisterData();
@@ -82,7 +85,10 @@ class LoginProvider extends ChangeNotifier {
   clearForgotPasswordData(){
     enabledSendCodeButton = false;
     nationalIdController.clear();
+    resetPasswordController.clear();
+    resetConfirmPasswordController.clear();
     enabledSubmitButton = false;
+    resetContinueEnabled = false;
     notifyMe();
   }
 
