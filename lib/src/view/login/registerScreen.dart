@@ -37,6 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         selectedLanguage = value.getString('language_code') ?? 'en';
       });
     });
+    return selectedLanguage;
   }
 
   @override
@@ -104,9 +105,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               children: [
                                 InkWell(
                                   onTap: (){
-                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop(getAppLanguage());
                                     if(widget.stepNumber == 2 || widget.stepNumber == 4) {
-                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop(getAppLanguage());
                                     }
                                     setState(() {
                                       loginProvider.nationalIdController.clear();

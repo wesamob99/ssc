@@ -42,6 +42,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         selectedLanguage = value.getString('language_code') ?? 'en';
       });
     });
+    return selectedLanguage;
   }
 
   @override
@@ -100,7 +101,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               children: [
                                 InkWell(
                                   onTap: (){
-                                    Navigator.pop(context, setState((){}));
+                                    Navigator.pop(context, getAppLanguage());
                                     setState(() {
                                       loginProvider.nationalIdController.clear();
                                       loginProvider.passwordController.clear();

@@ -176,10 +176,11 @@ class _LoginBodyState extends State<LoginBody> {
                           //   loginProvider.enabledSubmitButton = false;
                           //   loginProvider.notifyMe();
                           // });
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context)=> const ForgotPasswordScreen()),
-                          );
-
+                          setState(() async {
+                            selectedLanguage = await Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context)=> const ForgotPasswordScreen()),
+                            );
+                          });
                         },
                         child: Container(
                           alignment: UserConfig.instance.checkLanguage()
@@ -201,9 +202,11 @@ class _LoginBodyState extends State<LoginBody> {
                           SizedBox(width: width(0.005, context)),
                           InkWell(
                             onTap: (){
-                              Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => const FirstStepBody())
-                              );
+                              setState(() async {
+                                selectedLanguage = await Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => const FirstStepBody())
+                                );
+                              });
                             },
                             child: Text(
                               translate('register', context),
