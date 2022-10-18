@@ -5,6 +5,7 @@ import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
+import 'package:ssc/src/view/login/forgotPasswordComponents/resetPassordBody.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
@@ -219,9 +220,9 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                             ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
                         showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
                       }else{
-                        if (kDebugMode) {
-                          print("true OTP");
-                        }
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => const ResetPasswordBody())
+                        );
                       }
                     });
                     }catch(e){
