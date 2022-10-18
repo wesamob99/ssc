@@ -171,7 +171,9 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                             },
                             child: Container(
                               width: width(1, context),
-                              alignment: Alignment.centerRight,
+                              alignment: UserConfig.instance.checkLanguage()
+                              ? Alignment.centerLeft
+                              : Alignment.centerRight,
                               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                               decoration: BoxDecoration(
                                   color: Colors.transparent,
