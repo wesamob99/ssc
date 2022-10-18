@@ -23,7 +23,7 @@ class SecondStepBody extends StatefulWidget {
 class _SecondStepBodyState extends State<SecondStepBody> {
 
   List<String> relationTypes = ['choose', 'parent', 'brother', 'wife', 'child'];
-  List<String> academicLevels = ['optionalChoose', 'phd', 'master', 'hDiploma', 'mDiploma', 'ba', 'highSchool', 'lessHighSchool', 'professionalCertificate'];
+  List<String> academicLevels = ['optionalChoose', 'phd', 'master', 'hDiploma', 'ba', 'mDiploma', 'highSchool', 'lessHighSchool', 'professionalCertificate'];
 
   @override
   Widget build(BuildContext context) {
@@ -163,6 +163,8 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                     loginProvider.registerData.nationalId = int.tryParse(loginProvider.registerNationalIdController.text);
                     loginProvider.registerData.personalCardNo = loginProvider.civilIdNumberController.text;
                     loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
+                    loginProvider.registerData.relativeType = relationTypes.indexOf(loginProvider.thirdStepSelection[0]);
+                    loginProvider.registerData.academicLevel = relationTypes.indexOf(loginProvider.thirdStepSelection[1]).toString();
                     loginProvider.notifyMe();
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => const ThirdStepBody())

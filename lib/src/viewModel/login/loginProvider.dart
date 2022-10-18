@@ -64,6 +64,11 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
+  Future getEncryptedPasswordService(String password) async {
+    final response = await loginRepository.getEncryptedPasswordService(password);
+    return response;
+  }
+
   Future<List<Countries>> getCountries() async{
     final response = await loginRepository.getCountriesService();
     return response;

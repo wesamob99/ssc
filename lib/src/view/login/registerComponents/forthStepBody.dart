@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -209,8 +211,15 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                     ? HexColor('#DADADA')
                     : getPrimaryColor(context, themeNotifier)),
                 Provider.of<LoginProvider>(context).registerContinueEnabled
-                    ? HexColor('#ffffff') : HexColor('#363636'), (){
+                    ? HexColor('#ffffff') : HexColor('#363636'), () async {
                   if(loginProvider.registerContinueEnabled){
+                    loginProvider.registerContinueEnabled = false;
+                    await loginProvider.getEncryptedPasswordService(loginProvider.registerPasswordController.text).then((value) {
+                      loginProvider.registerData.password = value;
+                    });
+                    if (kDebugMode) {
+                      print('loginProvider.registerData: ${jsonEncode(loginProvider.registerData)}');
+                    }
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (context) => const SplashScreen()),
                             (route) => false

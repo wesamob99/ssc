@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 
-import '../../../models/login/registerData.dart';
 import '../../../utilities/constants.dart';
 import '../../../utilities/hexColor.dart';
 import '../../../utilities/theme/themes.dart';
@@ -48,7 +47,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     loginProvider.nationalIdController.clear();
     loginProvider.enabledSubmitButton = false;
     ///register
-    loginProvider.registerData = RegisterData();
     loginProvider.mobileNumberController.clear();
     loginProvider.registerNationalIdController.clear();
     loginProvider.civilIdNumberController.clear();
