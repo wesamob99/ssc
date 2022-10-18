@@ -224,7 +224,14 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                                   ),
                                                 ),
                                                 SizedBox(width: width(0.01, context),),
-                                                Text(translate(validators[index], context))
+                                                Text(
+                                                  translate(validators[index], context),
+                                                  style: TextStyle(
+                                                    color: validatorsCheck[index]
+                                                        ? HexColor('#445740') : HexColor('#A6A6A6'),
+                                                    fontSize: width(0.03, context)
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),
