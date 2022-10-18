@@ -203,7 +203,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                           buildTextFormField(context, themeNotifier, loginProvider, loginProvider.mobileNumberController, '', (val){
                             loginProvider.registerContinueEnabled =  loginProvider.mobileNumberController.text.isNotEmpty;
                             loginProvider.notifyMe();
-                          },),
+                          }, inputType: TextInputType.number),
                           SizedBox(height: height(0.015, context),),
                         ],
                       ),

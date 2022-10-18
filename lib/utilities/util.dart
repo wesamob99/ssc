@@ -371,10 +371,11 @@ TextButton textButton(context, themeNotifier, text, buttonColor, textColor, onPr
 
 SizedBox buildTextFormField(context, ThemeNotifier themeNotifier,
     LoginProvider loginProvider, TextEditingController controller,
-    String hintText, onChanged, {isPassword = false}){
+    String hintText, onChanged, {isPassword = false, inputType = TextInputType.text}){
   return SizedBox(
     child: TextFormField(
       controller: controller,
+      keyboardType: inputType,
       obscureText: false, // Provider.of<LoginProvider>(context).obscurePassword,
       decoration: InputDecoration(
           suffixIcon: isPassword

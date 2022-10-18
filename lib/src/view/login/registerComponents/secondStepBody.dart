@@ -92,7 +92,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                           loginProvider.thirdStepSelection[0] != 'choose'
                   );
                   loginProvider.notifyMe();
-                },),
+                }, inputType: TextInputType.number),
                 SizedBox(height: height(0.02, context),),
                 Text(
                   translate('civilIdNumber', context),
@@ -128,7 +128,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                           loginProvider.thirdStepSelection[0] != 'choose'
                   );
                   loginProvider.notifyMe();
-                },),
+                },inputType: TextInputType.number),
                 SizedBox(height: height(0.02, context),),
                 Text(
                   translate('relativeRelation', context),

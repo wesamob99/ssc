@@ -193,7 +193,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                       loginProvider.registerContinueEnabled = true;
                     }
                     loginProvider.notifyMe();
-                  }),
+                  }, inputType: TextInputType.emailAddress),
                 ],
               ),
             ],
