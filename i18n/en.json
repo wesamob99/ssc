@@ -133,5 +133,6 @@
   "fingerprintActivated": "The fingerprint has been activated successfully",
   "fingerprintActivatedDesc": "Next time you will be able to enter the application by fingerprint",
   "facePrintActivated": "The face print has been activated successfully",
-  "facePrintActivatedDesc": "Next time you will be able to enter the application by face print"
+  "facePrintActivatedDesc": "Next time you will be able to enter the application by face print",
+  "resend": "Resend"
 }

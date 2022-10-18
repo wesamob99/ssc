@@ -152,11 +152,12 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                           await loginProvider.resetPasswordSendMobileOTP(loginProvider.nationalIdController.text);
                           setState((){
                             endTime = DateTime.now().millisecondsSinceEpoch + 300000;
+                            isTimerEnded = false;
                           });
                         }
                       },
                       child: Text(
-                        'إعاده الارسال',
+                        translate('resend', context),
                         style: TextStyle(color: isTimerEnded ? HexColor('#003C97') : HexColor('#DADADA')),
                       )
                     ),
