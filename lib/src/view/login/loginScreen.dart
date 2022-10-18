@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(20.0),
+          preferredSize: const Size.fromHeight(10.0),
           child: AppBar(
             backgroundColor: Colors.transparent,
           ),

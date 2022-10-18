@@ -67,7 +67,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(20.0),
+        preferredSize: const Size.fromHeight(10.0),
         child: AppBar(
           backgroundColor: Colors.transparent,
           leading: const SizedBox.shrink(),
