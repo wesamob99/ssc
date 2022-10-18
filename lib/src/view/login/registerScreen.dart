@@ -37,7 +37,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         selectedLanguage = value.getString('language_code') ?? 'en';
       });
     });
-    return selectedLanguage;
   }
 
   @override
@@ -105,9 +104,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               children: [
                                 InkWell(
                                   onTap: (){
-                                    Navigator.of(context).pop(getAppLanguage());
+                                    Navigator.of(context).pop();
                                     if(widget.stepNumber == 2 || widget.stepNumber == 4) {
-                                      Navigator.of(context).pop(getAppLanguage());
+                                      Navigator.of(context).pop();
                                     }
                                     setState(() {
                                       loginProvider.nationalIdController.clear();
@@ -144,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 const SizedBox(width: 4.0),
                                 DropdownButton<String>(
                                   isDense: true,
-                                  value: selectedLanguage,
+                                  value: UserConfig.instance.checkLanguage() ? 'en' : 'ar',
                                   icon: const Icon(
                                     Icons.arrow_drop_down_outlined,
                                     size: 0,

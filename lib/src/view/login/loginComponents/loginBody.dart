@@ -87,7 +87,7 @@ class _LoginBodyState extends State<LoginBody> {
                             const SizedBox(width: 4.0),
                             DropdownButton<String>(
                               isDense: true,
-                              value: selectedLanguage,
+                              value: UserConfig.instance.checkLanguage() ? 'en' : 'ar',
                               icon: const Icon(
                                 Icons.arrow_drop_down_outlined,
                                 size: 0,
@@ -176,11 +176,9 @@ class _LoginBodyState extends State<LoginBody> {
                           //   loginProvider.enabledSubmitButton = false;
                           //   loginProvider.notifyMe();
                           // });
-                          setState(() async {
-                            selectedLanguage = await Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context)=> const ForgotPasswordScreen()),
-                            );
-                          });
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context)=> const ForgotPasswordScreen()),
+                          );
                         },
                         child: Container(
                           alignment: UserConfig.instance.checkLanguage()
@@ -202,11 +200,9 @@ class _LoginBodyState extends State<LoginBody> {
                           SizedBox(width: width(0.005, context)),
                           InkWell(
                             onTap: (){
-                              setState(() async {
-                                selectedLanguage = await Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => const FirstStepBody())
-                                );
-                              });
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => const FirstStepBody())
+                              );
                             },
                             child: Text(
                               translate('register', context),

@@ -42,7 +42,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         selectedLanguage = value.getString('language_code') ?? 'en';
       });
     });
-    return selectedLanguage;
   }
 
   @override
@@ -101,7 +100,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               children: [
                                 InkWell(
                                   onTap: (){
-                                    Navigator.pop(context, getAppLanguage());
+                                    Navigator.pop(context);
                                     setState(() {
                                       loginProvider.nationalIdController.clear();
                                       loginProvider.passwordController.clear();
@@ -137,7 +136,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               const SizedBox(width: 4.0),
                               DropdownButton<String>(
                                 isDense: true,
-                                value: selectedLanguage,
+                                value: UserConfig.instance.checkLanguage() ? 'en' : 'ar',
                                 icon: const Icon(
                                   Icons.arrow_drop_down_outlined,
                                   size: 0,
