@@ -200,6 +200,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                 height: height(0.16, context),
                                 child: ListView.builder(
                                     scrollDirection: Axis.vertical,
+                                    physics: const NeverScrollableScrollPhysics(),
                                     itemCount: 4,
                                     itemBuilder: (context, index){
                                       return Column(

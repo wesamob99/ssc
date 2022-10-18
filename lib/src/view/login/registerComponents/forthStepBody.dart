@@ -20,7 +20,8 @@ class ForthStepBody extends StatefulWidget {
 class _ForthStepBodyState extends State<ForthStepBody> {
 
   bool termsChecked = false;
-
+  List<String> validators = ["pwValidator1", "pwValidator2", "pwValidator3", "pwValidator4"];
+  List<bool> validatorsCheck = [false, false, false, false];
   getTextStyle(context, isColored){
     return TextStyle(
       color: isColored ? HexColor('#003C97') : HexColor('#595959'),
@@ -88,9 +89,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                 ),
                 SizedBox(height: height(0.015, context),),
                 buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerPasswordController, '', (val){
-                  loginProvider.registerContinueEnabled = (loginProvider.registerPasswordController.text.isNotEmpty &&
-                      loginProvider.registerConfirmPasswordController.text.isNotEmpty && termsChecked);
-                      loginProvider.notifyMe();
+                  passwordValidator(val, loginProvider);
                 }, isPassword: false),
                 SizedBox(height: height(0.02, context),),
                 Text(
@@ -102,13 +101,58 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                 ),
                 SizedBox(height: height(0.015, context),),
                 buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerConfirmPasswordController, '', (val){
-                  loginProvider.registerContinueEnabled = (loginProvider.registerPasswordController.text.isNotEmpty &&
-                      loginProvider.registerConfirmPasswordController.text.isNotEmpty && termsChecked);
-                  loginProvider.notifyMe();
+                  passwordValidator(val, loginProvider);
                 }, isPassword: false),
+                SizedBox(height: height(0.01, context),),
+                SizedBox(
+                  height: height(0.16, context),
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemCount: 4,
+                      itemBuilder: (context, index){
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: width(1, context),
+                              height: height(0.02, context),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 5.5,
+                                    backgroundColor: HexColor('#A6A6A6'),
+                                    child: CircleAvatar(
+                                      radius: 5,
+                                      backgroundColor: validatorsCheck[index]
+                                          ? HexColor('#445740') : HexColor('#A6A6A6'),
+                                    ),
+                                  ),
+                                  SizedBox(width: width(0.01, context),),
+                                  Text(
+                                    translate(validators[index], context),
+                                    style: TextStyle(
+                                        color: validatorsCheck[index]
+                                            ? HexColor('#445740') : HexColor('#A6A6A6'),
+                                        fontSize: width(0.03, context)
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: height(0.01, context))
+                          ],
+                        );
+                      }
+                  ),
+                )
               ],
             ),
-            SizedBox(height: height(0.3, context),),
+            SizedBox(height: height(0.13, context),),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,4 +222,50 @@ class _ForthStepBodyState extends State<ForthStepBody> {
       ),
     );
   }
+
+  passwordValidator(value, LoginProvider loginProvider){
+    loginProvider.notifyMe();
+    if(loginProvider.registerPasswordController.text.length >= 8){
+      setState(() {
+        validatorsCheck[0] = true;
+      });
+    } else{
+      setState(() {
+        validatorsCheck[0] = false;
+      });
+    }
+    if(loginProvider.registerPasswordController.text.contains(RegExp("(?:[^A-Z]*[A-Z]){1}"))){
+      setState(() {
+        validatorsCheck[1] = true;
+      });
+    } else{
+      setState(() {
+        validatorsCheck[1] = false;
+      });
+    }
+    if(loginProvider.registerPasswordController.text.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))){
+      setState(() {
+        validatorsCheck[2] = true;
+      });
+    } else{
+      setState(() {
+        validatorsCheck[2] = false;
+      });
+    }
+    if(loginProvider.registerPasswordController.text ==
+        loginProvider.registerConfirmPasswordController.text &&
+        loginProvider.registerPasswordController.text.isNotEmpty &&
+        loginProvider.registerConfirmPasswordController.text.isNotEmpty){
+      setState(() {
+        validatorsCheck[3] = true;
+      });
+    } else{
+      setState(() {
+        validatorsCheck[3] = false;
+      });
+    }
+    loginProvider.registerContinueEnabled = !validatorsCheck.contains(false) && termsChecked;
+    loginProvider.notifyMe();
+  }
+
 }
