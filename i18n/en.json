@@ -134,5 +134,9 @@
   "fingerprintActivatedDesc": "Next time you will be able to enter the application by fingerprint",
   "facePrintActivated": "The face print has been activated successfully",
   "facePrintActivatedDesc": "Next time you will be able to enter the application by face print",
-  "resend": "Resend"
+  "resend": "Resend",
+  "pwValidator1": "At least 8 character",
+  "pwValidator2": "1 Uppercase letter",
+  "pwValidator3": "1 Special character",
+  "pwValidator4": "Password is the same as the confirm password"
 }
