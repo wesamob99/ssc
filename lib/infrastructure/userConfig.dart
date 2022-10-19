@@ -115,10 +115,10 @@ class UserConfig {
                   flushBar = showPlatformFlushBar(
                       checkLanguage()
                           ? 'No internet Connection'
-                          : 'لا يوجد اتصال انترنت. ',
+                          : 'لا يوجد اتصال بالانترنت. ',
                       checkLanguage()
                           ? 'Please make sure your device is connected to internet.'
-                          : 'الرجاء التاكد من اتصال الانترنت.',
+                          : 'الرجاء التاكد من الاتصال بالانترنت.',
                       navigatorKey.currentContext,
                       seconds: 200);
                 } finally {
