@@ -36,6 +36,20 @@ class _MainScreenState extends State<MainScreen> {
     UserConfig.instance.checkDataConnection();
     super.initState();
   }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async{
+    if(state == AppLifecycleState.resumed){
+      UserConfig.instance.checkDataConnection();
+    } else if(state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused ||
+        state == AppLifecycleState.detached){
+      if(UserConfig.instance.networkListener != null){
+        await UserConfig.instance.networkListener.cancel();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
