@@ -76,13 +76,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   ],
                 ),
                 SizedBox(height: height(0.02, context),),
-                Text(
-                  translate('enterNationalId', context),
-                  style: TextStyle(
-                      color: HexColor('#363636'),
-                      fontSize: width(0.032, context)
-                  ),
-                ),
+                buildFieldTitle('enterNationalId'),
                 SizedBox(height: height(0.015, context),),
                 buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerNationalIdController, '9661001073', (val){
                   loginProvider.registerContinueEnabled =  (
@@ -94,13 +88,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   loginProvider.notifyMe();
                 }, inputType: TextInputType.number),
                 SizedBox(height: height(0.02, context),),
-                Text(
-                  translate('civilIdNumber', context),
-                  style: TextStyle(
-                      color: HexColor('#363636'),
-                      fontSize: width(0.032, context)
-                  ),
-                ),
+                buildFieldTitle('civilIdNumber'),
                 SizedBox(height: height(0.015, context),),
                 buildTextFormField(context, themeNotifier, loginProvider, loginProvider.civilIdNumberController, 'XC454F', (val){
                   loginProvider.registerContinueEnabled =  (
@@ -112,13 +100,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   loginProvider.notifyMe();
                 },),
                 SizedBox(height: height(0.02, context),),
-                Text(
-                  translate('relativeNationalNumber', context),
-                  style: TextStyle(
-                      color: HexColor('#363636'),
-                      fontSize: width(0.032, context)
-                  ),
-                ),
+                buildFieldTitle('relativeNationalNumber'),
                 SizedBox(height: height(0.015, context),),
                 buildTextFormField(context, themeNotifier, loginProvider, loginProvider.relativeNatIdController, '9661001073', (val){
                   loginProvider.registerContinueEnabled =  (
@@ -130,23 +112,11 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   loginProvider.notifyMe();
                 },inputType: TextInputType.number),
                 SizedBox(height: height(0.02, context),),
-                Text(
-                  translate('relativeRelation', context),
-                  style: TextStyle(
-                      color: HexColor('#363636'),
-                      fontSize: width(0.032, context)
-                  ),
-                ),
+                buildFieldTitle('relativeRelation'),
                 SizedBox(height: height(0.015, context),),
                 dropDownList(relationTypes, themeNotifier, loginProvider, 0),
                 SizedBox(height: height(0.02, context),),
-                Text(
-                  translate('academicLevel', context),
-                  style: TextStyle(
-                      color: HexColor('#363636'),
-                      fontSize: width(0.032, context)
-                  ),
-                ),
+                buildFieldTitle('academicLevel', required: false),
                 SizedBox(height: height(0.015, context),),
                 dropDownList(academicLevels, themeNotifier, loginProvider, 1),
               ],
@@ -243,6 +213,27 @@ class _SecondStepBodyState extends State<SecondStepBody> {
             const Icon(Icons.arrow_drop_down_outlined)
           ],
         )
+    );
+  }
+
+  buildFieldTitle(title, {required = true}){
+    return Row(
+      children: [
+        Text(
+          translate(title, context),
+          style: TextStyle(
+              color: HexColor('#363636'),
+              fontSize: width(0.032, context)
+          ),
+        ),
+        if(required)
+        Text(
+          ' *',
+          style: TextStyle(
+            color: HexColor('#FF1818'),
+          ),
+        ),
+      ],
     );
   }
 }
