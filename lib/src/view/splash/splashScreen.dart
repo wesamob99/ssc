@@ -43,6 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => screen), (route) => false);
     }else if(InternetConnectionStatus.disconnected == connection){
+      if (!mounted) return;
       _showAlert(context);
     }
   }
