@@ -32,9 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   getAppLanguage(){
     prefs.then((value) {
-      setState((){
-        selectedLanguage = value.getString('language_code') ?? 'en';
-      });
+      selectedLanguage = value.getString('language_code') ?? 'en';
     });
   }
 

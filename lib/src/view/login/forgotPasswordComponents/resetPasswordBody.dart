@@ -30,9 +30,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
 
   getAppLanguage(){
     prefs.then((value) {
-      setState((){
-        selectedLanguage = value.getString('language_code') ?? 'en';
-      });
+      selectedLanguage = value.getString('language_code') ?? 'en';
     });
   }
 

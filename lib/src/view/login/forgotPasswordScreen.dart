@@ -38,9 +38,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   getAppLanguage(){
     prefs.then((value) {
-      setState((){
-        selectedLanguage = value.getString('language_code') ?? 'en';
-      });
+      selectedLanguage = value.getString('language_code') ?? 'en';
     });
   }
 
