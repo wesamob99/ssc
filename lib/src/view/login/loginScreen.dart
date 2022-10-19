@@ -8,6 +8,7 @@ import 'package:ssc/src/view/login/loginComponents/loginBody.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 
+import '../../../infrastructure/userConfig.dart';
 import '../../../models/login/registerData.dart';
 import '../../../utilities/hexColor.dart';
 import '../../../utilities/theme/themes.dart';
@@ -28,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    UserConfig.instance.checkDataConnection();
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     ///login
     loginProvider.passwordController.clear();
