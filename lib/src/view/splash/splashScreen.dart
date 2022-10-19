@@ -83,7 +83,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('splash screen'),
-            SizedBox(height: height(0.1, context),),
+            SizedBox(height: height(0.03, context),),
             const CircularProgressIndicator()
           ],
         ),
