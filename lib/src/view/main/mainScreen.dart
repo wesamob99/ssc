@@ -150,14 +150,14 @@ class _MainScreenState extends State<MainScreen> {
     ? (pageIndex == index ? Colors.white : getPrimaryColor(context, themeNotifier))
     : Colors.white;
     TextStyle textStyle = TextStyle(
-      fontSize: width(0.023, context),
+      fontSize: height(0.011, context),
       color: themeNotifier.isLight() ? getPrimaryColor(context, themeNotifier) : Colors.white,
     );
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(height: height(pageIndex != index ? 0.01 : 0, context),),
-        SvgPicture.asset(icon, color: iconColor, width: height(0.03, context),),
+        SvgPicture.asset(icon, color: iconColor, width: height(0.025, context),),
         SizedBox(height: height(pageIndex != index ? 0.002 : 0, context),),
         pageIndex != index
             ? Text(translate(text, context), style: textStyle,)
