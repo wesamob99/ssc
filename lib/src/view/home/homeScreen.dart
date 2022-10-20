@@ -145,7 +145,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         backgroundColor: Colors.black26,
                         foregroundColor: Colors.white,
-                        icon: Icons.not_interested,
                         label: translate('hide', context),
                       ),
                     ],
