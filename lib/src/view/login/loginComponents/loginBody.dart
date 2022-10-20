@@ -232,7 +232,7 @@ class _LoginBodyState extends State<LoginBody> {
                 .whenComplete((){})
                 .then((val){
               UserData userData = val;
-              userSecuredStorage.token = userData.token ?? ''; // user token
+              userSecuredStorage.token = userData?.token ?? ''; // user token
               if(userData.data != null){
                 userSecuredStorage.userName = userData.data.poName ?? ''; // poName -> user name
                 userSecuredStorage.nationalId = userData.data.poUserName ?? ''; // poUserName -> user national ID
