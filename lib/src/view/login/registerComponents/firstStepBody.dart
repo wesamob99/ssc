@@ -186,7 +186,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                                 '${selectedCountry.value} | ${selectedCountry.name}',
                                 style: TextStyle(
                                     color: HexColor('#363636'),
-                                    fontSize: width(0.032, context)
+                                    fontSize: 15
                                 ),
                               ),
                             ),

@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ? (pageIndex == index ? Colors.white : getPrimaryColor(context, themeNotifier))
         : Colors.white;
     TextStyle textStyle = TextStyle(
-      fontSize: width(0.023, context),
+      fontSize: height(0.011, context),
       color: themeNotifier.isLight() ? getPrimaryColor(context, themeNotifier) : Colors.white,
     );
     return Column(

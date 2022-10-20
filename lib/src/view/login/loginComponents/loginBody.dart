@@ -294,6 +294,9 @@ class _LoginBodyState extends State<LoginBody> {
       controller: controller,
       keyboardType: inputType,
       obscureText: controller ==  loginProvider.passwordController ? obscurePassword : false,
+      style: const TextStyle(
+        fontSize: 15
+      ),
       decoration: InputDecoration(
         hintText: controller ==  loginProvider.nationalIdController
             ? translate('ex', context) + '9661001073'

@@ -272,6 +272,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return TextFormField(
       controller: controller,
       keyboardType: inputType,
+      style: const TextStyle(
+        fontSize: 15
+      ),
       decoration: InputDecoration(
           hintText: translate('ex', context) + '9661001073',
           hintStyle: TextStyle(

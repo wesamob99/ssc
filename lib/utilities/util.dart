@@ -377,6 +377,9 @@ SizedBox buildTextFormField(context, ThemeNotifier themeNotifier,
       controller: controller,
       keyboardType: inputType,
       obscureText: false, // Provider.of<LoginProvider>(context).obscurePassword,
+      style: const TextStyle(
+        fontSize: 15
+      ),
       decoration: InputDecoration(
           suffixIcon: isPassword
           ? InkWell(

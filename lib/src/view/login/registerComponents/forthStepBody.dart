@@ -119,7 +119,6 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                           children: [
                             Container(
                               width: width(1, context),
-                              height: height(0.02, context),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
                               ),
@@ -140,7 +139,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                                     style: TextStyle(
                                         color: validatorsCheck[index]
                                             ? HexColor('#445740') : HexColor('#A6A6A6'),
-                                        fontSize: width(0.03, context)
+                                        fontSize: 15
                                     ),
                                   )
                                 ],

@@ -76,7 +76,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   ],
                 ),
                 SizedBox(height: height(0.02, context),),
-                buildFieldTitle('enterNationalId'),
+                buildFieldTitle('enterNationalId', filled: loginProvider.registerNationalIdController.text.isNotEmpty),
                 SizedBox(height: height(0.015, context),),
                 buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerNationalIdController, '9661001073', (val){
                   loginProvider.registerContinueEnabled =  (
@@ -88,7 +88,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   loginProvider.notifyMe();
                 }, inputType: TextInputType.number),
                 SizedBox(height: height(0.02, context),),
-                buildFieldTitle('civilIdNumber'),
+                buildFieldTitle('civilIdNumber', filled: loginProvider.civilIdNumberController.text.isNotEmpty),
                 SizedBox(height: height(0.015, context),),
                 buildTextFormField(context, themeNotifier, loginProvider, loginProvider.civilIdNumberController, 'XC454F', (val){
                   loginProvider.registerContinueEnabled =  (
@@ -100,7 +100,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   loginProvider.notifyMe();
                 },),
                 SizedBox(height: height(0.02, context),),
-                buildFieldTitle('relativeNationalNumber'),
+                buildFieldTitle('relativeNationalNumber', filled: loginProvider.relativeNatIdController.text.isNotEmpty),
                 SizedBox(height: height(0.015, context),),
                 buildTextFormField(context, themeNotifier, loginProvider, loginProvider.relativeNatIdController, '9661001073', (val){
                   loginProvider.registerContinueEnabled =  (
@@ -112,7 +112,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   loginProvider.notifyMe();
                 },inputType: TextInputType.number),
                 SizedBox(height: height(0.02, context),),
-                buildFieldTitle('relativeRelation'),
+                buildFieldTitle('relativeRelation', filled: loginProvider.thirdStepSelection[0] != 'choose'),
                 SizedBox(height: height(0.015, context),),
                 dropDownList(relationTypes, themeNotifier, loginProvider, 0),
                 SizedBox(height: height(0.02, context),),
@@ -216,7 +216,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
     );
   }
 
-  buildFieldTitle(title, {required = true}){
+  Widget buildFieldTitle(title, {required = true, filled = false}){
     return Row(
       children: [
         Text(
@@ -230,7 +230,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
         Text(
           ' *',
           style: TextStyle(
-            color: HexColor('#FF1818'),
+            color: filled ? HexColor('#445740') : HexColor('#FF1818'),
           ),
         ),
       ],
