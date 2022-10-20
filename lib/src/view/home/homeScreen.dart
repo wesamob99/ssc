@@ -155,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         left: UserConfig.instance.checkLanguage() ? width(0.075, context) : 0
                     ),
                     width: width(0.93, context),
-                    height: height(0.07, context),
+                    height: height(0.065, context),
                     decoration: BoxDecoration(
                         color: getPrimaryColor(context, themeNotifier),
                         borderRadius: BorderRadius.circular(12)
@@ -163,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Padding(
                       padding:  EdgeInsets.symmetric(
                           horizontal: width(0.035, context),
-                          vertical: height(0.015, context)
+                          vertical: height(0.012, context)
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -176,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: width(0.035, context),
+                                  fontSize: height(0.015, context),
                                 ),
                               ),
                               SizedBox(
@@ -190,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: width(0.035, context),
+                                      fontSize: height(0.015, context),
                                     ),
                                   ),
                                   Text(
@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: width(0.035, context),
+                                      fontSize: height(0.015, context),
                                     ),
                                   ),
                                 ],
@@ -209,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             alignment: Alignment.center,
                             width: width(0.2, context),
                             decoration: BoxDecoration(
-                              color: HexColor('#DBC89C4A').withOpacity(0.2),
+                              color: HexColor('#DBC89C4A').withOpacity(0.29),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: InkWell(
@@ -219,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: width(0.035, context),
+                                  fontSize: height(0.015, context),
                                 ),
                               ),
                             ),
