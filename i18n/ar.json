@@ -145,5 +145,13 @@
   "pwValidator1": "8 أحرف على الأقل",
   "pwValidator2": "1 حرف كبير",
   "pwValidator3": "1 رمز خاص",
-  "pwValidator4": "كلمة المرور مطابقه لتاكيد كلمة المرور"
+  "pwValidator4": "كلمة المرور مطابقه لتاكيد كلمة المرور",
+  "report_a_sickness/work_injury_complaint": "تبليغ شكوى مرضية/ إصابة عمل",
+  "saveAsDraft": "حفظ كمسودة",
+  "confirmPersonalInformation": "تأكيد المعلومات الشخصية",
+  "orderDetails": "تفاصيل الطلب",
+  "documents": "الوثائق",
+  "quatrainNoun": "الاسم الرباعي",
+  "nationalId": "الرقم الوطني",
+  "securityNumber": "رقم الضمان"
 }

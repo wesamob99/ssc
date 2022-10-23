@@ -144,5 +144,15 @@
   "pwValidator1": "At least 8 character",
   "pwValidator2": "1 Uppercase letter",
   "pwValidator3": "1 Special character",
-  "pwValidator4": "Password is the same as the confirm password"
+  "pwValidator4": "Password is the same as the confirm password",
+  "report_a_sickness/work_injury_complaint": "Report a sickness/work injury complaint",
+  "saveAsDraft": "Save as draft",
+  "confirmPersonalInformation": "Confirm personal information",
+  "orderDetails": "Order details",
+  "documents": "Documents",
+  "quatrainNoun": "quatrain noun",
+  "nationalId": "National Id",
+  "securityNumber": "Security number"
+
+
 }
