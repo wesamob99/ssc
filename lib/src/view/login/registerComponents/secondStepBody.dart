@@ -23,7 +23,10 @@ class SecondStepBody extends StatefulWidget {
 class _SecondStepBodyState extends State<SecondStepBody> {
 
   List<String> relationTypes = ['choose', 'parent', 'brother', 'wife', 'child'];
-  List<String> academicLevels = ['optionalChoose', 'phd', 'master', 'hDiploma', 'ba', 'mDiploma', 'highSchool', 'lessHighSchool', 'professionalCertificate'];
+  List<String> academicLevels = ['optionalChoose', 'phd', 'master',
+    'hDiploma', 'ba', 'mDiploma', 'highSchool', 'lessHighSchool',
+    'professionPracticeCertificate', 'apprenticeship', 'post-secondaryDiploma',
+    'highSpecialization', 'specialtyCertificate', 'subspecialtyCertificate'];
 
   @override
   Widget build(BuildContext context) {
