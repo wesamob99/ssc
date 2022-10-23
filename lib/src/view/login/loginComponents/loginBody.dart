@@ -291,6 +291,7 @@ class _LoginBodyState extends State<LoginBody> {
 
   TextFormField buildTextFormField(themeNotifier, loginProvider, controller, inputType){
     return TextFormField(
+      enableInteractiveSelection: false,
       controller: controller,
       keyboardType: inputType,
       obscureText: controller ==  loginProvider.passwordController ? obscurePassword : false,
