@@ -183,6 +183,9 @@ class _LoginBodyState extends State<LoginBody> {
                               ? Alignment.bottomLeft : Alignment.bottomRight,
                           child: Text(
                             translate('forgotPassword', context) + (UserConfig.instance.checkLanguage() ? ' ?' : ' ؟'),
+                            style: TextStyle(
+                              color: HexColor('#003C97')
+                            ),
                           ),
                         ),
                       ),
