@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 import '../src/view/login/forgotPasswordScreen.dart';
-import '../src/viewModel/login/loginProvider.dart';
 import 'hexColor.dart';
 import 'language/appLocalizations.dart';
 import 'dart:ui' as ui;
@@ -353,10 +352,10 @@ TextButton textButton(context, themeNotifier, text, buttonColor, textColor, onPr
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-              side: BorderSide(
-                  color: Colors.grey.shade600,
-                  width: 0.4
-              )
+              // side: BorderSide(
+              //     color: Colors.grey.shade600,
+              //     width: 0.4
+              // )
           ),
         )
     ),
@@ -369,32 +368,35 @@ TextButton textButton(context, themeNotifier, text, buttonColor, textColor, onPr
   );
 }
 
-SizedBox buildTextFormField(context, ThemeNotifier themeNotifier,
-    LoginProvider loginProvider, TextEditingController controller,
-    String hintText, onChanged, {isPassword = false, inputType = TextInputType.text}){
-  return SizedBox(
+Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingController controller,
+    String hintText, onChanged, {isPassword = false, inputType = TextInputType.text, enabled = true}){
+  return Container(
+    decoration: BoxDecoration(
+      color: enabled ? Colors.transparent : const Color.fromRGBO(232, 232, 232, 0.8),
+      borderRadius: BorderRadius.circular(8),
+    ),
     child: TextFormField(
       controller: controller,
       keyboardType: inputType,
-      obscureText: false, // Provider.of<LoginProvider>(context).obscurePassword,
+      obscureText: false,
       style: const TextStyle(
         fontSize: 15
       ),
       decoration: InputDecoration(
-          suffixIcon: isPassword
-          ? InkWell(
-            onTap: (){
-              loginProvider.obscurePassword = !loginProvider.obscurePassword;
-              loginProvider.notifyMe();
-            },
-            child: Icon(
-              Provider.of<LoginProvider>(context).obscurePassword ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
-              size: 20,
-              color: themeNotifier.isLight()
-                  ? getPrimaryColor(context, themeNotifier)
-                  : Colors.white,
-            ),
-          ) : const SizedBox.shrink(),
+          // suffixIcon: isPassword
+          // ? InkWell(
+          //   onTap: (){
+          //     loginProvider.obscurePassword = !loginProvider.obscurePassword;
+          //     loginProvider.notifyMe();
+          //   },
+          //   child: Icon(
+          //     Provider.of<LoginProvider>(context).obscurePassword ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
+          //     size: 20,
+          //     color: themeNotifier.isLight()
+          //         ? getPrimaryColor(context, themeNotifier)
+          //         : Colors.white,
+          //   ),
+          // ) : const SizedBox.shrink(),
           hintText: hintText == '' ? '' : translate('ex', context) + hintText,
           hintStyle: TextStyle(
             color: getGrey2Color(context).withOpacity(
