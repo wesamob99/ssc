@@ -252,7 +252,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
         validatorsCheck[1] = false;
       });
     }
-    if(loginProvider.registerPasswordController.text.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))){
+    if(loginProvider.registerPasswordController.text.contains(RegExp(r'[-+=!@#$%^&*(),.?":{}|<>]'))){
       setState(() {
         validatorsCheck[2] = true;
       });

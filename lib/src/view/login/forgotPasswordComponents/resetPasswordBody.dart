@@ -289,7 +289,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
         validatorsCheck[1] = false;
       });
     }
-    if(loginProvider.resetPasswordController.text.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))){
+    if(loginProvider.resetPasswordController.text.contains(RegExp(r'[-+=!@#$%^&*(),.?":{}|<>]'))){
       setState(() {
         validatorsCheck[2] = true;
       });
