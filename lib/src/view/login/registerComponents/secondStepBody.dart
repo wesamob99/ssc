@@ -81,7 +81,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 SizedBox(height: height(0.02, context),),
                 buildFieldTitle('enterNationalId', filled: loginProvider.registerNationalIdController.text.isNotEmpty),
                 SizedBox(height: height(0.015, context),),
-                buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerNationalIdController, '9661001073', (val){
+                buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, '9661001073', (val){
                   loginProvider.registerContinueEnabled =  (
                       loginProvider.registerNationalIdController.text.isNotEmpty &&
                           loginProvider.civilIdNumberController.text.isNotEmpty &&
@@ -93,7 +93,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 SizedBox(height: height(0.02, context),),
                 buildFieldTitle('civilIdNumber', filled: loginProvider.civilIdNumberController.text.isNotEmpty),
                 SizedBox(height: height(0.015, context),),
-                buildTextFormField(context, themeNotifier, loginProvider, loginProvider.civilIdNumberController, 'XC454F', (val){
+                buildTextFormField(context, themeNotifier, loginProvider.civilIdNumberController, 'XC454F', (val){
                   loginProvider.registerContinueEnabled =  (
                       loginProvider.registerNationalIdController.text.isNotEmpty &&
                           loginProvider.civilIdNumberController.text.isNotEmpty &&
@@ -105,7 +105,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 SizedBox(height: height(0.02, context),),
                 buildFieldTitle('relativeNationalNumber', filled: loginProvider.relativeNatIdController.text.isNotEmpty),
                 SizedBox(height: height(0.015, context),),
-                buildTextFormField(context, themeNotifier, loginProvider, loginProvider.relativeNatIdController, '9661001073', (val){
+                buildTextFormField(context, themeNotifier, loginProvider.relativeNatIdController, '9661001073', (val){
                   loginProvider.registerContinueEnabled =  (
                       loginProvider.registerNationalIdController.text.isNotEmpty &&
                           loginProvider.civilIdNumberController.text.isNotEmpty &&

@@ -90,7 +90,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                   ),
                 ),
                 SizedBox(height: height(0.015, context),),
-                buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerPasswordController, '', (val){
+                buildTextFormField(context, themeNotifier, loginProvider.registerPasswordController, '', (val){
                   passwordValidator(val, loginProvider);
                 }, isPassword: false),
                 SizedBox(height: height(0.02, context),),
@@ -102,7 +102,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                   ),
                 ),
                 SizedBox(height: height(0.015, context),),
-                buildTextFormField(context, themeNotifier, loginProvider, loginProvider.registerConfirmPasswordController, '', (val){
+                buildTextFormField(context, themeNotifier, loginProvider.registerConfirmPasswordController, '', (val){
                   passwordValidator(val, loginProvider);
                 }, isPassword: false),
                 SizedBox(height: height(0.01, context),),

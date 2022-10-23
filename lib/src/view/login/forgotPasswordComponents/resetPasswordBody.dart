@@ -178,7 +178,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                 ),
                               ),
                               SizedBox(height: height(0.015, context),),
-                              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.resetPasswordController, '', (val){
+                              buildTextFormField(context, themeNotifier, loginProvider.resetPasswordController, '', (val){
                                 passwordValidator(val, loginProvider);
                               }, isPassword: false),
                               SizedBox(height: height(0.02, context),),
@@ -190,7 +190,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                 ),
                               ),
                               SizedBox(height: height(0.015, context),),
-                              buildTextFormField(context, themeNotifier, loginProvider, loginProvider.resetConfirmPasswordController, '', (val){
+                              buildTextFormField(context, themeNotifier, loginProvider.resetConfirmPasswordController, '', (val){
                                 passwordValidator(val, loginProvider);
                               }, isPassword: false),
                               SizedBox(height: height(0.01, context),),
