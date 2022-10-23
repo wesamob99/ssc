@@ -58,7 +58,7 @@
   "forgotPassword": "Forgot your password",
   "dontHaveAnAccount": "Don't have an account ?",
   "register": "Register now !",
-  "loginFailed": "فشل الدخول",
+  "loginFailed": "Login failed",
   "resetPasswordFailed": "Reset password failed",
   "resetPassword": "Reset your password",
   "bottomHome": "Home",
