@@ -60,32 +60,26 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 5,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 18,
-              backgroundColor: Colors.transparent,
-              child: SvgPicture.asset('assets/logo/logo.svg'),
+        centerTitle: false,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: InkWell(
+            onTap: (){
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const ProfileScreen())
+              );
+            },
+
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:[
+                Text(userSecuredStorage.userName, style: const TextStyle(fontSize: 14),),
+                const SizedBox(height: 2.0),
+                Text(userSecuredStorage.nationalId, style: const TextStyle(fontSize: 12),),
+              ],
             ),
-            SizedBox(width: width(0.01, context)),
-            InkWell(
-              onTap: (){
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const ProfileScreen())
-                );
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children:[
-                  Text(userSecuredStorage.userName, style: const TextStyle(fontSize: 14),),
-                  Text(userSecuredStorage.nationalId, style: const TextStyle(fontSize: 12),),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
         actions: [
           SvgPicture.asset('assets/icons/search.svg'),
