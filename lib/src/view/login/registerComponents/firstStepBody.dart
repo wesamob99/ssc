@@ -182,13 +182,21 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                                       color: HexColor('#979797')
                                   )
                               ),
-                              child: Text(
-                                '${selectedCountry.value} | ${selectedCountry.name}',
-                                style: TextStyle(
-                                    color: HexColor('#363636'),
-                                    fontSize: 15
-                                ),
-                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '${selectedCountry.value} | ${selectedCountry.name}',
+                                    style: TextStyle(
+                                        color: HexColor('#363636'),
+                                        fontSize: 15
+                                    ),
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_drop_down_outlined
+                                  )
+                                ],
+                              )
                             ),
                           ),
                           SizedBox(height: height(0.02, context),),
