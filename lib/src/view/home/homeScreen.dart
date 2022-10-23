@@ -121,7 +121,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (kDebugMode) {
                   print('financialInformation: ${financialInformation.mainPayCur[0][0].amt}');
                 }
-                return Slidable(
+                return
+                  // double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2) != '0.00'?
+                  Slidable(
                   key: const ValueKey(0),
                   startActionPane: ActionPane(
                     motion: const ScrollMotion(),
@@ -229,6 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 );
+                  // : const SizedBox.shrink();
               }
               break;
           }

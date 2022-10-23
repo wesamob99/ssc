@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ssc">
    <application
-        android:label="ssc"
+        android:label="SSC"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
