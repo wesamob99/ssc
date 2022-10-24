@@ -123,114 +123,117 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
                 return
                   // double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2) != '0.00'?
-                  Slidable(
-                  key: const ValueKey(0),
-                  startActionPane: ActionPane(
-                    motion: const ScrollMotion(),
-                    dismissible: DismissiblePane(
-                        onDismissed: () {
-                          prefs.then((value){
-                            value.setBool('amountToBePaid', false);
-                          });
-                          Provider.of<HomeProvider>(context, listen: false).showFloatingButton = false;
-                          Provider.of<HomeProvider>(context, listen: false).notifyMe();
-                        }
-                    ),
-                    children: [
-                      SlidableAction(
-                        onPressed: (_){
-                          prefs.then((value){
-                            value.setBool('amountToBePaid', false);
-                          });
-                          Provider.of<HomeProvider>(context, listen: false).showFloatingButton = false;
-                          Provider.of<HomeProvider>(context, listen: false).notifyMe();
-                        },
-                        backgroundColor: Colors.black26,
-                        foregroundColor: Colors.white,
-                        label: translate('hide', context),
-                      ),
-                    ],
-                  ),
-                  child: Container(
-                    margin: EdgeInsets.only(
+                  Padding(
+                    padding: EdgeInsets.only(
                         right: UserConfig.instance.checkLanguage() ? 0 : width(0.075, context),
-                        left: UserConfig.instance.checkLanguage() ? width(0.075, context) : 0
+                        left: UserConfig.instance.checkLanguage() ? width(0.075, context) : 0,
+                      bottom: 8.0
                     ),
-                    width: width(0.93, context),
-                    height: height(0.065, context),
-                    decoration: BoxDecoration(
-                        color: getPrimaryColor(context, themeNotifier),
-                        borderRadius: BorderRadius.circular(12)
-                    ),
-                    child: Padding(
-                      padding:  EdgeInsets.symmetric(
-                          horizontal: width(0.035, context),
-                          vertical: height(0.012, context)
+                    child: Slidable(
+                    key: const ValueKey(0),
+                    startActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      dismissible: DismissiblePane(
+                          onDismissed: () {
+                            prefs.then((value){
+                              value.setBool('amountToBePaid', false);
+                            });
+                            Provider.of<HomeProvider>(context, listen: false).showFloatingButton = false;
+                            Provider.of<HomeProvider>(context, listen: false).notifyMe();
+                          }
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                translate('totalAmountToPay', context),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: height(0.015, context),
+                      children: [
+                        SlidableAction(
+                          onPressed: (_){
+                            prefs.then((value){
+                              value.setBool('amountToBePaid', false);
+                            });
+                            Provider.of<HomeProvider>(context, listen: false).showFloatingButton = false;
+                            Provider.of<HomeProvider>(context, listen: false).notifyMe();
+                          },
+                          backgroundColor: Colors.black26,
+                          foregroundColor: Colors.white,
+                          label: translate('hide', context),
+                        ),
+                      ],
+                    ),
+                    child: Container(
+                      width: width(0.93, context),
+                      height: height(0.065, context),
+                      decoration: BoxDecoration(
+                          color: getPrimaryColor(context, themeNotifier),
+                          borderRadius: BorderRadius.circular(12)
+                      ),
+                      child: Padding(
+                        padding:  EdgeInsets.symmetric(
+                            horizontal: width(0.035, context),
+                            vertical: height(0.012, context)
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  translate('totalAmountToPay', context),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: height(0.015, context),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: width(0.05, context),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: height(0.015, context),
+                                      ),
+                                    ),
+                                    Text(
+                                      translate('jd', context),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: height(0.015, context),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: width(0.2, context),
+                              decoration: BoxDecoration(
+                                color: HexColor('#DBC89C4A').withOpacity(0.29),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: InkWell(
+                                onTap: (){},
+                                child: Text(
+                                  translate('pay', context),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: height(0.015, context),
+                                  ),
                                 ),
                               ),
-                              SizedBox(
-                                width: width(0.05, context),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: height(0.015, context),
-                                    ),
-                                  ),
-                                  Text(
-                                    translate('jd', context),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: height(0.015, context),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            width: width(0.2, context),
-                            decoration: BoxDecoration(
-                              color: HexColor('#DBC89C4A').withOpacity(0.29),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: InkWell(
-                              onTap: (){},
-                              child: Text(
-                                translate('pay', context),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: height(0.015, context),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
+                ),
+                  );
                   // : const SizedBox.shrink();
               }
               break;
