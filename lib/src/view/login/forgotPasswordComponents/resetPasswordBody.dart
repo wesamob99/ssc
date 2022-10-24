@@ -251,6 +251,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                   ? HexColor('#ffffff') : HexColor('#363636'), (){
                                 if(loginProvider.resetContinueEnabled){
                                   /// TODO: call resetPassword API
+                                  /// TODO: add animated loader and control isLoading
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(builder: (context) => const SplashScreen()),
                                           (route) => false
