@@ -12,6 +12,7 @@ class ServicesProvider extends ChangeNotifier {
 
   /// workInjuryComplaint
   int stepNumber = 1;
+  String selectedInjuredType = 'occupationalDisease';
 
   /// workInjuryComplaint
   Future<UserProfileData> getAccountData() async{
