@@ -166,12 +166,12 @@ Widget firstStep(context, themeNotifier){
         Row(
           children: [
             Expanded(
-              flex: 3,
+              flex: 7,
               child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){})
             ),
             SizedBox(width: width(0.015, context)),
             Expanded(
-              flex: 1,
+              flex: 4,
               child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){})
             ),
           ],
