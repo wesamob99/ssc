@@ -47,6 +47,7 @@ class _LoginBodyState extends State<LoginBody> {
     loginProvider.enabledSubmitButton = false;
     loginProvider.nationalIdController.clear();
     loginProvider.passwordController.clear();
+    loginProvider.isLoading = false;
     getAppLanguage();
     super.initState();
   }
@@ -57,170 +58,184 @@ class _LoginBodyState extends State<LoginBody> {
     GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
     return Stack(
       children: [
-        Opacity(
-          opacity: 0.5,
-          child: Container(
-            alignment: Alignment.bottomLeft,
-            child: SvgPicture.asset(
-                'assets/logo/logo_tree.svg'
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 14.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                        alignment: Alignment.topLeft,
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                                'assets/icons/global.svg'
-                            ),
-                            const SizedBox(width: 4.0),
-                            DropdownButton<String>(
-                              isDense: true,
-                              value: UserConfig.instance.checkLanguage() ? 'en' : 'ar',
-                              icon: const Icon(
-                                Icons.arrow_drop_down_outlined,
-                                size: 0,
-                              ),
-                              elevation: 16,
-                              style: const TextStyle(color: Colors.black),
-                              underline: Container(
-                                height: 0,
-                                color: primaryColor,
-                              ),
-                              onChanged: (String value) async{
-                                setState(() {
-                                  selectedLanguage = value;
-                                });
-                                globalAppProvider.changeLanguage(Locale(selectedLanguage));
-                                globalAppProvider.notifyMe();
-                                prefs.then((value) {
-                                  value.setString('language_code', selectedLanguage);
-                                });
-                              },
-                              items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value == 'en' ? 'English' : 'عربي',
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight()
-                                          ? primaryColor
-                                          : Colors.white,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        )
-                    ),
-                  ],
+        Stack(
+          children: [
+            Opacity(
+              opacity: 0.5,
+              child: Container(
+                alignment: Alignment.bottomLeft,
+                child: SvgPicture.asset(
+                    'assets/logo/logo_tree.svg'
                 ),
-                SizedBox(height: height(0.03, context),),
-                SizedBox(height: height(0.03, context),),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SvgPicture.asset('assets/logo/logo_with_name.svg'),
-                      SizedBox(height: height(0.04, context)),
-                      Text(
-                        translate('login', context),
-                        style: TextStyle(
-                            fontSize: width(0.045, context),
-                            fontWeight: FontWeight.w700
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 14.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                            alignment: Alignment.topLeft,
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                    'assets/icons/global.svg'
+                                ),
+                                const SizedBox(width: 4.0),
+                                DropdownButton<String>(
+                                  isDense: true,
+                                  value: UserConfig.instance.checkLanguage() ? 'en' : 'ar',
+                                  icon: const Icon(
+                                    Icons.arrow_drop_down_outlined,
+                                    size: 0,
+                                  ),
+                                  elevation: 16,
+                                  style: const TextStyle(color: Colors.black),
+                                  underline: Container(
+                                    height: 0,
+                                    color: primaryColor,
+                                  ),
+                                  onChanged: (String value) async{
+                                    setState(() {
+                                      selectedLanguage = value;
+                                    });
+                                    globalAppProvider.changeLanguage(Locale(selectedLanguage));
+                                    globalAppProvider.notifyMe();
+                                    prefs.then((value) {
+                                      value.setString('language_code', selectedLanguage);
+                                    });
+                                  },
+                                  items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value == 'en' ? 'English' : 'عربي',
+                                        style: TextStyle(
+                                          color: themeNotifier.isLight()
+                                              ? primaryColor
+                                              : Colors.white,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            )
                         ),
-                      ),
-                      SizedBox(height: height(0.04, context)),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      ],
+                    ),
+                    SizedBox(height: height(0.03, context),),
+                    SizedBox(height: height(0.03, context),),
+                    SingleChildScrollView(
+                      child: Column(
                         children: [
+                          SvgPicture.asset('assets/logo/logo_with_name.svg'),
+                          SizedBox(height: height(0.04, context)),
                           Text(
-                            translate('enterNationalId', context),
-                          ),
-                          SizedBox(height: height(0.015, context)),
-                          buildTextFormField(themeNotifier, loginProvider,  loginProvider.nationalIdController, TextInputType.number),
-                        ],
-                      ),
-                      // if(!forgotPassword)
-                      SizedBox(height: height(0.025, context)),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            translate('password', context),
-                          ),
-                          SizedBox(height: height(0.015, context)),
-                          buildTextFormField(themeNotifier, loginProvider,  loginProvider.passwordController, TextInputType.visiblePassword),
-                        ],
-                      ),
-                      // if(!forgotPassword)
-                      SizedBox(height: height(0.015, context)),
-                      InkWell(
-                        onTap: (){
-                          // setState(() {
-                          //   forgotPassword = true;
-                          //   loginProvider.showBottomNavigationBar = false;
-                          //   loginProvider.nationalIdController.clear();
-                          //   loginProvider.passwordController.clear();
-                          //   loginProvider.enabledSubmitButton = false;
-                          //   loginProvider.notifyMe();
-                          // });
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context)=> const ForgotPasswordScreen()),
-                          );
-                        },
-                        child: Container(
-                          alignment: UserConfig.instance.checkLanguage()
-                              ? Alignment.bottomRight : Alignment.bottomLeft,
-                          child: Text(
-                            translate('forgotPassword', context) + (UserConfig.instance.checkLanguage() ? ' ?' : ' ؟'),
+                            translate('login', context),
                             style: TextStyle(
-                              color: HexColor('#363636')
+                                fontSize: width(0.045, context),
+                                fontWeight: FontWeight.w700
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(height: height(0.05, context)),
-                      submitButton(themeNotifier),
-                      SizedBox(height: height(0.03, context)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            translate('dontHaveAnAccount', context),
+                          SizedBox(height: height(0.04, context)),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                translate('enterNationalId', context),
+                              ),
+                              SizedBox(height: height(0.015, context)),
+                              buildTextFormField(themeNotifier, loginProvider,  loginProvider.nationalIdController, TextInputType.number),
+                            ],
                           ),
-                          SizedBox(width: width(0.005, context)),
+                          // if(!forgotPassword)
+                          SizedBox(height: height(0.025, context)),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                translate('password', context),
+                              ),
+                              SizedBox(height: height(0.015, context)),
+                              buildTextFormField(themeNotifier, loginProvider,  loginProvider.passwordController, TextInputType.visiblePassword),
+                            ],
+                          ),
+                          // if(!forgotPassword)
+                          SizedBox(height: height(0.015, context)),
                           InkWell(
                             onTap: (){
+                              // setState(() {
+                              //   forgotPassword = true;
+                              //   loginProvider.showBottomNavigationBar = false;
+                              //   loginProvider.nationalIdController.clear();
+                              //   loginProvider.passwordController.clear();
+                              //   loginProvider.enabledSubmitButton = false;
+                              //   loginProvider.notifyMe();
+                              // });
                               Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => const FirstStepBody())
+                                MaterialPageRoute(builder: (context)=> const ForgotPasswordScreen()),
                               );
                             },
-                            child: Text(
-                              translate('register', context),
-                              style: TextStyle(
-                                  color: HexColor('#003C97')
+                            child: Container(
+                              alignment: UserConfig.instance.checkLanguage()
+                                  ? Alignment.bottomRight : Alignment.bottomLeft,
+                              child: Text(
+                                translate('forgotPassword', context) + (UserConfig.instance.checkLanguage() ? ' ?' : ' ؟'),
+                                style: TextStyle(
+                                  color: HexColor('#363636')
+                                ),
                               ),
                             ),
                           ),
+                          SizedBox(height: height(0.05, context)),
+                          submitButton(themeNotifier),
+                          SizedBox(height: height(0.03, context)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                translate('dontHaveAnAccount', context),
+                              ),
+                              SizedBox(width: width(0.005, context)),
+                              InkWell(
+                                onTap: (){
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) => const FirstStepBody())
+                                  );
+                                },
+                                child: Text(
+                                  translate('register', context),
+                                  style: TextStyle(
+                                      color: HexColor('#003C97')
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                )
-              ],
+                    )
+                  ],
+                ),
+              ),
             ),
-          ),
+          ],
         ),
+        if(loginProvider.isLoading)
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          width: width(1, context),
+          height: height(1, context),
+          color: Colors.white70,
+          child: Center(
+            child: animatedLoader(),
+          ),
+        )
       ],
     );
   }
@@ -230,6 +245,8 @@ class _LoginBodyState extends State<LoginBody> {
       onPressed: () async {
         if(loginProvider.enabledSubmitButton && loginProvider.numberOfAttempts < 5){
           String errorMessage = "";
+          loginProvider.isLoading = true;
+          loginProvider.notifyMe();
           try{
             await loginProvider.login( loginProvider.nationalIdController.text,  loginProvider.passwordController.text)
                 .whenComplete((){})
@@ -260,7 +277,11 @@ class _LoginBodyState extends State<LoginBody> {
               }
               loginProvider.notifyMe();
             });
+            loginProvider.isLoading = false;
+            loginProvider.notifyMe();
           }catch(e){
+            loginProvider.isLoading = false;
+            loginProvider.notifyMe();
             if (kDebugMode) {
               print(e.toString());
             }

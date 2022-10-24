@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     UserConfig.instance.checkDataConnection();
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    ///login
+    /// login
     loginProvider.passwordController.clear();
     loginProvider.numberOfAttempts = 0;
     loginProvider.nationalIdController.clear();
@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
     loginProvider.enabledSendCodeButton = false;
     loginProvider.nationalIdController.clear();
     loginProvider.enabledSubmitButton = false;
-    ///register
+    /// register
     loginProvider.registerData = RegisterData();
     loginProvider.mobileNumberController.clear();
     loginProvider.registerNationalIdController.clear();
@@ -51,6 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
     loginProvider.registerConfirmPasswordController.clear();
     loginProvider.registerContinueEnabled = false;
     loginProvider.thirdStepSelection = ['choose', 'optionalChoose'];
+    /// all
+    loginProvider.isLoading = false;
     super.initState();
   }
   @override
