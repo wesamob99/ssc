@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
   curvedNavigationBar(ThemeNotifier themeNotifier){
     return CurvedNavigationBar(
       index: pageIndex,
-      backgroundColor: loginProvider.isLoading ? Colors.white70 : Colors.transparent,
+      backgroundColor: Provider.of<LoginProvider>(context).isLoading ? Colors.white70 : Colors.transparent,
       color: themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
       buttonBackgroundColor: getPrimaryColor(context, themeNotifier),
       items: <Widget>[
