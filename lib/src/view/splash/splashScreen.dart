@@ -30,6 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
       checkDataConnection();
     });
 
+    /// TODO: when session is expired, check any API and log the user out if returns [ session expired ]
     InternetConnectionStatus connection = await InternetConnectionChecker().connectionStatus;
     if(InternetConnectionStatus.connected == connection){
       Widget screen = const LoginScreen();
