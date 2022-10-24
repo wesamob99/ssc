@@ -332,9 +332,21 @@ Future<void> showMyDialog(
   );
 }
 
-animatedLoader(){
-  return Image.asset(
-    "assets/logo/loaderLogo.gif",
+animatedLoader(context){
+  return Material(
+    elevation: 10.0,
+    borderRadius: BorderRadius.circular(25.0),
+  child: Container(
+      width: width(0.4, context),
+      height: width(0.4, context),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(25.0)
+      ),
+      child: Image.asset(
+        "assets/logo/loaderLogo.gif",
+      ),
+    ),
   );
 }
 
