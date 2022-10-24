@@ -381,7 +381,8 @@ TextButton textButton(context, themeNotifier, text, buttonColor, textColor, onPr
 }
 
 Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingController controller,
-    String hintText, onChanged, {isPassword = false, inputType = TextInputType.text, enabled = true}){
+    String hintText, onChanged, {isPassword = false,
+      inputType = TextInputType.text, enabled = true}){
   return Container(
     decoration: BoxDecoration(
       color: enabled ? Colors.transparent : const Color.fromRGBO(232, 232, 232, 0.8),
@@ -391,8 +392,10 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
       controller: controller,
       keyboardType: inputType,
       obscureText: false,
-      style: const TextStyle(
-        fontSize: 15
+      readOnly: !enabled,
+      style: TextStyle(
+        fontSize: 15,
+        color: enabled ? HexColor('#363636') : HexColor('#6B6B6B')
       ),
       decoration: InputDecoration(
           // suffixIcon: isPassword
