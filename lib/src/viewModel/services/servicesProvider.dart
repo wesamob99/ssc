@@ -10,6 +10,10 @@ class ServicesProvider extends ChangeNotifier {
   ServicesRepository servicesRepository = ServicesRepository();
   UserProfileData userProfileData = UserProfileData();
 
+  /// workInjuryComplaint
+  int stepNumber = 1;
+
+  /// workInjuryComplaint
   Future<UserProfileData> getAccountData() async{
     userProfileData = await servicesRepository.getAccountDataService();
     notifyMe();
