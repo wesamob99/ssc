@@ -103,7 +103,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     selectedIndex = index;
                   });
                 },
-                child: Container(
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
                   height: height(0.1, context),
                   color: index == selectedIndex
                       ? themeNotifier.isLight()
