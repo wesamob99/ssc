@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/src/view/home/components/homeChartWidget.dart';
 import 'package:ssc/src/view/home/components/homeLoaderWidget.dart';
 import 'package:ssc/src/view/home/components/homeSlideShowWidget.dart';
-import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../infrastructure/userConfig.dart';
 import '../../../models/home/payOffFinancialInformations.dart';
@@ -213,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               alignment: Alignment.center,
                               width: width(0.2, context),
                               decoration: BoxDecoration(
-                                color: HexColor('#DBC89C4A').withOpacity(0.29),
+                                color: const Color.fromRGBO(219, 200, 156, 0.29),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: InkWell(
