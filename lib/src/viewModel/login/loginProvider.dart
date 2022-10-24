@@ -32,11 +32,13 @@ class LoginProvider extends ChangeNotifier {
   // at index 0 -> relative type | index 1 -> academic level
   List thirdStepSelection = ['choose', 'optionalChoose'];
   bool registerContinueEnabled = false;
-  bool obscurePassword = false;
 
   /// login | forgot password
   TextEditingController nationalIdController = TextEditingController();
   bool enabledSubmitButton = false;
+
+  /// all
+  bool isLoading = false;
 
 
   Future login(String nationalId, String password) async{
@@ -84,6 +86,7 @@ class LoginProvider extends ChangeNotifier {
     numberOfAttempts = 0;
     nationalIdController.clear();
     enabledSubmitButton = false;
+    isLoading = false;
     notifyMe();
   }
 
@@ -94,6 +97,7 @@ class LoginProvider extends ChangeNotifier {
     resetConfirmPasswordController.clear();
     enabledSubmitButton = false;
     resetContinueEnabled = false;
+    isLoading = false;
     notifyMe();
   }
 
@@ -107,8 +111,8 @@ class LoginProvider extends ChangeNotifier {
     registerPasswordController.clear();
     registerConfirmPasswordController.clear();
     registerContinueEnabled = false;
-    obscurePassword = false;
     thirdStepSelection = ['choose', 'optionalChoose'];
+    isLoading = false;
     notifyMe();
   }
 }
