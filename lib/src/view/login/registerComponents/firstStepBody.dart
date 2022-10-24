@@ -54,10 +54,12 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                 return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc'); break;
               case ConnectionState.waiting:
               case ConnectionState.active:
-                return Container(
+                return AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
                     height: height(0.7, context),
+                    color: Colors.white70,
                     alignment: Alignment.center,
-                    child: animatedLoader()
+                    child: animatedLoader(context)
                 ); break;
               case ConnectionState.done:
                 if(!snapshot.hasError && snapshot.hasData){
