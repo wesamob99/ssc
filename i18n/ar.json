@@ -153,5 +153,9 @@
   "documents": "الوثائق",
   "quatrainNoun": "الاسم الرباعي",
   "nationalId": "الرقم الوطني",
-  "securityNumber": "رقم الضمان"
+  "securityNumber": "رقم الضمان",
+  "occupationalDisease": "مرض مهني",
+  "workInjury": "إصابة عمل",
+  "injuryType": "نوع الإصابه",
+  "accidentsDateAndTime": "تاريخ ووقت الحادث"
 }

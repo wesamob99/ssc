@@ -152,7 +152,10 @@
   "documents": "Documents",
   "quatrainNoun": "quatrain noun",
   "nationalId": "National Id",
-  "securityNumber": "Security number"
-
+  "securityNumber": "Security number",
+  "occupationalDisease": "Occupational disease",
+  "workInjury": "Work injury",
+  "injuryType": "Injury type",
+  "accidentsDateAndTime": "Accident's date and time"
 
 }
