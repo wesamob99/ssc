@@ -180,11 +180,11 @@ class _LoginBodyState extends State<LoginBody> {
                         },
                         child: Container(
                           alignment: UserConfig.instance.checkLanguage()
-                              ? Alignment.bottomLeft : Alignment.bottomRight,
+                              ? Alignment.bottomRight : Alignment.bottomLeft,
                           child: Text(
                             translate('forgotPassword', context) + (UserConfig.instance.checkLanguage() ? ' ?' : ' ؟'),
                             style: TextStyle(
-                              color: HexColor('#003C97')
+                              color: HexColor('#363636')
                             ),
                           ),
                         ),
