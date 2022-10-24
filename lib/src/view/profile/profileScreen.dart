@@ -62,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return Container(
                         height: height(0.7, context),
                         alignment: Alignment.center,
-                        child: animatedLoader()
+                        child: animatedLoader(context)
                     ); break;
                   case ConnectionState.done:
                     if(snapshot.hasData && !snapshot.hasError){

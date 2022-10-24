@@ -272,7 +272,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
             height: height(1, context),
             color: Colors.white70,
             child: Center(
-              child: animatedLoader(),
+              child: animatedLoader(context),
             ),
           ),
         ],
