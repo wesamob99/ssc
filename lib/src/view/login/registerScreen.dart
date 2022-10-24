@@ -59,6 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    /// TODO: add animated loader to register screen and control isLoading
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
     return Scaffold(
