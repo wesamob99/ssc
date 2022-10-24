@@ -6,6 +6,7 @@ import 'package:ssc/src/viewModel/home/homeProvider.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/main/mainProvider.dart';
 import 'package:ssc/src/viewModel/profile/profileProvider.dart';
+import 'package:ssc/src/viewModel/services/servicesProvider.dart';
 import 'package:ssc/src/viewModel/settings/settingsProvider.dart';
 import 'package:ssc/src/viewModel/shared/sharedProvider.dart';
 import 'package:ssc/src/viewModel/utilities/language/globalAppProvider.dart';
@@ -109,6 +110,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (_) => LoginProvider(), lazy: true),
         ChangeNotifierProvider(create: (_) => SettingsProvider(), lazy: true),
         ChangeNotifierProvider(create: (_) => ProfileProvider(), lazy: true),
+        ChangeNotifierProvider(create: (_) => ServicesProvider(), lazy: true),
       ],
       child: Consumer<GlobalAppProvider>(builder: (context, model, child) {
           return MaterialApp(
