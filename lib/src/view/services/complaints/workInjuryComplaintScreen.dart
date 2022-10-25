@@ -61,54 +61,59 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
           ),
         ),
       ),
-      body: Container(
-        width: width(1, context),
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-              firstStep(context, themeNotifier, accountDataFuture),
-            if(Provider.of<ServicesProvider>(context).stepNumber == 2)
-              secondStep(context, themeNotifier, servicesProvider),
-            if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-              thirdStep(context, themeNotifier, servicesProvider),
-            if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-              forthStep(context, themeNotifier, servicesProvider),
+      body: GestureDetector(
+        onTap: (){
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+          width: width(1, context),
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if(Provider.of<ServicesProvider>(context).stepNumber == 1)
+                firstStep(context, themeNotifier, accountDataFuture, servicesProvider),
+              if(Provider.of<ServicesProvider>(context).stepNumber == 2)
+                secondStep(context, themeNotifier, servicesProvider),
+              if(Provider.of<ServicesProvider>(context).stepNumber == 3)
+                thirdStep(context, themeNotifier, servicesProvider),
+              if(Provider.of<ServicesProvider>(context).stepNumber == 4)
+                forthStep(context, themeNotifier, servicesProvider),
+                textButton(context,
+                themeNotifier,
+                'continue',
+                MaterialStateProperty.all<Color>(
+                    getPrimaryColor(context, themeNotifier)),
+                HexColor('#ffffff'),
+                (){
+                  switch(servicesProvider.stepNumber){
+                    case 1: servicesProvider.stepNumber = 2; break;
+                    case 2: servicesProvider.stepNumber = 3; break;
+                    case 3: servicesProvider.stepNumber = 4; break;
+                    case 4: if (kDebugMode) {
+                      print('finished!');
+                    } break; /// TODO: finish service
+                  }
+                  servicesProvider.notifyMe();
+                },
+              ),
+              SizedBox(height: height(0.01, context)),
               textButton(context,
-              themeNotifier,
-              'continue',
-              MaterialStateProperty.all<Color>(
-                  getPrimaryColor(context, themeNotifier)),
-              HexColor('#ffffff'),
-              (){
-                switch(servicesProvider.stepNumber){
-                  case 1: servicesProvider.stepNumber = 2; break;
-                  case 2: servicesProvider.stepNumber = 3; break;
-                  case 3: servicesProvider.stepNumber = 4; break;
-                  case 4: if (kDebugMode) {
-                    print('finished!');
-                  } break; /// TODO: finish service
-                }
-                servicesProvider.notifyMe();
-              },
-            ),
-            SizedBox(height: height(0.01, context)),
-            textButton(context,
-              themeNotifier,
-              'saveAsDraft',
-              MaterialStateProperty.all<Color>(Colors.transparent),
-              HexColor('#003C97'),
-                  (){},
-            ),
-          ],
+                themeNotifier,
+                'saveAsDraft',
+                MaterialStateProperty.all<Color>(Colors.transparent),
+                HexColor('#003C97'),
+                    (){},
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-Widget firstStep(context, themeNotifier, accountDataFuture){
+Widget firstStep(context, themeNotifier, accountDataFuture, ServicesProvider servicesProvider){
   return SingleChildScrollView(
     child: SizedBox(
       height: height(0.7, context),
@@ -237,6 +242,42 @@ Widget firstStep(context, themeNotifier, accountDataFuture){
                           ),
                         ],
                       )
+                      // IntlPhoneField(
+                      //   controller: servicesProvider.mobileNumberController,
+                      //   disableLengthCheck: true,
+                      //   cursorColor: getPrimaryColor(context, themeNotifier),
+                      //   cursorWidth: 1,
+                      //   decoration: InputDecoration(
+                      //     prefixIconColor: Colors.red,
+                      //     contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                      //       errorText: null,
+                      //       errorBorder: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(8),
+                      //         borderSide: BorderSide(
+                      //           color: getPrimaryColor(context, themeNotifier),
+                      //           width: 0.5,
+                      //         ),
+                      //       ),
+                      //       border: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(8),
+                      //         borderSide: BorderSide(
+                      //           color: getPrimaryColor(context, themeNotifier),
+                      //           width: 0.5,
+                      //         ),
+                      //       ),
+                      //       focusedBorder: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(8),
+                      //         borderSide: BorderSide(
+                      //           color: getPrimaryColor(context, themeNotifier),
+                      //           width: 0.8,
+                      //         ),
+                      //       )
+                      //   ),
+                      //   initialCountryCode: 'JO',
+                      //   onChanged: (phone) {
+                      //     print(phone.completeNumber);
+                      //   },
+                      // )
                     ],
                   );
                 }
