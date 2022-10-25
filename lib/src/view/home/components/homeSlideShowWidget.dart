@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../utilities/theme/themes.dart';
@@ -24,33 +23,45 @@ class HomeSlideShowWidget extends StatelessWidget {
       ads.add(
         InkWell(
           onTap: () {},
-          child: Image.asset(
-            images[i],
-            fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) {
-              return const Icon(
-                Icons.error_outline,
-                color: Colors.red,
-                size: 36,
-              );
-            },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(6.0),
+            child: Image.asset(
+              images[i],
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: getPrimaryColor(context, themeNotifier),
+                  ),
+                );
+              },
+            ),
           ),
         ),
       );
     }
 
-    return ImageSlideshow(
-        width: double.infinity,
-        height: height(.22, context),
-        initialPage: 0,
-        indicatorColor: getPrimaryColor(context, themeNotifier),
-        indicatorBackgroundColor: Colors.white,
-        onPageChanged: (value) {
-          // print('Page changed: $value');
-        },
-        autoPlayInterval: 3000,
-        isLoop: true,
-        children: ads
+    return SizedBox(
+      height: height(.16, context),
+      child: ListView.builder(
+        itemCount: ads.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index){
+          return Row(
+            children: [
+              Container(
+                width: width(0.8, context),
+                decoration: BoxDecoration(
+                  color: getPrimaryColor(context, themeNotifier).withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(6.0)
+                ),
+                child: ads[index],
+              ),
+              SizedBox(width: width(index != ads.length-1 ? 0.04 : 0, context))
+            ],
+          );
+        }
+      ),
     );
   }
 }
