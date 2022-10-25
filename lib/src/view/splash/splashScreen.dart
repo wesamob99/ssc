@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/login/loginScreen.dart';
 import 'package:ssc/src/view/main/mainScreen.dart';
+import 'package:ssc/src/viewModel/home/homeProvider.dart';
 
+import '../../../models/home/userInformationsDashboard.dart';
 import '../../../utilities/util.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -30,15 +33,18 @@ class _SplashScreenState extends State<SplashScreen> {
       checkDataConnection();
     });
 
-    /// TODO: when session is expired, check any API and log the user out if returns [ session expired ]
     InternetConnectionStatus connection = await InternetConnectionChecker().connectionStatus;
+    UserInformation result = await Provider.of<HomeProvider>(context, listen: false).getStatistics();
     if(InternetConnectionStatus.connected == connection){
       Widget screen = const LoginScreen();
       if(UserSecuredStorage.instance.token.isNotEmpty &&
-          UserSecuredStorage.instance.nationalId.isNotEmpty){
+          UserSecuredStorage.instance.nationalId.isNotEmpty &&
+          result.success != false
+      ){
         screen = const MainScreen();
       } else{
         screen = const LoginScreen();
+        UserSecuredStorage.instance.token = '';
       }
       if (!mounted) return;
       Navigator.of(context).pushAndRemoveUntil(
