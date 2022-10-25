@@ -82,6 +82,7 @@ flutter:
     - assets/icons/loginBottomNavigationIcons/
     - assets/icons/sideBarIcons/
     - assets/icons/
+    - assets/jsonFiles/
 
 #flutter_native_splash:
 #  color: "#212121"
