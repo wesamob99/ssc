@@ -390,6 +390,8 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
     return TextFormField(
       controller: controller,
       keyboardType: inputType,
+      cursorColor: getPrimaryColor(context, themeNotifier),
+      cursorWidth: 1,
       decoration: InputDecoration(
           hintStyle: TextStyle(
               color: getGrey2Color(context).withOpacity(

@@ -297,6 +297,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       style: const TextStyle(
         fontSize: 15
       ),
+      cursorColor: getPrimaryColor(context, themeNotifier),
+      cursorWidth: 1,
       decoration: InputDecoration(
           hintText: translate('ex', context) + '9661001073',
           hintStyle: TextStyle(
