@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import '../../../infrastructure/HTTPClientContract.dart';
-import '../../../models/login/countries.dart';
 import '../../../models/login/resetPasswordGetDetail.dart';
 import '../../../models/login/userData.dart';
 
@@ -106,16 +105,5 @@ class LoginRepository{
       return jsonDecode(response.data);
     }
     return '';
-  }
-
-  Future<List<Countries>> getCountriesService() async {
-    var response = await HTTPClientContract.instance.getHTTP('/website/get_countries');
-    if (kDebugMode) {
-      print(response);
-    }
-    if (response != null && response.statusCode == 200) {
-      return countriesFromJson(response.toString());
-    }
-    return null;
   }
 }
