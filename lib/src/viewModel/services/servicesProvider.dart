@@ -13,6 +13,7 @@ class ServicesProvider extends ChangeNotifier {
   /// workInjuryComplaint
   int stepNumber = 1;
   String selectedInjuredType = 'occupationalDisease';
+  TextEditingController mobileNumberController = TextEditingController();
 
   /// workInjuryComplaint
   Future<UserProfileData> getAccountData() async{
