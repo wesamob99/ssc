@@ -70,12 +70,24 @@ class HomeLoaderWidget extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 10),
           cardLoadingTheme: cardLoadingTheme,
         ),
-        CardLoading(
-          height: height(0.23, context),
-          width: width(1, context),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          margin: const EdgeInsets.only(bottom: 10),
-          cardLoadingTheme: cardLoadingTheme,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CardLoading(
+              height: height(0.16, context),
+              width: width(0.75, context),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              margin: const EdgeInsets.only(bottom: 10),
+              cardLoadingTheme: cardLoadingTheme,
+            ),
+            CardLoading(
+              height: height(0.16, context),
+              width: width(0.12, context),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              margin: const EdgeInsets.only(bottom: 10),
+              cardLoadingTheme: cardLoadingTheme,
+            ),
+          ],
         ),
         CardLoading(
           height: height(0.01, context),
