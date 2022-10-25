@@ -157,5 +157,7 @@
   "occupationalDisease": "مرض مهني",
   "workInjury": "إصابة عمل",
   "injuryType": "نوع الإصابه",
-  "accidentsDateAndTime": "تاريخ ووقت الحادث"
+  "accidentsDateAndTime": "تاريخ ووقت الحادث",
+  "invalidMobileNumber": "رقم الهاتف غير صحيح"
+
 }

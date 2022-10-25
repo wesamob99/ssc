@@ -156,6 +156,7 @@
   "occupationalDisease": "Occupational disease",
   "workInjury": "Work injury",
   "injuryType": "Injury type",
-  "accidentsDateAndTime": "Accident's date and time"
+  "accidentsDateAndTime": "Accident's date and time",
+  "invalidMobileNumber": "Invalid mobile number"
 
 }
