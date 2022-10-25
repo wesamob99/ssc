@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:ssc/models/login/registerData.dart';
 import '../../../models/login/countries.dart';
 import '../../../models/login/resetPasswordGetDetail.dart';
@@ -32,6 +33,7 @@ class LoginProvider extends ChangeNotifier {
   // at index 0 -> relative type | index 1 -> academic level
   List thirdStepSelection = ['choose', 'optionalChoose'];
   bool registerContinueEnabled = false;
+  List<Countries> countries = [];
 
   /// login | forgot password
   TextEditingController nationalIdController = TextEditingController();
@@ -71,9 +73,11 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
-  Future<List<Countries>> getCountries() async{
-    final response = await loginRepository.getCountriesService();
-    return response;
+  Future<void> readCountriesJson() async {
+    countries = [];
+    final String response = await rootBundle.loadString('assets/jsonFiles/countries.json');
+    countries = countriesFromJson(response);
+    notifyListeners();
   }
 
   void notifyMe() {
