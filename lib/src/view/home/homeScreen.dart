@@ -81,9 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(translate('quickAccess', context)),
                           ),
                           const QuickAccessWidget(),
-                          SizedBox(
-                            height: height(0.01, context),
-                          ),
                           Padding(
                             padding: EdgeInsets.only(bottom: height(0.007, context)),
                             child: Text(translate('advertisements', context)),
