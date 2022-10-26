@@ -22,7 +22,7 @@ class QuickAccessWidget extends StatelessWidget {
       {'icon': 'assets/icons/accountStatementIcon.svg', 'title': "accountStatement"},
     ];
     return SizedBox(
-      height: height(0.135, context),
+      height: height(0.13, context),
       child: ListView.builder(
           itemCount: quickAccessComponents.length,
           scrollDirection: Axis.horizontal,
@@ -36,7 +36,7 @@ class QuickAccessWidget extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: width(0.171, context),
-                        height: width(0.171, context),
+                        height: height(0.08, context),
                         child: Card(
                           elevation: 5.0,
                           margin: const EdgeInsets.all(3.0),
@@ -49,7 +49,7 @@ class QuickAccessWidget extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: width(0.13, context),
+                        width: width(0.15, context),
                         child: Text(
                           translate(quickAccessComponents[index]['title'], context),
                           textAlign: TextAlign.center,
