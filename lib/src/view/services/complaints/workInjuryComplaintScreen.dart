@@ -64,47 +64,49 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
         onTap: (){
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: Container(
-          width: width(1, context),
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                const FirstStepScreen(),
-              if(Provider.of<ServicesProvider>(context).stepNumber == 2)
-                secondStep(context, themeNotifier, servicesProvider),
-              if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                thirdStep(context, themeNotifier, servicesProvider),
-              if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-                forthStep(context, themeNotifier, servicesProvider),
+        child: SingleChildScrollView(
+          child: Container(
+            width: width(1, context),
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if(Provider.of<ServicesProvider>(context).stepNumber == 1)
+                  const FirstStepScreen(),
+                if(Provider.of<ServicesProvider>(context).stepNumber == 2)
+                  secondStep(context, themeNotifier, servicesProvider),
+                if(Provider.of<ServicesProvider>(context).stepNumber == 3)
+                  thirdStep(context, themeNotifier, servicesProvider),
+                if(Provider.of<ServicesProvider>(context).stepNumber == 4)
+                  forthStep(context, themeNotifier, servicesProvider),
+                  textButton(context,
+                  themeNotifier,
+                  'continue',
+                  MaterialStateProperty.all<Color>(
+                      getPrimaryColor(context, themeNotifier)),
+                  HexColor('#ffffff'),
+                  (){
+                    switch(servicesProvider.stepNumber){
+                      case 1: servicesProvider.stepNumber = 2; break;
+                      case 2: servicesProvider.stepNumber = 3; break;
+                      case 3: servicesProvider.stepNumber = 4; break;
+                      case 4: if (kDebugMode) {
+                        print('finished!');
+                      } break; /// TODO: finish service
+                    }
+                    servicesProvider.notifyMe();
+                  },
+                ),
+                SizedBox(height: height(0.01, context)),
                 textButton(context,
-                themeNotifier,
-                'continue',
-                MaterialStateProperty.all<Color>(
-                    getPrimaryColor(context, themeNotifier)),
-                HexColor('#ffffff'),
-                (){
-                  switch(servicesProvider.stepNumber){
-                    case 1: servicesProvider.stepNumber = 2; break;
-                    case 2: servicesProvider.stepNumber = 3; break;
-                    case 3: servicesProvider.stepNumber = 4; break;
-                    case 4: if (kDebugMode) {
-                      print('finished!');
-                    } break; /// TODO: finish service
-                  }
-                  servicesProvider.notifyMe();
-                },
-              ),
-              SizedBox(height: height(0.01, context)),
-              textButton(context,
-                themeNotifier,
-                'saveAsDraft',
-                MaterialStateProperty.all<Color>(Colors.transparent),
-                HexColor('#003C97'),
-                    (){},
-              ),
-            ],
+                  themeNotifier,
+                  'saveAsDraft',
+                  MaterialStateProperty.all<Color>(Colors.transparent),
+                  HexColor('#003C97'),
+                      (){},
+                ),
+              ],
+            ),
           ),
         ),
       ),
