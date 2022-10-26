@@ -202,7 +202,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                                 ).showModal(context);
                               },
                               child: Container(
-                                width: width(0.2, context),
+                                width: width(0.21, context),
                                 alignment: Alignment.center,
                                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                                 decoration: BoxDecoration(
@@ -216,7 +216,8 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      selectedCountry.value,
+                                      '+${selectedCountry.value}',
+                                      textDirection: TextDirection.ltr,
                                       style: TextStyle(
                                           color: HexColor('#363636'),
                                           fontSize: 15
