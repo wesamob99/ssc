@@ -29,7 +29,7 @@ class HomeChartWidget extends StatelessWidget {
     }
 
     return SizedBox(
-      height: height(0.2, context),
+      height: height(0.22, context),
       child: Center(
           child: SfCartesianChart(
             margin: const EdgeInsets.only(top: 14),
