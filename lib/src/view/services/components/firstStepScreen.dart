@@ -22,11 +22,13 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
   Future accountDataFuture;
   ServicesProvider servicesProvider;
   SelectedListItem selectedCountry;
+  bool isFirstTime;
 
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     accountDataFuture = servicesProvider.getAccountData();
+    isFirstTime = true;
     super.initState();
   }
 
@@ -59,18 +61,19 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                     String insuranceNo = data.insuranceno.toString();
                     String mobileNo = data.mobilenumber.toString();
 
+                    if(isFirstTime){
+                      String internationalCode = data.internationalcode.toString();
+                      int selectedInx = servicesProvider.countries.indexWhere((value) => value.callingCode == internationalCode);
+                      int selectedInxF = countries.indexWhere((value) => value.dialCode == internationalCode);
+                      selectedCountry = SelectedListItem(
+                        name: UserConfig.instance.checkLanguage() ? servicesProvider.countries[selectedInx].countryEn : servicesProvider.countries[selectedInx].country,
+                        value: servicesProvider.countries[selectedInx].callingCode, natCode: servicesProvider.countries[selectedInx].natcode,
+                        flag: countries[selectedInxF].flag,
+                      );
+                      isFirstTime = false;
+                    }
 
-                    String internationalCode = data.internationalcode.toString();
-                    int selectedInx = servicesProvider.countries.indexWhere((value) => value.callingCode == internationalCode);
-                    int selectedInxF = countries.indexWhere((value) => value.dialCode == internationalCode);
-                    selectedCountry = SelectedListItem(
-                      name: UserConfig.instance.checkLanguage() ? servicesProvider.countries[selectedInx].countryEn : servicesProvider.countries[selectedInx].country,
-                      value: servicesProvider.countries[selectedInx].callingCode, natCode: servicesProvider.countries[selectedInx].natcode,
-                      flag: countries[selectedInxF].flag,
-                    );
                     List<SelectedListItem> selectedListItem = [];
-
-
                     for (var element in servicesProvider.countries) {
                       int inx = countries.indexWhere((value) => value.dialCode == element.callingCode);
                       selectedListItem.add(
