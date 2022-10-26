@@ -49,14 +49,14 @@ class QuickAccessWidget extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: width(0.15, context),
+                        width: width(0.16, context),
                         child: Text(
                           translate(quickAccessComponents[index]['title'], context),
                           textAlign: TextAlign.center,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: height(0.013, context)
+                            fontSize: height(0.0115, context)
                           ),
                         ),
                       ),
