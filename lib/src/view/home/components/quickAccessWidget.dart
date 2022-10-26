@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
@@ -11,17 +12,17 @@ class QuickAccessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List quickAccessComponents = [
-      {'icon': Icons.dangerous, 'title': "unemploymentApplication"},
-      {'icon': Icons.key, 'title': "lump-sumCompensation"},
-      {'icon': Icons.face, 'title': "ReportAnAccident"},
-      {'icon': Icons.vaccines, 'title': "optionalSubscription"},
-      {'icon': Icons.yard, 'title': "accountStatement"},
-      {'icon': Icons.offline_bolt, 'title': "unemploymentApplication"},
-      {'icon': Icons.qr_code, 'title': "optionalSubscription"},
-      {'icon': Icons.nat, 'title': "accountStatement"},
+      {'icon': 'assets/icons/unemploymentIcon.svg', 'title': "unemploymentApplication"},
+      {'icon': 'assets/icons/onePaymentIcon.svg', 'title': "onePayment"},
+      {'icon': 'assets/icons/reportAnAccidentIcon.svg', 'title': "ReportAnAccident"},
+      {'icon': 'assets/icons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription" },
+      {'icon': 'assets/icons/accountStatementIcon.svg', 'title': "accountStatement"},
+      {'icon': 'assets/icons/unemploymentIcon.svg', 'title': "unemploymentApplication"},
+      {'icon': 'assets/icons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription"},
+      {'icon': 'assets/icons/accountStatementIcon.svg', 'title': "accountStatement"},
     ];
     return SizedBox(
-      height: height(0.11, context),
+      height: height(0.135, context),
       child: ListView.builder(
           itemCount: quickAccessComponents.length,
           scrollDirection: Axis.horizontal,
@@ -34,25 +35,28 @@ class QuickAccessWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(
-                        width: width(0.14, context),
-                        height: width(0.14, context),
+                        width: width(0.171, context),
+                        height: width(0.171, context),
                         child: Card(
                           elevation: 5.0,
+                          margin: const EdgeInsets.all(3.0),
                           shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
                           color: HexColor('#FFFFFF'),
-                          child: Icon(
-                            quickAccessComponents[index]['icon'],
-                            color: HexColor('#2D452E'),
+                          child: Padding(
+                            padding: EdgeInsets.all(width(0.03, context)),
+                            child: SvgPicture.asset(quickAccessComponents[index]['icon']),
                           ),
                         ),
                       ),
                       SizedBox(
-                        width: width(0.14, context),
+                        width: width(0.13, context),
                         child: Text(
                           translate(quickAccessComponents[index]['title'], context),
                           textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: height(0.01, context)
+                            fontSize: height(0.013, context)
                           ),
                         ),
                       ),
