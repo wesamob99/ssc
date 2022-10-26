@@ -158,6 +158,12 @@
   "workInjury": "إصابة عمل",
   "injuryType": "نوع الإصابه",
   "accidentsDateAndTime": "تاريخ ووقت الحادث",
-  "invalidMobileNumber": "رقم الهاتف غير صحيح"
+  "invalidMobileNumber": "رقم الهاتف غير صحيح",
+  "quickAccess": "روابط سريعة",
+  "lump-sumCompensation": "تعويض الدفعة الواحدة",
+  "ReportAnAccident": "تبليغ عن حادث",
+  "optionalSubscription": "إشتراك إختياري",
+  "accountStatement": "كشف حسابي",
+  "myAccount": "حسابي"
 
 }

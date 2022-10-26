@@ -157,6 +157,13 @@
   "workInjury": "Work injury",
   "injuryType": "Injury type",
   "accidentsDateAndTime": "Accident's date and time",
-  "invalidMobileNumber": "Invalid mobile number"
+  "invalidMobileNumber": "Invalid mobile number",
+  "quickAccess": "Quick access",
+  "lump-sumCompensation": "Lump-sum compensation",
+  "ReportAnAccident": "Report an accident",
+  "optionalSubscription": "Optional subscription",
+  "accountStatement": "Account statement",
+  "myAccount": "My account"
+
 
 }
