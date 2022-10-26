@@ -32,6 +32,7 @@ class HomeChartWidget extends StatelessWidget {
       height: height(0.2, context),
       child: Center(
           child: SfCartesianChart(
+            margin: const EdgeInsets.only(top: 14),
             primaryXAxis: CategoryAxis(),
             legend: Legend(isVisible: false),
             tooltipBehavior: tooltipBehavior,
