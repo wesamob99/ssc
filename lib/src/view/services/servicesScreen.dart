@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
-import 'package:ssc/src/view/services/components/mostVisited/mostVisitedBody.dart';
+import 'package:ssc/src/view/services/components/mostVisitedBody.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/util.dart';
 
