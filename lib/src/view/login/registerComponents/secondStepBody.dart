@@ -93,7 +93,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 SizedBox(height: height(0.02, context),),
                 buildFieldTitle('civilIdNumber', filled: loginProvider.civilIdNumberController.text.isNotEmpty),
                 SizedBox(height: height(0.015, context),),
-                buildTextFormField(context, themeNotifier, loginProvider.civilIdNumberController, 'XC454F', (val){
+                buildTextFormField(context, themeNotifier, loginProvider.civilIdNumberController, 'AER20995', (val){
                   loginProvider.registerContinueEnabled =  (
                       loginProvider.registerNationalIdController.text.isNotEmpty &&
                           loginProvider.civilIdNumberController.text.isNotEmpty &&
