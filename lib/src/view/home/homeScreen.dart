@@ -17,6 +17,7 @@ import '../../../utilities/util.dart';
 import '../../viewModel/home/homeProvider.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
 import 'components/homeOverviewWidget.dart';
+import 'components/quickAccessWidget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -68,12 +69,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(bottom: height(0.007, context)),
-                            child: Text(translate('overview', context)),
+                            padding: EdgeInsets.only(bottom: height(0.01, context)),
+                            child: Text(translate('myAccount', context)),
                           ),
                           HomeOverviewWidget(data: userInformation),
                           SizedBox(
                             height: height(0.02, context),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: height(0.007, context)),
+                            child: Text(translate('quickAccess', context)),
+                          ),
+                          const QuickAccessWidget(),
+                          SizedBox(
+                            height: height(0.01, context),
                           ),
                           Padding(
                             padding: EdgeInsets.only(bottom: height(0.007, context)),
