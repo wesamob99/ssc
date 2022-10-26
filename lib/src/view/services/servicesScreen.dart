@@ -9,6 +9,7 @@ import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/util.dart';
 
 import '../../viewModel/utilities/theme/themeProvider.dart';
+import 'components/individualsBody.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({Key key}) : super(key: key);
@@ -67,7 +68,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 ),
                 SizedBox(height: height(0.02, context)),
                 if(selectedIndex == 0)
-                const MostVisitedBody()
+                const MostVisitedBody(),
+                if(selectedIndex == 2)
+                const IndividualsBody()
               ],
             ),
           )
