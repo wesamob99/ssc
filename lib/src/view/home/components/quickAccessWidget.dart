@@ -21,7 +21,7 @@ class QuickAccessWidget extends StatelessWidget {
       {'icon': Icons.nat, 'title': "accountStatement"},
     ];
     return SizedBox(
-      height: height(0.1, context),
+      height: height(0.11, context),
       child: ListView.builder(
           itemCount: quickAccessComponents.length,
           scrollDirection: Axis.horizontal,
