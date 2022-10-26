@@ -26,11 +26,12 @@ class QuickAccessWidget extends StatelessWidget {
           itemCount: quickAccessComponents.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index){
-            return InkWell(
-              onTap: (){},
-              child: Row(
-                children: [
-                  Column(
+            return Row(
+              children: [
+                InkWell(
+                  onTap: (){},
+                  highlightColor: const Color.fromRGBO(68, 87, 64, 0.4),
+                  child: Column(
                     children: [
                       SizedBox(
                         width: width(0.14, context),
@@ -57,9 +58,9 @@ class QuickAccessWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(width: width(index != quickAccessComponents.length-1 ? 0.015 : 0, context))
-                ],
-              ),
+                ),
+                SizedBox(width: width(index != quickAccessComponents.length-1 ? 0.015 : 0, context))
+              ],
             );
           }
       ),
