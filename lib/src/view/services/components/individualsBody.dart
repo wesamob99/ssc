@@ -40,6 +40,7 @@ class _IndividualsBodyState extends State<IndividualsBody> {
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 10),
+                      width: width(1, context),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
