@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:provider/provider.dart';
-import 'package:ssc/src/view/services/components/firstStepScreen.dart';
+import 'package:ssc/src/view/services/components/shared/firstStepScreen.dart';
 import 'package:ssc/src/viewModel/services/servicesProvider.dart';
 import 'package:ssc/utilities/util.dart';
 import 'dart:math' as math;

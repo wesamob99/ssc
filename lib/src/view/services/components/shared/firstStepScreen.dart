@@ -3,13 +3,13 @@ import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../infrastructure/userConfig.dart';
-import '../../../../models/profile/userProfileData.dart';
-import '../../../../utilities/countries.dart';
-import '../../../../utilities/hexColor.dart';
-import '../../../../utilities/util.dart';
-import '../../../viewModel/services/servicesProvider.dart';
-import '../../../viewModel/utilities/theme/themeProvider.dart';
+import '../../../../../infrastructure/userConfig.dart';
+import '../../../../../models/profile/userProfileData.dart';
+import '../../../../../utilities/countries.dart';
+import '../../../../../utilities/hexColor.dart';
+import '../../../../../utilities/util.dart';
+import '../../../../viewModel/services/servicesProvider.dart';
+import '../../../../viewModel/utilities/theme/themeProvider.dart';
 
 class FirstStepScreen extends StatefulWidget {
   const FirstStepScreen({Key key}) : super(key: key);
