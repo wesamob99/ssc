@@ -40,8 +40,8 @@ class _IndividualsBodyState extends State<IndividualsBody> {
                           builder: (context) => AboutTheServiceScreen(
                             serviceTitle: mostVisitedServices[index]['subTitle'],
                             aboutServiceDescription: mostVisitedServices[index]['description'],
-                            termsOfTheService: const ['1', '2', '3'],
-                            stepsOfTheService: const ['11', '22', '33'],
+                            termsOfTheService: const ['hello', 'hello', 'hello', 'hello', 'hello'],
+                            stepsOfTheService: const ['1text', '2text2', '3text3'],
                           )
                         ),
                       );
