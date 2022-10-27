@@ -164,6 +164,10 @@
   "optionalSubscription": "Optional subscription",
   "accountStatement": "Account statement",
   "myAccount": "My account",
-  "workInjuries": "Work injuries"
+  "workInjuries": "Work injuries",
+  "aboutTheService": "About the service",
+  "termsOfTheService": "Terms of use of the service",
+  "stepsOfTheService": "Steps to apply for the service",
+  "steps": "Steps"
 
 }

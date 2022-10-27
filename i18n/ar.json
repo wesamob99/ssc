@@ -165,6 +165,10 @@
   "optionalSubscription": "إشتراك إختياري",
   "accountStatement": "كشف حسابي",
   "myAccount": "حسابي",
-  "workInjuries": "إصابات العمل"
+  "workInjuries": "إصابات العمل",
+  "aboutTheService": "عن الخدمة",
+  "termsOfTheService": "شروط الاستفاده من الخدمة",
+  "stepsOfTheService": "خطوات التقديم للخدمة",
+  "steps": "خطوات"
 
 }
