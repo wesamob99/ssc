@@ -99,8 +99,12 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                           height: 1.3
                       ),
                     ),
-                    SizedBox(
-                      height: height(0.02, context),
+                    Divider(
+                      indent: width(0.09, context),
+                      endIndent: width(0.09, context),
+                      color: HexColor('#DADADA'),
+                      thickness: 1,
+                      height: height(0.04, context),
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: height(0.01, context)),
@@ -112,17 +116,36 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: height(0.02, context) * widget.termsOfTheService.length,
+                      height: height(0.058, context) * widget.termsOfTheService.length,
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                           itemCount: widget.termsOfTheService.length,
                           itemBuilder: (context, index){
-                            return Text(widget.termsOfTheService[index]);
+                            return Row(
+                              children: [
+                                Card(
+                                  elevation: 5.0,
+                                  margin: const EdgeInsets.all(3.0),
+                                  shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
+                                  color: HexColor('#FFFFFF'),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(width(0.03, context)),
+                                    child: SvgPicture.asset('assets/icons/reportAnAccidentIcon.svg'),
+                                  ),
+                                ),
+                                SizedBox(width: width(0.03, context),),
+                                Text(translate(widget.termsOfTheService[index], context))
+                              ],
+                            );
                           }
                       ),
                     ),
-                    SizedBox(
-                      height: height(0.02, context),
+                    Divider(
+                      indent: width(0.09, context),
+                      endIndent: width(0.09, context),
+                      color: HexColor('#DADADA'),
+                      thickness: 1,
+                      height: height(0.04, context),
                     ),
                     Padding(
                         padding: EdgeInsets.only(bottom: height(0.01, context)),
