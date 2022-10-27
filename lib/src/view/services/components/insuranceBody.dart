@@ -6,14 +6,14 @@ import 'package:ssc/src/view/services/components/shared/aboutTheServiceScreen.da
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
 
-class IndividualsBody extends StatefulWidget {
-  const IndividualsBody({Key key}) : super(key: key);
+class InsuranceBody extends StatefulWidget {
+  const InsuranceBody({Key key}) : super(key: key);
 
   @override
-  State<IndividualsBody> createState() => _IndividualsBodyState();
+  State<InsuranceBody> createState() => _InsuranceBodyState();
 }
 
-class _IndividualsBodyState extends State<IndividualsBody> {
+class _InsuranceBodyState extends State<InsuranceBody> {
 
   List mostVisitedServices = [
     {"title": "retired", "subTitle": "requestRetiredLoan", "description": "this supposed to be about the service description"},

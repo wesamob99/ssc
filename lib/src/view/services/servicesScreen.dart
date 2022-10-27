@@ -9,7 +9,7 @@ import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/util.dart';
 
 import '../../viewModel/utilities/theme/themeProvider.dart';
-import 'components/individualsBody.dart';
+import 'components/insuranceBody.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({Key key}) : super(key: key);
@@ -70,7 +70,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 if(selectedIndex == 0)
                 const MostVisitedBody(),
                 if(selectedIndex == 2)
-                const IndividualsBody()
+                const InsuranceBody()
               ],
             ),
           )
