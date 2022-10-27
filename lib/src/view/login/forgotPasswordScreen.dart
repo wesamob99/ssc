@@ -286,7 +286,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               )
           )
       ),
-      child: Text(translate('continue', context)),
+      child: Text(translate('continue', context), style: const TextStyle(
+          fontWeight: FontWeight.w300),),
     );
   }
 

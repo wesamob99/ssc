@@ -374,7 +374,8 @@ TextButton textButton(context, themeNotifier, text, buttonColor, textColor, onPr
     child: Text(
       translate(text, context),
       style: TextStyle(
-          color: textColor
+        color: textColor,
+        fontWeight: FontWeight.w300
       ),
     ),
   );

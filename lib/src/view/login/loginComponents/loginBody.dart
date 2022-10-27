@@ -309,7 +309,8 @@ class _LoginBodyState extends State<LoginBody> {
               )
           )
       ),
-      child: Text(translate('continue', context)),
+      child: Text(translate('continue', context), style: const TextStyle(
+      fontWeight: FontWeight.w300),),
     );
   }
 

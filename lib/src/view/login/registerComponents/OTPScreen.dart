@@ -382,7 +382,8 @@ class _OTPScreenState extends State<OTPScreen> {
       child: Text(
         translate(text, context),
         style: TextStyle(
-            color: textColor
+          color: textColor,
+          fontWeight: FontWeight.w300
         ),
       ),
     );
