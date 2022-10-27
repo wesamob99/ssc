@@ -7,36 +7,36 @@ import '../../infrastructure/userConfig.dart';
 import '../hexColor.dart';
 
 class AppTheme {
-  TextTheme textTheme = const TextTheme(
+  TextTheme textTheme(String theme) => TextTheme(
     headline6: TextStyle(
-      color: Colors.white,
+      color: theme == 'dark' ? Colors.white : HexColor('#363636'),
     ),
     bodyText2: TextStyle(
-      color: Colors.white,
+      color: theme == 'dark' ? Colors.white : HexColor('#363636'),
     ),
     bodyText1: TextStyle(
-      color: Colors.white,
+      color: theme == 'dark' ? Colors.white : HexColor('#363636'),
     ),
     headline1: TextStyle(
-      color: Colors.white,
+      color: theme == 'dark' ? Colors.white : HexColor('#363636'),
     ),
     headline2: TextStyle(
-      color: Colors.white,
+      color: theme == 'dark' ? Colors.white : HexColor('#363636'),
     ),
     headline3: TextStyle(
-      color: Colors.white,
+      color: theme == 'dark' ? Colors.white : HexColor('#363636'),
     ),
     headline4: TextStyle(
-      color: Colors.white,
+      color: theme == 'dark' ? Colors.white : HexColor('#363636'),
     ),
     headline5: TextStyle(
-      color: Colors.white,
+      color: theme == 'dark' ? Colors.white : HexColor('#363636'),
     ),
     subtitle1: TextStyle(
-      color: Colors.white,
+      color: theme == 'dark' ? Colors.white : HexColor('#363636'),
     ),
     subtitle2: TextStyle(
-      color: Colors.white,
+      color: theme == 'dark' ? Colors.white : HexColor('#363636'),
     ),
   );
   get darkTheme => ThemeData(
@@ -58,7 +58,7 @@ class AppTheme {
     backgroundColor: HexColor('#212121'),
     fontFamily: UserConfig.instance.checkLanguage() ? 'Noor' : 'Noor',
 
-    textTheme: textTheme
+    textTheme: textTheme('dark')
     // textTheme: UserConfig.instance.checkLanguage()
     //     ? GoogleFonts.muktaTextTheme().merge(textTheme)
     //     : GoogleFonts.tajawalTextTheme().merge(textTheme),
@@ -88,6 +88,7 @@ class AppTheme {
       scaffoldBackgroundColor: Colors.grey.shade100,
       backgroundColor: HexColor('#ffffff'),
       highlightColor: primaryColor,
+      textTheme: textTheme('light'),
       // textTheme: UserConfig.instance.checkLanguage()
       //     ? GoogleFonts.muktaTextTheme()
       //     : GoogleFonts.tajawalTextTheme(),
