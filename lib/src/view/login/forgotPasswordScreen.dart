@@ -228,66 +228,67 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
 
-  TextButton submitButton(themeNotifier){
-    return  TextButton(
-      onPressed: () async {
-        if(loginProvider.enabledSubmitButton){
-          String errorMessage = "";
-          loginProvider.isLoading = true;
-          loginProvider.notifyMe();
-          try{
-            await loginProvider.resetPasswordGetDetail( loginProvider.nationalIdController.text).whenComplete((){})
-                .then((val) async {
-              ResetPasswordGetDetail resetPasswordGetDetail = val;
-              if(resetPasswordGetDetail.poStatusDescEn != null && resetPasswordGetDetail.poStatus == -1){
-                errorMessage = UserConfig.instance.checkLanguage()
-                    ? resetPasswordGetDetail.poStatusDescEn : resetPasswordGetDetail.poStatusDescAr;
-              } else{
-                errorMessage = '';
-                userSecuredStorage.email = resetPasswordGetDetail.poEmail ?? ''; // poEmail -> user email
-                userSecuredStorage.mobileNumber = resetPasswordGetDetail.poMobileno ?? ''; // poMobileno -> user mobile number
-                userSecuredStorage.nationalId =  loginProvider.nationalIdController.text ?? ''; // poUserName -> user national ID
-                await loginProvider.resetPasswordSendMobileOTP(loginProvider.nationalIdController.text);
-              }
-              if(resetPasswordGetDetail.poStatus == 1){
-                setState((){
-                  showResetPasswordBody = true;
-                });
-              }else{
-                showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
-              }
+  SizedBox submitButton(themeNotifier){
+    return  SizedBox(
+      width: width(0.7, context),
+      child: TextButton(
+        onPressed: () async {
+          if(loginProvider.enabledSubmitButton){
+            String errorMessage = "";
+            loginProvider.isLoading = true;
+            loginProvider.notifyMe();
+            try{
+              await loginProvider.resetPasswordGetDetail( loginProvider.nationalIdController.text).whenComplete((){})
+                  .then((val) async {
+                ResetPasswordGetDetail resetPasswordGetDetail = val;
+                if(resetPasswordGetDetail.poStatusDescEn != null && resetPasswordGetDetail.poStatus == -1){
+                  errorMessage = UserConfig.instance.checkLanguage()
+                      ? resetPasswordGetDetail.poStatusDescEn : resetPasswordGetDetail.poStatusDescAr;
+                } else{
+                  errorMessage = '';
+                  userSecuredStorage.email = resetPasswordGetDetail.poEmail ?? ''; // poEmail -> user email
+                  userSecuredStorage.mobileNumber = resetPasswordGetDetail.poMobileno ?? ''; // poMobileno -> user mobile number
+                  userSecuredStorage.nationalId =  loginProvider.nationalIdController.text ?? ''; // poUserName -> user national ID
+                  await loginProvider.resetPasswordSendMobileOTP(loginProvider.nationalIdController.text);
+                }
+                if(resetPasswordGetDetail.poStatus == 1){
+                  setState((){
+                    showResetPasswordBody = true;
+                  });
+                }else{
+                  showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                }
+                loginProvider.notifyMe();
+              });
+              loginProvider.isLoading = false;
               loginProvider.notifyMe();
-            });
-            loginProvider.isLoading = false;
-            loginProvider.notifyMe();
-          }catch(e){
-            loginProvider.isLoading = false;
-            loginProvider.notifyMe();
-            if (kDebugMode) {
-              print(e.toString());
+            }catch(e){
+              loginProvider.isLoading = false;
+              loginProvider.notifyMe();
+              if (kDebugMode) {
+                print(e.toString());
+              }
             }
           }
-        }
-      },
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
-            Provider.of<LoginProvider>(context).enabledSubmitButton
-                ? getPrimaryColor(context, themeNotifier) : Colors.grey,
-          ),
-          foregroundColor:  MaterialStateProperty.all<Color>(
-              Colors.white
-          ),
-          fixedSize:  MaterialStateProperty.all<Size>(
-            Size(width(0.7, context), height(0.055, context)),
-          ),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)
-              )
-          )
+        },
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(
+              Provider.of<LoginProvider>(context).enabledSubmitButton
+                  ? getPrimaryColor(context, themeNotifier) : Colors.grey,
+            ),
+            foregroundColor:  MaterialStateProperty.all<Color>(
+                Colors.white
+            ),
+            padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 16.0)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)
+                )
+            )
+        ),
+        child: Text(translate('continue', context), style: const TextStyle(
+            fontWeight: FontWeight.w300),),
       ),
-      child: Text(translate('continue', context), style: const TextStyle(
-          fontWeight: FontWeight.w300),),
     );
   }
 

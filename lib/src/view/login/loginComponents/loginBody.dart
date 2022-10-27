@@ -240,77 +240,78 @@ class _LoginBodyState extends State<LoginBody> {
     );
   }
 
-  TextButton submitButton(themeNotifier){
-    return  TextButton(
-      onPressed: () async {
-        if(loginProvider.enabledSubmitButton && loginProvider.numberOfAttempts < 5){
-          String errorMessage = "";
-          loginProvider.isLoading = true;
-          loginProvider.notifyMe();
-          try{
-            await loginProvider.login( loginProvider.nationalIdController.text,  loginProvider.passwordController.text)
-                .whenComplete((){})
-                .then((val){
-              UserData userData = val;
-              userSecuredStorage.token = userData?.token ?? ''; // user token
-              if(userData.data != null){
-                userSecuredStorage.userName = userData.data.poName ?? ''; // poName -> user name
-                userSecuredStorage.nationalId = userData.data.poUserName ?? ''; // poUserName -> user national ID
-                userSecuredStorage.internalKey = userData.data.poInternalKey ?? ''; // poInternalKey -> user national ID
-              }
-              if(userData.poStatusDescEn != null){
-                errorMessage = UserConfig.instance.checkLanguage()
-                    ? userData.poStatusDescEn : userData.poStatusDescAr;
-              } else{
-                errorMessage = '';
-              }
-              if(userData.token != null){
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const MainScreen()), (route) => false);
-              }else{
-                loginProvider.numberOfAttempts++;
-                if(loginProvider.numberOfAttempts > 4){
-                  showMyDialog(context, 'exceedNumberOfAllowedAttempts', loginProvider.numberOfAttempts > 4 ? "" : errorMessage, 'resetPassword', themeNotifier, exceedAttempts: true);
-                }else{
-                  showMyDialog(context, 'loginFailed', errorMessage, 'retryAgain', themeNotifier);
+  SizedBox submitButton(themeNotifier){
+    return  SizedBox(
+      width: width(0.7, context),
+      child: TextButton(
+        onPressed: () async {
+          if(loginProvider.enabledSubmitButton && loginProvider.numberOfAttempts < 5){
+            String errorMessage = "";
+            loginProvider.isLoading = true;
+            loginProvider.notifyMe();
+            try{
+              await loginProvider.login( loginProvider.nationalIdController.text,  loginProvider.passwordController.text)
+                  .whenComplete((){})
+                  .then((val){
+                UserData userData = val;
+                userSecuredStorage.token = userData?.token ?? ''; // user token
+                if(userData.data != null){
+                  userSecuredStorage.userName = userData.data.poName ?? ''; // poName -> user name
+                  userSecuredStorage.nationalId = userData.data.poUserName ?? ''; // poUserName -> user national ID
+                  userSecuredStorage.internalKey = userData.data.poInternalKey ?? ''; // poInternalKey -> user national ID
                 }
-              }
+                if(userData.poStatusDescEn != null){
+                  errorMessage = UserConfig.instance.checkLanguage()
+                      ? userData.poStatusDescEn : userData.poStatusDescAr;
+                } else{
+                  errorMessage = '';
+                }
+                if(userData.token != null){
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => const MainScreen()), (route) => false);
+                }else{
+                  loginProvider.numberOfAttempts++;
+                  if(loginProvider.numberOfAttempts > 4){
+                    showMyDialog(context, 'exceedNumberOfAllowedAttempts', loginProvider.numberOfAttempts > 4 ? "" : errorMessage, 'resetPassword', themeNotifier, exceedAttempts: true);
+                  }else{
+                    showMyDialog(context, 'loginFailed', errorMessage, 'retryAgain', themeNotifier);
+                  }
+                }
+                loginProvider.notifyMe();
+              });
+              loginProvider.isLoading = false;
               loginProvider.notifyMe();
-            });
-            loginProvider.isLoading = false;
-            loginProvider.notifyMe();
-          }catch(e){
-            loginProvider.isLoading = false;
-            loginProvider.notifyMe();
-            if (kDebugMode) {
-              print(e.toString());
+            }catch(e){
+              loginProvider.isLoading = false;
+              loginProvider.notifyMe();
+              if (kDebugMode) {
+                print(e.toString());
+              }
             }
+            // when user press continue to submit natID to reset password
           }
-          // when user press continue to submit natID to reset password
-        }
-      },
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
-            Provider.of<LoginProvider>(context).enabledSubmitButton &&
-                Provider.of<LoginProvider>(context).numberOfAttempts < 5
-                ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
-          ),
-          foregroundColor:  MaterialStateProperty.all<Color>(
+        },
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(
               Provider.of<LoginProvider>(context).enabledSubmitButton &&
                   Provider.of<LoginProvider>(context).numberOfAttempts < 5
-                  ? Colors.white : HexColor('#363636'),
-          ),
-          fixedSize:  MaterialStateProperty.all<Size>(
-            Size(width(0.7, context), height(0.055, context)),
-          ),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)
-              )
-          )
+                  ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
+            ),
+            foregroundColor:  MaterialStateProperty.all<Color>(
+                Provider.of<LoginProvider>(context).enabledSubmitButton &&
+                    Provider.of<LoginProvider>(context).numberOfAttempts < 5
+                    ? Colors.white : HexColor('#363636'),
+            ),
+            padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 16.0)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)
+                )
+            )
+        ),
+        child: Text(translate('continue', context), style: const TextStyle(
+        fontWeight: FontWeight.w300),),
       ),
-      child: Text(translate('continue', context), style: const TextStyle(
-      fontWeight: FontWeight.w300),),
     );
   }
 

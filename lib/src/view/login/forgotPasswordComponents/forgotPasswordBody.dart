@@ -356,32 +356,33 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
     );
   }
 
-  TextButton textButton(themeNotifier, text, buttonColor, textColor, onPressed){
-    return  TextButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-          backgroundColor: buttonColor,
-          foregroundColor:  MaterialStateProperty.all<Color>(
-              Colors.white
-          ),
-          fixedSize:  MaterialStateProperty.all<Size>(
-            Size(width(0.7, context), height(0.055, context)),
-          ),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-              side: BorderSide(
-                color: Colors.grey.shade600,
-                width: 0.4
-              )
+  SizedBox textButton(themeNotifier, text, buttonColor, textColor, onPressed){
+    return  SizedBox(
+      width: width(0.7, context),
+      child: TextButton(
+        onPressed: onPressed,
+        style: ButtonStyle(
+            backgroundColor: buttonColor,
+            foregroundColor:  MaterialStateProperty.all<Color>(
+                Colors.white
             ),
-          )
-      ),
-      child: Text(
-        translate(text, context),
-        style: TextStyle(
-          color: textColor,
-          fontWeight: FontWeight.w300
+            padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 16.0)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+                side: BorderSide(
+                  color: Colors.grey.shade600,
+                  width: 0.4
+                )
+              ),
+            )
+        ),
+        child: Text(
+          translate(text, context),
+          style: TextStyle(
+            color: textColor,
+            fontWeight: FontWeight.w300
+          ),
         ),
       ),
     );
