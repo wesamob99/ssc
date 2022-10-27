@@ -18,6 +18,7 @@ class HomeLoaderWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: height(0.01, context)),
         CardLoading(
           height: height(0.01, context),
           width: width(0.3, context),
@@ -32,14 +33,14 @@ class HomeLoaderWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CardLoading(
-                  height: height(0.08, context),
+                  height: height(0.075, context),
                   width: width(0.35, context),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   margin: const EdgeInsets.only(bottom: 10),
                   cardLoadingTheme: cardLoadingTheme,
                 ),
                 CardLoading(
-                  height: height(0.08, context),
+                  height: height(0.075, context),
                   width: width(0.35, context),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   margin: const EdgeInsets.only(bottom: 10),
@@ -72,7 +73,7 @@ class HomeLoaderWidget extends StatelessWidget {
         ),
         CardLoading(
           width: width(1, context),
-          height: width(0.14, context),
+          height: height(0.122, context),
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           margin: const EdgeInsets.only(bottom: 10),
           cardLoadingTheme: cardLoadingTheme,
@@ -81,14 +82,14 @@ class HomeLoaderWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CardLoading(
-              height: height(0.16, context),
+              height: height(0.18, context),
               width: width(0.75, context),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               margin: const EdgeInsets.only(bottom: 10),
               cardLoadingTheme: cardLoadingTheme,
             ),
             CardLoading(
-              height: height(0.16, context),
+              height: height(0.18, context),
               width: width(0.12, context),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               margin: const EdgeInsets.only(bottom: 10),
