@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +9,7 @@ import 'package:ssc/utilities/util.dart';
 import 'dart:math' as math;
 import '../../../../../infrastructure/userConfig.dart';
 import '../../../../../utilities/theme/themes.dart';
-import '../../../../viewModel/utilities/theme/themeProvider.dart';
+import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class AboutTheServiceScreen extends StatefulWidget {
   final String serviceTitle;

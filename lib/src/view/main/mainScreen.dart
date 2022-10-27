@@ -37,7 +37,6 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
   }
 
-  @override
   void didChangeAppLifecycleState(AppLifecycleState state) async{
     if(state == AppLifecycleState.resumed){
       UserConfig.instance.checkDataConnection();

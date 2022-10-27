@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../../utilities/hexColor.dart';
-import '../../../../utilities/util.dart';
-import '../insuranceBenifits/workInjuryComplaintScreen.dart';
+import '../../../../../utilities/hexColor.dart';
+import '../../../../../utilities/util.dart';
+import '../insuranceBenifits/screens/workInjuryComplaintScreen.dart';
 
 class MostVisitedBody extends StatefulWidget {
   const MostVisitedBody({Key key}) : super(key: key);

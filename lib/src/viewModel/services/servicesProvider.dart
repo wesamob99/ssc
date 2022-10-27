@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:ssc/src/model/services/servicesRepository.dart';
 
@@ -30,7 +31,9 @@ class ServicesProvider extends ChangeNotifier {
     final String response = await rootBundle.loadString('assets/jsonFiles/countries.json');
     countries = countriesFromJson(response);
     notifyListeners();
-    print(countries);
+    if (kDebugMode) {
+      print(countries);
+    }
   }
 
   void notifyMe() {

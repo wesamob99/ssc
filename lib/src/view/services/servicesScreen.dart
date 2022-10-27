@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
-import 'package:ssc/src/view/services/components/mostVisitedBody.dart';
+import 'package:ssc/src/view/services/shared/mostVisitedBody.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/util.dart';
 
 import '../../viewModel/utilities/theme/themeProvider.dart';
-import 'components/insuranceBody.dart';
+import 'insuranceBenifits/insuranceBody.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({Key key}) : super(key: key);

@@ -1,16 +1,18 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:provider/provider.dart';
-import 'package:ssc/src/view/services/components/shared/firstStepScreen.dart';
+import 'package:ssc/src/view/services/shared/firstStepScreen.dart';
 import 'package:ssc/src/viewModel/services/servicesProvider.dart';
 import 'package:ssc/utilities/util.dart';
 import 'dart:math' as math;
-import '../../../../infrastructure/userConfig.dart';
-import '../../../../utilities/hexColor.dart';
-import '../../../../utilities/theme/themes.dart';
-import '../../../viewModel/utilities/theme/themeProvider.dart';
+import '../../../../../infrastructure/userConfig.dart';
+import '../../../../../utilities/hexColor.dart';
+import '../../../../../utilities/theme/themes.dart';
+import '../../../../viewModel/utilities/theme/themeProvider.dart';
 
 class WorkInjuryComplaintScreen extends StatefulWidget {
   const WorkInjuryComplaintScreen({Key key}) : super(key: key);

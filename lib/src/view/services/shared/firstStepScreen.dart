@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +10,8 @@ import '../../../../../models/profile/userProfileData.dart';
 import '../../../../../utilities/countries.dart';
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/util.dart';
-import '../../../../viewModel/services/servicesProvider.dart';
-import '../../../../viewModel/utilities/theme/themeProvider.dart';
+import '../../../viewModel/services/servicesProvider.dart';
+import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class FirstStepScreen extends StatefulWidget {
   const FirstStepScreen({Key key}) : super(key: key);
