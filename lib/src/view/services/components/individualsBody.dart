@@ -1,10 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:ssc/src/view/services/components/shared/aboutTheServiceScreen.dart';
 
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
-import '../complaints/workInjuryComplaintScreen.dart';
 
 class IndividualsBody extends StatefulWidget {
   const IndividualsBody({Key key}) : super(key: key);
@@ -16,16 +16,17 @@ class IndividualsBody extends StatefulWidget {
 class _IndividualsBodyState extends State<IndividualsBody> {
 
   List mostVisitedServices = [
-    {"title": "retired", "subTitle": "requestRetiredLoan"},
-    {"title": "individuals", "subTitle": "unemploymentApplication"},
-    {"title": "maternity", "subTitle": "unemploymentApplication"},
+    {"title": "retired", "subTitle": "requestRetiredLoan", "description": "this supposed to be about the service description"},
+    {"title": "individuals", "subTitle": "unemploymentApplication", "description": "this supposed to be about the service description"},
+    {"title": "maternity", "subTitle": "unemploymentApplication", "description": "this supposed to be about the service description"},
+    {"title": "workInjuries", "subTitle": "report_a_sickness/work_injury_complaint", "description": "this supposed to be about the service description"},
   ];
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
-          itemCount: 3,
+          itemCount: mostVisitedServices.length,
           itemBuilder: (context, index){
             return Container(
               margin: EdgeInsets.only(bottom: height(0.02, context)),
@@ -35,7 +36,14 @@ class _IndividualsBodyState extends State<IndividualsBody> {
                   InkWell(
                     onTap: (){
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const WorkInjuryComplaintScreen())
+                        MaterialPageRoute(
+                          builder: (context) => AboutTheServiceScreen(
+                            serviceTitle: mostVisitedServices[index]['subTitle'],
+                            aboutServiceDescription: mostVisitedServices[index]['description'],
+                            termsOfTheService: const ['1', '2', '3'],
+                            stepsOfTheService: const ['11', '22', '33'],
+                          )
+                        ),
                       );
                     },
                     child: Container(
