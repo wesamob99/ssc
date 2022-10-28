@@ -22,7 +22,7 @@ class QuickAccessWidget extends StatelessWidget {
       {'icon': 'assets/icons/accountStatementIcon.svg', 'title': "accountStatement"},
     ];
     return SizedBox(
-      height: height(0.122, context),
+      height: height(0.12, context),
       child: ListView.builder(
           itemCount: quickAccessComponents.length,
           scrollDirection: Axis.horizontal,
@@ -34,36 +34,32 @@ class QuickAccessWidget extends StatelessWidget {
                   highlightColor: const Color.fromRGBO(68, 87, 64, 0.4),
                   child: Column(
                     children: [
-                      SizedBox(
-                        width: width(0.171, context),
-                        height: height(0.08, context),
-                        child: Card(
-                          elevation: 5.0,
-                          margin: const EdgeInsets.all(3.0),
-                          shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
-                          color: HexColor('#FFFFFF'),
-                          child: Padding(
-                            padding: EdgeInsets.all(width(0.03, context)),
-                            child: SvgPicture.asset(quickAccessComponents[index]['icon']),
-                          ),
+                      Card(
+                        elevation: 5.0,
+                        margin: const EdgeInsets.symmetric(vertical: 3.0),
+                        shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
+                        color: HexColor('#FFFFFF'),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: SvgPicture.asset(quickAccessComponents[index]['icon'], width: 32, height: 32,),
                         ),
                       ),
                       SizedBox(
-                        width: width(0.16, context),
+                        width: 64,
                         child: Text(
                           translate(quickAccessComponents[index]['title'], context),
                           textAlign: TextAlign.center,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: height(0.0115, context)
+                            fontSize: height(0.012, context),
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(width: width(index != quickAccessComponents.length-1 ? 0.015 : 0, context))
+                SizedBox(width: width(index != quickAccessComponents.length-1 ? 0.006 : 0, context))
               ],
             );
           }
