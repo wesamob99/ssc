@@ -130,6 +130,7 @@
   "optionalChoose": "Choose (optional)",
   "finished": "We finished !",
   "termsAndConditionsAndPoliciesAgreement1": "By registering, you agree to the",
+  "termsAndConditionsAndPoliciesAgreement11": "By continue, you agree to the",
   "termsAndConditionsAndPoliciesAgreement2": " terms and conditions ",
   "termsAndConditionsAndPoliciesAgreement3": "and usage policy ",
   "termsAndConditionsAndPoliciesAgreement4": "of the SSC app",
@@ -170,6 +171,8 @@
   "termsOfTheService": "Terms of use of the service",
   "stepsOfTheService": "Steps to apply for the service",
   "steps": "Steps",
-  "startNow": "Start now"
+  "startNow": "Start now",
+  "readMore": "Read more",
+  "readLess": "...Read less"
 
 }
