@@ -83,7 +83,7 @@ flutter:
     - assets/logo/
     - assets/icons/mainBottomNavigationIcons/
     - assets/icons/loginBottomNavigationIcons/
-    - assets/icons/sideBarIcons/
+    - assets/icons/servicesIcons/
     - assets/icons/
     - assets/jsonFiles/
 

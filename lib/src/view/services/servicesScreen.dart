@@ -21,17 +21,17 @@ class ServicesScreen extends StatefulWidget {
 class _ServicesScreenState extends State<ServicesScreen> {
 
   List sideBarItems = [
-    {"icon": "assets/icons/sideBarIcons/mostVisited.svg",
+    {"icon": "assets/icons/servicesIcons/mostVisited.svg",
     "title": "suggestedServices"},
-    {"icon": "assets/icons/sideBarIcons/retiredServices.svg",
+    {"icon": "assets/icons/servicesIcons/retiredServices.svg",
     "title": "retirementServices"},
-    {"icon": "assets/icons/sideBarIcons/individualsServices.svg",
+    {"icon": "assets/icons/servicesIcons/insuranceBenefits.svg",
     "title": "insuranceBenefits"},
-    {"icon": "assets/icons/sideBarIcons/maternityServices.svg",
+    {"icon": "assets/icons/servicesIcons/maternityServices.svg",
     "title": "maternityServices"},
-    {"icon": "assets/icons/sideBarIcons/financeServices.svg",
+    {"icon": "assets/icons/servicesIcons/financeServices.svg",
     "title": "financeServices"},
-    {"icon": "assets/icons/sideBarIcons/otherServices.svg",
+    {"icon": "assets/icons/servicesIcons/otherServices.svg",
     "title": "otherServices"},
   ];
 
@@ -50,6 +50,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
             width: width(0.69, context),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10),
@@ -120,9 +121,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
                       SvgPicture.asset(sideBarItems[index]['icon'],
                           color: index == selectedIndex
                               ? themeNotifier.isLight()
-                              ? HexColor('#171717') : HexColor('#8A8A8A')
+                              ? HexColor('#946800') : HexColor('#8A8A8A')
                               : themeNotifier.isLight()
-                          ? HexColor('#A1A1A1') : HexColor('#ffffff')
+                          ? HexColor('#716F6F') : HexColor('#ffffff')
                       ),
                       SizedBox(height: height(0.006, context),),
                       Text(
@@ -130,10 +131,11 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         style: TextStyle(
                         color: index == selectedIndex
                             ? themeNotifier.isLight()
-                            ? HexColor('#171717') : HexColor('#8A8A8A')
+                            ? HexColor('#946800') : HexColor('#8A8A8A')
                             : themeNotifier.isLight()
-                            ? HexColor('#A1A1A1') : HexColor('#ffffff'),
-                        fontSize: width(0.03, context)
+                            ? HexColor('#716F6F') : HexColor('#ffffff'),
+                        fontSize: width(0.03, context),
+                        fontWeight: index == selectedIndex ? FontWeight.w600 : FontWeight.w100,
                         ),
                       )
                     ],
