@@ -41,7 +41,7 @@ class QuickAccessWidget extends StatelessWidget {
                         color: HexColor('#FFFFFF'),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: SvgPicture.asset(quickAccessComponents[index]['icon'], width: 32, height: 32,),
+                          child: SvgPicture.asset(quickAccessComponents[index]['icon'], width: 32, height: 32, color: HexColor('#946800'),),
                         ),
                       ),
                       SizedBox(
