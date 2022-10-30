@@ -32,6 +32,7 @@ class HomeChartWidget extends StatelessWidget {
       height: height(0.22, context),
       child: Center(
           child: SfCartesianChart(
+            plotAreaBackgroundColor: Colors.white,
             margin: const EdgeInsets.only(top: 14),
             primaryXAxis: CategoryAxis(),
             legend: Legend(isVisible: false),
