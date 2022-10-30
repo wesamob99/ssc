@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:readmore/readmore.dart';
 import 'package:ssc/src/viewModel/services/servicesProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/util.dart';
@@ -35,7 +36,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
   getTextStyle(context, isColored){
     return TextStyle(
         color: isColored ? HexColor('#003C97') : HexColor('#595959'),
-        fontSize: width(0.03, context)
+        fontSize: height(0.014, context)
     );
   }
 
@@ -86,7 +87,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(bottom: height(0.01, context)),
+                      padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
                         translate('aboutTheService', context),
                         style: const TextStyle(
@@ -94,13 +95,26 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                         ),
                       ),
                     ),
-                    Text(
+                    ReadMoreText(
                       widget.aboutServiceDescription,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w100,
-                          height: 1.3
+                      trimLines: 5,
+                      colorClickableText: HexColor('#003C97'),
+                      trimMode: TrimMode.Line,
+                      trimCollapsedText: translate('readMore', context),
+                      trimExpandedText: translate('readLess', context),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w100,
+                        height: 1.3,
+                        color: HexColor('#363636'),
                       ),
                     ),
+                    // Text(
+                    //   widget.aboutServiceDescription,
+                    //   style: const TextStyle(
+                    //       fontWeight: FontWeight.w100,
+                    //       height: 1.3
+                    //   ),
+                    // ),
                     Divider(
                       indent: width(0.09, context),
                       endIndent: width(0.09, context),
@@ -109,7 +123,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                       height: height(0.04, context),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(bottom: height(0.01, context)),
+                      padding: const EdgeInsets.only(bottom: 15),
                       child: Text(
                         translate('termsOfTheService', context),
                         style: const TextStyle(
@@ -118,7 +132,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: height(0.058, context) * widget.termsOfTheService.length,
+                      height: height(0.06, context) * widget.termsOfTheService.length,
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                           itemCount: widget.termsOfTheService.length,
@@ -132,11 +146,14 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                   color: HexColor('#FFFFFF'),
                                   child: Padding(
                                     padding: EdgeInsets.all(width(0.03, context)),
-                                    child: SvgPicture.asset('assets/icons/reportAnAccidentIcon.svg'),
+                                    child: SvgPicture.asset('assets/icons/quickAccessIcons/reportAnAccidentIcon.svg'),
                                   ),
                                 ),
                                 SizedBox(width: width(0.03, context),),
-                                Text(translate(widget.termsOfTheService[index], context))
+                                SizedBox(
+                                  width: width(0.74, context),
+                                  child: Text(widget.termsOfTheService[index]),
+                                )
                               ],
                             );
                           }
@@ -150,7 +167,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                       height: height(0.04, context),
                     ),
                     Padding(
-                        padding: EdgeInsets.only(bottom: height(0.01, context)),
+                        padding: const EdgeInsets.only(bottom: 15),
                         child: Row(
                           children: [
                             Text(
@@ -176,7 +193,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                           itemCount: widget.stepsOfTheService.length,
                           itemBuilder: (context, index){
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
+                              padding: const EdgeInsets.only(bottom: 15.0),
                               child: Text(
                                 '${index + 1}- ${widget.stepsOfTheService[index]}',
                               ),
@@ -225,7 +242,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(translate('termsAndConditionsAndPoliciesAgreement1', context), style: getTextStyle(context, false),),
+                              Text(translate('termsAndConditionsAndPoliciesAgreement11', context), style: getTextStyle(context, false),),
                               Text(translate('termsAndConditionsAndPoliciesAgreement2', context), style: getTextStyle(context, true)),
                             ],
                           ),

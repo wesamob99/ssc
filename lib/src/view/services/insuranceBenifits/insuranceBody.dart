@@ -39,9 +39,18 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                         MaterialPageRoute(
                           builder: (context) => AboutTheServiceScreen(
                             serviceTitle: mostVisitedServices[index]['subTitle'],
-                            aboutServiceDescription: mostVisitedServices[index]['description'],
-                            termsOfTheService: const ['hello', 'hello', 'hello', 'hello', 'hello'],
-                            stepsOfTheService: const ['1text', '2text2', '3text3'],
+                            aboutServiceDescription: ' بدلات التعطل عن العمل التي تقوم بصرفها والتي تخص المؤمن عليهم المشتركين بالضمان والعاملين في منشآت القطاع الخاص ممن يتعطّلون مؤقتاً عن العمل هي مبالغ غير مستردّة ولا يطالب المؤمن عليهم بإعادتها إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات دون وجه حق إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات',//mostVisitedServices[index]['description'],
+                            termsOfTheService: const [
+                              'موظفي القطاع الخاص',
+                              'موظف موقوف عن العمل',
+                              'لديك 36 اشتراك او رصيد اكثر من 300 د.ا',
+                              'ان تكون قد استفدت من بدل التعطل ثلاث مرات او اقل خلال فتره الشمول',
+                            ],
+                            stepsOfTheService: const [
+                              'التأكد من المعلومات الشخصية لمقدم الخدمة',
+                              'تعبئة طلب الخدمة',
+                              'تقديم الطلب'
+                            ],
                           )
                         ),
                       );
