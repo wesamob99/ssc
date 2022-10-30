@@ -153,7 +153,6 @@ class _LoginBodyState extends State<LoginBody> {
                               buildTextFormField(themeNotifier, loginProvider,  loginProvider.nationalIdController, TextInputType.number),
                             ],
                           ),
-                          // if(!forgotPassword)
                           SizedBox(height: height(0.025, context)),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,18 +164,12 @@ class _LoginBodyState extends State<LoginBody> {
                               buildTextFormField(themeNotifier, loginProvider,  loginProvider.passwordController, TextInputType.visiblePassword),
                             ],
                           ),
-                          // if(!forgotPassword)
                           SizedBox(height: height(0.015, context)),
                           InkWell(
                             onTap: (){
-                              // setState(() {
-                              //   forgotPassword = true;
-                              //   loginProvider.showBottomNavigationBar = false;
-                              //   loginProvider.nationalIdController.clear();
-                              //   loginProvider.passwordController.clear();
-                              //   loginProvider.enabledSubmitButton = false;
-                              //   loginProvider.notifyMe();
-                              // });
+                              loginProvider.passwordController.clear();
+                              loginProvider.nationalIdController.clear();
+                              loginProvider.notifyMe();
                               Navigator.of(context).push(
                                 MaterialPageRoute(builder: (context)=> const ForgotPasswordScreen()),
                               );

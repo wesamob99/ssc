@@ -32,23 +32,23 @@ class _LoginScreenState extends State<LoginScreen> {
     UserConfig.instance.checkDataConnection();
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     /// login
-    loginProvider.passwordController.clear();
+    // loginProvider.passwordController.clear();
     loginProvider.numberOfAttempts = 0;
-    loginProvider.nationalIdController.clear();
+    // loginProvider.nationalIdController.clear();
     loginProvider.enabledSubmitButton = false;
     /// forgot password
     loginProvider.enabledSendCodeButton = false;
-    loginProvider.nationalIdController.clear();
+    // loginProvider.nationalIdController.clear();
     loginProvider.enabledSubmitButton = false;
     /// register
     loginProvider.registerData = RegisterData();
-    loginProvider.mobileNumberController.clear();
-    loginProvider.registerNationalIdController.clear();
-    loginProvider.civilIdNumberController.clear();
-    loginProvider.relativeNatIdController.clear();
-    loginProvider.emailController.clear();
-    loginProvider.registerPasswordController.clear();
-    loginProvider.registerConfirmPasswordController.clear();
+    // loginProvider.mobileNumberController.clear();
+    // loginProvider.registerNationalIdController.clear();
+    // loginProvider.civilIdNumberController.clear();
+    // loginProvider.relativeNatIdController.clear();
+    // loginProvider.emailController.clear();
+    // loginProvider.registerPasswordController.clear();
+    // loginProvider.registerConfirmPasswordController.clear();
     loginProvider.registerContinueEnabled = false;
     loginProvider.thirdStepSelection = ['choose', 'optionalChoose'];
     /// all

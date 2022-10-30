@@ -46,13 +46,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     ///login
-    loginProvider.passwordController.clear();
     loginProvider.numberOfAttempts = 0;
-    loginProvider.nationalIdController.clear();
     loginProvider.enabledSubmitButton = false;
     /// forgot password
     loginProvider.enabledSendCodeButton = false;
-    loginProvider.nationalIdController.clear();
     loginProvider.enabledSubmitButton = false;
     showResetPasswordBody = false;
     /// all
