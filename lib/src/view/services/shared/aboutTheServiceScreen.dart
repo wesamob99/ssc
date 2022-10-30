@@ -145,7 +145,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                   shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
                                   color: HexColor('#FFFFFF'),
                                   child: Padding(
-                                    padding: EdgeInsets.all(width(0.03, context)),
+                                    padding: EdgeInsets.all(width(0.025, context)),
                                     child: SvgPicture.asset('assets/icons/quickAccessIcons/reportAnAccidentIcon.svg'),
                                   ),
                                 ),
