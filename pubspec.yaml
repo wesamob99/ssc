@@ -85,6 +85,7 @@ flutter:
     - assets/icons/loginBottomNavigationIcons/
     - assets/icons/servicesIcons/
     - assets/icons/
+    - assets/icons/quickAccessIcons/
     - assets/jsonFiles/
 
 #flutter_native_splash:

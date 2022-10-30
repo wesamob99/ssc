@@ -12,14 +12,14 @@ class QuickAccessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List quickAccessComponents = [
-      {'icon': 'assets/icons/unemploymentIcon.svg', 'title': "unemploymentApplication"},
-      {'icon': 'assets/icons/onePaymentIcon.svg', 'title': "onePayment"},
-      {'icon': 'assets/icons/reportAnAccidentIcon.svg', 'title': "ReportAnAccident"},
-      {'icon': 'assets/icons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription" },
-      {'icon': 'assets/icons/accountStatementIcon.svg', 'title': "accountStatement"},
-      {'icon': 'assets/icons/unemploymentIcon.svg', 'title': "unemploymentApplication"},
-      {'icon': 'assets/icons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription"},
-      {'icon': 'assets/icons/accountStatementIcon.svg', 'title': "accountStatement"},
+      {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication"},
+      {'icon': 'assets/icons/quickAccessIcons/onePaymentIcon.svg', 'title': "onePayment"},
+      {'icon': 'assets/icons/quickAccessIcons/reportAnAccidentIcon.svg', 'title': "ReportAnAccident"},
+      {'icon': 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription" },
+      {'icon': 'assets/icons/quickAccessIcons/accountStatementIcon.svg', 'title': "accountStatement"},
+      {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication"},
+      {'icon': 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription"},
+      {'icon': 'assets/icons/quickAccessIcons/accountStatementIcon.svg', 'title': "accountStatement"},
     ];
     return SizedBox(
       height: height(0.12, context),
@@ -41,7 +41,7 @@ class QuickAccessWidget extends StatelessWidget {
                         color: HexColor('#FFFFFF'),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: SvgPicture.asset(quickAccessComponents[index]['icon'], width: 32, height: 32, color: HexColor('#946800'),),
+                          child: SvgPicture.asset(quickAccessComponents[index]['icon'], width: 32, height: 32),
                         ),
                       ),
                       SizedBox(
