@@ -23,7 +23,7 @@ dynamic httpErrorMessage(dynamic responseData) {
 }
 
 ///***************************************************************************
-///Current URL : ***> [Development] <***
+///Current URL : ***> [Staging] <***
 ///***************************************************************************
 /// [Development]: http://172.16.3.40:8081/api
 /// [Staging]: https://mfiles.ssc.gov.jo:6018/eservicestg/api
@@ -31,7 +31,7 @@ dynamic httpErrorMessage(dynamic responseData) {
 ///***************************************************************************
 
 class HTTPClientContract {
-  static const String BASE_URL = 'http://172.16.3.40:8081/api';
+  static const String BASE_URL = 'https://mfiles.ssc.gov.jo:6018/eservicestg/api';
   static final _dio = _createDio();
   static const int _MAX_RETRY = 7;
   static const ResponseType _DEFAULT_RESPONSE_TYPE = ResponseType.plain;
