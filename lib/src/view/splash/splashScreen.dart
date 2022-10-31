@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Widget screen = const LoginScreen();
       if(UserSecuredStorage.instance.token.isNotEmpty &&
           UserSecuredStorage.instance.nationalId.isNotEmpty &&
-          result.success != false
+          (result != null && result.success != false)
       ){
         screen = const MainScreen();
       } else{
