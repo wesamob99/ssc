@@ -210,7 +210,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: height(0.02, context),
+                      height: height(0.18, context),
                     ),
                   ],
                 ),
