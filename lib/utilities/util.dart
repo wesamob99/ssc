@@ -339,6 +339,7 @@ animatedLoader(context){
   child: Container(
       width: width(0.4, context),
       height: width(0.4, context),
+      padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(25.0)
