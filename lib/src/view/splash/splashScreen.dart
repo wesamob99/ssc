@@ -35,9 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     InternetConnectionStatus connection = await InternetConnectionChecker().connectionStatus;
     UserInformation result;
-    if (!mounted) {
-      result = await Provider.of<HomeProvider>(context, listen: false).getStatistics();
-    }
+    result = await Provider.of<HomeProvider>(context, listen: false).getStatistics();
     if(InternetConnectionStatus.connected == connection){
       Widget screen = const LoginScreen();
       if(UserSecuredStorage.instance.token.isNotEmpty &&
