@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(translate('pastYearsPays', context)),
                           HomeChartWidget(data: userInformation),
                           SizedBox(
-                            height: height(Provider.of<HomeProvider>(context).showFloatingButton ? 0.075 : 0.0, context),
+                            height: height(Provider.of<HomeProvider>(context).showFloatingButton ? 0.1 : 0.0, context),
                           ),
                         ],
                       );
