@@ -85,7 +85,7 @@ class AppTheme {
           //     : GoogleFonts.tajawal(),
       ),
       fontFamily: UserConfig.instance.checkLanguage() ? 'Noor' : 'Noor',
-      scaffoldBackgroundColor: const Color.fromRGBO(253, 253, 253, 1.0),
+      scaffoldBackgroundColor: const Color.fromRGBO(250, 250, 250, 1.0),
       backgroundColor: HexColor('#ffffff'),
       highlightColor: primaryColor,
       textTheme: textTheme('light'),
