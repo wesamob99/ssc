@@ -11,6 +11,10 @@ class QuickAccessWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    ///TODO: ISsTablet
+    bool isTablet = false;
+
     List quickAccessComponents = [
       {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication"},
       {'icon': 'assets/icons/quickAccessIcons/onePaymentIcon.svg', 'title': "onePayment"},
@@ -41,7 +45,11 @@ class QuickAccessWidget extends StatelessWidget {
                         color: HexColor('#FFFFFF'),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: SvgPicture.asset(quickAccessComponents[index]['icon'], width: 32, height: 32),
+                          child: SvgPicture.asset(
+                            quickAccessComponents[index]['icon'],
+                            width: isTablet ? 54 : 32,
+                            height: isTablet ? 54 : 32,
+                          ),
                         ),
                       ),
                       SizedBox(
