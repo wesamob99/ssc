@@ -28,26 +28,28 @@ class HomeChartWidget extends StatelessWidget {
     });
     }
 
-    return SizedBox(
-      height: height(0.22, context),
-      child: Center(
-          child: SfCartesianChart(
-            plotAreaBackgroundColor: Colors.white,
-            margin: const EdgeInsets.only(top: 14),
-            primaryXAxis: CategoryAxis(),
-            legend: Legend(isVisible: false),
-            tooltipBehavior: tooltipBehavior,
-            series: <LineSeries<SalaryData, String>>[
-              LineSeries<SalaryData, String>(
-                name: translate('salary', context),
-                dataSource: dataSource,
-                xValueMapper: (SalaryData sales, _) => sales.year,
-                yValueMapper: (SalaryData sales, _) => sales.salary,
-                pointColorMapper: (SalaryData sales, _) => getPrimaryColor(context, themeNotifier),
-                dataLabelSettings: const DataLabelSettings(isVisible: true)
-              )
-            ],
-          )
+    return Card(
+      child: Container(
+        height: height(0.22, context),
+        padding: const EdgeInsets.all(5.0).copyWith(right: 10.0),
+        child: Center(
+            child: SfCartesianChart(
+              margin: const EdgeInsets.only(top: 14),
+              primaryXAxis: CategoryAxis(isVisible: true),
+              legend: Legend(isVisible: false),
+              tooltipBehavior: tooltipBehavior,
+              series: <LineSeries<SalaryData, String>>[
+                LineSeries<SalaryData, String>(
+                  name: translate('salary', context),
+                  dataSource: dataSource,
+                  xValueMapper: (SalaryData sales, _) => sales.year,
+                  yValueMapper: (SalaryData sales, _) => sales.salary,
+                  pointColorMapper: (SalaryData sales, _) => getPrimaryColor(context, themeNotifier),
+                  dataLabelSettings: const DataLabelSettings(isVisible: true)
+                )
+              ],
+            )
+        ),
       ),
     );
   }
