@@ -111,7 +111,7 @@ class UserSecuredStorage {
   }
 
   String get userNameAr {
-    _userNameEn = _box.get('userNameAr') ?? "";
+    _userNameAr = _box.get('userNameAr') ?? "";
     return _userNameAr;
   }
 
