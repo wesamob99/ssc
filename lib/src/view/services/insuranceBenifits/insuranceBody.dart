@@ -15,6 +15,8 @@ class InsuranceBody extends StatefulWidget {
 
 class _InsuranceBodyState extends State<InsuranceBody> {
 
+  ///TODO: ISTablet
+  bool isTablet = false;
   List mostVisitedServices = [
     {"title": "retired", "subTitle": "requestRetiredLoan", "description": "this supposed to be about the service description"},
     {"title": "individuals", "subTitle": "unemploymentApplication", "description": "this supposed to be about the service description"},
@@ -64,14 +66,14 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                           Text(
                             translate(mostVisitedServices[index]['title'], context),
                             style: TextStyle(
-                                fontSize: width(0.035, context)
+                                fontSize: width(isTablet ? 0.03 : 0.035, context)
                             ),
                           ),
                           SizedBox(height: height(0.006, context)),
                           Text(
                             translate(mostVisitedServices[index]['subTitle'], context),
                             style: TextStyle(
-                                fontSize: width(0.03, context)
+                                fontSize: width(isTablet ? 0.025 : 0.03, context)
                             ),
                           ),
                         ],
