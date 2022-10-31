@@ -27,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+/// TODO: reDesign app language change in login screen
   Future statisticsFuture;
   Future amountToBePaidFuture;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();

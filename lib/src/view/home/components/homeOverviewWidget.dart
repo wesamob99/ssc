@@ -36,7 +36,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                   children: [
                     Flexible(
                       child: Material(
-                        elevation: 0.7,
+                        elevation: 1.3,
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
                           width: width(0.35, context),
@@ -67,7 +67,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                     ),
                     Flexible(
                       child: Material(
-                        elevation: 0.7,
+                        elevation: 1.3,
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
                           width: width(0.35, context),
@@ -115,7 +115,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
               ),
               Expanded(
                 child: Material(
-                  elevation: 0.7,
+                  elevation: 1.3,
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
                     decoration: BoxDecoration(
@@ -218,7 +218,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
             children: [
               Expanded(
                 child: Material(
-                  elevation: 0.7,
+                  elevation: 1.3,
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
                     decoration: BoxDecoration(
@@ -238,6 +238,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             translate('number_of_contributions_to_retirement', context),
                             style: TextStyle(fontSize: width(0.031, context)),
                           ),
+                          SizedBox(height: height(0.01, context),),
                           SizedBox(
                             width: width(1, context),
                             child: Column(
