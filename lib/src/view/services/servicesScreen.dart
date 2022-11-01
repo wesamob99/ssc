@@ -24,18 +24,13 @@ class _ServicesScreenState extends State<ServicesScreen> {
   bool isTablet = false;
 
   List sideBarItems = [
-    {"icon": "assets/icons/servicesIcons/mostVisited.svg",
-    "title": "suggestedServices"},
-    {"icon": "assets/icons/servicesIcons/retiredServices.svg",
-    "title": "retirementServices"},
-    {"icon": "assets/icons/servicesIcons/insuranceBenefits.svg",
-    "title": "insuranceBenefits"},
-    {"icon": "assets/icons/servicesIcons/maternityServices.svg",
-    "title": "maternityServices"},
-    {"icon": "assets/icons/servicesIcons/financeServices.svg",
-    "title": "financeServices"},
-    {"icon": "assets/icons/servicesIcons/otherServices.svg",
-    "title": "otherServices"},
+    {"icon": "assets/icons/servicesIcons/mostVisited.svg", "title": "mostVisitedServices"},
+    {"icon": "assets/icons/servicesIcons/retiredServices.svg", "title": "retirementServices"},
+    {"icon": "assets/icons/servicesIcons/optionalAndFreeInclusionServices.svg", "title": "optionalAndFreeInclusionServices"},
+    {"icon": "assets/icons/servicesIcons/financeServices.svg", "title": "financeServices"},
+    {"icon": "assets/icons/servicesIcons/maternityServices.svg", "title": "maternityServices"},
+    {"icon": "assets/icons/servicesIcons/insuranceBenefits.svg", "title": "insuranceBenefits"},
+    {"icon": "assets/icons/servicesIcons/otherServices.svg", "title": "otherServices"},
   ];
 
   int selectedIndex = 0;
@@ -101,8 +96,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
         ),
         width: width(0.31, context),
         child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 6,
+            // physics: const NeverScrollableScrollPhysics(),
+            itemCount: sideBarItems.length,
             itemBuilder: (context, index){
               return InkWell(
                 onTap: (){
@@ -132,6 +127,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                       SizedBox(height: height(0.006, context),),
                       Text(
                         translate(sideBarItems[index]['title'], context),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                         color: index == selectedIndex
                             ? themeNotifier.isLight()
