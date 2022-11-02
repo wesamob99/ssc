@@ -25,31 +25,31 @@ class HomeChartWidget extends StatelessWidget {
     });
     }
 
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Container(
-        height: height(0.22, context),
-        padding: const EdgeInsets.all(5.0).copyWith(right: 10.0),
-        child: Center(
-            child: SfCartesianChart(
-              margin: const EdgeInsets.only(top: 14),
-              primaryXAxis: CategoryAxis(isVisible: true),
-              legend: Legend(isVisible: false),
-              tooltipBehavior: tooltipBehavior,
-              series: <LineSeries<SalaryData, String>>[
-                LineSeries<SalaryData, String>(
-                  name: translate('salary', context),
-                  dataSource: dataSource,
-                  xValueMapper: (SalaryData sales, _) => sales.year,
-                  yValueMapper: (SalaryData sales, _) => sales.salary,
-                  pointColorMapper: (SalaryData sales, _) => HexColor('#946800'),
-                  dataLabelSettings: const DataLabelSettings(isVisible: true)
-                )
-              ],
-            )
-        ),
+
+    // wrap with Card and add
+    // shape: RoundedRectangleBorder(
+    //   borderRadius: BorderRadius.circular(8.0),
+    // ),
+    return Container(
+      height: height(0.22, context),
+      padding: const EdgeInsets.all(5.0).copyWith(right: 10.0),
+      child: Center(
+          child: SfCartesianChart(
+            margin: const EdgeInsets.only(top: 14),
+            primaryXAxis: CategoryAxis(isVisible: true),
+            legend: Legend(isVisible: false),
+            tooltipBehavior: tooltipBehavior,
+            series: <LineSeries<SalaryData, String>>[
+              LineSeries<SalaryData, String>(
+                name: translate('salary', context),
+                dataSource: dataSource,
+                xValueMapper: (SalaryData sales, _) => sales.year,
+                yValueMapper: (SalaryData sales, _) => sales.salary,
+                pointColorMapper: (SalaryData sales, _) => HexColor('#946800'),
+                dataLabelSettings: const DataLabelSettings(isVisible: true)
+              )
+            ],
+          )
       ),
     );
   }
