@@ -39,7 +39,7 @@ class HomeSlideShowWidget extends StatelessWidget {
     }
 
     return SizedBox(
-      height: height(.18, context),
+      height: height(isTablet(context) ? 0.2 : 0.18, context),
       child: ListView.builder(
         itemCount: ads.length,
         scrollDirection: Axis.horizontal,

@@ -228,8 +228,8 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                     ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: width(0.03, context),
-                        vertical: width(0.01, context),
+                        horizontal: width(0.02, context),
+                        vertical: width(0.014, context),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,7 +239,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             translate('number_of_contributions_to_retirement', context),
                             style: TextStyle(fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
                           ),
-                          SizedBox(height: height(0.01, context),),
+                          SizedBox(height: height(0.005, context),),
                           SizedBox(
                             width: width(1, context),
                             child: Column(
@@ -247,7 +247,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  '300/40',
+                                  '300/${data.poMonthsCount.toString()}',
                                   style: TextStyle(
                                       fontSize: width(0.03, context)),
                                 ),
@@ -257,7 +257,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                   padding: const EdgeInsets.all(5),
                                   child: AirLinearStateProgressIndicator(
                                     size: const Size(0, 0),
-                                    value: 40,
+                                    value: double.parse(data.poMonthsCount.toString()) / (300 / 100), // 300 is the currently fixed total number of subscriptions ///TODO : change it
                                     valueColor: HexColor('#2D452E'),
                                     pathColor: HexColor('#EAEAEA'),
                                     pathStrokeWidth: height(0.008, context),
