@@ -27,45 +27,46 @@ class _MostVisitedBodyState extends State<MostVisitedBody> {
       child: ListView.builder(
         itemCount: 3,
         itemBuilder: (context, index){
-          return Container(
-            margin: EdgeInsets.only(bottom: height(0.02, context)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: (){
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const WorkInjuryComplaintScreen())
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    width: width(1, context),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          translate(mostVisitedServices[index]['title'], context),
-                          style: TextStyle(
-                            fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
-                          ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: (){
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const WorkInjuryComplaintScreen())
+                  );
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(right: 20),
+                  width: width(1, context),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        translate(mostVisitedServices[index]['title'], context),
+                        style: TextStyle(
+                          fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
                         ),
-                        SizedBox(height: height(0.006, context)),
-                        Text(
-                          translate(mostVisitedServices[index]['subTitle'], context),
-                          style: TextStyle(
-                            fontSize: width(isTablet(context) ? 0.025 :0.03, context)
-                          ),
+                      ),
+                      SizedBox(height: height(0.006, context)),
+                      Text(
+                        translate(mostVisitedServices[index]['subTitle'], context),
+                        style: TextStyle(
+                          fontSize: width(isTablet(context) ? 0.025 :0.03, context)
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                Divider(
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                child: Divider(
                   color: HexColor('#DEDEDE'),
+                  thickness: 1,
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         }
       ),
