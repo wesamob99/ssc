@@ -40,6 +40,9 @@ class QuickAccessWidget extends StatelessWidget {
                     children: [
                       Card(
                         elevation: 5.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6.0),
+                        ),
                         margin: EdgeInsets.symmetric(vertical: 3.0, horizontal: isTablet ? 5.0 : 0),
                         shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
                         color: HexColor('#FFFFFF'),

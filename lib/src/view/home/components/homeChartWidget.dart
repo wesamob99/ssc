@@ -29,6 +29,9 @@ class HomeChartWidget extends StatelessWidget {
     }
 
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
       child: Container(
         height: height(0.22, context),
         padding: const EdgeInsets.all(5.0).copyWith(right: 10.0),
