@@ -57,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
       });
     });
 
-    showBiometricLoginSuggestion(themeNotifier, supportState, _authenticate());
+    showBiometricLoginSuggestion(themeNotifier, supportState);
     super.initState();
   }
 
@@ -92,12 +92,12 @@ class _MainScreenState extends State<MainScreen> {
     setState(() => authorized = authenticated ? "Authorized" : "Not authorized");
   }
 
-  showBiometricLoginSuggestion(themeNotifier, _SupportState supportState, void authenticate){
+  showBiometricLoginSuggestion(themeNotifier, _SupportState supportState){
     prefs.then((value) {
       firstLogin = value.getString(Constants.FIRST_LOGIN) ?? 'true';
       if(firstLogin == 'true') {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          modalBottomSheet(context, themeNotifier, supportState, authenticate);
+          modalBottomSheet(context, themeNotifier, supportState, _authenticate());
         });
         value.setString(Constants.FIRST_LOGIN, 'false');
       }
