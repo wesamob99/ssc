@@ -48,7 +48,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 15),
                   decoration: BoxDecoration(
                     color: themeNotifier.isLight()
                       ? HexColor('#F0F2F0') : HexColor('#454545'),
@@ -58,7 +58,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     translate(sideBarItems[selectedIndex]['title'], context),
                     style: TextStyle(
                       color: HexColor('#2D452E'),
-                      fontSize: width(0.035, context)
+                      fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
                     ),
                   ),
                 ),
@@ -103,6 +103,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   });
                 },
                 child: AnimatedContainer(
+                  padding: EdgeInsets.symmetric(horizontal: isTablet(context) ? 10.0 : 5.0),
                   duration: const Duration(milliseconds: 300),
                   height: height(0.1, context),
                   color: index == selectedIndex

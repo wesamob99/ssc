@@ -95,7 +95,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                     ),
                     ReadMoreText(
                       widget.aboutServiceDescription,
-                      trimLines: 3,
+                      trimLines: isTablet(context) ? 5 : 3,
                       colorClickableText: HexColor('#003C97'),
                       trimMode: TrimMode.Line,
                       trimCollapsedText: translate('readMore', context),

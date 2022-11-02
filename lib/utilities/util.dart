@@ -47,6 +47,10 @@ bool isTablet(context){
   return width(1, context) > 600;
 }
 
+bool isScreenSizeSmall(context){
+  return width(1, context) < 400;
+}
+
 bool checkTextLanguage(String text) {
   List<String> items = [
     'a',

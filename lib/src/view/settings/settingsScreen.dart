@@ -82,7 +82,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: width(0.036, context)
+                            fontSize: width(isTablet(context) ? 0.031 : 0.036, context)
                         ),
                       ),
                     ],
@@ -168,7 +168,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: width(0.036, context)
+                            fontSize: width(isTablet(context) ? 0.031 : 0.036, context)
                         ),
                       ),
                     ],

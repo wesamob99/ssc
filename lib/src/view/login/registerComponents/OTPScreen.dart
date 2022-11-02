@@ -288,8 +288,8 @@ class _OTPScreenState extends State<OTPScreen> {
     Color borderColor = HexColor('#979797');
 
     final defaultPinTheme = PinTheme(
-      width: width(0.14, context),
-      height: width(0.14, context),
+      width: width(isTablet(context) ? 0.11 : 0.14, context),
+      height: width(isTablet(context) ? 0.11 : 0.14, context),
       textStyle: TextStyle(
         fontSize: width(0.08, context),
         color: getPrimaryColor(context, themeNotifier),
