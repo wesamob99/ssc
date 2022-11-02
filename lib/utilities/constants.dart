@@ -2,6 +2,7 @@
 
 class Constants {
   static const String APP_THEME = "Theme";
+  static const String FIRST_LOGIN = "FirstLogIn";
   static const String DARK = "Dark";
   static const String LIGHT = "Light";
   static const String SYSTEM_DEFAULT = "System default";

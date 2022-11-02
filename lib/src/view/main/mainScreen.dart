@@ -1,15 +1,19 @@
 // ignore_for_file: file_names
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/home/homeScreen.dart';
 import 'package:ssc/src/view/settings/settingsScreen.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../../infrastructure/userConfig.dart';
+import '../../../utilities/constants.dart';
 import '../../../utilities/hexColor.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
@@ -26,15 +30,34 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
 
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   final PageController _pageController = PageController(initialPage: 0);
   int pageIndex = 0;
   List<String> pageTitle = ['services', 'home', 'pastOrders', 'settings'];
+  String firstLogin = 'true';
 
 
   @override
   void initState() {
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     UserConfig.instance.checkDataConnection();
+    showBiometricLoginSuggestion(themeNotifier);
     super.initState();
+  }
+
+  showBiometricLoginSuggestion(themeNotifier){
+    prefs.then((value) {
+      firstLogin = value.getString(Constants.FIRST_LOGIN) ?? 'true';
+      if(firstLogin == 'true') {
+        if (kDebugMode) {
+          print('firstLogin: is true');
+        }
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+          modalBottomSheet(context, themeNotifier);
+        });
+        value.setString(Constants.FIRST_LOGIN, 'false');
+      }
+    });
   }
 
   void didChangeAppLifecycleState(AppLifecycleState state) async{
@@ -52,10 +75,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-    ///TODO: remove modalBottomSheet comment from mainScreen.dart
-    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-    //   modalBottomSheet(context, themeNotifier);
-    // });
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 5,

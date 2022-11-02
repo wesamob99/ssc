@@ -35,6 +35,12 @@ void main() async{
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   prefs.then((value){
     value.setBool('amountToBePaid', true);
+    String firstTimeLogin = value.getString(Constants.FIRST_LOGIN);
+    if (firstTimeLogin == "false") {
+      value.setString(Constants.FIRST_LOGIN, 'false');
+    }else{
+      value.setString(Constants.FIRST_LOGIN, 'true');
+    }
     runApp(
       Phoenix(
         child: MultiProvider(

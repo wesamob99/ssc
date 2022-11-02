@@ -446,7 +446,6 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
 }
 
 
-///TODO: remove modalBottomSheet comment from mainScreen.dart
 modalBottomSheet(context, themeNotifier){
   return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
