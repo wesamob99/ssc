@@ -44,11 +44,11 @@ class HomeSlideShowWidget extends StatelessWidget {
         itemCount: ads.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index){
-          return InkWell(
-            onTap: (){},
-            child: Row(
-              children: [
-                Container(
+          return Row(
+            children: [
+              InkWell(
+                onTap: (){},
+                child: Container(
                   width: width(0.8, context),
                   decoration: BoxDecoration(
                     color: getPrimaryColor(context, themeNotifier).withOpacity(0.3),
@@ -56,9 +56,9 @@ class HomeSlideShowWidget extends StatelessWidget {
                   ),
                   child: ads[index],
                 ),
-                SizedBox(width: width(index != ads.length-1 ? 0.04 : 0, context))
-              ],
-            ),
+              ),
+              SizedBox(width: width(index != ads.length-1 ? 0.04 : 0, context))
+            ],
           );
         }
       ),
