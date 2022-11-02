@@ -20,9 +20,6 @@ class ServicesScreen extends StatefulWidget {
 
 class _ServicesScreenState extends State<ServicesScreen> {
 
-  ///TODO: IsTablet
-  bool isTablet = false;
-
   List sideBarItems = [
     {"icon": "assets/icons/servicesIcons/mostVisited.svg", "title": "mostVisitedServices"},
     {"icon": "assets/icons/servicesIcons/retiredServices.svg", "title": "retirementServices"},
@@ -134,7 +131,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                             ? HexColor('#946800') : HexColor('#8A8A8A')
                             : themeNotifier.isLight()
                             ? HexColor('#716F6F') : HexColor('#ffffff'),
-                        fontSize: width(isTablet ? 0.025 : 0.03, context),
+                        fontSize: width(isTablet(context) ? 0.025 : 0.03, context),
                         fontWeight: index == selectedIndex ? FontWeight.w600 : FontWeight.w100,
                         ),
                       )

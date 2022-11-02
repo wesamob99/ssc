@@ -15,9 +15,6 @@ class MostVisitedBody extends StatefulWidget {
 
 class _MostVisitedBodyState extends State<MostVisitedBody> {
 
-  ///TODO: IsTablet
-  bool isTablet = false;
-
   List mostVisitedServices = [
     {"title": "retired", "subTitle": "requestRetiredLoan"},
     {"title": "individuals", "subTitle": "unemploymentApplication"},
@@ -50,14 +47,14 @@ class _MostVisitedBodyState extends State<MostVisitedBody> {
                         Text(
                           translate(mostVisitedServices[index]['title'], context),
                           style: TextStyle(
-                            fontSize: width(isTablet ? 0.03 : 0.035, context)
+                            fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
                           ),
                         ),
                         SizedBox(height: height(0.006, context)),
                         Text(
                           translate(mostVisitedServices[index]['subTitle'], context),
                           style: TextStyle(
-                            fontSize: width(isTablet ? 0.025 :0.03, context)
+                            fontSize: width(isTablet(context) ? 0.025 :0.03, context)
                           ),
                         ),
                       ],

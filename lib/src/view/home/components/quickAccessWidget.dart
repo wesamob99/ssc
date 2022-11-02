@@ -12,9 +12,6 @@ class QuickAccessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    ///TODO: ISsTablet
-    bool isTablet = false;
-
     List quickAccessComponents = [
       {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication"},
       {'icon': 'assets/icons/quickAccessIcons/onePaymentIcon.svg', 'title': "onePayment"},
@@ -43,15 +40,15 @@ class QuickAccessWidget extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6.0),
                         ),
-                        margin: EdgeInsets.symmetric(vertical: 3.0, horizontal: isTablet ? 5.0 : 0),
+                        margin: EdgeInsets.symmetric(vertical: 3.0, horizontal: isTablet(context) ? 5.0 : 0),
                         shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
                         color: HexColor('#FFFFFF'),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: SvgPicture.asset(
                             quickAccessComponents[index]['icon'],
-                            width: isTablet ? 54 : 32,
-                            height: isTablet ? 54 : 32,
+                            width: isTablet(context) ? 54 : 32,
+                            height: isTablet(context) ? 54 : 32,
                           ),
                         ),
                       ),

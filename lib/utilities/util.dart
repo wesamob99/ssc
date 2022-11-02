@@ -43,6 +43,10 @@ bool isHTML(String text) {
   return text.contains('!DOCTYPE html');
 }
 
+bool isTablet(context){
+  return width(1, context) > 600;
+}
+
 bool checkTextLanguage(String text) {
   List<String> items = [
     'a',

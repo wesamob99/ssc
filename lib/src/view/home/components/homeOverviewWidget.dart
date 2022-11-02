@@ -23,8 +23,6 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
 
   overViewWidget(ThemeNotifier themeNotifier, UserInformation data){
 
-    ///TODO: ISsTablet
-    bool isTablet = false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -52,7 +50,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             children: [
                               Text(translate('subscriptions', context),
                                   style: TextStyle(
-                                      fontSize: width(isTablet ? 0.028 : 0.031, context))),
+                                      fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
                               Text(
                                 data.poMonthsCount.toString(),
                                 style: TextStyle(
@@ -83,7 +81,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             children: [
                               Text(translate('idleBalance', context),
                                   style: TextStyle(
-                                      fontSize: width(isTablet ? 0.028 : 0.031, context))),
+                                      fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -101,7 +99,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: themeNotifier.isLight()
                                             ? Colors.black
                                             : Colors.white,
-                                        fontSize: width(isTablet ? 0.028 : 0.031, context)),
+                                        fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
                                   ),
                                 ],
                               )
@@ -135,13 +133,13 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                           Text(UserConfig.instance.checkLanguage()
                               ? 'Al-Qawasmi Company'
                               : 'شركة القواسمي وشركاة',
-                              style: TextStyle(fontSize: width(isTablet ? 0.028 : 0.031, context))),
+                              style: TextStyle(fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(translate('salary', context),
                                   style: TextStyle(
-                                      fontSize: width(isTablet ? 0.028 : 0.031, context))),
+                                      fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -158,7 +156,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: themeNotifier.isLight()
                                             ? Colors.black
                                             : Colors.white,
-                                        fontSize: width(isTablet ? 0.028 : 0.031, context)),
+                                        fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
                                   ),
                                 ],
                               )
@@ -169,7 +167,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             children: [
                               Text(translate('deductionValue', context),
                                   style: TextStyle(
-                                      fontSize: width(isTablet ? 0.028 : 0.031, context))),
+                                      fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -186,7 +184,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: themeNotifier.isLight()
                                             ? Colors.black
                                             : Colors.white,
-                                        fontSize: width(isTablet ? 0.028 : 0.031, context)),
+                                        fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
                                   ),
                                 ],
                               )
@@ -197,10 +195,10 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             children: [
                               Text(translate('lastPayment', context),
                                   style: TextStyle(
-                                      fontSize: width(isTablet ? 0.028 : 0.031, context))),
+                                      fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
                               Text('22/7/2022',
                                   style: TextStyle(
-                                      fontSize: width(isTablet ? 0.028 : 0.031, context))),
+                                      fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
                             ],
                           )
                         ],
@@ -239,7 +237,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                         children: [
                           Text(
                             translate('number_of_contributions_to_retirement', context),
-                            style: TextStyle(fontSize: width(isTablet ? 0.028 : 0.031, context)),
+                            style: TextStyle(fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
                           ),
                           SizedBox(height: height(0.01, context),),
                           SizedBox(

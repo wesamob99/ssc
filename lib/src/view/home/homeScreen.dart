@@ -31,8 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Future statisticsFuture;
   Future amountToBePaidFuture;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-  bool isTablet = false;
-  ///TODO: ISsTablet
 
   @override
   void initState(){
@@ -74,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: EdgeInsets.only(bottom: height(0.01, context)),
                             child: Text(translate('myAccount', context),
                                 style: TextStyle(
-                                    fontSize: width(isTablet ? 0.028 : 0.031, context))),
+                                    fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
                           ),
                           HomeOverviewWidget(data: userInformation),
                           SizedBox(
@@ -84,14 +82,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: EdgeInsets.only(bottom: height(0.007, context)),
                             child: Text(translate('quickAccess', context),
                                 style: TextStyle(
-                                    fontSize: width(isTablet ? 0.028 : 0.031, context))),
+                                    fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
                           ),
                           const QuickAccessWidget(),
                           Padding(
                             padding: EdgeInsets.only(bottom: height(0.007, context)),
                             child: Text(translate('advertisements', context),
                                 style: TextStyle(
-                                    fontSize: width(isTablet ? 0.028 : 0.031, context))),
+                                    fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
                           ),
                           const HomeSlideShowWidget(),
                           SizedBox(
@@ -99,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Text(translate('pastYearsPays', context),
                               style: TextStyle(
-                                  fontSize: width(isTablet ? 0.028 : 0.031, context))),
+                                  fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
                           HomeChartWidget(data: userInformation),
                           SizedBox(
                             height: height(Provider.of<HomeProvider>(context).showFloatingButton ? 0.1 : 0.0, context),
