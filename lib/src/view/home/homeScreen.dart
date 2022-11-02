@@ -138,8 +138,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   // double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2) != '0.00'?
                   Padding(
                     padding: EdgeInsets.only(
-                        right: UserConfig.instance.checkLanguage() ? 0 : width(0.075, context),
-                        left: UserConfig.instance.checkLanguage() ? width(0.075, context) : 0,
+                      right: UserConfig.instance.checkLanguage() ? 0 : width(0.075, context),
+                      left: UserConfig.instance.checkLanguage() ? width(0.075, context) : 0,
                       bottom: 8.0
                     ),
                     child: Slidable(
@@ -172,14 +172,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Container(
                       width: width(0.93, context),
-                      height: height(0.065, context),
+                      height: height(isScreenSizeSmall(context) ? 0.075 : 0.065, context),
                       decoration: BoxDecoration(
                           color: getPrimaryColor(context, themeNotifier),
                           borderRadius: BorderRadius.circular(12)
                       ),
                       child: Padding(
                         padding:  EdgeInsets.symmetric(
-                            horizontal: width(0.035, context),
+                            horizontal: width(isScreenSizeSmall(context) ? 0.03 : 0.035, context),
                             vertical: height(0.012, context)
                         ),
                         child: Row(

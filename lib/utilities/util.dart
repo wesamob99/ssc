@@ -345,8 +345,8 @@ animatedLoader(context){
     elevation: 10.0,
     borderRadius: BorderRadius.circular(25.0),
   child: Container(
-      width: width(0.4, context),
-      height: width(0.4, context),
+      width: width(isTablet(context) ? 0.3 : 0.4, context),
+      height: width(isTablet(context) ? 0.3 : 0.4, context),
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         color: Colors.transparent,

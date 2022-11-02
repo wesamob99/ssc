@@ -65,7 +65,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 SizedBox(height: height(0.02, context)),
                 if(selectedIndex == 0)
                 const MostVisitedBody(),
-                if(selectedIndex == 2)
+                if(selectedIndex == 5)
                 const InsuranceBody()
               ],
             ),
