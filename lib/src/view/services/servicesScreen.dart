@@ -91,7 +91,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
             bottomRight: Radius.circular(UserConfig.instance.checkLanguage() ? 8 : 0)
         ),
         ),
-        width: width(0.31, context),
+        width: width(isTablet(context) ? 0.29 : 0.31, context),
         child: ListView.builder(
             // physics: const NeverScrollableScrollPhysics(),
             itemCount: sideBarItems.length,
@@ -103,7 +103,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   });
                 },
                 child: AnimatedContainer(
-                  padding: EdgeInsets.symmetric(horizontal: isTablet(context) ? 15.0 : 5.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   duration: const Duration(milliseconds: 300),
                   height: height(0.1, context),
                   color: index == selectedIndex
