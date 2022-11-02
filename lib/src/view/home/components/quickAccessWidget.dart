@@ -47,8 +47,8 @@ class QuickAccessWidget extends StatelessWidget {
                           padding: const EdgeInsets.all(12.0),
                           child: SvgPicture.asset(
                             quickAccessComponents[index]['icon'],
-                            width: isTablet(context) ? 54 : 32,
-                            height: isTablet(context) ? 54 : 32,
+                            width: isTablet(context) ? 48 : 32,
+                            height: isTablet(context) ? 48 : 32,
                           ),
                         ),
                       ),

@@ -142,7 +142,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                                     style: TextStyle(
                                         color: validatorsCheck[index]
                                             ? HexColor('#445740') : HexColor('#A6A6A6'),
-                                        fontSize: width(isTablet(context) ? 0.026 : 0.03, context)
+                                        fontSize: height(isTablet(context) ? 0.013 : 0.015, context)
                                     ),
                                   )
                                 ],
