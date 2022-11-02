@@ -141,6 +141,8 @@
   "passcode": "Passcode",
   "fingerprintActivated": "The fingerprint has been activated successfully",
   "fingerprintActivatedDesc": "Next time you will be able to enter the application by fingerprint",
+  "biometricNotSupported": "Not supported",
+  "biometricNotSupportedDesc": "Biometric login is not supported in this device, please keep login by your national/personal ID and your password",
   "facePrintActivated": "The face print has been activated successfully",
   "facePrintActivatedDesc": "Next time you will be able to enter the application by face print",
   "resend": "Resend",
