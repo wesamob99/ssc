@@ -1,10 +1,11 @@
 // ignore_for_file: file_names
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
@@ -29,6 +30,13 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
+  final LocalAuthentication authentication = LocalAuthentication();
+  _SupportState supportState = _SupportState.unknown;
+  String authorized = 'Not Authorized';
+  bool isAuthenticating = false;
+
+
+
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   final PageController _pageController = PageController(initialPage: 0);
@@ -41,19 +49,55 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     UserConfig.instance.checkDataConnection();
-    showBiometricLoginSuggestion(themeNotifier);
+
+    //check whether there is local authentication available on this device or not
+    authentication.isDeviceSupported().then((bool isSupported){
+      setState(() {
+        supportState = isSupported ? _SupportState.supported : _SupportState.unsupported;
+      });
+    });
+
+    showBiometricLoginSuggestion(themeNotifier, supportState, _authenticate());
     super.initState();
   }
 
-  showBiometricLoginSuggestion(themeNotifier){
+  //authenticate() method uses biometric authentication
+  void _authenticate() async{
+    bool authenticated = false;
+    try{
+      setState(() {
+        isAuthenticating = true;
+        authorized = 'Authenticating';
+      });
+      
+      authenticated = await authentication.authenticate(
+        localizedReason: 'Let OS determine authentication method',
+        options: const AuthenticationOptions(
+          stickyAuth: true, biometricOnly: true
+        )
+      );
+      setState(() {
+        isAuthenticating = false;
+      });
+    } on PlatformException catch(e){
+      setState(() {
+        isAuthenticating = false;
+        authorized = 'Error - ${e.message}';
+      });
+      return;
+    }
+    if(!mounted){
+      return;
+    }
+    setState(() => authorized = authenticated ? "Authorized" : "Not authorized");
+  }
+
+  showBiometricLoginSuggestion(themeNotifier, _SupportState supportState, void authenticate){
     prefs.then((value) {
       firstLogin = value.getString(Constants.FIRST_LOGIN) ?? 'true';
       if(firstLogin == 'true') {
-        if (kDebugMode) {
-          print('firstLogin: is true');
-        }
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          modalBottomSheet(context, themeNotifier);
+          modalBottomSheet(context, themeNotifier, supportState, authenticate);
         });
         value.setString(Constants.FIRST_LOGIN, 'false');
       }
@@ -182,4 +226,10 @@ class _MainScreenState extends State<MainScreen> {
       ],
     );
   }
+}
+
+enum _SupportState{
+  unknown,
+  supported,
+  unsupported
 }

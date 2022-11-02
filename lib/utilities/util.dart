@@ -446,7 +446,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
 }
 
 
-modalBottomSheet(context, themeNotifier){
+modalBottomSheet(context, themeNotifier, supportState, void authenticate){
   return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0))
@@ -465,7 +465,7 @@ modalBottomSheet(context, themeNotifier){
             color: Colors.white,
             shadowColor: Colors.black,
             child: SizedBox(
-              height: height(0.5, context),
+              height: height(supportState == SupportState.supported ? 0.5 : 0.4, context),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -516,8 +516,10 @@ modalBottomSheet(context, themeNotifier){
                             ),
                           ),
                           SizedBox(height: height(0.04, context),),
-                          TextButton(
+                          supportState == SupportState.supported
+                          ? TextButton(
                             onPressed: (){
+                              authenticate;
                               Navigator.of(context).pop();
                               showMyDialog(
                                 context,
@@ -547,8 +549,9 @@ modalBottomSheet(context, themeNotifier){
                                   fontWeight: FontWeight.w200
                               ),
                             ),
-                          ),
-                          SizedBox(height: height(0.015, context),),
+                          )
+                          : const SizedBox.shrink(),
+                          SizedBox(height: height(supportState == SupportState.supported ? 0.015 : 0.0, context),),
                           TextButton(
                             onPressed: (){
                               Navigator.of(context).pop();
@@ -606,4 +609,10 @@ modalBottomSheet(context, themeNotifier){
         );
       }
   );
+}
+
+enum SupportState{
+  unknown,
+  supported,
+  unsupported
 }
