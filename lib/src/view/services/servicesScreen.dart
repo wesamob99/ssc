@@ -103,7 +103,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   });
                 },
                 child: AnimatedContainer(
-                  padding: EdgeInsets.symmetric(horizontal: isTablet(context) ? 10.0 : 5.0),
+                  padding: EdgeInsets.symmetric(horizontal: isTablet(context) ? 15.0 : 5.0),
                   duration: const Duration(milliseconds: 300),
                   height: height(0.1, context),
                   color: index == selectedIndex
@@ -132,7 +132,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                             ? HexColor('#946800') : HexColor('#8A8A8A')
                             : themeNotifier.isLight()
                             ? HexColor('#716F6F') : HexColor('#ffffff'),
-                        fontSize: width(isTablet(context) ? 0.025 : 0.03, context),
+                        fontSize: width(isTablet(context) ? 0.021 : 0.028, context),
                         fontWeight: index == selectedIndex ? FontWeight.w600 : FontWeight.w100,
                         ),
                       )
