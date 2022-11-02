@@ -1,13 +1,11 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:ssc/utilities/hexColor.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../models/home/userInformationsDashboard.dart';
-import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
-import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class HomeChartWidget extends StatelessWidget {
   final UserInformation data;
@@ -16,7 +14,6 @@ class HomeChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     TooltipBehavior tooltipBehavior = TooltipBehavior(enable: true);
 
     List<SalaryData> dataSource = [];
@@ -47,7 +44,7 @@ class HomeChartWidget extends StatelessWidget {
                   dataSource: dataSource,
                   xValueMapper: (SalaryData sales, _) => sales.year,
                   yValueMapper: (SalaryData sales, _) => sales.salary,
-                  pointColorMapper: (SalaryData sales, _) => getPrimaryColor(context, themeNotifier),
+                  pointColorMapper: (SalaryData sales, _) => HexColor('#946800'),
                   dataLabelSettings: const DataLabelSettings(isVisible: true)
                 )
               ],
