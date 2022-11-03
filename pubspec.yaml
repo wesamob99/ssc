@@ -123,7 +123,10 @@ flutter:
   fonts:
    - family: Noor
      fonts:
-       - asset: assets/fonts/Noor-Regular.ttf
+       - asset: assets/fonts/Noor-regular.ttf
+   - family: literata
+     fonts:
+       - asset: assets/fonts/Literata-regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -48,7 +48,7 @@ class AppTheme {
       centerTitle: true,
       elevation: 0,
       titleTextStyle: TextStyle(
-        fontFamily: UserConfig.instance.checkLanguage() ? 'Noor' : 'Noor',
+        fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
       )
       // titleTextStyle: UserConfig.instance.checkLanguage()
       //     ? GoogleFonts.mukta()
@@ -56,7 +56,7 @@ class AppTheme {
     ),
     scaffoldBackgroundColor: HexColor('#212121'),
     backgroundColor: HexColor('#212121'),
-    fontFamily: UserConfig.instance.checkLanguage() ? 'Noor' : 'Noor',
+    fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
 
     textTheme: textTheme('dark')
     // textTheme: UserConfig.instance.checkLanguage()
@@ -78,13 +78,13 @@ class AppTheme {
           actionsIconTheme: const IconThemeData(color: Colors.black),
           iconTheme: const IconThemeData(color: Colors.white),
           titleTextStyle: TextStyle(
-            fontFamily: UserConfig.instance.checkLanguage() ? 'Noor' : 'Noor',
+            fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
           )
           // titleTextStyle: UserConfig.instance.checkLanguage()
           //     ? GoogleFonts.mukta()
           //     : GoogleFonts.tajawal(),
       ),
-      fontFamily: UserConfig.instance.checkLanguage() ? 'Noor' : 'Noor',
+      fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
       scaffoldBackgroundColor: const Color.fromRGBO(250, 250, 250, 1.0),
       backgroundColor: HexColor('#ffffff'),
       highlightColor: primaryColor,
