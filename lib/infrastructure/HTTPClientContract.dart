@@ -90,8 +90,7 @@ class HTTPClientContract {
             }
             _retryCount++;
             final RequestOptions options = e.response?.requestOptions;
-            options?.headers['Authorization'] =
-                UserSecuredStorage.instance.token;
+            options?.headers['Authorization'] = "Bearer ${UserSecuredStorage.instance.token}";
             final Response response = await dio.fetch(options);
             _retryCount = 0;
             return handler.resolve(response);

@@ -10,7 +10,7 @@ import 'package:ssc/src/view/login/loginScreen.dart';
 import 'package:ssc/src/view/main/mainScreen.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
 
-import '../../../models/home/userInformationsDashboard.dart';
+import '../../../models/home/payOffFinancialInformations.dart';
 import '../../../utilities/util.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -34,8 +34,9 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     InternetConnectionStatus connection = await InternetConnectionChecker().connectionStatus;
-    UserInformation result;
-    result = await Provider.of<HomeProvider>(context, listen: false).getStatistics();
+    PayOffFinancialInformation result;
+    // result = await Provider.of<HomeProvider>(context, listen: false).getStatistics();
+    result = await Provider.of<HomeProvider>(context, listen: false).getAmountToBePaid();
     if(InternetConnectionStatus.connected == connection){
       Widget screen = const LoginScreen();
       if(UserSecuredStorage.instance.token.isNotEmpty &&

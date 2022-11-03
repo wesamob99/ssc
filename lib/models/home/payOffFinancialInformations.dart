@@ -20,6 +20,7 @@ class PayOffFinancialInformation {
     this.poStatusType,
     this.poStatusDescAr,
     this.poStatusDescEn,
+    this.success,
   });
 
   final List<List<String>> instrucCur;
@@ -30,6 +31,7 @@ class PayOffFinancialInformation {
   final int poStatusType;
   final String poStatusDescAr;
   final String poStatusDescEn;
+  final bool success;
 
   factory PayOffFinancialInformation.fromJson(Map<String, dynamic> json) => PayOffFinancialInformation(
     instrucCur: json["INSTRUC_CUR"] == null ? null : List<List<String>>.from(json["INSTRUC_CUR"].map((x) => List<String>.from(x.map((x) => x)))),
@@ -51,6 +53,7 @@ class PayOffFinancialInformation {
     "PO_STATUS_TYPE": poStatusType,
     "PO_STATUS_DESC_AR": poStatusDescAr,
     "PO_STATUS_DESC_EN": poStatusDescEn,
+    "success": success,
   };
 }
 
