@@ -260,6 +260,9 @@ class _LoginBodyState extends State<LoginBody> {
                   errorMessage = '';
                 }
                 if(userData.token != null){
+                  prefs.then((value) {
+                    value.setString(Constants.FIRST_LOGIN, 'true');
+                  });
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => const MainScreen()), (route) => false);
                 }else{

@@ -57,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
       });
     });
 
-    showBiometricLoginSuggestion(themeNotifier, supportState);
+    showLoginSuggestion(themeNotifier, supportState);
     super.initState();
   }
 
@@ -92,7 +92,7 @@ class _MainScreenState extends State<MainScreen> {
     setState(() => authorized = authenticated ? "Authorized" : "Not authorized");
   }
 
-  showBiometricLoginSuggestion(themeNotifier, _SupportState supportState){
+  showLoginSuggestion(themeNotifier, _SupportState supportState){
     prefs.then((value) {
       firstLogin = value.getString(Constants.FIRST_LOGIN) ?? 'true';
       if(firstLogin == 'true') {
