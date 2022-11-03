@@ -251,7 +251,7 @@ class _LoginBodyState extends State<LoginBody> {
                 if(userData.data != null){
                   userSecuredStorage.userName = userData.data.poName ?? ''; // poName -> user name
                   userSecuredStorage.nationalId = userData.data.poUserName ?? ''; // poUserName -> user national ID
-                  userSecuredStorage.internalKey = userData.data.poInternalKey ?? ''; // poInternalKey -> user national ID
+                  userSecuredStorage.insuranceNumber = userData.data.poInternalKey ?? ''; // poInternalKey -> user insurance number
                 }
                 if(userData.poStatusDescEn != null){
                   errorMessage = UserConfig.instance.checkLanguage()

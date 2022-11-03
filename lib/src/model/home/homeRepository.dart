@@ -11,7 +11,7 @@ class HomeRepository{
 
   Future<UserInformation> getStatisticsService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-    String internalKey = userSecuredStorage.internalKey.toString();
+    String internalKey = userSecuredStorage.insuranceNumber.toString();
     var response = await HTTPClientContract.instance.getHTTP('/individuals/getIndvStatistics?sceNo=$internalKey');
     if (kDebugMode) {
       print(response);

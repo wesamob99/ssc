@@ -151,7 +151,7 @@ class _MainScreenState extends State<MainScreen> {
               children:[
                 Text(userSecuredStorage.userName, style: const TextStyle(fontSize: 14),),
                 const SizedBox(height: 2.0),
-                Text(userSecuredStorage.internalKey, style: const TextStyle(fontSize: 12),),
+                Text(userSecuredStorage.insuranceNumber, style: const TextStyle(fontSize: 12),),
               ],
             ),
           ),

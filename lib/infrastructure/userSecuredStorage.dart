@@ -17,7 +17,7 @@ class UserSecuredStorage {
   /// ***
   String _userName = "";
   // String _userGroup = "";
-  String _internalKey = "";
+  String _insuranceNumber = "";
   String _nationalId = "";
   // String _status = "";
   // String _statusDescriptionAr = "";
@@ -58,14 +58,14 @@ class UserSecuredStorage {
     _nationalId = value;
   }
 
-  String get internalKey {
-    _internalKey = _box.get('internalKey') ?? "";
-    return _internalKey;
+  String get insuranceNumber {
+    _insuranceNumber = _box.get('insuranceNumber') ?? "";
+    return _insuranceNumber;
   }
 
-  set internalKey(String value) {
-    addKeyPair('internalKey', value);
-    _internalKey = value;
+  set insuranceNumber(String value) {
+    addKeyPair('insuranceNumber', value);
+    _insuranceNumber = value;
   }
   /// ******
 

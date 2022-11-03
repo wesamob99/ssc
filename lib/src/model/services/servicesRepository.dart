@@ -10,7 +10,7 @@ class ServicesRepository{
 
   Future<UserProfileData> getAccountDataService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-    String internalKey = userSecuredStorage.internalKey.toString();
+    String internalKey = userSecuredStorage.insuranceNumber.toString();
     var response = await HTTPClientContract.instance.getHTTP('/individuals/GET_INDIVIDUALUSERINFOSP?PIINSURANCENO=$internalKey');
     if (kDebugMode) {
       print(response);
