@@ -222,7 +222,7 @@ class _MainScreenState extends State<MainScreen> {
     ? (pageIndex == index ? Colors.white : getPrimaryColor(context, themeNotifier))
     : Colors.white;
     TextStyle textStyle = TextStyle(
-      fontSize: height(isScreenSizeSmall(context) ? 0.015 : 0.011, context),
+      fontSize: height(isScreenHasSmallHeight(context) ? 0.015 : 0.011, context),
       color: themeNotifier.isLight() ? getPrimaryColor(context, themeNotifier) : Colors.white,
     );
     return Column(
@@ -231,7 +231,7 @@ class _MainScreenState extends State<MainScreen> {
         SizedBox(height: height(pageIndex != index ? 0.01 : 0, context),),
         Padding(
           padding: const EdgeInsets.all(2.0),
-          child: SvgPicture.asset(icon, color: iconColor, width: height(isScreenSizeSmall(context) ? 0.042 : 0.033, context),),
+          child: SvgPicture.asset(icon, color: iconColor, width: height(isScreenHasSmallHeight(context) ? 0.042 : 0.033, context),),
         ),
         pageIndex != index
             ? Text(translate(text, context), style: textStyle,)

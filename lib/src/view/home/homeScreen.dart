@@ -172,14 +172,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Container(
                       width: width(0.93, context),
-                      height: height(isScreenSizeSmall(context) ? 0.075 : 0.065, context),
+                      height: height(isScreenHasSmallHeight(context) ? 0.075 : 0.065, context),
                       decoration: BoxDecoration(
                           color: getPrimaryColor(context, themeNotifier),
                           borderRadius: BorderRadius.circular(12)
                       ),
                       child: Padding(
                         padding:  EdgeInsets.symmetric(
-                            horizontal: width(isScreenSizeSmall(context) ? 0.03 : 0.035, context),
+                            horizontal: width(isScreenHasSmallWidth(context) ? 0.03 : 0.035, context),
                             vertical: height(0.012, context)
                         ),
                         child: Row(

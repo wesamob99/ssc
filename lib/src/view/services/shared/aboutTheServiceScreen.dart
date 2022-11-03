@@ -104,7 +104,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                           fontWeight: FontWeight.w100,
                           height: 1.2,
                           color: HexColor('#363636'),
-                          fontSize: height(MediaQuery.of(context).size.height < 700 ? 0.018 : 0.017, context)
+                          fontSize: height(isScreenHasSmallHeight(context) ? 0.018 : 0.017, context)
                       ),
                     ),
                     Divider(
@@ -151,7 +151,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        fontSize: height(MediaQuery.of(context).size.height < 700 ? 0.016 : 0.015, context),
+                                        fontSize: height(isScreenHasSmallHeight(context) ? 0.016 : 0.015, context),
                                       ),
                                     ),
                                   )
@@ -201,7 +201,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                 child: Text(
                                   '${index + 1}- ${widget.stepsOfTheService[index]}',
                                   style: TextStyle(
-                                    fontSize: height(MediaQuery.of(context).size.height < 700 ? 0.016 : 0.015, context),
+                                    fontSize: height(isScreenHasSmallHeight(context) ? 0.016 : 0.015, context),
                                   ),
                                 ),
                               ),

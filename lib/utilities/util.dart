@@ -47,8 +47,12 @@ bool isTablet(context){
   return width(1, context) > 600;
 }
 
-bool isScreenSizeSmall(context){
+bool isScreenHasSmallWidth(context){
   return width(1, context) < 400;
+}
+
+bool isScreenHasSmallHeight(context){
+  return height(1, context) < 700;
 }
 
 bool checkTextLanguage(String text) {
@@ -473,7 +477,7 @@ modalBottomSheet(context, themeNotifier, supportState, authenticate){
             color: Colors.white,
             shadowColor: Colors.black,
             child: SizedBox(
-              height: height(supportState == SupportState.supported ? 0.5 : isScreenSizeSmall(context) ? 0.45 : 0.42, context),
+              height: height(supportState == SupportState.supported ? 0.5 : isScreenHasSmallHeight(context) ? 0.45 : 0.42, context),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

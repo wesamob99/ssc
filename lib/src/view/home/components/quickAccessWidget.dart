@@ -24,7 +24,7 @@ class QuickAccessWidget extends StatelessWidget {
       {'icon': 'assets/icons/quickAccessIcons/accountStatementIcon.svg', 'title': "accountStatement"},
     ];
     return SizedBox(
-      height: height(MediaQuery.of(context).size.height < 700 ? 0.14 : 0.12, context),
+      height: height(isScreenHasSmallHeight(context) ? 0.14 : 0.12, context),
       child: ListView.builder(
           itemCount: quickAccessComponents.length,
           scrollDirection: Axis.horizontal,
@@ -74,11 +74,11 @@ class QuickAccessWidget extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.height < 700 ? 65 : isTablet(context) ? 90.0 : 67.0,
+                        width: isScreenHasSmallHeight(context) ? 65 : isTablet(context) ? 90.0 : 67.0,
                         child: Text(
                           translate(quickAccessComponents[index]['title'], context),
                           textAlign: TextAlign.center,
-                          maxLines: MediaQuery.of(context).size.height < 700 ? 2 : 3,
+                          maxLines: isScreenHasSmallHeight(context) ? 2 : 3,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: height(0.012, context),
