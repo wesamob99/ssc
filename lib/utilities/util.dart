@@ -454,7 +454,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
 }
 
 
-modalBottomSheet(context, themeNotifier, supportState, void authenticate){
+modalBottomSheet(context, themeNotifier, supportState, authenticate){
   return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0))
@@ -473,7 +473,7 @@ modalBottomSheet(context, themeNotifier, supportState, void authenticate){
             color: Colors.white,
             shadowColor: Colors.black,
             child: SizedBox(
-              height: height(supportState == SupportState.supported ? 0.5 : 0.4, context),
+              height: height(supportState == SupportState.supported ? 0.5 : isScreenSizeSmall(context) ? 0.45 : 0.42, context),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -526,19 +526,7 @@ modalBottomSheet(context, themeNotifier, supportState, void authenticate){
                           SizedBox(height: height(0.04, context),),
                           supportState == SupportState.supported
                           ? TextButton(
-                            onPressed: (){
-                              authenticate;
-                              Navigator.of(context).pop();
-                              showMyDialog(
-                                context,
-                                'fingerprintActivated',
-                                translate('fingerprintActivatedDesc', context),
-                                'ok',
-                                themeNotifier,
-                                titleColor: '#363636',
-                                icon: 'assets/icons/fingerprint.svg'
-                              );
-                            },
+                            onPressed: authenticate,
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all<Color>(
                                     HexColor('#E7EFE5')

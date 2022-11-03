@@ -62,14 +62,14 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   //authenticate() method uses biometric authentication
-  void _authenticate() async{
+  Future<void> _authenticate() async{
     bool authenticated = false;
     try{
       setState(() {
         isAuthenticating = true;
         authorized = 'Authenticating';
       });
-      
+
       authenticated = await authentication.authenticate(
         localizedReason: 'Let OS determine authentication method',
         options: const AuthenticationOptions(
@@ -97,7 +97,20 @@ class _MainScreenState extends State<MainScreen> {
       firstLogin = value.getString(Constants.FIRST_LOGIN) ?? 'true';
       if(firstLogin == 'true') {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          modalBottomSheet(context, themeNotifier, supportState, _authenticate());
+          modalBottomSheet(context, themeNotifier, supportState, (){
+            _authenticate();
+            Navigator.of(context).pop();
+            showMyDialog(
+                context,
+                'fingerprintActivated',
+                translate('fingerprintActivatedDesc', context),
+                'ok',
+                themeNotifier,
+                titleColor: '#363636',
+                icon: 'assets/icons/fingerprint.svg'
+            );
+            Navigator.of(context).pop();
+          });
         });
         value.setString(Constants.FIRST_LOGIN, 'false');
       }
