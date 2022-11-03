@@ -24,7 +24,7 @@ class QuickAccessWidget extends StatelessWidget {
       {'icon': 'assets/icons/quickAccessIcons/accountStatementIcon.svg', 'title': "accountStatement"},
     ];
     return SizedBox(
-      height: height(0.12, context),
+      height: height(MediaQuery.of(context).size.height < 700 ? 0.14 : 0.12, context),
       child: ListView.builder(
           itemCount: quickAccessComponents.length,
           scrollDirection: Axis.horizontal,
@@ -65,7 +65,7 @@ class QuickAccessWidget extends StatelessWidget {
                         shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
                         color: HexColor('#FFFFFF'),
                         child: Padding(
-                          padding: const EdgeInsets.all(12.0),
+                          padding: EdgeInsets.all(MediaQuery.of(context).size.height < 700 ? 12.0 : isTablet(context) ? 17.0 : 14.0),
                           child: SvgPicture.asset(
                             quickAccessComponents[index]['icon'],
                             width: isTablet(context) ? 48 : 32,
@@ -74,11 +74,11 @@ class QuickAccessWidget extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: 64,
+                        width: MediaQuery.of(context).size.height < 700 ? 65 : isTablet(context) ? 90.0 : 67.0,
                         child: Text(
                           translate(quickAccessComponents[index]['title'], context),
                           textAlign: TextAlign.center,
-                          maxLines: 2,
+                          maxLines: MediaQuery.of(context).size.height < 700 ? 2 : 3,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: height(0.012, context),
