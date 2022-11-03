@@ -151,7 +151,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        fontSize: height(0.015, context),
+                                        fontSize: height(MediaQuery.of(context).size.height < 700 ? 0.016 : 0.015, context),
                                       ),
                                     ),
                                   )
@@ -201,7 +201,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                 child: Text(
                                   '${index + 1}- ${widget.stepsOfTheService[index]}',
                                   style: TextStyle(
-                                    fontSize: height(0.015, context),
+                                    fontSize: height(MediaQuery.of(context).size.height < 700 ? 0.016 : 0.015, context),
                                   ),
                                 ),
                               ),
