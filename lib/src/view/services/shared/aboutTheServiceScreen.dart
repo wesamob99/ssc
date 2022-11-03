@@ -104,7 +104,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                           fontWeight: FontWeight.w100,
                           height: 1.2,
                           color: HexColor('#363636'),
-                          fontSize: height(0.018, context)
+                          fontSize: height(MediaQuery.of(context).size.height < 700 ? 0.018 : 0.017, context)
                       ),
                     ),
                     Divider(
