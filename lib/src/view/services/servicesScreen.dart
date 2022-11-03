@@ -56,6 +56,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   ),
                   child: Text(
                     translate(sideBarItems[selectedIndex]['title'], context),
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: HexColor('#2D452E'),
                       fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
