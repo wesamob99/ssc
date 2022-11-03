@@ -65,7 +65,7 @@ class QuickAccessWidget extends StatelessWidget {
                         shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
                         color: HexColor('#FFFFFF'),
                         child: Padding(
-                          padding: EdgeInsets.all(MediaQuery.of(context).size.height < 700 ? 12.0 : isTablet(context) ? 17.0 : 14.0),
+                          padding: EdgeInsets.all(isTablet(context) ? 17.0 : 14.0),
                           child: SvgPicture.asset(
                             quickAccessComponents[index]['icon'],
                             width: isTablet(context) ? 48 : 32,
