@@ -10,33 +10,43 @@ class AppTheme {
   TextTheme textTheme(String theme) => TextTheme(
     headline6: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
+      height: 1.1,
     ),
     bodyText2: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
+      height: 1.1,
     ),
     bodyText1: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
+      height: 1.1,
     ),
     headline1: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
+      height: 1.1,
     ),
     headline2: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
+      height: 1.1,
     ),
     headline3: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
+      height: 1.1,
     ),
     headline4: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
+      height: 1.1,
     ),
     headline5: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
+      height: 1.1,
     ),
     subtitle1: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
+      height: 1.1,
     ),
     subtitle2: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
+      height: 1.1,
     ),
   );
   get darkTheme => ThemeData(
