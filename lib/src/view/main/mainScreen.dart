@@ -197,7 +197,7 @@ class _MainScreenState extends State<MainScreen> {
       elevation: 50,
       child: CurvedNavigationBar(
         index: pageIndex,
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromRGBO(250, 250, 250, 1.0),
         color: themeNotifier.isLight() ? Colors.white : HexColor('#171717'),
         buttonBackgroundColor: getPrimaryColor(context, themeNotifier),
         items: <Widget>[
