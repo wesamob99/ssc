@@ -23,7 +23,8 @@ class LoginProvider extends ChangeNotifier {
 
   /// register ***
   RegisterData registerData = RegisterData();
-  TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController jordanianMobileNumberController = TextEditingController();
+  TextEditingController foreignMobileNumberController = TextEditingController();
   TextEditingController registerNationalIdController = TextEditingController();
   TextEditingController civilIdNumberController = TextEditingController();
   TextEditingController relativeNatIdController = TextEditingController();
@@ -121,7 +122,8 @@ class LoginProvider extends ChangeNotifier {
 
   clearRegisterData(){
     registerData = RegisterData();
-    mobileNumberController.clear();
+    jordanianMobileNumberController.clear();
+    foreignMobileNumberController.clear();
     registerNationalIdController.clear();
     civilIdNumberController.clear();
     relativeNatIdController.clear();
