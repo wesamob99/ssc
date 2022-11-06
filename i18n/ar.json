@@ -180,5 +180,8 @@
   "startNow": "إبدأ الآن",
   "readMore": "المزيد",
   "readLess": "...أقل",
-  "doneSuccessfully": "تم بنجاح"
+  "doneSuccessfully": "تم بنجاح",
+  "passportNumber": "رقم جواز السفر",
+  "insuranceNumber": "رقم التأمين / الضمان",
+  "DateOfBirth": "تاريخ الميلاد"
 }

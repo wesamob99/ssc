@@ -179,5 +179,8 @@
   "startNow": "Start now",
   "readMore": "Read more",
   "readLess": "...Read less",
-  "doneSuccessfully": "Done Successfully"
+  "doneSuccessfully": "Done Successfully",
+  "passportNumber": "Passport number",
+  "insuranceNumber": "Insurance / Warranty No.",
+  "DateOfBirth": "Date of birth"
 }
