@@ -23,8 +23,8 @@ class ThirdStepBody extends StatefulWidget {
 
 class _ThirdStepBodyState extends State<ThirdStepBody> {
 
-  Map item1 = {"title": 'sms', "value": true};
-  Map item2 = {"title": 'email', "value": false};
+  Map item1 = {"title": 'want', "value": true};
+  Map item2 = {"title": 'dontWant', "value": false};
 
 
   @override
@@ -91,7 +91,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                 ),
                 SizedBox(height: height(0.02, context),),
                 Text(
-                  translate('chooseHowToReceiveMessages', context),
+                  translate('wouldLikeToReceiveMessagesViaE-mail', context),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -105,6 +105,8 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                     InkWell(
                       onTap: (){
                         setState(() {
+                          item1['value'] = true;
+                          item2["value"] = false;
                           if(!item2['value']){
                             loginProvider.registerContinueEnabled = true;
                           } else{
@@ -129,7 +131,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                       ),
                     ),
                     SizedBox(width: width(0.03, context),),
-                    Text(translate(item1['title'], context)),
+                    Text(translate(item2['title'], context)),
                   ],
                 ),
                 SizedBox(height: height(0.01, context),),
@@ -140,7 +142,8 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                     InkWell(
                       onTap: (){
                         setState(() {
-                          item2['value'] = !item2['value'];
+                          item2['value'] = true;
+                          item1["value"] = false;
                           if(!item2['value']){
                             loginProvider.registerContinueEnabled = true;
                           } else{
@@ -165,17 +168,17 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                       ),
                     ),
                     SizedBox(width: width(0.03, context),),
-                    Text(translate(item2['title'], context)),
+                    Text(translate(item1['title'], context)),
                   ],
                 ),
-                SizedBox(height: height(0.015, context),),
-                Text(
-                  translate('choosingEmailPreferable', context),
-                  style: TextStyle(
-                      color: HexColor('##003C97'),
-                      fontSize: width(0.026, context)
-                  ),
-                ),
+                // SizedBox(height: height(0.015, context),),
+                // Text(
+                //   translate('choosingEmailPreferable', context),
+                //   style: TextStyle(
+                //       color: HexColor('##003C97'),
+                //       fontSize: width(0.026, context)
+                //   ),
+                // ),
                 if(item2['value'])
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
