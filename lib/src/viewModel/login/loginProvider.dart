@@ -31,6 +31,9 @@ class LoginProvider extends ChangeNotifier {
   TextEditingController emailController = TextEditingController();
   TextEditingController registerPasswordController = TextEditingController();
   TextEditingController registerConfirmPasswordController = TextEditingController();
+  TextEditingController passportNumberController = TextEditingController();
+  TextEditingController insuranceNumberController = TextEditingController();
+  DateTime dateOfBirth = DateTime.now();
   // at index 0 -> relative type | index 1 -> academic level
   List thirdStepSelection = ['choose', 'optionalChoose'];
   bool registerContinueEnabled = false;
