@@ -33,7 +33,7 @@ class LoginProvider extends ChangeNotifier {
   TextEditingController registerConfirmPasswordController = TextEditingController();
   TextEditingController passportNumberController = TextEditingController();
   TextEditingController insuranceNumberController = TextEditingController();
-  DateTime dateOfBirth = DateTime.now();
+  TextEditingController dateOfBirthController = TextEditingController(text: DateTime.now().toString());
   // at index 0 -> relative type | index 1 -> academic level
   List thirdStepSelection = ['choose', 'optionalChoose'];
   bool registerContinueEnabled = false;
@@ -133,6 +133,7 @@ class LoginProvider extends ChangeNotifier {
     emailController.clear();
     registerPasswordController.clear();
     registerConfirmPasswordController.clear();
+    dateOfBirthController.clear();
     registerContinueEnabled = false;
     thirdStepSelection = ['choose', 'optionalChoose'];
     isLoading = false;
