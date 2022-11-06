@@ -118,10 +118,10 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                 buildFieldTitle('relativeRelation', filled: loginProvider.thirdStepSelection[0] != 'choose'),
                 SizedBox(height: height(0.015, context),),
                 dropDownList(relationTypes, themeNotifier, loginProvider, 0),
-                SizedBox(height: height(0.02, context),),
-                buildFieldTitle('academicLevel', required: false),
-                SizedBox(height: height(0.015, context),),
-                dropDownList(academicLevels, themeNotifier, loginProvider, 1),
+                // SizedBox(height: height(0.02, context),),
+                // buildFieldTitle('academicLevel', required: false),
+                // SizedBox(height: height(0.015, context),),
+                // dropDownList(academicLevels, themeNotifier, loginProvider, 1),
               ],
             ),
             SizedBox(height: height(0.04, context),),
@@ -138,6 +138,18 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                     loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
                     loginProvider.registerData.relativeType = relationTypes.indexOf(loginProvider.thirdStepSelection[0]);
                     loginProvider.registerData.academicLevel = relationTypes.indexOf(loginProvider.thirdStepSelection[1]).toString();
+                    // print('nationality: ${loginProvider.registerData.nationality}');
+                    // loginProvider.registerSubmitSecondStep(
+                    //     loginProvider.registerData.nationality,
+                    //     int.tryParse(loginProvider.registerNationalIdController.text),
+                    //     personalNo,
+                    //     loginProvider.civilIdNumberController.text,
+                    //     birthDate,
+                    //     secNo,
+                    //     natCode,
+                    //     int.tryParse(loginProvider.relativeNatIdController.text),
+                    //     relationTypes.indexOf(loginProvider.thirdStepSelection[0])
+                    // );
                     loginProvider.notifyMe();
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => const ThirdStepBody())
