@@ -1,7 +1,9 @@
 // ignore_for_file: file_names
 
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/models/login/registerData.dart';
 import 'package:ssc/src/view/login/registerComponents/thirdStepBody.dart';
@@ -28,6 +30,13 @@ class _SecondStepBodyState extends State<SecondStepBody> {
     'professionPracticeCertificate', 'apprenticeship', 'post-secondaryDiploma',
     'highSpecialization', 'specialtyCertificate', 'subspecialtyCertificate'];
 
+  bool isJordanian = true;
+
+  @override
+  void initState() {
+    isJordanian = Provider.of<LoginProvider>(context, listen: false).registerData.nationality == 1;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
@@ -85,42 +94,69 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   buildFieldTitle('enterNationalId', filled: loginProvider.registerNationalIdController.text.isNotEmpty),
                   SizedBox(height: height(0.015, context),),
                   buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, '9661001073', (val){
-                    loginProvider.registerContinueEnabled =  (
-                        loginProvider.registerNationalIdController.text.isNotEmpty &&
-                            loginProvider.civilIdNumberController.text.isNotEmpty &&
-                            loginProvider.relativeNatIdController.text.isNotEmpty &&
-                            loginProvider.thirdStepSelection[0] != 'choose'
-                    );
-                    loginProvider.notifyMe();
+                    checkContinueEnable(loginProvider);
                   }, inputType: TextInputType.number),
                   SizedBox(height: height(0.02, context),),
+                  if(isJordanian)
                   buildFieldTitle('civilIdNumber', filled: loginProvider.civilIdNumberController.text.isNotEmpty),
+                  if(!isJordanian)
+                  buildFieldTitle('passportNumber', filled: loginProvider.passportNumberController.text.isNotEmpty),
                   SizedBox(height: height(0.015, context),),
-                  buildTextFormField(context, themeNotifier, loginProvider.civilIdNumberController, 'AER20995', (val){
-                    loginProvider.registerContinueEnabled =  (
-                        loginProvider.registerNationalIdController.text.isNotEmpty &&
-                            loginProvider.civilIdNumberController.text.isNotEmpty &&
-                            loginProvider.relativeNatIdController.text.isNotEmpty &&
-                            loginProvider.thirdStepSelection[0] != 'choose'
-                    );
-                    loginProvider.notifyMe();
+                  buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.civilIdNumberController : loginProvider.passportNumberController, 'AER20995', (val){
+                    checkContinueEnable(loginProvider);
                   },),
                   SizedBox(height: height(0.02, context),),
+                  if(isJordanian)
                   buildFieldTitle('relativeNationalNumber', filled: loginProvider.relativeNatIdController.text.isNotEmpty),
+                  if(!isJordanian)
+                  buildFieldTitle('insuranceNumber', required: false),
                   SizedBox(height: height(0.015, context),),
-                  buildTextFormField(context, themeNotifier, loginProvider.relativeNatIdController, '9661001073', (val){
-                    loginProvider.registerContinueEnabled =  (
-                        loginProvider.registerNationalIdController.text.isNotEmpty &&
-                            loginProvider.civilIdNumberController.text.isNotEmpty &&
-                            loginProvider.relativeNatIdController.text.isNotEmpty &&
-                            loginProvider.thirdStepSelection[0] != 'choose'
-                    );
-                    loginProvider.notifyMe();
+                  buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.relativeNatIdController : loginProvider.insuranceNumberController, '9661001073', (val){
+                    checkContinueEnable(loginProvider);
                   },inputType: TextInputType.number),
                   SizedBox(height: height(0.02, context),),
+                  if(isJordanian)
                   buildFieldTitle('relativeRelation', filled: loginProvider.thirdStepSelection[0] != 'choose'),
+                  if(!isJordanian)
+                  buildFieldTitle('DateOfBirth', required: true, filled: loginProvider.dateOfBirthController.text.isNotEmpty),
                   SizedBox(height: height(0.015, context),),
+                  if(isJordanian)
                   dropDownList(relationTypes, themeNotifier, loginProvider, 0),
+                  if(!isJordanian)
+                  DateTimePicker(
+                    decoration: InputDecoration(
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: SvgPicture.asset('assets/icons/datePickerIcon.svg'),
+                      ),
+                      contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: HexColor('#979797'),
+                          width: 0.5,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: HexColor('#445740'),
+                          width: 0.8,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: HexColor('#363636')
+                    ),
+                    type: DateTimePickerType.date,
+                    dateMask: 'yyyy/MM/dd',
+                    controller: loginProvider.dateOfBirthController,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                    dateLabelText: 'Date',
+                    onChanged: (val) => checkContinueEnable(loginProvider),
+                  ),
                   // SizedBox(height: height(0.02, context),),
                   // buildFieldTitle('academicLevel', required: false),
                   // SizedBox(height: height(0.015, context),),
@@ -202,12 +238,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   }
                   loginProvider.notifyMe();
                 });
-                loginProvider.registerContinueEnabled =  (
-                    loginProvider.registerNationalIdController.text.isNotEmpty &&
-                        loginProvider.civilIdNumberController.text.isNotEmpty &&
-                        loginProvider.relativeNatIdController.text.isNotEmpty &&
-                        loginProvider.thirdStepSelection[0] != 'choose'
-                );
+                checkContinueEnable(loginProvider);
                 loginProvider.notifyMe();
               },
               items: menuList.map<DropdownMenuItem<String>>((String value) {
@@ -232,6 +263,25 @@ class _SecondStepBodyState extends State<SecondStepBody> {
           ],
         )
     );
+  }
+
+  checkContinueEnable(LoginProvider loginProvider){
+    if(isJordanian) {
+      loginProvider.registerContinueEnabled =  (
+        loginProvider.registerNationalIdController.text.isNotEmpty &&
+            loginProvider.civilIdNumberController.text.isNotEmpty &&
+            loginProvider.relativeNatIdController.text.isNotEmpty &&
+            loginProvider.thirdStepSelection[0] != 'choose'
+      );
+    }else{
+      loginProvider.registerContinueEnabled =  (
+          loginProvider.registerNationalIdController.text.isNotEmpty &&
+          loginProvider.passportNumberController.text.isNotEmpty &&
+          loginProvider.insuranceNumberController.text.isNotEmpty &&
+          loginProvider.dateOfBirthController.text.isNotEmpty
+      );
+    }
+    loginProvider.notifyMe();
   }
 
   Widget buildFieldTitle(title, {required = true, filled = false}){
