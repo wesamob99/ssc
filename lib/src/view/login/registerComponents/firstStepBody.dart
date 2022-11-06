@@ -120,6 +120,14 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                     onChanged: (value) =>
                         setState(() {
                           selectedNationality = value;
+                          if(selectedNationality != 'jordanian'){
+                            loginProvider.registerContinueEnabled =
+                            (loginProvider.jordanianMobileNumberController.text.length >= 9 &&
+                                loginProvider.foreignMobileNumberController.text.length >= 9);
+                          }else{
+                            loginProvider.registerContinueEnabled = loginProvider.jordanianMobileNumberController.text.length >= 9;
+                          }
+                          loginProvider.notifyMe();
                         }),
                     items: const ['jordanian', 'nonJordanian'],
                     itemBuilder: (item) =>
@@ -166,9 +174,13 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                           child: buildTextFormField(
                               context, themeNotifier, loginProvider.jordanianMobileNumberController,
                               '', (val) {
-                            loginProvider.registerContinueEnabled =
-                                (loginProvider.jordanianMobileNumberController.text.length >= 9 &&
-                                loginProvider.foreignMobileNumberController.text.length >= 9);
+                            if(selectedNationality != 'jordanian'){
+                              loginProvider.registerContinueEnabled =
+                              (loginProvider.jordanianMobileNumberController.text.length >= 9 &&
+                                  loginProvider.foreignMobileNumberController.text.length >= 9);
+                            }else{
+                              loginProvider.registerContinueEnabled = loginProvider.jordanianMobileNumberController.text.length >= 9;
+                            }
                             loginProvider.notifyMe();
                           }, inputType: TextInputType.number),
                       ),
@@ -194,6 +206,13 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                         child: buildTextFormField(
                             context, themeNotifier, loginProvider.foreignMobileNumberController,
                             '', (val) {
+                          if(selectedNationality != 'jordanian'){
+                            loginProvider.registerContinueEnabled =
+                            (loginProvider.jordanianMobileNumberController.text.length >= 9 &&
+                                loginProvider.foreignMobileNumberController.text.length >= 9);
+                          }else{
+                            loginProvider.registerContinueEnabled = loginProvider.jordanianMobileNumberController.text.length >= 9;
+                          }
                           loginProvider.registerContinueEnabled =
                           (loginProvider.jordanianMobileNumberController.text.length >= 9 &&
                               loginProvider.foreignMobileNumberController.text.length >= 9);
@@ -263,7 +282,8 @@ class _FirstStepBodyState extends State<FirstStepBody> {
     }
     return InkWell(
         onTap: () {
-          DropDownState(
+          if(index != 3) {
+            DropDownState(
             DropDown(
               isSearchVisible: true,
               data: selectedListItem ?? [],
@@ -287,6 +307,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
               enableMultipleSelection: false,
             ),
           ).showModal(context);
+          }
         },
         child: Container(
             alignment: UserConfig.instance.checkLanguage()
@@ -295,7 +316,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
             padding: const EdgeInsets.symmetric(
                 horizontal: 16.0, vertical: 8.0),
             decoration: BoxDecoration(
-                color: Colors.transparent,
+                color: index != 3 ? Colors.transparent : HexColor('#DADADA'),
                 borderRadius: BorderRadius.circular(8.0),
                 border: Border.all(
                     color: HexColor('#979797')
@@ -308,9 +329,8 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                   children: [
                     Text(
                       selectedCountry.flag,
-                      style: TextStyle(
-                          color: HexColor('#363636'),
-                          fontSize: 25
+                      style: const TextStyle(
+                        fontSize: 25,
                       ),
                     ),
                     SizedBox(width: width(0.01, context),),
