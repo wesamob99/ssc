@@ -45,7 +45,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     loginProvider.nationalIdController.clear();
     loginProvider.enabledSubmitButton = false;
     ///register
-    loginProvider.mobileNumberController.clear();
+    loginProvider.jordanianMobileNumberController.clear();
+    loginProvider.foreignMobileNumberController.clear();
     loginProvider.registerNationalIdController.clear();
     loginProvider.civilIdNumberController.clear();
     loginProvider.relativeNatIdController.clear();
