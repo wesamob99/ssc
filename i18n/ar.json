@@ -93,6 +93,8 @@
   "nationality": "الجنسية",
   "countryOfResidence": "بلد الإقامة",
   "mobileNumber": "رقم الهاتف",
+  "jordanianMobileNumber": "رقم الهاتف الأردني",
+  "foreignMobileNumber": "رقم هاتف آخر خارج الأردن",
   "and": "و",
   "jordanian": "اردني",
   "nonJordanian": "غير اردني",

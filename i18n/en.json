@@ -93,6 +93,8 @@
   "nationality": "Nationality",
   "countryOfResidence": "Country of residence",
   "mobileNumber": "Mobile number",
+  "jordanianMobileNumber": "Jordanian mobile number",
+  "foreignMobileNumber": "Another phone number outside Jordan",
   "and": "and ",
   "jordanian": "jordanian",
   "nonJordanian": "non jordanian",
