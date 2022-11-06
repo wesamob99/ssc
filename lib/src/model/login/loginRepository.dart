@@ -106,4 +106,34 @@ class LoginRepository{
     }
     return '';
   }
+
+  Future registerSubmitSecondStepService(
+      int nationality, int nationalNo,
+      int personalNo, String cardNo,
+      DateTime birthDate, int secNo,
+      int natCode, int relNatNo, int relType
+    ) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/mobile/INDV_VALIDATE_PERS_RELATIVES',
+      {
+        'nationality': nationality, // 1- Jordanian 2- non-Jordanian
+        'natNo':  nationalNo, // national number
+        'persNo': personalNo, //personal number
+        'cardNo': cardNo, // personal card number
+        'birthDate' : birthDate,
+        'secNo': secNo, // insurance number
+        'natCode':  natCode, // national code,
+        'relNatNo' : relNatNo, // relative national number
+        'relType':  relType // relative type
+      }
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
 }

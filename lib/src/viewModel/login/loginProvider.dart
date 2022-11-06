@@ -80,6 +80,20 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future registerSubmitSecondStep(
+      int nationality, int nationalNo,
+      int personalNo, String cardNo,
+      DateTime birthDate, int secNo,
+      int natCode, int relNatNo, int relType
+    ) async{
+    final response = await loginRepository.registerSubmitSecondStepService(
+        nationality, nationalNo,
+        personalNo, cardNo,
+        birthDate, secNo,
+        natCode, relNatNo, relType);
+    return response;
+  }
+
   void notifyMe() {
     notifyListeners();
   }
