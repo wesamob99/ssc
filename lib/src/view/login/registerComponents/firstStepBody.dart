@@ -27,16 +27,20 @@ class _FirstStepBodyState extends State<FirstStepBody> {
 
   LoginProvider loginProvider;
   String selectedNationality = 'jordanian';
-  SelectedListItem selectedCountry = SelectedListItem(
-    name: UserConfig.instance.checkLanguage() ? "Jordan" : "الأردن",
-    value: "962", natCode: 111,
-    flag: countries[110].flag,
-  );
+  SelectedListItem selectedCountryOfResident;
+  SelectedListItem selectedExactNationality;
+  SelectedListItem selectedCountryForJoMobileNumber;
+  SelectedListItem selectedCountryForForeignMobileNumber;
 
   @override
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     loginProvider.readCountriesJson();
+    selectedCountryOfResident = selectedExactNationality = selectedCountryForJoMobileNumber = selectedCountryForForeignMobileNumber = SelectedListItem(
+      name: UserConfig.instance.checkLanguage() ? "Jordan" : "الأردن",
+      value: "962", natCode: 111,
+      flag: countries[110].flag,
+    );
     super.initState();
   }
 
@@ -48,143 +52,199 @@ class _FirstStepBodyState extends State<FirstStepBody> {
 
     return RegisterScreen(
       stepNumber: 1,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: height(0.02, context),),
-              Column(
+      body: SizedBox(
+        height: height(0.78, context),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    translate('firstStep', context),
-                    style: TextStyle(
-                        color: HexColor('#979797'),
-                        fontSize: width(0.03, context)
-                    ),
+                  SizedBox(height: height(0.02, context),),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        translate('firstStep', context),
+                        style: TextStyle(
+                            color: HexColor('#979797'),
+                            fontSize: width(0.03, context)
+                        ),
+                      ),
+                      SizedBox(height: height(0.006, context),),
+                      Text(
+                        '${translate('nationality', context)}'
+                            '${UserConfig.instance.checkLanguage() ? ',' : ''}'
+                            ' ${translate('countryOfResidence', context)}'
+                            ' ${translate('and', context)}'
+                            '${translate('mobileNumber', context)}',
+                        style: TextStyle(
+                            color: HexColor('#5F5F5F'),
+                            fontSize: width(0.035, context)
+                        ),
+                      )
+                    ],
                   ),
-                  SizedBox(height: height(0.006, context),),
+                  SizedBox(height: height(0.01, context),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SizedBox.shrink(),
+                      Text(
+                        '${translate('next', context)}: ${translate(
+                            'personalInformations', context)}',
+                        style: TextStyle(
+                            color: HexColor('#979797'),
+                            fontSize: width(0.032, context)
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: height(0.02, context),),
                   Text(
-                    '${translate('nationality', context)}'
-                        '${UserConfig.instance.checkLanguage() ? ',' : ''}'
-                        ' ${translate('countryOfResidence', context)}'
-                        ' ${translate('and', context)}'
-                        '${translate('mobileNumber', context)}',
+                    translate('nationality', context),
                     style: TextStyle(
-                        color: HexColor('#5F5F5F'),
-                        fontSize: width(0.035, context)
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(height: height(0.01, context),),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox.shrink(),
-                  Text(
-                    '${translate('next', context)}: ${translate(
-                        'personalInformations', context)}',
-                    style: TextStyle(
-                        color: HexColor('#979797'),
+                        color: HexColor('#363636'),
                         fontSize: width(0.032, context)
                     ),
                   ),
+                  SizedBox(height: height(0.01, context),),
+                  RadioGroup<String>.builder(
+                    activeColor: HexColor('#2D452E'),
+                    direction: Axis.horizontal,
+                    horizontalAlignment: MainAxisAlignment.start,
+                    groupValue: selectedNationality,
+                    spacebetween: 30,
+                    onChanged: (value) =>
+                        setState(() {
+                          selectedNationality = value;
+                        }),
+                    items: const ['jordanian', 'nonJordanian'],
+                    itemBuilder: (item) =>
+                        RadioButtonBuilder(
+                          translate(item, context),
+                        ),
+                  ),
+                  SizedBox(height: height(0.02, context),),
+                  Text(
+                    translate('countryOfResidence', context),
+                    style: TextStyle(
+                        color: HexColor('#363636'),
+                        fontSize: width(0.032, context)
+                    ),
+                  ),
+                  SizedBox(height: height(0.015, context),),
+                  buildCountriesDropDown(1, selectedCountryOfResident, showSelectedName: true),
+                  SizedBox(height: height(0.02, context),),
+                  if(selectedNationality != 'jordanian')
+                  Text(
+                    translate('nationality', context),
+                    style: TextStyle(
+                        color: HexColor('#363636'),
+                        fontSize: width(0.032, context)
+                    ),
+                  ),
+                  if(selectedNationality != 'jordanian')
+                  SizedBox(height: height(0.015, context),),
+                  if(selectedNationality != 'jordanian')
+                  buildCountriesDropDown(2, selectedExactNationality, showSelectedName: true),
+                  if(selectedNationality != 'jordanian')
+                  SizedBox(height: height(0.02, context),),
+                  Text(
+                    translate('jordanianMobileNumber', context),
+                    style: TextStyle(
+                        color: HexColor('#363636'),
+                        fontSize: width(0.032, context)
+                    ),
+                  ),
+                  SizedBox(height: height(0.015, context),),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: buildTextFormField(
+                              context, themeNotifier, loginProvider.jordanianMobileNumberController,
+                              '', (val) {
+                            loginProvider.registerContinueEnabled =
+                                (loginProvider.jordanianMobileNumberController.text.length >= 9 &&
+                                loginProvider.foreignMobileNumberController.text.length >= 9);
+                            loginProvider.notifyMe();
+                          }, inputType: TextInputType.number),
+                      ),
+                      SizedBox(width: width(0.015, context)),
+                      buildCountriesDropDown(3, selectedCountryForJoMobileNumber),
+                    ],
+                  ),
+                  SizedBox(height: height(0.02, context),),
+                  if(selectedNationality != 'jordanian')
+                  Text(
+                    translate('foreignMobileNumber', context),
+                    style: TextStyle(
+                        color: HexColor('#363636'),
+                        fontSize: width(0.032, context)
+                    ),
+                  ),
+                  if(selectedNationality != 'jordanian')
+                  SizedBox(height: height(0.015, context),),
+                  if(selectedNationality != 'jordanian')
+                  Row(
+                    children: [
+                      Expanded(
+                        child: buildTextFormField(
+                            context, themeNotifier, loginProvider.foreignMobileNumberController,
+                            '', (val) {
+                          loginProvider.registerContinueEnabled =
+                          (loginProvider.jordanianMobileNumberController.text.length >= 9 &&
+                              loginProvider.foreignMobileNumberController.text.length >= 9);
+                          loginProvider.notifyMe();
+                        }, inputType: TextInputType.number),
+                      ),
+                      SizedBox(width: width(0.015, context)),
+                      buildCountriesDropDown(4, selectedCountryForForeignMobileNumber),
+                    ],
+                  ),
+                  SizedBox(height: height(0.015, context),),
                 ],
               ),
-              SizedBox(height: height(0.02, context),),
-              Text(
-                translate('nationality', context),
-                style: TextStyle(
-                    color: HexColor('#363636'),
-                    fontSize: width(0.032, context)
-                ),
-              ),
-              SizedBox(height: height(0.01, context),),
-              RadioGroup<String>.builder(
-                activeColor: HexColor('#2D452E'),
-                direction: Axis.horizontal,
-                horizontalAlignment: MainAxisAlignment.start,
-                groupValue: selectedNationality,
-                spacebetween: 30,
-                onChanged: (value) =>
-                    setState(() {
-                      selectedNationality = value;
-                    }),
-                items: const ['jordanian', 'nonJordanian'],
-                itemBuilder: (item) =>
-                    RadioButtonBuilder(
-                      translate(item, context),
-                    ),
-              ),
-              SizedBox(height: height(0.02, context),),
-              Text(
-                translate('countryOfResidence', context),
-                style: TextStyle(
-                    color: HexColor('#363636'),
-                    fontSize: width(0.032, context)
-                ),
-              ),
-              SizedBox(height: height(0.015, context),),
-              buildCountriesDropDown(),
-              SizedBox(height: height(0.02, context),),
-              Text(
-                translate('mobileNumber', context),
-                style: TextStyle(
-                    color: HexColor('#363636'),
-                    fontSize: width(0.032, context)
-                ),
-              ),
-              SizedBox(height: height(0.015, context),),
-              buildTextFormField(
-                  context, themeNotifier, loginProvider.mobileNumberController,
-                  '', (val) {
-                loginProvider.registerContinueEnabled =
-                    loginProvider.mobileNumberController.text.length >= 9;
-                loginProvider.notifyMe();
-              }, inputType: TextInputType.number),
-              SizedBox(height: height(0.015, context),),
-            ],
-          ),
-          SizedBox(height: height(0.2, context),),
-          textButton(context, themeNotifier, 'continue',
-              MaterialStateProperty.all<Color>(
-                  !Provider
-                      .of<LoginProvider>(context)
-                      .registerContinueEnabled
-                      ? HexColor('#DADADA')
-                      : getPrimaryColor(context, themeNotifier)),
-              Provider
-                  .of<LoginProvider>(context)
-                  .registerContinueEnabled
-                  ? HexColor('#ffffff') : HexColor('#363636'), () {
-                if (loginProvider.registerContinueEnabled) {
-                  loginProvider.registerContinueEnabled = false;
-                  loginProvider.registerData.nationality =
-                  (selectedNationality == 'jordanian' ? 1 : 2);
-                  loginProvider.registerData.residentCountry =
-                      selectedCountry.natCode;
-                  loginProvider.registerData.mobileNo =
-                      loginProvider.mobileNumberController.text;
-                  loginProvider.notifyMe();
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) =>
-                          OTPScreen(
-                              type: 'phone',
-                              contactTarget: loginProvider
-                                  .mobileNumberController.text))
-                  );
+            ),
+            textButton(context, themeNotifier, 'continue',
+                MaterialStateProperty.all<Color>(
+                    !Provider
+                        .of<LoginProvider>(context)
+                        .registerContinueEnabled
+                        ? HexColor('#DADADA')
+                        : getPrimaryColor(context, themeNotifier)),
+                Provider
+                    .of<LoginProvider>(context)
+                    .registerContinueEnabled
+                    ? HexColor('#ffffff') : HexColor('#363636'), () {
+                  if (loginProvider.registerContinueEnabled) {
+                    loginProvider.registerContinueEnabled = false;
+                    loginProvider.registerData.nationality =
+                    (selectedNationality == 'jordanian' ? 1 : 2);
+                    loginProvider.registerData.residentCountry =
+                        selectedCountryOfResident.natCode;
+                    loginProvider.registerData.mobileNo =
+                        loginProvider.jordanianMobileNumberController.text;
+                    loginProvider.notifyMe();
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) =>
+                            OTPScreen(
+                                type: 'phone',
+                                contactTarget: loginProvider
+                                    .jordanianMobileNumberController.text))
+                    );
+                  }
                 }
-              }
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildCountriesDropDown() {
+  Widget buildCountriesDropDown(int index, SelectedListItem selectedCountry ,{showSelectedName = false}) {
     List<SelectedListItem> selectedListItem = [];
     for (var element in loginProvider.countries) {
       int inx = countries.indexWhere((value) =>
@@ -211,7 +271,15 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                 for (var item in selectedList) {
                   if (item is SelectedListItem) {
                     setState(() {
-                      selectedCountry = item;
+                      if(index == 1) {
+                        selectedCountryOfResident = item;
+                      }else if(index == 2){
+                        selectedExactNationality = item;
+                      }else if(index == 3){
+                        selectedCountryForJoMobileNumber = item;
+                      }else if(index == 4){
+                        selectedCountryForForeignMobileNumber = item;
+                      }
                     });
                   }
                 }
@@ -221,7 +289,6 @@ class _FirstStepBodyState extends State<FirstStepBody> {
           ).showModal(context);
         },
         child: Container(
-            width: width(1, context),
             alignment: UserConfig.instance.checkLanguage()
                 ? Alignment.centerLeft
                 : Alignment.centerRight,
@@ -248,7 +315,9 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                     ),
                     SizedBox(width: width(0.01, context),),
                     Text(
-                      '${selectedCountry.value} | ${selectedCountry.name}',
+                      showSelectedName
+                          ? '${selectedCountry.value} | ${selectedCountry.name}'
+                          : selectedCountry.value,
                       style: TextStyle(
                           color: HexColor('#363636'),
                           fontSize: 15
