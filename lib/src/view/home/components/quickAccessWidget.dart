@@ -17,7 +17,7 @@ class QuickAccessWidget extends StatelessWidget {
     List quickAccessServices = [
       {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication", "screen": const WorkInjuryComplaintScreen()},
       {'icon': 'assets/icons/quickAccessIcons/onePaymentIcon.svg', 'title': "onePayment", "screen": const WorkInjuryComplaintScreen()},
-      {'icon': 'assets/icons/quickAccessIcons/reportAnAccidentIcon.svg', 'title': "ReportAnAccident", "screen": const WorkInjuryComplaintScreen()},
+      {'icon': 'assets/icons/quickAccessIcons/reportAnAccidentIcon.svg', 'title': "reportAnAccident", "screen": const WorkInjuryComplaintScreen()},
       {'icon': 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription", "screen": const WorkInjuryComplaintScreen()},
       {'icon': 'assets/icons/quickAccessIcons/accountStatementIcon.svg', 'title': "accountStatement", "screen": const WorkInjuryComplaintScreen()},
       {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication", "screen": const WorkInjuryComplaintScreen()},
