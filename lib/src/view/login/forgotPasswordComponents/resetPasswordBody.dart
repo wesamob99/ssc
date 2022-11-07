@@ -218,6 +218,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                           ),
                                           child: Text(
                                             translate(validators[index], context),
+                                            textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: validatorsCheck[index]
                                                     ? HexColor('#FFFFFF') : HexColor('#595959'),

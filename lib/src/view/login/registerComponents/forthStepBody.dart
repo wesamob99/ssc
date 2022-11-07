@@ -132,6 +132,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                           ),
                           child: Text(
                             translate(validators[index], context),
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: validatorsCheck[index]
                                     ? HexColor('#FFFFFF') : HexColor('#595959'),
