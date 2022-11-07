@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 import '../src/view/login/forgotPasswordScreen.dart';
+import '../src/viewModel/login/loginProvider.dart';
 import 'hexColor.dart';
 import 'language/appLocalizations.dart';
 import 'dart:ui' as ui;
@@ -397,7 +398,8 @@ SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPres
 
 Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingController controller,
     String hintText, onChanged, {isPassword = false,
-      inputType = TextInputType.text, enabled = true}){
+      inputType = TextInputType.text, enabled = true, flag = 0}){
+  LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
   return Container(
     decoration: BoxDecoration(
       color: enabled ? Colors.transparent : const Color.fromRGBO(232, 232, 232, 0.8),
@@ -406,7 +408,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
     child: TextFormField(
       controller: controller,
       keyboardType: inputType,
-      obscureText: false,
+      obscureText: isPassword && ((Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2)) ,
       readOnly: !enabled,
       style: TextStyle(
         fontSize: 15,
@@ -415,20 +417,25 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
       cursorColor: getPrimaryColor(context, themeNotifier),
       cursorWidth: 1,
       decoration: InputDecoration(
-          // suffixIcon: isPassword
-          // ? InkWell(
-          //   onTap: (){
-          //     loginProvider.obscurePassword = !loginProvider.obscurePassword;
-          //     loginProvider.notifyMe();
-          //   },
-          //   child: Icon(
-          //     Provider.of<LoginProvider>(context).obscurePassword ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
-          //     size: 20,
-          //     color: themeNotifier.isLight()
-          //         ? getPrimaryColor(context, themeNotifier)
-          //         : Colors.white,
-          //   ),
-          // ) : const SizedBox.shrink(),
+          suffixIcon: isPassword
+          ? InkWell(
+            onTap: (){
+              if(flag == 1) {
+                loginProvider.resetObscurePassword = !loginProvider.resetObscurePassword;
+              } else if(flag == 2) {
+                loginProvider.registerObscurePassword = !loginProvider.registerObscurePassword;
+              }
+              loginProvider.notifyMe();
+            },
+            child: Icon(
+              (Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2)
+                  ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
+              size: 20,
+              color: themeNotifier.isLight()
+                  ? getPrimaryColor(context, themeNotifier)
+                  : Colors.white,
+            ),
+          ) : const SizedBox.shrink(),
           hintText: hintText == '' ? '' : translate('ex', context) + hintText,
           hintStyle: TextStyle(
             color: getGrey2Color(context).withOpacity(
