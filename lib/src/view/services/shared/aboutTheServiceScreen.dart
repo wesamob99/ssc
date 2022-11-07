@@ -7,8 +7,6 @@ import 'package:readmore/readmore.dart';
 import 'package:ssc/src/viewModel/services/servicesProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/util.dart';
-import 'dart:math' as math;
-import '../../../../../infrastructure/userConfig.dart';
 import '../../../../../utilities/theme/themes.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 
