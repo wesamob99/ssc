@@ -14,7 +14,7 @@ class QuickAccessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List quickAccessComponents = [
+    List quickAccessServices = [
       {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication", "screen": const WorkInjuryComplaintScreen()},
       {'icon': 'assets/icons/quickAccessIcons/onePaymentIcon.svg', 'title': "onePayment", "screen": const WorkInjuryComplaintScreen()},
       {'icon': 'assets/icons/quickAccessIcons/reportAnAccidentIcon.svg', 'title': "ReportAnAccident", "screen": const WorkInjuryComplaintScreen()},
@@ -27,7 +27,7 @@ class QuickAccessWidget extends StatelessWidget {
     return SizedBox(
       height: height(isScreenHasSmallHeight(context) ? 0.14 : 0.12, context),
       child: ListView.builder(
-          itemCount: quickAccessComponents.length,
+          itemCount: quickAccessServices.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index){
             return Row(
@@ -37,8 +37,8 @@ class QuickAccessWidget extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => AboutTheServiceScreen(
-                          serviceScreen: quickAccessComponents[index]['screen'],
-                          serviceTitle: quickAccessComponents[index]['title'],
+                          serviceScreen: quickAccessServices[index]['screen'],
+                          serviceTitle: quickAccessServices[index]['title'],
                           aboutServiceDescription: ' بدلات التعطل عن العمل التي تقوم بصرفها والتي تخص المؤمن عليهم المشتركين بالضمان والعاملين في منشآت القطاع الخاص ممن يتعطّلون مؤقتاً عن العمل هي مبالغ غير مستردّة ولا يطالب المؤمن عليهم بإعادتها إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات دون وجه حق إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات',//mostVisitedServices[index]['description'],
                           termsOfTheService: const [
                             'موظفي القطاع الخاص',
@@ -69,7 +69,7 @@ class QuickAccessWidget extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.all(isTablet(context) ? 17.0 : 14.0),
                           child: SvgPicture.asset(
-                            quickAccessComponents[index]['icon'],
+                            quickAccessServices[index]['icon'],
                             width: isTablet(context) ? 48 : 32,
                             height: isTablet(context) ? 48 : 32,
                           ),
@@ -78,7 +78,7 @@ class QuickAccessWidget extends StatelessWidget {
                       SizedBox(
                         width: isScreenHasSmallHeight(context) ? 65 : isTablet(context) ? 90.0 : 67.0,
                         child: Text(
-                          translate(quickAccessComponents[index]['title'], context),
+                          translate(quickAccessServices[index]['title'], context),
                           textAlign: TextAlign.center,
                           maxLines: isScreenHasSmallHeight(context) ? 2 : 3,
                           overflow: TextOverflow.ellipsis,
@@ -90,7 +90,7 @@ class QuickAccessWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(width: width(index != quickAccessComponents.length-1 ? 0.006 : 0, context))
+                SizedBox(width: width(index != quickAccessServices.length-1 ? 0.006 : 0, context))
               ],
             );
           }

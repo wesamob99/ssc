@@ -16,7 +16,7 @@ class InsuranceBody extends StatefulWidget {
 
 class _InsuranceBodyState extends State<InsuranceBody> {
 
-  List mostVisitedServices = [
+  List insuranceBenefitsServices = [
     {"title": "retired", "subTitle": "requestRetiredLoan", "description": "this supposed to be about the service description", "screen": const WorkInjuryComplaintScreen()},
     {"title": "individuals", "subTitle": "unemploymentApplication", "description": "this supposed to be about the service description", "screen": const WorkInjuryComplaintScreen()},
     {"title": "maternity", "subTitle": "unemploymentApplication", "description": "this supposed to be about the service description", "screen": const WorkInjuryComplaintScreen()},
@@ -27,7 +27,7 @@ class _InsuranceBodyState extends State<InsuranceBody> {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
-          itemCount: mostVisitedServices.length,
+          itemCount: insuranceBenefitsServices.length,
           itemBuilder: (context, index){
             return Container(
               margin: EdgeInsets.only(bottom: height(0.02, context)),
@@ -39,8 +39,8 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => AboutTheServiceScreen(
-                            serviceScreen: mostVisitedServices[index]['screen'],
-                            serviceTitle: mostVisitedServices[index]['subTitle'],
+                            serviceScreen: insuranceBenefitsServices[index]['screen'],
+                            serviceTitle: insuranceBenefitsServices[index]['subTitle'],
                             aboutServiceDescription: ' بدلات التعطل عن العمل التي تقوم بصرفها والتي تخص المؤمن عليهم المشتركين بالضمان والعاملين في منشآت القطاع الخاص ممن يتعطّلون مؤقتاً عن العمل هي مبالغ غير مستردّة ولا يطالب المؤمن عليهم بإعادتها إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات دون وجه حق إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات',//mostVisitedServices[index]['description'],
                             termsOfTheService: const [
                               'موظفي القطاع الخاص',
@@ -64,14 +64,14 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            translate(mostVisitedServices[index]['title'], context),
+                            translate(insuranceBenefitsServices[index]['title'], context),
                             style: TextStyle(
                                 fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
                             ),
                           ),
                           SizedBox(height: height(0.006, context)),
                           Text(
-                            translate(mostVisitedServices[index]['subTitle'], context),
+                            translate(insuranceBenefitsServices[index]['subTitle'], context),
                             style: TextStyle(
                                 fontSize: width(isTablet(context) ? 0.025 : 0.03, context)
                             ),
