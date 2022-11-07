@@ -22,6 +22,7 @@
   "confirmPassword": "Confirm password",
   "ex": "Ex: ",
   "continue": "Continue",
+  "finish": "Finish",
   "loginErrorInvalidInputs": "Invalid national ID or password",
   "loginErrorEmptyNationalId": "National ID is Empty",
   "loginErrorEmptyPassword": "Password is Empty",

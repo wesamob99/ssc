@@ -81,24 +81,25 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                   thirdStep(context, themeNotifier, servicesProvider),
                 if(Provider.of<ServicesProvider>(context).stepNumber == 4)
                   forthStep(context, themeNotifier, servicesProvider),
-                  textButton(context,
+                textButton(context,
                   themeNotifier,
-                  'continue',
+                  Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'finish',
                   MaterialStateProperty.all<Color>(
                       getPrimaryColor(context, themeNotifier)),
                   HexColor('#ffffff'),
-                  (){
+                      (){
                     switch(servicesProvider.stepNumber){
                       case 1: servicesProvider.stepNumber = 2; break;
                       case 2: servicesProvider.stepNumber = 3; break;
                       case 3: servicesProvider.stepNumber = 4; break;
                       case 4: if (kDebugMode) {
-                        print('finished!');
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
                       } break; /// TODO: finish service
                     }
                     servicesProvider.notifyMe();
                   },
-                ),
+                )
                 // SizedBox(height: height(0.01, context)),
                 // textButton(context,
                 //   themeNotifier,
@@ -119,7 +120,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
 Widget secondStep(context, themeNotifier, ServicesProvider servicesProvider){
   return SingleChildScrollView(
     child: SizedBox(
-      height: height(0.75, context),
+      height: height(0.78, context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -214,7 +215,7 @@ Widget thirdStep(context, themeNotifier, ServicesProvider servicesProvider){
   return SingleChildScrollView(
     child: Container(
       alignment: Alignment.center,
-      height: height(0.75, context),
+      height: height(0.78, context),
       child: Text(translate('thirdStep', context)),
     ),
   );
@@ -224,7 +225,7 @@ Widget forthStep(context, themeNotifier, ServicesProvider servicesProvider){
   return SingleChildScrollView(
     child: Container(
       alignment: Alignment.center,
-      height: height(0.75, context),
+      height: height(0.78, context),
       child: Text(translate('forthStep', context)),
     ),
   );

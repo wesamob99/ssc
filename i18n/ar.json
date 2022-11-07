@@ -22,6 +22,7 @@
   "confirmPassword": "تأكيد كلمة المرور",
   "ex": "مثال : ",
   "continue": "الاستمرار",
+  "finish": "إنهاء",
   "loginErrorInvalidInputs": "خطأ في الرقم الوطني أو كلمة المرور",
   "loginErrorEmptyNationalId": "الرقم الوطني فارغ",
   "loginErrorEmptyPassword": "كلمة المرور فارغة",
