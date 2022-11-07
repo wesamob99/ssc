@@ -316,7 +316,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
             padding: const EdgeInsets.symmetric(
                 horizontal: 16.0, vertical: 8.0),
             decoration: BoxDecoration(
-                color: index != 3 ? Colors.transparent : HexColor('#DADADA'),
+                color: index != 3 ? Colors.transparent : HexColor('#DFDFDF'),
                 borderRadius: BorderRadius.circular(8.0),
                 border: Border.all(
                     color: HexColor('#979797')
@@ -339,14 +339,15 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                           ? '${selectedCountry.value} | ${selectedCountry.name}'
                           : selectedCountry.value,
                       style: TextStyle(
-                          color: HexColor('#363636'),
+                          color: index == 3 ? HexColor('#A6A6A6') : HexColor('#363636'),
                           fontSize: 15
                       ),
                     ),
                   ],
                 ),
-                const Icon(
-                    Icons.arrow_drop_down_outlined
+                Icon(
+                  Icons.arrow_drop_down_outlined,
+                  color: index == 3 ? HexColor('#A6A6A6') : HexColor('#363636'),
                 )
               ],
             )
