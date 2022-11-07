@@ -54,21 +54,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
       appBar: AppBar(
         centerTitle: false,
         title: Text(translate(widget.serviceTitle, context)),
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-            onTap: (){
-              Navigator.of(context).pop();
-            },
-            child: Transform.rotate(
-              angle: UserConfig.instance.checkLanguage()
-                  ? -math.pi / 1.0 : 0,
-              child: SvgPicture.asset(
-                  'assets/icons/backWhite.svg'
-              ),
-            ),
-          ),
-        ),
+        leading: leadingBackIcon(context),
       ),
       body: GestureDetector(
         onTap: (){

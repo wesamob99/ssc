@@ -4,11 +4,13 @@ import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
+import '../infrastructure/userConfig.dart';
 import '../src/view/login/forgotPasswordScreen.dart';
 import '../src/viewModel/login/loginProvider.dart';
 import 'hexColor.dart';
 import 'language/appLocalizations.dart';
 import 'dart:ui' as ui;
+import 'dart:math' as math;
 
 String getExtension(String url) {
   String reversed = url.split('').toList().reversed.join();
@@ -615,6 +617,24 @@ modalBottomSheet(context, themeNotifier, supportState, authenticate){
           ),
         );
       }
+  );
+}
+
+leadingBackIcon(context){
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: InkWell(
+      onTap: (){
+        Navigator.of(context).pop();
+      },
+      child: Transform.rotate(
+        angle: UserConfig.instance.checkLanguage()
+            ? -math.pi / 1.0 : 0,
+        child: SvgPicture.asset(
+            'assets/icons/backWhite.svg'
+        ),
+      ),
+    ),
   );
 }
 

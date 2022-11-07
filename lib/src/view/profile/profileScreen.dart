@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/models/profile/userProfileData.dart';
 
@@ -9,6 +10,7 @@ import '../../../infrastructure/userConfig.dart';
 import '../../../infrastructure/userSecuredStorage.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/profile/profileProvider.dart';
+import 'dart:math' as math;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -46,6 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 bottomRight: Radius.circular(UserConfig.instance.checkLanguage() ?  50 : 0)
             )
         ),
+        leading: leadingBackIcon(context),
       ),
       body: SingleChildScrollView(
         child: Padding(
