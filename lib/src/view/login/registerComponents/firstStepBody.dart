@@ -339,7 +339,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                           ? '${selectedCountry.value} | ${selectedCountry.name}'
                           : selectedCountry.value,
                       style: TextStyle(
-                          color: index == 3 ? HexColor('#A6A6A6') : HexColor('#363636'),
+                          color: index == 3 ? HexColor('#979797') : HexColor('#363636'),
                           fontSize: 15
                       ),
                     ),
@@ -347,7 +347,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                 ),
                 Icon(
                   Icons.arrow_drop_down_outlined,
-                  color: index == 3 ? HexColor('#A6A6A6') : HexColor('#363636'),
+                  color: index == 3 ? HexColor('#979797') : HexColor('#363636'),
                 )
               ],
             )
