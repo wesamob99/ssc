@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/util.dart';
 import '../insuranceBenifits/screens/workInjuryComplaintScreen.dart';
+import 'aboutTheServiceScreen.dart';
 
 class MostVisitedBody extends StatefulWidget {
   const MostVisitedBody({Key key}) : super(key: key);
@@ -16,9 +17,9 @@ class MostVisitedBody extends StatefulWidget {
 class _MostVisitedBodyState extends State<MostVisitedBody> {
 
   List mostVisitedServices = [
-    {"title": "retired", "subTitle": "requestRetiredLoan"},
-    {"title": "individuals", "subTitle": "unemploymentApplication"},
-    {"title": "maternity", "subTitle": "unemploymentApplication"},
+    {"title": "retired", "subTitle": "requestRetiredLoan", "screen": const WorkInjuryComplaintScreen()},
+    {"title": "individuals", "subTitle": "unemploymentApplication", "screen": const WorkInjuryComplaintScreen()},
+    {"title": "maternity", "subTitle": "unemploymentApplication", "screen": const WorkInjuryComplaintScreen()},
   ];
 
   @override
@@ -33,7 +34,22 @@ class _MostVisitedBodyState extends State<MostVisitedBody> {
               InkWell(
                 onTap: (){
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const WorkInjuryComplaintScreen())
+                    MaterialPageRoute(builder: (context) => AboutTheServiceScreen(
+                      serviceScreen: mostVisitedServices[index]['screen'],
+                      serviceTitle: mostVisitedServices[index]['subTitle'],
+                      aboutServiceDescription: ' بدلات التعطل عن العمل التي تقوم بصرفها والتي تخص المؤمن عليهم المشتركين بالضمان والعاملين في منشآت القطاع الخاص ممن يتعطّلون مؤقتاً عن العمل هي مبالغ غير مستردّة ولا يطالب المؤمن عليهم بإعادتها إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات دون وجه حق إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات',//mostVisitedServices[index]['description'],
+                      termsOfTheService: const [
+                        'موظفي القطاع الخاص',
+                        'موظف موقوف عن العمل',
+                        'لديك 36 اشتراك او رصيد اكثر من 300 د.ا',
+                        'ان تكون قد استفدت من بدل التعطل ثلاث مرات او اقل خلال فتره الشمول',
+                      ],
+                      stepsOfTheService: const [
+                        'التأكد من المعلومات الشخصية لمقدم الخدمة',
+                        'تعبئة طلب الخدمة',
+                        'تقديم الطلب'
+                      ],
+                    ))
                   );
                 },
                 child: Container(

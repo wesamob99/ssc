@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:ssc/src/view/services/insuranceBenifits/screens/workInjuryComplaintScreen.dart';
 import 'package:ssc/src/view/services/shared/aboutTheServiceScreen.dart';
 
 import '../../../../utilities/hexColor.dart';
@@ -16,10 +17,10 @@ class InsuranceBody extends StatefulWidget {
 class _InsuranceBodyState extends State<InsuranceBody> {
 
   List mostVisitedServices = [
-    {"title": "retired", "subTitle": "requestRetiredLoan", "description": "this supposed to be about the service description"},
-    {"title": "individuals", "subTitle": "unemploymentApplication", "description": "this supposed to be about the service description"},
-    {"title": "maternity", "subTitle": "unemploymentApplication", "description": "this supposed to be about the service description"},
-    {"title": "workInjuries", "subTitle": "report_a_sickness/work_injury_complaint", "description": "this supposed to be about the service description"},
+    {"title": "retired", "subTitle": "requestRetiredLoan", "description": "this supposed to be about the service description", "screen": const WorkInjuryComplaintScreen()},
+    {"title": "individuals", "subTitle": "unemploymentApplication", "description": "this supposed to be about the service description", "screen": const WorkInjuryComplaintScreen()},
+    {"title": "maternity", "subTitle": "unemploymentApplication", "description": "this supposed to be about the service description", "screen": const WorkInjuryComplaintScreen()},
+    {"title": "workInjuries", "subTitle": "report_a_sickness/work_injury_complaint", "description": "this supposed to be about the service description", "screen": const WorkInjuryComplaintScreen()},
   ];
 
   @override
@@ -38,6 +39,7 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => AboutTheServiceScreen(
+                            serviceScreen: mostVisitedServices[index]['screen'],
                             serviceTitle: mostVisitedServices[index]['subTitle'],
                             aboutServiceDescription: ' بدلات التعطل عن العمل التي تقوم بصرفها والتي تخص المؤمن عليهم المشتركين بالضمان والعاملين في منشآت القطاع الخاص ممن يتعطّلون مؤقتاً عن العمل هي مبالغ غير مستردّة ولا يطالب المؤمن عليهم بإعادتها إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات دون وجه حق إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات',//mostVisitedServices[index]['description'],
                             termsOfTheService: const [

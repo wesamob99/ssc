@@ -6,6 +6,7 @@ import 'package:ssc/src/view/services/shared/aboutTheServiceScreen.dart';
 
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
+import '../../services/insuranceBenifits/screens/workInjuryComplaintScreen.dart';
 
 class QuickAccessWidget extends StatelessWidget {
   const QuickAccessWidget({Key key}) : super(key: key);
@@ -14,14 +15,14 @@ class QuickAccessWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     List quickAccessComponents = [
-      {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication"},
-      {'icon': 'assets/icons/quickAccessIcons/onePaymentIcon.svg', 'title': "onePayment"},
-      {'icon': 'assets/icons/quickAccessIcons/reportAnAccidentIcon.svg', 'title': "ReportAnAccident"},
-      {'icon': 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription" },
-      {'icon': 'assets/icons/quickAccessIcons/accountStatementIcon.svg', 'title': "accountStatement"},
-      {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication"},
-      {'icon': 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription"},
-      {'icon': 'assets/icons/quickAccessIcons/accountStatementIcon.svg', 'title': "accountStatement"},
+      {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication", "screen": const WorkInjuryComplaintScreen()},
+      {'icon': 'assets/icons/quickAccessIcons/onePaymentIcon.svg', 'title': "onePayment", "screen": const WorkInjuryComplaintScreen()},
+      {'icon': 'assets/icons/quickAccessIcons/reportAnAccidentIcon.svg', 'title': "ReportAnAccident", "screen": const WorkInjuryComplaintScreen()},
+      {'icon': 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription", "screen": const WorkInjuryComplaintScreen()},
+      {'icon': 'assets/icons/quickAccessIcons/accountStatementIcon.svg', 'title': "accountStatement", "screen": const WorkInjuryComplaintScreen()},
+      {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication", "screen": const WorkInjuryComplaintScreen()},
+      {'icon': 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription", "screen": const WorkInjuryComplaintScreen()},
+      {'icon': 'assets/icons/quickAccessIcons/accountStatementIcon.svg', 'title': "accountStatement", "screen": const WorkInjuryComplaintScreen()},
     ];
     return SizedBox(
       height: height(isScreenHasSmallHeight(context) ? 0.14 : 0.12, context),
@@ -36,6 +37,7 @@ class QuickAccessWidget extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => AboutTheServiceScreen(
+                          serviceScreen: quickAccessComponents[index]['screen'],
                           serviceTitle: quickAccessComponents[index]['title'],
                           aboutServiceDescription: ' بدلات التعطل عن العمل التي تقوم بصرفها والتي تخص المؤمن عليهم المشتركين بالضمان والعاملين في منشآت القطاع الخاص ممن يتعطّلون مؤقتاً عن العمل هي مبالغ غير مستردّة ولا يطالب المؤمن عليهم بإعادتها إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات دون وجه حق إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات',//mostVisitedServices[index]['description'],
                           termsOfTheService: const [

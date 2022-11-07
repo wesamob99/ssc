@@ -15,12 +15,14 @@ class AboutTheServiceScreen extends StatefulWidget {
   final String aboutServiceDescription;
   final List<String> termsOfTheService;
   final List<String> stepsOfTheService;
+  final Widget serviceScreen;
   const AboutTheServiceScreen({
     Key key,
     @required this.serviceTitle,
     @required this.aboutServiceDescription,
     @required this.termsOfTheService,
-    @required this.stepsOfTheService
+    @required this.stepsOfTheService,
+    @required this.serviceScreen
   }) : super(key: key);
 
   @override
@@ -264,7 +266,11 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                           termsChecked ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA')),
                           termsChecked ? HexColor('#ffffff') : HexColor('#363636'),
                               () async {
-                            if(termsChecked){}
+                            if(termsChecked){
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => widget.serviceScreen)
+                              );
+                            }
                           }
                       ),
                     ],
