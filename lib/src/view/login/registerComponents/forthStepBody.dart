@@ -114,31 +114,33 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                   SizedBox(
                     height: height(0.14, context),
                     child: GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 160,
-                            childAspectRatio: 8 / 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 15
-                        ),
-                        itemCount: validators.length,
-                        itemBuilder: (BuildContext ctx, index) {
-                          return Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 160,
+                          childAspectRatio: 8 / 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 15
+                      ),
+                      itemCount: validators.length,
+                      itemBuilder: (BuildContext ctx, index) {
+                        return Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: validatorsCheck[index]
+                                  ? HexColor('#946800') : HexColor('#EDEDED'),
+                              borderRadius: BorderRadius.circular(12.0)
+                          ),
+                          child: Text(
+                            translate(validators[index], context),
+                            style: TextStyle(
                                 color: validatorsCheck[index]
-                                    ? HexColor('#946800') : HexColor('#EDEDED'),
-                                borderRadius: BorderRadius.circular(12.0)
+                                    ? HexColor('#FFFFFF') : HexColor('#595959'),
+                                fontSize: height(isTablet(context) ? 0.01 : 0.012, context)
                             ),
-                            child: Text(
-                              translate(validators[index], context),
-                              style: TextStyle(
-                                  color: validatorsCheck[index]
-                                      ? HexColor('#FFFFFF') : HexColor('#595959'),
-                                  fontSize: height(isTablet(context) ? 0.01 : 0.012, context)
-                              ),
-                            )
-                          );
-                        }),
+                          )
+                        );
+                      }
+                    ),
                   ),
                   // SizedBox(
                   //   height: height(0.18, context),

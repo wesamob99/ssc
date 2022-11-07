@@ -200,6 +200,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                               SizedBox(
                                 height: height(0.14, context),
                                 child: GridView.builder(
+                                    physics: const NeverScrollableScrollPhysics(),
                                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                                         maxCrossAxisExtent: 160,
                                         childAspectRatio: 8 / 2,
