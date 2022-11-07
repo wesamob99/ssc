@@ -23,8 +23,8 @@ class ThirdStepBody extends StatefulWidget {
 
 class _ThirdStepBodyState extends State<ThirdStepBody> {
 
-  Map item1 = {"title": 'want', "value": true};
-  Map item2 = {"title": 'dontWant', "value": false};
+  Map item1 = {"title": 'want', "value": false};
+  Map item2 = {"title": 'dontWant', "value": true};
 
 
   @override
@@ -105,43 +105,6 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                     InkWell(
                       onTap: (){
                         setState(() {
-                          item1['value'] = true;
-                          item2["value"] = false;
-                          if(!item2['value']){
-                            loginProvider.registerContinueEnabled = true;
-                          } else{
-                            loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
-                          }
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                            color: HexColor('#DADADA'),
-                            borderRadius: BorderRadius.circular(3.0)
-                        ),
-                        child: Container(
-                          width: width(0.04, context),
-                          height: width(0.04, context),
-                          decoration: BoxDecoration(
-                              color: item1['value'] ? HexColor('#2D452E') : HexColor('#DADADA'),
-                              borderRadius: BorderRadius.circular(4.0)
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: width(0.03, context),),
-                    Text(translate(item2['title'], context)),
-                  ],
-                ),
-                SizedBox(height: height(0.01, context),),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: (){
-                        setState(() {
                           item2['value'] = true;
                           item1["value"] = false;
                           if(!item2['value']){
@@ -169,6 +132,43 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                     ),
                     SizedBox(width: width(0.03, context),),
                     Text(translate(item1['title'], context)),
+                  ],
+                ),
+                SizedBox(height: height(0.01, context),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: (){
+                        setState(() {
+                          item1['value'] = true;
+                          item2["value"] = false;
+                          if(!item2['value']){
+                            loginProvider.registerContinueEnabled = true;
+                          } else{
+                            loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
+                          }
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(3.0),
+                        decoration: BoxDecoration(
+                            color: HexColor('#DADADA'),
+                            borderRadius: BorderRadius.circular(3.0)
+                        ),
+                        child: Container(
+                          width: width(0.04, context),
+                          height: width(0.04, context),
+                          decoration: BoxDecoration(
+                              color: item1['value'] ? HexColor('#2D452E') : HexColor('#DADADA'),
+                              borderRadius: BorderRadius.circular(4.0)
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: width(0.03, context),),
+                    Text(translate(item2['title'], context)),
                   ],
                 ),
                 // SizedBox(height: height(0.015, context),),

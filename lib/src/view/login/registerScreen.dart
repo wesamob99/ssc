@@ -48,6 +48,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     loginProvider.jordanianMobileNumberController.clear();
     loginProvider.foreignMobileNumberController.clear();
     loginProvider.registerNationalIdController.clear();
+    loginProvider.passportNumberController.clear();
+    loginProvider.insuranceNumberController.clear();
     loginProvider.civilIdNumberController.clear();
     loginProvider.relativeNatIdController.clear();
     loginProvider.emailController.clear();
@@ -103,6 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               children: [
                                 InkWell(
                                   onTap: (){
+                                    loginProvider.registerContinueEnabled = false;
                                     Navigator.of(context).pop();
                                     if(widget.stepNumber == 2 || widget.stepNumber == 4) {
                                       Navigator.of(context).pop();
@@ -110,7 +113,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     setState(() {
                                       loginProvider.nationalIdController.clear();
                                       loginProvider.passwordController.clear();
-                                      loginProvider.enabledSubmitButton = false;
                                       loginProvider.notifyMe();
                                     });
                                   },

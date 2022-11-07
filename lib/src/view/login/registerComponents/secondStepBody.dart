@@ -150,6 +150,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                       color: HexColor('#363636')
                     ),
                     type: DateTimePickerType.date,
+                    initialDate: DateTime.now(),
                     dateMask: 'yyyy/MM/dd',
                     controller: loginProvider.dateOfBirthController,
                     firstDate: DateTime(1900),
