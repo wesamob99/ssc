@@ -353,7 +353,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
     if(loginProvider.resetPasswordController.text ==
         loginProvider.resetConfirmPasswordController.text &&
         loginProvider.resetPasswordController.text.isNotEmpty &&
-        loginProvider.resetConfirmPasswordController.text.isNotEmpty){
+        loginProvider.resetConfirmPasswordController.text.isNotEmpty){  // Password is the same as the confirm password
       setState(() {
         validatorsCheck[5] = true;
       });
