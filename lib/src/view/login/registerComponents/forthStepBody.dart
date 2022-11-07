@@ -116,10 +116,10 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                     child: GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 160,
-                          childAspectRatio: 8 / 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 15
+                          maxCrossAxisExtent: 180,
+                          childAspectRatio: 8 / 2.5,
+                          crossAxisSpacing: 6,
+                          mainAxisSpacing: 12
                       ),
                       itemCount: validators.length,
                       itemBuilder: (BuildContext ctx, index) {
@@ -143,52 +143,6 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                       }
                     ),
                   ),
-                  // SizedBox(
-                  //   height: height(0.18, context),
-                  //   child: ListView.builder(
-                  //       scrollDirection: Axis.vertical,
-                  //       physics: const NeverScrollableScrollPhysics(),
-                  //       itemCount: validators.length,
-                  //       itemBuilder: (context, index){
-                  //         return Column(
-                  //           mainAxisAlignment: MainAxisAlignment.start,
-                  //           crossAxisAlignment: CrossAxisAlignment.start,
-                  //           children: [
-                  //             Container(
-                  //               width: width(1, context),
-                  //               height: height(isTablet(context) ? 0.025 : 0.02, context),
-                  //               decoration: BoxDecoration(
-                  //                 borderRadius: BorderRadius.circular(50),
-                  //               ),
-                  //               child: Row(
-                  //                 children: [
-                  //                   CircleAvatar(
-                  //                     radius: 5.5,
-                  //                     backgroundColor: HexColor('#A6A6A6'),
-                  //                     child: CircleAvatar(
-                  //                       radius: 5,
-                  //                       backgroundColor: validatorsCheck[index]
-                  //                           ? HexColor('#445740') : HexColor('#A6A6A6'),
-                  //                     ),
-                  //                   ),
-                  //                   SizedBox(width: width(0.01, context),),
-                  //                   Text(
-                  //                     translate(validators[index], context),
-                  //                     style: TextStyle(
-                  //                         color: validatorsCheck[index]
-                  //                             ? HexColor('#445740') : HexColor('#A6A6A6'),
-                  //                         fontSize: height(isTablet(context) ? 0.013 : 0.015, context)
-                  //                     ),
-                  //                   )
-                  //                 ],
-                  //               ),
-                  //             ),
-                  //             SizedBox(height: height(0.01, context))
-                  //           ],
-                  //         );
-                  //       }
-                  //   ),
-                  // )
                 ],
               ),
               Column(
