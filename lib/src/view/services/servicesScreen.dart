@@ -9,7 +9,7 @@ import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/util.dart';
 
 import '../../viewModel/utilities/theme/themeProvider.dart';
-import 'insuranceBenifits/insuranceBody.dart';
+import 'insuranceBenefits/insuranceBody.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({Key key}) : super(key: key);

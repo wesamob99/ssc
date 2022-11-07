@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/util.dart';
-import '../insuranceBenifits/screens/workInjuryComplaintScreen.dart';
+import '../insuranceBenefits/screens/workInjuryComplaintScreen.dart';
 import 'aboutTheServiceScreen.dart';
 
 class MostVisitedBody extends StatefulWidget {

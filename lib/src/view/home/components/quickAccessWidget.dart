@@ -6,7 +6,7 @@ import 'package:ssc/src/view/services/shared/aboutTheServiceScreen.dart';
 
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
-import '../../services/insuranceBenifits/screens/workInjuryComplaintScreen.dart';
+import '../../services/insuranceBenefits/screens/workInjuryComplaintScreen.dart';
 
 class QuickAccessWidget extends StatelessWidget {
   const QuickAccessWidget({Key key}) : super(key: key);

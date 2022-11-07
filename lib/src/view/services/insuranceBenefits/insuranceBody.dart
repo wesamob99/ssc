@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:ssc/src/view/services/insuranceBenifits/screens/workInjuryComplaintScreen.dart';
+import 'package:ssc/src/view/services/insuranceBenefits/screens/workInjuryComplaintScreen.dart';
 import 'package:ssc/src/view/services/shared/aboutTheServiceScreen.dart';
 
 import '../../../../utilities/hexColor.dart';
