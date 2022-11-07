@@ -1,4 +1,6 @@
-//ignore_for_file: file_names
+// // ignore_for_file: file_names
+// import 'package:flutter/cupertino.dart';
+//
 // import '../insuranceBenefits/screens/workInjuryComplaintScreen.dart';
 //
 // class ServicesList{
@@ -19,7 +21,7 @@
 //   static const Map<String, dynamic> requestRetiredLoan = {"title": "retired", "subTitle": "requestRetiredLoan", "description": "this supposed to be about the service description", "screen": WorkInjuryComplaintScreen()};
 //   static const Map<String, dynamic> unemploymentApplication = {"title": "individuals", "subTitle": "unemploymentApplication", "description": "this supposed to be about the service description", "screen": WorkInjuryComplaintScreen()};
 //   static const Map<String, dynamic> accountStatement = {"title": "maternity", "subTitle": "unemploymentApplication", "description": "this supposed to be about the service description", "screen": WorkInjuryComplaintScreen()};
-//   static const Map<String, dynamic> reportSicknessComplaint = {"title": "workInjuries", "subTitle": "report_a_sickness/work_injury_complaint", "description": "this supposed to be about the service description", "screen": WorkInjuryComplaintScreen()};
+//   static const Map<String, dynamic> reportSicknessComplaint = {"title": 'workInjuries', "subTitle": "report_a_sickness/work_injury_complaint", "description": "this supposed to be about the service description", "screen": WorkInjuryComplaintScreen()};
 //
 //   List<Map<String, dynamic>> mostVisitedServices = [requestRetiredLoan, unemploymentApplication, accountStatement, reportSicknessComplaint];
 //
@@ -31,4 +33,14 @@
 //   /// **************************************************************************
 //
 //
+// }
+//
+// class Service{
+//   final String title;
+//   final String subTitle;
+//   final String icon;
+//   final String description;
+//   final Widget screen;
+//
+//   const Service({this.title, this.subTitle, this.icon, this.description, this.screen});
 // }
