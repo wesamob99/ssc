@@ -206,7 +206,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                               child: Container(
                                 width: width(isTablet(context) ? 0.14 : 0.21, context),
                                 alignment: Alignment.center,
-                                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 9.3),
                                 decoration: BoxDecoration(
                                     color: Colors.transparent,
                                     borderRadius: BorderRadius.circular(8.0),
