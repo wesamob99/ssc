@@ -27,8 +27,8 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
 
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   String selectedLanguage;
-  List<String> validators = ["pwValidator1", "pwValidator2", "pwValidator3", "pwValidator4"];
-  List<bool> validatorsCheck = [false, false, false, false];
+  List<String> validators = ["pwValidator1", "pwValidator2", "pwValidator3", "pwValidator4", "pwValidator5", "pwValidator6"];
+  List<bool> validatorsCheck = [false, false, false, false, false, false];
 
   getAppLanguage(){
     prefs.then((value) {
@@ -196,52 +196,82 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                 passwordValidator(val, loginProvider);
                               }, isPassword: false),
                               SizedBox(height: height(0.01, context),),
+                              SizedBox(height: height(0.015, context),),
                               SizedBox(
-                                height: height(0.16, context),
-                                child: ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: 4,
-                                    itemBuilder: (context, index){
-                                      return Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: width(1, context),
-                                            height: height(0.02, context),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(50),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                CircleAvatar(
-                                                  radius: 5.5,
-                                                  backgroundColor: HexColor('#A6A6A6'),
-                                                  child: CircleAvatar(
-                                                    radius: 5,
-                                                    backgroundColor: validatorsCheck[index]
-                                                        ? HexColor('#445740') : HexColor('#A6A6A6'),
-                                                  ),
-                                                ),
-                                                SizedBox(width: width(0.01, context),),
-                                                Text(
-                                                  translate(validators[index], context),
-                                                  style: TextStyle(
-                                                    color: validatorsCheck[index]
-                                                        ? HexColor('#445740') : HexColor('#A6A6A6'),
-                                                    fontSize: width(0.03, context)
-                                                  ),
-                                                )
-                                              ],
-                                            ),
+                                height: height(0.14, context),
+                                child: GridView.builder(
+                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 160,
+                                        childAspectRatio: 8 / 2,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 15
+                                    ),
+                                    itemCount: validators.length,
+                                    itemBuilder: (BuildContext ctx, index) {
+                                      return Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              color: validatorsCheck[index]
+                                                  ? HexColor('#946800') : HexColor('#EDEDED'),
+                                              borderRadius: BorderRadius.circular(12.0)
                                           ),
-                                          SizedBox(height: height(0.01, context))
-                                        ],
+                                          child: Text(
+                                            translate(validators[index], context),
+                                            style: TextStyle(
+                                                color: validatorsCheck[index]
+                                                    ? HexColor('#FFFFFF') : HexColor('#595959'),
+                                                fontSize: height(isTablet(context) ? 0.01 : 0.012, context)
+                                            ),
+                                          )
                                       );
-                                    }
-                                ),
-                              )
+                                    }),
+                              ),
+                              // SizedBox(
+                              //   height: height(0.16, context),
+                              //   child: ListView.builder(
+                              //       scrollDirection: Axis.vertical,
+                              //       physics: const NeverScrollableScrollPhysics(),
+                              //       itemCount: 4,
+                              //       itemBuilder: (context, index){
+                              //         return Column(
+                              //           mainAxisAlignment: MainAxisAlignment.start,
+                              //           crossAxisAlignment: CrossAxisAlignment.start,
+                              //           children: [
+                              //             Container(
+                              //               width: width(1, context),
+                              //               height: height(0.02, context),
+                              //               decoration: BoxDecoration(
+                              //                 borderRadius: BorderRadius.circular(50),
+                              //               ),
+                              //               child: Row(
+                              //                 children: [
+                              //                   CircleAvatar(
+                              //                     radius: 5.5,
+                              //                     backgroundColor: HexColor('#A6A6A6'),
+                              //                     child: CircleAvatar(
+                              //                       radius: 5,
+                              //                       backgroundColor: validatorsCheck[index]
+                              //                           ? HexColor('#445740') : HexColor('#A6A6A6'),
+                              //                     ),
+                              //                   ),
+                              //                   SizedBox(width: width(0.01, context),),
+                              //                   Text(
+                              //                     translate(validators[index], context),
+                              //                     style: TextStyle(
+                              //                       color: validatorsCheck[index]
+                              //                           ? HexColor('#445740') : HexColor('#A6A6A6'),
+                              //                       fontSize: width(0.03, context)
+                              //                     ),
+                              //                   )
+                              //                 ],
+                              //               ),
+                              //             ),
+                              //             SizedBox(height: height(0.01, context))
+                              //           ],
+                              //         );
+                              //       }
+                              //   ),
+                              // )
                             ],
                           ),
                           SizedBox(height: height(0.1, context),),
@@ -274,7 +304,8 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
   }
 
   passwordValidator(value, loginProvider){
-    if(loginProvider.resetPasswordController.text.length >= 8){
+    loginProvider.notifyMe();
+    if(loginProvider.resetPasswordController.text.length >= 8){ // At least 8 character
       setState(() {
         validatorsCheck[0] = true;
       });
@@ -283,7 +314,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
         validatorsCheck[0] = false;
       });
     }
-    if(loginProvider.resetPasswordController.text.contains(RegExp("(?:[^A-Z]*[A-Z]){1}"))){
+    if(loginProvider.resetPasswordController.text.contains(RegExp("(?:[^a-z]*[a-z]){1}"))){ //Lowercase letter (a-z)
       setState(() {
         validatorsCheck[1] = true;
       });
@@ -292,7 +323,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
         validatorsCheck[1] = false;
       });
     }
-    if(loginProvider.resetPasswordController.text.contains(RegExp(r'[-+=!@#$%^&*(),.?":{}|<>]'))){
+    if(loginProvider.resetPasswordController.text.contains(RegExp("(?:[^A-Z]*[A-Z]){1}"))){ //Uppercase letter (A-Z)
       setState(() {
         validatorsCheck[2] = true;
       });
@@ -301,16 +332,34 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
         validatorsCheck[2] = false;
       });
     }
-    if(loginProvider.resetPasswordController.text ==
-        loginProvider.resetConfirmPasswordController.text &&
-        loginProvider.resetPasswordController.text.isNotEmpty &&
-        loginProvider.resetConfirmPasswordController.text.isNotEmpty){
+    if(loginProvider.resetPasswordController.text.contains(RegExp(r'[-+=!@#$%^&*(),.?":{}|<>]'))){ //Special character (*!&#^@)
       setState(() {
         validatorsCheck[3] = true;
       });
     } else{
       setState(() {
         validatorsCheck[3] = false;
+      });
+    }
+    if(loginProvider.resetPasswordController.text.contains(RegExp("(?:[0-9]){1}"))){ //Number (1-9)
+      setState(() {
+        validatorsCheck[4] = true;
+      });
+    } else{
+      setState(() {
+        validatorsCheck[4] = false;
+      });
+    }
+    if(loginProvider.resetPasswordController.text ==
+        loginProvider.resetConfirmPasswordController.text &&
+        loginProvider.resetPasswordController.text.isNotEmpty &&
+        loginProvider.resetConfirmPasswordController.text.isNotEmpty){
+      setState(() {
+        validatorsCheck[5] = true;
+      });
+    } else{
+      setState(() {
+        validatorsCheck[5] = false;
       });
     }
     loginProvider.resetContinueEnabled = !validatorsCheck.contains(false);
