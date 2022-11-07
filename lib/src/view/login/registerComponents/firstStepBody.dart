@@ -314,7 +314,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                 ? Alignment.centerLeft
                 : Alignment.centerRight,
             padding: const EdgeInsets.symmetric(
-                horizontal: 16.0, vertical: 8.0),
+                horizontal: 16.0, vertical: 9.3),
             decoration: BoxDecoration(
                 color: index != 3 ? Colors.transparent : HexColor('#DFDFDF'),
                 borderRadius: BorderRadius.circular(8.0),
