@@ -39,7 +39,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     return SingleChildScrollView(
       child: SizedBox(
-        height: height(0.7, context),
+        height: height(0.75, context),
         child: FutureBuilder(
             future: accountDataFuture,
             builder: (context, snapshot){

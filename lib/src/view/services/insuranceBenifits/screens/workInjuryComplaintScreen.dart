@@ -119,7 +119,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
 Widget secondStep(context, themeNotifier, ServicesProvider servicesProvider){
   return SingleChildScrollView(
     child: SizedBox(
-      height: height(0.7, context),
+      height: height(0.75, context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -214,7 +214,7 @@ Widget thirdStep(context, themeNotifier, ServicesProvider servicesProvider){
   return SingleChildScrollView(
     child: Container(
       alignment: Alignment.center,
-      height: height(0.7, context),
+      height: height(0.75, context),
       child: Text(translate('thirdStep', context)),
     ),
   );
@@ -224,7 +224,7 @@ Widget forthStep(context, themeNotifier, ServicesProvider servicesProvider){
   return SingleChildScrollView(
     child: Container(
       alignment: Alignment.center,
-      height: height(0.7, context),
+      height: height(0.75, context),
       child: Text(translate('forthStep', context)),
     ),
   );
