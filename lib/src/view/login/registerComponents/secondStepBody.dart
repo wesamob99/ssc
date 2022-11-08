@@ -91,34 +91,34 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                     ],
                   ),
                   SizedBox(height: height(0.02, context),),
-                  buildFieldTitle('enterNationalId', filled: loginProvider.registerNationalIdController.text.isNotEmpty),
+                  buildFieldTitle(context, 'enterNationalId', filled: loginProvider.registerNationalIdController.text.isNotEmpty),
                   SizedBox(height: height(0.015, context),),
                   buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, '9661001073', (val){
                     checkContinueEnable(loginProvider);
                   }, inputType: TextInputType.number),
                   SizedBox(height: height(0.02, context),),
                   if(isJordanian)
-                  buildFieldTitle('civilIdNumber', filled: loginProvider.civilIdNumberController.text.isNotEmpty),
+                  buildFieldTitle(context, 'civilIdNumber', filled: loginProvider.civilIdNumberController.text.isNotEmpty),
                   if(!isJordanian)
-                  buildFieldTitle('passportNumber', filled: loginProvider.passportNumberController.text.isNotEmpty),
+                  buildFieldTitle(context, 'passportNumber', filled: loginProvider.passportNumberController.text.isNotEmpty),
                   SizedBox(height: height(0.015, context),),
                   buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.civilIdNumberController : loginProvider.passportNumberController, 'AER20995', (val){
                     checkContinueEnable(loginProvider);
                   },),
                   SizedBox(height: height(0.02, context),),
                   if(isJordanian)
-                  buildFieldTitle('relativeNationalNumber', filled: loginProvider.relativeNatIdController.text.isNotEmpty),
+                  buildFieldTitle(context, 'relativeNationalNumber', filled: loginProvider.relativeNatIdController.text.isNotEmpty),
                   if(!isJordanian)
-                  buildFieldTitle('insuranceNumber', required: false),
+                  buildFieldTitle(context, 'insuranceNumber', required: false),
                   SizedBox(height: height(0.015, context),),
                   buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.relativeNatIdController : loginProvider.insuranceNumberController, '9661001073', (val){
                     checkContinueEnable(loginProvider);
                   },inputType: TextInputType.number),
                   SizedBox(height: height(0.02, context),),
                   if(isJordanian)
-                  buildFieldTitle('relativeRelation', filled: loginProvider.thirdStepSelection[0] != 'choose'),
+                  buildFieldTitle(context, 'relativeRelation', filled: loginProvider.thirdStepSelection[0] != 'choose'),
                   if(!isJordanian)
-                  buildFieldTitle('DateOfBirth', required: true, filled: loginProvider.dateOfBirthController.text.isNotEmpty),
+                  buildFieldTitle(context, 'DateOfBirth', required: true, filled: loginProvider.dateOfBirthController.text.isNotEmpty),
                   SizedBox(height: height(0.015, context),),
                   if(isJordanian)
                   dropDownList(relationTypes, themeNotifier, loginProvider, 0),
@@ -283,26 +283,5 @@ class _SecondStepBodyState extends State<SecondStepBody> {
       );
     }
     loginProvider.notifyMe();
-  }
-
-  Widget buildFieldTitle(title, {required = true, filled = false}){
-    return Row(
-      children: [
-        Text(
-          translate(title, context),
-          style: TextStyle(
-              color: HexColor('#363636'),
-              fontSize: width(0.032, context)
-          ),
-        ),
-        if(required)
-        Text(
-          ' *',
-          style: TextStyle(
-            color: filled ? HexColor('#445740') : HexColor('#FF1818'),
-          ),
-        ),
-      ],
-    );
   }
 }
