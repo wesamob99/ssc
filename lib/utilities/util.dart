@@ -398,6 +398,28 @@ SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPres
   );
 }
 
+
+Widget buildFieldTitle(context, title, {required = true, filled = false}){
+  return Row(
+    children: [
+      Text(
+        translate(title, context),
+        style: TextStyle(
+          color: HexColor('#363636'),
+          fontSize: width(0.032, context)
+        ),
+      ),
+      if(required)
+      Text(
+        ' *',
+        style: TextStyle(
+          color: filled ? HexColor('#445740') : HexColor('#FF1818'),
+        ),
+      ),
+    ],
+  );
+}
+
 Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingController controller,
     String hintText, onChanged, {isPassword = false,
       inputType = TextInputType.text, enabled = true, flag = 0}){
