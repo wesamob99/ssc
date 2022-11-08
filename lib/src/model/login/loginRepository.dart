@@ -171,4 +171,36 @@ class LoginRepository{
     return '';
   }
 
+  Future sendRegisterEmailOTPService(String email) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/mobile/email-code',
+        {
+          "email": email, // string // user email
+        }
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+  Future checkRegisterEmailOTPService(String email, int code) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/mobile/email-code-verify',
+        {
+          "email": email,// string // user email
+          "code": code// number // OTP code
+        }
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
 }

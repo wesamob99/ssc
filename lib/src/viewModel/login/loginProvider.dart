@@ -110,6 +110,16 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
+  Future sendRegisterEmailOTP(String email) async{
+    final response = await loginRepository.sendRegisterEmailOTPService(email);
+    return response;
+  }
+
+  Future checkRegisterEmailOTP(String email, int code) async{
+    final response = await loginRepository.checkRegisterEmailOTPService(email, code);
+    return response;
+  }
+
   void notifyMe() {
     notifyListeners();
   }
