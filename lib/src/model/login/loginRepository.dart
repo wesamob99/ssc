@@ -136,4 +136,39 @@ class LoginRepository{
     return '';
   }
 
+  Future sendRegisterMobileOTPService(int phoneNumber, String countryCode) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/mobile/mobile-code',
+        {
+          "phoneNumber": phoneNumber,// number  // mobile number (9 digits) : 781******
+          "countryCode": countryCode// string // country code : 00962
+        }
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+  Future checkRegisterMobileOTPService(int phoneNumber, String countryCode, int code) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/mobile/mobile-code-verify',
+        {
+          "phoneNumber": phoneNumber, //number // mobile number (9 digits) : 781******
+          "countryCode": countryCode, // string // country code : 00962
+          "code": code, // number // OTP code
+        }
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
 }

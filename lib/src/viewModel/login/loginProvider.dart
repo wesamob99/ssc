@@ -100,6 +100,16 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
+  Future sendRegisterMobileOTP(int phoneNumber, String countryCode) async{
+    final response = await loginRepository.sendRegisterMobileOTPService(phoneNumber, countryCode);
+    return response;
+  }
+
+  Future checkRegisterMobileOTP(int phoneNumber, String countryCode, int code) async{
+    final response = await loginRepository.checkRegisterMobileOTPService(phoneNumber, countryCode, code);
+    return response;
+  }
+
   void notifyMe() {
     notifyListeners();
   }
