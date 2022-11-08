@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, use_build_context_synchronously
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
@@ -36,7 +37,13 @@ class _SplashScreenState extends State<SplashScreen> {
     InternetConnectionStatus connection = await InternetConnectionChecker().connectionStatus;
     PayOffFinancialInformation result;
     // result = await Provider.of<HomeProvider>(context, listen: false).getStatistics();
+    try{
     result = await Provider.of<HomeProvider>(context, listen: false).getAmountToBePaid();
+    }catch(e){
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
     if(InternetConnectionStatus.connected == connection){
       Widget screen = const LoginScreen();
       if(UserSecuredStorage.instance.token.isNotEmpty &&
