@@ -63,6 +63,7 @@ dependencies:
   readmore: ^2.2.0
   local_auth: ^2.1.2
   date_time_picker: ^2.1.0
+  loading_indicator: ^3.1.0
 
 dev_dependencies:
   flutter_test:
