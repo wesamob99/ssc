@@ -4,12 +4,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/login/loginScreen.dart';
 import 'package:ssc/src/view/main/mainScreen.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../models/home/payOffFinancialInformations.dart';
 import '../../../utilities/util.dart';
@@ -25,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    checkDataConnection();
+    // checkDataConnection();
     super.initState();
   }
 
@@ -95,12 +98,40 @@ class _SplashScreenState extends State<SplashScreen> {
     );
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            const Text('splash screen'),
-            SizedBox(height: height(0.03, context),),
-            const CircularProgressIndicator()
+            Opacity(
+              opacity: 0.5,
+              child: Container(
+                alignment: Alignment.bottomLeft,
+                child: SvgPicture.asset(
+                    'assets/logo/logo_tree.svg'
+                ),
+              ),
+            ),
+            SizedBox(
+              width: width(1, context),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SvgPicture.asset('assets/logo/logo_with_name.svg', width: width(0.65, context)),
+                  SizedBox(height: height(0.1, context),),
+                  SizedBox(
+                    width: width(isTablet(context) ? 0.3 : 0.5, context),
+                    height: width(isTablet(context) ? 0.3 : 0.5, context),
+                    child: LoadingIndicator(
+                        indicatorType: Indicator.ballSpinFadeLoader, /// Required, The loading type of the widget
+                        colors: [
+                          HexColor('#445740').withOpacity(0.8), HexColor('#946800').withOpacity(0.8), HexColor('#445740').withOpacity(0.7), HexColor('#946800').withOpacity(0.7),
+                          HexColor('#445740').withOpacity(0.6), HexColor('#946800').withOpacity(0.6), HexColor('#445740').withOpacity(0.5), HexColor('#946800').withOpacity(0.5)
+                        ],
+                        backgroundColor: Colors.transparent,      /// Optional, Background of the widget
+                    ),
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
