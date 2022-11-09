@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    // checkDataConnection();
+    checkDataConnection();
     super.initState();
   }
 
