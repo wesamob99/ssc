@@ -121,8 +121,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   Image.asset('assets/logo/logo_with_name.png', width: width(isTablet(context) ? 0.42 : 0.62, context),),
                   SizedBox(height: height(0.1, context),),
                   SizedBox(
-                    width: width(isTablet(context) ? 0.3 : 0.5, context),
-                    height: width(isTablet(context) ? 0.3 : 0.5, context),
+                    width: width(isTablet(context) ? 0.2 : 0.4, context),
+                    height: width(isTablet(context) ? 0.2 : 0.4, context),
                     child: LoadingIndicator(
                         indicatorType: Indicator.ballSpinFadeLoader, /// Required, The loading type of the widget
                         colors: [
