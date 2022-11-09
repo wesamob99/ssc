@@ -126,8 +126,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: LoadingIndicator(
                         indicatorType: Indicator.ballSpinFadeLoader, /// Required, The loading type of the widget
                         colors: [
-                          HexColor('#445740').withOpacity(0.8), HexColor('#946800').withOpacity(0.6), HexColor('#445740').withOpacity(0.7), HexColor('#946800').withOpacity(0.5),
-                          HexColor('#445740').withOpacity(0.6), HexColor('#946800').withOpacity(0.4), HexColor('#445740').withOpacity(0.5), HexColor('#946800').withOpacity(0.3)
+                          HexColor('#445740'), HexColor('#946800').withOpacity(0.6)
                         ],
                         backgroundColor: Colors.transparent,
                     ),
