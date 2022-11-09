@@ -118,7 +118,9 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                         onChanged: (value) =>
                             setState(() {
                               selectedNationality = value;
-                              loginProvider.registerContinueEnabled = loginProvider.jordanianMobileNumberController.text.length == 9;
+                              loginProvider.registerContinueEnabled = (loginProvider.jordanianMobileNumberController.text.startsWith('0')
+                              ? loginProvider.jordanianMobileNumberController.text.length == 10
+                              : loginProvider.jordanianMobileNumberController.text.length == 9);
                               loginProvider.notifyMe();
                             }),
                         items: const ['jordanian', 'nonJordanian'],
@@ -148,7 +150,9 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                               child: buildTextFormField(
                                   context, themeNotifier, loginProvider.jordanianMobileNumberController,
                                   '', (val) {
-                                loginProvider.registerContinueEnabled = loginProvider.jordanianMobileNumberController.text.length == 9;
+                                loginProvider.registerContinueEnabled = (loginProvider.jordanianMobileNumberController.text.startsWith('0')
+                                    ? loginProvider.jordanianMobileNumberController.text.length == 10
+                                    : loginProvider.jordanianMobileNumberController.text.length == 9);
                                 loginProvider.notifyMe();
                               }, inputType: TextInputType.number, ),
                           ),
@@ -168,7 +172,9 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                             child: buildTextFormField(
                                 context, themeNotifier, loginProvider.foreignMobileNumberController,
                                 '', (val) {
-                              loginProvider.registerContinueEnabled = loginProvider.jordanianMobileNumberController.text.length == 9;
+                              loginProvider.registerContinueEnabled = (loginProvider.jordanianMobileNumberController.text.startsWith('0')
+                                  ? loginProvider.jordanianMobileNumberController.text.length == 10
+                                  : loginProvider.jordanianMobileNumberController.text.length == 9);
                               loginProvider.notifyMe();
                             }, inputType: TextInputType.number),
                           ),
