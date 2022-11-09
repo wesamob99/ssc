@@ -166,7 +166,9 @@ class _OTPScreenState extends State<OTPScreen> {
                                   ),
                                   SizedBox(height: height(0.015, context),),
                                   Text(
-                                    widget.contactTarget,
+                                    widget.type == 'phone'
+                                        ? widget.contactTarget.replaceRange(0, widget.contactTarget.length - 2, '*' * (widget.contactTarget.length - 2))
+                                        : widget.contactTarget.replaceRange(2, widget.contactTarget.indexOf('@'), '*' * (widget.contactTarget.indexOf('@'))),
                                     textDirection: TextDirection.ltr,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
