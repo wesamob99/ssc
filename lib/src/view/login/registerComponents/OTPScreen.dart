@@ -1,4 +1,5 @@
 // ignore_for_file: file_names
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +10,7 @@ import 'package:ssc/src/view/login/registerComponents/secondStepBody.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
+import '../../../../infrastructure/userConfig.dart';
 import '../../../../utilities/constants.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/login/loginProvider.dart';
@@ -71,211 +73,248 @@ class _OTPScreenState extends State<OTPScreen> {
               leading: const SizedBox.shrink(),
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 14.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          body: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 14.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                          alignment: Alignment.topLeft,
-                          child: Row(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                      'assets/icons/global.svg'
+                                  ),
+                                  const SizedBox(width: 4.0),
+                                  DropdownButton<String>(
+                                    isDense: true,
+                                    value: selectedLanguage,
+                                    icon: const Icon(
+                                      Icons.arrow_drop_down_outlined,
+                                      size: 0,
+                                    ),
+                                    elevation: 16,
+                                    style: const TextStyle(color: Colors.black),
+                                    underline: Container(
+                                      height: 0,
+                                      color: primaryColor,
+                                    ),
+                                    onChanged: (String value) async{
+                                      setState(() {
+                                        selectedLanguage = value;
+                                      });
+                                      globalAppProvider.changeLanguage(Locale(selectedLanguage));
+                                      globalAppProvider.notifyMe();
+                                      prefs.then((value) {
+                                        value.setString('language_code', selectedLanguage);
+                                      });
+                                    },
+                                    items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value == 'en' ? 'English' : 'عربي',
+                                          style: TextStyle(
+                                            color: themeNotifier.isLight()
+                                                ? primaryColor
+                                                : Colors.white,
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
+                              )
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: height(0.06, context),),
+                      SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: width(0.05, context)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SvgPicture.asset(
-                                  'assets/icons/global.svg'
+                              SizedBox(height: height(0.05, context),),
+                              Text(
+                                widget.type == 'phone'
+                                    ? translate('mobileNumberVerify', context)
+                                    : translate('emailVerify', context),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: width(0.04, context)
+                                ),
                               ),
-                              const SizedBox(width: 4.0),
-                              DropdownButton<String>(
-                                isDense: true,
-                                value: selectedLanguage,
-                                icon: const Icon(
-                                  Icons.arrow_drop_down_outlined,
-                                  size: 0,
-                                ),
-                                elevation: 16,
-                                style: const TextStyle(color: Colors.black),
-                                underline: Container(
-                                  height: 0,
-                                  color: primaryColor,
-                                ),
-                                onChanged: (String value) async{
-                                  setState(() {
-                                    selectedLanguage = value;
-                                  });
-                                  globalAppProvider.changeLanguage(Locale(selectedLanguage));
-                                  globalAppProvider.notifyMe();
-                                  prefs.then((value) {
-                                    value.setString('language_code', selectedLanguage);
-                                  });
-                                },
-                                items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value == 'en' ? 'English' : 'عربي',
-                                      style: TextStyle(
-                                        color: themeNotifier.isLight()
-                                            ? primaryColor
-                                            : Colors.white,
+                              SizedBox(height: height(0.04, context),),
+                              Column(
+                                children: [
+                                  Text(
+                                    widget.type == 'phone'
+                                    ? translate('enterMobileVerificationCode', context)
+                                    : translate('enterEmailVerificationCode2', context),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width(0.034, context)
+                                    ),
+                                  ),
+                                  SizedBox(height: height(0.015, context),),
+                                  Text(
+                                    widget.contactTarget,
+                                    textDirection: TextDirection.ltr,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: width(0.034, context),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: height(0.025, context),),
+                              pinPut(themeNotifier),
+                              SizedBox(height: height(0.072, context),),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: height(0.02, context)),
+                                child: Column(
+                                  children: [
+                                    Directionality(
+                                      textDirection: TextDirection.ltr,
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: width(isTimerEnded ? 0.5 : 0.23, context),
+                                        height: height(0.04, context),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                                color: HexColor('#A4A4A4')
+                                            )
+                                        ),
+                                        child: CountdownTimer(
+                                          textStyle: TextStyle(color: HexColor('#FF0000')),
+                                          endWidget: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'code has been disabled',
+                                              style: TextStyle(color: HexColor('#FF0000')),
+                                            ),
+                                          ),
+                                          endTime: endTime,
+                                          onEnd: () {
+                                            setState(() {
+                                              isTimerEnded = true;
+                                            });
+                                          },
+                                        ),
                                       ),
                                     ),
-                                  );
-                                }).toList(),
+                                    SizedBox(height: height(0.01, context),),
+                                    InkWell(
+                                        onTap: () async{
+                                          if(isTimerEnded) {
+                                            if(widget.type == 'phone') {
+                                              await loginProvider.sendRegisterMobileOTP(int.parse(widget.contactTarget), "00962");
+                                            }else {
+                                              await loginProvider.sendRegisterEmailOTP(widget.contactTarget);
+                                            }
+                                            setState((){
+                                              endTime = DateTime.now().millisecondsSinceEpoch + 300000;
+                                              isTimerEnded = false;
+                                            });
+                                          }
+                                        },
+                                        child: Text(
+                                          translate('resend', context),
+                                          style: TextStyle(color: isTimerEnded ? HexColor('#003C97') : HexColor('#DADADA')),
+                                        )
+                                    ),
+                                  ],
+                                ),
                               ),
+                              SizedBox(height: height(0.05, context),),
+                              textButton(
+                                  themeNotifier, 'continue',
+                                  MaterialStateProperty.all<Color>(pinController.text.length == 4
+                                      ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),),
+                                  pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
+                                      () async {if(pinController.length == 4){
+                                        errorMessage = "";
+                                        loginProvider.isLoading = true;
+                                        loginProvider.notifyMe();
+                                        try{
+                                          if(widget.type == 'phone') {
+                                            await loginProvider.checkRegisterMobileOTP(
+                                              int.parse(widget.contactTarget),
+                                              "00962", int.parse(pinController.text))
+                                              .then((value){
+                                            if(value["PO_status_code"] == 0){
+                                              errorMessage = UserConfig.instance.checkLanguage()
+                                                  ? "${value["PO_status_desc_en"]}" : "${value["PO_status_desc_ar"]}";
+                                              showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
+                                            }else{
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(builder: (context) => const SecondStepBody()),
+                                              );
+                                            }
+                                          });
+                                          } else{
+                                            await loginProvider.checkRegisterEmailOTP(
+                                                widget.contactTarget,
+                                                int.parse(pinController.text))
+                                                .then((value){
+                                              if(value["PO_status_code"] == 0){
+                                                errorMessage = UserConfig.instance.checkLanguage()
+                                                    ? "${value["PO_status_desc_en"]}" : "${value["PO_status_desc_ar"]}";
+                                                showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
+                                              }else{
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(builder: (context) => const ForthStepBody()),
+                                                );
+                                              }
+                                            });
+                                          }
+                                          loginProvider.isLoading = false;
+                                          loginProvider.notifyMe();
+                                        }catch(e){
+                                          loginProvider.isLoading = false;
+                                          loginProvider.notifyMe();
+                                          if (kDebugMode) {
+                                            print(e.toString());
+                                          }
+                                        }
+                                  }}
+                              ),
+                              SizedBox(height: height(0.018, context),),
+                              textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
+                                  HexColor('#DADADA')), HexColor('#363636'), (){
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                        (route) => false
+                                );
+                              }),
                             ],
-                          )
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  SizedBox(height: height(0.06, context),),
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width(0.05, context)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(height: height(0.05, context),),
-                          Text(
-                            widget.type == 'phone'
-                                ? translate('mobileNumberVerify', context)
-                                : translate('emailVerify', context),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: width(0.04, context)
-                            ),
-                          ),
-                          SizedBox(height: height(0.04, context),),
-                          Column(
-                            children: [
-                              Text(
-                                widget.type == 'phone'
-                                ? translate('enterMobileVerificationCode', context)
-                                : translate('enterEmailVerificationCode2', context),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: width(0.034, context)
-                                ),
-                              ),
-                              SizedBox(height: height(0.015, context),),
-                              Text(
-                                widget.contactTarget,
-                                textDirection: TextDirection.ltr,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: width(0.034, context),
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(height: height(0.025, context),),
-                          pinPut(themeNotifier),
-                          SizedBox(height: height(0.072, context),),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: height(0.02, context)),
-                            child: Column(
-                              children: [
-                                Directionality(
-                                  textDirection: TextDirection.ltr,
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    width: width(isTimerEnded ? 0.5 : 0.23, context),
-                                    height: height(0.04, context),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: HexColor('#A4A4A4')
-                                        )
-                                    ),
-                                    child: CountdownTimer(
-                                      textStyle: TextStyle(color: HexColor('#FF0000')),
-                                      endWidget: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'code has been disabled',
-                                          style: TextStyle(color: HexColor('#FF0000')),
-                                        ),
-                                      ),
-                                      endTime: endTime,
-                                      onEnd: () {
-                                        setState(() {
-                                          isTimerEnded = true;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: height(0.01, context),),
-                                InkWell(
-                                    onTap: () async{
-                                      if(isTimerEnded) {
-                                        await loginProvider.resetPasswordSendMobileOTP(loginProvider.nationalIdController.text);
-                                        setState((){
-                                          endTime = DateTime.now().millisecondsSinceEpoch + 300000;
-                                          isTimerEnded = false;
-                                        });
-                                      }
-                                    },
-                                    child: Text(
-                                      translate('resend', context),
-                                      style: TextStyle(color: isTimerEnded ? HexColor('#003C97') : HexColor('#DADADA')),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: height(0.05, context),),
-                          textButton(
-                              themeNotifier, 'continue',
-                              MaterialStateProperty.all<Color>(pinController.text.length == 4
-                                  ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),),
-                              pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
-                                  () async {if(pinController.length == 4){
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) => widget.type == 'phone'
-                                          ? const SecondStepBody() : const ForthStepBody()),
-                                    );
-                                // errorMessage = "";
-                                // try{
-                                //   await loginProvider.resetPasswordCheckMobileOTP(
-                                //       userSecuredStorage.nationalId,
-                                //       int.parse(pinController.text))
-                                //       .then((value){
-                                //     if(value["PO_STATUS"] == 0){
-                                //       errorMessage = UserConfig.instance.checkLanguage()
-                                //           ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
-                                //       showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
-                                //     }else{
-                                //       if (kDebugMode) {
-                                //         print("true OTP");
-                                //       }
-                                //     }
-                                //   });
-                                // }catch(e){
-                                //   if (kDebugMode) {
-                                //     print(e.toString());
-                                //   }
-                                // }
-                              }}
-                          ),
-                          SizedBox(height: height(0.018, context),),
-                          textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
-                              HexColor('#DADADA')), HexColor('#363636'), (){
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                    (route) => false
-                            );
-                          }),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+              if(loginProvider.isLoading)
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                width: width(1, context),
+                height: height(0.78, context),
+                color: Colors.white70,
+                child: Center(
+                  child: animatedLoader(context),
+                ),
+              ),
+            ],
           ),
         ),
       ),
