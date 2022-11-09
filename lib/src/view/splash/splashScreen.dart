@@ -115,7 +115,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SvgPicture.asset('assets/logo/logo_with_name.svg', width: width(0.65, context)),
+                  SvgPicture.asset('assets/logo/logo_with_name.svg'),
                   SizedBox(height: height(0.1, context),),
                   SizedBox(
                     width: width(isTablet(context) ? 0.3 : 0.5, context),
@@ -126,7 +126,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           HexColor('#445740').withOpacity(0.8), HexColor('#946800').withOpacity(0.8), HexColor('#445740').withOpacity(0.7), HexColor('#946800').withOpacity(0.7),
                           HexColor('#445740').withOpacity(0.6), HexColor('#946800').withOpacity(0.6), HexColor('#445740').withOpacity(0.5), HexColor('#946800').withOpacity(0.5)
                         ],
-                        backgroundColor: Colors.transparent,      /// Optional, Background of the widget
+                        backgroundColor: Colors.transparent,
                     ),
                   )
                 ],
