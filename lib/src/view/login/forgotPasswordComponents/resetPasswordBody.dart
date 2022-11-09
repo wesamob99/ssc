@@ -165,88 +165,91 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                       Divider(
                           color: HexColor('#DADADA')
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: height(0.02, context),),
-                              Text(
-                                translate('password', context),
-                                style: TextStyle(
-                                    color: HexColor('#363636'),
-                                    fontSize: width(0.032, context)
+                      SizedBox(
+                        height: height(0.78, context),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: height(0.02, context),),
+                                Text(
+                                  translate('password', context),
+                                  style: TextStyle(
+                                      color: HexColor('#363636'),
+                                      fontSize: width(0.032, context)
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: height(0.015, context),),
-                              buildTextFormField(context, themeNotifier, loginProvider.resetPasswordController, 'XC454F@11', (val){
-                                passwordValidator(val, loginProvider);
-                              }, isPassword: true, flag: 1),
-                              SizedBox(height: height(0.02, context),),
-                              Text(
-                                translate('confirmPassword', context),
-                                style: TextStyle(
-                                    color: HexColor('#363636'),
-                                    fontSize: width(0.032, context)
+                                SizedBox(height: height(0.015, context),),
+                                buildTextFormField(context, themeNotifier, loginProvider.resetPasswordController, 'XC454F@11', (val){
+                                  passwordValidator(val, loginProvider);
+                                }, isPassword: true, flag: 1),
+                                SizedBox(height: height(0.02, context),),
+                                Text(
+                                  translate('confirmPassword', context),
+                                  style: TextStyle(
+                                      color: HexColor('#363636'),
+                                      fontSize: width(0.032, context)
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: height(0.015, context),),
-                              buildTextFormField(context, themeNotifier, loginProvider.resetConfirmPasswordController, 'XC454F@11', (val){
-                                passwordValidator(val, loginProvider);
-                              }, isPassword: true, flag: 1),
-                              SizedBox(height: height(0.01, context),),
-                              SizedBox(height: height(0.015, context),),
-                              SizedBox(
-                                height: height(0.14, context),
-                                child: GridView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                        maxCrossAxisExtent: 180,
-                                        childAspectRatio: 8 / 2.5,
-                                        crossAxisSpacing: 6,
-                                        mainAxisSpacing: 12
-                                    ),
-                                    itemCount: validators.length,
-                                    itemBuilder: (BuildContext ctx, index) {
-                                      return Container(
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                              color: validatorsCheck[index]
-                                                  ? HexColor('#946800') : HexColor('#EDEDED'),
-                                              borderRadius: BorderRadius.circular(12.0)
-                                          ),
-                                          child: Text(
-                                            translate(validators[index], context),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                SizedBox(height: height(0.015, context),),
+                                buildTextFormField(context, themeNotifier, loginProvider.resetConfirmPasswordController, 'XC454F@11', (val){
+                                  passwordValidator(val, loginProvider);
+                                }, isPassword: true, flag: 1),
+                                SizedBox(height: height(0.01, context),),
+                                SizedBox(height: height(0.015, context),),
+                                SizedBox(
+                                  height: height(0.25, context),
+                                  child: GridView.builder(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                                          maxCrossAxisExtent: width(0.3, context),
+                                          childAspectRatio: height(0.0045, context),
+                                          crossAxisSpacing: 6,
+                                          mainAxisSpacing: 12
+                                      ),
+                                      itemCount: validators.length,
+                                      itemBuilder: (BuildContext ctx, index) {
+                                        return Container(
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
                                                 color: validatorsCheck[index]
-                                                    ? HexColor('#FFFFFF') : HexColor('#595959'),
-                                                fontSize: height(isTablet(context) ? 0.01 : 0.012, context)
+                                                    ? HexColor('#946800') : HexColor('#EDEDED'),
+                                                borderRadius: BorderRadius.circular(8.0)
                                             ),
-                                          )
-                                      );
-                                    }),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: height(0.1, context),),
-                          textButton(context, themeNotifier, 'continue', MaterialStateProperty.all<Color>(
-                              !Provider.of<LoginProvider>(context).resetContinueEnabled
-                                  ? HexColor('#DADADA')
-                                  : getPrimaryColor(context, themeNotifier)),
-                              Provider.of<LoginProvider>(context).resetContinueEnabled
-                                  ? HexColor('#ffffff') : HexColor('#363636'), (){
-                                if(loginProvider.resetContinueEnabled){
-                                  /// TODO: call resetPassword API
-                                  /// TODO: add animated loader and control isLoading
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                          (route) => false
-                                  );
-                                }
-                              }),
-                        ],
+                                            child: Text(
+                                              translate(validators[index], context),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: validatorsCheck[index]
+                                                      ? HexColor('#FFFFFF') : HexColor('#595959'),
+                                                  fontSize: height(isTablet(context) ? 0.01 : 0.012, context)
+                                              ),
+                                            )
+                                        );
+                                      }),
+                                ),
+                              ],
+                            ),
+                            textButton(context, themeNotifier, 'continue', MaterialStateProperty.all<Color>(
+                                !Provider.of<LoginProvider>(context).resetContinueEnabled
+                                    ? HexColor('#DADADA')
+                                    : getPrimaryColor(context, themeNotifier)),
+                                Provider.of<LoginProvider>(context).resetContinueEnabled
+                                    ? HexColor('#ffffff') : HexColor('#363636'), (){
+                                  if(loginProvider.resetContinueEnabled){
+                                    /// TODO: call resetPassword API
+                                    /// TODO: add animated loader and control isLoading
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                            (route) => false
+                                    );
+                                  }
+                                }),
+                          ],
+                        ),
                       ),
                     ],
                   ),

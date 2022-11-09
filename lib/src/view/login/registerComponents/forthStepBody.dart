@@ -23,6 +23,7 @@ class ForthStepBody extends StatefulWidget {
 
 class _ForthStepBodyState extends State<ForthStepBody> {
 
+  LoginProvider loginProvider;
   bool termsChecked = false;
   List<String> validators = ["pwValidator1", "pwValidator2", "pwValidator3", "pwValidator4", "pwValidator5", "pwValidator6"];
   List<bool> validatorsCheck = [false, false, false, false, false, false];
@@ -34,9 +35,15 @@ class _ForthStepBodyState extends State<ForthStepBody> {
   }
 
   @override
+  void initState() {
+    loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    loginProvider.registerObscurePassword = true;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-    LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -112,15 +119,15 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                   }, isPassword: true, flag: 2),
                   SizedBox(height: height(0.015, context),),
                   SizedBox(
-                    height: height(0.14, context),
+                    height: height(0.25, context),
                     child: GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 180,
-                          childAspectRatio: 8 / 2.5,
-                          crossAxisSpacing: 6,
-                          mainAxisSpacing: 12
-                      ),
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: width(0.3, context),
+                            childAspectRatio: height(0.0045, context),
+                            crossAxisSpacing: 6,
+                            mainAxisSpacing: 12
+                        ),
                       itemCount: validators.length,
                       itemBuilder: (BuildContext ctx, index) {
                         return Container(
@@ -198,7 +205,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                     ],
                   ),
                   SizedBox(height: height(0.02, context),),
-                  textButton(context, themeNotifier, 'continue', MaterialStateProperty.all<Color>(
+                  textButton(context, themeNotifier, 'createAnAccount', MaterialStateProperty.all<Color>(
                       !Provider.of<LoginProvider>(context).registerContinueEnabled
                           ? HexColor('#DADADA')
                           : getPrimaryColor(context, themeNotifier)),
