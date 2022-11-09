@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -36,8 +35,6 @@ class _OTPScreenState extends State<OTPScreen> {
   final focusNode = FocusNode();
   bool enableContinue = false;
   String errorMessage = "";
-  int endTime = DateTime.now().millisecondsSinceEpoch + 300000;
-  bool isTimerEnded = false;
   String selectedLanguage;
 
   getAppLanguage(){
@@ -180,64 +177,6 @@ class _OTPScreenState extends State<OTPScreen> {
                               SizedBox(height: height(0.025, context),),
                               pinPut(themeNotifier),
                               SizedBox(height: height(0.072, context),),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: height(0.02, context)),
-                                child: Column(
-                                  children: [
-                                    Directionality(
-                                      textDirection: TextDirection.ltr,
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        width: width(isTimerEnded ? 0.5 : 0.23, context),
-                                        height: height(0.04, context),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color: HexColor('#A4A4A4')
-                                            )
-                                        ),
-                                        child: CountdownTimer(
-                                          textStyle: TextStyle(color: HexColor('#FF0000')),
-                                          endWidget: Container(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              'code has been disabled',
-                                              style: TextStyle(color: HexColor('#FF0000')),
-                                            ),
-                                          ),
-                                          endTime: endTime,
-                                          onEnd: () {
-                                            setState(() {
-                                              isTimerEnded = true;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: height(0.01, context),),
-                                    InkWell(
-                                        onTap: () async{
-                                          if(isTimerEnded) {
-                                            if(widget.type == 'phone') {
-                                              await loginProvider.sendRegisterMobileOTP(int.parse(widget.contactTarget), "00962");
-                                            }else {
-                                              await loginProvider.sendRegisterEmailOTP(widget.contactTarget);
-                                            }
-                                            setState((){
-                                              endTime = DateTime.now().millisecondsSinceEpoch + 300000;
-                                              isTimerEnded = false;
-                                            });
-                                          }
-                                        },
-                                        child: Text(
-                                          translate('resend', context),
-                                          style: TextStyle(color: isTimerEnded ? HexColor('#003C97') : HexColor('#DADADA')),
-                                        )
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: height(0.05, context),),
                               textButton(
                                   themeNotifier, 'continue',
                                   MaterialStateProperty.all<Color>(pinController.text.length == 4
