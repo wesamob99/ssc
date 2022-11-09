@@ -18,7 +18,7 @@ class LoginProvider extends ChangeNotifier {
   /// forgot password ***
   bool enabledSendCodeButton = false;
   bool resetContinueEnabled = false;
-  bool resetObscurePassword = false;
+  bool resetObscurePassword = true;
   TextEditingController resetPasswordController = TextEditingController();
   TextEditingController resetConfirmPasswordController = TextEditingController();
 
@@ -38,7 +38,7 @@ class LoginProvider extends ChangeNotifier {
   // at index 0 -> relative type | index 1 -> academic level
   List thirdStepSelection = ['choose', 'optionalChoose'];
   bool registerContinueEnabled = false;
-  bool registerObscurePassword = false;
+  bool registerObscurePassword = true;
   List<Countries> countries = [];
 
   /// login | forgot password
