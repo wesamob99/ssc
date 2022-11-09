@@ -24,8 +24,8 @@ class ThirdStepBody extends StatefulWidget {
 
 class _ThirdStepBodyState extends State<ThirdStepBody> {
 
-  Map item1 = {"title": 'want', "value": false};
-  Map item2 = {"title": 'dontWant', "value": true};
+  Map item1 = {"title": 'want', "value": true};
+  Map item2 = {"title": 'dontWant', "value": false};
 
 
   @override
