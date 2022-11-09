@@ -31,7 +31,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
   @override
   void initState() {
     LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    if(!item2['value']){
+    if(item2['value']){
       loginProvider.registerContinueEnabled = true;
     } else{
       loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
@@ -110,7 +110,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                             setState(() {
                               item2['value'] = false;
                               item1["value"] = true;
-                              if(!item2['value']){
+                              if(item2['value']){
                                 loginProvider.registerContinueEnabled = true;
                               } else{
                                 loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
@@ -147,7 +147,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                             setState(() {
                               item1['value'] = false;
                               item2["value"] = true;
-                              if(!item2['value']){
+                              if(item2['value']){
                                 loginProvider.registerContinueEnabled = true;
                               } else{
                                 loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
