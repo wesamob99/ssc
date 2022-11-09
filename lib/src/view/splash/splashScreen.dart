@@ -18,7 +18,8 @@ import '../../../models/home/payOffFinancialInformations.dart';
 import '../../../utilities/util.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key key}) : super(key: key);
+  final bool fromMain;
+  const SplashScreen({Key key, this.fromMain = false}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -28,7 +29,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    checkDataConnection();
+    Future.delayed(Duration(milliseconds: widget.fromMain ? 2500 : 1500), (){
+      checkDataConnection();
+    });
     super.initState();
   }
 
@@ -115,7 +118,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SvgPicture.asset('assets/logo/logo_with_name.svg'),
+                  Image.asset('assets/logo/logo_with_name.png', width: width(isTablet(context) ? 0.42 : 0.62, context),),
                   SizedBox(height: height(0.1, context),),
                   SizedBox(
                     width: width(isTablet(context) ? 0.3 : 0.5, context),
@@ -123,8 +126,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: LoadingIndicator(
                         indicatorType: Indicator.ballSpinFadeLoader, /// Required, The loading type of the widget
                         colors: [
-                          HexColor('#445740').withOpacity(0.8), HexColor('#946800').withOpacity(0.8), HexColor('#445740').withOpacity(0.7), HexColor('#946800').withOpacity(0.7),
-                          HexColor('#445740').withOpacity(0.6), HexColor('#946800').withOpacity(0.6), HexColor('#445740').withOpacity(0.5), HexColor('#946800').withOpacity(0.5)
+                          HexColor('#445740').withOpacity(0.8), HexColor('#946800').withOpacity(0.6), HexColor('#445740').withOpacity(0.7), HexColor('#946800').withOpacity(0.5),
+                          HexColor('#445740').withOpacity(0.6), HexColor('#946800').withOpacity(0.4), HexColor('#445740').withOpacity(0.5), HexColor('#946800').withOpacity(0.3)
                         ],
                         backgroundColor: Colors.transparent,
                     ),

@@ -132,7 +132,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate
             ],
-            home: const SplashScreen(),
+            home: const SplashScreen(fromMain: true),
           );
         }
       ),
