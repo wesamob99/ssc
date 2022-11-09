@@ -63,6 +63,7 @@
   "register": "Register now !",
   "loginFailed": "Login failed",
   "resetPasswordFailed": "Reset password failed",
+  "registerFailed": "Register failed",
   "resetPassword": "Reset your password",
   "bottomHome": "Home",
   "bottomServices": "Services",

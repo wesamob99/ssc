@@ -63,6 +63,7 @@
   "register": "إفتح حساب الآن !",
   "loginFailed": "فشل الدخول",
   "resetPasswordFailed": "فشل إعادة تعيين كلمة المرور",
+  "registerFailed": "فشل إنشاء الحساب",
   "resetPassword": "إعادة تعيين كلمة المرور",
   "bottomHome": "رئيسية",
   "bottomServices": "الخدمات",
