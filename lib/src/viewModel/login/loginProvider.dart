@@ -89,7 +89,7 @@ class LoginProvider extends ChangeNotifier {
   Future registerSubmitSecondStep(
       int nationality, int nationalNo,
       int personalNo, String cardNo,
-      DateTime birthDate, int secNo,
+      dynamic birthDate, int secNo,
       int natCode, int relNatNo, int relType
     ) async{
     final response = await loginRepository.registerSubmitSecondStepService(
