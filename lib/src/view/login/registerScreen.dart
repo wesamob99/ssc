@@ -119,16 +119,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: Transform.rotate(
                                     angle: UserConfig.instance.checkLanguage()
                                         ? -math.pi / 1.0 : 0,
-                                    child: SvgPicture.asset(
-                                        'assets/icons/back.svg'
-                                    ),
+                                    child: isTablet(context)
+                                    ? SvgPicture.asset('assets/icons/back.svg', width: 55,)
+                                    : SvgPicture.asset('assets/icons/back.svg',),
                                   ),
                                 ),
                                 SizedBox(width: width(0.03, context)),
                                 Text(
                                   translate('createAnAccount', context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700
+                                  style: isTablet(context)
+                                  ? const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20
+                                  )
+                                  : const TextStyle(
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
                               ],
@@ -138,9 +143,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             alignment: Alignment.topLeft,
                             child: Row(
                               children: [
-                                SvgPicture.asset(
-                                    'assets/icons/global.svg'
-                                ),
+                                isTablet(context)
+                                ? SvgPicture.asset('assets/icons/global.svg', width: 35,)
+                                : SvgPicture.asset('assets/icons/global.svg'),
                                 const SizedBox(width: 4.0),
                                 DropdownButton<String>(
                                   isDense: true,
@@ -170,7 +175,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       value: value,
                                       child: Text(
                                         value == 'en' ? 'English' : 'عربي',
-                                        style: TextStyle(
+                                        style: isTablet(context)
+                                          ? TextStyle(
+                                          color: themeNotifier.isLight()
+                                              ? primaryColor
+                                              : Colors.white,
+                                            fontSize: 20,
+                                        ) : TextStyle(
                                           color: themeNotifier.isLight()
                                               ? primaryColor
                                               : Colors.white,
