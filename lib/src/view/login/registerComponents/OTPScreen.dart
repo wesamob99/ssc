@@ -56,23 +56,23 @@ class _OTPScreenState extends State<OTPScreen> {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
 
-    return GestureDetector(
-      onTap: (){
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
-      child: WillPopScope(
-        onWillPop: () async => false,
-        child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(10.0),
-            child: AppBar(
-              backgroundColor: Colors.transparent,
-              leading: const SizedBox.shrink(),
-            ),
-          ),
-          body: Stack(
-            children: [
-              Padding(
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: (){
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: WillPopScope(
+            onWillPop: () async => false,
+            child: Scaffold(
+              appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(10.0),
+                child: AppBar(
+                  backgroundColor: Colors.transparent,
+                  leading: const SizedBox.shrink(),
+                ),
+              ),
+              body: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 14.0),
                 child: SingleChildScrollView(
                   child: Column(
@@ -247,20 +247,20 @@ class _OTPScreenState extends State<OTPScreen> {
                   ),
                 ),
               ),
-              if(loginProvider.isLoading)
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                width: width(1, context),
-                height: height(0.78, context),
-                color: Colors.white70,
-                child: Center(
-                  child: animatedLoader(context),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
+        if(loginProvider.isLoading)
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          width: width(1, context),
+          height: height(0.78, context),
+          color: Colors.white70,
+          child: Center(
+            child: animatedLoader(context),
+          ),
+        ),
+      ],
     );
   }
 
