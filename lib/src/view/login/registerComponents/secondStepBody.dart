@@ -9,6 +9,7 @@ import 'package:ssc/models/login/registerData.dart';
 import 'package:ssc/src/view/login/registerComponents/thirdStepBody.dart';
 import 'package:ssc/src/view/login/registerScreen.dart';
 
+import '../../../../infrastructure/userConfig.dart';
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
@@ -44,164 +45,205 @@ class _SecondStepBodyState extends State<SecondStepBody> {
 
     return WillPopScope(
       onWillPop: () async => false,
-      child: RegisterScreen(
-        stepNumber: 2,
-        body: SizedBox(
-          height: height(0.78, context),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
+        children: [
+          RegisterScreen(
+            stepNumber: 2,
+            body: SizedBox(
+              height: height(0.78, context),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(height: height(0.02, context),),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        translate('secondStep', context),
-                        style: TextStyle(
-                            color: HexColor('#979797'),
-                            fontSize: width(0.03, context)
-                        ),
+                      SizedBox(height: height(0.02, context),),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            translate('secondStep', context),
+                            style: TextStyle(
+                                color: HexColor('#979797'),
+                                fontSize: width(0.03, context)
+                            ),
+                          ),
+                          SizedBox(height: height(0.006, context),),
+                          Text(
+                            translate('personalInformations', context),
+                            style: TextStyle(
+                                color: HexColor('#5F5F5F'),
+                                fontSize: width(0.035, context)
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: height(0.006, context),),
-                      Text(
-                        translate('personalInformations', context),
-                        style: TextStyle(
-                            color: HexColor('#5F5F5F'),
-                            fontSize: width(0.035, context)
-                        ),
+                      SizedBox(height: height(0.01, context),),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SizedBox.shrink(),
+                          Text(
+                            '${translate('next', context)}: ${translate('contactInformations', context)}',
+                            style: TextStyle(
+                                color: HexColor('#979797'),
+                                fontSize: width(0.032, context)
+                            ),
+                          ),
+                        ],
                       ),
+                      SizedBox(height: height(0.02, context),),
+                      buildFieldTitle(context, 'enterNationalId', filled: loginProvider.registerNationalIdController.text.length == 10),
+                      SizedBox(height: height(0.015, context),),
+                      buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, '9661001073', (val){
+                        checkContinueEnable(loginProvider);
+                      }, inputType: TextInputType.number),
+                      SizedBox(height: height(0.02, context),),
+                      if(isJordanian)
+                      buildFieldTitle(context, 'civilIdNumber', filled: (loginProvider.civilIdNumberController.text.isNotEmpty &&
+                          loginProvider.civilIdNumberController.text.length <= 8)),
+                      if(!isJordanian)
+                      buildFieldTitle(context, 'passportNumber', filled: RegExp(r"^(?!^0+$)[a-zA-Z0-9]{3,20}$").hasMatch(loginProvider.passportNumberController.text)),
+                      SizedBox(height: height(0.015, context),),
+                      buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.civilIdNumberController : loginProvider.passportNumberController, 'AER20995', (val){
+                        checkContinueEnable(loginProvider);
+                      },),
+                      SizedBox(height: height(0.02, context),),
+                      if(isJordanian)
+                      buildFieldTitle(context, 'relativeNationalNumber', filled: loginProvider.relativeNatIdController.text.length == 10),
+                      if(!isJordanian)
+                      buildFieldTitle(context, 'insuranceNumber', required: false),
+                      SizedBox(height: height(0.015, context),),
+                      buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.relativeNatIdController : loginProvider.insuranceNumberController, '9661001073', (val){
+                        checkContinueEnable(loginProvider);
+                      },inputType: TextInputType.number),
+                      SizedBox(height: height(0.02, context),),
+                      if(isJordanian)
+                      buildFieldTitle(context, 'relativeRelation', filled: loginProvider.thirdStepSelection[0] != 'choose'),
+                      if(!isJordanian)
+                      buildFieldTitle(context, 'DateOfBirth', required: true, filled: loginProvider.dateOfBirthController.text.isNotEmpty),
+                      SizedBox(height: height(0.015, context),),
+                      if(isJordanian)
+                      dropDownList(relationTypes, themeNotifier, loginProvider, 0),
+                      if(!isJordanian)
+                      DateTimePicker(
+                        decoration: InputDecoration(
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: SvgPicture.asset('assets/icons/datePickerIcon.svg'),
+                          ),
+                          contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: HexColor('#979797'),
+                              width: 0.5,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: HexColor('#445740'),
+                              width: 0.8,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: HexColor('#363636')
+                        ),
+                        type: DateTimePickerType.date,
+                        initialDate: DateTime.now(),
+                        dateMask: 'yyyy/MM/dd',
+                        controller: loginProvider.dateOfBirthController,
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now(),
+                        dateLabelText: 'Date',
+                        onChanged: (val) => checkContinueEnable(loginProvider),
+                      ),
+                      // SizedBox(height: height(0.02, context),),
+                      // buildFieldTitle('academicLevel', required: false),
+                      // SizedBox(height: height(0.015, context),),
+                      // dropDownList(academicLevels, themeNotifier, loginProvider, 1),
                     ],
                   ),
-                  SizedBox(height: height(0.01, context),),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox.shrink(),
-                      Text(
-                        '${translate('next', context)}: ${translate('contactInformations', context)}',
-                        style: TextStyle(
-                            color: HexColor('#979797'),
-                            fontSize: width(0.032, context)
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: height(0.02, context),),
-                  buildFieldTitle(context, 'enterNationalId', filled: loginProvider.registerNationalIdController.text.length == 10),
-                  SizedBox(height: height(0.015, context),),
-                  buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, '9661001073', (val){
-                    checkContinueEnable(loginProvider);
-                  }, inputType: TextInputType.number),
-                  SizedBox(height: height(0.02, context),),
-                  if(isJordanian)
-                  buildFieldTitle(context, 'civilIdNumber', filled: (loginProvider.civilIdNumberController.text.isNotEmpty &&
-                      loginProvider.civilIdNumberController.text.length <= 8)),
-                  if(!isJordanian)
-                  buildFieldTitle(context, 'passportNumber', filled: RegExp(r"^(?!^0+$)[a-zA-Z0-9]{3,20}$").hasMatch(loginProvider.passportNumberController.text)),
-                  SizedBox(height: height(0.015, context),),
-                  buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.civilIdNumberController : loginProvider.passportNumberController, 'AER20995', (val){
-                    checkContinueEnable(loginProvider);
-                  },),
-                  SizedBox(height: height(0.02, context),),
-                  if(isJordanian)
-                  buildFieldTitle(context, 'relativeNationalNumber', filled: loginProvider.relativeNatIdController.text.length == 10),
-                  if(!isJordanian)
-                  buildFieldTitle(context, 'insuranceNumber', required: false),
-                  SizedBox(height: height(0.015, context),),
-                  buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.relativeNatIdController : loginProvider.insuranceNumberController, '9661001073', (val){
-                    checkContinueEnable(loginProvider);
-                  },inputType: TextInputType.number),
-                  SizedBox(height: height(0.02, context),),
-                  if(isJordanian)
-                  buildFieldTitle(context, 'relativeRelation', filled: loginProvider.thirdStepSelection[0] != 'choose'),
-                  if(!isJordanian)
-                  buildFieldTitle(context, 'DateOfBirth', required: true, filled: loginProvider.dateOfBirthController.text.isNotEmpty),
-                  SizedBox(height: height(0.015, context),),
-                  if(isJordanian)
-                  dropDownList(relationTypes, themeNotifier, loginProvider, 0),
-                  if(!isJordanian)
-                  DateTimePicker(
-                    decoration: InputDecoration(
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: SvgPicture.asset('assets/icons/datePickerIcon.svg'),
-                      ),
-                      contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: HexColor('#979797'),
-                          width: 0.5,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: HexColor('#445740'),
-                          width: 0.8,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: HexColor('#363636')
-                    ),
-                    type: DateTimePickerType.date,
-                    initialDate: DateTime.now(),
-                    dateMask: 'yyyy/MM/dd',
-                    controller: loginProvider.dateOfBirthController,
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime.now(),
-                    dateLabelText: 'Date',
-                    onChanged: (val) => checkContinueEnable(loginProvider),
-                  ),
-                  // SizedBox(height: height(0.02, context),),
-                  // buildFieldTitle('academicLevel', required: false),
-                  // SizedBox(height: height(0.015, context),),
-                  // dropDownList(academicLevels, themeNotifier, loginProvider, 1),
+                  textButton(context, themeNotifier, 'continue', MaterialStateProperty.all<Color>(
+                      !Provider.of<LoginProvider>(context).registerContinueEnabled
+                          ? HexColor('#DADADA')
+                          : getPrimaryColor(context, themeNotifier)),
+                      Provider.of<LoginProvider>(context).registerContinueEnabled
+                          ? HexColor('#ffffff') : HexColor('#363636'), () async {
+                        if(loginProvider.registerContinueEnabled){
+                          loginProvider.registerData.nationalId = int.tryParse(loginProvider.registerNationalIdController.text);
+                          loginProvider.registerData.personalNumber = int.tryParse(loginProvider.registerNationalIdController.text);
+                          loginProvider.registerData.personalCardNo = loginProvider.civilIdNumberController.text;
+                          loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
+                          loginProvider.registerData.relativeType = relationTypes.indexOf(loginProvider.thirdStepSelection[0]);
+                          loginProvider.registerData.academicLevel = relationTypes.indexOf(loginProvider.thirdStepSelection[1]).toString();
+                          loginProvider.registerData.dateOfBirth = isJordanian ? null : DateTime.parse(loginProvider.dateOfBirthController.text);
+                          loginProvider.registerData.insuranceNo = int.tryParse(loginProvider.insuranceNumberController.text);
+                          loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
+                          loginProvider.registerData.relativeType = relationTypes.indexOf(loginProvider.thirdStepSelection[0]);
+
+                          loginProvider.isLoading = true;
+                          loginProvider.notifyMe();
+                          String errorMessage = "";
+                          try{
+                            await loginProvider.registerSubmitSecondStep(
+                                loginProvider.registerData.nationality,
+                                isJordanian ? loginProvider.registerData.nationalId : null,
+                                isJordanian ? null : loginProvider.registerData.personalNumber,
+                                isJordanian ? loginProvider.registerData.personalCardNo : null,
+                                isJordanian ? null : loginProvider.registerData.dateOfBirth,
+                                isJordanian ? null : loginProvider.registerData.insuranceNo,
+                                isJordanian ? null : loginProvider.registerData.nationalNumber,
+                                isJordanian ? loginProvider.registerData.relativeNatId : null,
+                                isJordanian ? loginProvider.registerData.relativeType : null
+                            ).whenComplete((){})
+                                .then((val) async {
+                              if(val['PO_STATUS'] != 1){
+                                errorMessage = UserConfig.instance.checkLanguage()
+                                    ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                              } else{
+                                errorMessage = '';
+                                loginProvider.registerContinueEnabled = false;
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => const ThirdStepBody())
+                                );
+                              }
+                              loginProvider.notifyMe();
+                            });
+                            loginProvider.isLoading = false;
+                            loginProvider.notifyMe();
+                          }catch(e){
+                            loginProvider.isLoading = false;
+                            loginProvider.notifyMe();
+                            if (kDebugMode) {
+                              print(e.toString());
+                            }
+                          }
+                        }
+                        if (kDebugMode) {
+                          print(registerDataToJson(loginProvider.registerData));
+                        }
+                      }),
                 ],
               ),
-              textButton(context, themeNotifier, 'continue', MaterialStateProperty.all<Color>(
-                  !Provider.of<LoginProvider>(context).registerContinueEnabled
-                      ? HexColor('#DADADA')
-                      : getPrimaryColor(context, themeNotifier)),
-                  Provider.of<LoginProvider>(context).registerContinueEnabled
-                      ? HexColor('#ffffff') : HexColor('#363636'), (){
-                    if(loginProvider.registerContinueEnabled){
-                      loginProvider.registerContinueEnabled = false;
-                      loginProvider.registerData.nationalId = int.tryParse(loginProvider.registerNationalIdController.text);
-                      loginProvider.registerData.personalCardNo = loginProvider.civilIdNumberController.text;
-                      loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
-                      loginProvider.registerData.relativeType = relationTypes.indexOf(loginProvider.thirdStepSelection[0]);
-                      loginProvider.registerData.academicLevel = relationTypes.indexOf(loginProvider.thirdStepSelection[1]).toString();
-                      // print('nationality: ${loginProvider.registerData.nationality}');
-                      // loginProvider.registerSubmitSecondStep(
-                      //     loginProvider.registerData.nationality,
-                      //     int.tryParse(loginProvider.registerNationalIdController.text),
-                      //     personalNo,
-                      //     loginProvider.civilIdNumberController.text,
-                      //     birthDate,
-                      //     secNo,
-                      //     natCode,
-                      //     int.tryParse(loginProvider.relativeNatIdController.text),
-                      //     relationTypes.indexOf(loginProvider.thirdStepSelection[0])
-                      // );
-                      loginProvider.notifyMe();
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const ThirdStepBody())
-                      );
-                    }
-                    if (kDebugMode) {
-                      print(registerDataToJson(loginProvider.registerData));
-                    }
-                  }),
-            ],
+            ),
           ),
-        ),
+          if(loginProvider.isLoading)
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            width: width(1, context),
+            height: height(1, context),
+            color: Colors.white70,
+            child: Center(
+              child: animatedLoader(context),
+            ),
+          ),
+        ],
       ),
     );
   }
