@@ -103,7 +103,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                     SizedBox(height: height(0.02, context),),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         InkWell(
                           onTap: (){
@@ -134,13 +134,18 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                           ),
                         ),
                         SizedBox(width: width(0.03, context),),
-                        Text(translate(item1['title'], context)),
+                        Text(
+                          translate(item1['title'], context),
+                          style: TextStyle(
+                            fontSize: width(isTablet(context) ? 0.03 : 0.037, context),
+                          ),
+                        ),
                       ],
                     ),
                     SizedBox(height: height(0.01, context),),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         InkWell(
                           onTap: (){
@@ -171,7 +176,12 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                           ),
                         ),
                         SizedBox(width: width(0.03, context),),
-                        Text(translate(item2['title'], context)),
+                        Text(
+                          translate(item2['title'], context),
+                          style: TextStyle(
+                            fontSize: width(isTablet(context) ? 0.03 : 0.037, context),
+                          ),
+                        ),
                       ],
                     ),
                     // SizedBox(height: height(0.015, context),),
