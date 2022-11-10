@@ -155,7 +155,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                         ),
                         type: DateTimePickerType.date,
                         initialDate: DateTime.now(),
-                        dateMask: 'yyyy/MM/dd',
+                        dateMask: 'dd/MM/yyyy',
                         controller: loginProvider.dateOfBirthController,
                         firstDate: DateTime(1900),
                         lastDate: DateTime.now(),
