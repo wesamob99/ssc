@@ -406,7 +406,7 @@ Widget buildFieldTitle(context, title, {required = true, filled = false}){
         translate(title, context),
         style: TextStyle(
           color: HexColor('#363636'),
-          fontSize: width(0.032, context)
+          fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
         ),
       ),
       if(required)

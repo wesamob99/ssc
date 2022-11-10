@@ -73,7 +73,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                             translate('firstStep', context),
                             style: TextStyle(
                                 color: HexColor('#979797'),
-                                fontSize: width(0.03, context)
+                                fontSize: isTablet(context) ? width(0.025, context) : width(0.03, context)
                             ),
                           ),
                           SizedBox(height: height(0.006, context),),
@@ -85,7 +85,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                                 '${translate('mobileNumber', context)}',
                             style: TextStyle(
                                 color: HexColor('#5F5F5F'),
-                                fontSize: width(0.035, context)
+                                fontSize: isTablet(context) ? width(0.028, context) : width(0.035, context)
                             ),
                           )
                         ],
@@ -100,7 +100,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                                 'personalInformations', context)}',
                             style: TextStyle(
                                 color: HexColor('#979797'),
-                                fontSize: width(0.032, context)
+                                fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
                             ),
                           ),
                         ],
@@ -114,6 +114,9 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                         horizontalAlignment: MainAxisAlignment.start,
                         groupValue: selectedNationality,
                         spacebetween: 30,
+                        textStyle: TextStyle(
+                          fontSize: isTablet(context) ? width(0.025, context) : width(0.035, context)
+                        ),
                         onChanged: (value) =>
                             setState(() {
                               selectedNationality = value;
