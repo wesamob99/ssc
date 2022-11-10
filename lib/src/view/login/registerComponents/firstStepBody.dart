@@ -201,6 +201,8 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                         loginProvider.registerData.nationality = (selectedNationality == 'jordanian' ? 1 : 2);
                         loginProvider.registerData.residentCountry = selectedCountryOfResident.natCode;
                         loginProvider.registerData.mobileNo = loginProvider.jordanianMobileNumberController.text;
+                        loginProvider.registerData.nationalNumber = int.parse(selectedExactNationality.value.toString());
+                        print('natCode: ${int.parse(selectedExactNationality.value.toString())}');
 
                         loginProvider.isLoading = true;
                         loginProvider.notifyMe();
