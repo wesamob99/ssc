@@ -435,7 +435,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
       obscureText: isPassword && ((Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2)) ,
       readOnly: !enabled,
       style: TextStyle(
-        fontSize: 15,
+        fontSize: isTablet(context) ? 20 : 15,
         color: enabled ? HexColor('#363636') : HexColor('#6B6B6B')
       ),
       cursorColor: getPrimaryColor(context, themeNotifier),
@@ -465,9 +465,9 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
             color: getGrey2Color(context).withOpacity(
               themeNotifier.isLight() ? 1 : 0.5,
             ),
-            fontSize: 14,
+            fontSize:  isTablet(context) ? 19 : 14,
           ),
-          contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: isTablet(context) ? 20 : 0,),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(

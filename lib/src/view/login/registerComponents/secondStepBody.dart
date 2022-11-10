@@ -66,7 +66,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                             translate('secondStep', context),
                             style: TextStyle(
                                 color: HexColor('#979797'),
-                                fontSize: width(0.03, context)
+                                fontSize: isTablet(context) ? width(0.025, context) : width(0.03, context)
                             ),
                           ),
                           SizedBox(height: height(0.006, context),),
@@ -74,7 +74,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                             translate('personalInformations', context),
                             style: TextStyle(
                                 color: HexColor('#5F5F5F'),
-                                fontSize: width(0.035, context)
+                                fontSize: isTablet(context) ? width(0.028, context) : width(0.035, context)
                             ),
                           ),
                         ],
@@ -88,7 +88,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                             '${translate('next', context)}: ${translate('contactInformations', context)}',
                             style: TextStyle(
                                 color: HexColor('#979797'),
-                                fontSize: width(0.032, context)
+                                fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
                             ),
                           ),
                         ],
@@ -252,7 +252,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
 
   dropDownList(List<String> menuList, ThemeNotifier themeNotifier, LoginProvider loginProvider, index){
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: isTablet(context) ? 5 : 0.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
@@ -299,6 +299,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                             ? (themeNotifier.isLight()
                             ? primaryColor
                               : Colors.white) : HexColor('#A6A6A6'),
+                        fontSize: isTablet(context) ? 20 : 15,
                       ),
                     ),
                   ),

@@ -114,9 +114,10 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                         horizontalAlignment: MainAxisAlignment.start,
                         groupValue: selectedNationality,
                         spacebetween: 30,
-                        textStyle: TextStyle(
-                          fontSize: isTablet(context) ? width(0.025, context) : width(0.035, context)
-                        ),
+                        textStyle: isTablet(context)
+                          ? TextStyle(
+                            fontSize: width(0.025, context)
+                          ) : const TextStyle(),
                         onChanged: (value) =>
                             setState(() {
                               selectedNationality = value;
