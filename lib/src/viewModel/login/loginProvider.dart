@@ -74,8 +74,13 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
-  Future getEncryptedPasswordService(String password) async {
+  Future getEncryptedPassword(String password) async {
     final response = await loginRepository.getEncryptedPasswordService(password);
+    return response;
+  }
+
+  Future registerUser() async {
+    final response = await loginRepository.registerUserService(registerData);
     return response;
   }
 

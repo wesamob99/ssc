@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import '../../../infrastructure/HTTPClientContract.dart';
+import '../../../models/login/registerData.dart';
 import '../../../models/login/resetPasswordGetDetail.dart';
 import '../../../models/login/userData.dart';
 
@@ -39,6 +40,19 @@ class LoginRepository{
     if (response != null && response.statusCode == 200) {
       var data = jsonDecode(response.data);
       return data["encrtptedPassword"];
+    }
+    return '';
+  }
+
+  Future registerUserService(RegisterData registerData) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/individuals/indvRegisterUser', registerDataToJson(registerData));
+
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
     }
     return '';
   }
