@@ -207,7 +207,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                             if(val["PO_STATUS_DESC_AR"] != null && val['PO_status'] != 1){
                               errorMessage = UserConfig.instance.checkLanguage()
                                   ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
-                              showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                              showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
                             } else if(val['PO_status'] == 1){
                               setFirstStepData();
                               errorMessage = '';

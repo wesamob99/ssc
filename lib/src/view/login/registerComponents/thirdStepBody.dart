@@ -227,7 +227,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                               if(val['PO_status'] == 0){
                                 errorMessage = UserConfig.instance.checkLanguage()
                                     ? val['PO_STATUS_DESC_EN'] : val['PO_STATUS_DESC_AR'];
-                                showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                                showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
                               } else if(val['PO_status'] == 1){
                                 errorMessage = '';
                                 Navigator.of(context).push(
