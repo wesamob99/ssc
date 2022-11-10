@@ -198,13 +198,6 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                         .registerContinueEnabled
                         ? HexColor('#ffffff') : HexColor('#363636'), () async {
                       if (loginProvider.registerContinueEnabled) {
-                        loginProvider.registerData.nationality = (selectedNationality == 'jordanian' ? 1 : 2);
-                        loginProvider.registerData.residentCountry = selectedCountryOfResident.natCode;
-                        loginProvider.registerData.mobileNo = loginProvider.jordanianMobileNumberController.text;
-                        loginProvider.registerData.nationalMobile = loginProvider.foreignMobileNumberController.text;
-                        loginProvider.registerData.nationalMobileCode = int.parse(selectedExactNationality.value.toString());
-                        loginProvider.registerData.nationalNumber = selectedNationality == 'jordanian' ? null : int.parse(selectedExactNationality.natCode.toString());
-
                         loginProvider.isLoading = true;
                         loginProvider.notifyMe();
                         String errorMessage = "";
@@ -216,6 +209,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                                   ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
                               showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
                             } else if(val['PO_status'] == 1){
+                              setFirstStepData();
                               errorMessage = '';
                               loginProvider.registerContinueEnabled = false;
                               Navigator.of(context).push(
@@ -257,6 +251,17 @@ class _FirstStepBodyState extends State<FirstStepBody> {
         ),
       ],
     );
+  }
+
+
+  setFirstStepData(){
+    loginProvider.registerData.nationality = (selectedNationality == 'jordanian' ? 1 : 2);
+    loginProvider.registerData.residentCountry = selectedCountryOfResident.natCode;
+    loginProvider.registerData.mobileNo = loginProvider.jordanianMobileNumberController.text;
+    loginProvider.registerData.nationalMobile = loginProvider.foreignMobileNumberController.text;
+    loginProvider.registerData.nationalMobileCode = int.parse(selectedExactNationality.value.toString());
+    loginProvider.registerData.nationalNumber = selectedNationality == 'jordanian' ? null : int.parse(selectedExactNationality.natCode.toString());
+    loginProvider.notifyMe();
   }
 
   Widget buildCountriesDropDown(int index, SelectedListItem selectedCountry ,{showSelectedName = false}) {

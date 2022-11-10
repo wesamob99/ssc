@@ -175,18 +175,11 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                       Provider.of<LoginProvider>(context).registerContinueEnabled
                           ? HexColor('#ffffff') : HexColor('#363636'), () async {
                         if(loginProvider.registerContinueEnabled){
-                          loginProvider.registerData.nationalId = isJordanian ? int.tryParse(loginProvider.registerNationalIdController.text) : null;
-                          loginProvider.registerData.personalNumber = isJordanian ? null : int.tryParse(loginProvider.registerNationalIdController.text);
-                          loginProvider.registerData.personalCardNo = isJordanian ? loginProvider.civilIdNumberController.text : null;
-                          loginProvider.registerData.relativeNatId = isJordanian ? int.tryParse(loginProvider.relativeNatIdController.text) : null;
-                          loginProvider.registerData.relativeType = isJordanian ? relationTypes.indexOf(loginProvider.thirdStepSelection[0]) : null;
-                          loginProvider.registerData.dateOfBirth = isJordanian ? null : DateTime.parse(loginProvider.dateOfBirthController.text);
-                          loginProvider.registerData.insuranceNo = isJordanian ? null : int.tryParse(loginProvider.insuranceNumberController.text);
-
                           loginProvider.isLoading = true;
                           loginProvider.notifyMe();
                           String errorMessage = "";
                           try{
+                            setSecondStepData(loginProvider);
                             await loginProvider.registerSubmitSecondStep(
                                 loginProvider.registerData.nationality,
                                 loginProvider.registerData.nationalId,
@@ -243,6 +236,17 @@ class _SecondStepBodyState extends State<SecondStepBody> {
         ],
       ),
     );
+  }
+
+  setSecondStepData(LoginProvider loginProvider){
+    loginProvider.registerData.nationalId = isJordanian ? int.tryParse(loginProvider.registerNationalIdController.text) : null;
+    loginProvider.registerData.personalNumber = isJordanian ? null : int.tryParse(loginProvider.registerNationalIdController.text);
+    loginProvider.registerData.personalCardNo = isJordanian ? loginProvider.civilIdNumberController.text : null;
+    loginProvider.registerData.relativeNatId = isJordanian ? int.tryParse(loginProvider.relativeNatIdController.text) : null;
+    loginProvider.registerData.relativeType = isJordanian ? relationTypes.indexOf(loginProvider.thirdStepSelection[0]) : null;
+    loginProvider.registerData.dateOfBirth = isJordanian ? null : DateTime.parse(loginProvider.dateOfBirthController.text);
+    loginProvider.registerData.insuranceNo = isJordanian ? null : int.tryParse(loginProvider.insuranceNumberController.text);
+    loginProvider.notifyMe();
   }
 
   dropDownList(List<String> menuList, ThemeNotifier themeNotifier, LoginProvider loginProvider, index){
