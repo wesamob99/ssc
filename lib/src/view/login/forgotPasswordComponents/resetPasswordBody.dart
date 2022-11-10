@@ -206,7 +206,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                       physics: const NeverScrollableScrollPhysics(),
                                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                                           maxCrossAxisExtent: width(0.3, context),
-                                          childAspectRatio: height(0.0045, context),
+                                          childAspectRatio: 100 / (isTablet(context) ? height(0.02, context) : height(0.04, context)),
                                           crossAxisSpacing: 6,
                                           mainAxisSpacing: 12
                                       ),
