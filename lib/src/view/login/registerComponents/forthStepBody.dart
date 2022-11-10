@@ -14,7 +14,8 @@ import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../splash/splashScreen.dart';
 
 class ForthStepBody extends StatefulWidget {
-  const ForthStepBody({Key key}) : super(key: key);
+  final bool emailChecked;
+  const ForthStepBody({Key key, this.emailChecked = true}) : super(key: key);
 
   @override
   State<ForthStepBody> createState() => _ForthStepBodyState();
@@ -49,7 +50,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
       child: Stack(
         children: [
           RegisterScreen(
-            stepNumber: 4,
+            fromOtpScreen: widget.emailChecked,
             body: SizedBox(
               height: height(0.78, context),
               child: Column(
@@ -213,6 +214,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                           Provider.of<LoginProvider>(context).registerContinueEnabled
                               ? HexColor('#ffffff') : HexColor('#363636'), () async {
                             if(loginProvider.registerContinueEnabled){
+                              FocusScope.of(context).requestFocus(FocusNode());
                               loginProvider.isLoading = true;
                               loginProvider.notifyMe();
                               String errorMessage = "";
@@ -220,7 +222,6 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                                 await loginProvider.getEncryptedPassword(loginProvider.registerPasswordController.text).then((value) async {
                                   loginProvider.registerData.password = value;
                                   await loginProvider.registerUser().whenComplete((){}).then((val) {
-                                    print('val: $val');
                                     if(val['PO_STATUS'] != 0){
                                       errorMessage = UserConfig.instance.checkLanguage()
                                           ? val['PO_STATUS_DESC_EN'] : val['PO_STATUS_DESC_AR'];

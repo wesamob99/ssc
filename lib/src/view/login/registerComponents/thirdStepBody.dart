@@ -47,7 +47,6 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
     return Stack(
       children: [
         RegisterScreen(
-          stepNumber: 3,
           body: SizedBox(
             height: height(0.78, context),
             child: Column(
@@ -228,6 +227,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                         loginProvider.registerData.activationBy = 1; //activationBy
                         loginProvider.notifyMe();
                         if(item1['value']) {
+                          FocusScope.of(context).requestFocus(FocusNode());
                           loginProvider.isLoading = true;
                           loginProvider.notifyMe();
                           String errorMessage = "";
@@ -260,7 +260,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                           }
                         }else{
                           Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => const ForthStepBody())
+                              MaterialPageRoute(builder: (context) => const ForthStepBody(emailChecked: false))
                           );
                           loginProvider.registerContinueEnabled = false;
                         }

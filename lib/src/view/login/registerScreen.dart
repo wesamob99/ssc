@@ -17,8 +17,8 @@ import 'dart:math' as math;
 
 class RegisterScreen extends StatefulWidget {
   final Widget body;
-  final int stepNumber;
-  const RegisterScreen({Key key, this.body, this.stepNumber}) : super(key: key);
+  final bool fromOtpScreen;
+  const RegisterScreen({Key key, this.body, this.fromOtpScreen = false}) : super(key: key);
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -107,7 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   onTap: (){
                                     loginProvider.registerContinueEnabled = false;
                                     Navigator.of(context).pop();
-                                    if(widget.stepNumber == 2 || widget.stepNumber == 4) {
+                                    if(widget.fromOtpScreen) {
                                       Navigator.of(context).pop();
                                     }
                                     setState(() {

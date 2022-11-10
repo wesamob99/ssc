@@ -48,7 +48,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
       child: Stack(
         children: [
           RegisterScreen(
-            stepNumber: 2,
+            fromOtpScreen: true,
             body: SizedBox(
               height: height(0.78, context),
               child: Column(
@@ -175,6 +175,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                       Provider.of<LoginProvider>(context).registerContinueEnabled
                           ? HexColor('#ffffff') : HexColor('#363636'), () async {
                         if(loginProvider.registerContinueEnabled){
+                          FocusScope.of(context).requestFocus(FocusNode());
                           loginProvider.isLoading = true;
                           loginProvider.notifyMe();
                           String errorMessage = "";
