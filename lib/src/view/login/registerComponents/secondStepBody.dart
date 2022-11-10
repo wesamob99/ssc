@@ -175,16 +175,13 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                       Provider.of<LoginProvider>(context).registerContinueEnabled
                           ? HexColor('#ffffff') : HexColor('#363636'), () async {
                         if(loginProvider.registerContinueEnabled){
-                          loginProvider.registerData.nationalId = int.tryParse(loginProvider.registerNationalIdController.text);
-                          loginProvider.registerData.personalNumber = int.tryParse(loginProvider.registerNationalIdController.text);
-                          loginProvider.registerData.personalCardNo = loginProvider.civilIdNumberController.text;
-                          loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
-                          loginProvider.registerData.relativeType = relationTypes.indexOf(loginProvider.thirdStepSelection[0]);
-                          loginProvider.registerData.academicLevel = relationTypes.indexOf(loginProvider.thirdStepSelection[1]).toString();
+                          loginProvider.registerData.nationalId = isJordanian ? int.tryParse(loginProvider.registerNationalIdController.text) : null;
+                          loginProvider.registerData.personalNumber = isJordanian ? null : int.tryParse(loginProvider.registerNationalIdController.text);
+                          loginProvider.registerData.personalCardNo = isJordanian ? loginProvider.civilIdNumberController.text : null;
+                          loginProvider.registerData.relativeNatId = isJordanian ? int.tryParse(loginProvider.relativeNatIdController.text) : null;
+                          loginProvider.registerData.relativeType = isJordanian ? relationTypes.indexOf(loginProvider.thirdStepSelection[0]) : null;
                           loginProvider.registerData.dateOfBirth = isJordanian ? null : DateTime.parse(loginProvider.dateOfBirthController.text);
-                          loginProvider.registerData.insuranceNo = int.tryParse(loginProvider.insuranceNumberController.text);
-                          loginProvider.registerData.relativeNatId = int.tryParse(loginProvider.relativeNatIdController.text);
-                          loginProvider.registerData.relativeType = relationTypes.indexOf(loginProvider.thirdStepSelection[0]);
+                          loginProvider.registerData.insuranceNo = isJordanian ? null : int.tryParse(loginProvider.insuranceNumberController.text);
 
                           loginProvider.isLoading = true;
                           loginProvider.notifyMe();
@@ -192,17 +189,17 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                           try{
                             await loginProvider.registerSubmitSecondStep(
                                 loginProvider.registerData.nationality,
-                                isJordanian ? loginProvider.registerData.nationalId : null,
-                                isJordanian ? null : loginProvider.registerData.personalNumber,
-                                isJordanian ? loginProvider.registerData.personalCardNo : null,
-                                isJordanian ? null : loginProvider.registerData.dateOfBirth,
-                                isJordanian ? null : loginProvider.registerData.insuranceNo,
-                                isJordanian ? null : loginProvider.registerData.nationalNumber,
-                                isJordanian ? loginProvider.registerData.relativeNatId : null,
-                                isJordanian ? loginProvider.registerData.relativeType : null
+                                loginProvider.registerData.nationalId,
+                                loginProvider.registerData.personalNumber,
+                                loginProvider.registerData.personalCardNo,
+                                loginProvider.registerData.dateOfBirth,
+                                loginProvider.registerData.insuranceNo,
+                                loginProvider.registerData.nationalNumber,
+                                loginProvider.registerData.relativeNatId,
+                                loginProvider.registerData.relativeType
                             ).whenComplete((){})
                                 .then((val) async {
-                              if(val['PO_STATUS'] != 1){
+                              if(val['PO_STATUS'] != 0){
                                 errorMessage = UserConfig.instance.checkLanguage()
                                     ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
                                 showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
