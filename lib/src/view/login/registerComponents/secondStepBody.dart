@@ -91,23 +91,24 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                     ],
                   ),
                   SizedBox(height: height(0.02, context),),
-                  buildFieldTitle(context, 'enterNationalId', filled: loginProvider.registerNationalIdController.text.isNotEmpty),
+                  buildFieldTitle(context, 'enterNationalId', filled: loginProvider.registerNationalIdController.text.length == 10),
                   SizedBox(height: height(0.015, context),),
                   buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, '9661001073', (val){
                     checkContinueEnable(loginProvider);
                   }, inputType: TextInputType.number),
                   SizedBox(height: height(0.02, context),),
                   if(isJordanian)
-                  buildFieldTitle(context, 'civilIdNumber', filled: loginProvider.civilIdNumberController.text.isNotEmpty),
+                  buildFieldTitle(context, 'civilIdNumber', filled: (loginProvider.civilIdNumberController.text.isNotEmpty &&
+                      loginProvider.civilIdNumberController.text.length <= 8)),
                   if(!isJordanian)
-                  buildFieldTitle(context, 'passportNumber', filled: loginProvider.passportNumberController.text.isNotEmpty),
+                  buildFieldTitle(context, 'passportNumber', filled: RegExp(r"^(?!^0+$)[a-zA-Z0-9]{3,20}$").hasMatch(loginProvider.passportNumberController.text)),
                   SizedBox(height: height(0.015, context),),
                   buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.civilIdNumberController : loginProvider.passportNumberController, 'AER20995', (val){
                     checkContinueEnable(loginProvider);
                   },),
                   SizedBox(height: height(0.02, context),),
                   if(isJordanian)
-                  buildFieldTitle(context, 'relativeNationalNumber', filled: loginProvider.relativeNatIdController.text.isNotEmpty),
+                  buildFieldTitle(context, 'relativeNationalNumber', filled: loginProvider.relativeNatIdController.text.length == 10),
                   if(!isJordanian)
                   buildFieldTitle(context, 'insuranceNumber', required: false),
                   SizedBox(height: height(0.015, context),),
@@ -269,16 +270,18 @@ class _SecondStepBodyState extends State<SecondStepBody> {
   checkContinueEnable(LoginProvider loginProvider){
     if(isJordanian) {
       loginProvider.registerContinueEnabled =  (
-        loginProvider.registerNationalIdController.text.isNotEmpty &&
-            loginProvider.civilIdNumberController.text.isNotEmpty &&
-            loginProvider.relativeNatIdController.text.isNotEmpty &&
+        loginProvider.registerNationalIdController.text.length == 10 &&
+            (loginProvider.civilIdNumberController.text.isNotEmpty &&
+            loginProvider.civilIdNumberController.text.length <= 8) &&
+            loginProvider.relativeNatIdController.text.length == 10 &&
             loginProvider.thirdStepSelection[0] != 'choose'
       );
     }else{
       loginProvider.registerContinueEnabled =  (
-          loginProvider.registerNationalIdController.text.isNotEmpty &&
-          loginProvider.passportNumberController.text.isNotEmpty &&
-          loginProvider.insuranceNumberController.text.isNotEmpty &&
+          loginProvider.registerNationalIdController.text.length == 10 &&
+          RegExp(r"^(?!^0+$)[a-zA-Z0-9]{3,20}$").hasMatch(loginProvider.passportNumberController.text) &&
+          (loginProvider.insuranceNumberController.text.isEmpty ||
+          loginProvider.insuranceNumberController.text.length == 10) &&
           loginProvider.dateOfBirthController.text.isNotEmpty
       );
     }
