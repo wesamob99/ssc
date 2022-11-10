@@ -42,7 +42,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
     InternetConnectionStatus connection = await InternetConnectionChecker().connectionStatus;
     PayOffFinancialInformation result;
-    // result = await Provider.of<HomeProvider>(context, listen: false).getStatistics();
     try{
     result = await Provider.of<HomeProvider>(context, listen: false).getAmountToBePaid();
     }catch(e){
