@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    Future.delayed(Duration(milliseconds: widget.fromMain ? 2500 : 1500), (){
+    Future.delayed(Duration(milliseconds: widget.fromMain ? 2000 : 1500), (){
       checkDataConnection();
     });
     super.initState();
