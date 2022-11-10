@@ -250,7 +250,7 @@ class _OTPScreenState extends State<OTPScreen> {
             ),
           ),
         ),
-        if(loginProvider.isLoading)
+        if(context.watch<LoginProvider>().isLoading)
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           width: width(1, context),
