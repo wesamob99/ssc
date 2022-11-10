@@ -55,7 +55,6 @@ class _FirstStepBodyState extends State<FirstStepBody> {
     return Stack(
       children: [
         RegisterScreen(
-          stepNumber: 1,
           body: SizedBox(
             height: height(0.78, context),
             child: Column(
@@ -142,7 +141,9 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                       buildCountriesDropDown(2, selectedExactNationality, showSelectedName: true),
                       if(selectedNationality != 'jordanian')
                       SizedBox(height: height(0.02, context),),
-                      buildFieldTitle(context, 'jordanianMobileNumber', required: true, filled: loginProvider.jordanianMobileNumberController.text.length == 9),
+                      buildFieldTitle(context, 'jordanianMobileNumber', required: true, filled: (loginProvider.jordanianMobileNumberController.text.startsWith('0')
+                          ? loginProvider.jordanianMobileNumberController.text.length == 10
+                          : loginProvider.jordanianMobileNumberController.text.length == 9)),
                       SizedBox(height: height(0.015, context),),
                       Row(
                         children: [
@@ -198,6 +199,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                         .registerContinueEnabled
                         ? HexColor('#ffffff') : HexColor('#363636'), () async {
                       if (loginProvider.registerContinueEnabled) {
+                        FocusScope.of(context).requestFocus(FocusNode());
                         loginProvider.isLoading = true;
                         loginProvider.notifyMe();
                         String errorMessage = "";
