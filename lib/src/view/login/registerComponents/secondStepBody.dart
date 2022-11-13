@@ -245,7 +245,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
     loginProvider.registerData.personalCardNo = isJordanian ? loginProvider.civilIdNumberController.text : null;
     loginProvider.registerData.relativeNatId = isJordanian ? int.tryParse(loginProvider.relativeNatIdController.text) : null;
     loginProvider.registerData.relativeType = isJordanian ? relationTypes.indexOf(loginProvider.thirdStepSelection[0]) : null;
-    loginProvider.registerData.dateOfBirth = isJordanian ? null : DateTime.parse(loginProvider.dateOfBirthController.text);
+    loginProvider.registerData.dateOfBirth = isJordanian ? null : loginProvider.dateOfBirthController.text;
     loginProvider.registerData.insuranceNo = isJordanian ? null : int.tryParse(loginProvider.insuranceNumberController.text);
     loginProvider.notifyMe();
   }
