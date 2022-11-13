@@ -26,7 +26,7 @@ class _MostVisitedBodyState extends State<MostVisitedBody> {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
-        itemCount: 3,
+        itemCount: mostVisitedServices.length,
         itemBuilder: (context, index){
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
