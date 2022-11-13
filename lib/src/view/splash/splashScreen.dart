@@ -74,7 +74,10 @@ class _SplashScreenState extends State<SplashScreen> {
       context: context,
       builder: (_) => BasicDialogAlert(
         title: Text(
-          translate('networkError', context)
+          translate('networkError', context),
+          style: const TextStyle(
+            fontWeight: FontWeight.w500
+          ),
         ),
         content: Text(
           translate('networkErrorDescription', context)
