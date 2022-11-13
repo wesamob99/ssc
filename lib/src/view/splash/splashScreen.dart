@@ -83,7 +83,11 @@ class _SplashScreenState extends State<SplashScreen> {
           BasicDialogAction(
             title: Text(translate('ok', context)),
             onPressed: (){
-              Navigator.of(context).pop();
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ), (route) => false
+              );
             },
           )
         ],
