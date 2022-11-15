@@ -7,7 +7,7 @@ class ServicesList{
 
   /// Quick Access Services ****************************************************
 
-  static const Service unemploymentApplication = Service(
+  static const Service individualsUnemploymentApplication = Service(
     title: "unemploymentApplication", supTitle: "individuals", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen: WorkInjuryComplaintScreen()
   );
   static const Service onePayment = Service(
@@ -22,7 +22,7 @@ class ServicesList{
   static const Service accountStatement = Service(
       title: "accountStatement", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/accountStatementIcon.svg', screen: WorkInjuryComplaintScreen()
   );
-  static const List<Service> quickAccessServices = [unemploymentApplication, onePayment, reportAnAccident, optionalSubscription, accountStatement];
+  static const List<Service> quickAccessServices = [individualsUnemploymentApplication, onePayment, reportAnAccident, optionalSubscription, accountStatement];
 
   /// **************************************************************************
   /// Most Visited Services ****************************************************
@@ -34,12 +34,16 @@ class ServicesList{
       title: "report_a_sickness/work_injury_complaint", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen: WorkInjuryComplaintScreen()
   );
 
-  static const List<Service> mostVisitedServices = [requestRetiredLoan, unemploymentApplication, accountStatement, reportSicknessComplaint];
+  static const List<Service> mostVisitedServices = [requestRetiredLoan, individualsUnemploymentApplication, maternityUnemploymentApplication];
 
   /// **************************************************************************
   /// Insurance Benefits Services **********************************************
 
+  static const Service maternityUnemploymentApplication = Service(
+      title: "unemploymentApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen: WorkInjuryComplaintScreen()
+  );
 
+  static const List<Service> insuranceBenefitsServices = [requestRetiredLoan, individualsUnemploymentApplication, maternityUnemploymentApplication, reportSicknessComplaint];
 
   /// **************************************************************************
 
