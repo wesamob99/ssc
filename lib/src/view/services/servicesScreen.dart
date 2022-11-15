@@ -41,28 +41,29 @@ class _ServicesScreenState extends State<ServicesScreen> {
           sideBarWidget(themeNotifier),
           // app screen body
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16.0).copyWith(top: 0.0),
             width: width(0.69, context),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 15),
-                  decoration: BoxDecoration(
-                    color: themeNotifier.isLight()
-                      ? HexColor('#F0F2F0') : HexColor('#454545'),
-                    borderRadius: BorderRadius.circular(50)
-                  ),
-                  child: Text(
-                    translate(sideBarItems[selectedIndex]['title'], context),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: HexColor('#2D452E'),
-                      fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
-                    ),
-                  ),
-                ),
+                // const SizedBox(height: 10.0),
+                // Container(
+                //   padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 15),
+                //   decoration: BoxDecoration(
+                //     color: themeNotifier.isLight()
+                //       ? HexColor('#F0F2F0') : HexColor('#454545'),
+                //     borderRadius: BorderRadius.circular(50)
+                //   ),
+                //   child: Text(
+                //     translate(sideBarItems[selectedIndex]['title'], context),
+                //     textAlign: TextAlign.center,
+                //     style: TextStyle(
+                //       color: HexColor('#2D452E'),
+                //       fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: height(0.02, context)),
                 if(selectedIndex == 0)
                 const MostVisitedBody(),
