@@ -51,7 +51,7 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                     );
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(right: 10),
+                    margin: const EdgeInsets.only(right: 20),
                     width: width(1, context),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
