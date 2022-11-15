@@ -1,11 +1,13 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ssc/src/view/services/shared/aboutTheServiceScreen.dart';
 import 'package:ssc/src/view/services/shared/servicesListConstants.dart';
 
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
+import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class InsuranceBody extends StatefulWidget {
   const InsuranceBody({Key key}) : super(key: key);
@@ -20,6 +22,7 @@ class _InsuranceBodyState extends State<InsuranceBody> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     return Expanded(
       child: ListView.builder(
           itemCount: insuranceBenefitsServices.length,
@@ -27,59 +30,72 @@ class _InsuranceBodyState extends State<InsuranceBody> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTap: (){
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => AboutTheServiceScreen(
-                          serviceScreen: insuranceBenefitsServices[index].screen,
-                          serviceTitle: insuranceBenefitsServices[index].title,
-                          aboutServiceDescription: insuranceBenefitsServices[index].description,
-                          // ' بدلات التعطل عن العمل التي تقوم بصرفها والتي تخص المؤمن عليهم المشتركين بالضمان والعاملين في منشآت القطاع الخاص ممن يتعطّلون مؤقتاً عن العمل هي مبالغ غير مستردّة ولا يطالب المؤمن عليهم بإعادتها إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات دون وجه حق إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات',
-                          termsOfTheService: const [
-                            'موظفي القطاع الخاص',
-                            'موظف موقوف عن العمل',
-                            'لديك 36 اشتراك او رصيد اكثر من 300 د.ا',
-                            'ان تكون قد استفدت من بدل التعطل ثلاث مرات او اقل خلال فتره الشمول',
-                          ],
-                          stepsOfTheService: const [
-                            'التأكد من المعلومات الشخصية لمقدم الخدمة',
-                            'تعبئة طلب الخدمة',
-                            'تقديم الطلب'
-                          ],
-                        )
-                      ),
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 20),
-                    width: width(1, context),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          translate(insuranceBenefitsServices[index].supTitle, context),
-                          style: TextStyle(
-                              fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
-                          ),
-                        ),
-                        SizedBox(height: height(0.006, context)),
-                        Text(
-                          translate(insuranceBenefitsServices[index].title, context),
-                          style: TextStyle(
-                              fontSize: width(isTablet(context) ? 0.025 : 0.03, context)
-                          ),
-                        ),
-                      ],
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 15),
+                  margin: const EdgeInsets.only(bottom: 10.0),
+                  decoration: BoxDecoration(
+                    color: themeNotifier.isLight()
+                      ? HexColor('#F0F2F0') : HexColor('#454545'),
+                    borderRadius: BorderRadius.circular(50)
+                  ),
+                  child: Text(
+                    translate(insuranceBenefitsServices[index].supTitle, context),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: HexColor('#2D452E'),
+                      fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  child: Divider(
-                    color: HexColor('#DEDEDE'),
-                    thickness: 1,
-                  ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: 3,
+                  itemBuilder: (context, index){
+                    return Column(
+                      children: [
+                        InkWell(
+                          onTap: (){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => AboutTheServiceScreen(
+                                    serviceScreen: insuranceBenefitsServices[index].screen,
+                                    serviceTitle: insuranceBenefitsServices[index].title,
+                                    aboutServiceDescription: insuranceBenefitsServices[index].description,
+                                    termsOfTheService: const [
+                                      'موظفي القطاع الخاص',
+                                      'موظف موقوف عن العمل',
+                                      'لديك 36 اشتراك او رصيد اكثر من 300 د.ا',
+                                      'ان تكون قد استفدت من بدل التعطل ثلاث مرات او اقل خلال فتره الشمول',
+                                    ],
+                                    stepsOfTheService: const [
+                                      'التأكد من المعلومات الشخصية لمقدم الخدمة',
+                                      'تعبئة طلب الخدمة',
+                                      'تقديم الطلب'
+                                    ],
+                                  )
+                              ),
+                            );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 20.0, top: 10.0, bottom: index == 2 ? 25.0 : 15.0),
+                            width: width(1, context),
+                            child: Text(
+                              translate(insuranceBenefitsServices[index].title, context),
+                              style: TextStyle(
+                                  fontSize: width(isTablet(context) ? 0.025 : 0.03, context)
+                              ),
+                            ),
+                          ),
+                        ),
+                        if(index != 2)
+                        Divider(
+                          color: HexColor('#DEDEDE'),
+                          thickness: 1,
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ],
             );
