@@ -35,6 +35,7 @@ dynamic httpErrorMessage(dynamic responseData) {
 class DevHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext context) {
+    ///TODO: add your certificate verification logic here instead of [true]
     return super.createHttpClient(context)
       ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
