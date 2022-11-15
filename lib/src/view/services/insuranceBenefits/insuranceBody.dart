@@ -50,7 +50,7 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 3,
+                  itemCount: 4,
                   itemBuilder: (context, index){
                     return Column(
                       children: [
@@ -78,7 +78,7 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                             );
                           },
                           child: Container(
-                            margin: EdgeInsets.only(right: 20.0, top: 10.0, bottom: index == 2 ? 25.0 : 15.0),
+                            margin: EdgeInsets.only(right: 20.0, top: 10.0, bottom: index == 3 ? 25.0 : 15.0),
                             width: width(1, context),
                             child: Text(
                               translate(insuranceBenefitsServices[index].title, context),
@@ -88,7 +88,7 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                             ),
                           ),
                         ),
-                        if(index != 2)
+                        if(index != 3)
                         Divider(
                           color: HexColor('#DEDEDE'),
                           thickness: 1,
