@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names, prefer_typing_uninitialized_variables, file_names
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import '../utilities/util.dart';
@@ -30,6 +31,14 @@ dynamic httpErrorMessage(dynamic responseData) {
 /// [MohHazimLocal]: http://172.16.4.107:3005/api
 /// [Stable]:
 ///***************************************************************************
+
+class DevHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+}
 
 class HTTPClientContract {
   static const String BASE_URL = 'https://mfiles.ssc.gov.jo:6018/eservicestg/api';

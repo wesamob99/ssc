@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
@@ -21,6 +23,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ssc/utilities/theme/appTheme.dart';
 
+import 'infrastructure/HTTPClientContract.dart';
 import 'infrastructure/userConfig.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -30,6 +33,7 @@ void main() async{
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp, DeviceOrientation.portraitDown
   ]);
+  HttpOverrides.global = DevHttpOverrides();
   await UserSecuredStorage.instance.initSecuredBox();
   await UserConfig.instance.initSharedPreferences();
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
