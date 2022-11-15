@@ -22,7 +22,7 @@ class ServicesList{
   static const Service accountStatement = Service(
       title: "accountStatement", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/accountStatementIcon.svg', screen: WorkInjuryComplaintScreen()
   );
-  List<Service> quickAccessServices = [unemploymentApplication, onePayment, reportAnAccident, optionalSubscription, accountStatement];
+  static const List<Service> quickAccessServices = [unemploymentApplication, onePayment, reportAnAccident, optionalSubscription, accountStatement];
 
   /// **************************************************************************
   /// Most Visited Services ****************************************************
@@ -34,7 +34,7 @@ class ServicesList{
       title: "report_a_sickness/work_injury_complaint", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen: WorkInjuryComplaintScreen()
   );
 
-  List<Service> mostVisitedServices = [requestRetiredLoan, unemploymentApplication, accountStatement, reportSicknessComplaint];
+  static const List<Service> mostVisitedServices = [requestRetiredLoan, unemploymentApplication, accountStatement, reportSicknessComplaint];
 
   /// **************************************************************************
   /// Insurance Benefits Services **********************************************
