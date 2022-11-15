@@ -191,7 +191,7 @@
   "insuranceNumber": "Insurance / Warranty No.",
   "DateOfBirth": "Date of birth",
   "compensation": "Compensation",
-  "OneTimeCompensationRequest": "One-time compensation request",
+  "oneTimeCompensationRequest": "One-time compensation request",
   "savingsBalance": "Savings balance",
   "savingsBalanceDisbursementRequest": "Savings balance disbursement request",
   "workInjuryInsurance": "Work injury insurance"

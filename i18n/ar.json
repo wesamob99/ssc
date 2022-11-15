@@ -192,7 +192,7 @@
   "insuranceNumber": "رقم التأمين / الضمان",
   "DateOfBirth": "تاريخ الميلاد",
   "compensation": "التعويض",
-  "OneTimeCompensationRequest": "طلب  تعويض الدفعة الواحده",
+  "oneTimeCompensationRequest": "طلب  تعويض الدفعة الواحده",
   "savingsBalance": "الرصيد الادخاري",
   "savingsBalanceDisbursementRequest": "طلب صرف الرصيد الادخاري",
   "workInjuryInsurance": "تأمين إصابات العمل"
