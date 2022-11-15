@@ -19,14 +19,26 @@ class InsuranceBody extends StatefulWidget {
 class _InsuranceBodyState extends State<InsuranceBody> {
 
   List<Service> insuranceBenefitsServices = ServicesList.insuranceBenefitsServices;
+  List supTitles = [];
+  @override
+  void initState() {
+    for (var element in insuranceBenefitsServices) {
+      if(!supTitles.contains(element.supTitle)){
+        supTitles.add(element.supTitle);
+      }
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     return Expanded(
       child: ListView.builder(
-          itemCount: insuranceBenefitsServices.length,
-          itemBuilder: (context, index){
+          itemCount: supTitles.length,
+          itemBuilder: (context, index1){
+            int last = -1;
+            last = insuranceBenefitsServices.lastIndexWhere((element) => element.supTitle == supTitles[index1]);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -39,7 +51,7 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                     borderRadius: BorderRadius.circular(50)
                   ),
                   child: Text(
-                    translate(insuranceBenefitsServices[index].supTitle, context),
+                    translate(supTitles[index1], context),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: HexColor('#2D452E'),
@@ -50,18 +62,19 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 4,
-                  itemBuilder: (context, index){
-                    return Column(
+                  itemCount: insuranceBenefitsServices.length,
+                  itemBuilder: (context, index2){
+                    return insuranceBenefitsServices[index2].supTitle == supTitles[index1]
+                    ? Column(
                       children: [
                         InkWell(
                           onTap: (){
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => AboutTheServiceScreen(
-                                    serviceScreen: insuranceBenefitsServices[index].screen,
-                                    serviceTitle: insuranceBenefitsServices[index].title,
-                                    aboutServiceDescription: insuranceBenefitsServices[index].description,
+                                    serviceScreen: insuranceBenefitsServices[index2].screen,
+                                    serviceTitle: insuranceBenefitsServices[index2].title,
+                                    aboutServiceDescription: insuranceBenefitsServices[index2].description,
                                     termsOfTheService: const [
                                       'موظفي القطاع الخاص',
                                       'موظف موقوف عن العمل',
@@ -78,23 +91,24 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                             );
                           },
                           child: Container(
-                            margin: EdgeInsets.only(right: 20.0, top: 10.0, bottom: index == 3 ? 25.0 : 15.0),
+                            margin: EdgeInsets.only(right: 20.0, top: 10.0, bottom: (last != -1 && last != index2) ? 15.0 : 25.0),
                             width: width(1, context),
                             child: Text(
-                              translate(insuranceBenefitsServices[index].title, context),
+                              translate(insuranceBenefitsServices[index2].title, context),
                               style: TextStyle(
                                   fontSize: width(isTablet(context) ? 0.025 : 0.03, context)
                               ),
                             ),
                           ),
                         ),
-                        if(index != 3)
+                        if(last != -1 && last != index2)
                         Divider(
                           color: HexColor('#DEDEDE'),
                           thickness: 1,
                         ),
                       ],
-                    );
+                    )
+                    : const SizedBox.shrink();
                   },
                 ),
               ],
