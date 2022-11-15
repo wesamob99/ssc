@@ -159,7 +159,7 @@
   "pwValidator4": "Special character (*!&#^@)",
   "pwValidator5": "Number (1-9)",
   "pwValidator6": "Two similar words",
-  "report_a_sickness/work_injury_complaint": "Report a sickness/work injury complaint",
+  "report_a_sickness/work_injury_complaint": "Report a work accident / occupational disease",
   "saveAsDraft": "Save as draft",
   "confirmPersonalInformation": "Confirm personal information",
   "orderDetails": "Order details",
@@ -189,5 +189,11 @@
   "doneSuccessfully": "Done Successfully",
   "passportNumber": "Passport number",
   "insuranceNumber": "Insurance / Warranty No.",
-  "DateOfBirth": "Date of birth"
+  "DateOfBirth": "Date of birth",
+  "compensation": "Compensation",
+  "OneTimeCompensationRequest": "One-time compensation request",
+  "savingsBalance": "Savings balance",
+  "savingsBalanceDisbursementRequest": "Savings balance disbursement request",
+  "workInjuryInsurance": "Work injury insurance"
+
 }

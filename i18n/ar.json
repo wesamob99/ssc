@@ -160,7 +160,7 @@
   "pwValidator4": "رموز (*!&#^@)",
   "pwValidator5": "أرقام (1-9)",
   "pwValidator6": "كلمتان متشابهتان",
-  "report_a_sickness/work_injury_complaint": "تبليغ شكوى مرضية/ إصابة عمل",
+  "report_a_sickness/work_injury_complaint": "تبليغ عن حادث العمل / مرض مهني",
   "saveAsDraft": "حفظ كمسودة",
   "confirmPersonalInformation": "تأكيد المعلومات الشخصية",
   "orderDetails": "تفاصيل الطلب",
@@ -190,5 +190,11 @@
   "doneSuccessfully": "تم بنجاح",
   "passportNumber": "رقم جواز السفر",
   "insuranceNumber": "رقم التأمين / الضمان",
-  "DateOfBirth": "تاريخ الميلاد"
+  "DateOfBirth": "تاريخ الميلاد",
+  "compensation": "التعويض",
+  "OneTimeCompensationRequest": "طلب  تعويض الدفعة الواحده",
+  "savingsBalance": "الرصيد الادخاري",
+  "savingsBalanceDisbursementRequest": "طلب صرف الرصيد الادخاري",
+  "workInjuryInsurance": "تأمين إصابات العمل"
+
 }
