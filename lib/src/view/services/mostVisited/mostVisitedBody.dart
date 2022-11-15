@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/util.dart';
-import '../insuranceBenefits/screens/workInjuryComplaintScreen.dart';
 import '../shared/aboutTheServiceScreen.dart';
+import '../shared/servicesListConstants.dart';
 
 class MostVisitedBody extends StatefulWidget {
   const MostVisitedBody({Key key}) : super(key: key);
@@ -16,11 +16,7 @@ class MostVisitedBody extends StatefulWidget {
 
 class _MostVisitedBodyState extends State<MostVisitedBody> {
 
-  List mostVisitedServices = [
-    {"title": "retired", "subTitle": "requestRetiredLoan", "screen": const WorkInjuryComplaintScreen()},
-    {"title": "individuals", "subTitle": "unemploymentApplication", "screen": const WorkInjuryComplaintScreen()},
-    {"title": "maternity", "subTitle": "unemploymentApplication", "screen": const WorkInjuryComplaintScreen()},
-  ];
+  List<Service> mostVisitedServices = ServicesList.mostVisitedServices;
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +31,9 @@ class _MostVisitedBodyState extends State<MostVisitedBody> {
                 onTap: (){
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => AboutTheServiceScreen(
-                      serviceScreen: mostVisitedServices[index]['screen'],
-                      serviceTitle: mostVisitedServices[index]['subTitle'],
-                      aboutServiceDescription: ' بدلات التعطل عن العمل التي تقوم بصرفها والتي تخص المؤمن عليهم المشتركين بالضمان والعاملين في منشآت القطاع الخاص ممن يتعطّلون مؤقتاً عن العمل هي مبالغ غير مستردّة ولا يطالب المؤمن عليهم بإعادتها إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات دون وجه حق إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات',//mostVisitedServices[index]['description'],
+                      serviceScreen: mostVisitedServices[index].screen,
+                      serviceTitle: mostVisitedServices[index].title,
+                      aboutServiceDescription: mostVisitedServices[index].description,
                       termsOfTheService: const [
                         'موظفي القطاع الخاص',
                         'موظف موقوف عن العمل',
@@ -59,14 +55,14 @@ class _MostVisitedBodyState extends State<MostVisitedBody> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        translate(mostVisitedServices[index]['title'], context),
+                        translate(mostVisitedServices[index].supTitle, context),
                         style: TextStyle(
                           fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
                         ),
                       ),
                       SizedBox(height: height(0.006, context)),
                       Text(
-                        translate(mostVisitedServices[index]['subTitle'], context),
+                        translate(mostVisitedServices[index].title, context),
                         style: TextStyle(
                           fontSize: width(isTablet(context) ? 0.025 :0.03, context)
                         ),
