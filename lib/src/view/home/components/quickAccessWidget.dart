@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ssc/src/view/services/shared/aboutTheServiceScreen.dart';
+import 'package:ssc/src/view/services/shared/servicesListConstants.dart';
 
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
-import '../../services/insuranceBenefits/screens/workInjuryComplaintScreen.dart';
 
 class QuickAccessWidget extends StatelessWidget {
   const QuickAccessWidget({Key key}) : super(key: key);
@@ -14,16 +14,8 @@ class QuickAccessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List quickAccessServices = [
-      {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication", "screen": const WorkInjuryComplaintScreen()},
-      {'icon': 'assets/icons/quickAccessIcons/onePaymentIcon.svg', 'title': "onePayment", "screen": const WorkInjuryComplaintScreen()},
-      {'icon': 'assets/icons/quickAccessIcons/reportAnAccidentIcon.svg', 'title': "reportAnAccident", "screen": const WorkInjuryComplaintScreen()},
-      {'icon': 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription", "screen": const WorkInjuryComplaintScreen()},
-      {'icon': 'assets/icons/quickAccessIcons/accountStatementIcon.svg', 'title': "accountStatement", "screen": const WorkInjuryComplaintScreen()},
-      {'icon': 'assets/icons/quickAccessIcons/unemploymentIcon.svg', 'title': "unemploymentApplication", "screen": const WorkInjuryComplaintScreen()},
-      {'icon': 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', 'title': "optionalSubscription", "screen": const WorkInjuryComplaintScreen()},
-      {'icon': 'assets/icons/quickAccessIcons/accountStatementIcon.svg', 'title': "accountStatement", "screen": const WorkInjuryComplaintScreen()},
-    ];
+    List<Service> quickAccessServices = ServicesList.quickAccessServices;
+
     return SizedBox(
       height: height(isScreenHasSmallHeight(context) ? 0.14 : 0.12, context),
       child: ListView.builder(
@@ -37,9 +29,9 @@ class QuickAccessWidget extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => AboutTheServiceScreen(
-                          serviceScreen: quickAccessServices[index]['screen'],
-                          serviceTitle: quickAccessServices[index]['title'],
-                          aboutServiceDescription: ' بدلات التعطل عن العمل التي تقوم بصرفها والتي تخص المؤمن عليهم المشتركين بالضمان والعاملين في منشآت القطاع الخاص ممن يتعطّلون مؤقتاً عن العمل هي مبالغ غير مستردّة ولا يطالب المؤمن عليهم بإعادتها إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات دون وجه حق إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات إلاّ في حال ثبت أن المؤمن عليه تقاضى أياً من هذه البدلات',//mostVisitedServices[index]['description'],
+                          serviceScreen: quickAccessServices[index].screen,
+                          serviceTitle: quickAccessServices[index].title,
+                          aboutServiceDescription: quickAccessServices[index].description,
                           termsOfTheService: const [
                             'موظفي القطاع الخاص',
                             'موظف موقوف عن العمل',
@@ -69,16 +61,16 @@ class QuickAccessWidget extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.all(isTablet(context) ? 17.0 : 14.0),
                           child: SvgPicture.asset(
-                            quickAccessServices[index]['icon'],
+                            quickAccessServices[index].icon,
                             width: isTablet(context) ? 48 : 32,
                             height: isTablet(context) ? 48 : 32,
                           ),
                         ),
                       ),
                       SizedBox(
-                        width: isScreenHasSmallHeight(context) ? 65 : isTablet(context) ? 90.0 : 67.0,
+                        width: isTablet(context) ? 90.0 : 65.0,
                         child: Text(
-                          translate(quickAccessServices[index]['title'], context),
+                          translate(quickAccessServices[index].title, context),
                           textAlign: TextAlign.center,
                           maxLines: isScreenHasSmallHeight(context) ? 2 : 3,
                           overflow: TextOverflow.ellipsis,
