@@ -10,6 +10,9 @@ class ServicesList{
   static const Service individualsUnemploymentApplication = Service(
     title: "unemploymentApplication", supTitle: "individuals", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen: WorkInjuryComplaintScreen()
   );
+  static const Service maternityUnemploymentApplication = Service(
+      title: "unemploymentApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen: WorkInjuryComplaintScreen()
+  );
   static const Service onePayment = Service(
       title: "onePayment", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/onePaymentIcon.svg', screen: WorkInjuryComplaintScreen()
   );
@@ -39,11 +42,16 @@ class ServicesList{
   /// **************************************************************************
   /// Insurance Benefits Services **********************************************
 
-  static const Service maternityUnemploymentApplication = Service(
-      title: "unemploymentApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen: WorkInjuryComplaintScreen()
+  static const Service oneTimeCompensationRequest = Service(
+      title: "oneTimeCompensationRequest", supTitle: "compensation", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen: WorkInjuryComplaintScreen()
   );
-
-  static const List<Service> insuranceBenefitsServices = [requestRetiredLoan, individualsUnemploymentApplication, maternityUnemploymentApplication, reportSicknessComplaint];
+  static const Service savingsBalanceDisbursementRequest = Service(
+      title: "savingsBalanceDisbursementRequest", supTitle: "savingsBalance", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen: WorkInjuryComplaintScreen()
+  );
+  static const Service workInjuryInsurance = Service(
+      title: "workInjuryInsurance", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen: WorkInjuryComplaintScreen()
+  );
+  static const List<Service> insuranceBenefitsServices = [oneTimeCompensationRequest, savingsBalanceDisbursementRequest, reportSicknessComplaint, workInjuryInsurance];
 
   /// **************************************************************************
 
