@@ -245,7 +245,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   errorMessage = '';
                   userSecuredStorage.email = resetPasswordGetDetail.poEmail ?? ''; // poEmail -> user email
                   userSecuredStorage.mobileNumber = resetPasswordGetDetail.poMobileno ?? ''; // poMobileno -> user mobile number
+                  userSecuredStorage.realMobileNumber = resetPasswordGetDetail.poRealMobileno.toString() ?? ''; // realMobileNumber -> user real mobile number
                   userSecuredStorage.nationalId =  loginProvider.nationalIdController.text ?? ''; // poUserName -> user national ID
+                  userSecuredStorage.internationalCode =  resetPasswordGetDetail.poInternationalcode ?? ''; // poInternationalcode -> country code
                   await loginProvider.resetPasswordSendMobileOTP(loginProvider.nationalIdController.text);
                 }
                 if(resetPasswordGetDetail.poStatus == 1){
