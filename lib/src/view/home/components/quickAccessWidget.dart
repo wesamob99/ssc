@@ -7,6 +7,7 @@ import 'package:ssc/src/view/services/shared/aboutTheServiceScreen.dart';
 import 'package:ssc/src/view/services/shared/servicesListConstants.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
 
+import '../../../../infrastructure/userConfig.dart';
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
 
@@ -85,14 +86,18 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
                       setState((){
                         quickAccessServices[index].isSelected = !quickAccessServices[index].isSelected;
                       });
-                      bool found = false;
+
+                      List<String> items = UserConfig.instance.getQuickAccessItems();
+
                       for (var element in quickAccessServices) {
-                        if(element.isSelected){
-                          found = true;
-                          break;
+                        if(element.isSelected && !items.contains(element.title)){
+                          items.add(element.title);
+                        }else if(!element.isSelected && items.contains(element.title)){
+                          items.remove(element.title);
                         }
                       }
-                      homeProviderListener.isQuickAccessListEmpty = !found;
+                      UserConfig.instance.setQuickAccessItems(items);
+                      homeProviderListener.isQuickAccessListEmpty = items.isEmpty;
                       homeProviderListener.notifyMe();
                     }
                   },

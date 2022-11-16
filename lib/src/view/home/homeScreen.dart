@@ -41,14 +41,31 @@ class _HomeScreenState extends State<HomeScreen> {
     statisticsFuture = homeProvider.getStatistics();
     amountToBePaidFuture = homeProvider.getAmountToBePaid();
     homeProvider.isEditQuickAccessActive = false;
-    bool found = false;
-    for (var element in ServicesList.quickAccessServices) {
-      if(element.isSelected){
-        found = true;
-        break;
+
+    print(UserConfig.instance.getQuickAccessItems());
+    if(UserConfig.instance.getQuickAccessItems() == 'null'){
+      List<String> items = [];
+      for (var element in ServicesList.quickAccessServices) {
+        if(!items.contains(element.title)) {
+          items.add(element.title);
+        }
+        element.isSelected = true;
+      }
+      homeProvider.isQuickAccessListEmpty = true;
+      UserConfig.instance.setQuickAccessItems(items);
+    }else{
+      homeProvider.isQuickAccessListEmpty = true;
+      List<String> items = UserConfig.instance.getQuickAccessItems();
+      for (var element in ServicesList.quickAccessServices) {
+        if(items.contains(element.title)){
+          element.isSelected = true;
+          homeProvider.isQuickAccessListEmpty = false;
+        }else{
+          element.isSelected = false;
+        }
       }
     }
-    homeProvider.isQuickAccessListEmpty = !found;
+
     prefs.then((value){
       homeProvider.showFloatingButton = value.getBool('amountToBePaid') ?? true;
       homeProvider.notifyMe();
