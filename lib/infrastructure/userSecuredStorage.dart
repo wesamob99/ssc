@@ -23,8 +23,9 @@ class UserSecuredStorage {
   // String _statusDescriptionAr = "";
   // String _statusDescriptionEn = "";
   String _email = "";
-  // String _internationalCode = "";
+  String _internationalCode = "";
   String _mobileNumber = "";
+  String _realMobileNumber = "";
   // String _nationality = "";
   String _token = "";
   var _box;
@@ -108,6 +109,26 @@ class UserSecuredStorage {
   set mobileNumber(String value) {
     addKeyPair('mobile', value);
     _mobileNumber = value;
+  }
+
+  String get realMobileNumber {
+    _realMobileNumber = _box.get('realMobileNumber') ?? "";
+    return _realMobileNumber;
+  }
+
+  set realMobileNumber(String value) {
+    addKeyPair('realMobileNumber', value);
+    _realMobileNumber = value;
+  }
+
+  String get internationalCode {
+    _internationalCode = _box.get('internationalCode') ?? "";
+    return _internationalCode;
+  }
+
+  set internationalCode(String value) {
+    addKeyPair('internationalCode', value);
+    _internationalCode = value;
   }
 
   String get userNameAr {
