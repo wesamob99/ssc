@@ -235,6 +235,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             loginProvider.isLoading = true;
             loginProvider.notifyMe();
             try{
+              // ignore: prefer_typing_uninitialized_variables
+              var response;
               await loginProvider.resetPasswordGetDetail( loginProvider.nationalIdController.text).whenComplete((){})
                   .then((val) async {
                 ResetPasswordGetDetail resetPasswordGetDetail = val;
@@ -248,13 +250,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   userSecuredStorage.realMobileNumber = resetPasswordGetDetail.poRealMobileno.toString() ?? ''; // realMobileNumber -> user real mobile number
                   userSecuredStorage.nationalId =  loginProvider.nationalIdController.text ?? ''; // poUserName -> user national ID
                   userSecuredStorage.internationalCode =  resetPasswordGetDetail.poInternationalcode ?? ''; // poInternationalcode -> country code
-                  await loginProvider.resetPasswordSendMobileOTP(loginProvider.nationalIdController.text);
+                  response = await loginProvider.resetPasswordSendMobileOTP(loginProvider.nationalIdController.text);
                 }
-                if(resetPasswordGetDetail.poStatus == 1){
+                if(resetPasswordGetDetail.poStatus == 1 && response != null && response["PO_STATUS"] != null && response["PO_STATUS"] == 1){
                   setState((){
                     showResetPasswordBody = true;
                   });
                 }else{
+                  if(errorMessage == ''){
+                    errorMessage = UserConfig.instance.checkLanguage()
+                        ? response["PO_STATUS_DESC_EN"] : response["PO_STATUS_DESC_AR"];
+                  }
                   showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
                 }
                 loginProvider.notifyMe();
