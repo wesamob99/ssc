@@ -12,6 +12,7 @@ import 'package:ssc/src/view/home/components/homeSlideShowWidget.dart';
 import '../../../infrastructure/userConfig.dart';
 import '../../../models/home/payOffFinancialInformations.dart';
 import '../../../models/home/userInformationsDashboard.dart';
+import '../../../utilities/hexColor.dart';
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/home/homeProvider.dart';
@@ -31,12 +32,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Future statisticsFuture;
   Future amountToBePaidFuture;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  HomeProvider homeProvider;
 
   @override
   void initState(){
-    HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    homeProvider = Provider.of<HomeProvider>(context, listen: false);
     statisticsFuture = homeProvider.getStatistics();
     amountToBePaidFuture = homeProvider.getAmountToBePaid();
+    homeProvider.isEditQuickAccessActive = false;
     prefs.then((value){
       homeProvider.showFloatingButton = value.getBool('amountToBePaid') ?? true;
       homeProvider.notifyMe();
@@ -47,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+    HomeProvider homeProviderListener = Provider.of<HomeProvider>(context);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -80,9 +84,31 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(bottom: height(0.007, context)),
-                            child: Text(translate('quickAccess', context),
-                                style: TextStyle(
-                                    fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(translate('quickAccess', context),
+                                    style: TextStyle(
+                                        fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                                InkWell(
+                                  onTap: (){
+                                    homeProvider.isEditQuickAccessActive = !homeProvider.isEditQuickAccessActive;
+                                    homeProvider.notifyMe();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                                    child: Text(
+                                        homeProviderListener.isEditQuickAccessActive
+                                        ? translate('editComplete', context) : translate('edit', context),
+                                        style: TextStyle(
+                                          fontSize: width(isTablet(context) ? 0.028 : 0.031, context),
+                                          color: HexColor('#003C97'),
+                                        )
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           ),
                           const QuickAccessWidget(),
                           Padding(
