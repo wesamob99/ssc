@@ -33,18 +33,18 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
           alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Text(
-                'Empty list!',
-                style: TextStyle(
+                translate('emptyList', context),
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14
                 ),
               ),
-              SizedBox(height: 3.0),
+              const SizedBox(height: 3.0),
               Text(
-                'Your quick access list is empty, press edit to select items',
-                style: TextStyle(
+                translate('emptyListDesc', context),
+                style: const TextStyle(
                   fontSize: 12,
                 ),
               ),
