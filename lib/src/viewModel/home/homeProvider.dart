@@ -11,6 +11,7 @@ class HomeProvider extends ChangeNotifier {
   HomeRepository homeRepository = HomeRepository();
   bool showFloatingButton = true;
   bool isEditQuickAccessActive = false;
+  bool isQuickAccessListEmpty = false;
 
   Future<UserInformation> getStatistics() async{
     return await homeRepository.getStatisticsService();
