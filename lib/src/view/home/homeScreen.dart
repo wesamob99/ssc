@@ -17,6 +17,7 @@ import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/home/homeProvider.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
+import '../services/shared/servicesListConstants.dart';
 import 'components/homeOverviewWidget.dart';
 import 'components/quickAccessWidget.dart';
 
@@ -40,6 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
     statisticsFuture = homeProvider.getStatistics();
     amountToBePaidFuture = homeProvider.getAmountToBePaid();
     homeProvider.isEditQuickAccessActive = false;
+    bool found = false;
+    for (var element in ServicesList.quickAccessServices) {
+      if(element.isSelected){
+        found = true;
+        break;
+      }
+    }
+    homeProvider.isQuickAccessListEmpty = !found;
     prefs.then((value){
       homeProvider.showFloatingButton = value.getBool('amountToBePaid') ?? true;
       homeProvider.notifyMe();
