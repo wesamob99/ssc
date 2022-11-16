@@ -24,103 +24,137 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
     List<Service> quickAccessServices = ServicesList.quickAccessServices;
 
     return SizedBox(
-      height: height(isScreenHasSmallHeight(context) ? 0.14 : 0.12, context),
-      child: ListView.builder(
+      height: homeProviderListener.isQuickAccessListEmpty && !homeProviderListener.isEditQuickAccessActive
+         ? height(isScreenHasSmallHeight(context) ? 0.08 : 0.06, context)
+         : height(isScreenHasSmallHeight(context) ? 0.14 : 0.12, context),
+      child: homeProviderListener.isQuickAccessListEmpty && !homeProviderListener.isEditQuickAccessActive
+        ? Container(
+          width: width(1, context),
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text(
+                'Empty list!',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14
+                ),
+              ),
+              Text(
+                'Your quick access list is empty, press edit to select items',
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          )
+        )
+        : ListView.builder(
           itemCount: quickAccessServices.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index){
             return quickAccessServices[index].isSelected || (!quickAccessServices[index].isSelected && homeProviderListener.isEditQuickAccessActive)
-            ? Row(
-                children: [
-                  InkWell(
-                    onTap: (){
-                      if(!homeProviderListener.isEditQuickAccessActive) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => AboutTheServiceScreen(
-                              serviceScreen: quickAccessServices[index].screen,
-                              serviceTitle: quickAccessServices[index].title,
-                              aboutServiceDescription: quickAccessServices[index].description,
-                              termsOfTheService: const [
-                                'موظفي القطاع الخاص',
-                                'موظف موقوف عن العمل',
-                                'لديك 36 اشتراك او رصيد اكثر من 300 د.ا',
-                                'ان تكون قد استفدت من بدل التعطل ثلاث مرات او اقل خلال فتره الشمول',
-                              ],
-                              stepsOfTheService: const [
-                                'التأكد من المعلومات الشخصية لمقدم الخدمة',
-                                'تعبئة طلب الخدمة',
-                                'تقديم الطلب'
-                              ],
-                            ),
+              ? Row(
+              children: [
+                InkWell(
+                  onTap: (){
+                    if(!homeProviderListener.isEditQuickAccessActive) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => AboutTheServiceScreen(
+                            serviceScreen: quickAccessServices[index].screen,
+                            serviceTitle: quickAccessServices[index].title,
+                            aboutServiceDescription: quickAccessServices[index].description,
+                            termsOfTheService: const [
+                              'موظفي القطاع الخاص',
+                              'موظف موقوف عن العمل',
+                              'لديك 36 اشتراك او رصيد اكثر من 300 د.ا',
+                              'ان تكون قد استفدت من بدل التعطل ثلاث مرات او اقل خلال فتره الشمول',
+                            ],
+                            stepsOfTheService: const [
+                              'التأكد من المعلومات الشخصية لمقدم الخدمة',
+                              'تعبئة طلب الخدمة',
+                              'تقديم الطلب'
+                            ],
                           ),
-                        );
-                      } else{
-                        setState((){
-                          quickAccessServices[index].isSelected = !quickAccessServices[index].isSelected;
-                        });
+                        ),
+                      );
+                    } else{
+                      setState((){
+                        quickAccessServices[index].isSelected = !quickAccessServices[index].isSelected;
+                      });
+                      bool found = false;
+                      for (var element in quickAccessServices) {
+                        if(element.isSelected){
+                          found = true;
+                          break;
+                        }
                       }
-                    },
-                    highlightColor: const Color.fromRGBO(68, 87, 64, 0.4),
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: [
-                            Card(
-                                elevation: 5.0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6.0),
-                                ),
-                                margin: EdgeInsets.symmetric(vertical: 3.0, horizontal: isTablet(context) ? 5.0 : 0),
-                                shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
-                                color: HexColor('#FFFFFF'),
-                                child: Padding(
-                                  padding: EdgeInsets.all(isTablet(context) ? 17.0 : 14.0),
-                                  child: SvgPicture.asset(
-                                    quickAccessServices[index].icon,
-                                    color: !quickAccessServices[index].isSelected ? Colors.black26 : HexColor('#946800'),
-                                    width: isTablet(context) ? 48 : 32,
-                                    height: isTablet(context) ? 48 : 32,
-                                  ),
-                                )
-                            ),
-                            if(homeProviderListener.isEditQuickAccessActive)
-                              Container(
-                                margin: const EdgeInsets.all(5.0).copyWith(top: 7.0),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    border: Border.all(
-                                      color: quickAccessServices[index].isSelected ? HexColor('#BC0D0D') : HexColor('#003C97'),
-                                    )
-                                ),
-                                child: Icon(
-                                  quickAccessServices[index].isSelected ? Icons.remove : Icons.add,
-                                  color: quickAccessServices[index].isSelected ? HexColor('#BC0D0D') : HexColor('#003C97'),
-                                  size: isTablet(context) ? 36 : 20,
-                                ),
+                      homeProviderListener.isQuickAccessListEmpty = !found;
+                      homeProviderListener.notifyMe();
+                    }
+                  },
+                  highlightColor: const Color.fromRGBO(68, 87, 64, 0.4),
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Card(
+                              elevation: 5.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6.0),
                               ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: isTablet(context) ? 90.0 : 65.0,
-                          child: Text(
-                            translate(quickAccessServices[index].title, context),
-                            textAlign: TextAlign.center,
-                            maxLines: isScreenHasSmallHeight(context) ? 2 : 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: height(0.012, context),
+                              margin: EdgeInsets.symmetric(vertical: 3.0, horizontal: isTablet(context) ? 5.0 : 0),
+                              shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
+                              color: HexColor('#FFFFFF'),
+                              child: Padding(
+                                padding: EdgeInsets.all(isTablet(context) ? 17.0 : 14.0),
+                                child: SvgPicture.asset(
+                                  quickAccessServices[index].icon,
+                                  color: !quickAccessServices[index].isSelected ? Colors.black26 : HexColor('#946800'),
+                                  width: isTablet(context) ? 48 : 32,
+                                  height: isTablet(context) ? 48 : 32,
+                                ),
+                              )
+                          ),
+                          if(homeProviderListener.isEditQuickAccessActive)
+                            Container(
+                              margin: const EdgeInsets.all(5.0).copyWith(top: 7.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  border: Border.all(
+                                    color: quickAccessServices[index].isSelected ? HexColor('#BC0D0D') : HexColor('#003C97'),
+                                  )
+                              ),
+                              child: Icon(
+                                quickAccessServices[index].isSelected ? Icons.remove : Icons.add,
+                                color: quickAccessServices[index].isSelected ? HexColor('#BC0D0D') : HexColor('#003C97'),
+                                size: isTablet(context) ? 36 : 20,
+                              ),
                             ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: isTablet(context) ? 90.0 : 65.0,
+                        child: Text(
+                          translate(quickAccessServices[index].title, context),
+                          textAlign: TextAlign.center,
+                          maxLines: isScreenHasSmallHeight(context) ? 2 : 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: height(0.012, context),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: width(index != quickAccessServices.length-1 ? 0.006 : 0, context))
-                ],
-              )
-            : const SizedBox.shrink();
+                ),
+                SizedBox(width: width(index != quickAccessServices.length-1 ? 0.006 : 0, context))
+              ],
+            )
+                : const SizedBox.shrink();
           }
       ),
     );
