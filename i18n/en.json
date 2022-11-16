@@ -194,6 +194,8 @@
   "oneTimeCompensationRequest": "One-time compensation request",
   "savingsBalance": "Savings balance",
   "savingsBalanceDisbursementRequest": "Savings balance disbursement request",
-  "workInjuryInsurance": "Work injury insurance"
+  "workInjuryInsurance": "Work injury insurance",
+  "edit": "Edit",
+  "editComplete": "Edit complete"
 
 }

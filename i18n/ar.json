@@ -195,6 +195,8 @@
   "oneTimeCompensationRequest": "طلب  تعويض الدفعة الواحده",
   "savingsBalance": "الرصيد الادخاري",
   "savingsBalanceDisbursementRequest": "طلب صرف الرصيد الادخاري",
-  "workInjuryInsurance": "تأمين إصابات العمل"
+  "workInjuryInsurance": "تأمين إصابات العمل",
+  "edit": "تعديل",
+  "editComplete": "تم التعديل"
 
 }
