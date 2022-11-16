@@ -41,6 +41,7 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
                   fontSize: 14
                 ),
               ),
+              SizedBox(height: 3.0),
               Text(
                 'Your quick access list is empty, press edit to select items',
                 style: TextStyle(
