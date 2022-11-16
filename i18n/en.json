@@ -196,6 +196,7 @@
   "savingsBalanceDisbursementRequest": "Savings balance disbursement request",
   "workInjuryInsurance": "Work injury insurance",
   "edit": "Edit",
-  "editComplete": "Edit complete"
-
+  "editComplete": "Edit complete",
+  "emptyList": "Empty list!",
+  "emptyListDesc": "Your quick access list is empty, press edit to add items."
 }

@@ -197,6 +197,9 @@
   "savingsBalanceDisbursementRequest": "طلب صرف الرصيد الادخاري",
   "workInjuryInsurance": "تأمين إصابات العمل",
   "edit": "تعديل",
-  "editComplete": "تم التعديل"
+  "editComplete": "تم التعديل",
+  "emptyList": "قائمة فارغة!",
+  "emptyListDesc": "قائمة الروابط السريعه فارغة، اضغط على تعديل لإضافة العناصر."
+
 
 }
