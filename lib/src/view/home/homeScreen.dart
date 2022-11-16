@@ -42,7 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
     amountToBePaidFuture = homeProvider.getAmountToBePaid();
     homeProvider.isEditQuickAccessActive = false;
 
-    print(UserConfig.instance.getQuickAccessItems());
     if(UserConfig.instance.getQuickAccessItems() == 'null'){
       List<String> items = [];
       for (var element in ServicesList.quickAccessServices) {
