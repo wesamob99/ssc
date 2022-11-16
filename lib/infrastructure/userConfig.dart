@@ -47,19 +47,17 @@ class UserConfig {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  // ////////////////
-  //
-  // Future<void> setHomeDesign(HomeSettings list, String key) async {
-  //   _prefs?.setString(key,homeSettingsToJson(list) );
-  // }
-  //
-  // HomeSettings getHomeDesign(String key)  {
-  //
-  //   final homeSettings = homeSettingsFromJson(_prefs.getString(key) ??homeSettingsToJson(HomeSettings(homeSettings: [])) );
-  //   return homeSettings;
-  // }
-  //
-  // ////////////////
+  ////////////////
+
+  Future<void> setQuickAccessItems(list) async {
+    _prefs.setStringList('QuickAccessItems', list);
+  }
+
+  getQuickAccessItems() {
+    return prefs.getStringList('QuickAccessItems');
+  }
+
+  ////////////////
 
   bool checkLanguage() {
     return language == 'English' ? true : false;
