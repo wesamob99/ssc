@@ -54,7 +54,7 @@ class UserConfig {
   }
 
   getQuickAccessItems() {
-    return prefs.getStringList('QuickAccessItems');
+    return prefs.getStringList('QuickAccessItems') ?? 'null';
   }
 
   ////////////////
