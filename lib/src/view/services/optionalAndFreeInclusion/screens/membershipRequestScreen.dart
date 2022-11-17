@@ -76,7 +76,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                    const FirstStepScreen(nextStep: 'payCalculation'),
+                    const FirstStepScreen(nextStep: 'payCalculation', numberOfSteps: 3),
                   if(Provider.of<ServicesProvider>(context).stepNumber == 2)
                     secondStep(context, themeNotifier),
                   if(Provider.of<ServicesProvider>(context).stepNumber == 3)
@@ -154,7 +154,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '2/4',
+                      '2/3',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.025, context)

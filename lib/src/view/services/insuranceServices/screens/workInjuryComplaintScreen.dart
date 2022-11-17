@@ -76,7 +76,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                    const FirstStepScreen(nextStep: 'orderDetails'),
+                    const FirstStepScreen(nextStep: 'orderDetails', numberOfSteps: 4,),
                   if(Provider.of<ServicesProvider>(context).stepNumber == 2)
                     secondStep(context, themeNotifier),
                   if(Provider.of<ServicesProvider>(context).stepNumber == 3)

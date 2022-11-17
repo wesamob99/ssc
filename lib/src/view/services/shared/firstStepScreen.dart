@@ -15,7 +15,8 @@ import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class FirstStepScreen extends StatefulWidget {
   final String nextStep;
-  const FirstStepScreen({Key key, this.nextStep}) : super(key: key);
+  final int numberOfSteps;
+  const FirstStepScreen({Key key, this.nextStep, this.numberOfSteps}) : super(key: key);
 
   @override
   State<FirstStepScreen> createState() => _FirstStepScreenState();
@@ -123,7 +124,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  '1/4',
+                                  '1/${widget.numberOfSteps}',
                                   style: TextStyle(
                                       color: HexColor('#979797'),
                                       fontSize: width(0.025, context)
