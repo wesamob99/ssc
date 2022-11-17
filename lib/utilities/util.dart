@@ -374,7 +374,7 @@ SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPres
       onPressed: onPressed,
       style: ButtonStyle(
           backgroundColor: buttonColor,
-          foregroundColor:  MaterialStateProperty.all<Color>(
+          foregroundColor: MaterialStateProperty.all<Color>(
               Colors.white
           ),
           padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 16.0)),
