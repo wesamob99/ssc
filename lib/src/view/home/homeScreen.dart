@@ -42,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     amountToBePaidFuture = homeProvider.getAmountToBePaid();
     homeProvider.isEditQuickAccessActive = false;
 
+    ///TODO: check ig the list shows all items in the first login
     if(UserConfig.instance.getQuickAccessItems() == 'null'){
       List<String> items = [];
       for (var element in ServicesList.quickAccessServices) {
