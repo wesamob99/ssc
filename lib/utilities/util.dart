@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
@@ -639,6 +640,20 @@ modalBottomSheet(context, themeNotifier, supportState, authenticate){
           ),
         );
       }
+  );
+}
+
+loadingIndicator(context){
+  return SizedBox(
+    width: width(isTablet(context) ? 0.2 : 0.4, context),
+    height: width(isTablet(context) ? 0.2 : 0.4, context),
+    child: LoadingIndicator(
+      indicatorType: Indicator.ballSpinFadeLoader, /// Required, The loading type of the widget
+      colors: [
+        HexColor('#445740'), HexColor('#946800').withOpacity(0.6)
+      ],
+      backgroundColor: Colors.transparent,
+    ),
   );
 }
 

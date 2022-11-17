@@ -11,8 +11,6 @@ import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/login/loginScreen.dart';
 import 'package:ssc/src/view/main/mainScreen.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
-import 'package:loading_indicator/loading_indicator.dart';
-import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../models/home/payOffFinancialInformations.dart';
 import '../../../utilities/util.dart';
@@ -126,17 +124,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   Image.asset('assets/logo/logo_with_name.png', width: width(isTablet(context) ? 0.42 : 0.62, context),),
                   SizedBox(height: height(0.1, context),),
-                  SizedBox(
-                    width: width(isTablet(context) ? 0.2 : 0.4, context),
-                    height: width(isTablet(context) ? 0.2 : 0.4, context),
-                    child: LoadingIndicator(
-                        indicatorType: Indicator.ballSpinFadeLoader, /// Required, The loading type of the widget
-                        colors: [
-                          HexColor('#445740'), HexColor('#946800').withOpacity(0.6)
-                        ],
-                        backgroundColor: Colors.transparent,
-                    ),
-                  )
+                  loadingIndicator(context),
                 ],
               ),
             ),
