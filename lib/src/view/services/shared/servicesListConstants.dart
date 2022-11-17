@@ -1,7 +1,7 @@
 //ignore_for_file: file_names
 import 'package:flutter/cupertino.dart';
 
-import '../insuranceBenefits/screens/workInjuryComplaintScreen.dart';
+import '../insuranceServices/screens/workInjuryComplaintScreen.dart';
 
 class ServicesList{
 
@@ -54,7 +54,20 @@ class ServicesList{
   static List<Service> insuranceBenefitsServices = [oneTimeCompensationRequest, savingsBalanceDisbursementRequest, reportSicknessComplaint, workInjuryInsurance];
 
   /// **************************************************************************
+  /// optional And Free Inclusion Services *************************************
 
+  static Service membershipRequest = Service(
+      title: "membershipRequest", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen()
+  );
+  static Service continuityOfCoverage = Service(
+      title: "continuityOfCoverage", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen()
+  );
+  static Service excessPaymentRequest = Service(
+      title: "excessPaymentRequest", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen()
+  );
+  static List<Service> optionalAndFreeInclusionServices = [membershipRequest, continuityOfCoverage, excessPaymentRequest];
+
+/// **************************************************************************
 
 }
 
