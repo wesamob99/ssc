@@ -13,6 +13,8 @@ class ServicesProvider extends ChangeNotifier {
   ServicesRepository servicesRepository = ServicesRepository();
   UserProfileData userProfileData = UserProfileData();
 
+  TextEditingController monthlyInstallmentController = TextEditingController();
+
   /// workInjuryComplaint
   int stepNumber = 1;
   String selectedInjuredType = 'occupationalDisease';
