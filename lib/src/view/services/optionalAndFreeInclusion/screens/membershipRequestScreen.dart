@@ -22,13 +22,13 @@ class MembershipRequestScreen extends StatefulWidget {
 
 class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   ServicesProvider servicesProvider;
+  int selectedCalculateAccordingTo = 1;
 
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
     servicesProvider.readCountriesJson();
-    servicesProvider.selectedInjuredType = 'occupationalDisease';
     super.initState();
   }
 
@@ -77,11 +77,11 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                   if(Provider.of<ServicesProvider>(context).stepNumber == 1)
                     const FirstStepScreen(nextStep: 'payCalculation'),
                   if(Provider.of<ServicesProvider>(context).stepNumber == 2)
-                    secondStep(context, themeNotifier, servicesProvider),
+                    secondStep(context, themeNotifier),
                   if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                    thirdStep(context, themeNotifier, servicesProvider),
+                    thirdStep(context, themeNotifier),
                   if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-                    forthStep(context, themeNotifier, servicesProvider),
+                    forthStep(context, themeNotifier),
                   textButton(context,
                     themeNotifier,
                     Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'finish',
@@ -117,93 +117,168 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
       ),
     );
   }
-}
 
-Widget secondStep(context, themeNotifier, ServicesProvider servicesProvider){
-  return SingleChildScrollView(
-    child: SizedBox(
-      height: height(0.78, context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: height(0.02, context),),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                translate('secondStep', context),
-                style: TextStyle(
-                    color: HexColor('#979797'),
-                    fontSize: width(0.03, context)
+  Widget secondStep(context, themeNotifier){
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: height(0.78, context),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: height(0.02, context),),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  translate('secondStep', context),
+                  style: TextStyle(
+                      color: HexColor('#979797'),
+                      fontSize: width(0.03, context)
+                  ),
                 ),
+                SizedBox(height: height(0.006, context),),
+                Text(
+                  translate('payCalculation', context),
+                  style: TextStyle(
+                      color: HexColor('#5F5F5F'),
+                      fontSize: width(0.035, context)
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: height(0.01, context),),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox.shrink(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      '2/4',
+                      style: TextStyle(
+                          color: HexColor('#979797'),
+                          fontSize: width(0.025, context)
+                      ),
+                    ),
+                    Text(
+                      '${translate('next', context)}: ${translate('documents', context)}',
+                      style: TextStyle(
+                          color: HexColor('#979797'),
+                          fontSize: width(0.032, context)
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: height(0.02, context),),
+            Text(
+              translate('CalculateAccordingTo', context),
+              style: TextStyle(
+                  color: HexColor('#363636'),
+                  fontSize: width(0.032, context)
               ),
-              SizedBox(height: height(0.006, context),),
-              Text(
-                translate('payCalculation', context),
-                style: TextStyle(
-                    color: HexColor('#5F5F5F'),
-                    fontSize: width(0.035, context)
-                ),
-              )
-            ],
-          ),
-          SizedBox(height: height(0.01, context),),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox.shrink(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
+            ),
+            SizedBox(height: height(0.015, context),),
+            Container(
+              padding: const EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                color: HexColor('#F0F2F0'),
+                borderRadius: BorderRadius.circular(50.0),
+              ),
+              child: Row(
                 children: [
-                  Text(
-                    '2/4',
-                    style: TextStyle(
-                        color: HexColor('#979797'),
-                        fontSize: width(0.025, context)
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        setState(() {
+                          selectedCalculateAccordingTo = 1;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 6.0),
+                        decoration: BoxDecoration(
+                          color: selectedCalculateAccordingTo == 1
+                              ? HexColor('#445740') : Colors.transparent,
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        child: Text(
+                          translate('monthlyInstallment', context),
+                          style: TextStyle(
+                              color: selectedCalculateAccordingTo == 1
+                                  ? Colors.white : HexColor('#A6A6A6')
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  Text(
-                    '${translate('next', context)}: ${translate('documents', context)}',
-                    style: TextStyle(
-                        color: HexColor('#979797'),
-                        fontSize: width(0.032, context)
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        setState(() {
+                          selectedCalculateAccordingTo = 2;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 100),
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 6.0),
+                        decoration: BoxDecoration(
+                          color: selectedCalculateAccordingTo == 2
+                              ? HexColor('#445740') : Colors.transparent,
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        child: Text(
+                          translate('salary', context),
+                          style: TextStyle(
+                              color: selectedCalculateAccordingTo == 2
+                                  ? Colors.white : HexColor('#A6A6A6')
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
-            ],
-          ),
-          SizedBox(height: height(0.02, context),),
-          Text(
-            translate('injuryType', context),
-            style: TextStyle(
-                color: HexColor('#363636'),
-                fontSize: width(0.032, context)
             ),
-          ),
-        ],
+            SizedBox(height: height(0.02, context),),
+            Text(
+              translate('CalculateAccordingTo', context),
+              style: TextStyle(
+                  color: HexColor('#363636'),
+                  fontSize: width(0.032, context)
+              ),
+            ),
+            SizedBox(height: height(0.015, context),),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-Widget thirdStep(context, themeNotifier, ServicesProvider servicesProvider){
-  return SingleChildScrollView(
-    child: Container(
-      alignment: Alignment.center,
-      height: height(0.78, context),
-      child: Text(translate('thirdStep', context)),
-    ),
-  );
-}
+  Widget thirdStep(context, themeNotifier){
+    return SingleChildScrollView(
+      child: Container(
+        alignment: Alignment.center,
+        height: height(0.78, context),
+        child: Text(translate('thirdStep', context)),
+      ),
+    );
+  }
 
-Widget forthStep(context, themeNotifier, ServicesProvider servicesProvider){
-  return SingleChildScrollView(
-    child: Container(
-      alignment: Alignment.center,
-      height: height(0.78, context),
-      child: Text(translate('forthStep', context)),
-    ),
-  );
+  Widget forthStep(context, themeNotifier){
+    return SingleChildScrollView(
+      child: Container(
+        alignment: Alignment.center,
+        height: height(0.78, context),
+        child: Text(translate('forthStep', context)),
+      ),
+    );
+  }
+
 }
