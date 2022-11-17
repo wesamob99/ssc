@@ -121,6 +121,23 @@ class LoginRepository{
     return '';
   }
 
+  Future resetPasswordVerifyEmailService(String userId, String email) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/mobile/verify-user-email',
+        {
+          "username": userId, // national or personal number
+          "email": email // user email
+        }
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
   Future registerSubmitSecondStepService(
       int nationality, int nationalNo,
       int personalNo, String cardNo,
