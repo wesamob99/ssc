@@ -208,6 +208,10 @@
   "selectMonthlyInstallment": "Select the monthly installment that suits you",
   "installmentValue": "installment value",
   "confirmRequest": "Confirm request",
-  "send": "Send"
+  "send": "Send",
+  "serviceEvaluation": "Service evaluation",
+  "howEasyToApply": "How easy is it to apply for the service?",
+  "howEasyToApplyDesc": "Where 5 is the easiest and 1 is the hardest",
+  "shareYourOpinion": "Share your opinion!"
 
 }

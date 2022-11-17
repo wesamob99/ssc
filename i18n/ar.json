@@ -209,6 +209,11 @@
   "selectMonthlyInstallment": "حدد القسط الشهري المناسب لك",
   "installmentValue": "قيمة القسط",
   "confirmRequest": "تأكيد الطلب",
-  "send": "إرسال"
+  "send": "إرسال",
+  "serviceEvaluation": "تقييم الخدمة",
+  "howEasyToApply": "ما هو مدى سهوله التقديم للخدمة",
+  "howEasyToApplyDesc": "حيث ان 5 هو الاكثر سهوله و 1 الاصعب",
+  "shareYourOpinion": "شاركنا رأيك !"
+
 
 }
