@@ -47,23 +47,24 @@ class _ServicesScreenState extends State<ServicesScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // const SizedBox(height: 10.0),
-                // Container(
-                //   padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 15),
-                //   decoration: BoxDecoration(
-                //     color: themeNotifier.isLight()
-                //       ? HexColor('#F0F2F0') : HexColor('#454545'),
-                //     borderRadius: BorderRadius.circular(50)
-                //   ),
-                //   child: Text(
-                //     translate(sideBarItems[selectedIndex]['title'], context),
-                //     textAlign: TextAlign.center,
-                //     style: TextStyle(
-                //       color: HexColor('#2D452E'),
-                //       fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
-                //     ),
-                //   ),
-                // ),
+                if(selectedIndex == 2)
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 15),
+                  margin: const EdgeInsets.only(top: 10.0),
+                  decoration: BoxDecoration(
+                    color: themeNotifier.isLight()
+                      ? HexColor('#F0F2F0') : HexColor('#454545'),
+                    borderRadius: BorderRadius.circular(50)
+                  ),
+                  child: Text(
+                    translate(sideBarItems[selectedIndex]['title'], context),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: HexColor('#2D452E'),
+                      fontSize: width((isTablet(context) || sideBarItems[selectedIndex]['title'].length > 20) ? 0.03 : 0.035, context)
+                    ),
+                  ),
+                ),
                 SizedBox(height: height(0.02, context)),
                 if(selectedIndex == 0)
                 const MostVisitedBody(),
