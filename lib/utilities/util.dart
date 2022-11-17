@@ -423,7 +423,7 @@ Widget buildFieldTitle(context, title, {required = true, filled = false}){
 
 Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingController controller,
     String hintText, onChanged, {isPassword = false,
-      inputType = TextInputType.text, enabled = true, flag = 0}){
+      inputType = TextInputType.text, enabled = true, flag = 0, minLines = 1}){
   LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
   return Container(
     decoration: BoxDecoration(
@@ -431,6 +431,8 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
       borderRadius: BorderRadius.circular(8),
     ),
     child: TextFormField(
+      minLines: minLines,
+      maxLines: 5,
       controller: controller,
       keyboardType: inputType,
       obscureText: isPassword && ((Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2)) ,
