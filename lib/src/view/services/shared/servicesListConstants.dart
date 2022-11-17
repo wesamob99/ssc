@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../insuranceServices/screens/workInjuryComplaintScreen.dart';
+import '../optionalAndFreeInclusion/screens/membershipRequestScreen.dart';
 
 class ServicesList{
 
@@ -57,7 +58,7 @@ class ServicesList{
   /// optional And Free Inclusion Services *************************************
 
   static Service membershipRequest = Service(
-      title: "membershipRequest", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen()
+      title: "membershipRequest", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const MembershipRequestScreen()
   );
   static Service continuityOfCoverage = Service(
       title: "continuityOfCoverage", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen()
