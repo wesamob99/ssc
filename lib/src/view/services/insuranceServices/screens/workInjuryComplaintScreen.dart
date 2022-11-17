@@ -85,7 +85,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                     forthStep(context, themeNotifier),
                   textButton(context,
                     themeNotifier,
-                    Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'finish',
+                    Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'send',
                     MaterialStateProperty.all<Color>(
                         getPrimaryColor(context, themeNotifier)),
                     HexColor('#ffffff'),
