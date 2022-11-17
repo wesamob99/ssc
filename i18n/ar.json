@@ -203,7 +203,9 @@
   "membershipRequest": "طلب انتساب",
   "continuityOfCoverage": "طلب استمرارية شمول",
   "excessPaymentRequest": "طلب صرف مبالغ زائدة",
-  "payCalculation": "احتساب الاجر"
+  "payCalculation": "احتساب الاجر",
+  "CalculateAccordingTo": "احتساب حسب",
+  "monthlyInstallment": "القسط الشهري"
 
 
 }

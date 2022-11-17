@@ -202,6 +202,9 @@
   "membershipRequest": "Membership request",
   "continuityOfCoverage": "Continuity of coverage application",
   "excessPaymentRequest": "Excess payment request",
-  "payCalculation": "Pay calculation"
+  "payCalculation": "Pay calculation",
+  "CalculateAccordingTo": "Calculate according to",
+  "monthlyInstallment": "Monthly installment"
+
 
 }
