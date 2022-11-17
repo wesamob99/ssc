@@ -24,6 +24,8 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   ServicesProvider servicesProvider;
   int selectedCalculateAccordingTo = 1;
   double currentSliderValue = 200;
+  TextEditingController confirmMonthlyController = TextEditingController();
+  TextEditingController confirmSalaryController = TextEditingController();
 
   @override
   void initState() {
@@ -83,14 +85,19 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                     thirdStep(context, themeNotifier),
                   textButton(context,
                     themeNotifier,
-                    Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'finish',
+                    Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'send',
                     MaterialStateProperty.all<Color>(
                         getPrimaryColor(context, themeNotifier)),
                     HexColor('#ffffff'),
                         (){
                       switch(servicesProvider.stepNumber){
                         case 1: servicesProvider.stepNumber = 2; break;
-                        case 2: servicesProvider.stepNumber = 3; break;
+                        case 2: {
+                          servicesProvider.stepNumber = 3;
+                          // confirmMonthlyController.text = selectedCalculateAccordingTo == 1 ? servicesProvider.monthlyInstallmentController.text : '1200';
+                          confirmMonthlyController.text = servicesProvider.monthlyInstallmentController.text;
+                          confirmSalaryController.text = '1200';
+                        } break;
                         case 3: if (kDebugMode) {
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
@@ -357,10 +364,121 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
 
   Widget thirdStep(context, themeNotifier){
     return SingleChildScrollView(
-      child: Container(
-        alignment: Alignment.center,
+      child: SizedBox(
         height: height(0.78, context),
-        child: Text(translate('thirdStep', context)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: height(0.02, context),),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  translate('thirdStep', context),
+                  style: TextStyle(
+                      color: HexColor('#979797'),
+                      fontSize: width(0.03, context)
+                  ),
+                ),
+                SizedBox(height: height(0.006, context),),
+                Text(
+                  translate('confirmRequest', context),
+                  style: TextStyle(
+                      color: HexColor('#5F5F5F'),
+                      fontSize: width(0.035, context)
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: height(0.01, context),),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox.shrink(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      '3/3',
+                      style: TextStyle(
+                          color: HexColor('#979797'),
+                          fontSize: width(0.025, context)
+                      ),
+                    ),
+                    Text(
+                      translate('finished', context),
+                      style: TextStyle(
+                          color: HexColor('#979797'),
+                          fontSize: width(0.032, context)
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: height(0.02, context),),
+            Text(
+              translate('monthlyInstallment', context),
+              style: TextStyle(
+                  color: HexColor('#363636'),
+                  fontSize: width(0.032, context)
+              ),
+            ),
+            SizedBox(height: height(0.015, context),),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 9,
+                  child: buildTextFormField(context, themeNotifier, confirmMonthlyController, '', (value){}),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: Text(
+                    translate('jd', context),
+                    style: TextStyle(
+                        color: themeNotifier.isLight()
+                            ? Colors.black
+                            : Colors.white,
+                        fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
+                  ),
+                ),
+                const SizedBox.shrink()
+              ],
+            ),
+            SizedBox(height: height(0.04, context),),
+            Text(
+              translate('salary', context),
+              style: TextStyle(
+                  color: HexColor('#363636'),
+                  fontSize: width(0.032, context)
+              ),
+            ),
+            SizedBox(height: height(0.015, context),),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 9,
+                  child: buildTextFormField(context, themeNotifier, confirmSalaryController, '', (value){}),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: Text(
+                    translate('jd', context),
+                    style: TextStyle(
+                        color: themeNotifier.isLight()
+                            ? Colors.black
+                            : Colors.white,
+                        fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
+                  ),
+                ),
+                const SizedBox.shrink()
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
