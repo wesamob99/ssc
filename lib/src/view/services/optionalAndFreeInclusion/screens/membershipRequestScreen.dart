@@ -271,13 +271,14 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                     max: 800,
                     divisions: 800,
                     label: currentSliderValue.round().toString(),
-                    onChanged: (double value) {
+                    onChanged: selectedCalculateAccordingTo == 1
+                      ? (double value) {
                       servicesProvider.monthlyInstallmentController.text = value.toStringAsFixed(0);
                       servicesProvider.notifyMe();
                       setState(() {
                         currentSliderValue = value;
                       });
-                    },
+                    } : null,
                   ),
                 ),
                 Flexible(
@@ -484,40 +485,44 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   }
 
   monthlyInstallmentTextFormField(controller, themeNotifier, onChanged){
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: TextFormField(
-        textAlignVertical: TextAlignVertical.center,
-        textAlign: TextAlign.center,
-        controller: controller,
-        keyboardType: TextInputType.number,
-        style: TextStyle(
-          fontSize: isTablet(context) ? 20 : 15,
-          color: HexColor('#363636'),
+    return Opacity(
+      opacity: selectedCalculateAccordingTo == 2 ? 0.5 : 1,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
         ),
-        cursorColor: getPrimaryColor(context, themeNotifier),
-        cursorWidth: 1,
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: isTablet(context) ? 20 : 0,),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: getPrimaryColor(context, themeNotifier),
-                width: 0.5,
+        child: TextFormField(
+          readOnly: selectedCalculateAccordingTo == 2,
+          textAlignVertical: TextAlignVertical.center,
+          textAlign: TextAlign.center,
+          controller: controller,
+          keyboardType: TextInputType.number,
+          style: TextStyle(
+            fontSize: isTablet(context) ? 20 : 15,
+            color: HexColor('#363636'),
+          ),
+          cursorColor: getPrimaryColor(context, themeNotifier),
+          cursorWidth: 1,
+          decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: isTablet(context) ? 20 : 0,),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                  color: getPrimaryColor(context, themeNotifier),
+                  width: 0.5,
+                ),
               ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: getPrimaryColor(context, themeNotifier),
-                width: 0.8,
-              ),
-            )
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                  color: getPrimaryColor(context, themeNotifier),
+                  width: 0.8,
+                ),
+              )
+          ),
+          onChanged: onChanged,
         ),
-        onChanged: onChanged,
       ),
     );
   }
