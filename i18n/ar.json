@@ -199,7 +199,10 @@
   "edit": "تعديل",
   "editComplete": "تم التعديل",
   "emptyList": "قائمة فارغة!",
-  "emptyListDesc": "قائمة الروابط السريعه فارغة، اضغط على تعديل لإضافة العناصر."
+  "emptyListDesc": "قائمة الروابط السريعه فارغة، اضغط على تعديل لإضافة العناصر.",
+  "membershipRequest": "طلب انتساب",
+  "continuityOfCoverage": "طلب استمرارية شمول",
+  "excessPaymentRequest": "طلب صرف مبالغ زائدة"
 
 
 }
