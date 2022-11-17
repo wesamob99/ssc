@@ -207,6 +207,7 @@
   "monthlyInstallment": "Monthly installment",
   "selectMonthlyInstallment": "Select the monthly installment that suits you",
   "installmentValue": "installment value",
-  "confirmRequest": "Confirm request"
+  "confirmRequest": "Confirm request",
+  "send": "Send"
 
 }

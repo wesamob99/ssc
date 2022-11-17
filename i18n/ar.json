@@ -208,6 +208,7 @@
   "monthlyInstallment": "القسط الشهري",
   "selectMonthlyInstallment": "حدد القسط الشهري المناسب لك",
   "installmentValue": "قيمة القسط",
-  "confirmRequest": "تأكيد الطلب"
+  "confirmRequest": "تأكيد الطلب",
+  "send": "إرسال"
 
 }
