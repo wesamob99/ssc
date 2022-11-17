@@ -186,9 +186,10 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                               errorMessage = "";
                               loginProvider.isLoading = true;
                               loginProvider.notifyMe();
-                              //TODO: : check if [emailController.text] is the real email before send the code
                               try{
-                                await loginProvider.resetPasswordSendEmailCode(userSecuredStorage.nationalId)
+                                await loginProvider.resetPasswordVerifyEmail(userSecuredStorage.nationalId, emailController.text).then((result) async {
+                                  if(result["PO_status"] == 0) {
+                                    await loginProvider.resetPasswordSendEmailCode(userSecuredStorage.nationalId)
                                     .then((value){
                                   if(value["PO_STATUS"] == 1){
                                     errorMessage = UserConfig.instance.checkLanguage()
@@ -205,7 +206,14 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                                         ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
                                     showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
                                   }
+                                  });
+                                  }else{
+                                    errorMessage = UserConfig.instance.checkLanguage()
+                                        ? "${result["PO_STATUS_DESC_EN"]}" : "${result["PO_STATUS_DESC_AR"]}";
+                                    showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                                  }
                                 });
+
                                 loginProvider.isLoading = false;
                                 loginProvider.notifyMe();
                               }catch(e){
@@ -263,16 +271,6 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                   ],
                 ),
               ),
-            ),
-          ),
-          if(loginProvider.isLoading)
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            width: width(1, context),
-            height: height(1, context),
-            color: Colors.white70,
-            child: Center(
-              child: animatedLoader(context),
             ),
           ),
         ],
