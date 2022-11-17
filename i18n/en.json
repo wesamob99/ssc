@@ -204,7 +204,9 @@
   "excessPaymentRequest": "Excess payment request",
   "payCalculation": "Pay calculation",
   "CalculateAccordingTo": "Calculate according to",
-  "monthlyInstallment": "Monthly installment"
-
+  "monthlyInstallment": "Monthly installment",
+  "selectMonthlyInstallment": "Select the monthly installment that suits you",
+  "installmentValue": "installment value",
+  "confirmRequest": "Confirm request"
 
 }

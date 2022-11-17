@@ -205,7 +205,9 @@
   "excessPaymentRequest": "طلب صرف مبالغ زائدة",
   "payCalculation": "احتساب الاجر",
   "CalculateAccordingTo": "احتساب حسب",
-  "monthlyInstallment": "القسط الشهري"
-
+  "monthlyInstallment": "القسط الشهري",
+  "selectMonthlyInstallment": "حدد القسط الشهري المناسب لك",
+  "installmentValue": "قيمة القسط",
+  "confirmRequest": "تأكيد الطلب"
 
 }
