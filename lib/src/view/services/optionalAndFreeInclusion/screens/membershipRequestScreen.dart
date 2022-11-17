@@ -23,11 +23,13 @@ class MembershipRequestScreen extends StatefulWidget {
 class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   ServicesProvider servicesProvider;
   int selectedCalculateAccordingTo = 1;
+  double currentSliderValue = 200;
 
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
+    servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
     servicesProvider.readCountriesJson();
     super.initState();
   }
@@ -47,7 +49,6 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 case 1: Navigator.of(context).pop(); break;
                 case 2: servicesProvider.stepNumber = 1; break;
                 case 3: servicesProvider.stepNumber = 2; break;
-                case 4: servicesProvider.stepNumber = 3; break;
               }
               servicesProvider.notifyMe();
             },
@@ -80,11 +81,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                     secondStep(context, themeNotifier),
                   if(Provider.of<ServicesProvider>(context).stepNumber == 3)
                     thirdStep(context, themeNotifier),
-                  if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-                    forthStep(context, themeNotifier),
                   textButton(context,
                     themeNotifier,
-                    Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'finish',
+                    Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'finish',
                     MaterialStateProperty.all<Color>(
                         getPrimaryColor(context, themeNotifier)),
                     HexColor('#ffffff'),
@@ -92,8 +91,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       switch(servicesProvider.stepNumber){
                         case 1: servicesProvider.stepNumber = 2; break;
                         case 2: servicesProvider.stepNumber = 3; break;
-                        case 3: servicesProvider.stepNumber = 4; break;
-                        case 4: if (kDebugMode) {
+                        case 3: if (kDebugMode) {
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
                         } break; /// TODO: finish service
@@ -163,7 +161,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       ),
                     ),
                     Text(
-                      '${translate('next', context)}: ${translate('documents', context)}',
+                      '${translate('next', context)}: ${translate('confirmRequest', context)}',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.032, context)
@@ -246,15 +244,111 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 ],
               ),
             ),
-            SizedBox(height: height(0.02, context),),
+            SizedBox(height: height(0.04, context),),
             Text(
-              translate('CalculateAccordingTo', context),
+              translate('selectMonthlyInstallment', context),
               style: TextStyle(
                   color: HexColor('#363636'),
                   fontSize: width(0.032, context)
               ),
             ),
             SizedBox(height: height(0.015, context),),
+            Row(
+              children: [
+                Flexible(
+                  flex: 5,
+                  child: Slider(
+                    activeColor: HexColor('#363636'),
+                    inactiveColor: HexColor('#E0E0E0'),
+                    value: currentSliderValue,
+                    max: 800,
+                    divisions: 800,
+                    label: currentSliderValue.round().toString(),
+                    onChanged: (double value) {
+                      servicesProvider.monthlyInstallmentController.text = value.toStringAsFixed(0);
+                      servicesProvider.notifyMe();
+                      setState(() {
+                        currentSliderValue = value;
+                      });
+                    },
+                  ),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      Text(
+                        translate('installmentValue', context),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: HexColor('#363636'),
+                          fontSize: width(0.022, context),
+                        ),
+                      ),
+                      const SizedBox(height: 5.0),
+                      monthlyInstallmentTextFormField(
+                        servicesProvider.monthlyInstallmentController, themeNotifier,
+                            (value){
+                          setState(() {
+                            if(servicesProvider.monthlyInstallmentController.text.isNotEmpty) {
+                              if(double.parse(servicesProvider.monthlyInstallmentController.text) <= 800){
+                                currentSliderValue = double.parse(servicesProvider.monthlyInstallmentController.text);
+                              } else{
+                                currentSliderValue = 800;
+                                servicesProvider.monthlyInstallmentController.text = "800";
+                              }
+                              currentSliderValue = double.parse(servicesProvider.monthlyInstallmentController.text);
+                            } else{
+                              currentSliderValue = 0;
+                              servicesProvider.monthlyInstallmentController.text = "0";
+                            }
+                          });
+                          servicesProvider.notifyMe();
+                        },
+                      ),
+                    ],
+                  )
+                )
+              ],
+            ),
+            SizedBox(height: height(0.04, context),),
+            Text(
+              translate('salary', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
+              style: TextStyle(
+                  color: HexColor('#363636'),
+                  fontSize: width(0.032, context)
+              ),
+            ),
+            SizedBox(height: height(0.02, context),),
+            Container(
+              width: width(1, context),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: HexColor('#F0F2F0'),
+                borderRadius: BorderRadius.circular(12.0)
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '1200',
+                    style: TextStyle(
+                      color: HexColor('#666666'),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
+                    ),
+                  ),
+                  Text(
+                    translate('jd', context),
+                    style: TextStyle(
+                      color: HexColor('#716F6F'),
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              )
+            )
           ],
         ),
       ),
@@ -271,12 +365,41 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     );
   }
 
-  Widget forthStep(context, themeNotifier){
-    return SingleChildScrollView(
-      child: Container(
-        alignment: Alignment.center,
-        height: height(0.78, context),
-        child: Text(translate('forthStep', context)),
+  monthlyInstallmentTextFormField(controller, themeNotifier, onChanged){
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TextFormField(
+        textAlignVertical: TextAlignVertical.center,
+        textAlign: TextAlign.center,
+        controller: controller,
+        keyboardType: TextInputType.number,
+        style: TextStyle(
+          fontSize: isTablet(context) ? 20 : 15,
+          color: HexColor('#363636'),
+        ),
+        cursorColor: getPrimaryColor(context, themeNotifier),
+        cursorWidth: 1,
+        decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: isTablet(context) ? 20 : 0,),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: getPrimaryColor(context, themeNotifier),
+                width: 0.5,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: getPrimaryColor(context, themeNotifier),
+                width: 0.8,
+              ),
+            )
+        ),
+        onChanged: onChanged,
       ),
     );
   }
