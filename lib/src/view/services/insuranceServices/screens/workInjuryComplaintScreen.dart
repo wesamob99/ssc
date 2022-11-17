@@ -78,11 +78,11 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                   if(Provider.of<ServicesProvider>(context).stepNumber == 1)
                     const FirstStepScreen(nextStep: 'orderDetails'),
                   if(Provider.of<ServicesProvider>(context).stepNumber == 2)
-                    secondStep(context, themeNotifier, servicesProvider),
+                    secondStep(context, themeNotifier),
                   if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                    thirdStep(context, themeNotifier, servicesProvider),
+                    thirdStep(context, themeNotifier),
                   if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-                    forthStep(context, themeNotifier, servicesProvider),
+                    forthStep(context, themeNotifier),
                   textButton(context,
                     themeNotifier,
                     Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'finish',
@@ -118,118 +118,119 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
       ),
     );
   }
-}
 
-Widget secondStep(context, themeNotifier, ServicesProvider servicesProvider){
-  return SingleChildScrollView(
-    child: SizedBox(
-      height: height(0.78, context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: height(0.02, context),),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                translate('secondStep', context),
-                style: TextStyle(
-                    color: HexColor('#979797'),
-                    fontSize: width(0.03, context)
-                ),
-              ),
-              SizedBox(height: height(0.006, context),),
-              Text(
-                translate('orderDetails', context),
-                style: TextStyle(
-                    color: HexColor('#5F5F5F'),
-                    fontSize: width(0.035, context)
-                ),
-              )
-            ],
-          ),
-          SizedBox(height: height(0.01, context),),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox.shrink(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    '2/4',
-                    style: TextStyle(
-                        color: HexColor('#979797'),
-                        fontSize: width(0.025, context)
-                    ),
+  Widget secondStep(context, themeNotifier){
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: height(0.78, context),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: height(0.02, context),),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  translate('secondStep', context),
+                  style: TextStyle(
+                      color: HexColor('#979797'),
+                      fontSize: width(0.03, context)
                   ),
-                  Text(
-                    '${translate('next', context)}: ${translate('documents', context)}',
-                    style: TextStyle(
-                        color: HexColor('#979797'),
-                        fontSize: width(0.032, context)
-                    ),
+                ),
+                SizedBox(height: height(0.006, context),),
+                Text(
+                  translate('orderDetails', context),
+                  style: TextStyle(
+                      color: HexColor('#5F5F5F'),
+                      fontSize: width(0.035, context)
                   ),
-                ],
+                )
+              ],
+            ),
+            SizedBox(height: height(0.01, context),),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox.shrink(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      '2/4',
+                      style: TextStyle(
+                          color: HexColor('#979797'),
+                          fontSize: width(0.025, context)
+                      ),
+                    ),
+                    Text(
+                      '${translate('next', context)}: ${translate('documents', context)}',
+                      style: TextStyle(
+                          color: HexColor('#979797'),
+                          fontSize: width(0.032, context)
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: height(0.02, context),),
+            Text(
+              translate('injuryType', context),
+              style: TextStyle(
+                  color: HexColor('#363636'),
+                  fontSize: width(0.032, context)
               ),
-            ],
-          ),
-          SizedBox(height: height(0.02, context),),
-          Text(
-            translate('injuryType', context),
-            style: TextStyle(
-                color: HexColor('#363636'),
-                fontSize: width(0.032, context)
             ),
-          ),
-          SizedBox(height: height(0.015, context),),
-          RadioGroup<String>.builder(
-            activeColor: HexColor('#2D452E'),
-            direction: Axis.horizontal,
-            horizontalAlignment: MainAxisAlignment.start,
-            groupValue: servicesProvider.selectedInjuredType,
-            spacebetween: 30,
-            onChanged: (value){
-              servicesProvider.selectedInjuredType = value;
-              servicesProvider.notifyMe();
-            },
-            items: const ['occupationalDisease', 'workInjury'],
-            itemBuilder: (item) => RadioButtonBuilder(
-              translate(item, context),
+            SizedBox(height: height(0.015, context),),
+            RadioGroup<String>.builder(
+              activeColor: HexColor('#2D452E'),
+              direction: Axis.horizontal,
+              horizontalAlignment: MainAxisAlignment.start,
+              groupValue: servicesProvider.selectedInjuredType,
+              spacebetween: 30,
+              onChanged: (value){
+                servicesProvider.selectedInjuredType = value;
+                servicesProvider.notifyMe();
+              },
+              items: const ['occupationalDisease', 'workInjury'],
+              itemBuilder: (item) => RadioButtonBuilder(
+                translate(item, context),
+              ),
+            ),          SizedBox(height: height(0.015, context),),
+            Text(
+              translate('accidentsDateAndTime', context),
+              style: TextStyle(
+                  color: HexColor('#363636'),
+                  fontSize: width(0.032, context)
+              ),
             ),
-          ),          SizedBox(height: height(0.015, context),),
-          Text(
-            translate('accidentsDateAndTime', context),
-            style: TextStyle(
-                color: HexColor('#363636'),
-                fontSize: width(0.032, context)
-            ),
-          ),
-          SizedBox(height: height(0.015, context),),
-          buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
-        ],
+            SizedBox(height: height(0.015, context),),
+            buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-Widget thirdStep(context, themeNotifier, ServicesProvider servicesProvider){
-  return SingleChildScrollView(
-    child: Container(
-      alignment: Alignment.center,
-      height: height(0.78, context),
-      child: Text(translate('thirdStep', context)),
-    ),
-  );
-}
+  Widget thirdStep(context, themeNotifier){
+    return SingleChildScrollView(
+      child: Container(
+        alignment: Alignment.center,
+        height: height(0.78, context),
+        child: Text(translate('thirdStep', context)),
+      ),
+    );
+  }
 
-Widget forthStep(context, themeNotifier, ServicesProvider servicesProvider){
-  return SingleChildScrollView(
-    child: Container(
-      alignment: Alignment.center,
-      height: height(0.78, context),
-      child: Text(translate('forthStep', context)),
-    ),
-  );
+  Widget forthStep(context, themeNotifier){
+    return SingleChildScrollView(
+      child: Container(
+        alignment: Alignment.center,
+        height: height(0.78, context),
+        child: Text(translate('forthStep', context)),
+      ),
+    );
+  }
+
 }
