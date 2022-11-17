@@ -14,7 +14,8 @@ import '../../../viewModel/services/servicesProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class FirstStepScreen extends StatefulWidget {
-  const FirstStepScreen({Key key}) : super(key: key);
+  final String nextStep;
+  const FirstStepScreen({Key key, this.nextStep}) : super(key: key);
 
   @override
   State<FirstStepScreen> createState() => _FirstStepScreenState();
@@ -129,7 +130,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                                   ),
                                 ),
                                 Text(
-                                  '${translate('next', context)}: ${translate('orderDetails', context)}',
+                                  '${translate('next', context)}: ${translate(widget.nextStep, context)}',
                                   style: TextStyle(
                                       color: HexColor('#979797'),
                                       fontSize: width(0.032, context)
