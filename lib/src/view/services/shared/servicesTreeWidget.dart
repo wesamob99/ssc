@@ -55,7 +55,7 @@ class _ServicesTreeWidgetState extends State<ServicesTreeWidget> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: HexColor('#2D452E'),
-                        fontSize: width(isTablet(context) ? 0.03 : 0.035, context)
+                        fontSize: width((isTablet(context) || supTitles[index1].length > 20) ? 0.03 : 0.035, context)
                     ),
                   ),
                 ),
