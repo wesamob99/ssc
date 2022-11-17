@@ -201,5 +201,7 @@
   "emptyListDesc": "Your quick access list is empty, press edit to add items.",
   "membershipRequest": "Membership request",
   "continuityOfCoverage": "Continuity of coverage application",
-  "excessPaymentRequest": "Excess payment request"
+  "excessPaymentRequest": "Excess payment request",
+  "payCalculation": "Pay calculation"
+
 }
