@@ -4,16 +4,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:ssc/src/view/services/shared/firstStepScreen.dart';
 import 'package:ssc/src/viewModel/services/servicesProvider.dart';
 import 'package:ssc/utilities/util.dart';
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 import '../../../../../infrastructure/userConfig.dart';
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/theme/themes.dart';
 import '../../../../viewModel/utilities/theme/themeProvider.dart';
+import '../../shared/slidingUpPanelWidget.dart';
 
 class MembershipRequestScreen extends StatefulWidget {
   const MembershipRequestScreen({Key key}) : super(key: key);
@@ -25,7 +24,6 @@ class MembershipRequestScreen extends StatefulWidget {
 class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   ServicesProvider servicesProvider;
   int selectedCalculateAccordingTo = 1;
-  bool showPanel = false;
   double currentSliderValue = 200;
   TextEditingController confirmMonthlyController = TextEditingController();
   TextEditingController confirmSalaryController = TextEditingController();
@@ -34,7 +32,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
-    showPanel = false;
+    servicesProvider.showPanel = false;
     servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
     servicesProvider.readCountriesJson();
     super.initState();
@@ -51,7 +49,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
             onTap: (){
-              if(!showPanel) {
+              if(!servicesProvider.showPanel) {
                 switch(servicesProvider.stepNumber){
                   case 1: Navigator.of(context).pop(); break;
                   case 2: servicesProvider.stepNumber = 1; break;
@@ -107,9 +105,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               confirmSalaryController.text = '1200';
                             } break;
                             case 3: {
-                              setState(() {
-                                showPanel = true;
-                              });
+                              servicesProvider.showPanel = true;
                             } break; /// TODO: finish service
                           }
                           servicesProvider.notifyMe();
@@ -129,26 +125,8 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               ),
             ),
           ),
-          if(showPanel)
-          SlidingUpPanel(
-            maxHeight: height(0.53, context),
-            minHeight: height(0.53, context),
-            parallaxEnabled: true,
-            parallaxOffset: .5,
-            color: HexColor('#FFFFFF'),
-            defaultPanelState: PanelState.CLOSED,
-            body: BackdropFilter(
-              filter: ui.ImageFilter.blur(sigmaX: .8, sigmaY: .8),
-              child: Container(
-                color: const Color.fromRGBO(48, 48, 48, 0.51),
-              ),
-            ),
-            panelBuilder: (sc) => _panel(sc, themeNotifier),
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(25.0),
-              topRight: Radius.circular(25.0),
-            ),
-          ),
+          if(servicesProvider.showPanel)
+          const SlidingUpPanelWidget()
         ],
       ),
     );
@@ -557,124 +535,4 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
       ),
     );
   }
-
-  Widget _panel(ScrollController sc, themeNotifier) {
-    return MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          child: ListView(
-            controller: sc,
-            children: <Widget>[
-              const SizedBox(
-                height: 12.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    width: 40,
-                    height: 5,
-                    decoration: BoxDecoration(
-                        color: HexColor('#000000'),
-                        borderRadius: const BorderRadius.all(Radius.circular(25.0))),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 18.0,
-              ),
-              Text(
-                translate('serviceEvaluation', context),
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20.0,
-                ),
-              ),
-              const SizedBox(
-                height: 18.0,
-              ),
-              Text(
-                translate('howEasyToApply', context),
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16.0,
-                ),
-              ),
-              const SizedBox(
-                height: 12.0,
-              ),
-              Text(
-                translate('howEasyToApplyDesc', context),
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 12.0,
-                  color: HexColor('#979797')
-                ),
-              ),
-              const SizedBox(
-                height: 12.0,
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                width: width(1, context),
-                height: height(0.1, context),
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 5,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index){
-                    return Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: HexColor('#2D452E'),
-                          child: Text(
-                            '${index + 1}',
-                            style: const TextStyle(
-                              color: Colors.white
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10.0)
-                      ],
-                    );
-                  }
-                ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                translate('shareYourOpinion', context),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                ),
-              ),
-              const SizedBox(
-                height: 12.0,
-              ),
-              buildTextFormField(context, themeNotifier, TextEditingController(), '', (value){}, minLines: 5),
-              const SizedBox(
-                height: 25.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: textButton(context, themeNotifier, 'done', MaterialStateProperty.all<Color>(
-                    primaryColor
-                ), Colors.white, (){
-                  setState(() {
-                    showPanel = false;
-                  });
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                }),
-              )
-            ],
-          ),
-        )
-    );
-  }
-
 }
