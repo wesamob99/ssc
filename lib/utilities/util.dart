@@ -470,7 +470,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
             ),
             fontSize:  isTablet(context) ? 19 : 14,
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: isTablet(context) ? 20 : 0,),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: isTablet(context) ? 20 : minLines != 1 ? 5 : 0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
