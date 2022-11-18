@@ -19,7 +19,7 @@ class SlidingUpPanelWidget extends StatefulWidget {
 
 class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget> {
 
-  int selectedRate = 1;
+  int selectedRate = 5;
 
   Widget _panel(BuildContext context, ScrollController sc, themeNotifier) {
     return MediaQuery.removePadding(
