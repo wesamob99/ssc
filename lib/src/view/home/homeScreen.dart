@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
         element.isSelected = true;
       }
-      homeProvider.isQuickAccessListEmpty = true;
+      homeProvider.isQuickAccessListEmpty = false;
       UserConfig.instance.setQuickAccessItems(items);
     }else{
       homeProvider.isQuickAccessListEmpty = true;
