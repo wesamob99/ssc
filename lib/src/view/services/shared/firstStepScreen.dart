@@ -206,7 +206,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                                 ).showModal(context);
                               },
                               child: Container(
-                                width: width(isTablet(context) ? 0.14 : 0.21, context),
+                                width: width(isTablet(context) ? 0.14 : 0.23, context),
                                 alignment: Alignment.center,
                                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 9.3),
                                 decoration: BoxDecoration(
