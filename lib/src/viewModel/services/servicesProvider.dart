@@ -14,6 +14,7 @@ class ServicesProvider extends ChangeNotifier {
   UserProfileData userProfileData = UserProfileData();
 
   TextEditingController monthlyInstallmentController = TextEditingController();
+  bool showPanel = false;
 
   /// workInjuryComplaint
   int stepNumber = 1;
