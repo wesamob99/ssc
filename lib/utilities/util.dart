@@ -367,7 +367,7 @@ animatedLoader(context){
   );
 }
 
-SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPressed){
+SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPressed, {double verticalPadding  = 16.0}){
   return SizedBox(
     width: width(0.7, context),
     child: TextButton(
@@ -377,7 +377,7 @@ SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPres
           foregroundColor: MaterialStateProperty.all<Color>(
               Colors.white
           ),
-          padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 16.0)),
+          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: verticalPadding)),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),

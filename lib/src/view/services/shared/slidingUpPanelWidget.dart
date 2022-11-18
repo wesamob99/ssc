@@ -19,6 +19,7 @@ class SlidingUpPanelWidget extends StatefulWidget {
 
 class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget> {
 
+  int selectedRate = 1;
 
   Widget _panel(BuildContext context, ScrollController sc, themeNotifier) {
     return MediaQuery.removePadding(
@@ -30,14 +31,14 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget> {
             controller: sc,
             children: <Widget>[
               const SizedBox(
-                height: 12.0,
+                height: 15.0,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 40,
-                    height: 5,
+                    width: 45,
+                    height: 6,
                     decoration: BoxDecoration(
                         color: HexColor('#000000'),
                         borderRadius: const BorderRadius.all(Radius.circular(25.0))),
@@ -45,7 +46,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget> {
                 ],
               ),
               const SizedBox(
-                height: 18.0,
+                height: 15.0,
               ),
               Text(
                 translate('serviceEvaluation', context),
@@ -55,7 +56,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget> {
                 ),
               ),
               const SizedBox(
-                height: 18.0,
+                height: 20.0,
               ),
               Text(
                 translate('howEasyToApply', context),
@@ -79,8 +80,8 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget> {
                 height: 12.0,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                width: width(1, context),
+                alignment: Alignment.center,
+                 width: width(1, context),
                 height: height(0.1, context),
                 child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
@@ -88,18 +89,32 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index){
                       return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircleAvatar(
-                            radius: 30,
-                            backgroundColor: HexColor('#2D452E'),
-                            child: Text(
-                              '${index + 1}',
-                              style: const TextStyle(
-                                  color: Colors.white
+                          InkWell(
+                            onTap: (){
+                              setState((){
+                                selectedRate = index + 1;
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              width: width(0.13, context),
+                              height: width(0.13, context),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: selectedRate == index + 1 ? HexColor('#2D452E') : HexColor('#A6A6A6'),
+                                borderRadius: BorderRadius.circular(50.0)
+                              ),
+                              child: Text(
+                                '${index + 1}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
-                          const SizedBox(width: 10.0)
+                          SizedBox(width: width(0.02, context))
                         ],
                       );
                     }
@@ -122,7 +137,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget> {
                 height: 25.0,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: textButton(context, themeNotifier, 'done', MaterialStateProperty.all<Color>(
                     primaryColor
                 ), Colors.white, (){
@@ -130,7 +145,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget> {
                   Provider.of<ServicesProvider>(context, listen: false).notifyMe();
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
-                }),
+                }, verticalPadding: 22),
               )
             ],
           ),
@@ -144,8 +159,8 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget> {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
 
     return SlidingUpPanel(
-      maxHeight: height(0.53, context),
-      minHeight: height(0.53, context),
+      maxHeight: height(0.6, context),
+      minHeight: height(0.6, context),
       parallaxEnabled: true,
       parallaxOffset: .5,
       color: HexColor('#FFFFFF'),
