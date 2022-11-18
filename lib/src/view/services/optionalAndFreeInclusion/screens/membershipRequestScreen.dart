@@ -270,6 +270,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             ),
             SizedBox(height: height(0.015, context),),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Flexible(
                   flex: 5,
