@@ -59,10 +59,11 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
-  Future resetPasswordSendMobileOTP(String userId) async{
-    final response = await loginRepository.resetPasswordSendMobileOTPService(userId);
-    return response;
-  }
+  // deleted
+  // Future resetPasswordSendMobileOTP(String userId) async{
+  //   final response = await loginRepository.resetPasswordSendMobileOTPService(userId);
+  //   return response;
+  // }
 
   Future resetPasswordCheckMobileOTP(String userId, int otp) async{
     final response = await loginRepository.resetPasswordCheckMobileOTPService(userId, otp);
@@ -120,8 +121,8 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
-  Future sendRegisterEmailOTP(String email) async{
-    final response = await loginRepository.sendRegisterEmailOTPService(email);
+  Future sendRegisterEmailOTP(String email, int firstTime) async{
+    final response = await loginRepository.sendRegisterEmailOTPService(email, firstTime);
     return response;
   }
 

@@ -232,7 +232,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                           loginProvider.notifyMe();
                           String errorMessage = "";
                           try{
-                            await loginProvider.sendRegisterEmailOTP(loginProvider.emailController.text).whenComplete((){})
+                            await loginProvider.sendRegisterEmailOTP(loginProvider.emailController.text, 0).whenComplete((){})
                                 .then((val) async {
                               if(val['PO_status'] == 0){
                                 errorMessage = UserConfig.instance.checkLanguage()
