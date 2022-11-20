@@ -57,7 +57,8 @@ class _MainScreenState extends State<MainScreen> {
       });
     });
 
-    showLoginSuggestion(themeNotifier, supportState);
+    // TODO: *** Login Suggestion ***
+    // showLoginSuggestion(themeNotifier, supportState);
     super.initState();
   }
 
