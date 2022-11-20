@@ -13,10 +13,10 @@ class LoginRepository{
 
   Future<UserData> loginService(String userId, String password) async {
     dynamic data;
-    await getEncryptedPasswordService(password).then((value) {
+    await getEncryptedPasswordService(password).then((hashedPassword) {
       data = jsonEncode({
         "userId": userId,
-        "password": value,
+        "password": hashedPassword,
         "isWebsite": false
       });
     });
@@ -86,26 +86,29 @@ class LoginRepository{
   //   return '';
   // }
 
-  // deleted
-  // Future resetPasswordCheckMobileOTPService(String userId, int otp) async {
-  //   var response = await HTTPClientContract.instance.postHTTP(
-  //       '/users/resetPasswordCheckOtp',
-  //     {
-  //       "userId": userId,
-  //       "otpCode": otp,
-  //       "token": "",
-  //       "password": "",
-  //       "reRegisterPass": false
-  //     }
-  //   );
-  //   if (kDebugMode) {
-  //     print(response);
-  //   }
-  //   if (response != null && response.statusCode == 200) {
-  //     return jsonDecode(response.data);
-  //   }
-  //   return '';
-  // }
+  Future resetPasswordService(String userId, String password) async {
+    dynamic data;
+    await getEncryptedPasswordService(password).then((hashedPassword) {
+      data = jsonEncode({
+        "userId": userId,
+        "token": "",
+        "password": hashedPassword,
+        "reRegisterPass": false,
+        "mobile": true
+      });
+    });
+
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/users/resetPasswordCheckOtp', data
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
 
   // deleted
   // Future resetPasswordSendEmailCodeService(String userId) async {

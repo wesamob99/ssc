@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../infrastructure/userConfig.dart';
+import '../../../../infrastructure/userSecuredStorage.dart';
 import '../../../../utilities/constants.dart';
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/theme/themes.dart';
@@ -48,6 +49,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
     GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
+    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -238,14 +240,14 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                     ? HexColor('#DADADA')
                                     : getPrimaryColor(context, themeNotifier)),
                                 Provider.of<LoginProvider>(context).resetContinueEnabled
-                                    ? HexColor('#ffffff') : HexColor('#363636'), (){
+                                    ? HexColor('#ffffff') : HexColor('#363636'), () async {
                                   if(loginProvider.resetContinueEnabled){
-                                    /// TODO: call resetPassword API
-                                    /// TODO: add animated loader and control isLoading
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                            (route) => false
-                                    );
+                                    await loginProvider.resetPassword(userSecuredStorage.nationalId.toString(), loginProvider.resetPasswordController.text).whenComplete((){}).then((value){
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                              (route) => false
+                                      );
+                                    });
                                   }
                                 }),
                           ],

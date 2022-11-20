@@ -65,11 +65,10 @@ class LoginProvider extends ChangeNotifier {
   //   return response;
   // }
 
-  // deleted
-  // Future resetPasswordCheckMobileOTP(String userId, int otp) async{
-  //   final response = await loginRepository.resetPasswordCheckMobileOTPService(userId, otp);
-  //   return response;
-  // }
+  Future resetPassword(String userId, String password) async{
+    final response = await loginRepository.resetPasswordService(userId, password);
+    return response;
+  }
 
   // deleted
   // Future resetPasswordSendEmailCode(String userId) async{
