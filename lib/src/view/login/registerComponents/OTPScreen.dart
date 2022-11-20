@@ -193,7 +193,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                           if(widget.type == 'phone') {
                                             await loginProvider.checkRegisterMobileOTP(
                                               int.parse(widget.contactTarget),
-                                              "00962", int.parse(pinController.text))
+                                              "00962", int.parse(pinController.text), 0)
                                               .then((value){
                                             if(value["PO_status_code"] == 0){
                                               errorMessage = UserConfig.instance.checkLanguage()
@@ -208,7 +208,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                           } else{
                                             await loginProvider.checkRegisterEmailOTP(
                                                 widget.contactTarget,
-                                                int.parse(pinController.text))
+                                                int.parse(pinController.text), widget.type == "emailFromReset" ? 1 : 0)
                                                 .then((value){
                                               if(value["PO_status_code"] == 0){
                                                 errorMessage = UserConfig.instance.checkLanguage()

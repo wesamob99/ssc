@@ -197,7 +197,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                                         ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
 
                                     Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(builder: (context) => OTPScreen(contactTarget: emailController.text, type: 'email',)),
+                                      MaterialPageRoute(builder: (context) => OTPScreen(contactTarget: emailController.text, type: 'emailFromReset',)),
                                           (route) => false
                                     );
                                   }else{
@@ -234,20 +234,20 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                           loginProvider.isLoading = true;
                           loginProvider.notifyMe();
                           try{
-                          await loginProvider.resetPasswordCheckMobileOTP(
-                              userSecuredStorage.nationalId,
-                              int.parse(pinController.text))
-                              .then((value){
-                            if(value["PO_STATUS"] == 0){
-                              errorMessage = UserConfig.instance.checkLanguage()
-                                  ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
-                              showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
-                            }else{
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => const ResetPasswordBody())
-                              );
-                            }
-                          });
+                            await loginProvider.checkRegisterMobileOTP(
+                                int.parse(userSecuredStorage.realMobileNumber),
+                                userSecuredStorage.internationalCode.toString(), int.parse(pinController.text), 1)
+                                .then((value){
+                              if(value["PO_status_code"] == 0){
+                                errorMessage = UserConfig.instance.checkLanguage()
+                                    ? "${value["PO_status_desc_en"]}" : "${value["PO_status_desc_ar"]}";
+                                showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
+                              }else{
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => const ResetPasswordBody())
+                                );
+                              }
+                            });
                           loginProvider.isLoading = false;
                           loginProvider.notifyMe();
                           }catch(e){

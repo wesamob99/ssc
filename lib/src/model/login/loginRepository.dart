@@ -86,25 +86,26 @@ class LoginRepository{
   //   return '';
   // }
 
-  Future resetPasswordCheckMobileOTPService(String userId, int otp) async {
-    var response = await HTTPClientContract.instance.postHTTP(
-        '/users/resetPasswordCheckOtp',
-      {
-        "userId": userId,
-        "otpCode": otp,
-        "token": "",
-        "password": "",
-        "reRegisterPass": false
-      }
-    );
-    if (kDebugMode) {
-      print(response);
-    }
-    if (response != null && response.statusCode == 200) {
-      return jsonDecode(response.data);
-    }
-    return '';
-  }
+  // deleted
+  // Future resetPasswordCheckMobileOTPService(String userId, int otp) async {
+  //   var response = await HTTPClientContract.instance.postHTTP(
+  //       '/users/resetPasswordCheckOtp',
+  //     {
+  //       "userId": userId,
+  //       "otpCode": otp,
+  //       "token": "",
+  //       "password": "",
+  //       "reRegisterPass": false
+  //     }
+  //   );
+  //   if (kDebugMode) {
+  //     print(response);
+  //   }
+  //   if (response != null && response.statusCode == 200) {
+  //     return jsonDecode(response.data);
+  //   }
+  //   return '';
+  // }
 
   // deleted
   // Future resetPasswordSendEmailCodeService(String userId) async {
@@ -187,13 +188,14 @@ class LoginRepository{
     return '';
   }
 
-  Future checkRegisterMobileOTPService(int phoneNumber, String countryCode, int code) async {
+  Future checkRegisterMobileOTPService(int phoneNumber, String countryCode, int code, int firstTime) async {
     var response = await HTTPClientContract.instance.postHTTP(
         '/mobile/mobile-code-verify',
         {
           "phoneNumber": phoneNumber, //number // mobile number (9 digits) : 781******
           "countryCode": countryCode, // string // country code : 00962
           "code": code, // number // OTP code
+          "reset": firstTime // number // 0 -> first time, 1-> reset
         }
     );
     if (kDebugMode) {
@@ -222,12 +224,13 @@ class LoginRepository{
     return '';
   }
 
-  Future checkRegisterEmailOTPService(String email, int code) async {
+  Future checkRegisterEmailOTPService(String email, int code, int firstTime) async {
     var response = await HTTPClientContract.instance.postHTTP(
         '/mobile/email-code-verify',
         {
           "email": email,// string // user email
-          "code": code// number // OTP code
+          "code": code, // number // OTP code
+          "reset": firstTime// number // 0 -> first time, 1-> reset
         }
     );
     if (kDebugMode) {

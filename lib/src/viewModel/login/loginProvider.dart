@@ -65,10 +65,11 @@ class LoginProvider extends ChangeNotifier {
   //   return response;
   // }
 
-  Future resetPasswordCheckMobileOTP(String userId, int otp) async{
-    final response = await loginRepository.resetPasswordCheckMobileOTPService(userId, otp);
-    return response;
-  }
+  // deleted
+  // Future resetPasswordCheckMobileOTP(String userId, int otp) async{
+  //   final response = await loginRepository.resetPasswordCheckMobileOTPService(userId, otp);
+  //   return response;
+  // }
 
   // deleted
   // Future resetPasswordSendEmailCode(String userId) async{
@@ -117,8 +118,8 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
-  Future checkRegisterMobileOTP(int phoneNumber, String countryCode, int code) async{
-    final response = await loginRepository.checkRegisterMobileOTPService(phoneNumber, countryCode, code);
+  Future checkRegisterMobileOTP(int phoneNumber, String countryCode, int code, int firstTime) async{
+    final response = await loginRepository.checkRegisterMobileOTPService(phoneNumber, countryCode, code, firstTime);
     return response;
   }
 
@@ -127,8 +128,8 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
-  Future checkRegisterEmailOTP(String email, int code) async{
-    final response = await loginRepository.checkRegisterEmailOTPService(email, code);
+  Future checkRegisterEmailOTP(String email, int code, int firstTime) async{
+    final response = await loginRepository.checkRegisterEmailOTPService(email, code, firstTime);
     return response;
   }
 
