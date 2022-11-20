@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:provider/provider.dart';
@@ -94,9 +95,12 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                         case 1: servicesProvider.stepNumber = 2; break;
                         case 2: servicesProvider.stepNumber = 3; break;
                         case 3: servicesProvider.stepNumber = 4; break;
-                        case 4: if (kDebugMode) {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
+                        case 4: {
+                          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                            servicesProvider.selectedServiceRate = -1;
+                            servicesProvider.notifyMe();
+                            rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                          });
                         } break; /// TODO: finish service
                       }
                       servicesProvider.notifyMe();
