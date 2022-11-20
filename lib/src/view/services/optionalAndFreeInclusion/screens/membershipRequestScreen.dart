@@ -134,7 +134,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   Widget secondStep(context, themeNotifier){
     return SingleChildScrollView(
       child: SizedBox(
-        height: height(0.78, context),
+        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -375,7 +375,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   Widget thirdStep(context, themeNotifier){
     return SingleChildScrollView(
       child: SizedBox(
-        height: height(0.78, context),
+        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

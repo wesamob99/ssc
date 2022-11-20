@@ -126,7 +126,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
   Widget secondStep(context, themeNotifier){
     return SingleChildScrollView(
       child: SizedBox(
-        height: height(0.78, context),
+        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -197,11 +197,15 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                 servicesProvider.selectedInjuredType = value;
                 servicesProvider.notifyMe();
               },
+              textStyle: TextStyle(
+                fontSize: isTablet(context) ? 20 : 15
+              ),
               items: const ['occupationalDisease', 'workInjury'],
               itemBuilder: (item) => RadioButtonBuilder(
                 translate(item, context),
               ),
-            ),          SizedBox(height: height(0.015, context),),
+            ),
+            SizedBox(height: height(0.015, context),),
             Text(
               translate('accidentsDateAndTime', context),
               style: TextStyle(
@@ -221,7 +225,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
     return SingleChildScrollView(
       child: Container(
         alignment: Alignment.center,
-        height: height(0.78, context),
+        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
         child: Text(translate('thirdStep', context)),
       ),
     );
@@ -231,7 +235,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
     return SingleChildScrollView(
       child: Container(
         alignment: Alignment.center,
-        height: height(0.78, context),
+        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
         child: Text(translate('forthStep', context)),
       ),
     );

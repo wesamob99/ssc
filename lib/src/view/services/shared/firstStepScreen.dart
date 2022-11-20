@@ -41,7 +41,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     return SingleChildScrollView(
       child: SizedBox(
-        height: height(0.78, context),
+        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
         child: FutureBuilder(
             future: accountDataFuture,
             builder: (context, snapshot){
@@ -208,7 +208,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                               child: Container(
                                 width: width(isTablet(context) ? 0.14 : 0.23, context),
                                 alignment: Alignment.center,
-                                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 9.3),
+                                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: isTablet(context) ? 15 : 9.3),
                                 decoration: BoxDecoration(
                                     color: Colors.transparent,
                                     borderRadius: BorderRadius.circular(8.0),
@@ -224,14 +224,14 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                                       textDirection: TextDirection.ltr,
                                       style: TextStyle(
                                           color: HexColor('#363636'),
-                                          fontSize: 15
+                                          fontSize: isTablet(context) ? 18 : 15
                                       ),
                                     ),
                                     Text(
                                       selectedCountry.flag,
                                       style: TextStyle(
                                           color: HexColor('#363636'),
-                                          fontSize: 25
+                                          fontSize: isTablet(context) ? 28 : 25
                                       ),
                                     ),
                                   ],
