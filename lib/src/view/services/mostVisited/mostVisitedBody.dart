@@ -110,6 +110,7 @@ class _MostVisitedBodyState extends State<MostVisitedBody> {
                     ) : const SizedBox.shrink();
                   },
                 ),
+                SizedBox(height: isTablet(context) ? 15 : 5,)
               ],
             );
           }

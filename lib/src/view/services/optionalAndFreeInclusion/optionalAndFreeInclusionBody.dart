@@ -110,6 +110,7 @@ class _OptionalAndFreeInclusionBodyState extends State<OptionalAndFreeInclusionB
                     ) : const SizedBox.shrink();
                   },
                 ),
+                SizedBox(height: isTablet(context) ? 15 : 5,)
               ],
             );
           }

@@ -110,7 +110,7 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                     ) : const SizedBox.shrink();
                   },
                 ),
-                SizedBox(height: isTablet(context) ? 25 : 5,)
+                SizedBox(height: isTablet(context) ? 15 : 5,)
               ],
             );
           }
