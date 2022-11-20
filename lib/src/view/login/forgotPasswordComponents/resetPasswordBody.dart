@@ -266,7 +266,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
 
   passwordValidator(value, loginProvider){
     loginProvider.notifyMe();
-    if(loginProvider.resetPasswordController.text.length >= 8){ // At least 8 character
+    if(loginProvider.resetPasswordController.text.length >= 8){ //At least 8 character
       setState(() {
         validatorsCheck[0] = true;
       });
@@ -314,7 +314,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
     if(loginProvider.resetPasswordController.text ==
         loginProvider.resetConfirmPasswordController.text &&
         loginProvider.resetPasswordController.text.isNotEmpty &&
-        loginProvider.resetConfirmPasswordController.text.isNotEmpty){  // Password is the same as the confirm password
+        loginProvider.resetConfirmPasswordController.text.isNotEmpty){  //Password is the same as the confirm password
       setState(() {
         validatorsCheck[5] = true;
       });
