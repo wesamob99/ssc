@@ -316,10 +316,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
         Container(
-          margin: EdgeInsets.only(bottom: height(0.01, context)),
-          padding: EdgeInsets.all(height(0.004, context)),
+          margin: EdgeInsets.only(bottom: height(0.04, context)),
+          padding: EdgeInsets.all(height(0.01, context)),
           decoration: BoxDecoration(
-            color: getPrimaryColor(context, themeNotifier).withOpacity(0.2),
+            color: getPrimaryColor(context, themeNotifier),
             borderRadius: BorderRadius.circular(500)
           ),
           width: width(0.5, context),
@@ -360,7 +360,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Text(
                   translate('logout', context),
                   style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: width(0.032, context)
                   ),
