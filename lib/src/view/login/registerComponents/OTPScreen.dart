@@ -189,6 +189,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                         loginProvider.isLoading = true;
                                         loginProvider.notifyMe();
                                         try{
+                                          /// TODO: update [checkRegisterEmailOTP] && [checkRegisterMobileOTP]
                                           if(widget.type == 'phone') {
                                             await loginProvider.checkRegisterMobileOTP(
                                               int.parse(widget.contactTarget),
