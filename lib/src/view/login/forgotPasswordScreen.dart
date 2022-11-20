@@ -250,7 +250,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   userSecuredStorage.realMobileNumber = resetPasswordGetDetail.poRealMobileno.toString() ?? ''; // realMobileNumber -> user real mobile number
                   userSecuredStorage.nationalId =  loginProvider.nationalIdController.text ?? ''; // poUserName -> user national ID
                   userSecuredStorage.internationalCode =  resetPasswordGetDetail.poInternationalcode ?? ''; // poInternationalcode -> country code
-                  response = await loginProvider.sendMobileOTP(int.parse(userSecuredStorage.realMobileNumber), "00962", 1);
+                  response = await loginProvider.sendMobileOTP(int.parse(userSecuredStorage.realMobileNumber), userSecuredStorage.internationalCode.toString(), 1);
                 }
                 if(resetPasswordGetDetail.poStatus == 1 && response != null && response["PO_status"] != null && response["PO_status"] == 1){
                   setState((){
