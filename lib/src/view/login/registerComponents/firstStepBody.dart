@@ -208,7 +208,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                         loginProvider.notifyMe();
                         String errorMessage = "";
                         try{
-                          await loginProvider.sendRegisterMobileOTP(int.parse(loginProvider.jordanianMobileNumberController.text), "00962").whenComplete((){})
+                          await loginProvider.sendRegisterMobileOTP(int.parse(loginProvider.jordanianMobileNumberController.text), "00962", 0).whenComplete((){})
                               .then((val) async {
                             if(val["PO_STATUS_DESC_AR"] != null && val['PO_status'] != 1){
                               errorMessage = UserConfig.instance.checkLanguage()
