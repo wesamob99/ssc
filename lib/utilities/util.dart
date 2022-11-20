@@ -789,7 +789,6 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
                         Provider.of<ServicesProvider>(context).selectedServiceRate != -1 ? primaryColor : HexColor('#DADADA')
                     ), Provider.of<ServicesProvider>(context).selectedServiceRate != -1 ?  Colors.white : HexColor('#363636'), (){
                       if(servicesProvider.selectedServiceRate != -1){
-                        servicesProvider.showPanel = false;
                         servicesProvider.notifyMe();
                         while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
                           Navigator.pop(context);

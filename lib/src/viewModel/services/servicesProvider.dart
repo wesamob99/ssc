@@ -15,7 +15,6 @@ class ServicesProvider extends ChangeNotifier {
   int selectedServiceRate = -1;
 
   TextEditingController monthlyInstallmentController = TextEditingController();
-  bool showPanel = false;
 
   /// workInjuryComplaint
   int stepNumber = 1;

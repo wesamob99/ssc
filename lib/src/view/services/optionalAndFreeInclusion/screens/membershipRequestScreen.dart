@@ -31,7 +31,6 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
-    servicesProvider.showPanel = false;
     servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
     servicesProvider.readCountriesJson();
     super.initState();
@@ -41,14 +40,6 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
 
-    if(servicesProvider.showPanel) {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        servicesProvider.selectedServiceRate = -1;
-        servicesProvider.notifyMe();
-        rateServiceBottomSheet(context, themeNotifier, servicesProvider);
-    });
-      servicesProvider.showPanel = false;
-    }
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -57,12 +48,10 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
             onTap: (){
-              if(!servicesProvider.showPanel) {
-                switch(servicesProvider.stepNumber){
-                  case 1: Navigator.of(context).pop(); break;
-                  case 2: servicesProvider.stepNumber = 1; break;
-                  case 3: servicesProvider.stepNumber = 2; break;
-                }
+              switch(servicesProvider.stepNumber){
+                case 1: Navigator.of(context).pop(); break;
+                case 2: servicesProvider.stepNumber = 1; break;
+                case 3: servicesProvider.stepNumber = 2; break;
               }
               servicesProvider.notifyMe();
             },
@@ -113,7 +102,11 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               confirmSalaryController.text = '1200';
                             } break;
                             case 3: {
-                              servicesProvider.showPanel = true;
+                              SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                servicesProvider.selectedServiceRate = -1;
+                                servicesProvider.notifyMe();
+                                rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                              });
                             } break; /// TODO: finish service
                           }
                           servicesProvider.notifyMe();
