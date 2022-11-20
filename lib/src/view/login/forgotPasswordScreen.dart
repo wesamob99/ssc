@@ -237,7 +237,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             try{
               // ignore: prefer_typing_uninitialized_variables
               var response;
-              await loginProvider.resetPasswordGetDetail( loginProvider.nationalIdController.text).whenComplete((){})
+              await loginProvider.resetPasswordGetDetail(loginProvider.nationalIdController.text).whenComplete((){})
                   .then((val) async {
                 ResetPasswordGetDetail resetPasswordGetDetail = val;
                 if(resetPasswordGetDetail.poStatusDescEn != null && resetPasswordGetDetail.poStatus == -1){
@@ -250,9 +250,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   userSecuredStorage.realMobileNumber = resetPasswordGetDetail.poRealMobileno.toString() ?? ''; // realMobileNumber -> user real mobile number
                   userSecuredStorage.nationalId =  loginProvider.nationalIdController.text ?? ''; // poUserName -> user national ID
                   userSecuredStorage.internationalCode =  resetPasswordGetDetail.poInternationalcode ?? ''; // poInternationalcode -> country code
-                  response = await loginProvider.resetPasswordSendMobileOTP(loginProvider.nationalIdController.text);
+                  response = await loginProvider.sendRegisterMobileOTP(int.parse(userSecuredStorage.realMobileNumber), "00962", 1);
                 }
-                if(resetPasswordGetDetail.poStatus == 1 && response != null && response["PO_STATUS"] != null && response["PO_STATUS"] == 1){
+                if(resetPasswordGetDetail.poStatus == 1 && response != null && response["PO_status"] != null && response["PO_status"] == 1){
                   setState((){
                     showResetPasswordBody = true;
                   });
