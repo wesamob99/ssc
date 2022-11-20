@@ -349,9 +349,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 Icon(
                   Icons.logout,
-                  color: themeNotifier.isLight()
-                      ? Colors.red
-                      : Colors.red,
+                  color: Colors.red,
                   size: width(0.053, context),
                 ),
                 const SizedBox(
