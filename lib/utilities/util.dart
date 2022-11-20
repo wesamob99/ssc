@@ -648,6 +648,7 @@ modalBottomSheet(context, themeNotifier, supportState, authenticate){
 
 rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider){
   return showModalBottomSheet(
+      isScrollControlled: true,
       isDismissible: false,
       enableDrag: false,
       shape: const RoundedRectangleBorder(
@@ -663,12 +664,15 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
           ),
           child: Material(
             elevation: 100,
-            borderRadius: BorderRadius.circular(25.0),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(25.0),
+              topRight: Radius.circular(25.0),
+            ),
             color: Colors.white,
             shadowColor: Colors.black,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0).copyWith(top: 15.0),
-              height: height(0.6, context),
+              height: isScreenHasSmallHeight(context) ? height(0.63, context) : height(0.58, context),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -733,6 +737,9 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
+                                customBorder: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50.0),
+                                ),
                                 onTap: (){
                                   servicesProvider.selectedServiceRate = index + 1;
                                   servicesProvider.notifyMe();
