@@ -12,6 +12,7 @@ class ServicesProvider extends ChangeNotifier {
 
   ServicesRepository servicesRepository = ServicesRepository();
   UserProfileData userProfileData = UserProfileData();
+  int selectedServiceRate = -1;
 
   TextEditingController monthlyInstallmentController = TextEditingController();
   bool showPanel = false;

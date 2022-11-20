@@ -646,7 +646,7 @@ modalBottomSheet(context, themeNotifier, supportState, authenticate){
   );
 }
 
-rateServiceBottomSheet(context, themeNotifier){
+rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider){
   return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0))
@@ -732,9 +732,8 @@ rateServiceBottomSheet(context, themeNotifier){
                             children: [
                               InkWell(
                                 onTap: (){
-                                  // setState((){
-                                  //   selectedRate = index + 1;
-                                  // });
+                                  servicesProvider.selectedServiceRate = index + 1;
+                                  servicesProvider.notifyMe();
                                 },
                                 child: AnimatedContainer(
                                   duration: const Duration(milliseconds: 200),
@@ -742,8 +741,7 @@ rateServiceBottomSheet(context, themeNotifier){
                                   height: width(0.13, context),
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    // color: selectedRate == index + 1 ? HexColor('#2D452E') : HexColor('#A6A6A6'),
-                                    color: HexColor('#A6A6A6'),
+                                    color: Provider.of<ServicesProvider>(context).selectedServiceRate == index + 1 ? HexColor('#2D452E') : HexColor('#A6A6A6'),
                                     borderRadius: BorderRadius.circular(50.0),
                                   ),
                                   child: Text(
@@ -779,12 +777,15 @@ rateServiceBottomSheet(context, themeNotifier){
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: width(0.1, context)),
                     child: textButton(context, themeNotifier, 'done', MaterialStateProperty.all<Color>(
-                        primaryColor
-                    ), Colors.white, (){
-                      Provider.of<ServicesProvider>(context, listen: false).showPanel = false;
-                      Provider.of<ServicesProvider>(context, listen: false).notifyMe();
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
+                        Provider.of<ServicesProvider>(context).selectedServiceRate != -1 ? primaryColor : HexColor('#DADADA')
+                    ), Provider.of<ServicesProvider>(context).selectedServiceRate != -1 ?  Colors.white : HexColor('#363636'), (){
+                      if(servicesProvider.selectedServiceRate != -1){
+                        servicesProvider.showPanel = false;
+                        servicesProvider.notifyMe();
+                        while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
+                          Navigator.pop(context);
+                        }
+                      }
                     }, verticalPadding: height(0.023, context)),
                   )
                 ],
