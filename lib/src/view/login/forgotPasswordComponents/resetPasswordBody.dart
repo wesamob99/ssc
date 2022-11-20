@@ -242,11 +242,18 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                 Provider.of<LoginProvider>(context).resetContinueEnabled
                                     ? HexColor('#ffffff') : HexColor('#363636'), () async {
                                   if(loginProvider.resetContinueEnabled){
+                                    String errorMessage = '';
                                     await loginProvider.resetPassword(userSecuredStorage.nationalId.toString(), loginProvider.resetPasswordController.text).whenComplete((){}).then((value){
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                              (route) => false
-                                      );
+                                      if(value["PO_STATUS"] == 1){
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                            MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                                (route) => false
+                                        );
+                                      }else{
+                                        errorMessage = UserConfig.instance.checkLanguage()
+                                            ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                                        showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                                      }
                                     });
                                   }
                                 }),
