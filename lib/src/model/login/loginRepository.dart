@@ -168,7 +168,7 @@ class LoginRepository{
     return '';
   }
 
-  Future sendRegisterMobileOTPService(int phoneNumber, String countryCode, int firstTime) async {
+  Future sendMobileOTPService(int phoneNumber, String countryCode, int firstTime) async {
     var response = await HTTPClientContract.instance.postHTTP(
         '/mobile/mobile-code',
         {
