@@ -189,7 +189,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                               try{
                                 await loginProvider.resetPasswordVerifyEmail(userSecuredStorage.nationalId, emailController.text).then((result) async {
                                   if(result["PO_status"] == 0) {
-                                    await loginProvider.resetPasswordSendEmailCode(userSecuredStorage.nationalId)
+                                    await loginProvider.sendEmailOTP(emailController.text, 1)
                                     .then((value){
                                   if(value["PO_STATUS"] == 1){
                                     errorMessage = UserConfig.instance.checkLanguage()

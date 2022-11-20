@@ -106,21 +106,22 @@ class LoginRepository{
     return '';
   }
 
-  Future resetPasswordSendEmailCodeService(String userId) async {
-    var response = await HTTPClientContract.instance.postHTTP(
-        '/users/sendResetPasswordEmail',
-        {
-          "userId": userId
-        }
-    );
-    if (kDebugMode) {
-      print(response);
-    }
-    if (response != null && response.statusCode == 200) {
-      return jsonDecode(response.data);
-    }
-    return '';
-  }
+  // deleted
+  // Future resetPasswordSendEmailCodeService(String userId) async {
+  //   var response = await HTTPClientContract.instance.postHTTP(
+  //       '/users/sendResetPasswordEmail',
+  //       {
+  //         "userId": userId
+  //       }
+  //   );
+  //   if (kDebugMode) {
+  //     print(response);
+  //   }
+  //   if (response != null && response.statusCode == 200) {
+  //     return jsonDecode(response.data);
+  //   }
+  //   return '';
+  // }
 
   Future resetPasswordVerifyEmailService(String userId, String email) async {
     var response = await HTTPClientContract.instance.postHTTP(
@@ -204,7 +205,7 @@ class LoginRepository{
     return '';
   }
 
-  Future sendRegisterEmailOTPService(String email, int firstTime) async {
+  Future sendEmailOTPService(String email, int firstTime) async {
     var response = await HTTPClientContract.instance.postHTTP(
         '/mobile/email-code',
         {

@@ -70,10 +70,11 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
-  Future resetPasswordSendEmailCode(String userId) async{
-    final response = await loginRepository.resetPasswordSendEmailCodeService(userId);
-    return response;
-  }
+  // deleted
+  // Future resetPasswordSendEmailCode(String userId) async{
+  //   final response = await loginRepository.resetPasswordSendEmailCodeService(userId);
+  //   return response;
+  // }
 
   Future resetPasswordVerifyEmail(String userId, String email) async{
     final response = await loginRepository.resetPasswordVerifyEmailService(userId, email);
@@ -121,8 +122,8 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
-  Future sendRegisterEmailOTP(String email, int firstTime) async{
-    final response = await loginRepository.sendRegisterEmailOTPService(email, firstTime);
+  Future sendEmailOTP(String email, int firstTime) async{
+    final response = await loginRepository.sendEmailOTPService(email, firstTime);
     return response;
   }
 
