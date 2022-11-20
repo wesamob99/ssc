@@ -6,6 +6,7 @@ import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/src/view/login/forgotPasswordComponents/resetPasswordBody.dart';
+import 'package:ssc/src/view/login/registerComponents/OTPScreen.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
@@ -191,16 +192,14 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                                   if(result["PO_status"] == 0) {
                                     await loginProvider.sendEmailOTP(emailController.text, 1)
                                     .then((value){
-                                  if(value["PO_STATUS"] == 1){
+                                  if(value["PO_status"] == 1){
                                     errorMessage = UserConfig.instance.checkLanguage()
                                         ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
-                                    showMyDialog(context, 'resetPassword', errorMessage, 'ok', themeNotifier, titleColor: '#445740', icon: 'assets/icons/emailSent.svg').then((value){
-                                      if (!mounted) return;
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                              (route) => false
-                                      );
-                                    });
+
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(builder: (context) => OTPScreen(contactTarget: emailController.text, type: 'email',)),
+                                          (route) => false
+                                    );
                                   }else{
                                     errorMessage = UserConfig.instance.checkLanguage()
                                         ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
