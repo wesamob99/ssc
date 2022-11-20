@@ -433,7 +433,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
     ),
     child: TextFormField(
       minLines: minLines,
-      maxLines: 5,
+      maxLines: minLines,
       controller: controller,
       keyboardType: inputType,
       obscureText: isPassword && ((Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2)) ,
@@ -648,16 +648,18 @@ modalBottomSheet(context, themeNotifier, supportState, authenticate){
 
 rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider){
   return showModalBottomSheet(
+      isDismissible: false,
+      enableDrag: false,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0))
       ),
       context: context,
-      barrierColor: Colors.white24,
+      barrierColor: Colors.black26,
       builder: (context) {
         return BackdropFilter(
           filter: ui.ImageFilter.blur(
-            sigmaX: 6.0,
-            sigmaY: 6.0,
+            sigmaX: 2.0,
+            sigmaY: 2.0,
           ),
           child: Material(
             elevation: 100,
@@ -745,7 +747,7 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
                                     borderRadius: BorderRadius.circular(50.0),
                                   ),
                                   child: Text(
-                                    '${index + 1}',
+                                    '${5 - index}',
                                     style: const TextStyle(
                                       color: Colors.white,
                                     ),

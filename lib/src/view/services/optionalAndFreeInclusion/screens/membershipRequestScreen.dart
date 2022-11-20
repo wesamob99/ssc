@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/src/view/services/shared/firstStepScreen.dart';
@@ -12,7 +12,6 @@ import '../../../../../infrastructure/userConfig.dart';
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/theme/themes.dart';
 import '../../../../viewModel/utilities/theme/themeProvider.dart';
-import '../../shared/slidingUpPanelWidget.dart';
 
 class MembershipRequestScreen extends StatefulWidget {
   const MembershipRequestScreen({Key key}) : super(key: key);
@@ -41,6 +40,15 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+
+    if(servicesProvider.showPanel) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        servicesProvider.selectedServiceRate = -1;
+        servicesProvider.notifyMe();
+        rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+    });
+      servicesProvider.showPanel = false;
+    }
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -125,8 +133,6 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               ),
             ),
           ),
-          if(servicesProvider.showPanel)
-          const SlidingUpPanelWidget()
         ],
       ),
     );
