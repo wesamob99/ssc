@@ -657,146 +657,151 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
       context: context,
       barrierColor: Colors.black26,
       builder: (context) {
-        return BackdropFilter(
-          filter: ui.ImageFilter.blur(
-            sigmaX: 2.0,
-            sigmaY: 2.0,
-          ),
-          child: Material(
-            elevation: 100,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(25.0),
-              topRight: Radius.circular(25.0),
+        return GestureDetector(
+          onTap: (){
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: BackdropFilter(
+            filter: ui.ImageFilter.blur(
+              sigmaX: 2.0,
+              sigmaY: 2.0,
             ),
-            color: Colors.white,
-            shadowColor: Colors.black,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0).copyWith(top: 15.0),
-              height: isScreenHasSmallHeight(context) ? height(0.63, context) : height(0.58, context),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 45,
-                        height: 6,
-                        decoration: BoxDecoration(
-                            color: HexColor('#000000'),
-                            borderRadius: const BorderRadius.all(Radius.circular(25.0))),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height(0.015, context),
-                  ),
-                  Text(
-                    translate('serviceEvaluation', context),
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: height(0.023, context),
+            child: Material(
+              elevation: 100,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(25.0),
+                topRight: Radius.circular(25.0),
+              ),
+              color: Colors.white,
+              shadowColor: Colors.black,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0).copyWith(top: 15.0),
+                height: isScreenHasSmallHeight(context) ? height(0.63, context) : height(0.58, context),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: 45,
+                          height: 6,
+                          decoration: BoxDecoration(
+                              color: HexColor('#000000'),
+                              borderRadius: const BorderRadius.all(Radius.circular(25.0))),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: height(0.023, context),
-                  ),
-                  Text(
-                    translate('howEasyToApply', context),
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: height(0.018, context),
+                    SizedBox(
+                      height: height(0.015, context),
                     ),
-                  ),
-                  SizedBox(
-                    height: height(0.013, context),
-                  ),
-                  Text(
-                    translate('howEasyToApplyDesc', context),
-                    style: TextStyle(
+                    Text(
+                      translate('serviceEvaluation', context),
+                      style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        fontSize: 12.0,
-                        color: HexColor('#979797')
+                        fontSize: height(0.023, context),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: height(0.02, context),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    width: width(1, context),
-                    height: width(0.14, context),
-                    margin: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 5,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index){
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                customBorder: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                ),
-                                onTap: (){
-                                  servicesProvider.selectedServiceRate = index + 1;
-                                  servicesProvider.notifyMe();
-                                },
-                                child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 200),
-                                  width: width(0.13, context),
-                                  height: width(0.13, context),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Provider.of<ServicesProvider>(context).selectedServiceRate == index + 1 ? HexColor('#2D452E') : HexColor('#A6A6A6'),
+                    SizedBox(
+                      height: height(0.023, context),
+                    ),
+                    Text(
+                      translate('howEasyToApply', context),
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: height(0.018, context),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height(0.013, context),
+                    ),
+                    Text(
+                      translate('howEasyToApplyDesc', context),
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 12.0,
+                          color: HexColor('#979797')
+                      ),
+                    ),
+                    SizedBox(
+                      height: height(0.02, context),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      width: width(1, context),
+                      height: width(0.14, context),
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: 5,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index){
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  customBorder: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(50.0),
                                   ),
-                                  child: Text(
-                                    '${5 - index}',
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                                  onTap: (){
+                                    servicesProvider.selectedServiceRate = index + 1;
+                                    servicesProvider.notifyMe();
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200),
+                                    width: width(0.13, context),
+                                    height: width(0.13, context),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Provider.of<ServicesProvider>(context).selectedServiceRate == index + 1 ? HexColor('#2D452E') : HexColor('#A6A6A6'),
+                                      borderRadius: BorderRadius.circular(50.0),
+                                    ),
+                                    child: Text(
+                                      '${5 - index}',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(width: width(0.02, context))
-                            ],
-                          );
-                        }
+                                SizedBox(width: width(0.02, context))
+                              ],
+                            );
+                          }
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: height(0.025, context),
-                  ),
-                  Text(
-                    translate('shareYourOpinion', context),
-                    style: TextStyle(
-                      fontSize: height(0.018, context),
+                    SizedBox(
+                      height: height(0.025, context),
                     ),
-                  ),
-                  SizedBox(
-                    height: height(0.012, context),
-                  ),
-                  buildTextFormField(context, themeNotifier, TextEditingController(), '', (value){}, minLines: 5),
-                  SizedBox(
-                    height: height(0.03, context),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width(0.1, context)),
-                    child: textButton(context, themeNotifier, 'done', MaterialStateProperty.all<Color>(
-                        Provider.of<ServicesProvider>(context).selectedServiceRate != -1 ? primaryColor : HexColor('#DADADA')
-                    ), Provider.of<ServicesProvider>(context).selectedServiceRate != -1 ?  Colors.white : HexColor('#363636'), (){
-                      if(servicesProvider.selectedServiceRate != -1){
-                        servicesProvider.notifyMe();
-                        while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
-                          Navigator.pop(context);
+                    Text(
+                      translate('shareYourOpinion', context),
+                      style: TextStyle(
+                        fontSize: height(0.018, context),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height(0.012, context),
+                    ),
+                    buildTextFormField(context, themeNotifier, TextEditingController(), '', (value){}, minLines: 5),
+                    SizedBox(
+                      height: height(0.03, context),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width(0.1, context)),
+                      child: textButton(context, themeNotifier, 'done', MaterialStateProperty.all<Color>(
+                          Provider.of<ServicesProvider>(context).selectedServiceRate != -1 ? primaryColor : HexColor('#DADADA')
+                      ), Provider.of<ServicesProvider>(context).selectedServiceRate != -1 ?  Colors.white : HexColor('#363636'), (){
+                        if(servicesProvider.selectedServiceRate != -1){
+                          servicesProvider.notifyMe();
+                          while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
+                            Navigator.pop(context);
+                          }
                         }
-                      }
-                    }, verticalPadding: height(0.023, context)),
-                  )
-                ],
+                      }, verticalPadding: height(0.023, context)),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
