@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -214,7 +215,41 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+            DateTimePicker(
+              decoration: InputDecoration(
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: SvgPicture.asset('assets/icons/datePickerIcon.svg'),
+                ),
+                contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: HexColor('#979797'),
+                    width: 0.5,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: HexColor('#445740'),
+                    width: 0.8,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              style: TextStyle(
+                  fontSize: 15,
+                  color: HexColor('#363636')
+              ),
+              type: DateTimePickerType.date,
+              initialDate: DateTime.now(),
+              dateMask: 'dd/MM/yyyy',
+              controller: TextEditingController(text: DateTime.now().toString()),
+              firstDate: DateTime(1900),
+              lastDate: DateTime.now(),
+              dateLabelText: 'Date',
+              onChanged: (val) {},
+            ),
           ],
         ),
       ),
