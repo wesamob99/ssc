@@ -191,7 +191,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                         loginProvider.notifyMe();
                                         try{
                                           if(widget.type == 'phone') {
-                                            await loginProvider.checkRegisterMobileOTP(
+                                            await loginProvider.checkMobileOTP(
                                               int.parse(widget.contactTarget),
                                               "00962", int.parse(pinController.text), 0)
                                               .then((value){
