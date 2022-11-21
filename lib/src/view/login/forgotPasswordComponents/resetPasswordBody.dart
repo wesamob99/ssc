@@ -19,7 +19,8 @@ import '../../splash/splashScreen.dart';
 import 'dart:math' as math;
 
 class ResetPasswordBody extends StatefulWidget {
-  const ResetPasswordBody({Key key}) : super(key: key);
+  final String otpCode;
+  const ResetPasswordBody({Key key, this.otpCode}) : super(key: key);
 
   @override
   State<ResetPasswordBody> createState() => _ResetPasswordBodyState();
@@ -247,7 +248,14 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                     loginProvider.notifyMe();
                                     String errorMessage = '';
                                     try{
-                                      await loginProvider.resetPassword(userSecuredStorage.nationalId.toString(), loginProvider.resetPasswordController.text).whenComplete((){}).then((value){
+                                      await loginProvider.resetPassword(
+                                        userSecuredStorage.nationalId.toString(),
+                                        loginProvider.resetPasswordController.text,
+                                        int.tryParse(userSecuredStorage.realMobileNumber.toString()),
+                                        userSecuredStorage.internationalCode.toString(),
+                                        int.tryParse(widget.otpCode),
+                                      )
+                                          .whenComplete((){}).then((value){
                                         if(value["PO_STATUS"] == 1){
                                           Navigator.of(context).pushAndRemoveUntil(
                                               MaterialPageRoute(builder: (context) => const SplashScreen()),
