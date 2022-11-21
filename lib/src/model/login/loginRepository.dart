@@ -86,20 +86,20 @@ class LoginRepository{
   //   return '';
   // }
 
-  Future resetPasswordService(String userId, String password) async {
+  Future resetPasswordService(String userId, String password, int mobileNumber, String countryCode, int code) async {
     dynamic data;
     await getEncryptedPasswordService(password).then((hashedPassword) {
       data = jsonEncode({
-        "userId": userId,
-        "token": "",
-        "password": hashedPassword,
-        "reRegisterPass": false,
-        "mobile": true
+        "userId": userId, // string // national number
+        "password": hashedPassword, // string // hashed password
+        "mobileNumber": mobileNumber, // number // user mobile number
+        "countryCode": countryCode, // string // user country code for mobile number
+        "code": code// number // verification code.
       });
     });
 
     var response = await HTTPClientContract.instance.postHTTP(
-        '/users/resetPasswordCheckOtp', data
+        '/mobile/reset-password', data
     );
     if (kDebugMode) {
       print(response);
