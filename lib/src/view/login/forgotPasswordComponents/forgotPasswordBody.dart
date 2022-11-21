@@ -240,7 +240,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                           loginProvider.isLoading = true;
                           loginProvider.notifyMe();
                           try{
-                            await loginProvider.checkRegisterMobileOTP(
+                            await loginProvider.checkMobileOTP(
                                 int.parse(userSecuredStorage.realMobileNumber),
                                 userSecuredStorage.internationalCode.toString(), int.parse(pinController.text), 1)
                                 .then((value){

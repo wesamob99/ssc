@@ -117,8 +117,8 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
-  Future checkRegisterMobileOTP(int phoneNumber, String countryCode, int code, int firstTime) async{
-    final response = await loginRepository.checkRegisterMobileOTPService(phoneNumber, countryCode, code, firstTime);
+  Future checkMobileOTP(int phoneNumber, String countryCode, int code, int firstTime) async{
+    final response = await loginRepository.checkMobileOTPService(phoneNumber, countryCode, code, firstTime);
     return response;
   }
 

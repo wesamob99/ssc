@@ -191,7 +191,7 @@ class LoginRepository{
     return '';
   }
 
-  Future checkRegisterMobileOTPService(int phoneNumber, String countryCode, int code, int firstTime) async {
+  Future checkMobileOTPService(int phoneNumber, String countryCode, int code, int firstTime) async {
     var response = await HTTPClientContract.instance.postHTTP(
         '/mobile/mobile-code-verify',
         {
