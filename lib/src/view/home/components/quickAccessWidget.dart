@@ -37,16 +37,16 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
             children: [
               Text(
                 translate('emptyList', context),
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 14
+                  fontSize: isScreenHasSmallHeight(context) ? height(0.02, context) : height(0.018, context)
                 ),
               ),
               const SizedBox(height: 3.0),
               Text(
                 translate('emptyListDesc', context),
-                style: const TextStyle(
-                  fontSize: 12,
+                style: TextStyle(
+                  fontSize: isScreenHasSmallHeight(context) ? height(0.016, context) : height(0.014, context),
                 ),
               ),
             ],
