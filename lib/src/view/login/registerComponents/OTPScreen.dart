@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ssc/src/view/login/forgotPasswordComponents/resetPasswordBody.dart';
 import 'package:ssc/src/view/login/registerComponents/secondStepBody.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
@@ -189,7 +190,6 @@ class _OTPScreenState extends State<OTPScreen> {
                                         loginProvider.isLoading = true;
                                         loginProvider.notifyMe();
                                         try{
-                                          /// TODO: update [checkRegisterEmailOTP] && [checkRegisterMobileOTP]
                                           if(widget.type == 'phone') {
                                             await loginProvider.checkRegisterMobileOTP(
                                               int.parse(widget.contactTarget),
@@ -216,7 +216,11 @@ class _OTPScreenState extends State<OTPScreen> {
                                                 showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
                                               }else{
                                                 Navigator.of(context).push(
-                                                  MaterialPageRoute(builder: (context) => const ForthStepBody()),
+                                                  MaterialPageRoute(
+                                                    builder: (context) => widget.type == "emailFromReset"
+                                                        ? const ResetPasswordBody()
+                                                        : const ForthStepBody(),
+                                                  ),
                                                 );
                                               }
                                             });
