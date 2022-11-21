@@ -127,7 +127,7 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
                           if(homeProviderListener.isEditQuickAccessActive)
                             Container(
                               margin: const EdgeInsets.all(5.0).copyWith(top: 7.0),
-                              padding: const EdgeInsets.all(2.0),
+                              padding: const EdgeInsets.all(3.0),
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(25.0),
