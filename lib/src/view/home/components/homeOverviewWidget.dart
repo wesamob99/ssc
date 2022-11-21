@@ -247,7 +247,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  '300/${(double.parse(data.poMonthsCount.toString()) <= 300) ? double.parse(data.poMonthsCount.toString()) : 300}',
+                                  '300/${(int.parse(data.poMonthsCount.toStringAsFixed(0)) <= 300) ? int.parse(data.poMonthsCount.toStringAsFixed(0)) : 300}',
                                   style: TextStyle(
                                       fontSize: width(0.03, context)),
                                 ),
@@ -257,7 +257,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                   padding: const EdgeInsets.all(5),
                                   child: AirLinearStateProgressIndicator(
                                     size: const Size(0, 0),
-                                    value: (double.parse(data.poMonthsCount.toString()) <= 300) ? double.parse(data.poMonthsCount.toString()) : 300 / (300 / 100), // 300 is the currently fixed total number of subscriptions ///TODO : change it
+                                    value: ((double.parse(data.poMonthsCount.toString()) <= 300) ? double.parse(data.poMonthsCount.toString()) : 300) / 3, // 300 is the currently fixed total number of subscriptions ///TODO : change it
                                     valueColor: HexColor('#2D452E'),
                                     pathColor: HexColor('#EAEAEA'),
                                     pathStrokeWidth: height(0.008, context),
