@@ -241,9 +241,12 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                               } else {
                                 errorMessage = '';
                                 Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => OTPScreen(
-                                        type: 'email',
-                                        contactTarget: loginProvider.emailController.text))
+                                  MaterialPageRoute(
+                                    builder: (context) => OTPScreen(
+                                      type: 'email',
+                                      contactTarget: loginProvider.emailController.text
+                                    ),
+                                  ),
                                 );
                                 loginProvider.registerContinueEnabled = false;
                               }
