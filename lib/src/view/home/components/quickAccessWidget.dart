@@ -127,6 +127,7 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
                           if(homeProviderListener.isEditQuickAccessActive)
                             Container(
                               margin: const EdgeInsets.all(5.0).copyWith(top: 7.0),
+                              padding: const EdgeInsets.all(2.0),
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(25.0),
@@ -137,7 +138,7 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
                               child: Icon(
                                 quickAccessServices[index].isSelected ? Icons.remove : Icons.add,
                                 color: quickAccessServices[index].isSelected ? HexColor('#BC0D0D') : HexColor('#003C97'),
-                                size: isTablet(context) ? 36 : 20,
+                                size: isTablet(context) ? 30 : 16,
                               ),
                             ),
                         ],
