@@ -159,11 +159,17 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                           InkWell(
                             onTap: () async{
                               if(isTimerEnded) {
-                                await loginProvider.sendMobileOTP(int.parse(userSecuredStorage.realMobileNumber), userSecuredStorage.internationalCode.toString(), 1);
-                                setState((){
-                                  endTime = DateTime.now().millisecondsSinceEpoch + 300000;
-                                  isTimerEnded = false;
-                                });
+                                try{
+                                  await loginProvider.sendMobileOTP(int.parse(userSecuredStorage.realMobileNumber), userSecuredStorage.internationalCode.toString(), 1);
+                                  setState((){
+                                    endTime = DateTime.now().millisecondsSinceEpoch + 300000;
+                                    isTimerEnded = false;
+                                  });
+                                }catch(e){
+                                  if (kDebugMode) {
+                                    print(e.toString());
+                                  }
+                                }
                               }
                             },
                             child: Text(

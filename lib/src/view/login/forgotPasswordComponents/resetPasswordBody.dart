@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -242,19 +243,31 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                 Provider.of<LoginProvider>(context).resetContinueEnabled
                                     ? HexColor('#ffffff') : HexColor('#363636'), () async {
                                   if(loginProvider.resetContinueEnabled){
+                                    loginProvider.isLoading = true;
+                                    loginProvider.notifyMe();
                                     String errorMessage = '';
-                                    await loginProvider.resetPassword(userSecuredStorage.nationalId.toString(), loginProvider.resetPasswordController.text).whenComplete((){}).then((value){
-                                      if(value["PO_STATUS"] == 1){
-                                        Navigator.of(context).pushAndRemoveUntil(
-                                            MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                                (route) => false
-                                        );
-                                      }else{
-                                        errorMessage = UserConfig.instance.checkLanguage()
-                                            ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
-                                        showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                                    try{
+                                      await loginProvider.resetPassword(userSecuredStorage.nationalId.toString(), loginProvider.resetPasswordController.text).whenComplete((){}).then((value){
+                                        if(value["PO_STATUS"] == 1){
+                                          Navigator.of(context).pushAndRemoveUntil(
+                                              MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                                  (route) => false
+                                          );
+                                        }else{
+                                          errorMessage = UserConfig.instance.checkLanguage()
+                                              ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                                          showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                                        }
+                                      });
+                                      loginProvider.isLoading = false;
+                                      loginProvider.notifyMe();
+                                    }catch(e){
+                                      loginProvider.isLoading = false;
+                                      loginProvider.notifyMe();
+                                      if (kDebugMode) {
+                                        print(e.toString());
                                       }
-                                    });
+                                    }
                                   }
                                 }),
                           ],
@@ -262,6 +275,16 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                       ),
                     ],
                   ),
+                ),
+              ),
+              if(loginProvider.isLoading)
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                width: width(1, context),
+                height: height(1, context),
+                color: Colors.white70,
+                child: Center(
+                  child: animatedLoader(context),
                 ),
               ),
             ],
