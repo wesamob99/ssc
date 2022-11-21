@@ -106,10 +106,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           HomeOverviewWidget(data: userInformation),
                           SizedBox(
-                            height: height(0.02, context),
+                            height: height(0.017, context),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(bottom: height(0.007, context)),
+                            padding: const EdgeInsets.only(bottom: 1.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     homeProvider.notifyMe();
                                   },
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
                                     child: Text(
                                         homeProviderListener.isEditQuickAccessActive
                                         ? translate('editComplete', context) : translate('edit', context),
