@@ -266,7 +266,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
     loginProvider.registerData.mobileNo = loginProvider.jordanianMobileNumberController.text;
     loginProvider.registerData.nationalMobile = loginProvider.foreignMobileNumberController.text;
     loginProvider.registerData.nationalMobileCode = int.parse(selectedExactNationality.value.toString());
-    loginProvider.registerData.nationalNumber = selectedNationality == 'jordanian' ? null : int.parse(selectedExactNationality.natCode.toString());
+    loginProvider.registerData.nationalNumber = int.parse(selectedExactNationality.natCode.toString());
     loginProvider.notifyMe();
   }
 
