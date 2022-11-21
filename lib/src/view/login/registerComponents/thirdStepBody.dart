@@ -126,8 +126,8 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                               width: width(0.04, context),
                               height: width(0.04, context),
                               decoration: BoxDecoration(
-                                  color: item1["value"] ? HexColor('#2D452E') : HexColor('#DADADA'),
-                                  borderRadius: BorderRadius.circular(4.0)
+                                color: item1["value"] ? HexColor('#2D452E') : HexColor('#DADADA'),
+                                borderRadius: BorderRadius.circular(4.0),
                               ),
                             ),
                           ),
