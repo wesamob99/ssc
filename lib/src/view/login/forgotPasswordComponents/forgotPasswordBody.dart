@@ -31,7 +31,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
   bool enableContinue = false;
   bool useAnotherMethod = false;
   String errorMessage = "";
-  int endTime = DateTime.now().millisecondsSinceEpoch + 300000;
+  int endTime = DateTime.now().millisecondsSinceEpoch + 60000;
   bool isTimerEnded = false;
 
   @override
@@ -160,10 +160,19 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                             onTap: () async{
                               if(isTimerEnded) {
                                 try{
-                                  await loginProvider.sendMobileOTP(int.parse(userSecuredStorage.realMobileNumber), userSecuredStorage.internationalCode.toString(), 1);
-                                  setState((){
-                                    endTime = DateTime.now().millisecondsSinceEpoch + 300000;
-                                    isTimerEnded = false;
+                                  await loginProvider.sendMobileOTP(int.parse(userSecuredStorage.realMobileNumber), userSecuredStorage.internationalCode.toString(), 1).whenComplete((){}).then((value){
+                                    if(value != null && value["PO_status"] != null && value["PO_status"] == 1){
+                                      setState((){
+                                        endTime = DateTime.now().millisecondsSinceEpoch + 60000;
+                                        isTimerEnded = false;
+                                      });
+                                    }else{
+                                      if(errorMessage == ''){
+                                        errorMessage = UserConfig.instance.checkLanguage()
+                                            ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                                      }
+                                      showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                                    }
                                   });
                                 }catch(e){
                                   if (kDebugMode) {
