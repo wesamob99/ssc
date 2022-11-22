@@ -86,13 +86,14 @@ class LoginRepository{
   //   return '';
   // }
 
-  Future resetPasswordService(String userId, String password, int mobileNumber, String countryCode, int code) async {
+  Future resetPasswordService(String userId, String password, int mobileNumber, String countryCode, int code, String email) async {
     dynamic data;
     await getEncryptedPasswordService(password).then((hashedPassword) {
       data = jsonEncode({
         "userId": userId, // string // national number
         "password": hashedPassword, // string // hashed password
         "mobileNumber": mobileNumber, // number // user mobile number
+        "email": email, // string // user email
         "countryCode": countryCode, // string // user country code for mobile number
         "code": code// number // verification code.
       });

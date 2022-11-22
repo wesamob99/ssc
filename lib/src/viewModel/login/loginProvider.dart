@@ -65,8 +65,8 @@ class LoginProvider extends ChangeNotifier {
   //   return response;
   // }
 
-  Future resetPassword(String userId, String password, int mobileNumber, String countryCode, int code) async{
-    final response = await loginRepository.resetPasswordService(userId, password, mobileNumber, countryCode, code);
+  Future resetPassword(String userId, String password, int mobileNumber, String countryCode, int code, String email) async{
+    final response = await loginRepository.resetPasswordService(userId, password, mobileNumber, countryCode, code, email);
     return response;
   }
 
