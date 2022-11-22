@@ -257,10 +257,14 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                       )
                                           .whenComplete((){}).then((value){
                                         if(value["PO_STATUS"] == 1){
-                                          Navigator.of(context).pushAndRemoveUntil(
-                                              MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                                  (route) => false
-                                          );
+                                          errorMessage = UserConfig.instance.checkLanguage()
+                                              ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                                          showMyDialog(context, 'resetPassword', errorMessage, 'login', themeNotifier).then((value) {
+                                            Navigator.of(context).pushAndRemoveUntil(
+                                                MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                                    (route) => false
+                                            );
+                                          });
                                         }else{
                                           errorMessage = UserConfig.instance.checkLanguage()
                                               ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
