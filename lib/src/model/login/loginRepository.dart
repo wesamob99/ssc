@@ -93,9 +93,9 @@ class LoginRepository{
         "userId": userId, // string // national number
         "password": hashedPassword, // string // hashed password
         "mobileNumber": mobileNumber, // number // user mobile number
-        "email": email, // string // user email
         "countryCode": countryCode, // string // user country code for mobile number
-        "code": code// number // verification code.
+        "code": code, // number // verification code.
+        "email": email // string // user email
       });
     });
 
