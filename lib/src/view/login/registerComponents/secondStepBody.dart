@@ -183,7 +183,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                             setSecondStepData(loginProvider);
                             await loginProvider.registerSubmitSecondStep(
                                 loginProvider.registerData.nationality,
-                                loginProvider.registerData.nationalId,
+                                loginProvider.registerData.nationalNumber,
                                 loginProvider.registerData.personalNumber,
                                 loginProvider.registerData.personalCardNo,
                                 loginProvider.registerData.dateOfBirth,
@@ -240,8 +240,9 @@ class _SecondStepBodyState extends State<SecondStepBody> {
   }
 
   setSecondStepData(LoginProvider loginProvider){
-    loginProvider.registerData.nationalId = isJordanian ? int.tryParse(loginProvider.registerNationalIdController.text) : null;
+    loginProvider.registerData.nationalNumber = isJordanian ? int.tryParse(loginProvider.registerNationalIdController.text) : null;
     loginProvider.registerData.personalNumber = isJordanian ? null : int.tryParse(loginProvider.registerNationalIdController.text);
+    loginProvider.registerData.userId = int.tryParse(loginProvider.registerNationalIdController.text);
     loginProvider.registerData.personalCardNo = isJordanian ? loginProvider.civilIdNumberController.text : null;
     loginProvider.registerData.relativeNatId = isJordanian ? int.tryParse(loginProvider.relativeNatIdController.text) : null;
     loginProvider.registerData.relativeType = isJordanian ? relationTypes.indexOf(loginProvider.thirdStepSelection[0]) : null;
