@@ -259,7 +259,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                                 showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
                               }else{
                                 Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => ResetPasswordBody(otpCode: pinController.text))
+                                    MaterialPageRoute(builder: (context) => ResetPasswordBody(otpCode: pinController.text, useMobile: true))
                                 );
                               }
                             });
