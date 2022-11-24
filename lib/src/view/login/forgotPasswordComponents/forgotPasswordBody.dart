@@ -97,9 +97,11 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                     SizedBox(height: height(0.022, context),),
                     InkWell(
                       onTap: (){
-                        setState(() {
+                        if(userSecuredStorage.email != "0") {
+                          setState(() {
                           useAnotherMethod = true;
                         });
+                        }
                       },
                       overlayColor: MaterialStateProperty.all<Color>(
                           Colors.transparent
@@ -110,7 +112,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                             ? Alignment.topLeft : Alignment.topRight,
                         // padding: EdgeInsets.symmetric(horizontal: width(0.11, context)),
                         child: Text(
-                          translate(useAnotherMethod ?'dontHaveAnyMethod' : 'useAnotherMethod', context),
+                          translate((useAnotherMethod || userSecuredStorage.email == "0") ?'dontHaveAnyMethod' : 'useAnotherMethod', context),
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: width(0.033, context),
