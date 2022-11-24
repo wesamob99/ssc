@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:ssc/src/model/services/servicesRepository.dart';
 
@@ -36,6 +35,10 @@ class ServicesProvider extends ChangeNotifier {
     optionalSubDetail = await servicesRepository.optionalSubGetDetailService();
     notifyMe();
     return optionalSubDetail;
+  }
+
+  Future optionalSubInsertNew() async{
+    return await servicesRepository.optionalSubInsertNewService(optionalSubDetail.curGetdata[0][0]);
   }
 
   Future<void> readCountriesJson() async {
