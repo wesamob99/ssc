@@ -132,6 +132,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   }
 
   Widget secondStep(context, themeNotifier){
+    print('isFirstOptionalSub: ${servicesProvider.isFirstOptionalSub}');
     return SingleChildScrollView(
       child: SizedBox(
         height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
