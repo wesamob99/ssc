@@ -102,11 +102,30 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               confirmSalaryController.text = '1200';
                             } break;
                             case 3: {
-                              SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                                servicesProvider.selectedServiceRate = -1;
-                                servicesProvider.notifyMe();
-                                rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                              String message = translate('somethingWrongHappened', context);
+                              if(servicesProvider.isFirstOptionalSub == 0 || servicesProvider.isFirstOptionalSub == 2) {
+                                servicesProvider.optionalSubInsertNew().whenComplete((){}).then((value){
+                                if(value != '') {
+                                  message = UserConfig.instance.checkLanguage()
+                                    ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
+                                }
+                                showMyDialog(context, (value != '' && value['PO_status'] == 1) ? 'doneSuccessfully' : 'failed', message, 'ok', themeNotifier).then((_){
+                                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                    servicesProvider.selectedServiceRate = -1;
+                                    servicesProvider.notifyMe();
+                                    rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                  });
+                                });
                               });
+                              } else{
+                                showMyDialog(context, 'failed', message, 'ok', themeNotifier).then((_){
+                                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                    servicesProvider.selectedServiceRate = -1;
+                                    servicesProvider.notifyMe();
+                                    rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                  });
+                                });
+                              }
                             } break; /// TODO: finish service
                           }
                           servicesProvider.notifyMe();
