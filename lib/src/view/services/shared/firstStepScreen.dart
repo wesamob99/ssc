@@ -4,9 +4,9 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ssc/models/services/optionalSubGetDetail.dart';
 
 import '../../../../../infrastructure/userConfig.dart';
-import '../../../../../models/profile/userProfileData.dart';
 import '../../../../../utilities/countries.dart';
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/util.dart';
@@ -31,7 +31,8 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
-    accountDataFuture = servicesProvider.getAccountData();
+    accountDataFuture = servicesProvider.optionalSubGetDetail();
+    servicesProvider.isFirstOptionalSub = -1;
     isFirstTime = true;
     super.initState();
   }
@@ -57,16 +58,17 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                   ); break;
                 case ConnectionState.done:
                   if(snapshot.hasData && !snapshot.hasError){
-                    UserProfileData userProfileData = snapshot.data;
-                    CurGetdatum data = userProfileData.curGetdata[0][0];
+                    OptionalSubGetDetail optionalSubGetDetail = snapshot.data;
+                    servicesProvider.isFirstOptionalSub = optionalSubGetDetail.poIsItFirstOptionalSub;
+                    CurGetdatum data = optionalSubGetDetail.curGetdata[0][0];
 
-                    String name = '${data.firstname??''} ${data.fathername??''} ${data.grandfathername??''} ${data.familyname??''}';
-                    String natId = data.userName.toString();
-                    String insuranceNo = data.insuranceno.toString();
-                    String mobileNo = data.mobilenumber.toString();
+                    String name = '${data.name1??''} ${data.name2??''} ${data.name3??''} ${data.name4??''}';
+                    String natId = data.natNo.toString();
+                    String insuranceNo = data.secno.toString();
+                    String mobileNo = data.mobile.toString();
 
                     if(isFirstTime){
-                      String internationalCode = data.internationalcode.toString();
+                      String internationalCode = data.internationalCode.toString();
                       int selectedInx = servicesProvider.countries.indexWhere((value) => value.callingCode == internationalCode);
                       int selectedInxF = countries.indexWhere((value) => value.dialCode == internationalCode);
                       selectedCountry = SelectedListItem(
