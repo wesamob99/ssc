@@ -5,6 +5,7 @@ import 'package:ssc/infrastructure/userSecuredStorage.dart';
 
 import '../../../infrastructure/HTTPClientContract.dart';
 import '../../../models/profile/userProfileData.dart';
+import '../../../models/services/optionalSubGetDetail.dart';
 
 class ServicesRepository{
 
@@ -17,6 +18,19 @@ class ServicesRepository{
     }
     if (response != null && response.statusCode == 200) {
       return userProfileDataFromJson(response.toString());
+    }
+    return null;
+  }
+
+  Future<OptionalSubGetDetail> optionalSubGetDetailService() async {
+    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+    String internalKey = userSecuredStorage.insuranceNumber.toString();
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/OptionalSub_GetDetail_new?PI_user_name=$internalKey');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return optionalSubGetDetailFromJson(response.toString());
     }
     return null;
   }
