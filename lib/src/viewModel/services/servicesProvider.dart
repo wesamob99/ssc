@@ -7,12 +7,15 @@ import 'package:ssc/src/model/services/servicesRepository.dart';
 
 import '../../../models/login/countries.dart';
 import '../../../models/profile/userProfileData.dart';
+import '../../../models/services/optionalSubGetDetail.dart';
 
 class ServicesProvider extends ChangeNotifier {
 
   ServicesRepository servicesRepository = ServicesRepository();
   UserProfileData userProfileData = UserProfileData();
+  OptionalSubGetDetail optionalSubDetail = OptionalSubGetDetail();
   int selectedServiceRate = -1;
+  int isFirstOptionalSub = -1;
 
   TextEditingController monthlyInstallmentController = TextEditingController();
 
@@ -22,11 +25,17 @@ class ServicesProvider extends ChangeNotifier {
   TextEditingController mobileNumberController = TextEditingController();
   List<Countries> countries = [];
 
-  /// workInjuryComplaint
-  Future<UserProfileData> getAccountData() async{
-    userProfileData = await servicesRepository.getAccountDataService();
+  // deleted
+  // Future<UserProfileData> getAccountData() async{
+  //   userProfileData = await servicesRepository.getAccountDataService();
+  //   notifyMe();
+  //   return userProfileData;
+  // }
+
+  Future<OptionalSubGetDetail> optionalSubGetDetail() async{
+    optionalSubDetail = await servicesRepository.optionalSubGetDetailService();
     notifyMe();
-    return userProfileData;
+    return optionalSubDetail;
   }
 
   Future<void> readCountriesJson() async {
@@ -34,9 +43,6 @@ class ServicesProvider extends ChangeNotifier {
     final String response = await rootBundle.loadString('assets/jsonFiles/countries.json');
     countries = countriesFromJson(response);
     notifyListeners();
-    if (kDebugMode) {
-      print(countries);
-    }
   }
 
   void notifyMe() {
