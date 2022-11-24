@@ -45,8 +45,8 @@ class _LoginBodyState extends State<LoginBody> {
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     loginProvider.enabledSubmitButton = false;
-    loginProvider.nationalIdController.clear();
-    loginProvider.passwordController.clear();
+    loginProvider.nationalIdController = TextEditingController();
+    loginProvider.passwordController = TextEditingController();
     loginProvider.isLoading = false;
     getAppLanguage();
     super.initState();

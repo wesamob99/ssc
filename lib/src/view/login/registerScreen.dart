@@ -40,22 +40,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     ///login
-    loginProvider.passwordController.clear();
+    loginProvider.passwordController = TextEditingController();
     loginProvider.numberOfAttempts = 0;
-    loginProvider.nationalIdController.clear();
+    loginProvider.nationalIdController = TextEditingController();
     loginProvider.enabledSubmitButton = false;
     ///register
-    loginProvider.jordanianMobileNumberController.clear();
-    loginProvider.foreignMobileNumberController.clear();
-    loginProvider.registerNationalIdController.clear();
-    loginProvider.passportNumberController.clear();
-    loginProvider.insuranceNumberController.clear();
-    loginProvider.civilIdNumberController.clear();
-    loginProvider.relativeNatIdController.clear();
-    loginProvider.emailController.clear();
-    loginProvider.registerPasswordController.clear();
-    loginProvider.registerConfirmPasswordController.clear();
-    loginProvider.dateOfBirthController.clear();
+    loginProvider.jordanianMobileNumberController = TextEditingController();
+    loginProvider.foreignMobileNumberController = TextEditingController();
+    loginProvider.registerNationalIdController = TextEditingController();
+    loginProvider.passportNumberController = TextEditingController();
+    loginProvider.insuranceNumberController = TextEditingController();
+    loginProvider.civilIdNumberController = TextEditingController();
+    loginProvider.relativeNatIdController = TextEditingController();
+    loginProvider.emailController = TextEditingController();
+    loginProvider.registerPasswordController = TextEditingController();
+    loginProvider.registerConfirmPasswordController = TextEditingController();
+    loginProvider.dateOfBirthController = TextEditingController();
     loginProvider.thirdStepSelection = ['choose', 'optionalChoose'];
     getAppLanguage();
     super.initState();
