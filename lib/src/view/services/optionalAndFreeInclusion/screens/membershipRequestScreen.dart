@@ -96,17 +96,6 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                             getPrimaryColor(context, themeNotifier)),
                         HexColor('#ffffff'),
                             (){
-
-                              // case 2:
-                              // {
-                              // if(servicesProvider.isMobileNumberUpdated){
-                              // servicesProvider.stepNumber = 2;
-                              // servicesProvider.isMobileNumberUpdated = false;
-                              // } else{
-                              // servicesProvider.stepNumber = 3;
-                              // }
-                              // } break;
-
                           switch(servicesProvider.stepNumber){
                             case 1: servicesProvider.stepNumber = 2; break;
                             case 2: {
