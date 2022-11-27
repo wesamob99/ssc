@@ -31,7 +31,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
   bool enableContinue = false;
   bool useAnotherMethod = false;
   String errorMessage = "";
-  int endTime = DateTime.now().millisecondsSinceEpoch + 60000;
+  int endTime = DateTime.now().millisecondsSinceEpoch + 300000;
   bool isTimerEnded = false;
 
   @override
@@ -165,7 +165,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                                   await loginProvider.sendMobileOTP(int.parse(userSecuredStorage.realMobileNumber), userSecuredStorage.internationalCode.toString(), 1).whenComplete((){}).then((value){
                                     if(value != null && value["PO_status"] != null && value["PO_status"] == 1){
                                       setState((){
-                                        endTime = DateTime.now().millisecondsSinceEpoch + 60000;
+                                        endTime = DateTime.now().millisecondsSinceEpoch + 300000;
                                         isTimerEnded = false;
                                       });
                                     }else{
