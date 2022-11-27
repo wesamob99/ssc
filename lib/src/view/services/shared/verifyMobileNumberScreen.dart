@@ -80,43 +80,45 @@ class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
                 SizedBox(height: height(0.02, context)),
               ],
             ),
-            SizedBox(height: height(0.02, context),),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: height(0.05, context),),
-                Text(
-                  translate('mobileNumberVerify', context),
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: width(0.04, context)
-                  ),
-                ),
-                SizedBox(height: height(0.03, context),),
-                Column(
-                  children: [
-                    Text(
-                      translate('enterMobileVerificationCode', context),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width(0.034, context)
-                      ),
+            SizedBox(
+              height: isTablet(context) ? height(0.6, context) : isScreenHasSmallHeight(context) ? height(0.55, context) : height(0.57, context),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    translate('mobileNumberVerify', context),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: width(0.04, context)
                     ),
-                    SizedBox(height: height(0.015, context),),
-                    Text(
-                      widget.mobileNo,
-                      textDirection: TextDirection.ltr,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: width(0.034, context),
+                  ),
+                  SizedBox(height: height(0.03, context),),
+                  Column(
+                    children: [
+                      Text(
+                        translate('enterMobileVerificationCode', context),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: width(0.034, context)
+                        ),
                       ),
-                    )
-                  ],
-                ),
-                SizedBox(height: height(0.04, context),),
-                pinPut(themeNotifier),
-              ],
+                      SizedBox(height: height(0.03, context),),
+                      Text(
+                        widget.mobileNo,
+                        textDirection: TextDirection.ltr,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: width(0.034, context),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: height(0.04, context),),
+                  pinPut(themeNotifier),
+                ],
+              ),
             ),
           ],
         ),
