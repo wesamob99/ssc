@@ -1,13 +1,13 @@
 // ignore_for_file: file_names
 
 import 'package:date_time_picker/date_time_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/src/view/services/shared/firstStepScreen.dart';
+import 'package:ssc/src/view/services/shared/verifyMobileNumberScreen.dart';
 import 'package:ssc/src/viewModel/services/servicesProvider.dart';
 import 'package:ssc/utilities/util.dart';
 import 'dart:math' as math;
@@ -79,7 +79,9 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                 children: [
                   if(Provider.of<ServicesProvider>(context).stepNumber == 1)
                     const FirstStepScreen(nextStep: 'orderDetails', numberOfSteps: 4,),
-                  if(Provider.of<ServicesProvider>(context).stepNumber == 2)
+                  if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                    VerifyMobileNumberScreen(nextStep: 'orderDetails', numberOfSteps: 4, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                  if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
                     secondStep(context, themeNotifier),
                   if(Provider.of<ServicesProvider>(context).stepNumber == 3)
                     thirdStep(context, themeNotifier),
@@ -94,7 +96,15 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                         (){
                       switch(servicesProvider.stepNumber){
                         case 1: servicesProvider.stepNumber = 2; break;
-                        case 2: servicesProvider.stepNumber = 3; break;
+                        case 2:
+                          {
+                            if(servicesProvider.isMobileNumberUpdated){
+                              servicesProvider.stepNumber = 2;
+                              servicesProvider.isMobileNumberUpdated = false;
+                            } else{
+                              servicesProvider.stepNumber = 3;
+                            }
+                          } break;
                         case 3: servicesProvider.stepNumber = 4; break;
                         case 4: {
                           SchedulerBinding.instance.addPostFrameCallback((timeStamp) {

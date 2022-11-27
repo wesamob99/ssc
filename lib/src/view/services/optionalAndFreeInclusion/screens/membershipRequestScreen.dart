@@ -12,6 +12,7 @@ import '../../../../../infrastructure/userConfig.dart';
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/theme/themes.dart';
 import '../../../../viewModel/utilities/theme/themeProvider.dart';
+import '../../shared/verifyMobileNumberScreen.dart';
 
 class MembershipRequestScreen extends StatefulWidget {
   const MembershipRequestScreen({Key key}) : super(key: key);
@@ -82,7 +83,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                     children: [
                       if(Provider.of<ServicesProvider>(context).stepNumber == 1)
                         const FirstStepScreen(nextStep: 'payCalculation', numberOfSteps: 3),
-                      if(Provider.of<ServicesProvider>(context).stepNumber == 2)
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                        VerifyMobileNumberScreen(nextStep: 'orderDetails', numberOfSteps: 4, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
                         secondStep(context, themeNotifier),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 3)
                         thirdStep(context, themeNotifier),
@@ -93,10 +96,26 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                             getPrimaryColor(context, themeNotifier)),
                         HexColor('#ffffff'),
                             (){
+
+                              // case 2:
+                              // {
+                              // if(servicesProvider.isMobileNumberUpdated){
+                              // servicesProvider.stepNumber = 2;
+                              // servicesProvider.isMobileNumberUpdated = false;
+                              // } else{
+                              // servicesProvider.stepNumber = 3;
+                              // }
+                              // } break;
+
                           switch(servicesProvider.stepNumber){
                             case 1: servicesProvider.stepNumber = 2; break;
                             case 2: {
-                              servicesProvider.stepNumber = 3;
+                              if(servicesProvider.isMobileNumberUpdated){
+                                servicesProvider.stepNumber = 2;
+                                servicesProvider.isMobileNumberUpdated = false;
+                              } else{
+                                servicesProvider.stepNumber = 3;
+                              }
                               // confirmMonthlyController.text = selectedCalculateAccordingTo == 1 ? servicesProvider.monthlyInstallmentController.text : '1200';
                               confirmMonthlyController.text = servicesProvider.monthlyInstallmentController.text;
                               confirmSalaryController.text = '1200';
