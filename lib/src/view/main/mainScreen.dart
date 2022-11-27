@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+    // ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     UserConfig.instance.checkDataConnection();
 
     //check whether there is local authentication available on this device or not

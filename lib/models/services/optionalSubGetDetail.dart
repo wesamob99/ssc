@@ -2,6 +2,8 @@
 //
 //     final optionalSubGetDetail = optionalSubGetDetailFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 OptionalSubGetDetail optionalSubGetDetailFromJson(String str) => OptionalSubGetDetail.fromJson(json.decode(str));
