@@ -33,6 +33,8 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     accountDataFuture = servicesProvider.optionalSubGetDetail();
     servicesProvider.isFirstOptionalSub = -1;
+    servicesProvider.isMobileNumberUpdated = false;
+    servicesProvider.mobileNumberController = TextEditingController();
     isFirstTime = true;
     super.initState();
   }
@@ -66,6 +68,8 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                     String natId = data.natNo.toString();
                     String insuranceNo = data.secno.toString();
                     String mobileNo = data.mobile.toString();
+
+                    servicesProvider.mobileNumberController.text = mobileNo;
 
                     if(isFirstTime){
                       String internationalCode = data.internationalCode.toString();
@@ -185,7 +189,14 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                         Row(
                           children: [
                             Expanded(
-                                child: buildTextFormField(context, themeNotifier, TextEditingController(text: mobileNo), '', (val){})
+                                child: buildTextFormField(context, themeNotifier, servicesProvider.mobileNumberController, '', (val){
+                                  if(val != mobileNo){
+                                    servicesProvider.isMobileNumberUpdated = true;
+                                  }else{
+                                    servicesProvider.isMobileNumberUpdated = false;
+                                  }
+                                  servicesProvider.notifyMe();
+                                })
                             ),
                             SizedBox(width: width(0.015, context)),
                             InkWell(
