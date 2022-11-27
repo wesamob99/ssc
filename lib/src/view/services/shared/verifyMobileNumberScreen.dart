@@ -77,7 +77,6 @@ class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: height(0.02, context)),
               ],
             ),
             SizedBox(
