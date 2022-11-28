@@ -70,157 +70,162 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           leading: const SizedBox.shrink(),
         ),
       ),
-      body: Stack(
-        children: [
-          Stack(
-            children: [
-              Opacity(
-                opacity: 0.5,
-                child: Container(
-                  alignment: Alignment.bottomLeft,
-                  child: SvgPicture.asset(
-                      'assets/logo/logo_tree.svg'
+      body: GestureDetector(
+        onTap: (){
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Stack(
+          children: [
+            Stack(
+              children: [
+                Opacity(
+                  opacity: 0.5,
+                  child: Container(
+                    alignment: Alignment.bottomLeft,
+                    child: SvgPicture.asset(
+                        'assets/logo/logo_tree.svg'
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 14.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          if(!showResetPasswordBody)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 14.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if(!showResetPasswordBody)
+                              Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: (){
+                                          Navigator.pop(context);
+                                          setState(() {
+                                            loginProvider.nationalIdController.clear();
+                                            loginProvider.passwordController.clear();
+                                            loginProvider.enabledSubmitButton = false;
+                                            loginProvider.notifyMe();
+                                          });
+                                        },
+                                        child: Transform.rotate(
+                                          angle: UserConfig.instance.checkLanguage()
+                                              ? -math.pi / 1.0 : 0,
+                                          child: SvgPicture.asset(
+                                            'assets/icons/back.svg',
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: width(0.03, context)),
+                                      Text(
+                                        translate('forgotPassword', context),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w700
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                              ),
                             Container(
                                 alignment: Alignment.topLeft,
                                 child: Row(
                                   children: [
-                                    InkWell(
-                                      onTap: (){
-                                        Navigator.pop(context);
+                                    SvgPicture.asset(
+                                        'assets/icons/global.svg'
+                                    ),
+                                    const SizedBox(width: 4.0),
+                                    DropdownButton<String>(
+                                      isDense: true,
+                                      value: UserConfig.instance.checkLanguage() ? 'en' : 'ar',
+                                      icon: const Icon(
+                                        Icons.arrow_drop_down_outlined,
+                                        size: 0,
+                                      ),
+                                      elevation: 16,
+                                      style: const TextStyle(color: Colors.black),
+                                      underline: Container(
+                                        height: 0,
+                                        color: primaryColor,
+                                      ),
+                                      onChanged: (String value) async{
                                         setState(() {
-                                          loginProvider.nationalIdController.clear();
-                                          loginProvider.passwordController.clear();
-                                          loginProvider.enabledSubmitButton = false;
-                                          loginProvider.notifyMe();
+                                          selectedLanguage = value;
+                                        });
+                                        globalAppProvider.changeLanguage(Locale(selectedLanguage));
+                                        globalAppProvider.notifyMe();
+                                        prefs.then((value) {
+                                          value.setString('language_code', selectedLanguage);
                                         });
                                       },
-                                      child: Transform.rotate(
-                                        angle: UserConfig.instance.checkLanguage()
-                                            ? -math.pi / 1.0 : 0,
-                                        child: SvgPicture.asset(
-                                          'assets/icons/back.svg',
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: width(0.03, context)),
-                                    Text(
-                                      translate('forgotPassword', context),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w700
-                                      ),
+                                      items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(
+                                            value == 'en' ? 'English' : 'عربي',
+                                            style: TextStyle(
+                                              color: themeNotifier.isLight()
+                                                  ? primaryColor
+                                                  : Colors.white,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
                                     ),
                                   ],
                                 )
                             ),
-                          Container(
-                              alignment: Alignment.topLeft,
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/icons/global.svg'
-                                  ),
-                                  const SizedBox(width: 4.0),
-                                  DropdownButton<String>(
-                                    isDense: true,
-                                    value: UserConfig.instance.checkLanguage() ? 'en' : 'ar',
-                                    icon: const Icon(
-                                      Icons.arrow_drop_down_outlined,
-                                      size: 0,
-                                    ),
-                                    elevation: 16,
-                                    style: const TextStyle(color: Colors.black),
-                                    underline: Container(
-                                      height: 0,
-                                      color: primaryColor,
-                                    ),
-                                    onChanged: (String value) async{
-                                      setState(() {
-                                        selectedLanguage = value;
-                                      });
-                                      globalAppProvider.changeLanguage(Locale(selectedLanguage));
-                                      globalAppProvider.notifyMe();
-                                      prefs.then((value) {
-                                        value.setString('language_code', selectedLanguage);
-                                      });
-                                    },
-                                    items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(
-                                          value == 'en' ? 'English' : 'عربي',
-                                          style: TextStyle(
-                                            color: themeNotifier.isLight()
-                                                ? primaryColor
-                                                : Colors.white,
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ],
-                              )
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: height(0.03, context),),
-                      if(!showResetPasswordBody)
-                      Divider(
-                        color: HexColor('#DADADA')
-                      ),
-                      SizedBox(height: height(0.03, context),),
-                      if(!showResetPasswordBody)
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  translate('enterNationalId', context),
-                                ),
-                                SizedBox(height: height(0.015, context)),
-                                buildTextFormField(themeNotifier, loginProvider,  loginProvider.nationalIdController, TextInputType.number),
-                              ],
-                            ),
-                            // if(!forgotPassword)
-                            SizedBox(height: height(0.1, context)),
-                            submitButton(themeNotifier),
-                            SizedBox(height: height(0.04, context)),
                           ],
                         ),
-                      ),
-                      if(showResetPasswordBody)
-                      const ForgotPasswordBody()
-                    ],
+                        SizedBox(height: height(0.03, context),),
+                        if(!showResetPasswordBody)
+                        Divider(
+                          color: HexColor('#DADADA')
+                        ),
+                        SizedBox(height: height(0.03, context),),
+                        if(!showResetPasswordBody)
+                        SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    translate('enterNationalId', context),
+                                  ),
+                                  SizedBox(height: height(0.015, context)),
+                                  buildTextFormField(themeNotifier, loginProvider,  loginProvider.nationalIdController, TextInputType.number),
+                                ],
+                              ),
+                              // if(!forgotPassword)
+                              SizedBox(height: height(0.1, context)),
+                              submitButton(themeNotifier),
+                              SizedBox(height: height(0.04, context)),
+                            ],
+                          ),
+                        ),
+                        if(showResetPasswordBody)
+                        const ForgotPasswordBody()
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          if(loginProvider.isLoading)
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            width: width(1, context),
-            height: height(1, context),
-            color: Colors.white70,
-            child: Center(
-              child: animatedLoader(context),
+              ],
             ),
-          ),
-        ],
+            if(loginProvider.isLoading)
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              width: width(1, context),
+              height: height(1, context),
+              color: Colors.white70,
+              child: Center(
+                child: animatedLoader(context),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
