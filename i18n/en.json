@@ -214,6 +214,8 @@
   "howEasyToApplyDesc": "Where 5 is the easiest and 1 is the hardest",
   "shareYourOpinion": "Share your opinion!",
   "failed": "Failed",
-  "search": "Search"
+  "search": "Search",
+  "filter": "Filter",
+  "reset": "Reset"
 
 }

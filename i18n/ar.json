@@ -215,6 +215,8 @@
   "howEasyToApplyDesc": "حيث ان 5 هو الاكثر سهوله و 1 الاصعب",
   "shareYourOpinion": "شاركنا رأيك !",
   "failed": "فشلت العملية",
-  "search": "البحث"
+  "search": "البحث",
+  "filter": "فلتره",
+  "reset": "إعادة تعيين"
 
 }
