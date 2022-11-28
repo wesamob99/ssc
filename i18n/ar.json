@@ -217,6 +217,11 @@
   "failed": "فشلت العملية",
   "search": "البحث",
   "filter": "فلتره",
-  "reset": "إعادة تعيين"
+  "reset": "إعادة تعيين",
+  "lastSalary": "آخر راتب",
+  "increaseInAllowanceForDeductionYears": "زيادة بدل سنوات الاقتطاع",
+  "discountNotMoreThan-20": "تخفيض لا يزيد عن 20%",
+  "determineTheAffiliateWage": "حدد الأجر الخاضع للإنتساب"
+
 
 }

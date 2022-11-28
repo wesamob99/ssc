@@ -216,6 +216,10 @@
   "failed": "Failed",
   "search": "Search",
   "filter": "Filter",
-  "reset": "Reset"
+  "reset": "Reset",
+  "lastSalary": "Last Salary",
+  "increaseInAllowanceForDeductionYears": "Increase in allowance for deduction years",
+  "discountNotMoreThan-20": "discount not more than 20%",
+  "determineTheAffiliateWage": "Determine the affiliate wage"
 
 }
