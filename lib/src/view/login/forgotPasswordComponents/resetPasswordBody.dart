@@ -249,7 +249,6 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                     loginProvider.notifyMe();
                                     String errorMessage = '';
                                     try{
-                                      /// TODO: pass one from [email & phone number] as null based on user choice
                                       await loginProvider.resetPassword(
                                         userSecuredStorage.nationalId.toString(),
                                         loginProvider.resetPasswordController.text,
@@ -257,8 +256,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                         userSecuredStorage.internationalCode.toString(),
                                         int.tryParse(widget.otpCode),
                                         widget.useMobile ? null : userSecuredStorage.email.toString(),
-                                      )
-                                          .whenComplete((){}).then((value){
+                                      ).whenComplete((){}).then((value){
                                         if(value["PO_STATUS"] == 1){
                                           errorMessage = UserConfig.instance.checkLanguage()
                                               ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
