@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ssc/src/view/login/loginScreen.dart';
 
 import '../../../../infrastructure/userConfig.dart';
 import '../../../../infrastructure/userSecuredStorage.dart';
@@ -95,8 +96,10 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                 children: [
                                   InkWell(
                                     onTap: (){
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(builder: (context) => const LoginScreen()),
+                                              (route) => false
+                                      );
                                     },
                                     child: Transform.rotate(
                                       angle: UserConfig.instance.checkLanguage()
