@@ -9,19 +9,19 @@ class ServicesList{
   /// Quick Access Services ****************************************************
 
   static Service individualsUnemploymentApplication = Service(
-    title: "unemploymentApplication", supTitle: "individuals", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen()
+    title: "unemploymentApplication", supTitle: "individuals", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), duplicated: true
   );
   static Service maternityUnemploymentApplication = Service(
-      title: "unemploymentApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen()
+      title: "unemploymentApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), duplicated: true
   );
   static Service onePayment = Service(
-      title: "onePayment", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/onePaymentIcon.svg', screen:  const WorkInjuryComplaintScreen()
+      title: "onePayment", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/onePaymentIcon.svg', screen:  const WorkInjuryComplaintScreen()
   );
   static Service reportAnAccident = Service(
-      title: "reportAnAccident", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/reportAnAccidentIcon.svg', screen:  const WorkInjuryComplaintScreen()
+      title: "reportAnAccident", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/reportAnAccidentIcon.svg', screen:  const WorkInjuryComplaintScreen()
   );
   static Service optionalSubscription = Service(
-      title: "optionalSubscription", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', screen:  const WorkInjuryComplaintScreen()
+      title: "optionalSubscription", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', screen:  const WorkInjuryComplaintScreen()
   );
   static Service accountStatement = Service(
       title: "accountStatement", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/accountStatementIcon.svg', screen:  const WorkInjuryComplaintScreen()
@@ -70,6 +70,9 @@ class ServicesList{
 
 /// **************************************************************************
 
+
+  static List<Service> allServices = [individualsUnemploymentApplication, continuityOfCoverage, maternityUnemploymentApplication, onePayment, reportAnAccident, optionalSubscription, accountStatement, membershipRequest, requestRetiredLoan, reportSicknessComplaint, oneTimeCompensationRequest, savingsBalanceDisbursementRequest, workInjuryInsurance];
+
 }
 
 class Service{
@@ -79,6 +82,7 @@ class Service{
   final String description;
   final Widget screen;
   bool isSelected;
+  bool duplicated;
 
-  Service({this.title, this.supTitle, this.icon, this.description, this.screen, this.isSelected = true});
+  Service({this.title, this.supTitle, this.icon, this.description, this.screen, this.isSelected = true, this.duplicated = false});
 }
