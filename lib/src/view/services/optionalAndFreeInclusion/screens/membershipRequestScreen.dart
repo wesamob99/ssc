@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:group_radio_button/group_radio_button.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/src/view/services/shared/firstStepScreen.dart';
 import 'package:ssc/src/viewModel/services/servicesProvider.dart';
@@ -23,8 +24,8 @@ class MembershipRequestScreen extends StatefulWidget {
 
 class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   ServicesProvider servicesProvider;
-  int selectedCalculateAccordingTo = 1;
-  double currentSliderValue = 200;
+  String selectedCalculateAccordingTo = 'lastSalary';
+  double currentSliderValue = 480;
   TextEditingController confirmMonthlyController = TextEditingController();
   TextEditingController confirmSalaryController = TextEditingController();
 
@@ -51,7 +52,14 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             onTap: (){
               switch(servicesProvider.stepNumber){
                 case 1: Navigator.of(context).pop(); break;
-                case 2: servicesProvider.stepNumber = 1; break;
+                case 2:
+                  {
+                    selectedCalculateAccordingTo = 'lastSalary';
+                    currentSliderValue = 480;
+                    confirmMonthlyController = TextEditingController();
+                    confirmSalaryController = TextEditingController();
+                    servicesProvider.stepNumber = 1;
+                  } break;
                 case 3: servicesProvider.stepNumber = 2; break;
               }
               servicesProvider.notifyMe();
@@ -105,9 +113,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               } else{
                                 servicesProvider.stepNumber = 3;
                               }
-                              // confirmMonthlyController.text = selectedCalculateAccordingTo == 1 ? servicesProvider.monthlyInstallmentController.text : '1200';
+                              // confirmMonthlyController.text = selectedCalculateAccordingTo == 1 ? servicesProvider.monthlyInstallmentController.text : '42';
                               confirmMonthlyController.text = servicesProvider.monthlyInstallmentController.text;
-                              confirmSalaryController.text = '1200';
+                              confirmSalaryController.text = '42';
                             } break;
                             case 3: {
                               String message = translate('somethingWrongHappened', context);
@@ -222,73 +230,92 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            Container(
-              padding: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                color: HexColor('#F0F2F0'),
-                borderRadius: BorderRadius.circular(50.0),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: (){
-                        setState(() {
-                          selectedCalculateAccordingTo = 1;
-                        });
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 6.0),
-                        decoration: BoxDecoration(
-                          color: selectedCalculateAccordingTo == 1
-                              ? HexColor('#445740') : Colors.transparent,
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        child: Text(
-                          translate('monthlyInstallment', context),
-                          style: TextStyle(
-                              color: selectedCalculateAccordingTo == 1
-                                  ? Colors.white : HexColor('#A6A6A6')
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8.0),
-                  Expanded(
-                    child: InkWell(
-                      onTap: (){
-                        setState(() {
-                          selectedCalculateAccordingTo = 2;
-                        });
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 100),
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 6.0),
-                        decoration: BoxDecoration(
-                          color: selectedCalculateAccordingTo == 2
-                              ? HexColor('#445740') : Colors.transparent,
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        child: Text(
-                          translate('salary', context),
-                          style: TextStyle(
-                              color: selectedCalculateAccordingTo == 2
-                                  ? Colors.white : HexColor('#A6A6A6')
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            RadioGroup<String>.builder(
+              activeColor: HexColor('#2D452E'),
+              direction: Axis.vertical,
+              horizontalAlignment: MainAxisAlignment.start,
+              groupValue: selectedCalculateAccordingTo,
+              spacebetween: 40,
+              textStyle: isTablet(context)
+                  ? TextStyle(
+                  fontSize: width(0.025, context)
+              ) : const TextStyle(),
+              onChanged: (value) => setState(() {
+                    selectedCalculateAccordingTo = value;
+                  }),
+              items: const ['lastSalary', 'increaseInAllowanceForDeductionYears', 'discountNotMoreThan-20'],
+              itemBuilder: (item) =>
+                RadioButtonBuilder(
+                  translate(item, context),
+                ),
             ),
+            // Container(
+            //   padding: const EdgeInsets.all(5.0),
+            //   decoration: BoxDecoration(
+            //     color: HexColor('#F0F2F0'),
+            //     borderRadius: BorderRadius.circular(50.0),
+            //   ),
+            //   child: Row(
+            //     children: [
+            //       Expanded(
+            //         child: InkWell(
+            //           onTap: (){
+            //             setState(() {
+            //               selectedCalculateAccordingTo = 1;
+            //             });
+            //           },
+            //           child: AnimatedContainer(
+            //             duration: const Duration(milliseconds: 300),
+            //             alignment: Alignment.center,
+            //             padding: const EdgeInsets.symmetric(vertical: 6.0),
+            //             decoration: BoxDecoration(
+            //               color: selectedCalculateAccordingTo == 1
+            //                   ? HexColor('#445740') : Colors.transparent,
+            //               borderRadius: BorderRadius.circular(50.0),
+            //             ),
+            //             child: Text(
+            //               translate('monthlyInstallment', context),
+            //               style: TextStyle(
+            //                   color: selectedCalculateAccordingTo == 1
+            //                       ? Colors.white : HexColor('#A6A6A6')
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       const SizedBox(width: 8.0),
+            //       Expanded(
+            //         child: InkWell(
+            //           onTap: (){
+            //             setState(() {
+            //               selectedCalculateAccordingTo = 2;
+            //             });
+            //           },
+            //           child: AnimatedContainer(
+            //             duration: const Duration(milliseconds: 100),
+            //             alignment: Alignment.center,
+            //             padding: const EdgeInsets.symmetric(vertical: 6.0),
+            //             decoration: BoxDecoration(
+            //               color: selectedCalculateAccordingTo == 2
+            //                   ? HexColor('#445740') : Colors.transparent,
+            //               borderRadius: BorderRadius.circular(50.0),
+            //             ),
+            //             child: Text(
+            //               translate('salary', context),
+            //               style: TextStyle(
+            //                   color: selectedCalculateAccordingTo == 2
+            //                       ? Colors.white : HexColor('#A6A6A6')
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(height: height(0.04, context),),
             Text(
-              translate('selectMonthlyInstallment', context),
+              translate('determineTheAffiliateWage', context),
               style: TextStyle(
                   color: HexColor('#363636'),
                   fontSize: width(0.032, context)
@@ -300,22 +327,47 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               children: [
                 Flexible(
                   flex: 5,
-                  child: Slider(
-                    activeColor: HexColor('#363636'),
-                    inactiveColor: HexColor('#E0E0E0'),
-                    value: currentSliderValue,
-                    max: 800,
-                    divisions: 800,
-                    label: currentSliderValue.round().toString(),
-                    onChanged: selectedCalculateAccordingTo == 1
-                      ? (double value) {
-                      servicesProvider.monthlyInstallmentController.text = value.toStringAsFixed(0);
-                      servicesProvider.notifyMe();
-                      setState(() {
-                        currentSliderValue = value;
-                      });
-                    } : null,
-                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Slider(
+                        activeColor: HexColor('#363636'),
+                        inactiveColor: HexColor('#E0E0E0'),
+                        value: currentSliderValue,
+                        min: 480,
+                        max: 880,
+                        divisions: 400,
+                        label: currentSliderValue.round().toString(),
+                        onChanged: (double value) {
+                          servicesProvider.monthlyInstallmentController.text = value.toStringAsFixed(0);
+                          servicesProvider.notifyMe();
+                          setState(() {
+                            currentSliderValue = value;
+                          });
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '480 ${translate('jd', context)}',
+                              style: const TextStyle(
+                                fontSize: 13
+                              ),
+                            ),
+                            Text(
+                              '880 ${translate('jd', context)}',
+                              style: const TextStyle(
+                                  fontSize: 13
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  )
                 ),
                 Flexible(
                   flex: 1,
@@ -333,20 +385,13 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       monthlyInstallmentTextFormField(
                         servicesProvider.monthlyInstallmentController, themeNotifier,
                             (value){
-                          setState(() {
-                            if(servicesProvider.monthlyInstallmentController.text.isNotEmpty) {
-                              if(double.parse(servicesProvider.monthlyInstallmentController.text) <= 800){
-                                currentSliderValue = double.parse(servicesProvider.monthlyInstallmentController.text);
-                              } else{
-                                currentSliderValue = 800;
-                                servicesProvider.monthlyInstallmentController.text = "800";
-                              }
+                          if((int.tryParse(value.isEmpty ? '0' : value) <= 880) && (int.tryParse(value.isEmpty ? '0' : value) >= 480)) {
+                            setState(() {
                               currentSliderValue = double.parse(servicesProvider.monthlyInstallmentController.text);
-                            } else{
-                              currentSliderValue = 0;
-                              servicesProvider.monthlyInstallmentController.text = "0";
-                            }
-                          });
+                            });
+                          }else{
+                            currentSliderValue = 480;
+                          }
                           servicesProvider.notifyMe();
                         },
                       ),
@@ -357,7 +402,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             ),
             SizedBox(height: height(0.04, context),),
             Text(
-              translate('salary', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
+              translate('monthlyInstallment', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
               style: TextStyle(
                   color: HexColor('#363636'),
                   fontSize: width(0.032, context)
@@ -376,7 +421,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '1200',
+                    '42',
                     style: TextStyle(
                       color: HexColor('#666666'),
                       fontWeight: FontWeight.w500,
@@ -456,64 +501,35 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             ),
             SizedBox(height: height(0.02, context),),
             Text(
-              translate('monthlyInstallment', context),
+              translate('CalculateAccordingTo', context),
               style: TextStyle(
                   color: HexColor('#363636'),
-                  fontSize: width(0.032, context)
+                  fontSize: width(0.036, context)
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 9,
-                  child: buildTextFormField(context, themeNotifier, confirmMonthlyController, '', (value){}),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Text(
-                    translate('jd', context),
-                    style: TextStyle(
-                        color: themeNotifier.isLight()
-                            ? Colors.black
-                            : Colors.white,
-                        fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
-                  ),
-                ),
-                const SizedBox.shrink()
-              ],
+            Text(translate(selectedCalculateAccordingTo, context)),
+            SizedBox(height: height(0.035, context),),
+            Text(
+              translate('monthlyInstallment', context),
+              style: TextStyle(
+                  color: HexColor('#363636'),
+                  fontSize: width(0.036, context)
+              ),
             ),
-            SizedBox(height: height(0.04, context),),
+            SizedBox(height: height(0.015, context),),
+            Text(confirmSalaryController.text),
+            SizedBox(height: height(0.035, context),),
             Text(
               translate('salary', context),
               style: TextStyle(
                   color: HexColor('#363636'),
-                  fontSize: width(0.032, context)
+                  fontSize: width(0.036, context)
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 9,
-                  child: buildTextFormField(context, themeNotifier, confirmSalaryController, '', (value){}),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Text(
-                    translate('jd', context),
-                    style: TextStyle(
-                        color: themeNotifier.isLight()
-                            ? Colors.black
-                            : Colors.white,
-                        fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
-                  ),
-                ),
-                const SizedBox.shrink()
-              ],
-            ),
+            Text(confirmMonthlyController.text),
+
           ],
         ),
       ),
@@ -521,44 +537,40 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   }
 
   monthlyInstallmentTextFormField(controller, themeNotifier, onChanged){
-    return Opacity(
-      opacity: selectedCalculateAccordingTo == 2 ? 0.5 : 1,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TextFormField(
+        textAlignVertical: TextAlignVertical.center,
+        textAlign: TextAlign.center,
+        controller: controller,
+        keyboardType: TextInputType.number,
+        style: TextStyle(
+          fontSize: isTablet(context) ? 20 : 15,
+          color: HexColor('#363636'),
         ),
-        child: TextFormField(
-          readOnly: selectedCalculateAccordingTo == 2,
-          textAlignVertical: TextAlignVertical.center,
-          textAlign: TextAlign.center,
-          controller: controller,
-          keyboardType: TextInputType.number,
-          style: TextStyle(
-            fontSize: isTablet(context) ? 20 : 15,
-            color: HexColor('#363636'),
-          ),
-          cursorColor: getPrimaryColor(context, themeNotifier),
-          cursorWidth: 1,
-          decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: isTablet(context) ? 20 : 0,),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(
-                  color: getPrimaryColor(context, themeNotifier),
-                  width: 0.5,
-                ),
+        cursorColor: getPrimaryColor(context, themeNotifier),
+        cursorWidth: 1,
+        decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: isTablet(context) ? 20 : 0,),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: getPrimaryColor(context, themeNotifier),
+                width: 0.5,
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(
-                  color: getPrimaryColor(context, themeNotifier),
-                  width: 0.8,
-                ),
-              )
-          ),
-          onChanged: onChanged,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: getPrimaryColor(context, themeNotifier),
+                width: 0.8,
+              ),
+            )
         ),
+        onChanged: onChanged,
       ),
     );
   }
