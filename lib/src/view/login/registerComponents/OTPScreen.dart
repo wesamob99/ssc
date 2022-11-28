@@ -218,7 +218,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                                 Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                     builder: (context) => widget.type == "emailFromReset"
-                                                        ? ResetPasswordBody(otpCode: pinController.text)
+                                                        ? ResetPasswordBody(otpCode: pinController.text, email: widget.contactTarget,)
                                                         : const ForthStepBody(),
                                                   ),
                                                 );

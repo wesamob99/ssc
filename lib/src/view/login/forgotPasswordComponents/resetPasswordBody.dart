@@ -21,8 +21,9 @@ import 'dart:math' as math;
 
 class ResetPasswordBody extends StatefulWidget {
   final String otpCode;
+  final String email;
   final bool useMobile;
-  const ResetPasswordBody({Key key, this.otpCode, this.useMobile = false}) : super(key: key);
+  const ResetPasswordBody({Key key, this.otpCode, this.useMobile = false, this.email}) : super(key: key);
 
   @override
   State<ResetPasswordBody> createState() => _ResetPasswordBodyState();
@@ -258,7 +259,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                         widget.useMobile ? int.tryParse(userSecuredStorage.realMobileNumber.toString()) : null,
                                         userSecuredStorage.internationalCode.toString(),
                                         int.tryParse(widget.otpCode),
-                                        widget.useMobile ? null : userSecuredStorage.email.toString(),
+                                        widget.useMobile ? null : widget.email,
                                       ).whenComplete((){}).then((value){
                                         if(value["PO_STATUS"] == 1){
                                           errorMessage = UserConfig.instance.checkLanguage()
