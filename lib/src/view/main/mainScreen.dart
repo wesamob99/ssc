@@ -20,6 +20,7 @@ import '../../../utilities/util.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
 import '../profile/profileScreen.dart';
 import '../services/servicesScreen.dart';
+import 'mainAppBarScreens/searchScreen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key key}) : super(key: key);
@@ -158,12 +159,32 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         actions: [
-          SvgPicture.asset('assets/icons/search.svg'),
-          SizedBox(width: width(0.05, context)),
-          SvgPicture.asset('assets/icons/location.svg'),
-          SizedBox(width: width(0.05, context)),
-          SvgPicture.asset('assets/icons/notifications.svg'),
-          SizedBox(width: width(0.08, context)),
+          InkWell(
+            onTap: (){
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const SearchScreen())
+              );
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: width(0.025, context)),
+              child: SvgPicture.asset('assets/icons/search.svg'),
+            ),
+          ),
+          InkWell(
+            onTap: (){},
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: width(0.025, context)),
+              child: SvgPicture.asset('assets/icons/location.svg'),
+            ),
+          ),
+          InkWell(
+            onTap: (){},
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: width(0.025, context)),
+              child: SvgPicture.asset('assets/icons/notifications.svg'),
+            ),
+          ),
+          SizedBox(width: width(0.05, context),)
         ],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
