@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 
 class MainProvider extends ChangeNotifier {
 
+  TextEditingController searchController = TextEditingController();
+
   void notifyMe() {
     notifyListeners();
   }
