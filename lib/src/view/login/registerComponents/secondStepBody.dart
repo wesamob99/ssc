@@ -96,7 +96,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                       SizedBox(height: height(0.02, context),),
                       buildFieldTitle(context, 'enterNationalId', filled: loginProvider.registerNationalIdController.text.length == 10),
                       SizedBox(height: height(0.015, context),),
-                      buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, '9661001073', (val){
+                      buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, '9999999999', (val){
                         checkContinueEnable(loginProvider);
                       }, inputType: TextInputType.number),
                       SizedBox(height: height(0.02, context),),
@@ -115,7 +115,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                       if(!isJordanian)
                       buildFieldTitle(context, 'insuranceNumber', required: loginProvider.insuranceNumberController.text.isNotEmpty, filled: loginProvider.insuranceNumberController.text.length == 10),
                       SizedBox(height: height(0.015, context),),
-                      buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.relativeNatIdController : loginProvider.insuranceNumberController, '9661001073', (val){
+                      buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.relativeNatIdController : loginProvider.insuranceNumberController, '9999999999', (val){
                         checkContinueEnable(loginProvider);
                       },inputType: TextInputType.number),
                       SizedBox(height: height(0.02, context),),

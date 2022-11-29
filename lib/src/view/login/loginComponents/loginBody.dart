@@ -324,7 +324,7 @@ class _LoginBodyState extends State<LoginBody> {
       ),
       decoration: InputDecoration(
         hintText: controller ==  loginProvider.nationalIdController
-            ? translate('ex', context) + '9661001073'
+            ? translate('ex', context) + '9999999999'
             : '',
         hintStyle: TextStyle(
           color: getGrey2Color(context).withOpacity(

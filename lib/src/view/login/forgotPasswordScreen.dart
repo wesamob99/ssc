@@ -312,7 +312,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       cursorColor: getPrimaryColor(context, themeNotifier),
       cursorWidth: 1,
       decoration: InputDecoration(
-          hintText: translate('ex', context) + '9661001073',
+          hintText: translate('ex', context) + '9999999999',
           hintStyle: TextStyle(
               color: getGrey2Color(context).withOpacity(
                   themeNotifier.isLight()
