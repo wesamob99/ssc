@@ -8,9 +8,11 @@ import '../../../models/profile/userProfileData.dart';
 
 class ProfileRepository{
 
-  Future<UserProfileData> getAccountDataService() async {
+  Future<UserProfileData> getAccountDataService(internalKey) async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-    String internalKey = userSecuredStorage.insuranceNumber.toString();
+    if(internalKey == '') {
+      internalKey = userSecuredStorage.insuranceNumber.toString();
+    }
     var response = await HTTPClientContract.instance.getHTTP('/individuals/GET_INDIVIDUALUSERINFOSP?PIINSURANCENO=$internalKey');
     if (kDebugMode) {
       print(response);
