@@ -38,10 +38,16 @@ class _FirstStepBodyState extends State<FirstStepBody> {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     loginProvider.readCountriesJson();
     loginProvider.isLoading = false;
-    selectedCountryOfResident = selectedExactNationality = selectedCountryForJoMobileNumber = selectedCountryForForeignMobileNumber = SelectedListItem(
+    selectedCountryOfResident = selectedCountryForJoMobileNumber = SelectedListItem(
       name: UserConfig.instance.checkLanguage() ? "Jordan" : "الأردن",
       value: "962", natCode: 111,
       flag: countries[110].flag,
+    );
+
+    selectedExactNationality = selectedCountryForForeignMobileNumber = SelectedListItem(
+      name: UserConfig.instance.checkLanguage() ? "Palestine" : "فلسطين",
+      value: "970", natCode: 188,
+      flag: countries[168].flag,
     );
     super.initState();
   }
@@ -124,6 +130,14 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                               loginProvider.registerContinueEnabled = (loginProvider.jordanianMobileNumberController.text.startsWith('0')
                               ? loginProvider.jordanianMobileNumberController.text.length == 10
                               : loginProvider.jordanianMobileNumberController.text.length == 9);
+
+                              if(value == 'nonJordanian') {
+                                selectedExactNationality = selectedCountryForForeignMobileNumber = SelectedListItem(
+                                  name: UserConfig.instance.checkLanguage() ? "Palestine" : "فلسطين",
+                                  value: "970", natCode: 188,
+                                  flag: countries[168].flag,
+                                );
+                              }
                               loginProvider.notifyMe();
                             }),
                         items: const ['jordanian', 'nonJordanian'],
@@ -275,8 +289,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
   Widget buildCountriesDropDown(int index, SelectedListItem selectedCountry ,{showSelectedName = false}) {
     List<SelectedListItem> selectedListItem = [];
     for (var element in loginProvider.countries) {
-      int inx = countries.indexWhere((value) =>
-      value.dialCode == element.callingCode);
+      int inx = countries.indexWhere((value) => value.dialCode == element.callingCode);
       selectedListItem.add(
         SelectedListItem(
           name: UserConfig.instance.checkLanguage() ? countries[inx == -1
@@ -302,11 +315,11 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                     setState(() {
                       if(index == 1) {
                         selectedCountryOfResident = item;
-                      }else if(index == 2){
+                      }else if(index == 2 && item.value != "962"){
                         selectedExactNationality = item;
                       }else if(index == 3){
                         selectedCountryForJoMobileNumber = item;
-                      }else if(index == 4){
+                      }else if(index == 4 && item.value != "962"){
                         selectedCountryForForeignMobileNumber = item;
                       }
                     });
