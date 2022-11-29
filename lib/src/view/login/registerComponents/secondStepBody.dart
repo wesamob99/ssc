@@ -113,7 +113,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                       if(isJordanian)
                       buildFieldTitle(context, 'relativeNationalNumber', filled: loginProvider.relativeNatIdController.text.length == 10),
                       if(!isJordanian)
-                      buildFieldTitle(context, 'insuranceNumber', required: false),
+                      buildFieldTitle(context, 'insuranceNumber', required: loginProvider.insuranceNumberController.text.isNotEmpty, filled: loginProvider.insuranceNumberController.text.length == 10),
                       SizedBox(height: height(0.015, context),),
                       buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.relativeNatIdController : loginProvider.insuranceNumberController, '9661001073', (val){
                         checkContinueEnable(loginProvider);
