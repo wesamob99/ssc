@@ -32,10 +32,8 @@ class ServicesProvider extends ChangeNotifier {
   //   return userProfileData;
   // }
 
-  Future<OptionalSubGetDetail> optionalSubGetDetail() async{
-    optionalSubDetail = await servicesRepository.optionalSubGetDetailService();
-    notifyMe();
-    return optionalSubDetail;
+  Future optionalSubGetDetail() async{
+    return await servicesRepository.optionalSubGetDetailService();
   }
 
   Future optionalSubInsertNew() async{

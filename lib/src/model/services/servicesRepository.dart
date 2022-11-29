@@ -24,7 +24,7 @@ class ServicesRepository{
   //   return null;
   // }
 
-  Future<OptionalSubGetDetail> optionalSubGetDetailService() async {
+  Future optionalSubGetDetailService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
     var response = await HTTPClientContract.instance.getHTTP('/individuals/OptionalSub_GetDetail_new?PI_user_name=$internalKey');
@@ -32,7 +32,7 @@ class ServicesRepository{
       print(response);
     }
     if (response != null && response.statusCode == 200) {
-      return optionalSubGetDetailFromJson(response.toString());
+      return jsonDecode(response.toString());
     }
     return null;
   }
