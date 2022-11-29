@@ -65,6 +65,7 @@ dependencies:
   date_time_picker: ^2.1.0
   loading_indicator: ^3.1.0
   sliding_up_panel: ^2.0.0+1
+  flutter_image_slideshow: ^0.1.4
 
 dev_dependencies:
   flutter_test:
