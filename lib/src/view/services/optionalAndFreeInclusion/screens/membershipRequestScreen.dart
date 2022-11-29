@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -103,7 +103,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                         MaterialStateProperty.all<Color>(
                             getPrimaryColor(context, themeNotifier)),
                         HexColor('#ffffff'),
-                            (){
+                            () async {
                           switch(servicesProvider.stepNumber){
                             case 1: servicesProvider.stepNumber = 2; break;
                             case 2: {
@@ -119,8 +119,11 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                             } break;
                             case 3: {
                               String message = translate('somethingWrongHappened', context);
-                              if(servicesProvider.isFirstOptionalSub == 0 || servicesProvider.isFirstOptionalSub == 2) {
-                                servicesProvider.optionalSubInsertNew().whenComplete((){}).then((value){
+                              if(servicesProvider.isFirstOptionalSub == 0 || servicesProvider.isFirstOptionalSub == 1 || servicesProvider.isFirstOptionalSub == 2) {
+                                var value = await servicesProvider.optionalSubInsertNew().whenComplete((){});
+                                if(servicesProvider.isFirstOptionalSub == 1){
+                                  value = await servicesProvider.optionalSubFirstInsertNew().whenComplete((){});
+                                }
                                 if(value != '') {
                                   message = UserConfig.instance.checkLanguage()
                                     ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
@@ -132,8 +135,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                     rateServiceBottomSheet(context, themeNotifier, servicesProvider);
                                   });
                                 });
-                              });
-                              } else{
+                              }else{
                                 showMyDialog(context, 'failed', message, 'ok', themeNotifier).then((_){
                                   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
                                     servicesProvider.selectedServiceRate = -1;
