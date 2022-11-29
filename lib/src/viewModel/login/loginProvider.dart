@@ -154,7 +154,6 @@ class LoginProvider extends ChangeNotifier {
     enabledSubmitButton = false;
     resetContinueEnabled = false;
     isLoading = false;
-    notifyMe();
   }
 
   clearRegisterData(){
