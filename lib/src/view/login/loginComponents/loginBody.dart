@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ssc/src/viewModel/profile/profileProvider.dart';
 
 import '../../../../infrastructure/userConfig.dart';
 import '../../../../infrastructure/userSecuredStorage.dart';
@@ -243,15 +244,21 @@ class _LoginBodyState extends State<LoginBody> {
             loginProvider.isLoading = true;
             loginProvider.notifyMe();
             try{
-              await loginProvider.login( loginProvider.nationalIdController.text,  loginProvider.passwordController.text)
+              await loginProvider.login(loginProvider.nationalIdController.text,  loginProvider.passwordController.text)
                   .whenComplete((){})
-                  .then((val){
+                  .then((val) async {
                 UserData userData = val;
                 userSecuredStorage.token = userData?.token ?? ''; // user token
                 if(userData.data != null){
                   userSecuredStorage.userName = userData.data.poName ?? ''; // poName -> user name
                   userSecuredStorage.nationalId = userData.data.poUserName ?? ''; // poUserName -> user national ID
                   userSecuredStorage.insuranceNumber = userData.data.poInternalKey ?? ''; // poInternalKey -> user insurance number
+                  await Provider.of<ProfileProvider>(context, listen: false).getAccountData(internalKey: userSecuredStorage.nationalId.toString()).whenComplete((){}).then((result){
+                    var data = result.curGetdata[0][0];
+                    userSecuredStorage.userFullName = '${data.firstname??''} ${data.fathername??''} ${data.grandfathername??''} ${data.familyname??''}'; // user's full name params
+                    userSecuredStorage.realMobileNumber = data.mobilenumber.toString() ?? ''; // poRealMobileno -> user mobile number
+                    userSecuredStorage.internationalCode = data.internationalcode.toString() ?? ''; // poInternationalcode -> country code
+                  });
                 }
                 if(userData.poStatusDescEn != null){
                   errorMessage = UserConfig.instance.checkLanguage()
