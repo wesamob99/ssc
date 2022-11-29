@@ -26,8 +26,8 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   ServicesProvider servicesProvider;
   String selectedCalculateAccordingTo = 'lastSalary';
   double currentSliderValue = 480;
-  TextEditingController confirmMonthlyController = TextEditingController();
-  TextEditingController confirmSalaryController = TextEditingController();
+  String confirmMonthlyValue = '';
+  String confirmSalaryValue = '';
 
   @override
   void initState() {
@@ -55,8 +55,8 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                   {
                     selectedCalculateAccordingTo = 'lastSalary';
                     currentSliderValue = 480;
-                    confirmMonthlyController = TextEditingController();
-                    confirmSalaryController = TextEditingController();
+                    confirmMonthlyValue = '';
+                    confirmSalaryValue = '';
                     servicesProvider.stepNumber = 1;
                   } break;
                 case 3: servicesProvider.stepNumber = 2; break;
@@ -112,9 +112,8 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               } else{
                                 servicesProvider.stepNumber = 3;
                               }
-                              // confirmMonthlyController.text = selectedCalculateAccordingTo == 1 ? servicesProvider.monthlyInstallmentController.text : '42';
-                              confirmMonthlyController.text = servicesProvider.monthlyInstallmentController.text;
-                              confirmSalaryController.text = '42';
+                              confirmMonthlyValue = servicesProvider.monthlyInstallmentController.text;
+                              confirmSalaryValue = (int.tryParse(servicesProvider.monthlyInstallmentController.text) * 0.07).toStringAsFixed(2);
                             } break;
                             case 3: {
                               String message = translate('somethingWrongHappened', context);
@@ -422,7 +421,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '42',
+                    (int.tryParse(servicesProvider.monthlyInstallmentController.text) * 0.07).toStringAsFixed(2),
                     style: TextStyle(
                       color: HexColor('#666666'),
                       fontWeight: FontWeight.w500,
@@ -519,7 +518,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            Text(confirmSalaryController.text),
+            Text('$confirmSalaryValue ${translate('jd', context)}'),
             SizedBox(height: height(0.035, context),),
             Text(
               translate('salary', context),
@@ -529,7 +528,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            Text(confirmMonthlyController.text),
+            Text('$confirmMonthlyValue ${translate('jd', context)}'),
 
           ],
         ),
