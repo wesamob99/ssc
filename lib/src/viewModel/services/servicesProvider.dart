@@ -42,6 +42,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.optionalSubInsertNewService(optionalSubDetail.curGetdata[0][0]);
   }
 
+  Future optionalSubFirstInsertNew() async{
+    return await servicesRepository.optionalSubInsertNewService(optionalSubDetail.curGetdata[0][0]);
+  }
+
   Future<void> readCountriesJson() async {
     countries = [];
     final String response = await rootBundle.loadString('assets/jsonFiles/countries.json');
