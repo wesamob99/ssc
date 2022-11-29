@@ -14,6 +14,7 @@ import 'package:ssc/src/viewModel/home/homeProvider.dart';
 
 import '../../../models/home/payOffFinancialInformations.dart';
 import '../../../utilities/util.dart';
+import '../../viewModel/services/servicesProvider.dart';
 
 class SplashScreen extends StatefulWidget {
   final bool fromMain;
@@ -27,6 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
+    Provider.of<ServicesProvider>(context, listen: false).readCountriesJson();
     Future.delayed(Duration(milliseconds: widget.fromMain ? 2000 : 1500), (){
       checkDataConnection();
     });
