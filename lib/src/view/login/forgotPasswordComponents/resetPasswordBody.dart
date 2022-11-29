@@ -251,7 +251,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                   if(loginProvider.resetContinueEnabled){
                                     loginProvider.isLoading = true;
                                     loginProvider.notifyMe();
-                                    String errorMessage = '';
+                                    String message = '';
                                     try{
                                       await loginProvider.resetPassword(
                                         userSecuredStorage.nationalId.toString(),
@@ -261,19 +261,17 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                         int.tryParse(widget.otpCode),
                                         widget.useMobile ? null : widget.email,
                                       ).whenComplete((){}).then((value){
+                                        message = UserConfig.instance.checkLanguage()
+                                            ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
                                         if(value["PO_STATUS"] == 1){
-                                          errorMessage = UserConfig.instance.checkLanguage()
-                                              ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
-                                          showMyDialog(context, 'resetPassword', errorMessage, 'login', themeNotifier).then((value) {
+                                          showMyDialog(context, 'resetPassword', message, 'login', themeNotifier).then((value) {
                                             Navigator.of(context).pushAndRemoveUntil(
                                                 MaterialPageRoute(builder: (context) => const SplashScreen()),
                                                     (route) => false
                                             );
                                           });
                                         }else{
-                                          errorMessage = UserConfig.instance.checkLanguage()
-                                              ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
-                                          showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                                          showMyDialog(context, 'resetPasswordFailed', message, 'retryAgain', themeNotifier);
                                         }
                                       });
                                       loginProvider.isLoading = false;
