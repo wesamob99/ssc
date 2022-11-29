@@ -245,7 +245,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               onChanged: (value) => setState(() {
                     selectedCalculateAccordingTo = value;
                   }),
-              items: const ['lastSalary', 'increaseInAllowanceForDeductionYears', 'discountNotMoreThan-20'],
+              items: const ['lastSalary', 'increaseInAllowanceForDeductionYears', 'discountNotMoreThan-20', 'lastSalaryAccordingToTheDefenseLaw'],
               itemBuilder: (item) =>
                 RadioButtonBuilder(
                   translate(item, context),
