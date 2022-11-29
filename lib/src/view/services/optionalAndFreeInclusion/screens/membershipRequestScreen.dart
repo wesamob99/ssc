@@ -34,7 +34,6 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
     servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
-    servicesProvider.readCountriesJson();
     super.initState();
   }
 

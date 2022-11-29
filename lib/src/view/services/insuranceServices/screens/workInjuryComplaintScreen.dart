@@ -30,7 +30,6 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
-    servicesProvider.readCountriesJson();
     servicesProvider.selectedInjuredType = 'occupationalDisease';
     super.initState();
   }
