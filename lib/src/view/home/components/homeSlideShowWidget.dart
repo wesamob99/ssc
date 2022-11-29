@@ -44,9 +44,9 @@ class HomeSlideShowWidget extends StatelessWidget {
       height: height(isTablet(context) ? 0.2 : 0.18, context),
       initialPage: 0,
       indicatorColor: primaryColor,
-      indicatorBackgroundColor: Colors.grey,
+      indicatorBackgroundColor: Colors.white,
       onPageChanged: (value) {},
-      autoPlayInterval: 3000,
+      autoPlayInterval: 3500,
       isLoop: true,
       children: ads,
     );
