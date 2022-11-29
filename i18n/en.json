@@ -64,6 +64,7 @@
   "loginFailed": "Login failed",
   "resetPasswordFailed": "Reset password failed",
   "registerFailed": "Register failed",
+  "registerCompleted": "Register completed",
   "resetPassword": "Reset your password",
   "bottomHome": "Home",
   "bottomServices": "Services",
