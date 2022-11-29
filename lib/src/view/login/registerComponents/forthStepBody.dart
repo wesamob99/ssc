@@ -217,22 +217,24 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                               FocusScope.of(context).requestFocus(FocusNode());
                               loginProvider.isLoading = true;
                               loginProvider.notifyMe();
-                              String errorMessage = "";
+                              String message = "";
                               try{
                                 await loginProvider.getEncryptedPassword(loginProvider.registerPasswordController.text).then((value) async {
                                   loginProvider.registerData.password = value;
                                   await loginProvider.registerUser().whenComplete((){}).then((val) {
                                     if(val['PO_STATUS'] != 0){
-                                      errorMessage = UserConfig.instance.checkLanguage()
+                                      message = UserConfig.instance.checkLanguage()
                                           ? val['PO_STATUS_DESC_EN'] : val['PO_STATUS_DESC_AR'];
-                                      showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
+                                      showMyDialog(context, 'registerFailed', message, 'retryAgain', themeNotifier);
                                     } else{
-                                      errorMessage = '';
+                                      message = '';
                                       loginProvider.registerContinueEnabled = false;
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                              (route) => false
-                                      );
+                                      showMyDialog(context, 'registerCompleted', message, 'login', themeNotifier).then((value){
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                            MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                                (route) => false
+                                        );
+                                      });
                                       loginProvider.registerContinueEnabled = false;
                                     }
                                     loginProvider.notifyMe();
