@@ -16,12 +16,10 @@ class UserSecuredStorage {
   String _userJson = "";
   /// ***
   String _userName = "";
+  String _userFullName = "";
   // String _userGroup = "";
   String _insuranceNumber = "";
   String _nationalId = "";
-  // String _status = "";
-  // String _statusDescriptionAr = "";
-  // String _statusDescriptionEn = "";
   String _email = "";
   String _internationalCode = "";
   String _mobileNumber = "";
@@ -47,6 +45,16 @@ class UserSecuredStorage {
   set userName(String value) {
     addKeyPair('userName', value);
     _userName = value;
+  }
+
+  String get userFullName {
+    _userFullName = _box.get('userFullName') ?? "";
+    return _userFullName;
+  }
+
+  set userFullName(String value) {
+    addKeyPair('userFullName', value);
+    _userFullName = value;
   }
 
   String get nationalId {
