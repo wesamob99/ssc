@@ -20,7 +20,8 @@ import 'forgotPasswordComponents/forgotPasswordBody.dart';
 import 'dart:math' as math;
 
 class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({Key key}) : super(key: key);
+  final bool submitButtonEnabled;
+  const ForgotPasswordScreen({Key key, this.submitButtonEnabled = false}) : super(key: key);
 
   @override
   State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
@@ -50,7 +51,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     loginProvider.enabledSubmitButton = false;
     /// forgot password
     loginProvider.enabledSendCodeButton = false;
-    loginProvider.enabledSubmitButton = false;
+    loginProvider.enabledSubmitButton = widget.submitButtonEnabled;
     showResetPasswordBody = false;
     /// all
     loginProvider.isLoading = false;

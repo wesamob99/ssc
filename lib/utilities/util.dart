@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 import '../infrastructure/userConfig.dart';
-import '../src/view/login/forgotPasswordScreen.dart';
 import '../src/viewModel/login/loginProvider.dart';
 import '../src/viewModel/services/servicesProvider.dart';
 import 'hexColor.dart';
@@ -258,8 +257,7 @@ Future<void> showMyDialog(
     String body,
     String buttonText,
     ThemeNotifier themeNotifier,
-    {exceedAttempts = false,
-    titleColor = '#ED3124',
+    {titleColor = '#ED3124',
     icon = 'assets/icons/loginError.svg'}
     ) async {
   return showDialog<void>(
@@ -313,13 +311,7 @@ Future<void> showMyDialog(
           actions: <Widget>[
             TextButton(
               onPressed: () async {
-                if(exceedAttempts){
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context)=> const ForgotPasswordScreen()),
-                  );
-                }else{
-                  Navigator.of(context).pop();
-                }
+                Navigator.of(context).pop();
               },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(

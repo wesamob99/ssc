@@ -275,7 +275,11 @@ class _LoginBodyState extends State<LoginBody> {
                 }else{
                   loginProvider.numberOfAttempts++;
                   if(loginProvider.numberOfAttempts > 4){
-                    showMyDialog(context, 'exceedNumberOfAllowedAttempts', loginProvider.numberOfAttempts > 4 ? "" : errorMessage, 'resetPassword', themeNotifier, exceedAttempts: true);
+                    showMyDialog(context, 'loginFailed', translate('exceedNumberOfAllowedAttempts', context), 'resetPassword', themeNotifier).then((value){
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context)=> const ForgotPasswordScreen(submitButtonEnabled: true)),
+                      );
+                    });
                   }else{
                     showMyDialog(context, 'loginFailed', errorMessage, 'retryAgain', themeNotifier);
                   }
