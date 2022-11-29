@@ -1,5 +1,6 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ import 'package:ssc/src/viewModel/services/servicesProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/util.dart';
 import '../../../../../utilities/theme/themes.dart';
+import '../../../../infrastructure/userConfig.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class AboutTheServiceScreen extends StatefulWidget {
@@ -16,13 +18,15 @@ class AboutTheServiceScreen extends StatefulWidget {
   final List<String> termsOfTheService;
   final List<String> stepsOfTheService;
   final Widget serviceScreen;
+  final Future serviceApiCall;
   const AboutTheServiceScreen({
     Key key,
     @required this.serviceTitle,
     @required this.aboutServiceDescription,
     @required this.termsOfTheService,
     @required this.stepsOfTheService,
-    @required this.serviceScreen
+    @required this.serviceScreen,
+    @required this.serviceApiCall
   }) : super(key: key);
 
   @override
@@ -267,9 +271,24 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                           termsChecked ? HexColor('#ffffff') : HexColor('#363636'),
                               () async {
                             if(termsChecked){
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => widget.serviceScreen)
-                              );
+                              String errorMessage = '';
+                              try{
+                                await widget.serviceApiCall.whenComplete((){}).then((value){
+                                  if(value["PO_status_no"] == 0){
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) => widget.serviceScreen)
+                                    );
+                                  } else{
+                                    errorMessage = UserConfig.instance.checkLanguage()
+                                        ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
+                                    showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
+                                  }
+                                });
+                              }catch(e){
+                                if (kDebugMode) {
+                                  print(e.toString());
+                                }
+                              }
                             }
                           }
                       ),
