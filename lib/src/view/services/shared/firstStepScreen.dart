@@ -31,7 +31,6 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
-    accountDataFuture = servicesProvider.optionalSubGetDetail();
     servicesProvider.isFirstOptionalSub = -1;
     servicesProvider.isMobileNumberUpdated = false;
     servicesProvider.mobileNumberController = TextEditingController();
