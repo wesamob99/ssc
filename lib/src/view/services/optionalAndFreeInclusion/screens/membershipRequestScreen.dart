@@ -29,9 +29,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   String selectedCalculateAccordingTo = 'lastSalary';
   List<String> calculateAccordingToList = [];
   List<SelectedListItem> listOfRates= [];
-  SelectedListItem selectedRate= SelectedListItem(name: '1', natCode: null, flag: '');
+  SelectedListItem selectedRate= SelectedListItem(name: '0', natCode: null, flag: '');
   List<SelectedListItem> listOfYears= [];
-  SelectedListItem selectedYear= SelectedListItem(name: '1', natCode: null, flag: '');
+  SelectedListItem selectedYear= SelectedListItem(name: '0', natCode: null, flag: '');
   double currentSliderValue = 0;
   double minSalary = 0;
   double maxSalary = 0;
@@ -43,11 +43,11 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
     listOfYears = [];
-    for(int i=1 ; i<=servicesProvider.result['cur_getdata'][0][0]['NOOFINCREMENTS']  ; i++){
+    for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['NOOFINCREMENTS']  ; i++){
       listOfYears.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
     }
     listOfRates = [];
-    for(int i=1 ; i<=servicesProvider.result['cur_getdata'][0][0]['MAX_PER_OF_INC']  ; i++){
+    for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['MAX_PER_OF_INC']  ; i++){
       listOfRates.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
     }
     if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
@@ -421,7 +421,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          (minSalary * (double.tryParse(selectedRate.name) / 100) + minSalary).toStringAsFixed(2),
+                          (minSalary * (double.tryParse(selectedRate.name) / 100) * double.tryParse(selectedYear.name) + minSalary).toStringAsFixed(2),
                           style: TextStyle(
                             color: HexColor('#666666'),
                             fontWeight: FontWeight.w500,
@@ -464,7 +464,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          selectedCalculateAccordingTo == 'lastSalary' ? (currentSliderValue * 0.175).toStringAsFixed(3) : ((minSalary * (double.tryParse(selectedRate.name) / 100) + minSalary) * 0.175).toStringAsFixed(3),
+                          selectedCalculateAccordingTo == 'lastSalary' ? (currentSliderValue * 0.175).toStringAsFixed(3) : ((minSalary * (double.tryParse(selectedRate.name)  * double.tryParse(selectedYear.name) / 100) + minSalary) * 0.175).toStringAsFixed(3),
                           style: TextStyle(
                             color: HexColor('#666666'),
                             fontWeight: FontWeight.w500,
