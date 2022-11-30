@@ -32,10 +32,10 @@ class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-    return SingleChildScrollView(
-      child: Container(
-        alignment: Alignment.center,
-        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
+    return Container(
+      alignment: Alignment.center,
+      height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
