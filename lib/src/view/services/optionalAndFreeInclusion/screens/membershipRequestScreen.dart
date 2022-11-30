@@ -52,10 +52,10 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     }
     if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
       calculateAccordingToList = ['lastSalary'];
-      if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFINC'] != 0) {
+      if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFDEC'] != 0) {
         calculateAccordingToList.add('increaseInAllowanceForDeductionYears');
       }
-      if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFDEC'] != 0) {
+      if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFINC'] != 0) {
         calculateAccordingToList.add('discountNotMoreThan-20');
       }
       if(servicesProvider.result['cur_getdata'][0][0]['COMPLEMENTARY_SUBSC'] == 1) {
