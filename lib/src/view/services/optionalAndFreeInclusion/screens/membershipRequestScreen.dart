@@ -48,7 +48,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     }
     listOfRates = [];
     for(int i=1 ; i<=servicesProvider.result['cur_getdata'][0][0]['MAX_PER_OF_INC']  ; i++){
-      listOfRates.add(SelectedListItem(name: '$i %', natCode: null, flag: ''));
+      listOfRates.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
     }
     if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
       calculateAccordingToList = ['lastSalary', 'increaseInAllowanceForDeductionYears'];
@@ -112,82 +112,80 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             },
             child: WillPopScope(
               onWillPop: () async => false,
-              child: SingleChildScrollView(
-                child: Container(
-                  width: width(1, context),
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                        const FirstStepScreen(nextStep: 'payCalculation', numberOfSteps: 3),
-                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                        VerifyMobileNumberScreen(nextStep: 'payCalculation', numberOfSteps: 4, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
-                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                        secondStep(context, themeNotifier),
-                      if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                        thirdStep(context, themeNotifier),
-                      textButton(context,
-                        themeNotifier,
-                        Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'send',
-                        MaterialStateProperty.all<Color>(
-                            getPrimaryColor(context, themeNotifier)),
-                        HexColor('#ffffff'),
-                            () async {
-                          switch(servicesProvider.stepNumber){
-                            case 1: servicesProvider.stepNumber = 2; break;
-                            case 2: {
-                              if(servicesProvider.isMobileNumberUpdated){
-                                servicesProvider.stepNumber = 2;
-                                servicesProvider.isMobileNumberUpdated = false;
-                              } else{
-                                servicesProvider.stepNumber = 3;
+              child: Container(
+                width: width(1, context),
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    if(Provider.of<ServicesProvider>(context).stepNumber == 1)
+                      const FirstStepScreen(nextStep: 'payCalculation', numberOfSteps: 3),
+                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                      VerifyMobileNumberScreen(nextStep: 'payCalculation', numberOfSteps: 4, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                      secondStep(context, themeNotifier),
+                    if(Provider.of<ServicesProvider>(context).stepNumber == 3)
+                      thirdStep(context, themeNotifier),
+                    textButton(context,
+                      themeNotifier,
+                      Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'send',
+                      MaterialStateProperty.all<Color>(
+                          getPrimaryColor(context, themeNotifier)),
+                      HexColor('#ffffff'),
+                          () async {
+                        switch(servicesProvider.stepNumber){
+                          case 1: servicesProvider.stepNumber = 2; break;
+                          case 2: {
+                            if(servicesProvider.isMobileNumberUpdated){
+                              servicesProvider.stepNumber = 2;
+                              servicesProvider.isMobileNumberUpdated = false;
+                            } else{
+                              servicesProvider.stepNumber = 3;
+                            }
+                            confirmMonthlyValue = servicesProvider.monthlyInstallmentController.text;
+                            confirmSalaryValue = (currentSliderValue * 0.175).toStringAsFixed(2);
+                          } break;
+                          case 3: {
+                            String message = translate('somethingWrongHappened', context);
+                            if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 1 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 2) {
+                              var value = await servicesProvider.optionalSubInsertNew().whenComplete((){});
+                              if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 1){
+                                value = await servicesProvider.optionalSubFirstInsertNew().whenComplete((){});
                               }
-                              confirmMonthlyValue = servicesProvider.monthlyInstallmentController.text;
-                              confirmSalaryValue = (currentSliderValue * 0.175).toStringAsFixed(2);
-                            } break;
-                            case 3: {
-                              String message = translate('somethingWrongHappened', context);
-                              if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 1 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 2) {
-                                var value = await servicesProvider.optionalSubInsertNew().whenComplete((){});
-                                if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 1){
-                                  value = await servicesProvider.optionalSubFirstInsertNew().whenComplete((){});
-                                }
-                                if(value != '') {
-                                  message = UserConfig.instance.checkLanguage()
-                                    ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
-                                }
-                                showMyDialog(context, (value != '' && value['PO_status'] == 1) ? 'doneSuccessfully' : 'failed', message, 'ok', themeNotifier).then((_){
-                                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                                    servicesProvider.selectedServiceRate = -1;
-                                    servicesProvider.notifyMe();
-                                    rateServiceBottomSheet(context, themeNotifier, servicesProvider);
-                                  });
-                                });
-                              }else{
-                                showMyDialog(context, 'failed', message, 'ok', themeNotifier).then((_){
-                                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                                    servicesProvider.selectedServiceRate = -1;
-                                    servicesProvider.notifyMe();
-                                    rateServiceBottomSheet(context, themeNotifier, servicesProvider);
-                                  });
-                                });
+                              if(value != '') {
+                                message = UserConfig.instance.checkLanguage()
+                                  ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
                               }
-                            } break; /// TODO: finish service
-                          }
-                          servicesProvider.notifyMe();
-                        },
-                      )
-                      // SizedBox(height: height(0.01, context)),
-                      // textButton(context,
-                      //   themeNotifier,
-                      //   'saveAsDraft',
-                      //   MaterialStateProperty.all<Color>(Colors.transparent),
-                      //   HexColor('#003C97'),
-                      //       (){},
-                      // ),
-                    ],
-                  ),
+                              showMyDialog(context, (value != '' && value['PO_status'] == 1) ? 'doneSuccessfully' : 'failed', message, 'ok', themeNotifier).then((_){
+                                SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                  servicesProvider.selectedServiceRate = -1;
+                                  servicesProvider.notifyMe();
+                                  rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                });
+                              });
+                            }else{
+                              showMyDialog(context, 'failed', message, 'ok', themeNotifier).then((_){
+                                SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                  servicesProvider.selectedServiceRate = -1;
+                                  servicesProvider.notifyMe();
+                                  rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                });
+                              });
+                            }
+                          } break; /// TODO: finish service
+                        }
+                        servicesProvider.notifyMe();
+                      },
+                    )
+                    // SizedBox(height: height(0.01, context)),
+                    // textButton(context,
+                    //   themeNotifier,
+                    //   'saveAsDraft',
+                    //   MaterialStateProperty.all<Color>(Colors.transparent),
+                    //   HexColor('#003C97'),
+                    //       (){},
+                    // ),
+                  ],
                 ),
               ),
             ),
@@ -198,9 +196,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   }
 
   Widget secondStep(context, themeNotifier){
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
+    return SizedBox(
+      height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -280,7 +278,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                   translate(item, context),
                 ),
             ),
-            SizedBox(height: height(0.04, context),),
+            SizedBox(height: height(0.02, context),),
             if(selectedCalculateAccordingTo == 'lastSalary')
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -386,7 +384,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 ),
                 SizedBox(height: height(0.015, context),),
                 buildDropDown(context, listOfRates, 1, servicesProvider),
-                SizedBox(height: height(0.03, context),),
+                SizedBox(height: height(0.02, context),),
                 Text(
                   translate('numberOfYears', context),
                   style: TextStyle(
@@ -398,44 +396,93 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 buildDropDown(context, listOfYears, 2, servicesProvider)
               ],
             ),
-            SizedBox(height: height(0.04, context),),
-            Text(
-              translate('monthlyInstallment', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
-              style: TextStyle(
-                  color: HexColor('#363636'),
-                  fontSize: width(0.032, context)
-              ),
+            if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears')
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: height(0.03, context),),
+                Text(
+                  translate('salary', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
+                  style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontSize: width(0.032, context)
+                  ),
+                ),
+                SizedBox(height: height(0.02, context),),
+                Container(
+                    width: width(1, context),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: HexColor('#F0F2F0'),
+                        borderRadius: BorderRadius.circular(12.0)
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          (minSalary * (double.tryParse(selectedRate.name) / 100) + minSalary).toStringAsFixed(2),
+                          style: TextStyle(
+                            color: HexColor('#666666'),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(
+                          translate('jd', context),
+                          style: TextStyle(
+                            color: HexColor('#716F6F'),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    )
+                )
+              ],
             ),
-            SizedBox(height: height(0.02, context),),
-            Container(
-              width: width(1, context),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: HexColor('#F0F2F0'),
-                borderRadius: BorderRadius.circular(12.0)
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    (currentSliderValue * 0.175).toStringAsFixed(2),
-                    style: TextStyle(
-                      color: HexColor('#666666'),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20,
-                    ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: height(0.03, context),),
+                Text(
+                  translate('monthlyInstallment', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
+                  style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontSize: width(0.032, context)
                   ),
-                  Text(
-                    translate('jd', context),
-                    style: TextStyle(
-                      color: HexColor('#716F6F'),
-                      fontSize: 14,
+                ),
+                SizedBox(height: height(0.02, context),),
+                Container(
+                    width: width(1, context),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: HexColor('#F0F2F0'),
+                        borderRadius: BorderRadius.circular(12.0)
                     ),
-                  ),
-                ],
-              )
-            )
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          selectedCalculateAccordingTo == 'lastSalary' ? (currentSliderValue * 0.175).toStringAsFixed(3) : ((minSalary * (double.tryParse(selectedRate.name) / 100) + minSalary) * 0.175).toStringAsFixed(3),
+                          style: TextStyle(
+                            color: HexColor('#666666'),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(
+                          translate('jd', context),
+                          style: TextStyle(
+                            color: HexColor('#716F6F'),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    )
+                )
+              ],
+            ),
           ],
         ),
       ),
@@ -443,9 +490,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   }
 
   Widget thirdStep(context, themeNotifier){
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
+    return SizedBox(
+      height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
