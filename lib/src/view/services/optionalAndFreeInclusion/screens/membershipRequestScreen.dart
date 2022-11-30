@@ -63,7 +63,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
       }
       currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
       servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
-      maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORDEC'].toString());
+      maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'].toString());
     } else{
       calculateAccordingToList = ['lastSalary', 'increaseInAllowanceForDeductionYears', 'discountNotMoreThan-20', 'lastSalaryAccordingToTheDefenseLaw'];
     }
@@ -89,7 +89,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                     if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
                       currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
                       servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
-                      maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORDEC'].toString());
+                      maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'].toString());
                     }
                     selectedCalculateAccordingTo = 'lastSalary';
                     confirmSalaryValue = '';
