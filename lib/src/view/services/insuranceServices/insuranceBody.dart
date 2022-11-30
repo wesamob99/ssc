@@ -7,6 +7,7 @@ import 'package:ssc/src/view/services/shared/servicesListConstants.dart';
 
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
+import '../../../viewModel/services/servicesProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class InsuranceBody extends StatefulWidget {
@@ -86,6 +87,8 @@ class _InsuranceBodyState extends State<InsuranceBody> {
                                       'تعبئة طلب الخدمة',
                                       'تقديم الطلب'
                                     ],
+                                    /// TODO: send serviceApiCall for each service
+                                    serviceApiCall: Provider.of<ServicesProvider>(context).optionalSubGetDetail()
                                   )
                               ),
                             );

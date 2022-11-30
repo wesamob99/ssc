@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/util.dart';
+import '../../../viewModel/services/servicesProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../shared/aboutTheServiceScreen.dart';
 import '../shared/servicesListConstants.dart';
@@ -86,6 +87,8 @@ class _ServicesTreeWidgetState extends State<ServicesTreeWidget> {
                                       'تعبئة طلب الخدمة',
                                       'تقديم الطلب'
                                     ],
+                                    /// TODO: send serviceApiCall for each service
+                                    serviceApiCall: Provider.of<ServicesProvider>(context).optionalSubGetDetail()
                                   )
                               ),
                             );
