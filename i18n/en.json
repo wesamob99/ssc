@@ -222,6 +222,8 @@
   "increaseInAllowanceForDeductionYears": "Increase in allowance for deduction years",
   "discountNotMoreThan-20": "discount not more than 20%",
   "determineTheAffiliateWage": "Determine the salary",
-  "lastSalaryAccordingToTheDefenseLaw": "Last salary according to the Defense Law (Supplementary)"
+  "lastSalaryAccordingToTheDefenseLaw": "Last salary according to the Defense Law (Supplementary)",
+  "rateOfIncrease": "Rate of increase %",
+  "numberOfYears": "Number of years"
 
 }
