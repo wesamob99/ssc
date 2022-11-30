@@ -254,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2),
+                                      double.parse(financialInformation.mainPayCur[0][0].amt.toString() ?? '0').toStringAsFixed(2),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,

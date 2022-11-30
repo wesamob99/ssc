@@ -130,7 +130,7 @@ class SubPayCur {
   final dynamic yearId;
   final String chkDate;
   final dynamic chkNo;
-  final String chkAmt;
+  final dynamic chkAmt;
   final String due;
   final dynamic reasonId;
   final dynamic payNo;
