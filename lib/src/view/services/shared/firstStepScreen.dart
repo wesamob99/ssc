@@ -40,10 +40,10 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
-        child: firstStepBody(themeNotifier)
+    return SizedBox(
+      height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
+      child: SingleChildScrollView(
+        child: firstStepBody(themeNotifier),
       ),
     );
   }
