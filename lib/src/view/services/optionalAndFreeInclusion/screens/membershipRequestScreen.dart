@@ -142,7 +142,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                             } else{
                               servicesProvider.stepNumber = 3;
                             }
-                            confirmMonthlyValue = servicesProvider.monthlyInstallmentController.text;
+                            confirmMonthlyValue = currentSliderValue.toStringAsFixed(2);
                             confirmSalaryValue = (currentSliderValue * 0.175).toStringAsFixed(2);
                           } break;
                           case 3: {
@@ -359,7 +359,13 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                     currentSliderValue = double.parse(servicesProvider.monthlyInstallmentController.text);
                                   });
                                 }else{
-                                  currentSliderValue = minSalary;
+                                  setState((){
+                                    if(int.tryParse(value.isEmpty ? '0' : value) > maxSalary) {
+                                      currentSliderValue = maxSalary;
+                                    } else if(int.tryParse(value.isEmpty ? '0' : value) < minSalary) {
+                                      currentSliderValue = minSalary;
+                                    }
+                                  });
                                 }
                                 servicesProvider.notifyMe();
                               },
