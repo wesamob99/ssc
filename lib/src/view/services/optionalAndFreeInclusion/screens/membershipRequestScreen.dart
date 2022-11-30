@@ -1,5 +1,7 @@
 // ignore_for_file: file_names, use_build_context_synchronously
 
+import 'package:drop_down_list/drop_down_list.dart';
+import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,6 +28,10 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   ServicesProvider servicesProvider;
   String selectedCalculateAccordingTo = 'lastSalary';
   List<String> calculateAccordingToList = [];
+  List<SelectedListItem> listOfRates= [];
+  SelectedListItem selectedRate= SelectedListItem(name: '1', natCode: null, flag: '');
+  List<SelectedListItem> listOfYears= [];
+  SelectedListItem selectedYear= SelectedListItem(name: '1', natCode: null, flag: '');
   double currentSliderValue = 0;
   double minSalary = 0;
   double maxSalary = 0;
@@ -36,7 +42,14 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
-    servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
+    listOfYears = [];
+    for(int i=1 ; i<=servicesProvider.result['cur_getdata'][0][0]['NOOFINCREMENTS']  ; i++){
+      listOfYears.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
+    }
+    listOfRates = [];
+    for(int i=1 ; i<=servicesProvider.result['cur_getdata'][0][0]['MAX_PER_OF_INC']  ; i++){
+      listOfRates.add(SelectedListItem(name: '$i %', natCode: null, flag: ''));
+    }
     if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
       calculateAccordingToList = ['lastSalary', 'increaseInAllowanceForDeductionYears'];
       if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFINC'] != 0) {
@@ -131,7 +144,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                 servicesProvider.stepNumber = 3;
                               }
                               confirmMonthlyValue = servicesProvider.monthlyInstallmentController.text;
-                              confirmSalaryValue = (currentSliderValue * 0.07).toStringAsFixed(2);
+                              confirmSalaryValue = (currentSliderValue * 0.175).toStringAsFixed(2);
                             } break;
                             case 3: {
                               String message = translate('somethingWrongHappened', context);
@@ -267,155 +280,122 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                   translate(item, context),
                 ),
             ),
-            // Container(
-            //   padding: const EdgeInsets.all(5.0),
-            //   decoration: BoxDecoration(
-            //     color: HexColor('#F0F2F0'),
-            //     borderRadius: BorderRadius.circular(50.0),
-            //   ),
-            //   child: Row(
-            //     children: [
-            //       Expanded(
-            //         child: InkWell(
-            //           onTap: (){
-            //             setState(() {
-            //               selectedCalculateAccordingTo = 1;
-            //             });
-            //           },
-            //           child: AnimatedContainer(
-            //             duration: const Duration(milliseconds: 300),
-            //             alignment: Alignment.center,
-            //             padding: const EdgeInsets.symmetric(vertical: 6.0),
-            //             decoration: BoxDecoration(
-            //               color: selectedCalculateAccordingTo == 1
-            //                   ? HexColor('#445740') : Colors.transparent,
-            //               borderRadius: BorderRadius.circular(50.0),
-            //             ),
-            //             child: Text(
-            //               translate('monthlyInstallment', context),
-            //               style: TextStyle(
-            //                   color: selectedCalculateAccordingTo == 1
-            //                       ? Colors.white : HexColor('#A6A6A6')
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //       const SizedBox(width: 8.0),
-            //       Expanded(
-            //         child: InkWell(
-            //           onTap: (){
-            //             setState(() {
-            //               selectedCalculateAccordingTo = 2;
-            //             });
-            //           },
-            //           child: AnimatedContainer(
-            //             duration: const Duration(milliseconds: 100),
-            //             alignment: Alignment.center,
-            //             padding: const EdgeInsets.symmetric(vertical: 6.0),
-            //             decoration: BoxDecoration(
-            //               color: selectedCalculateAccordingTo == 2
-            //                   ? HexColor('#445740') : Colors.transparent,
-            //               borderRadius: BorderRadius.circular(50.0),
-            //             ),
-            //             child: Text(
-            //               translate('salary', context),
-            //               style: TextStyle(
-            //                   color: selectedCalculateAccordingTo == 2
-            //                       ? Colors.white : HexColor('#A6A6A6')
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
             SizedBox(height: height(0.04, context),),
-            Text(
-              translate('determineTheAffiliateWage', context),
-              style: TextStyle(
-                  color: HexColor('#363636'),
-                  fontSize: width(0.032, context)
-              ),
-            ),
-            SizedBox(height: height(0.015, context),),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+            if(selectedCalculateAccordingTo == 'lastSalary')
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Flexible(
-                  flex: 5,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Slider(
-                        activeColor: HexColor('#363636'),
-                        inactiveColor: HexColor('#E0E0E0'),
-                        value: currentSliderValue,
-                        min: minSalary,
-                        max: maxSalary,
-                        divisions: minSalary != maxSalary ? (maxSalary - minSalary).floor() : 1,
-                        label: currentSliderValue.round().toString(),
-                        onChanged: (double value) {
-                          servicesProvider.monthlyInstallmentController.text = value.toStringAsFixed(0);
-                          servicesProvider.notifyMe();
-                          setState(() {
-                            currentSliderValue = value;
-                          });
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Text(
+                  translate('determineTheAffiliateWage', context),
+                  style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontSize: width(0.032, context)
+                  ),
+                ),
+                SizedBox(height: height(0.015, context),),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Flexible(
+                        flex: 5,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Slider(
+                              activeColor: HexColor('#363636'),
+                              inactiveColor: HexColor('#E0E0E0'),
+                              value: currentSliderValue,
+                              min: minSalary,
+                              max: maxSalary,
+                              divisions: minSalary != maxSalary ? (maxSalary - minSalary).floor() : 1,
+                              label: currentSliderValue.round().toString(),
+                              onChanged: (double value) {
+                                servicesProvider.monthlyInstallmentController.text = value.toStringAsFixed(0);
+                                servicesProvider.notifyMe();
+                                setState(() {
+                                  currentSliderValue = value;
+                                });
+                              },
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '$minSalary ${translate('jd', context)}',
+                                    style: const TextStyle(
+                                        fontSize: 13
+                                    ),
+                                  ),
+                                  Text(
+                                    '$maxSalary ${translate('jd', context)}',
+                                    style: const TextStyle(
+                                        fontSize: 13
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        )
+                    ),
+                    Flexible(
+                        flex: 1,
+                        child: Column(
                           children: [
                             Text(
-                              '$minSalary ${translate('jd', context)}',
-                              style: const TextStyle(
-                                fontSize: 13
+                              translate('installmentValue', context),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: HexColor('#363636'),
+                                fontSize: width(0.022, context),
                               ),
                             ),
-                            Text(
-                              '$maxSalary ${translate('jd', context)}',
-                              style: const TextStyle(
-                                  fontSize: 13
-                              ),
+                            const SizedBox(height: 5.0),
+                            monthlyInstallmentTextFormField(
+                              servicesProvider.monthlyInstallmentController, themeNotifier,
+                                  (value){
+                                if((int.tryParse(value.isEmpty ? '0' : value) <= maxSalary) && (int.tryParse(value.isEmpty ? '0' : value) >= minSalary)) {
+                                  setState(() {
+                                    currentSliderValue = double.parse(servicesProvider.monthlyInstallmentController.text);
+                                  });
+                                }else{
+                                  currentSliderValue = minSalary;
+                                }
+                                servicesProvider.notifyMe();
+                              },
                             ),
                           ],
-                        ),
-                      )
-                    ],
-                  )
+                        )
+                    )
+                  ],
                 ),
-                Flexible(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      Text(
-                        translate('installmentValue', context),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: HexColor('#363636'),
-                          fontSize: width(0.022, context),
-                        ),
-                      ),
-                      const SizedBox(height: 5.0),
-                      monthlyInstallmentTextFormField(
-                        servicesProvider.monthlyInstallmentController, themeNotifier,
-                            (value){
-                          if((int.tryParse(value.isEmpty ? '0' : value) <= maxSalary) && (int.tryParse(value.isEmpty ? '0' : value) >= minSalary)) {
-                            setState(() {
-                              currentSliderValue = double.parse(servicesProvider.monthlyInstallmentController.text);
-                            });
-                          }else{
-                            currentSliderValue = minSalary;
-                          }
-                          servicesProvider.notifyMe();
-                        },
-                      ),
-                    ],
-                  )
-                )
+              ],
+            ),
+            if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears')
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  translate('rateOfIncrease', context),
+                  style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontSize: width(0.032, context)
+                  ),
+                ),
+                SizedBox(height: height(0.015, context),),
+                buildDropDown(context, listOfRates, 1, servicesProvider),
+                SizedBox(height: height(0.03, context),),
+                Text(
+                  translate('numberOfYears', context),
+                  style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontSize: width(0.032, context)
+                  ),
+                ),
+                SizedBox(height: height(0.015, context),),
+                buildDropDown(context, listOfYears, 2, servicesProvider)
               ],
             ),
             SizedBox(height: height(0.04, context),),
@@ -439,7 +419,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    (currentSliderValue * 0.07).toStringAsFixed(2),
+                    (currentSliderValue * 0.175).toStringAsFixed(2),
                     style: TextStyle(
                       color: HexColor('#666666'),
                       fontWeight: FontWeight.w500,
@@ -590,6 +570,62 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             )
         ),
         onChanged: onChanged,
+      ),
+    );
+  }
+
+  Widget buildDropDown(context, List listOfItems, flag, provider) {
+    return InkWell(
+      onTap: () {
+        DropDownState(
+          DropDown(
+            isSearchVisible: true,
+            data: listOfItems ?? [],
+            selectedItems: (List selectedList) {
+              for (var item in selectedList) {
+                setState((){
+                  if(flag == 1) {
+                    selectedRate = item;
+                  }
+                  if(flag == 2) {
+                    selectedYear = item;
+                  }
+                });
+              }
+            },
+            enableMultipleSelection: false,
+          ),
+        ).showModal(context);
+      },
+      child: Container(
+          alignment: UserConfig.instance.checkLanguage()
+              ? Alignment.centerLeft
+              : Alignment.centerRight,
+          padding: const EdgeInsets.symmetric(
+              horizontal: 16.0, vertical: 9.3),
+          decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(
+                  color: HexColor('#979797')
+              )
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                flag == 1 ? selectedRate.name : selectedYear.name,
+                style: TextStyle(
+                    color: HexColor('#363636'),
+                    fontSize: 15
+                ),
+              ),
+              Icon(
+                Icons.arrow_drop_down_outlined,
+                color: HexColor('#363636'),
+              )
+            ],
+          )
       ),
     );
   }
