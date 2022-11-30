@@ -60,245 +60,265 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
         title: Text(translate(widget.serviceTitle, context)),
         leading: leadingBackIcon(context),
       ),
-      body: GestureDetector(
-        onTap: (){
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: Container(
-          height: height(1, context),
-          width: width(1, context),
-          padding: const EdgeInsets.all(16.0),
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 5),
-                      child: Text(
-                        translate('aboutTheService', context),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold
+      body: Stack(
+        children: [
+          GestureDetector(
+            onTap: (){
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: Container(
+              height: height(1, context),
+              width: width(1, context),
+              padding: const EdgeInsets.all(16.0),
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: Text(
+                            translate('aboutTheService', context),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    ReadMoreText(
-                      widget.aboutServiceDescription,
-                      trimLines: isTablet(context) ? 5 : 3,
-                      colorClickableText: HexColor('#003C97'),
-                      trimMode: TrimMode.Line,
-                      trimCollapsedText: translate('readMore', context),
-                      trimExpandedText: translate('readLess', context),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w100,
-                          height: 1.2,
-                          color: HexColor('#363636'),
-                          fontSize: height(isScreenHasSmallHeight(context) ? 0.018 : 0.017, context)
-                      ),
-                    ),
-                    Divider(
-                      indent: width(0.09, context),
-                      endIndent: width(0.09, context),
-                      color: HexColor('#DADADA'),
-                      thickness: 1,
-                      height: height(0.04, context),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Text(
-                        translate('termsOfTheService', context),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold
+                        ReadMoreText(
+                          widget.aboutServiceDescription,
+                          trimLines: isTablet(context) ? 5 : 3,
+                          colorClickableText: HexColor('#003C97'),
+                          trimMode: TrimMode.Line,
+                          trimCollapsedText: translate('readMore', context),
+                          trimExpandedText: translate('readLess', context),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w100,
+                              height: 1.2,
+                              color: HexColor('#363636'),
+                              fontSize: height(isScreenHasSmallHeight(context) ? 0.018 : 0.017, context)
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: height(0.055, context) * widget.termsOfTheService.length,
-                      child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                          itemCount: widget.termsOfTheService.length,
-                          itemBuilder: (context, index){
-                            return SizedBox(
-                              height: height(0.055, context),
-                              child: Row(
-                                children: [
-                                  Card(
-                                    elevation: 5.0,
-                                    margin: const EdgeInsets.symmetric(vertical: 5.0).copyWith(bottom: 0),
-                                    shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
-                                    color: HexColor('#FFFFFF'),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(height(0.01, context)),
-                                      child: SvgPicture.asset('assets/icons/quickAccessIcons/reportAnAccidentIcon.svg'),
-                                    ),
+                        Divider(
+                          indent: width(0.09, context),
+                          endIndent: width(0.09, context),
+                          color: HexColor('#DADADA'),
+                          thickness: 1,
+                          height: height(0.04, context),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            translate('termsOfTheService', context),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: height(0.055, context) * widget.termsOfTheService.length,
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                              itemCount: widget.termsOfTheService.length,
+                              itemBuilder: (context, index){
+                                return SizedBox(
+                                  height: height(0.055, context),
+                                  child: Row(
+                                    children: [
+                                      Card(
+                                        elevation: 5.0,
+                                        margin: const EdgeInsets.symmetric(vertical: 5.0).copyWith(bottom: 0),
+                                        shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
+                                        color: HexColor('#FFFFFF'),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(height(0.01, context)),
+                                          child: SvgPicture.asset('assets/icons/quickAccessIcons/reportAnAccidentIcon.svg'),
+                                        ),
+                                      ),
+                                      SizedBox(width: width(0.03, context),),
+                                      SizedBox(
+                                        width: width(0.74, context),
+                                        child: Text(
+                                          widget.termsOfTheService[index],
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: height(isScreenHasSmallHeight(context) ? 0.016 : 0.015, context),
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  SizedBox(width: width(0.03, context),),
-                                  SizedBox(
-                                    width: width(0.74, context),
+                                );
+                              }
+                          ),
+                        ),
+                        Divider(
+                          indent: width(0.09, context),
+                          endIndent: width(0.09, context),
+                          color: HexColor('#DADADA'),
+                          thickness: 1,
+                          height: height(0.04, context),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  '${translate('stepsOfTheService', context)} ',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '( ${widget.stepsOfTheService.length} ${translate('steps', context)} )',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w100,
+                                    color: HexColor('#666666'),
+                                  ),
+                                ),
+                              ],
+                            )
+                        ),
+                        SizedBox(
+                          height: (height(0.02, context) + 10.0) * widget.stepsOfTheService.length,
+                          child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: widget.stepsOfTheService.length,
+                              itemBuilder: (context, index){
+                                return SizedBox(
+                                  height: height(0.02, context) + 10.0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 10.0),
                                     child: Text(
-                                      widget.termsOfTheService[index],
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
+                                      '${index + 1}- ${widget.stepsOfTheService[index]}',
                                       style: TextStyle(
                                         fontSize: height(isScreenHasSmallHeight(context) ? 0.016 : 0.015, context),
                                       ),
                                     ),
-                                  )
-                                ],
-                              ),
-                            );
-                          }
-                      ),
+                                  ),
+                                );
+                              }
+                          ),
+                        ),
+                        SizedBox(
+                          height: height(0.18, context),
+                        ),
+                      ],
                     ),
-                    Divider(
-                      indent: width(0.09, context),
-                      endIndent: width(0.09, context),
-                      color: HexColor('#DADADA'),
-                      thickness: 1,
-                      height: height(0.04, context),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Row(
-                          children: [
-                            Text(
-                              '${translate('stepsOfTheService', context)} ',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              '( ${widget.stepsOfTheService.length} ${translate('steps', context)} )',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                color: HexColor('#666666'),
-                              ),
-                            ),
-                          ],
-                        )
-                    ),
-                    SizedBox(
-                      height: (height(0.02, context) + 10.0) * widget.stepsOfTheService.length,
-                      child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: widget.stepsOfTheService.length,
-                          itemBuilder: (context, index){
-                            return SizedBox(
-                              height: height(0.02, context) + 10.0,
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 10.0),
-                                child: Text(
-                                  '${index + 1}- ${widget.stepsOfTheService[index]}',
-                                  style: TextStyle(
-                                    fontSize: height(isScreenHasSmallHeight(context) ? 0.016 : 0.015, context),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(10.0),
+                      color: const Color.fromRGBO(250, 250, 250, 1.0),
+                      alignment: Alignment.center,
+                      width: width(1, context),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    termsChecked = !termsChecked;
+                                  });
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(3.0),
+                                  decoration: BoxDecoration(
+                                      color: HexColor('#DADADA'),
+                                      borderRadius: BorderRadius.circular(3.0)
+                                  ),
+                                  child: Container(
+                                    width: width(0.04, context),
+                                    height: width(0.04, context),
+                                    decoration: BoxDecoration(
+                                        color: termsChecked ? HexColor('#2D452E') : HexColor('#DADADA'),
+                                        borderRadius: BorderRadius.circular(4.0)
+                                    ),
                                   ),
                                 ),
                               ),
-                            );
-                          }
-                      ),
-                    ),
-                    SizedBox(
-                      height: height(0.18, context),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  color: const Color.fromRGBO(250, 250, 250, 1.0),
-                  alignment: Alignment.center,
-                  width: width(1, context),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          InkWell(
-                            onTap: (){
-                              setState(() {
-                                termsChecked = !termsChecked;
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(3.0),
-                              decoration: BoxDecoration(
-                                  color: HexColor('#DADADA'),
-                                  borderRadius: BorderRadius.circular(3.0)
-                              ),
-                              child: Container(
-                                width: width(0.04, context),
-                                height: width(0.04, context),
-                                decoration: BoxDecoration(
-                                    color: termsChecked ? HexColor('#2D452E') : HexColor('#DADADA'),
-                                    borderRadius: BorderRadius.circular(4.0)
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: width(0.05, context),),
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                              SizedBox(width: width(0.05, context),),
+                              Column(
                                 children: [
-                                  Text(translate('termsAndConditionsAndPoliciesAgreement11', context), style: getTextStyle(context, false),),
-                                  Text(translate('termsAndConditionsAndPoliciesAgreement2', context), style: getTextStyle(context, true)),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(translate('termsAndConditionsAndPoliciesAgreement11', context), style: getTextStyle(context, false),),
+                                      Text(translate('termsAndConditionsAndPoliciesAgreement2', context), style: getTextStyle(context, true)),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(translate('termsAndConditionsAndPoliciesAgreement3', context), style: getTextStyle(context, true)),
+                                      Text(translate('termsAndConditionsAndPoliciesAgreement4', context), style: getTextStyle(context, false))
+                                    ],
+                                  )
                                 ],
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(translate('termsAndConditionsAndPoliciesAgreement3', context), style: getTextStyle(context, true)),
-                                  Text(translate('termsAndConditionsAndPoliciesAgreement4', context), style: getTextStyle(context, false))
-                                ],
-                              )
                             ],
+                          ),
+                          SizedBox(height: height(0.025, context),),
+                          textButton(
+                              context, themeNotifier, 'startNow', MaterialStateProperty.all<Color>(
+                              termsChecked ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA')),
+                              termsChecked ? HexColor('#ffffff') : HexColor('#363636'),
+                                  () async {
+                                if(termsChecked){
+                                  String errorMessage = '';
+                                  servicesProvider.isLoading = true;
+                                  servicesProvider.notifyMe();
+                                  try{
+                                    await widget.serviceApiCall.whenComplete((){}).then((value){
+                                      if(value["PO_status_no"] == 0){
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(builder: (context) => widget.serviceScreen)
+                                        );
+                                      } else{
+                                        errorMessage = UserConfig.instance.checkLanguage()
+                                            ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
+                                        showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
+                                      }
+                                    });
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                  }catch(e){
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                    if (kDebugMode) {
+                                      print(e.toString());
+                                    }
+                                  }
+                                }
+                              }
                           ),
                         ],
                       ),
-                      SizedBox(height: height(0.025, context),),
-                      textButton(
-                          context, themeNotifier, 'startNow', MaterialStateProperty.all<Color>(
-                          termsChecked ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA')),
-                          termsChecked ? HexColor('#ffffff') : HexColor('#363636'),
-                              () async {
-                            if(termsChecked){
-                              String errorMessage = '';
-                              try{
-                                await widget.serviceApiCall.whenComplete((){}).then((value){
-                                  if(value["PO_status_no"] == 0){
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(builder: (context) => widget.serviceScreen)
-                                    );
-                                  } else{
-                                    errorMessage = UserConfig.instance.checkLanguage()
-                                        ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
-                                    showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
-                                  }
-                                });
-                              }catch(e){
-                                if (kDebugMode) {
-                                  print(e.toString());
-                                }
-                              }
-                            }
-                          }
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
-        ),
+          if(servicesProvider.isLoading)
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            width: width(1, context),
+            height: height(1, context),
+            color: Colors.white70,
+            child: Center(
+              child: animatedLoader(context),
+            ),
+          )
+        ],
       ),
     );
   }
