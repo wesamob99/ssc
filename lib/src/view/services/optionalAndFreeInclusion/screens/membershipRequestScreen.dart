@@ -29,31 +29,37 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   String selectedCalculateAccordingTo = 'lastSalary';
   List<String> calculateAccordingToList = [];
   List<SelectedListItem> listOfRates= [];
-  SelectedListItem selectedRate= SelectedListItem(name: '0', natCode: null, flag: '');
+  SelectedListItem selectedRate= SelectedListItem(name: '1', natCode: null, flag: '');
   List<SelectedListItem> listOfYears= [];
-  SelectedListItem selectedYear= SelectedListItem(name: '0', natCode: null, flag: '');
+  SelectedListItem selectedYear= SelectedListItem(name: '1', natCode: null, flag: '');
   double currentSliderValue = 0;
   double minSalary = 0;
   double maxSalary = 0;
-  String confirmMonthlyValue = '';
   String confirmSalaryValue = '';
+  String confirmMonthlyValue = '';
 
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
     listOfYears = [];
-    for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['NOOFINCREMENTS']  ; i++){
+    for(int i=1 ; i<=servicesProvider.result['cur_getdata'][0][0]['NOOFINCREMENTS']  ; i++){
       listOfYears.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
     }
     listOfRates = [];
-    for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['MAX_PER_OF_INC']  ; i++){
+    for(int i=1 ; i<=servicesProvider.result['cur_getdata'][0][0]['MAX_PER_OF_INC']  ; i++){
       listOfRates.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
     }
     if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
-      calculateAccordingToList = ['lastSalary', 'increaseInAllowanceForDeductionYears'];
-      if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFINC'] != 0) {
+      calculateAccordingToList = ['lastSalary'];
+      if(servicesProvider.result['cur_getdata'][0][0]['HasBenefitOfInc'] != 0) {
+        calculateAccordingToList.add('increaseInAllowanceForDeductionYears');
+      }
+      if(servicesProvider.result['cur_getdata'][0][0]['HasBenefitOfDec'] != 0) {
         calculateAccordingToList.add('discountNotMoreThan-20');
+      }
+      if(servicesProvider.result['cur_getdata'][0][0]['complementary_subsc'] == 1) {
+        calculateAccordingToList.add('lastSalaryAccordingToTheDefenseLaw');
       }
       currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
       servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
@@ -86,8 +92,8 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORDEC'].toString());
                     }
                     selectedCalculateAccordingTo = 'lastSalary';
-                    confirmMonthlyValue = '';
                     confirmSalaryValue = '';
+                    confirmMonthlyValue = '';
                     servicesProvider.stepNumber = 1;
                   } break;
                 case 3: servicesProvider.stepNumber = 2; break;
@@ -142,8 +148,13 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                             } else{
                               servicesProvider.stepNumber = 3;
                             }
-                            confirmMonthlyValue = currentSliderValue.toStringAsFixed(2);
-                            confirmSalaryValue = (currentSliderValue * 0.175).toStringAsFixed(2);
+                            if(selectedCalculateAccordingTo == 'lastSalary'){
+                              confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
+                              confirmMonthlyValue = (currentSliderValue * 0.175).toStringAsFixed(2);
+                            }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
+                              confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name)  * double.tryParse(selectedYear.name) / 100) + currentSliderValue)).toStringAsFixed(3);
+                              confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name)  * double.tryParse(selectedYear.name) / 100) + currentSliderValue) * 0.175).toStringAsFixed(3);
+                            }
                           } break;
                           case 3: {
                             String message = translate('somethingWrongHappened', context);
@@ -402,6 +413,49 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 buildDropDown(context, listOfYears, 2, servicesProvider)
               ],
             ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: height(0.03, context),),
+                Text(
+                  translate('monthlyInstallment', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
+                  style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontSize: width(0.032, context)
+                  ),
+                ),
+                SizedBox(height: height(0.02, context),),
+                Container(
+                    width: width(1, context),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: HexColor('#F0F2F0'),
+                        borderRadius: BorderRadius.circular(12.0)
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          selectedCalculateAccordingTo == 'lastSalary' ? (currentSliderValue * 0.175).toStringAsFixed(3) : ((currentSliderValue * (double.tryParse(selectedRate.name)  * double.tryParse(selectedYear.name) / 100) + currentSliderValue) * 0.175).toStringAsFixed(3),
+                          style: TextStyle(
+                            color: HexColor('#666666'),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(
+                          translate('jd', context),
+                          style: TextStyle(
+                            color: HexColor('#716F6F'),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    )
+                )
+              ],
+            ),
             if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears')
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -427,7 +481,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          (minSalary * (double.tryParse(selectedRate.name) / 100) * double.tryParse(selectedYear.name) + minSalary).toStringAsFixed(2),
+                          (minSalary * (double.tryParse(selectedRate.name) / 100) * double.tryParse(selectedYear.name) + minSalary).toStringAsFixed(3),
                           style: TextStyle(
                             color: HexColor('#666666'),
                             fontWeight: FontWeight.w500,
@@ -445,50 +499,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                     )
                 )
               ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: height(0.03, context),),
-                Text(
-                  translate('monthlyInstallment', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
-                  style: TextStyle(
-                      color: HexColor('#363636'),
-                      fontSize: width(0.032, context)
-                  ),
-                ),
-                SizedBox(height: height(0.02, context),),
-                Container(
-                    width: width(1, context),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: HexColor('#F0F2F0'),
-                        borderRadius: BorderRadius.circular(12.0)
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          selectedCalculateAccordingTo == 'lastSalary' ? (currentSliderValue * 0.175).toStringAsFixed(3) : ((minSalary * (double.tryParse(selectedRate.name)  * double.tryParse(selectedYear.name) / 100) + minSalary) * 0.175).toStringAsFixed(3),
-                          style: TextStyle(
-                            color: HexColor('#666666'),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                          ),
-                        ),
-                        Text(
-                          translate('jd', context),
-                          style: TextStyle(
-                            color: HexColor('#716F6F'),
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    )
-                )
-              ],
-            ),
+      ),
           ],
         ),
       ),
@@ -569,7 +580,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            Text('$confirmSalaryValue ${translate('jd', context)}'),
+            Text('$confirmMonthlyValue ${translate('jd', context)}'),
             SizedBox(height: height(0.035, context),),
             Text(
               translate('salary', context),
@@ -579,7 +590,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            Text('$confirmMonthlyValue ${translate('jd', context)}'),
+            Text('$confirmSalaryValue ${translate('jd', context)}'),
 
           ],
         ),
