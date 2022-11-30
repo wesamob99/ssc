@@ -10,7 +10,9 @@ import 'package:ssc/utilities/util.dart';
 
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/theme/themes.dart';
+import '../../../viewModel/services/servicesProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
+import '../../services/shared/aboutTheServiceScreen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key key}) : super(key: key);
@@ -66,7 +68,26 @@ class _SearchScreenState extends State<SearchScreen> {
                             InkWell(
                               onTap: (){
                                 Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => servicesList[index].screen)
+                                  MaterialPageRoute(
+                                      builder: (context) => AboutTheServiceScreen(
+                                          serviceScreen: servicesList[index].screen,
+                                          serviceTitle: servicesList[index].title,
+                                          aboutServiceDescription: servicesList[index].description,
+                                          termsOfTheService: const [
+                                            'موظفي القطاع الخاص',
+                                            'موظف موقوف عن العمل',
+                                            'لديك 36 اشتراك او رصيد اكثر من 300 د.ا',
+                                            'ان تكون قد استفدت من بدل التعطل ثلاث مرات او اقل خلال فتره الشمول',
+                                          ],
+                                          stepsOfTheService: const [
+                                            'التأكد من المعلومات الشخصية لمقدم الخدمة',
+                                            'تعبئة طلب الخدمة',
+                                            'تقديم الطلب'
+                                          ],
+                                          /// TODO: send serviceApiCall for each service
+                                          serviceApiCall: Provider.of<ServicesProvider>(context).optionalSubGetDetail()
+                                      )
+                                  ),
                                 );
                               },
                               child: Padding(
