@@ -16,6 +16,7 @@ class ServicesProvider extends ChangeNotifier {
   int selectedServiceRate = -1;
   int isFirstOptionalSub = -1;
   bool isMobileNumberUpdated = false;
+  bool isLoading = false;
 
   TextEditingController monthlyInstallmentController = TextEditingController();
 
