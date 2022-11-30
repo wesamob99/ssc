@@ -278,7 +278,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                   servicesProvider.notifyMe();
                                   try{
                                     await widget.serviceApiCall.whenComplete((){}).then((value){
-                                      if(value["PO_status_no"] == 0){
+                                      if(value["PO_status_no"] == 0 || value["PO_status_no"] == 1){
                                         servicesProvider.result = value;
                                         Navigator.of(context).push(
                                             MaterialPageRoute(builder: (context) => widget.serviceScreen)
