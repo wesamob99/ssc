@@ -10,7 +10,6 @@ import 'package:ssc/utilities/util.dart';
 
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/theme/themes.dart';
-import '../../../viewModel/services/servicesProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../services/shared/aboutTheServiceScreen.dart';
 
@@ -84,8 +83,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                             'تعبئة طلب الخدمة',
                                             'تقديم الطلب'
                                           ],
-                                          /// TODO: send serviceApiCall for each service
-                                          serviceApiCall: Provider.of<ServicesProvider>(context).optionalSubGetDetail()
+                                          serviceApiCall: servicesList[index].serviceApiCall
                                       )
                                   ),
                                 );
