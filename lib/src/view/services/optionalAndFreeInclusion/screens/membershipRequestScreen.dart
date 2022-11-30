@@ -25,7 +25,10 @@ class MembershipRequestScreen extends StatefulWidget {
 class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   ServicesProvider servicesProvider;
   String selectedCalculateAccordingTo = 'lastSalary';
-  double currentSliderValue = 480;
+  List<String> calculateAccordingToList = [];
+  double currentSliderValue = 0;
+  double minSalary = 0;
+  double maxSalary = 0;
   String confirmMonthlyValue = '';
   String confirmSalaryValue = '';
 
@@ -34,6 +37,14 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
     servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
+    if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
+      calculateAccordingToList = ['lastSalary', 'increaseInAllowanceForDeductionYears', 'discountNotMoreThan-20'];
+      currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
+      servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
+      maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORDEC'].toString());
+    } else{
+      calculateAccordingToList = ['lastSalary', 'increaseInAllowanceForDeductionYears', 'discountNotMoreThan-20', 'lastSalaryAccordingToTheDefenseLaw'];
+    }
     super.initState();
   }
 
@@ -53,8 +64,12 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 case 1: Navigator.of(context).pop(); break;
                 case 2:
                   {
+                    if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
+                      currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
+                      servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
+                      maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORDEC'].toString());
+                    }
                     selectedCalculateAccordingTo = 'lastSalary';
-                    currentSliderValue = 480;
                     confirmMonthlyValue = '';
                     confirmSalaryValue = '';
                     servicesProvider.stepNumber = 1;
@@ -113,13 +128,13 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                 servicesProvider.stepNumber = 3;
                               }
                               confirmMonthlyValue = servicesProvider.monthlyInstallmentController.text;
-                              confirmSalaryValue = (int.tryParse(servicesProvider.monthlyInstallmentController.text) * 0.07).toStringAsFixed(2);
+                              confirmSalaryValue = (currentSliderValue * 0.07).toStringAsFixed(2);
                             } break;
                             case 3: {
                               String message = translate('somethingWrongHappened', context);
-                              if(servicesProvider.isFirstOptionalSub == 0 || servicesProvider.isFirstOptionalSub == 1 || servicesProvider.isFirstOptionalSub == 2) {
+                              if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 1 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 2) {
                                 var value = await servicesProvider.optionalSubInsertNew().whenComplete((){});
-                                if(servicesProvider.isFirstOptionalSub == 1){
+                                if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 1){
                                   value = await servicesProvider.optionalSubFirstInsertNew().whenComplete((){});
                                 }
                                 if(value != '') {
@@ -243,7 +258,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               onChanged: (value) => setState(() {
                     selectedCalculateAccordingTo = value;
                   }),
-              items: const ['lastSalary', 'increaseInAllowanceForDeductionYears', 'discountNotMoreThan-20', 'lastSalaryAccordingToTheDefenseLaw'],
+              items: calculateAccordingToList,
               itemBuilder: (item) =>
                 RadioButtonBuilder(
                   translate(item, context),
@@ -334,9 +349,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                         activeColor: HexColor('#363636'),
                         inactiveColor: HexColor('#E0E0E0'),
                         value: currentSliderValue,
-                        min: 480,
-                        max: 880,
-                        divisions: 400,
+                        min: minSalary,
+                        max: maxSalary,
+                        divisions: minSalary != maxSalary ? (maxSalary - minSalary).floor() : 1,
                         label: currentSliderValue.round().toString(),
                         onChanged: (double value) {
                           servicesProvider.monthlyInstallmentController.text = value.toStringAsFixed(0);
@@ -352,13 +367,13 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '480 ${translate('jd', context)}',
+                              '$minSalary ${translate('jd', context)}',
                               style: const TextStyle(
                                 fontSize: 13
                               ),
                             ),
                             Text(
-                              '880 ${translate('jd', context)}',
+                              '$maxSalary ${translate('jd', context)}',
                               style: const TextStyle(
                                   fontSize: 13
                               ),
@@ -385,12 +400,12 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       monthlyInstallmentTextFormField(
                         servicesProvider.monthlyInstallmentController, themeNotifier,
                             (value){
-                          if((int.tryParse(value.isEmpty ? '0' : value) <= 880) && (int.tryParse(value.isEmpty ? '0' : value) >= 480)) {
+                          if((int.tryParse(value.isEmpty ? '0' : value) <= maxSalary) && (int.tryParse(value.isEmpty ? '0' : value) >= minSalary)) {
                             setState(() {
                               currentSliderValue = double.parse(servicesProvider.monthlyInstallmentController.text);
                             });
                           }else{
-                            currentSliderValue = 480;
+                            currentSliderValue = minSalary;
                           }
                           servicesProvider.notifyMe();
                         },
@@ -421,7 +436,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    (int.tryParse(servicesProvider.monthlyInstallmentController.text) * 0.07).toStringAsFixed(2),
+                    (currentSliderValue * 0.07).toStringAsFixed(2),
                     style: TextStyle(
                       color: HexColor('#666666'),
                       fontWeight: FontWeight.w500,
@@ -543,13 +558,14 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextFormField(
+        enabled: minSalary != maxSalary,
         textAlignVertical: TextAlignVertical.center,
         textAlign: TextAlign.center,
         controller: controller,
         keyboardType: TextInputType.number,
         style: TextStyle(
           fontSize: isTablet(context) ? 20 : 15,
-          color: HexColor('#363636'),
+          color: minSalary != maxSalary ? HexColor('#363636') : Colors.grey,
         ),
         cursorColor: getPrimaryColor(context, themeNotifier),
         cursorWidth: 1,
