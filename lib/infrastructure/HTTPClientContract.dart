@@ -121,10 +121,6 @@ class HTTPClientContract {
   Future<Response> getHTTP(String url) async {
     try {
       Response response = await _baseAPI.get(url, cancelToken: _cancelToken);
-      // 401: session expired // 403: unauthorized user
-      if(response.statusCode == 401 || response.statusCode == 403){
-        UserSecuredStorage.instance.clearUserData();
-      }
       return response;
     } on DioError catch (e) {
       if (CancelToken.isCancel(e)) {}
@@ -135,10 +131,6 @@ class HTTPClientContract {
   Future<Response> postHTTP(String url, dynamic data) async {
     try {
       Response response = await _baseAPI.post(url, data: data);
-      // 401: session expired // 403: unauthorized user
-      if(response.statusCode == 401 || response.statusCode == 403){
-        UserSecuredStorage.instance.clearUserData();
-      }
       return response;
     } on DioError catch (e) {
       return e.response;
@@ -148,10 +140,6 @@ class HTTPClientContract {
   Future<Response> putHTTP(String url, dynamic data) async {
     try {
       Response response = await _baseAPI.put(url, data: data);
-      // 401: session expired // 403: unauthorized user
-      if(response.statusCode == 401 || response.statusCode == 403){
-        UserSecuredStorage.instance.clearUserData();
-      }
       return response;
     } on DioError catch (e) {
       return e.response;
@@ -161,10 +149,6 @@ class HTTPClientContract {
   Future<Response> deleteHTTP(String url) async {
     try {
       Response response = await _baseAPI.delete(url);
-      // 401: session expired // 403: unauthorized user
-      if(response.statusCode == 401 || response.statusCode == 403){
-        UserSecuredStorage.instance.clearUserData();
-      }
       return response;
     } on DioError catch (e) {
       return e.response;
@@ -174,10 +158,6 @@ class HTTPClientContract {
   Future<Response> patchHTTP(String url, dynamic data) async {
     try {
       Response response = await _baseAPI.patch(url, data: data);
-      // 401: session expired // 403: unauthorized user
-      if(response.statusCode == 401 || response.statusCode == 403){
-        UserSecuredStorage.instance.clearUserData();
-      }
       return response;
     } on DioError catch (e) {
       return e.response;
