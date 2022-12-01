@@ -16,6 +16,7 @@ class ServicesProvider extends ChangeNotifier {
   int selectedServiceRate = -1;
   bool isMobileNumberUpdated = false;
   bool isLoading = false;
+  CurGetdatum2 datum = CurGetdatum2();
   // ignore: prefer_typing_uninitialized_variables
   var result;
 
