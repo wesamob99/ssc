@@ -19,7 +19,7 @@ class AboutTheServiceScreen extends StatefulWidget {
   final List<String> termsOfTheService;
   final List<String> stepsOfTheService;
   final Widget serviceScreen;
-  final Future serviceApiCall;
+  final Future<dynamic> Function() serviceApiCall;
   const AboutTheServiceScreen({
     Key key,
     @required this.serviceTitle,
@@ -279,7 +279,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                   servicesProvider.isLoading = true;
                                   servicesProvider.notifyMe();
                                   try{
-                                    await widget.serviceApiCall.whenComplete((){}).then((value){
+                                    await widget.serviceApiCall.call().whenComplete((){}).then((value){
                                       if(value["PO_status_no"] == 0 || value["PO_status_no"] == 1){
                                         servicesProvider.result = value;
                                         Navigator.of(context).push(
@@ -311,7 +311,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
               ),
             ),
           ),
-          if(servicesProvider.isLoading)
+          if(Provider.of<ServicesProvider>(context).isLoading)
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             width: width(1, context),
