@@ -97,6 +97,42 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // ImageSlideshow(
+                          //   width: double.infinity,
+                          //   height: height(isTablet(context) ? 0.2 : 0.29, context),
+                          //   initialPage: 0,
+                          //   indicatorColor: primaryColor,
+                          //   indicatorBackgroundColor: Colors.grey,
+                          //   onPageChanged: (value) {},
+                          //   autoPlayInterval: 1000000000,
+                          //   isLoop: true,
+                          //   children: [
+                          //     Column(
+                          //       crossAxisAlignment: CrossAxisAlignment.start,
+                          //       children: [
+                          //         Padding(
+                          //           padding: EdgeInsets.only(bottom: height(0.01, context)),
+                          //           child: Text(translate('myAccount', context),
+                          //               style: TextStyle(
+                          //                   fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                          //         ),
+                          //         HomeOverviewWidget(data: userInformation),
+                          //       ],
+                          //     ),
+                          //     Column(
+                          //       crossAxisAlignment: CrossAxisAlignment.start,
+                          //       children: [
+                          //         Padding(
+                          //           padding: EdgeInsets.only(bottom: height(0.01, context)),
+                          //           child: Text(translate('pastYearsPays', context),
+                          //               style: TextStyle(
+                          //                   fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                          //         ),
+                          //         HomeChartWidget(data: userInformation),
+                          //       ],
+                          //     ),
+                          //   ],
+                          // ),
                           Padding(
                             padding: EdgeInsets.only(bottom: height(0.01, context)),
                             child: Text(translate('myAccount', context),
