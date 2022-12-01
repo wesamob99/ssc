@@ -7,25 +7,27 @@ import '../optionalAndFreeInclusion/screens/membershipRequestScreen.dart';
 
 class ServicesList{
 
+  static final ServicesRepository _servicesRepository = ServicesRepository();
+  
   /// Quick Access Services ****************************************************
 
   static Service individualsUnemploymentApplication = Service(
-    title: "unemploymentApplication", supTitle: "individuals", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), duplicated: true, serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+    title: "unemploymentApplication", supTitle: "individuals", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), duplicated: true, serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service maternityUnemploymentApplication = Service(
-      title: "unemploymentApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), duplicated: true, serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "unemploymentApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), duplicated: true, serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service onePayment = Service(
-      title: "onePayment", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/onePaymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "onePayment", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/onePaymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service reportAnAccident = Service(
-      title: "reportAnAccident", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/reportAnAccidentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "reportAnAccident", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/reportAnAccidentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service optionalSubscription = Service(
-      title: "optionalSubscription", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "optionalSubscription", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/optionalSubscriptionIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service accountStatement = Service(
-      title: "accountStatement", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/accountStatementIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "accountStatement", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/accountStatementIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static List<Service> quickAccessServices = [individualsUnemploymentApplication, onePayment, reportAnAccident, optionalSubscription, accountStatement, membershipRequest];
 
@@ -33,10 +35,10 @@ class ServicesList{
   /// Most Visited Services ****************************************************
 
   static Service requestRetiredLoan = Service(
-      title: "requestRetiredLoan", supTitle: "retired", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "requestRetiredLoan", supTitle: "retired", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service reportSicknessComplaint = Service(
-      title: "report_a_sickness/work_injury_complaint", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "report_a_sickness/work_injury_complaint", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
 
   static List<Service> mostVisitedServices = [requestRetiredLoan, individualsUnemploymentApplication, maternityUnemploymentApplication];
@@ -45,13 +47,13 @@ class ServicesList{
   /// Insurance Benefits Services **********************************************
 
   static Service oneTimeCompensationRequest = Service(
-      title: "oneTimeCompensationRequest", supTitle: "compensation", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "oneTimeCompensationRequest", supTitle: "compensation", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service savingsBalanceDisbursementRequest = Service(
-      title: "savingsBalanceDisbursementRequest", supTitle: "savingsBalance", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "savingsBalanceDisbursementRequest", supTitle: "savingsBalance", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service workInjuryInsurance = Service(
-      title: "workInjuryInsurance", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "workInjuryInsurance", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static List<Service> insuranceBenefitsServices = [oneTimeCompensationRequest, savingsBalanceDisbursementRequest, reportSicknessComplaint, workInjuryInsurance];
 
@@ -59,13 +61,13 @@ class ServicesList{
   /// optional And Free Inclusion Services *************************************
 
   static Service membershipRequest = Service(
-      title: "membershipRequest", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/individualsServices.svg', screen:  const MembershipRequestScreen(), serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "membershipRequest", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/individualsServices.svg', screen:  const MembershipRequestScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service continuityOfCoverage = Service(
-      title: "continuityOfCoverage", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "continuityOfCoverage", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service excessPaymentRequest = Service(
-      title: "excessPaymentRequest", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ServicesRepository().optionalSubGetDetailService()
+      title: "excessPaymentRequest", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static List<Service> optionalAndFreeInclusionServices = [membershipRequest, continuityOfCoverage, excessPaymentRequest];
 
@@ -82,7 +84,7 @@ class Service{
   final String icon;
   final String description;
   final Widget screen;
-  final Future serviceApiCall;
+  final Future<dynamic> Function() serviceApiCall;
   bool isSelected;
   bool duplicated;
 
