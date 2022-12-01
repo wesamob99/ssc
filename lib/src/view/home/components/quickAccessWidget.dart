@@ -10,7 +10,6 @@ import 'package:ssc/src/viewModel/home/homeProvider.dart';
 import '../../../../infrastructure/userConfig.dart';
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
-import '../../../viewModel/services/servicesProvider.dart';
 
 class QuickAccessWidget extends StatefulWidget {
   const QuickAccessWidget({Key key}) : super(key: key);
@@ -80,8 +79,7 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
                               'تعبئة طلب الخدمة',
                               'تقديم الطلب'
                             ],
-                            /// TODO: send serviceApiCall for each service
-                            serviceApiCall: Provider.of<ServicesProvider>(context).optionalSubGetDetail()
+                            serviceApiCall: quickAccessServices[index].serviceApiCall,
                           ),
                         ),
                       );
