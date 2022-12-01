@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -19,10 +20,11 @@ class QuickAccessWidget extends StatefulWidget {
 }
 
 class _QuickAccessWidgetState extends State<QuickAccessWidget> {
+
+  List<Service> quickAccessServices = ServicesList.quickAccessServices;
   @override
   Widget build(BuildContext context) {
     HomeProvider homeProviderListener = Provider.of<HomeProvider>(context);
-    List<Service> quickAccessServices = ServicesList.quickAccessServices;
 
     return SizedBox(
       height: homeProviderListener.isQuickAccessListEmpty && !homeProviderListener.isEditQuickAccessActive
@@ -161,8 +163,7 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
                 ),
                 SizedBox(width: width(index != quickAccessServices.length-1 ? 0.006 : 0, context))
               ],
-            )
-                : const SizedBox.shrink();
+            ) : const SizedBox.shrink();
           }
       ),
     );
