@@ -12,7 +12,6 @@ class ServicesProvider extends ChangeNotifier {
 
   ServicesRepository servicesRepository = ServicesRepository();
   UserProfileData userProfileData = UserProfileData();
-  OptionalSubGetDetail optionalSubDetail = OptionalSubGetDetail();
   int selectedServiceRate = -1;
   bool isMobileNumberUpdated = false;
   bool isLoading = false;
@@ -40,11 +39,11 @@ class ServicesProvider extends ChangeNotifier {
   }
 
   Future optionalSubInsertNew() async{
-    return await servicesRepository.optionalSubInsertNewService(optionalSubDetail.curGetdata[0][0]);
+    return await servicesRepository.optionalSubInsertNewService(result);
   }
 
   Future optionalSubFirstInsertNew() async{
-    return await servicesRepository.optionalSubInsertNewService(optionalSubDetail.curGetdata[0][0]);
+    return await servicesRepository.optionalSubInsertNewService(result);
   }
 
   Future<void> readCountriesJson() async {
