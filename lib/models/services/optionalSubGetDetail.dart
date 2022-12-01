@@ -23,14 +23,14 @@ class OptionalSubGetDetail {
   int poStatusNo;
   dynamic pOStatusDescAr;
   dynamic pOStatusDescEn;
-  List<List<CurGetdatum>> curGetdata;
+  List<List<CurGetdatum2>> curGetdata;
 
   factory OptionalSubGetDetail.fromJson(Map<String, dynamic> json) => OptionalSubGetDetail(
     poIsItFirstOptionalSub: json["PO_is_it_firstOptionalSub"],
     poStatusNo: json["PO_status_no"],
     pOStatusDescAr: json["pO_status_desc_ar"],
     pOStatusDescEn: json["pO_status_desc_en"],
-    curGetdata: json["cur_getdata"] == null ? null : List<List<CurGetdatum>>.from(json["cur_getdata"].map((x) => List<CurGetdatum>.from(x.map((x) => CurGetdatum.fromJson(x))))),
+    curGetdata: json["cur_getdata"] == null ? null : List<List<CurGetdatum2>>.from(json["cur_getdata"].map((x) => List<CurGetdatum2>.from(x.map((x) => CurGetdatum2.fromJson(x))))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -42,8 +42,8 @@ class OptionalSubGetDetail {
   };
 }
 
-class CurGetdatum {
-  CurGetdatum({
+class CurGetdatum2 {
+  CurGetdatum2({
     this.secno,
     this.name1,
     this.name2,
@@ -109,7 +109,7 @@ class CurGetdatum {
   int complementarySubsc;
   int lastSalOptEnabled;
 
-  factory CurGetdatum.fromJson(Map<String, dynamic> json) => CurGetdatum(
+  factory CurGetdatum2.fromJson(Map<String, dynamic> json) => CurGetdatum2(
     secno: json["SECNO"],
     name1: json["NAME1"],
     name2: json["NAME2"],

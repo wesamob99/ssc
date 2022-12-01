@@ -38,7 +38,7 @@ class ServicesRepository{
   }
 
   /// if (isFirstOptionalSub == [0] or [2]) -> submit membership request will call this service
-  Future optionalSubInsertNewService(CurGetdatum datum) async {
+  Future optionalSubInsertNewService(CurGetdatum2 datum) async {
     var response = await HTTPClientContract.instance.postHTTP(
         'individuals/OPTIONAL_SUB_INSERT_NEW',
         {
@@ -90,7 +90,7 @@ class ServicesRepository{
   }
 
   /// if (isFirstOptionalSub == [1]) -> submit membership request will call this service
-  Future optionalSubFirstInsertNewService(CurGetdatum datum) async {
+  Future optionalSubFirstInsertNewService(CurGetdatum2 datum) async {
     var response = await HTTPClientContract.instance.postHTTP(
         'individuals/OptionalSubFirst_insert_new',
         {
