@@ -33,7 +33,7 @@ class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     return Container(
-      alignment: Alignment.center,
+      alignment: Alignment.topCenter,
       height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
       child: SingleChildScrollView(
         child: Column(
@@ -46,8 +46,8 @@ class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
                 Text(
                   translate('mobileNumberVerify', context),
                   style: TextStyle(
-                    color: HexColor('#979797'),
-                    fontSize: width(0.03, context),
+                      color: HexColor('#5F5F5F'),
+                      fontSize: width(0.035, context)
                   ),
                 ),
                 SizedBox(height: height(0.01, context),),
