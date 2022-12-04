@@ -155,8 +155,8 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
                               confirmMonthlyValue = (currentSliderValue * 0.175).toStringAsFixed(2);
                             }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
-                              confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name)  * double.tryParse(selectedYear.name) / 100) + currentSliderValue)).toStringAsFixed(3);
-                              confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name)  * double.tryParse(selectedYear.name) / 100) + currentSliderValue) * 0.175).toStringAsFixed(3);
+                              confirmSalaryValue = ((currentSliderValue * ((double.tryParse(selectedRate.name) / 100)  * double.tryParse(selectedYear.name)) + currentSliderValue)).toStringAsFixed(3);
+                              confirmMonthlyValue = ((currentSliderValue * ((double.tryParse(selectedRate.name) / 100)  * double.tryParse(selectedYear.name)) + currentSliderValue) * 0.175).toStringAsFixed(3);
                             }
                           } break;
                           case 3: {
@@ -440,7 +440,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          selectedCalculateAccordingTo == 'lastSalary' ? (currentSliderValue * 0.175).toStringAsFixed(3) : ((currentSliderValue * (double.tryParse(selectedRate.name)  * double.tryParse(selectedYear.name) / 100) + currentSliderValue) * 0.175).toStringAsFixed(3),
+                          selectedCalculateAccordingTo == 'lastSalary' ? (currentSliderValue * 0.175).toStringAsFixed(3) : ((currentSliderValue * ((double.tryParse(selectedRate.name) / 100)  * double.tryParse(selectedYear.name)) + currentSliderValue) * 0.175).toStringAsFixed(3),
                           style: TextStyle(
                             color: HexColor('#666666'),
                             fontWeight: FontWeight.w500,
