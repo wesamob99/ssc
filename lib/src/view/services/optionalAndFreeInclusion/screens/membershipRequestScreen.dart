@@ -287,9 +287,11 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               onChanged: (value) => setState(() {
                     selectedCalculateAccordingTo = value;
                     if(selectedCalculateAccordingTo == 'lastSalary'){
+                      currentSliderValue = minSalary;
                       confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
                       confirmMonthlyValue = (currentSliderValue * 0.175).toStringAsFixed(2);
                     }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
+                      selectedRate.name = selectedYear.name = '1';
                       confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
                       confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * 0.175).toStringAsFixed(3);
                     }
