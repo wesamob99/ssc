@@ -270,8 +270,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                           ),
                           SizedBox(height: height(0.025, context),),
                           textButton(
-                              context, themeNotifier, 'startNow', MaterialStateProperty.all<Color>(
-                              termsChecked ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA')),
+                              context, themeNotifier, 'startNow', termsChecked ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
                               termsChecked ? HexColor('#ffffff') : HexColor('#363636'),
                                   () async {
                                 if(termsChecked){

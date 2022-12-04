@@ -89,8 +89,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                   textButton(context,
                     themeNotifier,
                     Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'send',
-                    MaterialStateProperty.all<Color>(
-                        getPrimaryColor(context, themeNotifier)),
+                    getPrimaryColor(context, themeNotifier),
                     HexColor('#ffffff'),
                         (){
                       switch(servicesProvider.stepNumber){

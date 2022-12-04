@@ -149,8 +149,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                     textButton(context,
                       themeNotifier,
                       Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'send',
-                      MaterialStateProperty.all<Color>(
-                          getPrimaryColor(context, themeNotifier)),
+                      getPrimaryColor(context, themeNotifier),
                       HexColor('#ffffff'),
                           () async {
                         switch(servicesProvider.stepNumber){
@@ -174,7 +173,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                 message = UserConfig.instance.checkLanguage()
                                   ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
                               }
-                              showMyDialog(context, (value != '' && value['PO_status'] == 1) ? 'youAreIncludedOptional' : 'failed', message, 'ok', themeNotifier).then((_){
+                              showMyDialog(context, (value != '' && value['PO_status'] == 1) ? 'youAreIncludedOptional' : 'failed', message, (value != '' && value['PO_status'] == 1) ? 'cancel' : 'ok', themeNotifier, withPayButton: true).then((_){
                                 SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
                                   servicesProvider.selectedServiceRate = -1;
                                   servicesProvider.notifyMe();

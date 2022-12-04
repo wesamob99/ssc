@@ -168,10 +168,9 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                       // dropDownList(academicLevels, themeNotifier, loginProvider, 1),
                     ],
                   ),
-                  textButton(context, themeNotifier, 'continue', MaterialStateProperty.all<Color>(
-                      !Provider.of<LoginProvider>(context).registerContinueEnabled
-                          ? HexColor('#DADADA')
-                          : getPrimaryColor(context, themeNotifier)),
+                  textButton(context, themeNotifier, 'continue', !Provider.of<LoginProvider>(context).registerContinueEnabled
+                      ? HexColor('#DADADA')
+                      : getPrimaryColor(context, themeNotifier),
                       Provider.of<LoginProvider>(context).registerContinueEnabled
                           ? HexColor('#ffffff') : HexColor('#363636'), () async {
                         if(loginProvider.registerContinueEnabled){

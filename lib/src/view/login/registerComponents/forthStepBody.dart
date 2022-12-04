@@ -207,10 +207,9 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                         ],
                       ),
                       SizedBox(height: height(0.02, context),),
-                      textButton(context, themeNotifier, 'createAnAccount', MaterialStateProperty.all<Color>(
-                          !Provider.of<LoginProvider>(context).registerContinueEnabled
-                              ? HexColor('#DADADA')
-                              : getPrimaryColor(context, themeNotifier)),
+                      textButton(context, themeNotifier, 'createAnAccount', !Provider.of<LoginProvider>(context).registerContinueEnabled
+                          ? HexColor('#DADADA')
+                          : getPrimaryColor(context, themeNotifier),
                           Provider.of<LoginProvider>(context).registerContinueEnabled
                               ? HexColor('#ffffff') : HexColor('#363636'), () async {
                             if(loginProvider.registerContinueEnabled){

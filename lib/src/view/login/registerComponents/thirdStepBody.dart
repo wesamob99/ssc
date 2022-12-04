@@ -216,10 +216,9 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                     ),
                   ],
                 ),
-                textButton(context, themeNotifier, 'continue', MaterialStateProperty.all<Color>(
-                    !Provider.of<LoginProvider>(context).registerContinueEnabled
-                        ? HexColor('#DADADA')
-                        : getPrimaryColor(context, themeNotifier)),
+                textButton(context, themeNotifier, 'continue', !Provider.of<LoginProvider>(context).registerContinueEnabled
+                    ? HexColor('#DADADA')
+                    : getPrimaryColor(context, themeNotifier),
                     Provider.of<LoginProvider>(context).registerContinueEnabled
                         ? HexColor('#ffffff') : HexColor('#363636'), () async {
                       if(loginProvider.registerContinueEnabled){

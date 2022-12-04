@@ -206,15 +206,10 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                   ),
                 ),
                 textButton(context, themeNotifier, 'continue',
-                    MaterialStateProperty.all<Color>(
-                        !Provider
-                            .of<LoginProvider>(context)
-                            .registerContinueEnabled
-                            ? HexColor('#DADADA')
-                            : getPrimaryColor(context, themeNotifier)),
-                    Provider
-                        .of<LoginProvider>(context)
-                        .registerContinueEnabled
+                    !Provider.of<LoginProvider>(context).registerContinueEnabled
+                        ? HexColor('#DADADA')
+                        : getPrimaryColor(context, themeNotifier),
+                    Provider.of<LoginProvider>(context).registerContinueEnabled
                         ? HexColor('#ffffff') : HexColor('#363636'), () async {
                       if (loginProvider.registerContinueEnabled) {
                         FocusScope.of(context).requestFocus(FocusNode());

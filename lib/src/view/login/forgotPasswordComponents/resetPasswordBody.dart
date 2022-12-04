@@ -242,10 +242,9 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                 ),
                               ],
                             ),
-                            textButton(context, themeNotifier, 'continue', MaterialStateProperty.all<Color>(
-                                !Provider.of<LoginProvider>(context).resetContinueEnabled
-                                    ? HexColor('#DADADA')
-                                    : getPrimaryColor(context, themeNotifier)),
+                            textButton(context, themeNotifier, 'continue', !Provider.of<LoginProvider>(context).resetContinueEnabled
+                                ? HexColor('#DADADA')
+                                : getPrimaryColor(context, themeNotifier),
                                 Provider.of<LoginProvider>(context).resetContinueEnabled
                                     ? HexColor('#ffffff') : HexColor('#363636'), () async {
                                   if(loginProvider.resetContinueEnabled){
