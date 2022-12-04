@@ -22,18 +22,21 @@ class HomeSlideShowWidget extends StatelessWidget {
     List<Widget> ads = [];
     for (int i = 0; i < images.length; i++) {
       ads.add(
-        ClipRRect(
-          borderRadius: BorderRadius.circular(6.0),
-          child: Image.asset(
-            images[i],
-            fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: getPrimaryColor(context, themeNotifier),
-                ),
-              );
-            },
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(6.0),
+            child: Image.asset(
+              images[i],
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: getPrimaryColor(context, themeNotifier),
+                  ),
+                );
+              },
+            ),
           ),
         ),
       );
