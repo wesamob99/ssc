@@ -27,6 +27,7 @@ class MembershipRequestScreen extends StatefulWidget {
 class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   ServicesProvider servicesProvider;
   String selectedCalculateAccordingTo = 'lastSalary';
+  int submissionType = 1;
   List<String> calculateAccordingToList = [];
   List<SelectedListItem> listOfRates= [];
   SelectedListItem selectedRate= SelectedListItem(name: '1', natCode: null, flag: '');
@@ -63,6 +64,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
       if(servicesProvider.result['cur_getdata'][0][0]['COMPLEMENTARY_SUBSC'] == 1) {
         calculateAccordingToList.add('lastSalaryAccordingToTheDefenseLaw');
         selectedCalculateAccordingTo = 'lastSalaryAccordingToTheDefenseLaw';
+        submissionType = 5;
       }
       currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
       servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
@@ -103,6 +105,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'].toString());
                     }
                     selectedCalculateAccordingTo = 'lastSalary';
+                    submissionType = 1;
                     confirmSalaryValue = '';
                     confirmMonthlyValue = '';
                     servicesProvider.stepNumber = 1;
@@ -163,9 +166,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                           case 3: {
                             String message = translate('somethingWrongHappened', context);
                             if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 1 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 2) {
-                              var value = await servicesProvider.optionalSubInsertNew().whenComplete((){});
+                              var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType, int.tryParse(selectedRate.name), int.tryParse(selectedYear.name)).whenComplete((){});
                               if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 1){
-                                value = await servicesProvider.optionalSubFirstInsertNew().whenComplete((){});
+                                value = await servicesProvider.optionalSubFirstInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType, int.tryParse(selectedRate.name), int.tryParse(selectedYear.name)).whenComplete((){});
                               }
                               if(value != '') {
                                 message = UserConfig.instance.checkLanguage()
@@ -286,6 +289,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               ) : const TextStyle(),
               onChanged: (value) => setState(() {
                     selectedCalculateAccordingTo = value;
+                    submissionType = calculateAccordingToList.indexOf(selectedCalculateAccordingTo) + (selectedCalculateAccordingTo != 'lastSalaryAccordingToTheDefenseLaw' ? 1 : 2);
                     if(selectedCalculateAccordingTo == 'lastSalary'){
                       currentSliderValue = minSalary;
                       confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
@@ -295,7 +299,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
                       confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * 0.175).toStringAsFixed(3);
                     }
-                  }),
+              }),
               items: calculateAccordingToList,
               itemBuilder: (item) =>
                 RadioButtonBuilder(
