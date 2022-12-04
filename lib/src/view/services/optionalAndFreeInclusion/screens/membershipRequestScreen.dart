@@ -51,7 +51,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
       listOfRates.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
     }
     if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
-      if(servicesProvider.result['cur_getdata'][0][0]['COMPLEMENTARY_SUBSC'] != 1) {
+      if(servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) {
         calculateAccordingToList = ['lastSalary'];
       }
       if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFINC'] == 0) {
