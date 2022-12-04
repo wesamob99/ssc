@@ -289,15 +289,20 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               ) : const TextStyle(),
               onChanged: (value) => setState(() {
                     selectedCalculateAccordingTo = value;
-                    submissionType = calculateAccordingToList.indexOf(selectedCalculateAccordingTo) + (selectedCalculateAccordingTo != 'lastSalaryAccordingToTheDefenseLaw' ? 1 : 2);
                     if(selectedCalculateAccordingTo == 'lastSalary'){
+                      submissionType = 1;
                       currentSliderValue = minSalary;
                       confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
                       confirmMonthlyValue = (currentSliderValue * 0.175).toStringAsFixed(2);
                     }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
+                      submissionType = 2;
                       selectedRate.name = selectedYear.name = '1';
                       confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
                       confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * 0.175).toStringAsFixed(3);
+                    } else if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
+                      submissionType = 3;
+                    } else if(selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw'){
+                      submissionType = 5;
                     }
               }),
               items: calculateAccordingToList,
