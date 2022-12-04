@@ -70,6 +70,14 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     } else{
       calculateAccordingToList = ['lastSalary', 'increaseInAllowanceForDeductionYears', 'discountNotMoreThan-20', 'lastSalaryAccordingToTheDefenseLaw'];
     }
+
+    if(selectedCalculateAccordingTo == 'lastSalary'){
+      confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
+      confirmMonthlyValue = (currentSliderValue * 0.175).toStringAsFixed(2);
+    }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
+      confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
+      confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * 0.175).toStringAsFixed(3);
+    }
     super.initState();
   }
 
@@ -150,13 +158,6 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               servicesProvider.isMobileNumberUpdated = false;
                             } else{
                               servicesProvider.stepNumber = 3;
-                            }
-                            if(selectedCalculateAccordingTo == 'lastSalary'){
-                              confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
-                              confirmMonthlyValue = (currentSliderValue * 0.175).toStringAsFixed(2);
-                            }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
-                              confirmSalaryValue = ((currentSliderValue * ((double.tryParse(selectedRate.name) / 100)  * double.tryParse(selectedYear.name)) + currentSliderValue)).toStringAsFixed(3);
-                              confirmMonthlyValue = ((currentSliderValue * ((double.tryParse(selectedRate.name) / 100)  * double.tryParse(selectedYear.name)) + currentSliderValue) * 0.175).toStringAsFixed(3);
                             }
                           } break;
                           case 3: {
@@ -285,6 +286,13 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               ) : const TextStyle(),
               onChanged: (value) => setState(() {
                     selectedCalculateAccordingTo = value;
+                    if(selectedCalculateAccordingTo == 'lastSalary'){
+                      confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
+                      confirmMonthlyValue = (currentSliderValue * 0.175).toStringAsFixed(2);
+                    }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
+                      confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
+                      confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * 0.175).toStringAsFixed(3);
+                    }
                   }),
               items: calculateAccordingToList,
               itemBuilder: (item) =>
@@ -440,7 +448,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          selectedCalculateAccordingTo == 'lastSalary' ? (currentSliderValue * 0.175).toStringAsFixed(3) : ((currentSliderValue * ((double.tryParse(selectedRate.name) / 100)  * double.tryParse(selectedYear.name)) + currentSliderValue) * 0.175).toStringAsFixed(3),
+                          confirmMonthlyValue,
                           style: TextStyle(
                             color: HexColor('#666666'),
                             fontWeight: FontWeight.w500,
@@ -484,7 +492,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          (minSalary * (double.tryParse(selectedRate.name) / 100) * double.tryParse(selectedYear.name) + minSalary).toStringAsFixed(3),
+                          confirmSalaryValue,
                           style: TextStyle(
                             color: HexColor('#666666'),
                             fontWeight: FontWeight.w500,
@@ -659,6 +667,12 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                   }
                 });
               }
+              double temp = 0;
+              for(int i=1 ; i<=int.tryParse(selectedYear.name) ; i++){
+                temp += (currentSliderValue + temp) * (double.tryParse(selectedRate.name) / 100);
+              }
+              confirmSalaryValue = (currentSliderValue + temp).toStringAsFixed(3);
+              confirmMonthlyValue = ((currentSliderValue + temp) * 0.175).toStringAsFixed(3);
             },
             enableMultipleSelection: false,
           ),
