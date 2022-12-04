@@ -281,8 +281,8 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               groupValue: selectedCalculateAccordingTo,
               spacebetween: 40,
               textStyle: isTablet(context)
-                  ? TextStyle(
-                  fontSize: width(0.025, context)
+              ? TextStyle(
+                fontSize: width(0.025, context)
               ) : const TextStyle(),
               onChanged: (value) => setState(() {
                     selectedCalculateAccordingTo = value;
