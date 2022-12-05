@@ -181,7 +181,10 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                 message = UserConfig.instance.checkLanguage()
                                   ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
                               }
-                              showMyDialog(context, (value != '' && value['PO_status'] == 1) ? 'youAreIncludedOptional' : 'failed', message, (value != '' && value['PO_status'] == 1) ? 'cancel' : 'ok', themeNotifier, withPayButton: true).then((_){
+                              showMyDialog(context, (value != '' && value['PO_status'] == 1) ? 'youAreIncludedOptional' : 'failed',
+                                  message, (value != '' && value['PO_status'] == 1) ? 'ok' : 'cancel',
+                                  themeNotifier, withPayButton: (value != '' && value['PO_status'] == 1) ? true : false,
+                                  icon: (value != '' && value['PO_status'] == 1) ? 'assets/icons/serviceSuccess.svg' : 'assets/icons/loginError.svg').then((_){
                                 SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
                                   servicesProvider.selectedServiceRate = -1;
                                   servicesProvider.notifyMe();
