@@ -173,9 +173,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                           case 3: {
                             String message = translate('somethingWrongHappened', context);
                             if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 1 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 2) {
-                              var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType, int.tryParse(selectedRate.name), int.tryParse(selectedYear.name)).whenComplete((){});
+                              var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType, int.tryParse(selectedYear.name), int.tryParse(selectedRate.name)).whenComplete((){});
                               if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 1){
-                                value = await servicesProvider.optionalSubFirstInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType, int.tryParse(selectedRate.name), int.tryParse(selectedYear.name)).whenComplete((){});
+                                value = await servicesProvider.optionalSubFirstInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType, int.tryParse(selectedYear.name), int.tryParse(selectedRate.name)).whenComplete((){});
                               }
                               if(value != '') {
                                 message = UserConfig.instance.checkLanguage()
