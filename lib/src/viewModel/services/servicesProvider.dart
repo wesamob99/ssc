@@ -5,23 +5,16 @@ import 'package:flutter/services.dart';
 import 'package:ssc/src/model/services/servicesRepository.dart';
 
 import '../../../models/login/countries.dart';
-import '../../../models/profile/userProfileData.dart';
-import '../../../models/services/optionalSubGetDetail.dart';
 
 class ServicesProvider extends ChangeNotifier {
 
   ServicesRepository servicesRepository = ServicesRepository();
-  UserProfileData userProfileData = UserProfileData();
   int selectedServiceRate = -1;
   bool isMobileNumberUpdated = false;
   bool isLoading = false;
-  CurGetdatum2 datum = CurGetdatum2();
   // ignore: prefer_typing_uninitialized_variables
   var result;
-
   TextEditingController monthlyInstallmentController = TextEditingController();
-
-  /// workInjuryComplaint
   int stepNumber = 1;
   String selectedInjuredType = 'occupationalDisease';
   TextEditingController mobileNumberController = TextEditingController();
