@@ -105,17 +105,17 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 case 1: Navigator.of(context).pop(); break;
                 case 2:
                   {
-                    if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
-                      currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
-                      servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
-                      maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'].toString());
-                      submissionType = (servicesProvider.result['cur_getdata'][0][0]['COMPLEMENTARY_SUBSC'] == 1) ? 5 : 1;
-                    } else{
-                      submissionType = null;
-                    }
-                    selectedCalculateAccordingTo = 'lastSalary';
-                    confirmSalaryValue = '';
-                    confirmMonthlyValue = '';
+                    // if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
+                    //   currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
+                    //   servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
+                    //   maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'].toString());
+                    //   submissionType = (servicesProvider.result['cur_getdata'][0][0]['COMPLEMENTARY_SUBSC'] == 1) ? 5 : 1;
+                    // } else{
+                    //   submissionType = null;
+                    // }
+                    // selectedCalculateAccordingTo = 'lastSalary';
+                    // confirmSalaryValue = '';
+                    // confirmMonthlyValue = '';
                     servicesProvider.stepNumber = 1;
                   } break;
                 case 3: servicesProvider.stepNumber = 2; break;
