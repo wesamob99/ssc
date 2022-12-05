@@ -258,7 +258,8 @@ Future<void> showMyDialog(
     String buttonText,
     ThemeNotifier themeNotifier,
     {titleColor = '#ED3124',
-    icon = 'assets/icons/loginError.svg'}
+    icon = 'assets/icons/loginError.svg',
+    withPayButton = false}
     ) async {
   return showDialog<void>(
     context: context,
@@ -309,9 +310,10 @@ Future<void> showMyDialog(
               )
           ) : const SizedBox.shrink(),
           actions: <Widget>[
+            if(withPayButton)
             TextButton(
               onPressed: () async {
-                Navigator.of(context).pop();
+                // Navigator.of(context).pop();
               },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
@@ -319,6 +321,29 @@ Future<void> showMyDialog(
                   ),
                   foregroundColor:  MaterialStateProperty.all<Color>(
                       Colors.white
+                  ),
+                  fixedSize:  MaterialStateProperty.all<Size>(
+                    Size(width(1, context), height(0.05, context)),
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)
+                      )
+                  )
+              ),
+              child: Text(translate('payNow', context)),
+            ),
+            SizedBox(height: withPayButton ? 10.0 : 0.0),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    withPayButton ? Colors.transparent : getPrimaryColor(context, themeNotifier),
+                  ),
+                  foregroundColor:  MaterialStateProperty.all<Color>(
+                     withPayButton ? HexColor('#363636') : Colors.white
                   ),
                   fixedSize:  MaterialStateProperty.all<Size>(
                     Size(width(1, context), height(0.05, context)),
@@ -366,7 +391,9 @@ SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPres
     child: TextButton(
       onPressed: onPressed,
       style: ButtonStyle(
-          backgroundColor: buttonColor,
+          backgroundColor: MaterialStateProperty.all<Color>(
+            buttonColor
+          ),
           foregroundColor: MaterialStateProperty.all<Color>(
               Colors.white
           ),
@@ -781,9 +808,9 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: width(0.1, context)),
-                      child: textButton(context, themeNotifier, 'done', MaterialStateProperty.all<Color>(
-                          Provider.of<ServicesProvider>(context).selectedServiceRate != -1 ? primaryColor : HexColor('#DADADA')
-                      ), Provider.of<ServicesProvider>(context).selectedServiceRate != -1 ?  Colors.white : HexColor('#363636'), (){
+                      child: textButton(context, themeNotifier, 'done',
+                        Provider.of<ServicesProvider>(context).selectedServiceRate != -1 ? primaryColor : HexColor('#DADADA'),
+                        Provider.of<ServicesProvider>(context).selectedServiceRate != -1 ?  Colors.white : HexColor('#363636'), (){
                         if(servicesProvider.selectedServiceRate != -1){
                           servicesProvider.notifyMe();
                           while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
