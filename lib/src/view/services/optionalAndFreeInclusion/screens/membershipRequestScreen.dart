@@ -718,23 +718,12 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Text(
-                    flag == 1 ? '% ' : '',
-                    style: TextStyle(
-                        color: HexColor('#003C97'),
-                        fontSize: 15
-                    ),
-                  ),
-                  Text(
-                    flag == 1 ? selectedRate.name : selectedYear.name,
-                    style: TextStyle(
-                        color: HexColor('#363636'),
-                        fontSize: 15
-                    ),
-                  ),
-                ],
+              Text(
+                flag == 1 ? '${selectedRate.name} %' : selectedYear.name,
+                style: TextStyle(
+                    color: HexColor('#363636'),
+                    fontSize: 15
+                ),
               ),
               Icon(
                 Icons.arrow_drop_down_outlined,
