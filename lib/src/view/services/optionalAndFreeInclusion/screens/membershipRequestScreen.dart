@@ -57,20 +57,23 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
       }
       if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFINC'] == 0) {
         calculateAccordingToList.add('increaseInAllowanceForDeductionYears');
+        submissionType = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 1 : 2;
       }
       if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFDEC'] == 0) {
         calculateAccordingToList.add('discountNotMoreThan-20');
+        submissionType = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 1 : 3;
       }
       if(servicesProvider.result['cur_getdata'][0][0]['COMPLEMENTARY_SUBSC'] == 1) {
         calculateAccordingToList.add('lastSalaryAccordingToTheDefenseLaw');
         selectedCalculateAccordingTo = 'lastSalaryAccordingToTheDefenseLaw';
-        submissionType = 5;
+        submissionType = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 1 : 5;
       }
       currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
       servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
       maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'].toString());
     } else{
-      calculateAccordingToList = ['lastSalary', 'increaseInAllowanceForDeductionYears', 'discountNotMoreThan-20', 'lastSalaryAccordingToTheDefenseLaw'];
+      calculateAccordingToList = [];
+      submissionType = null;
     }
 
     if(selectedCalculateAccordingTo == 'lastSalary'){
@@ -103,9 +106,11 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
                       servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
                       maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'].toString());
+                      submissionType = (servicesProvider.result['cur_getdata'][0][0]['COMPLEMENTARY_SUBSC'] == 1) ? 5 : 1;
+                    } else{
+                      submissionType = null;
                     }
                     selectedCalculateAccordingTo = 'lastSalary';
-                    submissionType = 1;
                     confirmSalaryValue = '';
                     confirmMonthlyValue = '';
                     servicesProvider.stepNumber = 1;
@@ -276,6 +281,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               ),
             ),
             SizedBox(height: height(0.015, context),),
+            if(calculateAccordingToList.isNotEmpty)
             RadioGroup<String>.builder(
               activeColor: HexColor('#2D452E'),
               direction: Axis.vertical,
