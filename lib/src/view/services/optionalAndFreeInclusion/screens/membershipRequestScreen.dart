@@ -68,20 +68,23 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
         selectedCalculateAccordingTo = 'lastSalaryAccordingToTheDefenseLaw';
         submissionType = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 1 : 5;
       }
-      currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
+      currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORDEC'].toString());
       servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
-      maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'].toString());
+      maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORDEC'].toString());
     } else{
       calculateAccordingToList = [];
       submissionType = null;
+      currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
+      servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
+      maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'].toString());
     }
 
     if(selectedCalculateAccordingTo == 'lastSalary'){
       confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
-      confirmMonthlyValue = (currentSliderValue * 0.175).toStringAsFixed(2);
+      confirmMonthlyValue = (currentSliderValue * (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100).toStringAsFixed(2);
     }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
       confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
-      confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * 0.175).toStringAsFixed(3);
+      confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
     }
     super.initState();
   }
@@ -298,12 +301,12 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       submissionType = 1;
                       currentSliderValue = minSalary;
                       confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
-                      confirmMonthlyValue = (currentSliderValue * 0.175).toStringAsFixed(2);
+                      confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(2);
                     }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
                       submissionType = 2;
                       selectedRate.name = selectedYear.name = '1';
                       confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
-                      confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * 0.175).toStringAsFixed(3);
+                      confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                     } else if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
                       submissionType = 3;
                     } else if(selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw'){
@@ -688,7 +691,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 temp += (currentSliderValue + temp) * (double.tryParse(selectedRate.name) / 100);
               }
               confirmSalaryValue = (currentSliderValue + temp).toStringAsFixed(3);
-              confirmMonthlyValue = ((currentSliderValue + temp) * 0.175).toStringAsFixed(3);
+              confirmMonthlyValue = ((currentSliderValue + temp) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
             },
             enableMultipleSelection: false,
           ),
