@@ -30,9 +30,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   int submissionType = 1;
   List<String> calculateAccordingToList = [];
   List<SelectedListItem> listOfRates= [];
-  SelectedListItem selectedRate= SelectedListItem(name: '1', natCode: null, flag: '');
+  SelectedListItem selectedRate= SelectedListItem(name: '0', natCode: null, flag: '');
   List<SelectedListItem> listOfYears= [];
-  SelectedListItem selectedYear= SelectedListItem(name: '1', natCode: null, flag: '');
+  SelectedListItem selectedYear= SelectedListItem(name: '0', natCode: null, flag: '');
   double currentSliderValue = 0;
   double minSalary = 0;
   double maxSalary = 0;
@@ -44,11 +44,11 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
     listOfYears = [];
-    for(int i=1 ; i<=servicesProvider.result['cur_getdata'][0][0]['NOOFINCREMENTS']  ; i++){
+    for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['NOOFINCREMENTS']  ; i++){
       listOfYears.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
     }
     listOfRates = [];
-    for(int i=1 ; i<=servicesProvider.result['cur_getdata'][0][0]['MAX_PER_OF_INC']  ; i++){
+    for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['MAX_PER_OF_INC']  ; i++){
       listOfRates.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
     }
     if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
@@ -309,7 +309,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(2);
                     }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
                       submissionType = 2;
-                      selectedRate.name = selectedYear.name = '1';
+                      selectedRate.name = selectedYear.name = '0';
                       confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
                       confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                     } else if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
@@ -718,12 +718,23 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                flag == 1 ? selectedRate.name : selectedYear.name,
-                style: TextStyle(
-                    color: HexColor('#363636'),
-                    fontSize: 15
-                ),
+              Row(
+                children: [
+                  Text(
+                    flag == 1 ? '% ' : '',
+                    style: TextStyle(
+                        color: HexColor('#003C97'),
+                        fontSize: 15
+                    ),
+                  ),
+                  Text(
+                    flag == 1 ? selectedRate.name : selectedYear.name,
+                    style: TextStyle(
+                        color: HexColor('#363636'),
+                        fontSize: 15
+                    ),
+                  ),
+                ],
               ),
               Icon(
                 Icons.arrow_drop_down_outlined,
