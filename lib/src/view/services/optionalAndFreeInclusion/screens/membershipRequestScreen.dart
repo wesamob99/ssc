@@ -276,6 +276,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               ],
             ),
             SizedBox(height: height(0.02, context),),
+            if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             Text(
               translate('CalculateAccordingTo', context),
               style: TextStyle(
@@ -283,8 +284,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                   fontSize: width(0.032, context)
               ),
             ),
+            if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             SizedBox(height: height(0.015, context),),
-            if(calculateAccordingToList.isNotEmpty)
+            if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             RadioGroup<String>.builder(
               activeColor: HexColor('#2D452E'),
               direction: Axis.vertical,
@@ -319,8 +321,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                   translate(item, context),
                 ),
             ),
+            if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             SizedBox(height: height(0.02, context),),
-            if(selectedCalculateAccordingTo == 'lastSalary')
+            if(servicesProvider.result['PO_is_it_firstOptionalSub'] != 0 || selectedCalculateAccordingTo == 'discountNotMoreThan-20')
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -486,7 +489,6 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 )
               ],
             ),
-            if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears')
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -529,7 +531,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                     )
                 )
               ],
-      ),
+            ),
           ],
         ),
       ),
