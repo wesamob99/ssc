@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/models/profile/userProfileData.dart';
 
-import '../../../infrastructure/userConfig.dart';
 import '../../../infrastructure/userSecuredStorage.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/profile/profileProvider.dart';
@@ -39,12 +38,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Text(translate('hello', context), style: const TextStyle(fontSize: 14),),
             Text(userSecuredStorage.userName, style: const TextStyle(fontSize: 14),),
           ],
-        ),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(UserConfig.instance.checkLanguage() ?  0 : 50),
-                bottomRight: Radius.circular(UserConfig.instance.checkLanguage() ?  50 : 0)
-            )
         ),
         leading: leadingBackIcon(context),
       ),
