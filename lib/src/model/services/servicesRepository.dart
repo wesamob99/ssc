@@ -36,7 +36,7 @@ class ServicesRepository{
     return null;
   }
 
-  /// if (isFirstOptionalSub == [0] or [2]) -> submit membership request will call this service
+  /// if (isFirstOptionalSub == [0] or [2]) -> send membership request will call this service
   Future optionalSubInsertNewService(result, double monthlyPay, double appliedSalary ,int submissionType, int selectedNumberOfIncrements, int selectedMaxPerForInc) async {
     var data = {
       "SECNO": result['SECNO'],
@@ -88,7 +88,7 @@ class ServicesRepository{
     return '';
   }
 
-  /// if (isFirstOptionalSub == [1]) -> submit membership request will call this service
+  /// if (isFirstOptionalSub == [1]) -> send membership request will call this service
   Future optionalSubFirstInsertNewService(result, double monthlyPay, double appliedSalary ,int submissionType, int selectedNumberOfIncrements, int selectedMaxPerForInc) async {
     var data = {
       "SECNO": result['SECNO'],
