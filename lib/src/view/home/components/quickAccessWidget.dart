@@ -113,7 +113,7 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(6.0),
                               ),
-                              margin: EdgeInsets.symmetric(vertical: 3.0, horizontal: isTablet(context) ? 5.0 : 0),
+                              margin: EdgeInsets.symmetric(vertical: 3.0, horizontal: isTablet(context) ? 5.0 : 0).copyWith(bottom: 7),
                               shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
                               color: HexColor('#FFFFFF'),
                               child: Padding(
@@ -153,7 +153,7 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
                           maxLines: isScreenHasSmallHeight(context) ? 2 : 3,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: height(0.012, context),
+                            fontSize: height(0.011, context),
                           ),
                         ),
                       ),
