@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:ssc/src/model/services/servicesRepository.dart';
 
 import '../../../models/login/countries.dart';
+import '../../../models/profile/userProfileData.dart';
 
 class ServicesProvider extends ChangeNotifier {
 
@@ -20,12 +21,9 @@ class ServicesProvider extends ChangeNotifier {
   TextEditingController mobileNumberController = TextEditingController();
   List<Countries> countries = [];
 
-  // deleted
-  // Future<UserProfileData> getAccountData() async{
-  //   userProfileData = await servicesRepository.getAccountDataService();
-  //   notifyMe();
-  //   return userProfileData;
-  // }
+  Future<UserProfileData> getAccountData() async{
+    return await servicesRepository.getAccountDataService();
+  }
 
   Future optionalSubGetDetail() async{
     return await servicesRepository.optionalSubGetDetailService();

@@ -9,20 +9,20 @@ import '../../../infrastructure/HTTPClientContract.dart';
 
 class ServicesRepository{
 
-  // deleted
-  // Future<UserProfileData> getAccountDataService() async {
-  //   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-  //   String internalKey = userSecuredStorage.insuranceNumber.toString();
-  //   var response = await HTTPClientContract.instance.getHTTP('/individuals/GET_INDIVIDUALUSERINFOSP?PIINSURANCENO=$internalKey');
-  //   if (kDebugMode) {
-  //     print(response);
-  //   }
-  //   if (response != null && response.statusCode == 200) {
-  //     return userProfileDataFromJson(response.toString());
-  //   }
-  //   return null;
-  // }
+  Future getAccountDataService() async {
+    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+    String internalKey = userSecuredStorage.insuranceNumber.toString();
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/GET_INDIVIDUALUSERINFOSP?PIINSURANCENO=$internalKey');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
 
+  /// **************************************************************MEMBERSHIP REQUEST - START**********************************************************************
   Future optionalSubGetDetailService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
@@ -139,4 +139,6 @@ class ServicesRepository{
     }
     return '';
   }
+/// **************************************************************MEMBERSHIP REQUEST - END**********************************************************************
+
 }
