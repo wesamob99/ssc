@@ -52,17 +52,17 @@ class _PayScreenState extends State<PayScreen> {
                 itemBuilder: (context, index){
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            setState(() {
-                              payments[index].isChecked = !payments[index].isChecked;
-                            });
-                          },
-                          child: Row(
+                    child: InkWell(
+                      onTap: (){
+                        setState(() {
+                          payments[index].isChecked = !payments[index].isChecked;
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -120,26 +120,26 @@ class _PayScreenState extends State<PayScreen> {
                               )
                             ],
                           ),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              payments[index].value,
-                              style: TextStyle(
-                                color: HexColor('#363636'),
-                                fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
+                          Row(
+                            children: [
+                              Text(
+                                payments[index].value,
+                                style: TextStyle(
+                                  color: HexColor('#363636'),
+                                  fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
+                                ),
                               ),
-                            ),
-                            Text(
-                              ' ${translate('jd', context)}',
-                              style: TextStyle(
-                                color: HexColor('#363636'),
-                                fontSize: width(isTablet(context) ? 0.026 : 0.03, context),
+                              Text(
+                                ' ${translate('jd', context)}',
+                                style: TextStyle(
+                                  color: HexColor('#363636'),
+                                  fontSize: width(isTablet(context) ? 0.026 : 0.03, context),
+                                ),
                               ),
-                            ),
-                          ],
-                        )
-                      ],
+                            ],
+                          )
+                        ],
+                      ),
                     )
                   );
                 }
