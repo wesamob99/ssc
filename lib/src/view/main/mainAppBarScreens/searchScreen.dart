@@ -191,7 +191,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             fontSize:  isTablet(context) ? 19 : 14,
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: isTablet(context) ? 20 : 0),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: height(0.03, context) / 2),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
