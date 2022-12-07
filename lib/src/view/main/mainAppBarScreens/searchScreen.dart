@@ -95,8 +95,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                   children: [
                                     SvgPicture.asset(servicesList[index].icon, width: 30, color: primaryColor,),
                                     const SizedBox(width: 10),
-                                    Text(
-                                        translate(servicesList[index].title, context) + (servicesList[index].duplicated ? ' ( ${translate(servicesList[index].supTitle, context)} )' : '')
+                                    SizedBox(
+                                      width: width(0.77, context),
+                                      child: Text(
+                                        translate(servicesList[index].title, context) + (servicesList[index].duplicated ? ' ( ${translate(servicesList[index].supTitle, context)} )' : ''),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
                                   ],
                                 ),
