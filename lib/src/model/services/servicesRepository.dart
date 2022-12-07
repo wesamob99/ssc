@@ -52,7 +52,7 @@ class ServicesRepository{
       "DOB": result['DOB'],
       "EMAIL": result['EMAIL'],
       "LIVELOCATION": result['LIVELOCATION'],
-      "PHONECODE": null,
+      "PHONECODE": '',
       "INTERNATIONAL_CODE": result['INTERNATIONAL_CODE'],
       "ADDRESS": result['ADDRESS'],
       "REFERANCE_MOBILE": result['REFERANCE_MOBILE'],
@@ -77,7 +77,7 @@ class ServicesRepository{
       "SALARY": null
     };
     var response = await HTTPClientContract.instance.postHTTP(
-        'individuals/OPTIONAL_SUB_INSERT_NEW', data
+        '/individuals/OPTIONAL_SUB_INSERT_NEW', data
     );
     if (kDebugMode) {
       print(response);
@@ -129,7 +129,7 @@ class ServicesRepository{
       "SALARY": null
     };
     var response = await HTTPClientContract.instance.postHTTP(
-        'individuals/OptionalSubFirst_insert_new', data
+        '/individuals/OptionalSubFirst_insert_new', data
     );
     if (kDebugMode) {
       print(response);
