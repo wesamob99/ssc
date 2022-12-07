@@ -772,12 +772,12 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
                                   },
                                   child: AnimatedContainer(
                                     duration: const Duration(milliseconds: 200),
-                                    width: width(0.13, context),
-                                    height: width(0.13, context),
+                                    width: width(isTablet(context) ? 0.1 : 0.13, context),
+                                    height: width(isTablet(context) ? 0.1 : 0.13, context),
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       color: Provider.of<ServicesProvider>(context).selectedServiceRate == index + 1 ? HexColor('#2D452E') : HexColor('#A6A6A6'),
-                                      borderRadius: BorderRadius.circular(50.0),
+                                      borderRadius: BorderRadius.circular(500.0),
                                     ),
                                     child: Text(
                                       '${5 - index}',
