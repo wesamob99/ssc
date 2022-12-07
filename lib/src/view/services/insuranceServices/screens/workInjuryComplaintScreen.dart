@@ -63,79 +63,81 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
           ),
         ),
       ),
-      body: GestureDetector(
-        onTap: (){
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: WillPopScope(
-          onWillPop: () async => false,
-          child: SingleChildScrollView(
-            child: Container(
-              width: width(1, context),
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                    const FirstStepScreen(nextStep: 'orderDetails', numberOfSteps: 4,),
-                  if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                    VerifyMobileNumberScreen(nextStep: 'orderDetails', numberOfSteps: 4, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
-                  if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                    secondStep(context, themeNotifier),
-                  if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                    thirdStep(context, themeNotifier),
-                  if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-                    forthStep(context, themeNotifier),
-                  textButton(context,
-                    themeNotifier,
-                    Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'send',
-                    getPrimaryColor(context, themeNotifier),
-                    HexColor('#ffffff'),
-                        (){
-                      switch(servicesProvider.stepNumber){
-                        case 1: servicesProvider.stepNumber = 2; break;
-                        case 2:
-                          {
-                            if(servicesProvider.isMobileNumberUpdated){
-                              servicesProvider.stepNumber = 2;
-                              servicesProvider.isMobileNumberUpdated = false;
-                            } else{
-                              servicesProvider.stepNumber = 3;
-                            }
-                          } break;
-                        case 3: servicesProvider.stepNumber = 4; break;
-                        case 4: {
-                          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                            servicesProvider.selectedServiceRate = -1;
-                            servicesProvider.notifyMe();
-                            rateServiceBottomSheet(context, themeNotifier, servicesProvider);
-                          });
-                        } break; /// TODO: finish service
-                      }
-                      servicesProvider.notifyMe();
-                    },
-                  )
-                  // SizedBox(height: height(0.01, context)),
-                  // textButton(context,
-                  //   themeNotifier,
-                  //   'saveAsDraft',
-                  //   MaterialStateProperty.all<Color>(Colors.transparent),
-                  //   HexColor('#003C97'),
-                  //       (){},
-                  // ),
-                ],
+      body: Stack(
+        children: [
+          GestureDetector(
+            onTap: (){
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: WillPopScope(
+              onWillPop: () async => false,
+              child: Container(
+                width: width(1, context),
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    if(Provider.of<ServicesProvider>(context).stepNumber == 1)
+                      const FirstStepScreen(nextStep: 'orderDetails', numberOfSteps: 4,),
+                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                      VerifyMobileNumberScreen(nextStep: 'orderDetails', numberOfSteps: 4, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                      secondStep(context, themeNotifier),
+                    if(Provider.of<ServicesProvider>(context).stepNumber == 3)
+                      thirdStep(context, themeNotifier),
+                    if(Provider.of<ServicesProvider>(context).stepNumber == 4)
+                      forthStep(context, themeNotifier),
+                    textButton(context,
+                      themeNotifier,
+                      Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'send',
+                      getPrimaryColor(context, themeNotifier),
+                      HexColor('#ffffff'),
+                          (){
+                        switch(servicesProvider.stepNumber){
+                          case 1: servicesProvider.stepNumber = 2; break;
+                          case 2:
+                            {
+                              if(servicesProvider.isMobileNumberUpdated){
+                                servicesProvider.stepNumber = 2;
+                                servicesProvider.isMobileNumberUpdated = false;
+                              } else{
+                                servicesProvider.stepNumber = 3;
+                              }
+                            } break;
+                          case 3: servicesProvider.stepNumber = 4; break;
+                          case 4: {
+                            SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                              servicesProvider.selectedServiceRate = -1;
+                              servicesProvider.notifyMe();
+                              rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                            });
+                          } break; /// TODO: finish service
+                        }
+                        servicesProvider.notifyMe();
+                      },
+                    )
+                    // SizedBox(height: height(0.01, context)),
+                    // textButton(context,
+                    //   themeNotifier,
+                    //   'saveAsDraft',
+                    //   MaterialStateProperty.all<Color>(Colors.transparent),
+                    //   HexColor('#003C97'),
+                    //       (){},
+                    // ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
 
   Widget secondStep(context, themeNotifier){
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
+    return SizedBox(
+      height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -265,21 +267,27 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
   }
 
   Widget thirdStep(context, themeNotifier){
-    return SingleChildScrollView(
-      child: Container(
-        alignment: Alignment.center,
-        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
-        child: Text(translate('thirdStep', context)),
+    return SizedBox(
+      height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
+      child: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.center,
+          height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
+          child: Text(translate('thirdStep', context)),
+        ),
       ),
     );
   }
 
   Widget forthStep(context, themeNotifier){
-    return SingleChildScrollView(
-      child: Container(
-        alignment: Alignment.center,
-        height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
-        child: Text(translate('forthStep', context)),
+    return SizedBox(
+      height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
+      child: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.center,
+          height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
+          child: Text(translate('forthStep', context)),
+        ),
       ),
     );
   }
