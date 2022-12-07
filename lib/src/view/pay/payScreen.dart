@@ -204,7 +204,14 @@ class _PayScreenState extends State<PayScreen> {
             const Expanded(child: SizedBox.shrink()),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: textButton(context, themeNotifier, 'continue', primaryColor, Colors.white, (){}),
+              child: textButton(
+                context,
+                themeNotifier,
+                'continue',
+                payments.any((element) => element.isChecked == true) ? primaryColor : HexColor('#DADADA'),
+                payments.any((element) => element.isChecked == true) ? Colors.white : HexColor('#363636'),
+                (){},
+              ),
             )
           ],
         ),
