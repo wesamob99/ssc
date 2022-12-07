@@ -3,6 +3,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
+import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../../utilities/hexColor.dart';
 import '../../../utilities/util.dart';
@@ -21,11 +24,12 @@ class _PayScreenState extends State<PayScreen> {
     Payments(title: 'optionalSubscription', date: '1/7/2022', value: '412', icon: 'assets/icons/servicesIcons/otherServices.svg'),
     Payments(title: 'optionalSubscription', date: '28/6/2021', value: '93.65', icon: 'assets/icons/servicesIcons/retiredServices.svg'),
     Payments(title: 'optionalSubscription', date: '5/9/2017', value: '340', icon: 'assets/icons/servicesIcons/financeServices.svg'),
-
   ];
 
   @override
   Widget build(BuildContext context) {
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -35,106 +39,110 @@ class _PayScreenState extends State<PayScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0).copyWith(top: 25.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ListView.builder(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              itemCount: payments.length,
-              itemBuilder: (context, index){
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: (){
-                              setState(() {
-                                payments[index].isChecked = !payments[index].isChecked;
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(3.0),
-                              decoration: BoxDecoration(
-                                  color: HexColor('#DADADA'),
-                                  borderRadius: BorderRadius.circular(3.0)
-                              ),
+            Container(
+              constraints: BoxConstraints(
+                maxHeight: height(0.6, context)
+              ),
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: payments.length,
+                itemBuilder: (context, index){
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: (){
+                                setState(() {
+                                  payments[index].isChecked = !payments[index].isChecked;
+                                });
+                              },
                               child: Container(
-                                width: width(0.04, context),
-                                height: width(0.04, context),
+                                padding: const EdgeInsets.all(3.0),
                                 decoration: BoxDecoration(
-                                    color: payments[index].isChecked ? HexColor('#2D452E') : HexColor('#DADADA'),
-                                    borderRadius: BorderRadius.circular(4.0)
+                                    color: HexColor('#DADADA'),
+                                    borderRadius: BorderRadius.circular(3.0)
+                                ),
+                                child: Container(
+                                  width: width(0.04, context),
+                                  height: width(0.04, context),
+                                  decoration: BoxDecoration(
+                                      color: payments[index].isChecked ? HexColor('#2D452E') : HexColor('#DADADA'),
+                                      borderRadius: BorderRadius.circular(4.0)
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.0),
-                                border: Border.all(
-                                    color: HexColor('#E8EBE8'),
-                                    width: 1.0
-                                )
-                            ),
-                            child: SvgPicture.asset(
-                              payments[index].icon,
-                              color: HexColor('#2D452E'),
-                              height: 35,
-                              width: 35,
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                translate(payments[index].title, context),
-                                style: TextStyle(
-                                  color: HexColor('#363636'),
-                                ),
+                            Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  border: Border.all(
+                                      color: HexColor('#E8EBE8'),
+                                      width: 1.0
+                                  )
                               ),
-                              const SizedBox(height: 5.0),
-                              Text(
-                                payments[index].date,
-                                style: TextStyle(
-                                    color: HexColor('#666666'),
-                                    fontSize: 13
-                                ),
+                              child: SvgPicture.asset(
+                                payments[index].icon,
+                                color: HexColor('#2D452E'),
+                                height: 35,
+                                width: 35,
                               ),
-                            ],
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            payments[index].value,
-                            style: TextStyle(
-                              color: HexColor('#363636'),
-                              fontSize: 20,
                             ),
-                          ),
-                          Text(
-                            translate('jd', context),
-                            style: TextStyle(
-                              color: HexColor('#363636'),
-                              fontSize: 16,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  translate(payments[index].title, context),
+                                  style: TextStyle(
+                                    color: HexColor('#363636'),
+                                  ),
+                                ),
+                                const SizedBox(height: 5.0),
+                                Text(
+                                  payments[index].date,
+                                  style: TextStyle(
+                                      color: HexColor('#666666'),
+                                      fontSize: 13
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              payments[index].value,
+                              style: TextStyle(
+                                color: HexColor('#363636'),
+                                fontSize: 20,
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
-                  )
-                );
-              }
+                            Text(
+                              translate('jd', context),
+                              style: TextStyle(
+                                color: HexColor('#363636'),
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    )
+                  );
+                }
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 25.0),
@@ -175,7 +183,7 @@ class _PayScreenState extends State<PayScreen> {
                   Row(
                     children: [
                       Text(
-                        '740',
+                        '1026.5',
                         style: TextStyle(
                           color: HexColor('#363636'),
                           fontSize: 20,
@@ -192,6 +200,11 @@ class _PayScreenState extends State<PayScreen> {
                   )
                 ],
               ),
+            ),
+            const Expanded(child: SizedBox.shrink()),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: textButton(context, themeNotifier, 'continue', primaryColor, Colors.white, (){}),
             )
           ],
         ),
