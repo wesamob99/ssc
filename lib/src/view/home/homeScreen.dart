@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/src/view/home/components/homeChartWidget.dart';
 import 'package:ssc/src/view/home/components/homeLoaderWidget.dart';
 import 'package:ssc/src/view/home/components/homeSlideShowWidget.dart';
+import 'package:ssc/src/view/pay/payScreen.dart';
 
 import '../../../infrastructure/userConfig.dart';
 import '../../../models/home/payOffFinancialInformations.dart';
@@ -309,15 +310,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )
                               ],
                             ),
-                            Container(
-                              alignment: Alignment.center,
-                              width: width(0.2, context),
-                              decoration: BoxDecoration(
-                                color: const Color.fromRGBO(219, 200, 156, 0.29),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: InkWell(
-                                onTap: (){},
+                            InkWell(
+                              onTap: (){
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => const PayScreen())
+                                );
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: width(0.2, context),
+                                decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(219, 200, 156, 0.29),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
                                 child: Text(
                                   translate('pay', context),
                                   style: TextStyle(
