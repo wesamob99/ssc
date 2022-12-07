@@ -296,7 +296,7 @@ Future<void> showMyDialog(
               ),
             ),
           ),
-          content: body != ''
+          content: body != null && body != ''
           ? SingleChildScrollView(
               child: Container(
                 alignment: Alignment.center,
