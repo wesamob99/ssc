@@ -56,69 +56,70 @@ class _PayScreenState extends State<PayScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: (){
-                                setState(() {
-                                  payments[index].isChecked = !payments[index].isChecked;
-                                });
-                              },
-                              child: Container(
+                        InkWell(
+                          onTap: (){
+                            setState(() {
+                              payments[index].isChecked = !payments[index].isChecked;
+                            });
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
                                 padding: const EdgeInsets.all(3.0),
                                 decoration: BoxDecoration(
                                     color: HexColor('#DADADA'),
                                     borderRadius: BorderRadius.circular(3.0)
                                 ),
                                 child: Container(
-                                  width: width(0.04, context),
-                                  height: width(0.04, context),
+                                  width: width(isTablet(context) ? 0.03 : 0.04, context),
+                                  height: width(isTablet(context) ? 0.03 : 0.04, context),
                                   decoration: BoxDecoration(
                                       color: payments[index].isChecked ? HexColor('#2D452E') : HexColor('#DADADA'),
                                       borderRadius: BorderRadius.circular(4.0)
                                   ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  border: Border.all(
-                                      color: HexColor('#E8EBE8'),
-                                      width: 1.0
-                                  )
-                              ),
-                              child: SvgPicture.asset(
-                                payments[index].icon,
-                                color: HexColor('#2D452E'),
-                                height: 35,
-                                width: 35,
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  translate(payments[index].title, context),
-                                  style: TextStyle(
-                                    color: HexColor('#363636'),
-                                  ),
+                              Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    border: Border.all(
+                                        color: HexColor('#E8EBE8'),
+                                        width: 1.0
+                                    )
                                 ),
-                                const SizedBox(height: 5.0),
-                                Text(
-                                  payments[index].date,
-                                  style: TextStyle(
-                                      color: HexColor('#666666'),
-                                      fontSize: 13
-                                  ),
+                                child: SvgPicture.asset(
+                                  payments[index].icon,
+                                  color: HexColor('#2D452E'),
+                                  height: width(isTablet(context) ? 0.066 : 0.07, context),
+                                  width: width(isTablet(context) ? 0.066 : 0.07, context),
                                 ),
-                              ],
-                            )
-                          ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    translate(payments[index].title, context),
+                                    style: TextStyle(
+                                      color: HexColor('#363636'),
+                                      fontSize: width(isTablet(context) ? 0.028 : 0.032, context)
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5.0),
+                                  Text(
+                                    payments[index].date,
+                                    style: TextStyle(
+                                        color: HexColor('#666666'),
+                                        fontSize: width(isTablet(context) ? 0.024 : 0.028, context)
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                         Row(
                           children: [
@@ -126,14 +127,14 @@ class _PayScreenState extends State<PayScreen> {
                               payments[index].value,
                               style: TextStyle(
                                 color: HexColor('#363636'),
-                                fontSize: 20,
+                                fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
                               ),
                             ),
                             Text(
-                              translate('jd', context),
+                              ' ${translate('jd', context)}',
                               style: TextStyle(
                                 color: HexColor('#363636'),
-                                fontSize: 16,
+                                fontSize: width(isTablet(context) ? 0.026 : 0.03, context),
                               ),
                             ),
                           ],
@@ -178,6 +179,7 @@ class _PayScreenState extends State<PayScreen> {
                     translate('totalSummation', context),
                     style: TextStyle(
                       color: HexColor('#363636'),
+                      fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
                     ),
                   ),
                   Row(
@@ -186,14 +188,14 @@ class _PayScreenState extends State<PayScreen> {
                         '1026.5',
                         style: TextStyle(
                           color: HexColor('#363636'),
-                          fontSize: 20,
+                          fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
                         ),
                       ),
                       Text(
-                        translate('jd', context),
+                        ' ${translate('jd', context)}',
                         style: TextStyle(
                           color: HexColor('#363636'),
-                          fontSize: 16,
+                          fontSize: width(isTablet(context) ? 0.026 : 0.03, context),
                         ),
                       ),
                     ],
