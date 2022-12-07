@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 import '../infrastructure/userConfig.dart';
+import '../src/view/pay/payScreen.dart';
 import '../src/viewModel/login/loginProvider.dart';
 import '../src/viewModel/services/servicesProvider.dart';
 import 'hexColor.dart';
@@ -312,8 +313,10 @@ Future<void> showMyDialog(
           actions: <Widget>[
             if(withPayButton)
             TextButton(
-              onPressed: () async {
-                // Navigator.of(context).pop();
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const PayScreen())
+                );
               },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
