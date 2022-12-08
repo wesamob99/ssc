@@ -294,7 +294,7 @@ class _PayScreenState extends State<PayScreen> {
                                     ),
                                     const SizedBox(height: 15.0,),
                                     Text(
-                                      '*الرمز صالح لمدة 24 ساعة فقط',
+                                      translate('codeExpiration', context),
                                       style: TextStyle(
                                         color: HexColor('#FF0000'),
                                         fontSize: width(isTablet(context) ? 0.026 : 0.03, context),
