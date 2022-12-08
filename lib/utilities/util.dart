@@ -263,7 +263,9 @@ Future<void> showMyDialog(
     {titleColor = '#ED3124',
     icon = 'assets/icons/loginError.svg',
     withPayButton = false,
-    Widget extraWidgetBody = const SizedBox.shrink()}
+    Widget extraWidgetBody = const SizedBox.shrink(),
+    // ignore: avoid_init_to_null
+    onPressed = null}
     ) async {
   return showDialog<void>(
     context: context,
@@ -354,7 +356,7 @@ Future<void> showMyDialog(
             ),
             SizedBox(height: withPayButton ? 10.0 : 0.0),
             TextButton(
-              onPressed: () async {
+              onPressed: onPressed ?? () async {
                 Navigator.of(context).pop();
               },
               style: ButtonStyle(
