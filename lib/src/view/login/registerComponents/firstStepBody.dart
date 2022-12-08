@@ -119,7 +119,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                         direction: Axis.horizontal,
                         horizontalAlignment: MainAxisAlignment.start,
                         groupValue: selectedNationality,
-                        spacebetween: 30,
+                        // spacebetween: 30,
                         textStyle: isTablet(context)
                           ? TextStyle(
                             fontSize: width(0.025, context)

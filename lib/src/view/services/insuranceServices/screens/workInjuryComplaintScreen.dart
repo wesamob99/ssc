@@ -203,7 +203,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
               direction: Axis.horizontal,
               horizontalAlignment: MainAxisAlignment.start,
               groupValue: servicesProvider.selectedInjuredType,
-              spacebetween: 30,
+              // spacebetween: 30,
               onChanged: (value){
                 servicesProvider.selectedInjuredType = value;
                 servicesProvider.notifyMe();

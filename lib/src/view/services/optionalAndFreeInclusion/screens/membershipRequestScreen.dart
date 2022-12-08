@@ -295,7 +295,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               direction: Axis.vertical,
               horizontalAlignment: MainAxisAlignment.start,
               groupValue: selectedCalculateAccordingTo,
-              spacebetween: 40,
+              // spacebetween: 40,
               textStyle: isTablet(context)
               ? TextStyle(
                 fontSize: width(0.025, context)
