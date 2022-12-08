@@ -235,7 +235,10 @@
   "yourUnifiedPaymentCodeIs": "ان رمز الدفع الموحد الخاص بك هو",
   "continueToPay": "الإستمرار للدفع",
   "copy": "نسخ",
-  "paymentMethods": "طرق الدفع"
+  "paymentMethods": "طرق الدفع",
+  "bank": "بنك",
+  "eFawateercom": "إي فواتيركم",
+  "cliq": "Cliq"
 
 
 }

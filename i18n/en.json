@@ -234,6 +234,9 @@
   "yourUnifiedPaymentCodeIs": "Your unified payment code is",
   "continueToPay": "Continue to pay",
   "copy": "Copy",
-  "paymentMethods": "Payment methods"
+  "paymentMethods": "Payment methods",
+  "bank": "Bank",
+  "eFawateercom": "E-fawateercom",
+  "cliq": "Cliq"
 
 }
