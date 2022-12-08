@@ -229,6 +229,10 @@
   "payNow": "Pay now",
   "payments": "Payments",
   "totalSummation": "Total summation",
-  "issuanceOfUnifiedPaymentCode": "Issuance of a unified payment code"
+  "issuanceOfUnifiedPaymentCode": "Issuance of a unified payment code",
+  "unifiedPaymentCodeReleased": "Unified payment code has been released",
+  "yourUnifiedPaymentCodeIs": "Your unified payment code is",
+  "continueToPay": "Continue to pay",
+  "copy": "Copy"
 
 }

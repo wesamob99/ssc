@@ -230,7 +230,11 @@
   "payNow": "إدفع الآن",
   "payments": "الدفعات",
   "totalSummation": "المجموع الكلي",
-  "issuanceOfUnifiedPaymentCode": "أصدار رمز الدفع الموحد"
+  "issuanceOfUnifiedPaymentCode": "أصدار رمز الدفع الموحد",
+  "unifiedPaymentCodeReleased": "تم إصدار الرمز الموحد",
+  "yourUnifiedPaymentCodeIs": "ان رمز الدفع الموحد الخاص بك هو",
+  "continueToPay": "الإستمرار للدفع",
+  "copy": "نسخ"
 
 
 }
