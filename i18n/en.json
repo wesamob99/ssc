@@ -237,6 +237,7 @@
   "paymentMethods": "Payment methods",
   "bank": "Bank",
   "eFawateercom": "E-fawateercom",
-  "cliq": "CliQ"
+  "cliq": "CliQ",
+  "codeExpiration": "*The code is valid for 24 hours only"
 
 }
