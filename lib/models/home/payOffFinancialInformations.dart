@@ -136,6 +136,8 @@ class SubPayCur {
   final dynamic payNo;
   final dynamic seq;
 
+  bool isChecked = false;
+
   factory SubPayCur.fromJson(Map<String, dynamic> json) => SubPayCur(
     mainType: json["MAIN_TYPE"],
     subType: json["SUB_TYPE"],
