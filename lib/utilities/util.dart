@@ -260,7 +260,8 @@ Future<void> showMyDialog(
     ThemeNotifier themeNotifier,
     {titleColor = '#ED3124',
     icon = 'assets/icons/loginError.svg',
-    withPayButton = false}
+    withPayButton = false,
+    Widget extraWidgetBody = const SizedBox.shrink()}
     ) async {
   return showDialog<void>(
     context: context,
@@ -298,16 +299,21 @@ Future<void> showMyDialog(
           ),
           content: body != null && body != ''
           ? SingleChildScrollView(
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  body,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: HexColor('#5F5F5F'),
-                      fontWeight: FontWeight.w500
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      body,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: HexColor('#5F5F5F'),
+                          fontWeight: FontWeight.w500
+                      ),
+                    ),
                   ),
-                ),
+                  extraWidgetBody,
+                ],
               )
           ) : const SizedBox.shrink(),
           actions: <Widget>[
