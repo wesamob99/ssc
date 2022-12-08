@@ -233,6 +233,7 @@
   "unifiedPaymentCodeReleased": "Unified payment code has been released",
   "yourUnifiedPaymentCodeIs": "Your unified payment code is",
   "continueToPay": "Continue to pay",
-  "copy": "Copy"
+  "copy": "Copy",
+  "paymentMethods": "Payment methods"
 
 }

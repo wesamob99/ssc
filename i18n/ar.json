@@ -234,7 +234,8 @@
   "unifiedPaymentCodeReleased": "تم إصدار الرمز الموحد",
   "yourUnifiedPaymentCodeIs": "ان رمز الدفع الموحد الخاص بك هو",
   "continueToPay": "الإستمرار للدفع",
-  "copy": "نسخ"
+  "copy": "نسخ",
+  "paymentMethods": "طرق الدفع"
 
 
 }
