@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -7,6 +8,7 @@ import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 import '../infrastructure/userConfig.dart';
 import '../src/view/pay/payScreen.dart';
+import '../src/viewModel/home/homeProvider.dart';
 import '../src/viewModel/login/loginProvider.dart';
 import '../src/viewModel/services/servicesProvider.dart';
 import 'hexColor.dart';
@@ -319,10 +321,18 @@ Future<void> showMyDialog(
           actions: <Widget>[
             if(withPayButton)
             TextButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const PayScreen())
-                );
+              onPressed: () async{
+                try{
+                  Provider.of<HomeProvider>(context, listen: false).getAmountToBePaid().whenComplete((){}).then((value){
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => PayScreen(payments: value.subPayCur[0]))
+                    );
+                  });
+                }catch(e){
+                  if (kDebugMode) {
+                    print(e.toString());
+                  }
+                }
               },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
