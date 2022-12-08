@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:ssc/src/view/main/mainScreen.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../../utilities/util.dart';
+import '../../viewModel/utilities/theme/themeProvider.dart';
 
 class PaymentMethodsScreen extends StatefulWidget {
   final String payCode;
@@ -24,6 +27,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -174,7 +179,16 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                     ),
                   ),
                 ],
-              )
+              ),
+            const Expanded(child: SizedBox.shrink()),
+            Container(
+              padding: EdgeInsets.only(bottom: height(0.07, context)),
+              alignment: Alignment.center,
+              width: width(1, context),
+              child: textButton(context, themeNotifier, 'goToTheHomePage', primaryColor, Colors.white, (){
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MainScreen()), (route) => false);
+              }),
+            )
           ],
         ),
       ),
