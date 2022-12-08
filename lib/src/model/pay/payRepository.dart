@@ -8,7 +8,7 @@ import '../../../infrastructure/HTTPClientContract.dart';
 
 class PayRepository{
 
-  Future issuanceOfUnifiedPaymentCodeService(List<String> data) async {
+  Future issuanceOfUnifiedPaymentCodeService(List data) async {
     var response = await HTTPClientContract.instance.postHTTP(
         '/individuals/SAVE_TEMP_DATA',
         {"XML":"$data"}
