@@ -238,6 +238,9 @@
   "bank": "Bank",
   "eFawateercom": "E-fawateercom",
   "cliq": "CliQ",
-  "codeExpiration": "*The code is valid for 24 hours only"
+  "codeExpiration": "*The code is valid for 24 hours only",
+  "bankStep_1": "1- Copy your unified code",
+  "bankStep_2": "2- Go to your bank application",
+  "bankStep_3": "3- Pay through your e-fawateercom"
 
 }
