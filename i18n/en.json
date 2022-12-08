@@ -228,6 +228,7 @@
   "youAreIncludedOptional": "You are included optional",
   "payNow": "Pay now",
   "payments": "Payments",
-  "totalSummation": "Total summation"
+  "totalSummation": "Total summation",
+  "issuanceOfUnifiedPaymentCode": "Issuance of a unified payment code"
 
 }

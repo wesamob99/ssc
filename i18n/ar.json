@@ -229,7 +229,8 @@
   "youAreIncludedOptional": " تم شمولك اختياريا",
   "payNow": "إدفع الآن",
   "payments": "الدفعات",
-  "totalSummation": "المجموع الكلي"
+  "totalSummation": "المجموع الكلي",
+  "issuanceOfUnifiedPaymentCode": "أصدار رمز الدفع الموحد"
 
 
 }
