@@ -10,9 +10,9 @@ import '../../model/pay/payRepository.dart';
 class PayProvider extends ChangeNotifier {
 
   PayRepository payRepository = PayRepository();
+  bool isLoading = false;
 
   Future issuanceOfUnifiedPaymentCode(List<SubPayCur> payments) async{
-
     List<String> data = [];
     for (var element in payments) {
       var a = {
