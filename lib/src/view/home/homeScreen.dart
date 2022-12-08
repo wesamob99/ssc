@@ -291,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      double.parse((financialInformation.mainPayCur[0][0].amt ?? 0).toString()).toStringAsFixed(2),
+                                      double.parse((financialInformation.mainPayCur[0][0].amt ?? 0).toString()).toStringAsFixed(3),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -313,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             InkWell(
                               onTap: (){
                                 Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => const PayScreen())
+                                  MaterialPageRoute(builder: (context) => PayScreen(payments: financialInformation.subPayCur[0]))
                                 );
                               },
                               child: Container(
