@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/src/viewModel/utilities/language/globalAppProvider.dart';
+import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../infrastructure/userSecuredStorage.dart';
@@ -144,6 +145,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         value.setString('language_code', selectedLanguage);
                       });
                     }, withArrowIcon: false, hint: UserConfig.instance.language),
+                    buildButton('assets/icons/profileIcons/notifications.svg', 'select_app_theme', (){
+                      setState(() {
+                        selectedTheme = selectedTheme == 'Light'
+                            ? 'Dark' : selectedTheme == 'Dark'
+                            ? 'System default' : selectedTheme == 'System default'
+                            ? 'Light' : 'System default';
+                      });
+                      Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
+                          selectedTheme == 'Light'
+                              ? ThemeMode.light : selectedTheme == 'Dark'
+                              ? ThemeMode.dark : ThemeMode.system
+                      );
+                      prefs.then((value) {
+                        value.setString(Constants.APP_THEME, selectedTheme);
+                      });
+                    }, withArrowIcon: false, hint: translate(selectedTheme, context)),
                     buildButton('assets/icons/profileIcons/security.svg', 'passwordAndSecurity', (){}),
                   ],
                 ),
