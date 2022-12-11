@@ -223,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   print('financialInformation: ${financialInformation.mainPayCur[0][0].amt}');
                 }
                 return
-                  // double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2) != '0.00'?
+                  double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2) != '0.00'?
                   Padding(
                     padding: EdgeInsets.only(
                       right: UserConfig.instance.checkLanguage() ? 0 : width(0.075, context),
@@ -338,8 +338,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                 ),
-                  );
-                  // : const SizedBox.shrink();
+                  )
+                  : const SizedBox.shrink();
               }
               break;
           }
