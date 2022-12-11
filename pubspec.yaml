@@ -92,6 +92,7 @@ flutter:
     - assets/icons/servicesIcons/
     - assets/icons/
     - assets/icons/quickAccessIcons/
+    - assets/icons/profileIcons/
     - assets/jsonFiles/
 
 #flutter_native_splash:
