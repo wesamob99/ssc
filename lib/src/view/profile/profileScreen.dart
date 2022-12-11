@@ -7,6 +7,7 @@ import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../infrastructure/userSecuredStorage.dart';
 import '../../../utilities/util.dart';
+import 'dart:math' as math;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -106,7 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      translate('preferences', context),
+                      translate('appSettings', context),
                       style: TextStyle(
                           color: HexColor('#445740')
                       ),
@@ -136,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     const SizedBox(height: 10.0),
-                    buttonBuild('assets/icons/profileIcons/headphone.svg', 'aboutUs', (){}),
+                    buttonBuild('assets/icons/profileIcons/headphone.svg', 'callUs', (){}),
                     buttonBuild('assets/icons/profileIcons/list.svg', 'termsAndConditions', (){}),
                   ],
                 ),
@@ -149,7 +150,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   buttonBuild(String icon, String text, void Function() onTap, {bool withArrowIcon = true, String hint = ''}){
-    print(hint);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: InkWell(
@@ -179,7 +179,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
             if(withArrowIcon)
-            SvgPicture.asset('assets/icons/profileIcons/arrow.svg'),
+            Transform.rotate(
+              angle: UserConfig.instance.checkLanguage()
+                  ? -math.pi / 1.0 : 0,
+              child: SvgPicture.asset('assets/icons/profileIcons/arrow.svg'),
+            ),
           ],
         ),
       ),
