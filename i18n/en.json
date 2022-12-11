@@ -248,11 +248,13 @@
   "myAccountSettings": "My account settings",
   "invoicesAndPayments": "Invoices and payments",
   "theSubscriptions": "Subscriptions",
-  "preference": "Preferences",
+  "preferences": "Preferences",
   "language": "Language",
   "passwordAndSecurity": "Password and security",
   "aboutUs": "About us",
   "termsAndConditions": "Terms and Conditions",
-  "disable": "Disable"
+  "disable": "Disable",
+  "appSettings": "App Settings",
+  "callUs": "Call us"
 
 }

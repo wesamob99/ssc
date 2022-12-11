@@ -254,7 +254,9 @@
   "passwordAndSecurity": "كلمة المرور والحماية",
   "aboutUs": "عن التطبيق",
   "termsAndConditions": "الشروط والأحكام",
-  "disable": "تعطيل"
+  "disable": "تعطيل",
+  "appSettings": "إعدادات التطبيق",
+  "callUs": "إتصل بنا"
 
 
 }
