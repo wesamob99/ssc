@@ -123,7 +123,7 @@ class _PayScreenState extends State<PayScreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: width(0.45, context),
+                                    width: width(0.44, context),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
