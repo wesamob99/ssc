@@ -223,8 +223,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   print('financialInformation: ${financialInformation.mainPayCur[0][0].amt}');
                 }
                 return
-                  double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2) != '0.00'?
-                  Padding(
+                  double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2) != '0.00'
+                  ? Padding(
                     padding: EdgeInsets.only(
                       right: UserConfig.instance.checkLanguage() ? 0 : width(0.075, context),
                       left: UserConfig.instance.checkLanguage() ? width(0.075, context) : 0,
