@@ -243,7 +243,18 @@
   "bankStep_1": "1- انسخ الرمز الموحد الخاص بك",
   "bankStep_2": "2- توجه الى تطبيق البنك الخاص بك",
   "bankStep_3": "3- ادفع عن طريق إي فواتيركم",
-  "goToTheHomePage": "العوده الى الصفحة الرئيسية"
+  "goToTheHomePage": "العوده الى الصفحة الرئيسية",
+  "accountSettings": "إعدادات الحساب",
+  "modifyAndManageYourAccountDetails": "تعديل و إدارة تفاصيل حسابك",
+  "myAccountSettings": "اعدادات حسابي",
+  "invoicesAndPayments": "الفواتير والدفعات",
+  "theSubscriptions": "الإشتراكات",
+  "preferences": "التفضيلات",
+  "language": "اللغة",
+  "passwordAndSecurity": "كلمة المرور والحماية",
+  "aboutUs": "عن التطبيق",
+  "termsAndConditions": "الشروط والأحكام",
+  "disable": "تعطيل"
 
 
 }
