@@ -89,9 +89,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     const SizedBox(height: 10.0),
-                    buttonBuild('assets/icons/profileIcons/star.svg', 'invoicesAndPayments', (){}),
-                    buttonBuild('assets/icons/profileIcons/hand.svg', 'theSubscriptions', (){}),
-                    buttonBuild('assets/icons/profileIcons/dollar.svg', 'paymentMethods', (){}),
+                    buildButton('assets/icons/profileIcons/star.svg', 'invoicesAndPayments', (){}),
+                    buildButton('assets/icons/profileIcons/hand.svg', 'theSubscriptions', (){}),
+                    buildButton('assets/icons/profileIcons/dollar.svg', 'paymentMethods', (){}),
                   ],
                 ),
               ),
@@ -113,9 +113,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     const SizedBox(height: 10.0),
-                    buttonBuild('assets/icons/profileIcons/notifications.svg', 'notifications', (){}, withArrowIcon: false, hint: translate('disable', context)),
-                    buttonBuild('assets/icons/profileIcons/language.svg', 'language', (){}, withArrowIcon: false, hint: UserConfig.instance.language),
-                    buttonBuild('assets/icons/profileIcons/security.svg', 'passwordAndSecurity', (){}),
+                    buildButton('assets/icons/profileIcons/notifications.svg', 'notifications', (){}, withArrowIcon: false, hint: translate('disable', context)),
+                    buildButton('assets/icons/profileIcons/language.svg', 'language', (){}, withArrowIcon: false, hint: UserConfig.instance.language),
+                    buildButton('assets/icons/profileIcons/security.svg', 'passwordAndSecurity', (){}),
                   ],
                 ),
               ),
@@ -137,8 +137,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     const SizedBox(height: 10.0),
-                    buttonBuild('assets/icons/profileIcons/headphone.svg', 'callUs', (){}),
-                    buttonBuild('assets/icons/profileIcons/list.svg', 'termsAndConditions', (){}),
+                    buildButton('assets/icons/profileIcons/headphone.svg', 'callUs', (){}),
+                    buildButton('assets/icons/profileIcons/list.svg', 'termsAndConditions', (){}),
                   ],
                 ),
               ),
@@ -149,7 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  buttonBuild(String icon, String text, void Function() onTap, {bool withArrowIcon = true, String hint = ''}){
+  Widget buildButton(String icon, String text, void Function() onTap, {bool withArrowIcon = true, String hint = ''}){
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: InkWell(
