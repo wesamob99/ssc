@@ -67,8 +67,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                         highlightColor: Colors.transparent,
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
-                          width: width(0.23, context),
-                          height: width(0.23, context),
+                          width: width(0.25, context),
+                          height: width(0.25, context),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
                               border: Border.all(
@@ -82,12 +82,13 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                               SvgPicture.asset(
                                 methods[index]['icon'], width: width(0.09, context), height: width(0.09, context),
                               ),
-                              const SizedBox(height: 10.0),
+                              const SizedBox(height: 7.0),
                               Text(
                                 translate(methods[index]['name'], context),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: methods[index]['isSelected'] ? HexColor('#363636') : HexColor('#B3B3B3'),
+                                  fontSize: 11
                                 ),
                               )
                             ],
