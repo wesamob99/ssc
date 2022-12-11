@@ -173,7 +173,13 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                           case 3: {
                             String message = translate('somethingWrongHappened', context);
                             if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 1 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 2) {
-                              var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType, int.tryParse(selectedYear.name), int.tryParse(selectedRate.name)).whenComplete((){});
+                              double appliedSalary = double.tryParse(confirmSalaryValue);
+                              String percentDecreaseVal = 'null';
+                              if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
+                                percentDecreaseVal = confirmSalaryValue;
+                                appliedSalary = servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'];
+                              }
+                              var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), appliedSalary, submissionType, int.tryParse(selectedYear.name), int.tryParse(selectedRate.name), percentDecreaseVal).whenComplete((){});
                               if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 1){
                                 value = await servicesProvider.optionalSubFirstInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType, int.tryParse(selectedYear.name), int.tryParse(selectedRate.name)).whenComplete((){});
                               }
@@ -306,7 +312,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       submissionType = 1;
                       currentSliderValue = minSalary;
                       confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
-                      confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(2);
+                      confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                     }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
                       submissionType = 2;
                       selectedRate.name = selectedYear.name = '0';
@@ -314,6 +320,10 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                     } else if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
                       submissionType = 3;
+                      currentSliderValue = maxSalary;
+                      servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
+                      confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
+                      confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                     } else if(selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw'){
                       submissionType = 5;
                     }
@@ -359,6 +369,8 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                 servicesProvider.notifyMe();
                                 setState(() {
                                   currentSliderValue = value;
+                                  confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
+                                  confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                                 });
                               },
                             ),
