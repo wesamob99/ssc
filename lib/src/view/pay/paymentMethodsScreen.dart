@@ -85,6 +85,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                               const SizedBox(height: 7.0),
                               Text(
                                 translate(methods[index]['name'], context),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: methods[index]['isSelected'] ? HexColor('#363636') : HexColor('#B3B3B3'),
