@@ -153,7 +153,9 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
         ),
         SizedBox(height: height(0.015, context),),
         buildTextFormField(context, themeNotifier, TextEditingController(text: natId), '', (val){}, enabled: false),
+        if(insuranceNo != '')
         SizedBox(height: height(0.015, context),),
+        if(insuranceNo != '')
         Text(
           translate('securityNumber', context),
           style: TextStyle(
@@ -161,7 +163,9 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
               fontSize: width(0.032, context)
           ),
         ),
+        if(insuranceNo != '')
         SizedBox(height: height(0.015, context),),
+        if(insuranceNo != '')
         buildTextFormField(context, themeNotifier, TextEditingController(text: insuranceNo), '', (val){}, enabled: false),
         SizedBox(height: height(0.015, context),),
         Text(
