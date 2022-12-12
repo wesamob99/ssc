@@ -181,7 +181,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               }
                               var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), appliedSalary, submissionType, int.tryParse(selectedYear.name), int.tryParse(selectedRate.name), percentDecreaseVal).whenComplete((){});
                               if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 1){
-                                value = await servicesProvider.optionalSubFirstInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType, int.tryParse(selectedYear.name), int.tryParse(selectedRate.name)).whenComplete((){});
+                                value = await servicesProvider.optionalSubFirstInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType).whenComplete((){});
                               }
                               if(value != '') {
                                 message = UserConfig.instance.checkLanguage()
@@ -426,6 +426,10 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                     }
                                   });
                                 }
+                                setState(() {
+                                  confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
+                                  confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
+                                });
                                 servicesProvider.notifyMe();
                               },
                             ),
@@ -608,7 +612,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 ),
               ],
             ),
+            if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             SizedBox(height: height(0.02, context),),
+            if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             Text(
               translate('CalculateAccordingTo', context),
               style: TextStyle(
@@ -616,7 +622,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                   fontSize: width(0.036, context)
               ),
             ),
+            if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             SizedBox(height: height(0.015, context),),
+            if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             Text(translate(selectedCalculateAccordingTo, context)),
             SizedBox(height: height(0.035, context),),
             Text(

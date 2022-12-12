@@ -33,8 +33,8 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.optionalSubInsertNewService(result['cur_getdata'][0][0], monthlyPay, appliedSalary , submissionType, selectedNumberOfIncrements, selectedMaxPerForInc, percentDecreaseVal);
   }
 
-  Future optionalSubFirstInsertNew(double monthlyPay, double appliedSalary ,int submissionType, int selectedNumberOfIncrements, int selectedMaxPerForInc) async{
-    return await servicesRepository.optionalSubFirstInsertNewService(result['cur_getdata'][0][0], monthlyPay, appliedSalary , submissionType, selectedNumberOfIncrements, selectedMaxPerForInc);
+  Future optionalSubFirstInsertNew(double monthlyPay, double salaryRequest ,int submissionType) async{
+    return await servicesRepository.optionalSubFirstInsertNewService(result['cur_getdata'][0][0], monthlyPay, salaryRequest , submissionType);
   }
 
   Future<void> readCountriesJson() async {

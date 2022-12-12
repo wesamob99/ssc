@@ -90,7 +90,7 @@ class ServicesRepository{
   }
 
   /// if (isFirstOptionalSub == [1]) -> send membership request will call this service
-  Future optionalSubFirstInsertNewService(result, double monthlyPay, double appliedSalary ,int submissionType, int selectedNumberOfIncrements, int selectedMaxPerForInc) async {
+  Future optionalSubFirstInsertNewService(result, double monthlyPay, double salaryRequest ,int submissionType) async {
     var data = {
       "SECNO": result['SECNO'],
       "NAME1": result['NAME1'],
@@ -109,7 +109,7 @@ class ServicesRepository{
       "INTERNATIONAL_CODE": result['INTERNATIONAL_CODE'],
       "ADDRESS": result['ADDRESS'],
       "REFERANCE_MOBILE": result['REFERANCE_MOBILE'],
-      "SALARYREQUST": null,
+      "SALARYREQUST": salaryRequest,
       "MONTHLYPAY": monthlyPay,
       "SEX": result['SEX'],
       "REG_PER": result['REG_PER'],
@@ -118,9 +118,9 @@ class ServicesRepository{
       "SUBMITTION_TYPE": submissionType,
       "NOOFINCREMENTS": result['NOOFINCREMENTS'],
       "MAX_PER_OF_INC": result['MAX_PER_OF_INC'],
-      "SELECTED_NOOFINCREMENTS": selectedNumberOfIncrements,
-      "SELECTED_MAX_PER_OF_INC": selectedMaxPerForInc,
-      "APPLIED_SALARY": appliedSalary,
+      "SELECTED_NOOFINCREMENTS": null,
+      "SELECTED_MAX_PER_OF_INC": null,
+      "APPLIED_SALARY": 0,
       "PERCENT_DECREASEVAL": null,
       "HASBENEFITOFDEC": result['HASBENEFITOFDEC'],
       "HASBENEFITOFINC": result['HASBENEFITOFINC'],
@@ -129,15 +129,17 @@ class ServicesRepository{
       "EXECLUDED_FROM_PENSION_MONTHS": null,
       "SALARY": null
     };
-    var response = await HTTPClientContract.instance.postHTTP(
-        '/individuals/OptionalSubFirst_insert_new', data
-    );
-    if (kDebugMode) {
-      print(response);
-    }
-    if (response != null && response.statusCode == 200) {
-      return jsonDecode(response.data);
-    }
+
+    print('data: ${jsonEncode(data)}');
+    // var response = await HTTPClientContract.instance.postHTTP(
+    //     '/individuals/OptionalSubFirst_insert_new', data
+    // );
+    // if (kDebugMode) {
+    //   print(response);
+    // }
+    // if (response != null && response.statusCode == 200) {
+    //   return jsonDecode(response.data);
+    // }
     return '';
   }
 /// **************************************************************MEMBERSHIP REQUEST - END**********************************************************************
