@@ -43,6 +43,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
+
     listOfYears = [];
     for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['NOOFINCREMENTS']  ; i++){
       listOfYears.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
@@ -51,42 +52,43 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['MAX_PER_OF_INC']  ; i++){
       listOfRates.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
     }
+
+    servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
     if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
-      if(servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) {
-        calculateAccordingToList = ['lastSalary'];
-      }
-      if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFINC'] == 0) {
-        calculateAccordingToList.add('increaseInAllowanceForDeductionYears');
-        submissionType = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 1 : 2;
-      }
-      if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFDEC'] == 0) {
-        calculateAccordingToList.add('discountNotMoreThan-20');
-        submissionType = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 1 : 3;
-      }
-      if(servicesProvider.result['cur_getdata'][0][0]['COMPLEMENTARY_SUBSC'] == 1) {
-        calculateAccordingToList.add('lastSalaryAccordingToTheDefenseLaw');
-        selectedCalculateAccordingTo = 'lastSalaryAccordingToTheDefenseLaw';
-        submissionType = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 1 : 5;
-      }
+      fillCalculateAccordingToList();
       currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORDEC'].toString());
-      servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
       maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORDEC'].toString());
     } else{
       calculateAccordingToList = [];
       submissionType = null;
       currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
-      servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
       maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'].toString());
     }
 
-    if(selectedCalculateAccordingTo == 'lastSalary'){
-      confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
-      confirmMonthlyValue = (currentSliderValue * (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100).toStringAsFixed(2);
-    }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
-      confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
-      confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
-    }
+    confirmSalaryValue = currentSliderValue.toStringAsFixed(3);
+    confirmMonthlyValue = (currentSliderValue * (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100).toStringAsFixed(3);
     super.initState();
+  }
+
+  fillCalculateAccordingToList(){
+    if(servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) {
+      calculateAccordingToList = ['lastSalary'];
+    }
+    if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFINC'] == 0) {
+      calculateAccordingToList.add('increaseInAllowanceForDeductionYears');
+      selectedCalculateAccordingTo = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 'increaseInAllowanceForDeductionYears' : 'discountNotMoreThan-20';
+      submissionType = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 1 : 2;
+    }
+    if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFDEC'] == 0) {
+      calculateAccordingToList.add('discountNotMoreThan-20');
+      selectedCalculateAccordingTo = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 'lastSalary' : 'discountNotMoreThan-20';
+      submissionType = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 1 : 3;
+    }
+    if(servicesProvider.result['cur_getdata'][0][0]['COMPLEMENTARY_SUBSC'] == 1) {
+      calculateAccordingToList.add('lastSalaryAccordingToTheDefenseLaw');
+      selectedCalculateAccordingTo = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 'lastSalary' : 'lastSalaryAccordingToTheDefenseLaw';
+      submissionType = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 1 : 5;
+    }
   }
 
   checkContinueEnabled({flag = 0}){
@@ -230,14 +232,6 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                         servicesProvider.notifyMe();
                       },
                     )
-                    // SizedBox(height: height(0.01, context)),
-                    // textButton(context,
-                    //   themeNotifier,
-                    //   'saveAsDraft',
-                    //   MaterialStateProperty.all<Color>(Colors.transparent),
-                    //   HexColor('#003C97'),
-                    //       (){},
-                    // ),
                   ],
                 ),
               ),
