@@ -89,6 +89,14 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     super.initState();
   }
 
+  checkContinueEnabled({flag = 0}){
+    if(flag == 1) {
+      return ((selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears' && selectedRate.name != '0' && selectedYear.name != '0') || selectedCalculateAccordingTo != 'increaseInAllowanceForDeductionYears');
+    } else{
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
@@ -157,8 +165,10 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                     textButton(context,
                       themeNotifier,
                       Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'send',
-                      getPrimaryColor(context, themeNotifier),
-                      HexColor('#ffffff'),
+                      checkContinueEnabled(flag: 1)
+                      ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
+                      checkContinueEnabled(flag: 1)
+                      ? HexColor('#ffffff') : HexColor('#363636'),
                           () async {
                         switch(servicesProvider.stepNumber){
                           case 1: servicesProvider.stepNumber = 2; break;
@@ -167,7 +177,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               servicesProvider.stepNumber = 2;
                               servicesProvider.isMobileNumberUpdated = false;
                             } else{
-                              servicesProvider.stepNumber = 3;
+                              if(checkContinueEnabled(flag: 1)) {
+                                servicesProvider.stepNumber = 3;
+                              }
                             }
                           } break;
                           case 3: {
@@ -206,7 +218,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                 });
                               });
                             }
-                          } break; /// TODO: finish service
+                          } break;
                         }
                         servicesProvider.notifyMe();
                       },
