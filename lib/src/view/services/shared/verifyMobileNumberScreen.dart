@@ -22,10 +22,12 @@ class VerifyMobileNumberScreen extends StatefulWidget {
 
 class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
   ServicesProvider servicesProvider;
-  TextEditingController pinController = TextEditingController();
 
   @override
   void initState() {
+    servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
+    servicesProvider.pinPutFilled = false;
+    servicesProvider.pinPutCodeController.clear();
     super.initState();
   }
 
@@ -145,7 +147,7 @@ class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Pinput(
-        controller: pinController,
+        controller: servicesProvider.pinPutCodeController,
         focusNode: FocusNode(),
         androidSmsAutofillMethod:
         AndroidSmsAutofillMethod.smsUserConsentApi,
@@ -158,17 +160,15 @@ class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
         hapticFeedbackType: HapticFeedbackType.lightImpact,
         onCompleted: (pin) {
           debugPrint('onCompleted: $pin');
-          // setState(() {
-          //   enableContinue = true;
-          // });
         },
         onChanged: (value) {
           debugPrint('onChanged: $value');
           if(value.toString().length != 4){
-            // setState(() {
-            //   enableContinue = true;
-            // });
+            servicesProvider.pinPutFilled = false;
+          } else{
+            servicesProvider.pinPutFilled = true;
           }
+          servicesProvider.notifyMe();
         },
         cursor: Column(
           mainAxisAlignment: MainAxisAlignment.end,

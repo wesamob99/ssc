@@ -2,11 +2,13 @@
 
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:provider/provider.dart';
+import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/services/shared/firstStepScreen.dart';
 import 'package:ssc/src/viewModel/services/servicesProvider.dart';
 import 'package:ssc/utilities/util.dart';
@@ -110,7 +112,11 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     if(flag == 1){
       return ((servicesProvider.isMobileNumberUpdated == true &&  servicesProvider.mobileNumberController.text.length == 9) || servicesProvider.isMobileNumberUpdated == false);
     } else if(flag == 2){
-      return ((selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears' && selectedRate.name != '0' && selectedYear.name != '0') || selectedCalculateAccordingTo != 'increaseInAllowanceForDeductionYears');
+      if(servicesProvider.isMobileNumberUpdated){
+        return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
+      } else{
+        return ((selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears' && selectedRate.name != '0' && selectedYear.name != '0') || selectedCalculateAccordingTo != 'increaseInAllowanceForDeductionYears');
+      }
     } else{
       return true;
     }
@@ -192,14 +198,75 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                         switch(servicesProvider.stepNumber){
                           case 1: {
                             if(checkContinueEnabled(flag: 1)){
-                              servicesProvider.stepNumber = 2;
+                              if(servicesProvider.isMobileNumberUpdated){
+                                servicesProvider.isLoading = true;
+                                servicesProvider.notifyMe();
+                                String errorMessage = "";
+                                try{
+                                  await servicesProvider.updateUserMobileNumberSendOTP(servicesProvider.mobileNumberController.text).whenComplete((){})
+                                      .then((val) async {
+                                    if(val['PO_STATUS'] == '1'){
+                                      servicesProvider.isMobileNumberUpdated = true;
+                                      servicesProvider.stepNumber = 2;
+                                    }else{
+                                      servicesProvider.isMobileNumberUpdated = false;
+                                      errorMessage = UserConfig.instance.checkLanguage()
+                                          ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                      showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                    }
+                                    servicesProvider.notifyMe();
+                                  });
+                                  servicesProvider.isLoading = false;
+                                  servicesProvider.notifyMe();
+                                }catch(e){
+                                  servicesProvider.isMobileNumberUpdated = false;
+                                  servicesProvider.isLoading = false;
+                                  servicesProvider.notifyMe();
+                                  if (kDebugMode) {
+                                    print(e.toString());
+                                  }
+                                }
+                              } else{
+                                servicesProvider.stepNumber = 2;
+                              }
                             }
                           } break;
                           case 2: {
-                            if(servicesProvider.isMobileNumberUpdated){
-                              servicesProvider.stepNumber = 2;
-                              servicesProvider.isMobileNumberUpdated = false;
-
+                            if(checkContinueEnabled(flag: 2)){
+                              servicesProvider.isLoading = true;
+                              servicesProvider.notifyMe();
+                              String errorMessage = "";
+                              try{
+                                await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
+                                    .then((val) async {
+                                  if(val['PO_STATUS'] == 1){
+                                    servicesProvider.stepNumber = 2;
+                                    servicesProvider.isMobileNumberUpdated = false;
+                                    UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
+                                  }else{
+                                    servicesProvider.stepNumber = 2;
+                                    servicesProvider.isMobileNumberUpdated = true;
+                                    errorMessage = UserConfig.instance.checkLanguage()
+                                        ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                    showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                  }
+                                  servicesProvider.notifyMe();
+                                });
+                                servicesProvider.isLoading = false;
+                                servicesProvider.notifyMe();
+                              }catch(e){
+                                servicesProvider.stepNumber = 2;
+                                servicesProvider.isMobileNumberUpdated = true;
+                                servicesProvider.isLoading = false;
+                                servicesProvider.notifyMe();
+                                if (kDebugMode) {
+                                  print(e.toString());
+                                }
+                              }
+                              servicesProvider.isLoading = false;
+                              servicesProvider.pinPutCodeController.text = "";
+                              servicesProvider.pinPutFilled = false;
+                              servicesProvider.notifyMe();
                             } else{
                               if(checkContinueEnabled(flag: 2)) {
                                 servicesProvider.stepNumber = 3;
