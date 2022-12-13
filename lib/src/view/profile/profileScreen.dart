@@ -94,19 +94,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const SizedBox(height: 10.0),
               buildButtonsContainer(
-                  'myAccountSettings',
-                  'assets/icons/profileIcons/star.svg',
+                  'invoicesAndPayments',
+                  'assets/icons/profileIcons/dollar.svg',
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       buildButton('invoicesAndPayments', (){}),
+                      buildButton('paymentMethods', (){}),
                       buildButton('paymentMethods', (){}),
                     ],
                   )
               ),
               buildButtonsContainer(
                   'appSettings',
-                  'assets/icons/profileIcons/star.svg',
+                  'assets/icons/profileIcons/security.svg',
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -142,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               buildButtonsContainer(
                   'aboutUs',
-                  'assets/icons/profileIcons/star.svg',
+                  'assets/icons/profileIcons/language.svg',
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
