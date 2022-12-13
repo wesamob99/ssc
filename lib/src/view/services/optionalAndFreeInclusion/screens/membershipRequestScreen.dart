@@ -243,7 +243,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                   await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
                                       .then((val) async {
                                     if(val['PO_STATUS'] == 1){
-                                      servicesProvider.stepNumber = 3;
+                                      servicesProvider.stepNumber = 2;
                                       servicesProvider.isMobileNumberUpdated = false;
                                       UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
                                     }else{
@@ -292,11 +292,14 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                 sYear = int.tryParse(selectedYear.name);
                                 sRate = int.tryParse(selectedRate.name);
                               }
-                              var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), appliedSalary, submissionType, sYear, sRate, percentDecreaseVal, sMonth).whenComplete((){});
+                              servicesProvider.isLoading = true;
+                              servicesProvider.notifyMe();
+                              var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), servicesProvider.result['PO_is_it_firstOptionalSub'], appliedSalary, submissionType, sYear, sRate, percentDecreaseVal, sMonth).whenComplete((){});
                               if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 1){
-                                print('11');
                                 value = await servicesProvider.optionalSubFirstInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType).whenComplete((){});
                               }
+                              servicesProvider.isLoading = false;
+                              servicesProvider.notifyMe();
                               if(value != '') {
                                 message = UserConfig.instance.checkLanguage()
                                   ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];

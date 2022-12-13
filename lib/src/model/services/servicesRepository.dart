@@ -37,7 +37,7 @@ class ServicesRepository{
   }
 
   /// if (isFirstOptionalSub == [0] or [2]) -> send membership request will call this service
-  Future optionalSubInsertNewService(result, double monthlyPay, double appliedSalary ,int submissionType, int selectedNumberOfIncrements, int selectedMaxPerForInc, String percentDecreaseVal, String selectedMonth) async {
+  Future optionalSubInsertNewService(result, int firstOptionalSub,double monthlyPay, double appliedSalary ,int submissionType, int selectedNumberOfIncrements, int selectedMaxPerForInc, String percentDecreaseVal, String selectedMonth) async {
     var data = {
       "SECNO": result['SECNO'],
       "NAME1": result['NAME1'],
@@ -56,7 +56,7 @@ class ServicesRepository{
       "INTERNATIONAL_CODE": result['INTERNATIONAL_CODE'],
       "ADDRESS": result['ADDRESS'],
       "REFERANCE_MOBILE": result['REFERANCE_MOBILE'],
-      "SALARYREQUST": result['PO_is_it_firstOptionalSub'] == 2 ? appliedSalary : null,
+      "SALARYREQUST": firstOptionalSub == 2 ? appliedSalary : null,
       "MONTHLYPAY": monthlyPay,
       "SEX": result['SEX'],
       "REG_PER": result['REG_PER'],
@@ -67,7 +67,7 @@ class ServicesRepository{
       "MAX_PER_OF_INC": result['MAX_PER_OF_INC'],
       "SELECTED_NOOFINCREMENTS": selectedNumberOfIncrements,
       "SELECTED_MAX_PER_OF_INC": selectedMaxPerForInc,
-      "APPLIED_SALARY": result['PO_is_it_firstOptionalSub'] == 2 ? 0 : appliedSalary,
+      "APPLIED_SALARY": firstOptionalSub == 2 ? 0 : appliedSalary,
       "PERCENT_DECREASEVAL": percentDecreaseVal != 'null' ? double.parse(percentDecreaseVal) : null,
       "HASBENEFITOFDEC": result['HASBENEFITOFDEC'],
       "HASBENEFITOFINC": result['HASBENEFITOFINC'],
