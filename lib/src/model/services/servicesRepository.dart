@@ -37,7 +37,7 @@ class ServicesRepository{
   }
 
   /// if (isFirstOptionalSub == [0] or [2]) -> send membership request will call this service
-  Future optionalSubInsertNewService(result, double monthlyPay, double appliedSalary ,int submissionType, int selectedNumberOfIncrements, int selectedMaxPerForInc, String percentDecreaseVal) async {
+  Future optionalSubInsertNewService(result, double monthlyPay, double appliedSalary ,int submissionType, int selectedNumberOfIncrements, int selectedMaxPerForInc, String percentDecreaseVal, String selectedMonth) async {
     var data = {
       "SECNO": result['SECNO'],
       "NAME1": result['NAME1'],
@@ -73,8 +73,8 @@ class ServicesRepository{
       "HASBENEFITOFINC": result['HASBENEFITOFINC'],
       "MINIMUMSALARYFORDEC": result['MINIMUMSALARYFORDEC'],
       "MAXIMUMSALARYFORDEC": result['MAXIMUMSALARYFORDEC'],
-      "EXECLUDED_FROM_PENSION_MONTHS": null,
-      "SALARY": null
+      "EXECLUDED_FROM_PENSION_MONTHS": selectedMonth,
+      "SALARY": selectedMonth != null ? appliedSalary : null
     };
     print(jsonEncode(data));
     var response = await HTTPClientContract.instance.postHTTP(

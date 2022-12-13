@@ -29,10 +29,12 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   String selectedCalculateAccordingTo = 'lastSalary';
   int submissionType = 1;
   List<String> calculateAccordingToList = [];
-  List<SelectedListItem> listOfRates= [];
+  List<SelectedListItem> listOfRates = [];
   SelectedListItem selectedRate = SelectedListItem(name: '0', natCode: null, flag: '');
-  List<SelectedListItem> listOfYears= [];
+  List<SelectedListItem> listOfYears = [];
   SelectedListItem selectedYear = SelectedListItem(name: '0', natCode: null, flag: '');
+  List<SelectedListItem> listOfMonths = [];
+  SelectedListItem selectedMonth;
   double currentSliderValue = 0;
   double minSalary = 0;
   double maxSalary = 0;
@@ -45,12 +47,20 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     servicesProvider.stepNumber = 1;
 
     listOfYears = [];
-    for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['NOOFINCREMENTS']  ; i++){
+    for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['NOOFINCREMENTS'] ; i++){
       listOfYears.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
     }
     listOfRates = [];
-    for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['MAX_PER_OF_INC']  ; i++){
+    for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['MAX_PER_OF_INC'] ; i++){
       listOfRates.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
+    }
+
+    listOfMonths = [];
+    if(servicesProvider.result['MONTHS'] != null){
+      for(int i=0 ; i<servicesProvider.result['MONTHS'].length ; i++){
+        selectedMonth = SelectedListItem(name: '${servicesProvider.result['MONTHS'][0]['SUB_DATE']}', value: '${servicesProvider.result['MONTHS'][0]['SALARY']}', natCode: null, flag: '');
+        listOfMonths.add(SelectedListItem(name: '${servicesProvider.result['MONTHS'][i]['SUB_DATE']}', value: '${servicesProvider.result['MONTHS'][i]['SALARY']}', natCode: null, flag: ''));
+      }
     }
 
     servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
@@ -67,6 +77,11 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
 
     confirmSalaryValue = currentSliderValue.toStringAsFixed(3);
     confirmMonthlyValue = (currentSliderValue * (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100).toStringAsFixed(3);
+
+    if(selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw'){
+      confirmSalaryValue = double.parse(selectedMonth.value).toStringAsFixed(3);
+      confirmMonthlyValue = (servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
+    }
     super.initState();
   }
 
@@ -196,11 +211,16 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                             if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 1 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 2) {
                               double appliedSalary = double.tryParse(confirmSalaryValue);
                               String percentDecreaseVal = 'null';
+                              int sYear;
+                              int sRate;
+                              String sMonth = selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw' ? selectedMonth.name : null;
                               if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
                                 percentDecreaseVal = confirmSalaryValue;
                                 appliedSalary = servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'];
+                                sYear = int.tryParse(selectedYear.name);
+                                sRate = int.tryParse(selectedRate.name);
                               }
-                              var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), appliedSalary, submissionType, int.tryParse(selectedYear.name), int.tryParse(selectedRate.name), percentDecreaseVal).whenComplete((){});
+                              var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), appliedSalary, submissionType, sYear, sRate, percentDecreaseVal, sMonth).whenComplete((){});
                               if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 1){
                                 value = await servicesProvider.optionalSubFirstInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType).whenComplete((){});
                               }
@@ -453,6 +473,22 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 ),
               ],
             ),
+            if(selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw')
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  translate('theMonthFromWhichTheSubscriptionIsToStart', context),
+                  style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontSize: width(0.032, context)
+                  ),
+                ),
+                SizedBox(height: height(0.015, context),),
+                buildDropDown(context, listOfMonths, 3, servicesProvider),
+                SizedBox(height: height(0.02, context),),
+              ],
+            ),
             if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears')
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -481,7 +517,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: height(0.03, context),),
+                SizedBox(height: height(0.02, context),),
                 Text(
                   translate('monthlyInstallment', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
                   style: TextStyle(
@@ -722,14 +758,22 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                   if(flag == 2) {
                     selectedYear = item;
                   }
+                  if(flag == 3) {
+                    selectedMonth = item;
+                  }
                 });
               }
-              double temp = 0;
-              for(int i=1 ; i<=int.tryParse(selectedYear.name) ; i++){
-                temp += (currentSliderValue + temp) * (double.tryParse(selectedRate.name) / 100);
+              if(flag == 1 || flag == 2){
+                double temp = 0;
+                for(int i=1 ; i<=int.tryParse(selectedYear.name) ; i++){
+                  temp += (currentSliderValue + temp) * (double.tryParse(selectedRate.name) / 100);
+                }
+                confirmSalaryValue = (currentSliderValue + temp).toStringAsFixed(3);
+                confirmMonthlyValue = ((currentSliderValue + temp) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
+              } else{
+                confirmSalaryValue = double.parse(selectedMonth.value).toStringAsFixed(3);
+                confirmMonthlyValue = (servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
               }
-              confirmSalaryValue = (currentSliderValue + temp).toStringAsFixed(3);
-              confirmMonthlyValue = ((currentSliderValue + temp) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
             },
             enableMultipleSelection: false,
           ),
@@ -752,7 +796,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                flag == 1 ? '${selectedRate.name} %' : selectedYear.name,
+                flag == 1 ? '${selectedRate.name} %' : flag == 2 ? selectedYear.name : selectedMonth.name,
                 style: TextStyle(
                     color: HexColor('#363636'),
                     fontSize: 15
