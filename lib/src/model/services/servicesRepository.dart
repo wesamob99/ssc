@@ -131,17 +131,51 @@ class ServicesRepository{
     };
 
     print('data: ${jsonEncode(data)}');
-    // var response = await HTTPClientContract.instance.postHTTP(
-    //     '/individuals/OptionalSubFirst_insert_new', data
-    // );
-    // if (kDebugMode) {
-    //   print(response);
-    // }
-    // if (response != null && response.statusCode == 200) {
-    //   return jsonDecode(response.data);
-    // }
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/individuals/OptionalSubFirst_insert_new', data
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
     return '';
   }
 /// **************************************************************MEMBERSHIP REQUEST - END**********************************************************************
+
+/// **************************************************************UPDATE USER MOBILE NUMBER - START*************************************************************
+  Future updateUserMobileNumberSendOTPService(String newNumber) async {
+    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+    int internationalCode = int.tryParse(userSecuredStorage.internationalCode.toString());
+    String nationalId = userSecuredStorage.nationalId.toString();
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/individuals/UPD_USER_PROFILE_INDV_SENDOTP', {"params":{"PI_USERNAME":nationalId,"PI_INTERNATIONALCODE":internationalCode,"PI_MOBILENO":newNumber}}
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+  Future updateUserMobileNumberCheckOTPService(String code) async {
+    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+    String nationalId = userSecuredStorage.nationalId.toString();
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/individuals/UPD_USER_PROFILE_INDV_CHECKOTP', {"params":{"PI_OTP":code,"PI_USER_NAME":nationalId}}
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+/// **************************************************************UPDATE USER MOBILE NUMBER - END***************************************************************
 
 }

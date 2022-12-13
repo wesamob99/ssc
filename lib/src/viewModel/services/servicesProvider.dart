@@ -19,6 +19,7 @@ class ServicesProvider extends ChangeNotifier {
   int stepNumber = 1;
   String selectedInjuredType = 'occupationalDisease';
   TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController pinPutCodeController = TextEditingController();
   List<Countries> countries = [];
 
   Future<UserProfileData> getAccountData() async{
@@ -35,6 +36,14 @@ class ServicesProvider extends ChangeNotifier {
 
   Future optionalSubFirstInsertNew(double monthlyPay, double salaryRequest ,int submissionType) async{
     return await servicesRepository.optionalSubFirstInsertNewService(result['cur_getdata'][0][0], monthlyPay, salaryRequest , submissionType);
+  }
+
+  Future updateUserMobileNumberSendOTP(String newNumber) async{
+    return await servicesRepository.updateUserMobileNumberSendOTPService(newNumber);
+  }
+
+  Future updateUserMobileNumberCheckOTP(String code) async{
+    return await servicesRepository.updateUserMobileNumberCheckOTPService(code);
   }
 
   Future<void> readCountriesJson() async {
