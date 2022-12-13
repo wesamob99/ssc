@@ -110,7 +110,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
-      return ((servicesProvider.isMobileNumberUpdated == true &&  servicesProvider.mobileNumberController.text.length == 9) || servicesProvider.isMobileNumberUpdated == false);
+      return ((servicesProvider.isMobileNumberUpdated == true && servicesProvider.mobileNumberController.text.length == 9) || servicesProvider.isMobileNumberUpdated == false);
     } else if(flag == 2){
       if(servicesProvider.isMobileNumberUpdated){
         return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
@@ -228,48 +228,53 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                 }
                               } else{
                                 servicesProvider.stepNumber = 2;
+                                servicesProvider.isMobileNumberUpdated = false;
+                                servicesProvider.notifyMe();
                               }
                             }
                           } break;
                           case 2: {
                             if(checkContinueEnabled(flag: 2)){
-                              servicesProvider.isLoading = true;
-                              servicesProvider.notifyMe();
-                              String errorMessage = "";
-                              try{
-                                await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
-                                    .then((val) async {
-                                  if(val['PO_STATUS'] == 1){
-                                    servicesProvider.stepNumber = 2;
-                                    servicesProvider.isMobileNumberUpdated = false;
-                                    UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
-                                  }else{
-                                    servicesProvider.stepNumber = 2;
-                                    servicesProvider.isMobileNumberUpdated = true;
-                                    errorMessage = UserConfig.instance.checkLanguage()
-                                        ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
-                                    showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
-                                  }
+                              if(servicesProvider.isMobileNumberUpdated){
+                                servicesProvider.isLoading = true;
+                                servicesProvider.notifyMe();
+                                String errorMessage = "";
+                                try{
+                                  await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
+                                      .then((val) async {
+                                    if(val['PO_STATUS'] == 1){
+                                      servicesProvider.stepNumber = 3;
+                                      servicesProvider.isMobileNumberUpdated = false;
+                                      UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
+                                    }else{
+                                      servicesProvider.stepNumber = 2;
+                                      servicesProvider.isMobileNumberUpdated = true;
+                                      errorMessage = UserConfig.instance.checkLanguage()
+                                          ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                      showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                    }
+                                    servicesProvider.notifyMe();
+                                  });
+                                  servicesProvider.isLoading = false;
                                   servicesProvider.notifyMe();
-                                });
-                                servicesProvider.isLoading = false;
-                                servicesProvider.notifyMe();
-                              }catch(e){
-                                servicesProvider.stepNumber = 2;
-                                servicesProvider.isMobileNumberUpdated = true;
-                                servicesProvider.isLoading = false;
-                                servicesProvider.notifyMe();
-                                if (kDebugMode) {
-                                  print(e.toString());
+                                }catch(e){
+                                  servicesProvider.stepNumber = 2;
+                                  servicesProvider.isMobileNumberUpdated = true;
+                                  servicesProvider.isLoading = false;
+                                  servicesProvider.notifyMe();
+                                  if (kDebugMode) {
+                                    print(e.toString());
+                                  }
                                 }
-                              }
-                              servicesProvider.isLoading = false;
-                              servicesProvider.pinPutCodeController.text = "";
-                              servicesProvider.pinPutFilled = false;
-                              servicesProvider.notifyMe();
-                            } else{
-                              if(checkContinueEnabled(flag: 2)) {
-                                servicesProvider.stepNumber = 3;
+                                servicesProvider.isLoading = false;
+                                servicesProvider.pinPutCodeController.text = "";
+                                servicesProvider.pinPutFilled = false;
+                                servicesProvider.notifyMe();
+                              } else{
+                                if(checkContinueEnabled(flag: 2)) {
+                                  servicesProvider.stepNumber = 3;
+                                  servicesProvider.isMobileNumberUpdated = false;
+                                }
                               }
                             }
                           } break;
@@ -289,6 +294,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               }
                               var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), appliedSalary, submissionType, sYear, sRate, percentDecreaseVal, sMonth).whenComplete((){});
                               if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 1){
+                                print('11');
                                 value = await servicesProvider.optionalSubFirstInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType).whenComplete((){});
                               }
                               if(value != '') {
