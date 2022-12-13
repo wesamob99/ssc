@@ -20,6 +20,7 @@ class ServicesProvider extends ChangeNotifier {
   String selectedInjuredType = 'occupationalDisease';
   TextEditingController mobileNumberController = TextEditingController();
   TextEditingController pinPutCodeController = TextEditingController();
+  bool pinPutFilled = false;
   List<Countries> countries = [];
 
   Future<UserProfileData> getAccountData() async{
