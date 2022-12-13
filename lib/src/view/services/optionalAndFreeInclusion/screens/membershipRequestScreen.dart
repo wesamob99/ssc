@@ -90,7 +90,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   }
 
   checkContinueEnabled({flag = 0}){
-    if(flag == 2) {
+    if(flag == 1){
+      return ((servicesProvider.isMobileNumberUpdated == true &&  servicesProvider.mobileNumberController.text.length == 9) || servicesProvider.isMobileNumberUpdated == false);
+    } else if(flag == 2){
       return ((selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears' && selectedRate.name != '0' && selectedYear.name != '0') || selectedCalculateAccordingTo != 'increaseInAllowanceForDeductionYears');
     } else{
       return true;
@@ -171,11 +173,16 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       ? HexColor('#ffffff') : HexColor('#363636'),
                           () async {
                         switch(servicesProvider.stepNumber){
-                          case 1: servicesProvider.stepNumber = 2; break;
+                          case 1: {
+                            if(checkContinueEnabled(flag: 1)){
+                              servicesProvider.stepNumber = 2;
+                            }
+                          } break;
                           case 2: {
                             if(servicesProvider.isMobileNumberUpdated){
                               servicesProvider.stepNumber = 2;
                               servicesProvider.isMobileNumberUpdated = false;
+
                             } else{
                               if(checkContinueEnabled(flag: 2)) {
                                 servicesProvider.stepNumber = 3;
