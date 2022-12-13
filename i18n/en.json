@@ -255,6 +255,7 @@
   "termsAndConditions": "Terms and Conditions",
   "disable": "Disable",
   "appSettings": "App Settings",
-  "callUs": "Call us"
+  "callUs": "Call us",
+  "theMonthFromWhichTheSubscriptionIsToStart": "The month from which the subscription is to start"
 
 }

@@ -256,7 +256,6 @@
   "termsAndConditions": "الشروط والأحكام",
   "disable": "تعطيل",
   "appSettings": "إعدادات التطبيق",
-  "callUs": "إتصل بنا"
-
-
+  "callUs": "إتصل بنا",
+  "theMonthFromWhichTheSubscriptionIsToStart": "الشهر المراد بداية الاشتراك منه"
 }
