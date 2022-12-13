@@ -30,9 +30,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   int submissionType = 1;
   List<String> calculateAccordingToList = [];
   List<SelectedListItem> listOfRates= [];
-  SelectedListItem selectedRate= SelectedListItem(name: '0', natCode: null, flag: '');
+  SelectedListItem selectedRate = SelectedListItem(name: '0', natCode: null, flag: '');
   List<SelectedListItem> listOfYears= [];
-  SelectedListItem selectedYear= SelectedListItem(name: '0', natCode: null, flag: '');
+  SelectedListItem selectedYear = SelectedListItem(name: '0', natCode: null, flag: '');
   double currentSliderValue = 0;
   double minSalary = 0;
   double maxSalary = 0;
@@ -90,7 +90,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   }
 
   checkContinueEnabled({flag = 0}){
-    if(flag == 1) {
+    if(flag == 2) {
       return ((selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears' && selectedRate.name != '0' && selectedYear.name != '0') || selectedCalculateAccordingTo != 'increaseInAllowanceForDeductionYears');
     } else{
       return true;
@@ -165,9 +165,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                     textButton(context,
                       themeNotifier,
                       Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'send',
-                      checkContinueEnabled(flag: 1)
+                      checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
                       ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
-                      checkContinueEnabled(flag: 1)
+                      checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
                       ? HexColor('#ffffff') : HexColor('#363636'),
                           () async {
                         switch(servicesProvider.stepNumber){
@@ -177,7 +177,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               servicesProvider.stepNumber = 2;
                               servicesProvider.isMobileNumberUpdated = false;
                             } else{
-                              if(checkContinueEnabled(flag: 1)) {
+                              if(checkContinueEnabled(flag: 2)) {
                                 servicesProvider.stepNumber = 3;
                               }
                             }
@@ -327,7 +327,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                     }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
                       submissionType = 2;
-                      selectedRate.name = selectedYear.name = '0';
+                      selectedRate = selectedYear = SelectedListItem(name: '0', natCode: null, flag: '');
                       confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
                       confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                     } else if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
