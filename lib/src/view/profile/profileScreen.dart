@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/utilities/hexColor.dart';
@@ -10,6 +11,8 @@ import '../../../infrastructure/userSecuredStorage.dart';
 import '../../../utilities/constants.dart';
 import '../../../utilities/util.dart';
 import 'dart:math' as math;
+
+import '../../viewModel/utilities/language/globalAppProvider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -96,9 +99,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildButton('paymentManagement', (){}),
-                      buildButton('paymentMethodsManagement', (){}),
-                      buildButton('accountStatement', (){}),
+                      buildNavigationButton('paymentManagement', (){}),
+                      buildNavigationButton('paymentMethodsManagement', (){}),
+                      buildNavigationButton('accountStatement', (){}),
                     ],
                   )
               ),
@@ -108,9 +111,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildButton('passwordAndSecurity', (){}),
-                      buildButton('enableFingerprintLogin', (){}),
-                      buildButton('enablePasscodeLogin', (){}),
+                      buildNavigationButton('passwordAndSecurity', (){}),
+                      buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/disableToggle.svg', height: 13, width: 13,), 'enableFingerprintLogin', (){}),
+                      buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/enableToggle.svg', height: 13, width: 13,), 'enablePasscodeLogin', (){}),
                     ],
                   )
               ),
@@ -120,8 +123,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildButton('العربية', (){}, noTranslate: true),
-                      buildButton('English', (){}, noTranslate: true),
+                      buildCustomizableButton(
+                          !UserConfig.instance.checkLanguage() ? SvgPicture.asset(
+                            'assets/icons/profileIcons/checked.svg', height: 22, width: 22,
+                          ) : const SizedBox.shrink(),
+                          'العربية', (){
+                            Provider.of<GlobalAppProvider>(context, listen: false).changeLanguage(const Locale("ar"));
+                            Provider.of<GlobalAppProvider>(context, listen: false).notifyMe();
+                            prefs.then((value) {
+                              value.setString('language_code', "ar");
+                            });
+                          }, noTranslate: true),
+                      buildCustomizableButton(
+                          UserConfig.instance.checkLanguage() ? SvgPicture.asset(
+                            'assets/icons/profileIcons/checked.svg', height: 22, width: 22,
+                          ) : const SizedBox.shrink(),
+                          'English', (){
+                            Provider.of<GlobalAppProvider>(context, listen: false).changeLanguage(const Locale("en"));
+                            Provider.of<GlobalAppProvider>(context, listen: false).notifyMe();
+                            prefs.then((value) {
+                              value.setString('language_code', "en");
+                            });
+                          }, noTranslate: true),
                     ],
                   )
               ),
@@ -131,9 +154,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildButton('callUs', (){}),
-                      buildButton('suggestionsAndComplaints', (){}),
-                      buildButton('frequentlyAskedQuestions', (){}),
+                      buildNavigationButton('callUs', (){}),
+                      buildNavigationButton('suggestionsAndComplaints', (){}),
+                      buildNavigationButton('frequentlyAskedQuestions', (){}),
                     ],
                   )
               ),
@@ -143,31 +166,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildButton('aboutSscApplication', (){}),
-                      buildButton('privacyPolicy', (){}),
-                      buildButton('explanationOfFeatures', (){}),
+                      buildNavigationButton('aboutSscApplication', (){}),
+                      buildNavigationButton('termsAndConditions', (){}),
+                      buildNavigationButton('privacyPolicy', (){}),
+                      buildNavigationButton('explanationOfFeatures', (){}),
                     ],
                   )
               ),
-              Container(
-                padding: const EdgeInsets.all(12.0),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8.0)
-                ),
-                width: width(1, context),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset('assets/icons/profileIcons/star.svg'),
-                    const SizedBox(width: 10.0),
-                    Text(
-                      translate('rateTheApp', context),
-                      style: TextStyle(
-                          color: HexColor('#445740')
+              InkWell(
+                onTap: (){},
+                child: Container(
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  width: width(1, context),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SvgPicture.asset('assets/icons/profileIcons/star.svg'),
+                      const SizedBox(width: 10.0),
+                      Text(
+                        translate('rateTheApp', context),
+                        style: TextStyle(
+                            color: HexColor('#445740')
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 20.0),
@@ -215,11 +242,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget buildButton(String text, void Function() onTap, {bool withIcon = true, String icon = 'assets/icons/profileIcons/arrow.svg', bool noTranslate = false}){
+  Widget buildNavigationButton(String text, void Function() onTap){
     return InkWell(
       onTap: onTap,
       child: Container(
-        // color: Colors.blue,
+        margin: const EdgeInsets.only(bottom: 5.0),
+        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              translate(text, context),
+              style: TextStyle(
+                  color: HexColor('#445740')
+              ),
+            ),
+            Transform.rotate(
+              angle: UserConfig.instance.checkLanguage()
+                  ? -math.pi / 1.0 : 0,
+              child: SvgPicture.asset('assets/icons/profileIcons/arrow.svg'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildCustomizableButton(Widget icon, String text, void Function() onTap, {bool noTranslate = false}){
+    return InkWell(
+      onTap: onTap,
+      child: Container(
         margin: const EdgeInsets.only(bottom: 5.0),
         padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
         child: Row(
@@ -231,12 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: HexColor('#445740')
               ),
             ),
-            if(withIcon)
-            Transform.rotate(
-              angle: UserConfig.instance.checkLanguage()
-                  ? -math.pi / 1.0 : 0,
-              child: SvgPicture.asset(icon),
-            ),
+            icon,
           ],
         ),
       ),
@@ -244,32 +291,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
 }
-
-/*
-buildButton('language', (){
-                        setState(() {
-                          selectedLanguage = UserConfig.instance.checkLanguage() ? "ar" : "en";
-                        });
-                        Provider.of<GlobalAppProvider>(context, listen: false).changeLanguage(Locale(selectedLanguage));
-                        Provider.of<GlobalAppProvider>(context, listen: false).notifyMe();
-                        prefs.then((value) {
-                          value.setString('language_code', selectedLanguage);
-                        });
-                      }, withIcon: false),
-                      buildButton('select_app_theme', (){
-                        setState(() {
-                          selectedTheme = selectedTheme == 'Light'
-                              ? 'Dark' : selectedTheme == 'Dark'
-                              ? 'System default' : selectedTheme == 'System default'
-                              ? 'Light' : 'System default';
-                        });
-                        Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
-                            selectedTheme == 'Light'
-                                ? ThemeMode.light : selectedTheme == 'Dark'
-                                ? ThemeMode.dark : ThemeMode.system
-                        );
-                        prefs.then((value) {
-                          value.setString(Constants.APP_THEME, selectedTheme);
-                        });
-                      }, withIcon: false),
- */
