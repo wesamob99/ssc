@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:ssc/src/model/services/servicesRepository.dart';
 
 import '../../../models/login/countries.dart';
-import '../../../models/profile/userProfileData.dart';
+import '../../../models/accountSettings/userProfileData.dart';
 
 class ServicesProvider extends ChangeNotifier {
 
