@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-class AboutTheApplication extends StatelessWidget {
-  const AboutTheApplication({Key key}) : super(key: key);
+class AboutTheApplicationScreen extends StatelessWidget {
+  const AboutTheApplicationScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
