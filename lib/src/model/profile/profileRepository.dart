@@ -4,7 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 
 import '../../../infrastructure/HTTPClientContract.dart';
-import '../../../models/profile/userProfileData.dart';
+import '../../../models/accountSettings/listOfNationalities.dart';
+import '../../../models/accountSettings/userProfileData.dart';
 
 class ProfileRepository{
 
@@ -19,6 +20,17 @@ class ProfileRepository{
     }
     if (response != null && response.statusCode == 200) {
       return userProfileDataFromJson(response.toString());
+    }
+    return null;
+  }
+
+  Future<List<ListOfNationalities>> getListOfNationalitiesService() async {
+    var response = await HTTPClientContract.instance.getHTTP('/corporations/GET_LIST_OF_NationalitiesSP');
+    if (kDebugMode) {
+      print('response: $response');
+    }
+    if (response != null && response.statusCode == 200) {
+      return listOfNationalitiesFromJson(response.toString())[0];
     }
     return null;
   }

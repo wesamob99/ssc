@@ -3,7 +3,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:ssc/src/model/profile/profileRepository.dart';
 
-import '../../../models/profile/userProfileData.dart';
+import '../../../models/accountSettings/listOfNationalities.dart';
+import '../../../models/accountSettings/userProfileData.dart';
 
 class ProfileProvider extends ChangeNotifier {
 
@@ -12,6 +13,10 @@ class ProfileProvider extends ChangeNotifier {
 
   Future<UserProfileData> getAccountData({String internalKey = ''}) async{
     return await profileRepository.getAccountDataService(internalKey);
+  }
+
+  Future<List<ListOfNationalities>> getListOfNationalities() async{
+    return await profileRepository.getListOfNationalitiesService();
   }
 
   void notifyMe() {
