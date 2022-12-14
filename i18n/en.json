@@ -273,6 +273,11 @@
   "version": "Version",
   "allRightReserved": "All rights reserved to Social Security Corporation 2023",
   "userName": "User name",
-  "homeAddress": "Home address"
+  "homeAddress": "Home address",
+  "needHelp": "Need help ?",
+  "needHelpDesc": "Do not hesitate to call us or write to us via WhatsApp or e-mail.",
+  "officialWorkingDays": "Official working days",
+  "officialWorkingDaysDesc": "Sunday - Thursday from 8:30 am to 3:30 pmً",
+  "followUsOnSocialMedia": "Follow us on social media"
 
 }
