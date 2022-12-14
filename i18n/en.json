@@ -262,6 +262,13 @@
   "paymentMethodsManagement": "Payment methods management",
   "securityAndProtection": "Security and protection",
   "enableFingerprintLogin": "Enable fingerprint login",
-  "enablePasscodeLogin": "Enable passcode login"
+  "enablePasscodeLogin": "Enable passcode login",
+  "supportAndAssistance": "Support and assistance",
+  "suggestionsAndComplaints": "Suggestions and complaints",
+  "frequentlyAskedQuestions": "Frequently asked questions",
+  "aboutSscApplication": "About SSC application",
+  "privacyPolicy": "privacy policy",
+  "explanationOfFeatures": "Explanation of features",
+  "rateTheApp": "Rate the app"
 
 }

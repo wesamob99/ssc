@@ -263,6 +263,12 @@
   "paymentMethodsManagement": "ادارة طرق الدفع",
   "securityAndProtection": "الأمن والحماية",
   "enableFingerprintLogin": "تفعيل الدخول بالبصمة",
-  "enablePasscodeLogin": "تفعيل الدخول برمز المرور"
-
+  "enablePasscodeLogin": "تفعيل الدخول برمز المرور",
+  "supportAndAssistance": "الدعم والمساعدة",
+  "suggestionsAndComplaints": "الإقتراحات والشكاوى",
+  "frequentlyAskedQuestions": "اسئلة شائعة",
+  "aboutSscApplication": "عن تطبيق الضمان",
+  "privacyPolicy": "سياسة الخصوصية",
+  "explanationOfFeatures": "شرح الميزات",
+  "rateTheApp": "قيم التطبيق"
 }
