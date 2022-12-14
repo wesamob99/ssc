@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ssc/src/view/home/components/homeChartWidget.dart';
-import 'package:ssc/src/view/home/components/homeLoaderWidget.dart';
-import 'package:ssc/src/view/home/components/homeSlideShowWidget.dart';
+import 'package:ssc/src/view/home/homeComponents/homeChartWidget.dart';
+import 'package:ssc/src/view/home/homeComponents/homeLoaderWidget.dart';
+import 'package:ssc/src/view/home/homeComponents/homeSlideShowWidget.dart';
 import 'package:ssc/src/view/pay/payScreen.dart';
 
 import '../../../infrastructure/userConfig.dart';
@@ -19,8 +19,8 @@ import '../../../utilities/util.dart';
 import '../../viewModel/home/homeProvider.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
 import '../services/shared/servicesListConstants.dart';
-import 'components/homeOverviewWidget.dart';
-import 'components/quickAccessWidget.dart';
+import 'homeComponents/homeOverviewWidget.dart';
+import 'homeComponents/quickAccessWidget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
