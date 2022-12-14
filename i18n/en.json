@@ -257,6 +257,11 @@
   "disable": "Disable",
   "appSettings": "App Settings",
   "callUs": "Call us",
-  "theMonthFromWhichTheSubscriptionIsToStart": "The month from which the subscription is to start"
+  "theMonthFromWhichTheSubscriptionIsToStart": "The month from which the subscription is to start",
+  "paymentManagement": "Payment management",
+  "paymentMethodsManagement": "Payment methods management",
+  "securityAndProtection": "Security and protection",
+  "enableFingerprintLogin": "Enable fingerprint login",
+  "enablePasscodeLogin": "Enable passcode login"
 
 }

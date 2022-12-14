@@ -179,7 +179,7 @@
   "onePayment": "الدفعة الواحدة",
   "reportAnAccident": "تبليغ عن حادث",
   "optionalSubscription": "إشتراك إختياري",
-  "accountStatement": "كشف حسابي",
+  "accountStatement": "كشف الحساب",
   "myAccount": "حسابي",
   "workInjuries": "إصابات العمل",
   "aboutTheService": "عن الخدمة",
@@ -258,5 +258,11 @@
   "disable": "تعطيل",
   "appSettings": "إعدادات التطبيق",
   "callUs": "إتصل بنا",
-  "theMonthFromWhichTheSubscriptionIsToStart": "الشهر المراد بداية الاشتراك منه"
+  "theMonthFromWhichTheSubscriptionIsToStart": "الشهر المراد بداية الاشتراك منه",
+  "paymentManagement": "ادارة الدفعات",
+  "paymentMethodsManagement": "ادارة طرق الدفع",
+  "securityAndProtection": "الأمن والحماية",
+  "enableFingerprintLogin": "تفعيل الدخول بالبصمة",
+  "enablePasscodeLogin": "تفعيل الدخول برمز المرور"
+
 }
