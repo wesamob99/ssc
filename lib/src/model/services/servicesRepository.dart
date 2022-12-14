@@ -76,7 +76,9 @@ class ServicesRepository{
       "EXECLUDED_FROM_PENSION_MONTHS": selectedMonth,
       "SALARY": selectedMonth != null ? appliedSalary : null
     };
-    print(jsonEncode(data));
+    if (kDebugMode) {
+      print(jsonEncode(data));
+    }
     var response = await HTTPClientContract.instance.postHTTP(
         '/individuals/OPTIONAL_SUB_INSERT_NEW', data
     );
@@ -130,7 +132,9 @@ class ServicesRepository{
       "SALARY": null
     };
 
-    print('data: ${jsonEncode(data)}');
+    if (kDebugMode) {
+      print('data: ${jsonEncode(data)}');
+    }
     var response = await HTTPClientContract.instance.postHTTP(
         '/individuals/OptionalSubFirst_insert_new', data
     );
