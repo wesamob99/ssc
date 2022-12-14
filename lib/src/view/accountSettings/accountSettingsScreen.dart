@@ -15,6 +15,7 @@ import 'dart:math' as math;
 
 import '../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../viewModel/utilities/language/globalAppProvider.dart';
+import 'accountSettingsComponents/callUsScreen.dart';
 import 'accountSettingsComponents/profileScreen.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
@@ -167,7 +168,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          buildNavigationButton('callUs', (){}),
+                          buildNavigationButton('callUs', (){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => const CallUsScreen())
+                            );
+                          }),
                           buildNavigationButton('suggestionsAndComplaints', (){}),
                           buildNavigationButton('frequentlyAskedQuestions', (){}),
                         ],

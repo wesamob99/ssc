@@ -1,27 +1,27 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/cupertino.dart';
+import 'package:ssc/src/model/accountSettings/accountSettingsRepository.dart';
 
 import '../../../models/accountSettings/listOfNationalities.dart';
 import '../../../models/accountSettings/userProfileData.dart';
-import '../../model/profile/profileRepository.dart';
 
 class AccountSettingsProvider extends ChangeNotifier {
 
-  ProfileRepository profileRepository = ProfileRepository();
+  AccountSettingsRepository accountSettingsRepository = AccountSettingsRepository();
   bool showFloatingButton = true;
   bool isLoading = true;
 
   Future<UserProfileData> getAccountData({String internalKey = ''}) async{
-    return await profileRepository.getAccountDataService(internalKey);
+    return await accountSettingsRepository.getAccountDataService(internalKey);
   }
 
   Future<List<ListOfNationalities>> getListOfNationalities() async{
-    return await profileRepository.getListOfNationalitiesService();
+    return await accountSettingsRepository.getListOfNationalitiesService();
   }
 
   Future logout() async{
-    return await profileRepository.logoutService();
+    return await accountSettingsRepository.logoutService();
   }
 
   void notifyMe() {
