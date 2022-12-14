@@ -2,6 +2,8 @@
 //
 //     final listOfNationalities = listOfNationalitiesFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 List<List<ListOfNationalities>> listOfNationalitiesFromJson(String str) => List<List<ListOfNationalities>>.from(json.decode(str).map((x) => List<ListOfNationalities>.from(x.map((x) => ListOfNationalities.fromJson(x)))));
