@@ -112,8 +112,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       buildNavigationButton('passwordAndSecurity', (){}),
-                      buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/disableToggle.svg', height: 13, width: 13,), 'enableFingerprintLogin', (){}),
-                      buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/enableToggle.svg', height: 13, width: 13,), 'enablePasscodeLogin', (){}),
+                      buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/disableToggle.svg', height: 12, width: 12,), 'enableFingerprintLogin', (){}),
+                      buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/enableToggle.svg', height: 12, width: 12,), 'enablePasscodeLogin', (){}),
                     ],
                   )
               ),
