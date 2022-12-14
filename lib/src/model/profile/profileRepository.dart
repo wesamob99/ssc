@@ -34,4 +34,14 @@ class ProfileRepository{
     }
     return null;
   }
+
+  Future logoutService() async {
+    var response = await HTTPClientContract.instance.postHTTP('/website/logout', {});
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return response;
+    }
+  }
 }

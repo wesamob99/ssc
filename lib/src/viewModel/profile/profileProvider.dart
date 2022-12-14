@@ -20,6 +20,10 @@ class ProfileProvider extends ChangeNotifier {
     return await profileRepository.getListOfNationalitiesService();
   }
 
+  Future logout() async{
+    return await profileRepository.logoutService();
+  }
+
   void notifyMe() {
     notifyListeners();
   }
