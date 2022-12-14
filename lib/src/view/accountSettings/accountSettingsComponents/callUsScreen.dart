@@ -62,7 +62,7 @@ class CallUsScreen extends StatelessWidget {
                       ),
                       Divider(
                         thickness: 1,
-                        height: 60,
+                        height: 50,
                         color: HexColor('#A6A6A6'),
                       ),
                       Text(
@@ -83,7 +83,7 @@ class CallUsScreen extends StatelessWidget {
                       ),
                       Divider(
                         thickness: 1,
-                        height: 60,
+                        height: 50,
                         color: HexColor('#A6A6A6'),
                       ),
                       Text(
