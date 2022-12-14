@@ -7,7 +7,7 @@ import '../../../infrastructure/HTTPClientContract.dart';
 import '../../../models/accountSettings/listOfNationalities.dart';
 import '../../../models/accountSettings/userProfileData.dart';
 
-class ProfileRepository{
+class AccountSettingsRepository{
 
   Future<UserProfileData> getAccountDataService(internalKey) async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;

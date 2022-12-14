@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/splash/splashScreen.dart';
+import 'package:ssc/src/viewModel/accountSettings/accountSettingsProvider.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
 import 'package:ssc/src/viewModel/login/loginProvider.dart';
 import 'package:ssc/src/viewModel/main/mainProvider.dart';
 import 'package:ssc/src/viewModel/pay/payProvider.dart';
-import 'package:ssc/src/viewModel/profile/profileProvider.dart';
 import 'package:ssc/src/viewModel/services/servicesProvider.dart';
 import 'package:ssc/src/viewModel/settings/settingsProvider.dart';
 import 'package:ssc/src/viewModel/shared/sharedProvider.dart';
@@ -114,7 +114,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (_) => HomeProvider(), lazy: true),
         ChangeNotifierProvider(create: (_) => LoginProvider(), lazy: true),
         ChangeNotifierProvider(create: (_) => SettingsProvider(), lazy: true),
-        ChangeNotifierProvider(create: (_) => ProfileProvider(), lazy: true),
+        ChangeNotifierProvider(create: (_) => AccountSettingsProvider(), lazy: true),
         ChangeNotifierProvider(create: (_) => ServicesProvider(), lazy: true),
         ChangeNotifierProvider(create: (_) => PayProvider(), lazy: true),
       ],

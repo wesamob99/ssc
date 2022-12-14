@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ssc/src/viewModel/profile/profileProvider.dart';
 
 import '../../../../infrastructure/userConfig.dart';
 import '../../../../infrastructure/userSecuredStorage.dart';
@@ -13,6 +12,7 @@ import '../../../../utilities/constants.dart';
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
+import '../../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../../viewModel/login/loginProvider.dart';
 import '../../../viewModel/utilities/language/globalAppProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
@@ -253,7 +253,7 @@ class _LoginBodyState extends State<LoginBody> {
                   userSecuredStorage.userName = userData.data.poName ?? ''; // poName -> user name
                   userSecuredStorage.nationalId = userData.data.poUserName ?? ''; // poUserName -> user national ID
                   userSecuredStorage.insuranceNumber = userData.data.poInternalKey ?? ''; // poInternalKey -> user insurance number
-                  await Provider.of<ProfileProvider>(context, listen: false).getAccountData(internalKey: userSecuredStorage.nationalId.toString()).whenComplete((){}).then((result){
+                  await Provider.of<AccountSettingsProvider>(context, listen: false).getAccountData(internalKey: userSecuredStorage.nationalId.toString()).whenComplete((){}).then((result){
                     var data = result.curGetdata[0][0];
                     userSecuredStorage.userFullName = '${data.firstname??''} ${data.fathername??''} ${data.grandfathername??''} ${data.familyname??''}'; // user's full name params
                     userSecuredStorage.realMobileNumber = data.mobilenumber.toString() ?? ''; // poRealMobileno -> user mobile number

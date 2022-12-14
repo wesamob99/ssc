@@ -6,13 +6,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:ssc/src/viewModel/profile/profileProvider.dart';
 
 import '../../../../infrastructure/userSecuredStorage.dart';
 import '../../../../models/accountSettings/listOfNationalities.dart';
 import '../../../../models/accountSettings/userProfileData.dart';
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
+import '../../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../splash/splashScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -26,13 +26,13 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
 
   Future accountDataFuture;
-  ProfileProvider profileProvider;
+  AccountSettingsProvider accountSettingsProvider;
 
   @override
   void initState() {
-    profileProvider = Provider.of<ProfileProvider>(context, listen: false);
-    accountDataFuture = profileProvider.getAccountData();
-    profileProvider.isLoading = false;
+    accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
+    accountDataFuture = accountSettingsProvider.getAccountData();
+    accountSettingsProvider.isLoading = false;
     super.initState();
   }
 
@@ -89,10 +89,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   width: width(1, context),
                                   child: InkWell(
                                     onTap: () async{
-                                      profileProvider.isLoading = true;
-                                      profileProvider.notifyMe();
+                                      accountSettingsProvider.isLoading = true;
+                                      accountSettingsProvider.notifyMe();
                                       try{
-                                        await profileProvider.logout().then((value) {
+                                        await accountSettingsProvider.logout().then((value) {
                                           // if(value.toString() == 'true'){
                                             setState(() {
                                               UserSecuredStorage.instance.clearUserData();
@@ -103,11 +103,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 ), (route) => false);
                                           // }
                                         });
-                                        profileProvider.isLoading = false;
-                                        profileProvider.notifyMe();
+                                        accountSettingsProvider.isLoading = false;
+                                        accountSettingsProvider.notifyMe();
                                       }catch(e){
-                                        profileProvider.isLoading = false;
-                                        profileProvider.notifyMe();
+                                        accountSettingsProvider.isLoading = false;
+                                        accountSettingsProvider.notifyMe();
                                         if (kDebugMode) {
                                           print(e.toString());
                                         }
@@ -131,7 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             )
                         ),
-                        if(Provider.of<ProfileProvider>(context).isLoading)
+                        if(Provider.of<AccountSettingsProvider>(context).isLoading)
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
                           width: width(1, context),

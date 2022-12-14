@@ -7,13 +7,13 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/src/view/accountSettings/accountSettingsComponents/aboutTheApplicationScreen.dart';
-import 'package:ssc/src/viewModel/profile/profileProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../infrastructure/userSecuredStorage.dart';
 import '../../../utilities/util.dart';
 import 'dart:math' as math;
 
+import '../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../viewModel/utilities/language/globalAppProvider.dart';
 import 'accountSettingsComponents/profileScreen.dart';
 
@@ -27,12 +27,12 @@ class AccountSettingsScreen extends StatefulWidget {
 class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-  ProfileProvider profileProvider;
+  AccountSettingsProvider accountSettingsProvider;
 
   @override
   void initState(){
-    profileProvider = Provider.of<ProfileProvider>(context, listen: false);
-    profileProvider.isLoading = false;
+    accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
+    accountSettingsProvider.isLoading = false;
     super.initState();
   }
 
@@ -72,19 +72,19 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             ),
                             InkWell(
                               onTap: (){
-                                profileProvider.isLoading = true;
-                                profileProvider.notifyMe();
+                                accountSettingsProvider.isLoading = true;
+                                accountSettingsProvider.notifyMe();
                                 try{
-                                  profileProvider.getListOfNationalities().then((value){
+                                  accountSettingsProvider.getListOfNationalities().then((value){
                                     Navigator.of(context).push(
                                         MaterialPageRoute(builder: (context) => ProfileScreen(nationalities: value))
                                     );
-                                    profileProvider.isLoading = false;
-                                    profileProvider.notifyMe();
+                                    accountSettingsProvider.isLoading = false;
+                                    accountSettingsProvider.notifyMe();
                                   });
                                 }catch(e){
-                                  profileProvider.isLoading = false;
-                                  profileProvider.notifyMe();
+                                  accountSettingsProvider.isLoading = false;
+                                  accountSettingsProvider.notifyMe();
                                   if (kDebugMode) {
                                     print(e.toString());
                                   }
@@ -217,7 +217,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               ),
             ),
           ),
-          if(Provider.of<ProfileProvider>(context).isLoading)
+          if(Provider.of<AccountSettingsProvider>(context).isLoading)
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             width: width(1, context),

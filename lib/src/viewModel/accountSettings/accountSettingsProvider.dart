@@ -1,12 +1,12 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/cupertino.dart';
-import 'package:ssc/src/model/profile/profileRepository.dart';
 
 import '../../../models/accountSettings/listOfNationalities.dart';
 import '../../../models/accountSettings/userProfileData.dart';
+import '../../model/profile/profileRepository.dart';
 
-class ProfileProvider extends ChangeNotifier {
+class AccountSettingsProvider extends ChangeNotifier {
 
   ProfileRepository profileRepository = ProfileRepository();
   bool showFloatingButton = true;
