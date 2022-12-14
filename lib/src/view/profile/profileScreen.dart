@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
+import 'package:ssc/src/view/profile/profileComponents/aboutTheApplicationScreen.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../infrastructure/userSecuredStorage.dart';
@@ -150,7 +151,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildNavigationButton('aboutSscApplication', (){}),
+                      buildNavigationButton('aboutSscApplication', (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutTheApplicationScreen()));
+                      }),
                       buildNavigationButton('termsAndConditions', (){}),
                       buildNavigationButton('privacyPolicy', (){}),
                       buildNavigationButton('explanationOfFeatures', (){}),
