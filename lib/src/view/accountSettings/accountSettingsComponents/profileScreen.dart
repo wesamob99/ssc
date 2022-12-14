@@ -93,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       profileProvider.notifyMe();
                                       try{
                                         await profileProvider.logout().then((value) {
-                                          if(value.toString() == 'true'){
+                                          // if(value.toString() == 'true'){
                                             setState(() {
                                               UserSecuredStorage.instance.clearUserData();
                                             });
@@ -101,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 MaterialPageRoute(
                                                     builder: (context) => const SplashScreen()
                                                 ), (route) => false);
-                                          }
+                                          // }
                                         });
                                         profileProvider.isLoading = false;
                                         profileProvider.notifyMe();
