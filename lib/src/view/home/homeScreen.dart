@@ -222,6 +222,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (kDebugMode) {
                   print('financialInformation: ${financialInformation.mainPayCur[0][0].amt}');
                 }
+                if(double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2) == '0.00'){
+                  Provider.of<HomeProvider>(context).showFloatingButton = false;
+                  Provider.of<HomeProvider>(context).notifyMe();
+                }
                 return
                   double.parse(financialInformation.mainPayCur[0][0].amt ?? '0').toStringAsFixed(2) != '0.00'
                   ? Padding(
