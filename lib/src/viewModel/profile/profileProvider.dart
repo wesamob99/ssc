@@ -10,6 +10,7 @@ class ProfileProvider extends ChangeNotifier {
 
   ProfileRepository profileRepository = ProfileRepository();
   bool showFloatingButton = true;
+  bool isLoading = true;
 
   Future<UserProfileData> getAccountData({String internalKey = ''}) async{
     return await profileRepository.getAccountDataService(internalKey);
