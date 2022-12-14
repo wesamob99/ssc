@@ -74,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 buildDataField('userName', '${data.firstname ?? ''} ${data.fathername ?? ''} ${data.grandfathername ?? ''} ${data.familyname ?? ''}', withEditIcon: false),
                                 buildDataField('mobileNumber', '${data.mobilenumber}'),
-                                buildDataField('email', data.email),
+                                buildDataField('email', data.email, emailVerified: true),
                                 buildDataField('countryOfResidence', countryOfResidence.natdesc),
                                 buildDataField('homeAddress', 'عمان - دوار الداخليه - خلف مستشفى الأمل'),
                                 buildDataField('nationalId', data.userName, withEditIcon: false),
@@ -153,9 +153,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  buildDataField(String title, String data, {bool withEditIcon = true, void Function() onTap}){
+  buildDataField(String title, String data, {bool withEditIcon = true, void Function() onTap, bool emailVerified = false}){
     return Container(
-      padding: EdgeInsets.all(withEditIcon ? 10.0 : 15.0).copyWith(left: 15, right: 15),
+      padding: EdgeInsets.all(withEditIcon ? emailVerified ? 5.0 : 10.0 : 15.0).copyWith(left: 15, right: 15),
       margin: const EdgeInsets.only(bottom: 12.0),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -170,12 +170,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                translate(title, context),
-                style: TextStyle(
-                    color: HexColor('#8B8B8B'),
-                    fontSize: 13
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    translate(title, context),
+                    style: TextStyle(
+                        color: HexColor('#8B8B8B'),
+                        fontSize: 13
+                    ),
+                  ),
+                  const SizedBox(width: 10.0,),
+                  if(emailVerified)
+                  SvgPicture.asset('assets/icons/profileIcons/verified.svg'),
+                ],
               ),
               if(withEditIcon)
               InkWell(
