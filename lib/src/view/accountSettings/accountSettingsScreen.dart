@@ -13,6 +13,7 @@ import '../../../utilities/util.dart';
 import 'dart:math' as math;
 
 import '../../viewModel/utilities/language/globalAppProvider.dart';
+import 'accountSettingsComponents/profileScreen.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({Key key}) : super(key: key);
@@ -64,7 +65,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           ),
                         ),
                         InkWell(
-                          onTap: (){},
+                          onTap: (){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => const ProfileScreen())
+                            );
+                          },
                           child: SvgPicture.asset('assets/icons/profileIcons/edit.svg'),
                         )
                       ],
