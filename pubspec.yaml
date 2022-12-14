@@ -86,6 +86,7 @@ flutter:
     - i18n/en.json
     - i18n/ar.json
     - assets/images/test_slider_images/
+    - assets/images/accountSettingsImages/
     - assets/logo/
     - assets/icons/mainBottomNavigationIcons/
     - assets/icons/loginBottomNavigationIcons/
