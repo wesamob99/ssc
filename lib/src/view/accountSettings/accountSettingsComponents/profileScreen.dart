@@ -80,39 +80,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 buildDataField('nationalId', data.userName, withEditIcon: false),
                                 buildDataField('securityNumber', data.insuranceno.toString(), withEditIcon: false),
                                 buildDataField('DateOfBirth', data.dateofbirth, withEditIcon: false),
-                                InkWell(
-                                  onTap: () async{
-                                    profileProvider.isLoading = true;
-                                    profileProvider.notifyMe();
-                                    try{
-                                      await profileProvider.logout().then((value) {
-                                        if(value.toString() == 'true'){
-                                          setState(() {
-                                            UserSecuredStorage.instance.clearUserData();
-                                          });
-                                          Navigator.of(context).pushAndRemoveUntil(
-                                              MaterialPageRoute(
-                                                  builder: (context) => const SplashScreen()
-                                              ), (route) => false);
+                                Container(
+                                  padding: const EdgeInsets.all(15.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8.0)
+                                  ),
+                                  width: width(1, context),
+                                  child: InkWell(
+                                    onTap: () async{
+                                      profileProvider.isLoading = true;
+                                      profileProvider.notifyMe();
+                                      try{
+                                        await profileProvider.logout().then((value) {
+                                          if(value.toString() == 'true'){
+                                            setState(() {
+                                              UserSecuredStorage.instance.clearUserData();
+                                            });
+                                            Navigator.of(context).pushAndRemoveUntil(
+                                                MaterialPageRoute(
+                                                    builder: (context) => const SplashScreen()
+                                                ), (route) => false);
+                                          }
+                                        });
+                                        profileProvider.isLoading = false;
+                                        profileProvider.notifyMe();
+                                      }catch(e){
+                                        profileProvider.isLoading = false;
+                                        profileProvider.notifyMe();
+                                        if (kDebugMode) {
+                                          print(e.toString());
                                         }
-                                      });
-                                      profileProvider.isLoading = false;
-                                      profileProvider.notifyMe();
-                                    }catch(e){
-                                      profileProvider.isLoading = false;
-                                      profileProvider.notifyMe();
-                                      if (kDebugMode) {
-                                        print(e.toString());
                                       }
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(15.0),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8.0)
-                                    ),
-                                    width: width(1, context),
+                                    },
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
