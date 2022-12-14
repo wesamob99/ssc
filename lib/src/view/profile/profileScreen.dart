@@ -8,7 +8,6 @@ import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../infrastructure/userSecuredStorage.dart';
-import '../../../utilities/constants.dart';
 import '../../../utilities/util.dart';
 import 'dart:math' as math;
 
@@ -25,23 +24,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
-  String selectedTheme;
-  String selectedLanguage;
-  String selectedTextSize;
-
-  getAppThemeAndLanguage(){
-    prefs.then((value) {
-      setState((){
-        selectedTheme = value.getString(Constants.APP_THEME) ?? Constants.SYSTEM_DEFAULT;
-        selectedLanguage = value.getString('language_code') ?? 'en';
-        selectedTextSize = value.getString('text_size') ?? 's';
-      });
-    });
-  }
-
   @override
   void initState(){
-    getAppThemeAndLanguage();
     // ProfileProvider profileProvider = Provider.of<ProfileProvider>(context, listen: false);
     super.initState();
   }
