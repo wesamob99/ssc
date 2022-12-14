@@ -116,12 +116,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        SvgPicture.asset('assets/icons/profileIcons/logout.svg'),
+                                        SvgPicture.asset('assets/icons/profileIcons/logout.svg', color: HexColor('#BC0D0D')),
                                         const SizedBox(width: 10.0),
                                         Text(
                                           translate('logout', context),
                                           style: TextStyle(
-                                              color: HexColor('#2D452E')
+                                              color: HexColor('#BC0D0D')
                                           ),
                                         ),
                                       ],
