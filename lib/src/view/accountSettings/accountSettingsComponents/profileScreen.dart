@@ -78,6 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 buildDataField('countryOfResidence', countryOfResidence.natdesc),
                                 buildDataField('homeAddress', 'عمان - دوار الداخليه - خلف مستشفى الأمل'),
                                 buildDataField('nationalId', data.userName, withEditIcon: false),
+                                buildDataField('securityNumber', data.insuranceno.toString(), withEditIcon: false),
                                 buildDataField('DateOfBirth', data.dateofbirth, withEditIcon: false),
                                 InkWell(
                                   onTap: () async{
@@ -155,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   buildDataField(String title, String data, {bool withEditIcon = true, void Function() onTap}){
     return Container(
       padding: EdgeInsets.all(withEditIcon ? 10.0 : 15.0).copyWith(left: 15, right: 15),
-      margin: const EdgeInsets.only(bottom: 15.0),
+      margin: const EdgeInsets.only(bottom: 12.0),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8.0)
