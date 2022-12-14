@@ -18,7 +18,7 @@ import '../../../utilities/constants.dart';
 import '../../../utilities/hexColor.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
-import '../profile/profileScreen.dart';
+import '../accountSettings/accountSettingsScreen.dart';
 import '../services/servicesScreen.dart';
 import 'mainAppBarScreens/searchScreen.dart';
 
@@ -143,7 +143,7 @@ class _MainScreenState extends State<MainScreen> {
           child: InkWell(
             onTap: (){
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const ProfileScreen())
+                  MaterialPageRoute(builder: (context) => const AccountSettingsScreen())
               );
             },
 

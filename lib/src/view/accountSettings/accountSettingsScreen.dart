@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
-import 'package:ssc/src/view/profile/profileComponents/aboutTheApplicationScreen.dart';
+import 'package:ssc/src/view/accountSettings/accountSettingsComponents/aboutTheApplicationScreen.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../infrastructure/userSecuredStorage.dart';
@@ -14,14 +14,14 @@ import 'dart:math' as math;
 
 import '../../viewModel/utilities/language/globalAppProvider.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key key}) : super(key: key);
+class AccountSettingsScreen extends StatefulWidget {
+  const AccountSettingsScreen({Key key}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<AccountSettingsScreen> createState() => _AccountSettingsScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
@@ -63,7 +63,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: HexColor('#445740'),
                           ),
                         ),
-                        SvgPicture.asset('assets/icons/profileIcons/edit.svg')
+                        InkWell(
+                          onTap: (){},
+                          child: SvgPicture.asset('assets/icons/profileIcons/edit.svg'),
+                        )
                       ],
                     ),
                     const SizedBox(height: 10.0),
