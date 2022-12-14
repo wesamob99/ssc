@@ -2,11 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
-import 'package:ssc/src/viewModel/utilities/language/globalAppProvider.dart';
-import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../infrastructure/userSecuredStorage.dart';
@@ -99,59 +96,81 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildButton('invoicesAndPayments', (){}),
-                      buildButton('paymentMethods', (){}),
-                      buildButton('paymentMethods', (){}),
+                      buildButton('paymentManagement', (){}),
+                      buildButton('paymentMethodsManagement', (){}),
+                      buildButton('accountStatement', (){}),
                     ],
                   )
               ),
               buildButtonsContainer(
-                  'appSettings',
+                  'securityAndProtection',
                   'assets/icons/profileIcons/security.svg',
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildButton('language', (){
-                        setState(() {
-                          selectedLanguage = UserConfig.instance.checkLanguage() ? "ar" : "en";
-                        });
-                        Provider.of<GlobalAppProvider>(context, listen: false).changeLanguage(Locale(selectedLanguage));
-                        Provider.of<GlobalAppProvider>(context, listen: false).notifyMe();
-                        prefs.then((value) {
-                          value.setString('language_code', selectedLanguage);
-                        });
-                      }, withIcon: false),
-                      buildButton('select_app_theme', (){
-                        setState(() {
-                          selectedTheme = selectedTheme == 'Light'
-                              ? 'Dark' : selectedTheme == 'Dark'
-                              ? 'System default' : selectedTheme == 'System default'
-                              ? 'Light' : 'System default';
-                        });
-                        Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
-                            selectedTheme == 'Light'
-                                ? ThemeMode.light : selectedTheme == 'Dark'
-                                ? ThemeMode.dark : ThemeMode.system
-                        );
-                        prefs.then((value) {
-                          value.setString(Constants.APP_THEME, selectedTheme);
-                        });
-                      }, withIcon: false),
                       buildButton('passwordAndSecurity', (){}),
+                      buildButton('enableFingerprintLogin', (){}),
+                      buildButton('enablePasscodeLogin', (){}),
+                    ],
+                  )
+              ),
+              buildButtonsContainer(
+                  'language',
+                  'assets/icons/profileIcons/language.svg',
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildButton('العربية', (){}, noTranslate: true),
+                      buildButton('English', (){}, noTranslate: true),
+                    ],
+                  )
+              ),
+              buildButtonsContainer(
+                  'supportAndAssistance',
+                  'assets/icons/profileIcons/headphone.svg',
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildButton('callUs', (){}),
+                      buildButton('suggestionsAndComplaints', (){}),
+                      buildButton('frequentlyAskedQuestions', (){}),
                     ],
                   )
               ),
               buildButtonsContainer(
                   'aboutUs',
-                  'assets/icons/profileIcons/language.svg',
+                  'assets/icons/profileIcons/help.svg',
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildButton('callUs', (){}),
-                      buildButton('termsAndConditions', (){}),
+                      buildButton('aboutSscApplication', (){}),
+                      buildButton('privacyPolicy', (){}),
+                      buildButton('explanationOfFeatures', (){}),
                     ],
                   )
               ),
+              Container(
+                padding: const EdgeInsets.all(12.0),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0)
+                ),
+                width: width(1, context),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/icons/profileIcons/star.svg'),
+                    const SizedBox(width: 10.0),
+                    Text(
+                      translate('rateTheApp', context),
+                      style: TextStyle(
+                          color: HexColor('#445740')
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20.0),
             ],
           ),
         ),
@@ -196,7 +215,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget buildButton(String text, void Function() onTap, {bool withIcon = true, String icon = 'assets/icons/profileIcons/arrow.svg'}){
+  Widget buildButton(String text, void Function() onTap, {bool withIcon = true, String icon = 'assets/icons/profileIcons/arrow.svg', bool noTranslate = false}){
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -207,7 +226,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              translate(text, context),
+              noTranslate ? text : translate(text, context),
               style: TextStyle(
                   color: HexColor('#445740')
               ),
@@ -225,3 +244,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
 }
+
+/*
+buildButton('language', (){
+                        setState(() {
+                          selectedLanguage = UserConfig.instance.checkLanguage() ? "ar" : "en";
+                        });
+                        Provider.of<GlobalAppProvider>(context, listen: false).changeLanguage(Locale(selectedLanguage));
+                        Provider.of<GlobalAppProvider>(context, listen: false).notifyMe();
+                        prefs.then((value) {
+                          value.setString('language_code', selectedLanguage);
+                        });
+                      }, withIcon: false),
+                      buildButton('select_app_theme', (){
+                        setState(() {
+                          selectedTheme = selectedTheme == 'Light'
+                              ? 'Dark' : selectedTheme == 'Dark'
+                              ? 'System default' : selectedTheme == 'System default'
+                              ? 'Light' : 'System default';
+                        });
+                        Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
+                            selectedTheme == 'Light'
+                                ? ThemeMode.light : selectedTheme == 'Dark'
+                                ? ThemeMode.dark : ThemeMode.system
+                        );
+                        prefs.then((value) {
+                          value.setString(Constants.APP_THEME, selectedTheme);
+                        });
+                      }, withIcon: false),
+ */
