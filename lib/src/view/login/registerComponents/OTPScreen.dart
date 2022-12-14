@@ -259,7 +259,7 @@ class _OTPScreenState extends State<OTPScreen> {
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           width: width(1, context),
-          height: height(0.78, context),
+          height: height(1, context),
           color: Colors.white70,
           child: Center(
             child: animatedLoader(context),

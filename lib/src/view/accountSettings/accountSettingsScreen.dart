@@ -226,7 +226,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             width: width(1, context),
-            height: height(0.8, context),
+            height: height(1, context),
             color: Colors.white70,
             child: Center(
               child: animatedLoader(context),

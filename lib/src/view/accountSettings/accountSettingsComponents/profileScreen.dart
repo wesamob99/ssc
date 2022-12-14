@@ -55,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 case ConnectionState.waiting:
                 case ConnectionState.active:
                   return Container(
-                      height: height(0.8, context),
+                      height: height(1, context),
                       alignment: Alignment.center,
                       child: animatedLoader(context)
                   ); break;
@@ -135,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
                           width: width(1, context),
-                          height: height(0.8, context),
+                          height: height(1, context),
                           color: Colors.white70,
                           child: Center(
                             child: animatedLoader(context),
