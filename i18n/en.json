@@ -284,6 +284,7 @@
   "updatePasswordFailed": "Update password failed",
   "currentPassword": "Current password",
   "newPassword": "New password",
-  "confirmNewPassword": "Confirm new password"
+  "confirmNewPassword": "Confirm new password",
+  "update": "Update"
 
 }
