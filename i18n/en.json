@@ -280,6 +280,8 @@
   "officialWorkingDaysDesc": "Sunday - Thursday from 8:30 am to 3:30 pmً",
   "followUsOnSocialMedia": "Follow us on social media",
   "updatePassword": "Update password",
+  "updatePasswordSuccessfully": "Password updated successfully",
+  "updatePasswordFailed": "Update password failed",
   "currentPassword": "Current password",
   "newPassword": "New password",
   "confirmNewPassword": "Confirm new password"

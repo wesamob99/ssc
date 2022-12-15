@@ -281,6 +281,8 @@
   "officialWorkingDaysDesc": "الأحد - للخميس من 8:30 صباحًا الى 3:30 مساءً",
   "followUsOnSocialMedia": "تابعنا على وسائل التواصل الاجتماعي ",
   "updatePassword": "تغير كلمة المرور",
+  "updatePasswordSuccessfully": "تم تغير كلمة المرور",
+  "updatePasswordFailed": "فشل تغير كلمة المرور",
   "currentPassword": "كلمة المرور الحالية",
   "newPassword": "كلمة المرور الجديدة",
   "confirmNewPassword": "تأكيد كلمة المرور  الجديدة"
