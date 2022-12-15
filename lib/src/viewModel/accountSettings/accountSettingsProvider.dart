@@ -9,6 +9,10 @@ import '../../../models/accountSettings/userProfileData.dart';
 class AccountSettingsProvider extends ChangeNotifier {
 
   AccountSettingsRepository accountSettingsRepository = AccountSettingsRepository();
+  TextEditingController currentPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confirmNewPasswordController = TextEditingController();
+  bool updatePasswordIsObscure = false;
   bool showFloatingButton = true;
   bool isLoading = true;
 
