@@ -11,9 +11,12 @@ import 'package:provider/provider.dart';
 import '../../../../infrastructure/userConfig.dart';
 import '../../../../models/login/countries.dart';
 import '../../../../utilities/hexColor.dart';
+import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
 import '../../../../utilities/countries.dart';
+import '../../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../../viewModel/login/loginProvider.dart';
+import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class UpdateCountryOfResidence extends StatefulWidget {
   final int natCode;
@@ -26,9 +29,11 @@ class UpdateCountryOfResidence extends StatefulWidget {
 class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
 
   SelectedListItem selectedCountryOfResident;
+  AccountSettingsProvider accountSettingsProvider;
 
   @override
   void initState() {
+    accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
     Provider.of<LoginProvider>(context, listen: false).readCountriesJson().then((List<Countries> value){
       Countries c = value.where((element) => element.natcode == widget.natCode).first;
       Country country = countries.where((element) => element.dialCode == c.callingCode).first;
@@ -50,6 +55,8 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -59,7 +66,21 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
       body: Padding(
         padding: const EdgeInsets.all(16.0).copyWith(top: 25),
         child: SingleChildScrollView(
-          child: buildCountriesDropDown(selectedCountryOfResident),
+          child: SizedBox(
+            height: height(1, context),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildCountriesDropDown(selectedCountryOfResident),
+                Padding(
+                  padding: EdgeInsets.only(bottom: height(0.25, context)),
+                  child: textButton(context, themeNotifier, 'update', getPrimaryColor(context, themeNotifier),
+                      HexColor('#ffffff'), () async {}
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
