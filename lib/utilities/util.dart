@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
+import 'package:ssc/src/viewModel/accountSettings/accountSettingsProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 import '../infrastructure/userConfig.dart';
@@ -466,6 +467,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
     String hintText, onChanged, {isPassword = false,
       inputType = TextInputType.text, enabled = true, flag = 0, minLines = 1}){
   LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
+  AccountSettingsProvider accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
   return Container(
     decoration: BoxDecoration(
       color: enabled ? Colors.transparent : const Color.fromRGBO(232, 232, 232, 0.8),
@@ -476,7 +478,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
       maxLines: minLines,
       controller: controller,
       keyboardType: inputType,
-      obscureText: isPassword && ((Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2)) ,
+      obscureText: isPassword && ((Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2) || (Provider.of<AccountSettingsProvider>(context).updatePasswordIsObscure && flag == 3)) ,
       readOnly: !enabled,
       style: TextStyle(
         fontSize: isTablet(context) ? 20 : 15,
@@ -492,11 +494,14 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
                 loginProvider.resetObscurePassword = !loginProvider.resetObscurePassword;
               } else if(flag == 2) {
                 loginProvider.registerObscurePassword = !loginProvider.registerObscurePassword;
+              } else if(flag == 3) {
+                accountSettingsProvider.updatePasswordIsObscure = !accountSettingsProvider.updatePasswordIsObscure;
               }
               loginProvider.notifyMe();
+              accountSettingsProvider.notifyMe();
             },
             child: Icon(
-              (Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2)
+              (Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2 || (Provider.of<AccountSettingsProvider>(context).updatePasswordIsObscure && flag == 3))
                   ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
               size: 20,
               color: themeNotifier.isLight()
