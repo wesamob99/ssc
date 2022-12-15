@@ -74,13 +74,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Column(
                               children: [
                                 buildDataField('userName', '${data.firstname ?? ''} ${data.fathername ?? ''} ${data.grandfathername ?? ''} ${data.familyname ?? ''}', withEditIcon: false),
-                                buildDataField('mobileNumber', '${data.mobilenumber}', onTap: (){
+                                buildDataField('mobileNumber', '${data.mobilenumber}'),
+                                buildDataField('email', data.email, emailVerified: true),
+                                buildDataField('countryOfResidence', countryOfResidence.natdesc, onTap: (){
                                   Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => const UpdateCountryOfResidence())
+                                      MaterialPageRoute(builder: (context) => const UpdateCountryOfResidence())
                                   );
                                 }),
-                                buildDataField('email', data.email, emailVerified: true),
-                                buildDataField('countryOfResidence', countryOfResidence.natdesc),
                                 buildDataField('homeAddress', 'عمان - دوار الداخليه - خلف مستشفى الأمل'),
                                 buildDataField('nationalId', data.userName, withEditIcon: false),
                                 buildDataField('securityNumber', data.insuranceno.toString(), withEditIcon: false),
