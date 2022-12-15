@@ -17,6 +17,7 @@ import '../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../viewModel/utilities/language/globalAppProvider.dart';
 import 'accountSettingsComponents/callUsScreen.dart';
 import 'accountSettingsComponents/profileScreen.dart';
+import 'accountSettingsComponents/updatePasswordScreen.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({Key key}) : super(key: key);
@@ -125,7 +126,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          buildNavigationButton('passwordAndSecurity', (){}),
+                          buildNavigationButton('passwordAndSecurity', (){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => const UpdatePasswordScreen())
+                            );
+                          }),
                           buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/disableToggle.svg', height: 12, width: 12,), 'enableFingerprintLogin', (){}),
                           buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/enableToggle.svg', height: 12, width: 12,), 'enablePasscodeLogin', (){}),
                         ],
