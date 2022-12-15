@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:ssc/src/view/accountSettings/accountSettingsComponents/updateCountryOfResidence.dart';
 
 import '../../../../infrastructure/userSecuredStorage.dart';
 import '../../../../models/accountSettings/listOfNationalities.dart';
@@ -73,7 +74,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Column(
                               children: [
                                 buildDataField('userName', '${data.firstname ?? ''} ${data.fathername ?? ''} ${data.grandfathername ?? ''} ${data.familyname ?? ''}', withEditIcon: false),
-                                buildDataField('mobileNumber', '${data.mobilenumber}'),
+                                buildDataField('mobileNumber', '${data.mobilenumber}', onTap: (){
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => const UpdateCountryOfResidence())
+                                  );
+                                }),
                                 buildDataField('email', data.email, emailVerified: true),
                                 buildDataField('countryOfResidence', countryOfResidence.natdesc),
                                 buildDataField('homeAddress', 'عمان - دوار الداخليه - خلف مستشفى الأمل'),
