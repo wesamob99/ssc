@@ -13,6 +13,7 @@ class AccountSettingsProvider extends ChangeNotifier {
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmNewPasswordController = TextEditingController();
   bool updatePasswordIsObscure = false;
+  bool updatePasswordEnabled = false;
   bool showFloatingButton = true;
   bool isLoading = true;
 
@@ -22,6 +23,10 @@ class AccountSettingsProvider extends ChangeNotifier {
 
   Future<List<ListOfNationalities>> getListOfNationalities() async{
     return await accountSettingsRepository.getListOfNationalitiesService();
+  }
+
+  Future updatePassword(String newPassword, String oldPassword) async{
+    return await accountSettingsRepository.updatePasswordService(newPassword, oldPassword);
   }
 
   Future logout() async{
