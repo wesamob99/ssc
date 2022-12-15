@@ -91,11 +91,12 @@ class LoginProvider extends ChangeNotifier {
     return response;
   }
 
-  Future<void> readCountriesJson() async {
+  Future<List<Countries>> readCountriesJson() async {
     countries = [];
     final String response = await rootBundle.loadString('assets/jsonFiles/countries.json');
     countries = countriesFromJson(response);
     notifyListeners();
+    return countries;
   }
 
   Future registerSubmitSecondStep(
