@@ -279,6 +279,10 @@
   "needHelpDesc": "لا تتردد في الاتصال بنا او مراسلتنا عبر الواتس اب او البريد الالكتروني",
   "officialWorkingDays": "أيام العمل الرسمية",
   "officialWorkingDaysDesc": "الأحد - للخميس من 8:30 صباحًا الى 3:30 مساءً",
-  "followUsOnSocialMedia": "تابعنا على وسائل التواصل الاجتماعي "
+  "followUsOnSocialMedia": "تابعنا على وسائل التواصل الاجتماعي ",
+  "updatePassword": "تغير كلمة المرور",
+  "currentPassword": "كلمة المرور الحالية",
+  "newPassword": "كلمة المرور الجديدة",
+  "confirmNewPassword": "تأكيد كلمة المرور  الجديدة"
 
 }

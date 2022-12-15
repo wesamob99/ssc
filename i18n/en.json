@@ -278,6 +278,10 @@
   "needHelpDesc": "Do not hesitate to call us or write to us via WhatsApp or e-mail.",
   "officialWorkingDays": "Official working days",
   "officialWorkingDaysDesc": "Sunday - Thursday from 8:30 am to 3:30 pmً",
-  "followUsOnSocialMedia": "Follow us on social media"
+  "followUsOnSocialMedia": "Follow us on social media",
+  "updatePassword": "Update password",
+  "currentPassword": "Current password",
+  "newPassword": "New password",
+  "confirmNewPassword": "Confirm new password"
 
 }
