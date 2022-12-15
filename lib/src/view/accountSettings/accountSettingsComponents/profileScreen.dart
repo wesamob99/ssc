@@ -86,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     )
                                   );
                                 }),
-                                buildDataField('homeAddress', 'عمان - دوار الداخليه - خلف مستشفى الأمل'),
+                                // buildDataField('homeAddress', 'عمان - دوار الداخليه - خلف مستشفى الأمل'),
                                 buildDataField('nationalId', data.userName, withEditIcon: false),
                                 buildDataField('securityNumber', data.insuranceno.toString(), withEditIcon: false),
                                 buildDataField('DateOfBirth', data.dateofbirth, withEditIcon: false),
