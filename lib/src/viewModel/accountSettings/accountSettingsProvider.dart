@@ -19,6 +19,7 @@ class AccountSettingsProvider extends ChangeNotifier {
   TextEditingController confirmNewPasswordController = TextEditingController();
   TextEditingController complaintsDescController = TextEditingController();
   TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   UserProfileData accountData;
   SelectedListItem nationality;
   bool updatePasswordIsObscure = true;
@@ -66,7 +67,7 @@ class AccountSettingsProvider extends ChangeNotifier {
         "MOBILENUMBER": flag == 2 ? int.tryParse(value) : accountData.curGetdata[0][0].mobilenumber,
         "PHONENUMBER": "",
         "FAXNUMBER": "",
-        "EMAIL": accountData.curGetdata[0][0].email,
+        "EMAIL": flag == 3 ? value : accountData.curGetdata[0][0].email,
         "PASSWORD": "",
         "PI_user_name": accountData.curGetdata[0][0].userName,
         "PI_INTERNATIONALCODE": accountData.curGetdata[0][0].internationalcode,
