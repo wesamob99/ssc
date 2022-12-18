@@ -15,6 +15,7 @@ class AccountSettingsProvider extends ChangeNotifier {
   bool updatePasswordIsObscure = true;
   bool updatePasswordEnabled = false;
   bool showFloatingButton = true;
+  String complaintsRelatedTo = 'choose';
   bool isLoading = true;
 
   Future<UserProfileData> getAccountData({String internalKey = ''}) async{
