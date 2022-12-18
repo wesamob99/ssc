@@ -75,7 +75,7 @@
   "bottomTools": "Tools",
   "bottomMore": "More",
   "identityVerify": "We need to verify your identity",
-  "mobileNumberVerify": "Verify your phone number",
+  "mobileNumberVerify": "Verify your mobile number",
   "emailVerify": "Verify your email",
   "enterMobileVerificationCode": "Enter the verification code that was sent to the mobile number:",
   "enterEmailVerificationCode2": "Enter the verification code that was sent to the email:",
@@ -98,7 +98,7 @@
   "countryOfResidence": "Country of residence",
   "mobileNumber": "Mobile number",
   "jordanianMobileNumber": "Jordanian mobile number",
-  "foreignMobileNumber": "Another phone number outside Jordan",
+  "foreignMobileNumber": "Another mobile number outside Jordan",
   "and": "and ",
   "jordanian": "jordanian",
   "nonJordanian": "non jordanian",
@@ -297,6 +297,8 @@
   "theRightTimeToCall": "The right time to call",
   "eServices": "E-services",
   "callCenterServices": "Call center services",
-  "branchServices": "Branch services"
+  "branchServices": "Branch services",
+  "mobileUpdateDesc": "Upon modification, a verification code will be sent by text message for confirmation New mobile number",
+  "mobileNumberUpdatedSuccessfully": "Mobile number updated successfully"
 
 }

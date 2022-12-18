@@ -298,5 +298,7 @@
   "theRightTimeToCall": "الوقت المناسب للإتصال",
   "eServices": "الخدمات الإلكترونيه",
   "callCenterServices": "خدمات مركز الإتصال",
-  "branchServices": "خدمات الفروع"
+  "branchServices": "خدمات الفروع",
+  "mobileUpdateDesc": "عند التعديل سيتم ارسال رمز التحقق برساله نصية لتأكيد رقم الهاتف الخلوي الجديد",
+  "mobileNumberUpdatedSuccessfully": "تم تغير رقم الهاتف الخلوي الخاص بك بنجاح"
 }
