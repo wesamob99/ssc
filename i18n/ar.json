@@ -288,6 +288,15 @@
   "confirmNewPassword": "تأكيد كلمة المرور  الجديدة",
   "update": "تغيير",
   "yourResidentialAddressHasBeenChangedSuccessfully": "تم تغير عنوان السكن الخاص بك بنجاح",
-  "failedToChangeYourResidentialAddress": "فشل تغير عنوان السكن الخاص بك"
-
+  "failedToChangeYourResidentialAddress": "فشل تغير عنوان السكن الخاص بك",
+  "suggestionOrComplaintInformation": "معلومات الإقتراح او الشكوى",
+  "relatedTo": "متعلقة ب",
+  "descriptionOfTheComplaintOrSuggestion": "وصف الشكوى او الإقتراح",
+  "attachPhoto": "ارفق صورة",
+  "firstName": "الإسم الاول",
+  "familyName": "اسم العائلة",
+  "theRightTimeToCall": "الوقت المناسب للإتصال",
+  "eServices": "الخدمات الإلكترونيه",
+  "callCenterServices": "خدمات مركز الإتصال",
+  "branchServices": "خدمات الفروع"
 }

@@ -287,6 +287,16 @@
   "confirmNewPassword": "Confirm new password",
   "update": "Update",
   "yourResidentialAddressHasBeenChangedSuccessfully": "Your residential address has been changed successfully",
-  "failedToChangeYourResidentialAddress": "Failed to change your residential address"
+  "failedToChangeYourResidentialAddress": "Failed to change your residential address",
+  "suggestionOrComplaintInformation": "Suggestion or complaint information",
+  "relatedTo": "related to",
+  "descriptionOfTheComplaintOrSuggestion": "Description of the complaint or suggestion",
+  "attachPhoto": "Attach a photo",
+  "firstName": "First name",
+  "familyName": "Family name",
+  "theRightTimeToCall": "The right time to call",
+  "eServices": "E-services",
+  "callCenterServices": "Call center services",
+  "branchServices": "Branch services"
 
 }
