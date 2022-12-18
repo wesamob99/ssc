@@ -32,7 +32,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
     accountSettingsProvider.newPasswordController.text = "";
     accountSettingsProvider.confirmNewPasswordController.text = "";
     accountSettingsProvider.isLoading = false;
-    accountSettingsProvider.updatePasswordIsObscure = false;
+    accountSettingsProvider.updatePasswordIsObscure = true;
     accountSettingsProvider.updatePasswordEnabled = false;
     super.initState();
   }
