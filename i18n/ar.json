@@ -300,6 +300,10 @@
   "callCenterServices": "خدمات مركز الإتصال",
   "branchServices": "خدمات الفروع",
   "mobileUpdateDesc": "عند التعديل سيتم ارسال رمز التحقق برساله نصية لتأكيد رقم الهاتف الخلوي الجديد",
+  "emailUpdateDesc": "عند التعديل سيتم ارسال رمز التحقق برساله نصية لتأكيد البزيد الالكتروني الجديد",
   "mobileNumberUpdatedSuccessfully": "تم تغير رقم الهاتف الخلوي الخاص بك بنجاح",
-  "updateMobileNumber": "تغير رقم الهاتف"
+  "emailUpdatedSuccessfully": "تم تغير البريد الالكتروني الخاص بك بنجاح",
+  "emailUpdateFailed": "فشل تغير البريد الالكتروني الخاص بك",
+  "updateMobileNumber": "تغير رقم الهاتف",
+  "updateEmail": "تغيرالبريد الإلكتروني"
 }

@@ -299,7 +299,11 @@
   "callCenterServices": "Call center services",
   "branchServices": "Branch services",
   "mobileUpdateDesc": "Upon modification, a verification code will be sent by text message for confirmation New mobile number",
+  "emailUpdateDesc": "Upon modification, a verification code will be sent by text message to confirm the new email",
   "mobileNumberUpdatedSuccessfully": "Mobile number updated successfully",
-  "updateMobileNumber": "Update mobile number"
+  "emailUpdatedSuccessfully": "Email updated successfully",
+  "emailUpdateFailed": "Your email update failed",
+  "updateMobileNumber": "Update mobile number",
+  "updateEmail": "Update email"
 
 }
