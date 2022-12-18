@@ -80,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 buildDataField('userName', '${data.firstname ?? ''} ${data.fathername ?? ''} ${data.grandfathername ?? ''} ${data.familyname ?? ''}', withEditIcon: false),
                                 buildDataField('mobileNumber', '${data.mobilenumber}', onTap: (){
                                   Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => const UpdateMobileNumberScreen())
+                                    MaterialPageRoute(builder: (context) => UpdateMobileNumberScreen(mobileNumber: data.mobilenumber.toString(),))
                                   );
                                 }),
                                 buildDataField('email', data.email, emailVerified: true),
