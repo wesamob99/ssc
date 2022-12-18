@@ -56,6 +56,7 @@ class _UpdateMobileNumberScreenState extends State<UpdateMobileNumberScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           buildFieldTitle(context, 'mobileNumber', required: false),
                           Padding(
