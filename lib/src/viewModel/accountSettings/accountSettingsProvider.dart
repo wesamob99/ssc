@@ -18,6 +18,7 @@ class AccountSettingsProvider extends ChangeNotifier {
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmNewPasswordController = TextEditingController();
   TextEditingController complaintsDescController = TextEditingController();
+  TextEditingController mobileNumberController = TextEditingController();
   UserProfileData accountData;
   SelectedListItem nationality;
   bool updatePasswordIsObscure = true;
@@ -48,7 +49,8 @@ class AccountSettingsProvider extends ChangeNotifier {
       );
     });
   }
-  Future updateUserInfo(int countryOfResidence) async{
+
+  Future updateUserInfo(int flag, dynamic value) async{
     var data = {
       "params": {
         "ID": accountData.curGetdata[0][0].insuranceno.toString(),
@@ -59,9 +61,9 @@ class AccountSettingsProvider extends ChangeNotifier {
         "BANKBRANCH_CODE": int.tryParse(accountData.curGetdata[0][0].bankbranchCode),
         "ACADEMICLEVEL": accountData.curGetdata[0][0].academiclevel.toString(),
         "RELATIONSHIPSTATUS": "",
-        "LIVECONTRY": countryOfResidence, // National Code
+        "LIVECONTRY": flag == 1 ? value : accountData.curGetdata[0][0].livecontry, // National Code
         "POBOX": "",
-        "MOBILENUMBER": accountData.curGetdata[0][0].mobilenumber,
+        "MOBILENUMBER": flag == 2 ? int.tryParse(value) : accountData.curGetdata[0][0].mobilenumber,
         "PHONENUMBER": "",
         "FAXNUMBER": "",
         "EMAIL": accountData.curGetdata[0][0].email,

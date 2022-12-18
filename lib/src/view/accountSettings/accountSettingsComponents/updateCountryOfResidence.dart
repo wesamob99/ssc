@@ -84,7 +84,7 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
                           accountSettingsProvider.notifyMe();
                           String message = '';
                           try{
-                          accountSettingsProvider.updateUserInfo(selectedCountryOfResident.natCode).whenComplete((){}).then((value){
+                          accountSettingsProvider.updateUserInfo(1, selectedCountryOfResident.natCode).whenComplete((){}).then((value){
                               if(value["PO_STATUS"] == 0){
                                 showMyDialog(context, 'yourResidentialAddressHasBeenChangedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/locationUpdated.svg').then((value) {
                                   Navigator.of(context).pushAndRemoveUntil(
