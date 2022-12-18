@@ -34,7 +34,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
-    accountDataFuture = accountSettingsProvider.getAccountData();
+    accountDataFuture = accountSettingsProvider.getAccountData().whenComplete(() {
+      accountSettingsProvider.getNationalityData(context);
+    });
     accountSettingsProvider.isLoading = false;
     super.initState();
   }
