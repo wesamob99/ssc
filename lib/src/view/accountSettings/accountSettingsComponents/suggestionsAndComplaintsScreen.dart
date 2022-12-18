@@ -131,6 +131,7 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
                       Provider.of<AccountSettingsProvider>(context).updatePasswordEnabled
                           ? HexColor('#ffffff') : HexColor('#363636'), () async {}
                   ),
+                  const SizedBox(height: 25.0,),
                 ],
               ),
             ),
