@@ -37,6 +37,48 @@ class AccountSettingsRepository{
     return null;
   }
 
+  Future updateUserInfoService(int countryOfResidence) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/individuals/UPDATE_INDIVIDUALUSERINFO',
+        {
+          "params": {
+            "ID": "9661010192",
+            "ENAME1": "xxxxx",
+            "ENAME2": "xxxxxxx",
+            "ENAME3": "xxxxxxxxx",
+            "ENAME4": "xxx",
+            "BANKBRANCH_CODE": 4014,
+            "ACADEMICLEVEL": "3",
+            "RELATIONSHIPSTATUS": "",
+            "LIVECONTRY": countryOfResidence, // National Code
+            "POBOX": "",
+            "MOBILENUMBER": 777777777,
+            "PHONENUMBER": "",
+            "FAXNUMBER": "",
+            "EMAIL": "wesam_obe@icloud.com",
+            "PASSWORD": "",
+            "PI_user_name": "9661001073",
+            "PI_INTERNATIONALCODE": 962,
+            "PI_IBAN": "---",
+            "PI_BANK_NO": "4000",
+            "NATIONALITY_CODE": {
+              "NATCODE": 111,
+              "NATDESC": "الاردن",
+              "NATDESC_EN": "Jordan",
+              "MANDATORY_PHONE": 0
+            },
+            "INTERNATIONALCODE2": null,
+            "MOBILENUMBER2": null
+          }
+        }
+    );
+
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
   Future updatePasswordService(String newPassword, String oldPassword) async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
 

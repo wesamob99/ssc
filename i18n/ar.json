@@ -286,6 +286,8 @@
   "currentPassword": "كلمة المرور الحالية",
   "newPassword": "كلمة المرور الجديدة",
   "confirmNewPassword": "تأكيد كلمة المرور  الجديدة",
-  "update": "تغيير"
+  "update": "تغيير",
+  "yourResidentialAddressHasBeenChangedSuccessfully": "تم تغير عنوان السكن الخاص بك بنجاح",
+  "failedToChangeYourResidentialAddress": "فشل تغير عنوان السكن الخاص بك"
 
 }

@@ -25,6 +25,10 @@ class AccountSettingsProvider extends ChangeNotifier {
     return await accountSettingsRepository.getListOfNationalitiesService();
   }
 
+  Future updateUserInfo(int countryOfResidence) async{
+    return await accountSettingsRepository.updateUserInfoService(countryOfResidence);
+  }
+
   Future updatePassword(String newPassword, String oldPassword) async{
     return await accountSettingsRepository.updatePasswordService(newPassword, oldPassword);
   }

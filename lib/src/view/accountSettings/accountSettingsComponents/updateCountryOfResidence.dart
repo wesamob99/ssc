@@ -17,6 +17,7 @@ import '../../../../utilities/countries.dart';
 import '../../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../../viewModel/login/loginProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
+import '../../splash/splashScreen.dart';
 
 class UpdateCountryOfResidence extends StatefulWidget {
   final int natCode;
@@ -34,6 +35,7 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
   @override
   void initState() {
     accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
+    accountSettingsProvider.isLoading = false;
     Provider.of<LoginProvider>(context, listen: false).readCountriesJson().then((List<Countries> value){
       Countries c = value.where((element) => element.natcode == widget.natCode).first;
       Country country = countries.where((element) => element.dialCode == c.callingCode).first;
@@ -63,25 +65,67 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
         title: Text(translate('countryOfResidence', context), style: const TextStyle(fontSize: 14)),
         leading: leadingBackIcon(context),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0).copyWith(top: 25),
-        child: SingleChildScrollView(
-          child: SizedBox(
-            height: height(1, context),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                buildCountriesDropDown(selectedCountryOfResident),
-                Padding(
-                  padding: EdgeInsets.only(bottom: height(0.25, context)),
-                  child: textButton(context, themeNotifier, 'update', getPrimaryColor(context, themeNotifier),
-                      HexColor('#ffffff'), () async {}
-                  ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0).copyWith(top: 25),
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: height(1, context),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    buildCountriesDropDown(selectedCountryOfResident),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: height(0.25, context)),
+                      child: textButton(context, themeNotifier, 'update', getPrimaryColor(context, themeNotifier),
+                        HexColor('#ffffff'), () async {
+                          accountSettingsProvider.isLoading = true;
+                          accountSettingsProvider.notifyMe();
+                          String message = '';
+                          try{
+                          accountSettingsProvider.updateUserInfo(selectedCountryOfResident.natCode).whenComplete((){}).then((value){
+                              if(value["PO_STATUS"] == 0){
+                                showMyDialog(context, 'yourResidentialAddressHasBeenChangedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/locationUpdated.svg').then((value) {
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                          (route) => false
+                                  );
+                                });
+                              }else{
+                                message = UserConfig.instance.checkLanguage()
+                                    ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                                showMyDialog(context, 'failedToChangeYourResidentialAddress', message, 'retryAgain', themeNotifier);
+                              }
+                            });
+                            accountSettingsProvider.isLoading = false;
+                            accountSettingsProvider.notifyMe();
+                          }catch(e){
+                            accountSettingsProvider.isLoading = false;
+                            accountSettingsProvider.notifyMe();
+                            if (kDebugMode) {
+                              print(e.toString());
+                            }
+                          }
+                        }
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+          if(Provider.of<AccountSettingsProvider>(context).isLoading)
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            width: width(1, context),
+            height: height(1, context),
+            color: Colors.white70,
+            child: Center(
+              child: animatedLoader(context),
+            ),
+          ),
+        ],
       ),
     );
   }
