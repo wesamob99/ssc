@@ -50,7 +50,6 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
             height: height(1, context),
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     translate('suggestionOrComplaintInformation', context),
@@ -124,6 +123,13 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
                     child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                  ),
+                  const SizedBox(height: 25.0,),
+                  textButton(context, themeNotifier, 'update', !Provider.of<AccountSettingsProvider>(context).updatePasswordEnabled
+                      ? HexColor('#DADADA')
+                      : getPrimaryColor(context, themeNotifier),
+                      Provider.of<AccountSettingsProvider>(context).updatePasswordEnabled
+                          ? HexColor('#ffffff') : HexColor('#363636'), () async {}
                   ),
                 ],
               ),
