@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/accountSettings/accountSettingsProvider.dart';
 
@@ -26,6 +28,7 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
   void initState() {
     accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+    accountSettingsProvider.complaintsDescController.text = "";
     super.initState();
   }
   @override
@@ -42,10 +45,10 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
         },
         child: Padding(
           padding: const EdgeInsets.all(16.0).copyWith(top: 25),
-          child: SingleChildScrollView(
-            child: SizedBox(
-              width: width(1, context),
-              height: height(1, context),
+          child: SizedBox(
+            width: width(1, context),
+            height: height(1, context),
+            child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -61,31 +64,66 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
                   buildFieldTitle(context, 'descriptionOfTheComplaintOrSuggestion', required: false),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
-                    child: Container(), ///
+                    child: buildTextFormField(context, themeNotifier, accountSettingsProvider.complaintsDescController, '', (val){}, minLines: 6),
                   ),
                   const SizedBox(height: 10.0,),
                   buildFieldTitle(context, 'attachPhoto', required: false),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
-                    child: Container(), ///
+                      padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
+                      child: DottedBorder(
+                        radius: const Radius.circular(8.0),
+                        padding: EdgeInsets.zero,
+                        color: HexColor('#979797'),
+                        borderType: BorderType.RRect,
+                        dashPattern: const [8],
+                        strokeWidth: 1.2,
+                        child: Container(
+                          width: width(1, context),
+                          height: height(0.16, context),
+                          decoration: BoxDecoration(
+                              color: const Color.fromRGBO(166, 166, 166, 0.17),
+                              borderRadius: BorderRadius.circular(8.0)
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset('assets/icons/profileIcons/imageGallery.svg'),
+                              const SizedBox(height: 5.0),
+                              Text(translate('attachPhoto', context))
+                            ],
+                          ),
+                        ),
+                      )
                   ),
                   const SizedBox(height: 10.0,),
                   buildFieldTitle(context, 'firstName', required: false),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
-                    child: Container(), ///
+                    child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
                   ),
                   const SizedBox(height: 10.0,),
                   buildFieldTitle(context, 'familyName', required: false),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
-                    child: Container(), ///
+                    child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                  ),
+                  buildFieldTitle(context, 'mobileNumber', required: false),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
+                    child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                  ),
+                  const SizedBox(height: 10.0,),
+                  buildFieldTitle(context, 'email', required: false),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
+                    child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
                   ),
                   const SizedBox(height: 10.0,),
                   buildFieldTitle(context, 'theRightTimeToCall', required: false),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
-                    child: Container(), ///
+                    child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
                   ),
                 ],
               ),
