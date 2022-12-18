@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/src/view/accountSettings/accountSettingsComponents/updateCountryOfResidence.dart';
+import 'package:ssc/src/view/accountSettings/accountSettingsComponents/updateMobileNumberScreen.dart';
 
 import '../../../../infrastructure/userSecuredStorage.dart';
 import '../../../../models/accountSettings/listOfNationalities.dart';
@@ -75,7 +76,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Column(
                               children: [
                                 buildDataField('userName', '${data.firstname ?? ''} ${data.fathername ?? ''} ${data.grandfathername ?? ''} ${data.familyname ?? ''}', withEditIcon: false),
-                                buildDataField('mobileNumber', '${data.mobilenumber}'),
+                                buildDataField('mobileNumber', '${data.mobilenumber}', onTap: (){
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => const UpdateMobileNumberScreen())
+                                  );
+                                }),
                                 buildDataField('email', data.email, emailVerified: true),
                                 buildDataField('countryOfResidence', UserConfig.instance.checkLanguage() ? countryOfResidence.natdescEn : countryOfResidence.natdesc, onTap: (){
                                   Navigator.of(context).push(
