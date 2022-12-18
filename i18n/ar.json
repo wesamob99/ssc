@@ -300,5 +300,6 @@
   "callCenterServices": "خدمات مركز الإتصال",
   "branchServices": "خدمات الفروع",
   "mobileUpdateDesc": "عند التعديل سيتم ارسال رمز التحقق برساله نصية لتأكيد رقم الهاتف الخلوي الجديد",
-  "mobileNumberUpdatedSuccessfully": "تم تغير رقم الهاتف الخلوي الخاص بك بنجاح"
+  "mobileNumberUpdatedSuccessfully": "تم تغير رقم الهاتف الخلوي الخاص بك بنجاح",
+  "updateMobileNumber": "تغير رقم الهاتف"
 }

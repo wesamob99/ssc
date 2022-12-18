@@ -299,6 +299,7 @@
   "callCenterServices": "Call center services",
   "branchServices": "Branch services",
   "mobileUpdateDesc": "Upon modification, a verification code will be sent by text message for confirmation New mobile number",
-  "mobileNumberUpdatedSuccessfully": "Mobile number updated successfully"
+  "mobileNumberUpdatedSuccessfully": "Mobile number updated successfully",
+  "updateMobileNumber": "Update mobile number"
 
 }
