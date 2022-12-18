@@ -12,6 +12,7 @@ class AccountSettingsProvider extends ChangeNotifier {
   TextEditingController currentPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmNewPasswordController = TextEditingController();
+  TextEditingController complaintsDescController = TextEditingController();
   bool updatePasswordIsObscure = true;
   bool updatePasswordEnabled = false;
   bool showFloatingButton = true;
