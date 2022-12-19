@@ -892,10 +892,13 @@ buildExpandableWidget(context, String title, String child){
   return ExpandableWidget(
     titlePadding: const EdgeInsets.all(10.0),
     padding: const EdgeInsets.all(0.0),
-    title: Text(
-      translate(title, context),
-      style: TextStyle(
-          color: HexColor('#363636')
+    title: SizedBox(
+      width: width(0.8, context),
+      child: Text(
+        translate(title, context),
+        style: TextStyle(
+            color: HexColor('#363636')
+        ),
       ),
     ),
     decoration: BoxDecoration(
