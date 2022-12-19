@@ -93,7 +93,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     }
     if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFINC'] == 0) {
       calculateAccordingToList.add('increaseInAllowanceForDeductionYears');
-      selectedCalculateAccordingTo = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 'increaseInAllowanceForDeductionYears' : 'discountNotMoreThan-20';
+      selectedCalculateAccordingTo = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 'lastSalary' : 'increaseInAllowanceForDeductionYears';
       submissionType = (servicesProvider.result['cur_getdata'][0][0]['LAST_SAL_OPT_ENABLED'] == 1) ? 1 : 2;
     }
     if(servicesProvider.result['cur_getdata'][0][0]['HASBENEFITOFDEC'] == 0) {
@@ -331,6 +331,16 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                   ],
                 ),
               ),
+            ),
+          ),
+          if(Provider.of<ServicesProvider>(context).isLoading)
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            width: width(1, context),
+            height: height(1, context),
+            color: Colors.white70,
+            child: Center(
+              child: animatedLoader(context),
             ),
           ),
         ],
