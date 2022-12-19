@@ -18,6 +18,7 @@ import '../../viewModel/utilities/language/globalAppProvider.dart';
 import 'accountSettingsComponents/callUsScreen.dart';
 import 'accountSettingsComponents/profileScreen.dart';
 import 'accountSettingsComponents/suggestionsAndComplaintsScreen.dart';
+import 'accountSettingsComponents/termsAndConditionsScreen.dart';
 import 'accountSettingsComponents/updatePasswordScreen.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
@@ -181,7 +182,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           }),
                           buildNavigationButton('suggestionsAndComplaints', (){
                             Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => const SuggestionsAndComplaintsScreen())
+                              MaterialPageRoute(builder: (context) => const SuggestionsAndComplaintsScreen())
                             );
                           }),
                           buildNavigationButton('frequentlyAskedQuestions', (){}),
@@ -195,9 +196,15 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           buildNavigationButton('aboutSscApplication', (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutTheApplicationScreen()));
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => const AboutTheApplicationScreen())
+                            );
                           }),
-                          buildNavigationButton('termsAndConditions', (){}),
+                          buildNavigationButton('termsAndConditions', (){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => const TermsAndConditionsScreen())
+                            );
+                          }),
                           buildNavigationButton('privacyPolicy', (){}),
                           buildNavigationButton('explanationOfFeatures', (){}),
                         ],
