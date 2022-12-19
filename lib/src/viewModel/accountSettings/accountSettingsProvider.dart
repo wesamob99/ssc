@@ -20,6 +20,7 @@ class AccountSettingsProvider extends ChangeNotifier {
   TextEditingController complaintsDescController = TextEditingController();
   TextEditingController mobileNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
   UserProfileData accountData;
   SelectedListItem nationality;
   bool updatePasswordIsObscure = true;
