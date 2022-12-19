@@ -11,6 +11,7 @@ import 'package:ssc/src/viewModel/pay/payProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
+import '../../../infrastructure/userConfig.dart';
 import '../../../models/home/payOffFinancialInformations.dart';
 import '../../../utilities/hexColor.dart';
 import '../../../utilities/util.dart';
@@ -241,6 +242,7 @@ class _PayScreenState extends State<PayScreen> {
                     payments.any((element) => element.isChecked == true) ? Colors.white : HexColor('#363636'),
                     (){
                       if(payments.any((element) => element.isChecked == true)){
+                        String errorMessage = "";
                         payProvider.isLoading = true;
                         payProvider.notifyMe();
                         try{
@@ -256,37 +258,44 @@ class _PayScreenState extends State<PayScreen> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: HexColor('#445740'),
+                                        Expanded(
+                                          flex: 6,
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: HexColor('#445740'),
+                                                ),
+                                                borderRadius: BorderRadius.circular(8.0)
+                                            ),
+                                            child: Text(
+                                              '${value['PO_PAY_COD']}',
+                                              style: TextStyle(
+                                                color: HexColor('#363636'),
+                                                fontSize: width(isTablet(context) ? 0.03 : 0.034, context),
                                               ),
-                                              borderRadius: BorderRadius.circular(12.0)
-                                          ),
-                                          child: Text(
-                                            '${value['PO_PAY_COD']}',
-                                            style: TextStyle(
-                                              color: HexColor('#363636'),
-                                              fontSize: width(isTablet(context) ? 0.03 : 0.034, context),
                                             ),
                                           ),
                                         ),
-                                        TextButton.icon(
-                                          onPressed: () async{
-                                            await Clipboard.setData(
-                                                ClipboardData(text: '${value['PO_PAY_COD']}')
-                                            );
-                                          },
-                                          icon: Icon(
-                                            Icons.copy,
-                                            color: HexColor('#003C97'),
-                                          ),
-                                          label: Text(
-                                            translate('copy', context),
-                                            style: TextStyle(
-                                                color: HexColor('#003C97'),
-                                                decoration: TextDecoration.underline
+                                        Expanded(
+                                          flex: 3,
+                                          child: TextButton.icon(
+                                            onPressed: () async{
+                                              await Clipboard.setData(
+                                                  ClipboardData(text: '${value['PO_PAY_COD']}')
+                                              );
+                                            },
+                                            icon: Icon(
+                                              Icons.copy,
+                                              color: HexColor('#003C97'),
+                                            ),
+                                            label: Text(
+                                              translate('copy', context),
+                                              style: TextStyle(
+                                                  color: HexColor('#003C97'),
+                                                  decoration: TextDecoration.underline
+                                              ),
                                             ),
                                           ),
                                         )
@@ -309,6 +318,10 @@ class _PayScreenState extends State<PayScreen> {
                                   );
                                 }
                             );
+                          } else{
+                            errorMessage = UserConfig.instance.checkLanguage()
+                                ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                            showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
                           }
                           payProvider.isLoading = false;
                           payProvider.notifyMe();
