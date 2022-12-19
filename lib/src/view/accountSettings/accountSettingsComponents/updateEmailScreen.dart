@@ -1,16 +1,14 @@
 // ignore_for_file: file_names
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
-import '../../../../infrastructure/userConfig.dart';
 import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/accountSettings/accountSettingsProvider.dart';
-import '../../splash/splashScreen.dart';
+import '../../login/registerComponents/OTPScreen.dart';
 
 class UpdateEmailScreen extends StatefulWidget {
   final String email;
@@ -29,6 +27,7 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
   void initState() {
     accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
     accountSettingsProvider.emailController.text = widget.email;
+    accountSettingsProvider.isLoading = false;
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     super.initState();
   }
@@ -82,33 +81,41 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                             isEmail(Provider.of<AccountSettingsProvider>(context).emailController.text)
                                 ? HexColor('#ffffff') : HexColor('#363636'), () async {
                               if(isEmail(accountSettingsProvider.emailController.text)){
-                                accountSettingsProvider.isLoading = true;
-                                accountSettingsProvider.notifyMe();
-                                String message = '';
-                                try{
-                                  accountSettingsProvider.updateUserInfo(3, accountSettingsProvider.emailController.text).whenComplete((){}).then((value){
-                                    if(value["PO_STATUS"] == 0){
-                                      showMyDialog(context, 'emailUpdatedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/emailUpdated.svg').then((value) {
-                                        Navigator.of(context).pushAndRemoveUntil(
-                                            MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                                (route) => false
-                                        );
-                                      });
-                                    }else{
-                                      message = UserConfig.instance.checkLanguage()
-                                          ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
-                                      showMyDialog(context, 'emailUpdateFailed', message, 'retryAgain', themeNotifier);
-                                    }
-                                  });
-                                  accountSettingsProvider.isLoading = false;
-                                  accountSettingsProvider.notifyMe();
-                                }catch(e){
-                                  accountSettingsProvider.isLoading = false;
-                                  accountSettingsProvider.notifyMe();
-                                  if (kDebugMode) {
-                                    print(e.toString());
-                                  }
-                                }
+                                /// TODO: send OTP to the email first
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => OTPScreen(
+                                      contactTarget: accountSettingsProvider.emailController.text,
+                                      type: 'email',
+                                      flag: 2,
+                                    ))
+                                );
+                                // accountSettingsProvider.isLoading = true;
+                                // accountSettingsProvider.notifyMe();
+                                // String message = '';
+                                // try{
+                                //   accountSettingsProvider.updateUserInfo(3, accountSettingsProvider.emailController.text).whenComplete((){}).then((value){
+                                //     if(value["PO_STATUS"] == 0){
+                                //       showMyDialog(context, 'emailUpdatedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/emailUpdated.svg').then((value) {
+                                //         Navigator.of(context).pushAndRemoveUntil(
+                                //             MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                //                 (route) => false
+                                //         );
+                                //       });
+                                //     }else{
+                                //       message = UserConfig.instance.checkLanguage()
+                                //           ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                                //       showMyDialog(context, 'emailUpdateFailed', message, 'retryAgain', themeNotifier);
+                                //     }
+                                //   });
+                                //   accountSettingsProvider.isLoading = false;
+                                //   accountSettingsProvider.notifyMe();
+                                // }catch(e){
+                                //   accountSettingsProvider.isLoading = false;
+                                //   accountSettingsProvider.notifyMe();
+                                //   if (kDebugMode) {
+                                //     print(e.toString());
+                                //   }
+                                // }
                               }
                             }
                         ),
@@ -117,7 +124,17 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                   ),
                 ),
               ),
-            )
+            ),
+            if(Provider.of<AccountSettingsProvider>(context).isLoading)
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              width: width(1, context),
+              height: height(1, context),
+              color: Colors.white70,
+              child: Center(
+                child: animatedLoader(context),
+              ),
+            ),
           ],
         ),
       ),
