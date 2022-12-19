@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_widget/flutter_expandable_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:path/path.dart' as path;
@@ -884,6 +885,35 @@ leadingBackIcon(context){
         ),
       ),
     ),
+  );
+}
+
+buildExpandableWidget(context, String title, String child){
+  return ExpandableWidget(
+    titlePadding: const EdgeInsets.all(10.0),
+    padding: const EdgeInsets.all(0.0),
+    title: Text(
+      translate(title, context),
+      style: TextStyle(
+          color: HexColor('#363636')
+      ),
+    ),
+    decoration: BoxDecoration(
+        color: const Color.fromRGBO(45, 69, 46, 0.06),
+        borderRadius: BorderRadius.circular(8.0)
+    ),
+    childrenDecoration: const BoxDecoration(
+      color: Color.fromRGBO(250, 250, 250, 1.0),
+    ),
+    childrenPadding: const EdgeInsets.only(top: 10),
+    children: [
+      Text(
+        translate(child, context),
+        style: TextStyle(
+            color: HexColor('#363636')
+        ),
+      ),
+    ],
   );
 }
 
