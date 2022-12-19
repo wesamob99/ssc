@@ -892,8 +892,7 @@ buildExpandableWidget(context, String title, String child){
   return ExpandableWidget(
     titlePadding: const EdgeInsets.all(10.0),
     padding: const EdgeInsets.all(0.0),
-    title: SizedBox(
-      width: width(0.8, context),
+    title: Expanded(
       child: Text(
         translate(title, context),
         style: TextStyle(

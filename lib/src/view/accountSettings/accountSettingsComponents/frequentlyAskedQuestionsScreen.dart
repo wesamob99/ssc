@@ -62,83 +62,86 @@ class _FrequentlyAskedQuestionsScreenState extends State<FrequentlyAskedQuestion
         },
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                if(showSearchBar)
-                SizedBox(
-                  width: width(1, context),
-                  height: 60,
-                  child: buildSearchField(themeNotifier, accountSettingsProvider),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if(showSearchBar)
+                      SizedBox(
+                        width: width(1, context),
+                        child: buildSearchField(themeNotifier, accountSettingsProvider),
+                      ),
+                    if(!showSearchBar)
+                      SizedBox(
+                        width: width(1, context),
+                        height: 60,
+                        child: ListView.builder(
+                            itemCount: filterList.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index){
+                              return Row(
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                      setState(() {
+                                        indexSelected = index;
+                                      });
+                                    },
+                                    highlightColor: HexColor('#2D452E').withOpacity(0.2),
+                                    splashColor: Colors.transparent,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                                      decoration: BoxDecoration(
+                                          color: indexSelected == index ? HexColor('#F0F2F0') : Colors.transparent,
+                                          borderRadius: BorderRadius.circular(50.0),
+                                          border: Border.all(
+                                              color: indexSelected == index ? Colors.transparent : const Color.fromRGBO(81, 80, 78, 0.13),
+                                              width: 1
+                                          )
+                                      ),
+                                      child: Text(
+                                        translate(filterList[index], context),
+                                        style: TextStyle(
+                                            color: indexSelected == index ? HexColor('#2D452E') : HexColor('#51504E')
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10.0,)
+                                ],
+                              );
+                            }
+                        ),
+                      ),
+                  ],
                 ),
-                if(!showSearchBar)
-                SizedBox(
-                  width: width(1, context),
-                  height: 60,
-                  child: ListView.builder(
-                    itemCount: filterList.length,
-                    scrollDirection: Axis.horizontal,
+              ),
+              Expanded(
+                flex: 8,
+                child: ListView.builder(
+                    itemCount: frequentlyAskedQuestionsList.length,
+                    scrollDirection: Axis.vertical,
                     itemBuilder: (context, index){
-                      return Row(
+                      return (UserConfig.instance.checkLanguage()
+                      ? translate(frequentlyAskedQuestionsList[index]['question'], context).toLowerCase().contains(accountSettingsProvider.searchController.text.toLowerCase())
+                      : translate(frequentlyAskedQuestionsList[index]['question'], context).contains(accountSettingsProvider.searchController.text))
+                      ? Column(
                         children: [
-                          InkWell(
-                            onTap: (){
-                              setState(() {
-                                indexSelected = index;
-                              });
-                            },
-                            highlightColor: HexColor('#2D452E').withOpacity(0.2),
-                            splashColor: Colors.transparent,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                              decoration: BoxDecoration(
-                                color: indexSelected == index ? HexColor('#F0F2F0') : Colors.transparent,
-                                borderRadius: BorderRadius.circular(50.0),
-                                border: Border.all(
-                                  color: indexSelected == index ? Colors.transparent : const Color.fromRGBO(81, 80, 78, 0.13),
-                                  width: 1
-                                )
-                              ),
-                              child: Text(
-                                translate(filterList[index], context),
-                                style: TextStyle(
-                                  color: indexSelected == index ? HexColor('#2D452E') : HexColor('#51504E')
-                                ),
-                              ),
-                            ),
+                          buildExpandableWidget(
+                            context,
+                            frequentlyAskedQuestionsList[index]['question'],
+                            frequentlyAskedQuestionsList[index]['answer'],
                           ),
-                          const SizedBox(width: 10.0,)
+                          const SizedBox(height: 15.0,)
                         ],
-                      );
+                      ) : const SizedBox.shrink();
                     }
-                  ),
                 ),
-                const SizedBox(height: 10.0,),
-                SizedBox(
-                  width: width(1, context),
-                  height: height(0.9, context),
-                  child: ListView.builder(
-                      itemCount: frequentlyAskedQuestionsList.length,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index){
-                        return (UserConfig.instance.checkLanguage()
-                        ? translate(frequentlyAskedQuestionsList[index]['question'], context).toLowerCase().contains(accountSettingsProvider.searchController.text.toLowerCase())
-                        : translate(frequentlyAskedQuestionsList[index]['question'], context).contains(accountSettingsProvider.searchController.text))
-                        ? Column(
-                          children: [
-                            buildExpandableWidget(
-                              context,
-                              frequentlyAskedQuestionsList[index]['question'],
-                              frequentlyAskedQuestionsList[index]['answer'],
-                            ),
-                            const SizedBox(height: 15.0,)
-                          ],
-                        ) : const SizedBox.shrink();
-                      }
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
