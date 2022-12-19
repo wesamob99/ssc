@@ -3,6 +3,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ssc/src/viewModel/services/servicesProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
@@ -10,7 +11,7 @@ import '../../../../infrastructure/userConfig.dart';
 import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/accountSettings/accountSettingsProvider.dart';
-import '../../splash/splashScreen.dart';
+import '../../login/registerComponents/OTPScreen.dart';
 
 class UpdateMobileNumberScreen extends StatefulWidget {
   final String mobileNumber;
@@ -87,31 +88,33 @@ class _UpdateMobileNumberScreenState extends State<UpdateMobileNumberScreen> {
                               accountSettingsProvider.mobileNumberController.text != widget.mobileNumber){
                             accountSettingsProvider.isLoading = true;
                             accountSettingsProvider.notifyMe();
-                            String message = '';
+                            String errorMessage = '';
                             try{
-                              accountSettingsProvider.updateUserInfo(2, accountSettingsProvider.mobileNumberController.text).whenComplete((){}).then((value){
-                                if(value["PO_STATUS"] == 0){
-                                  showMyDialog(context, 'mobileNumberUpdatedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/mobileNumberUpdated.svg').then((value) {
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                            (route) => false
-                                    );
-                                  });
+                              await Provider.of<ServicesProvider>(context, listen: false).updateUserMobileNumberSendOTP(accountSettingsProvider.mobileNumberController.text)
+                                  .whenComplete((){}).then((value){
+                                if(value['PO_STATUS'] == '1'){
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => OTPScreen(
+                                      contactTarget: accountSettingsProvider.mobileNumberController.text,
+                                      type: 'phone',
+                                      flag: 2,
+                                    ))
+                                  );
                                 }else{
-                                  message = UserConfig.instance.checkLanguage()
+                                  errorMessage = UserConfig.instance.checkLanguage()
                                       ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
-                                  showMyDialog(context, 'updateMobileNumberFailed', message, 'retryAgain', themeNotifier);
+                                  showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
                                 }
                               });
                               accountSettingsProvider.isLoading = false;
                               accountSettingsProvider.notifyMe();
                             }catch(e){
-                                accountSettingsProvider.isLoading = false;
-                                accountSettingsProvider.notifyMe();
-                                if (kDebugMode) {
-                                  print(e.toString());
-                                }
+                              accountSettingsProvider.isLoading = false;
+                              accountSettingsProvider.notifyMe();
+                              if (kDebugMode) {
+                                print(e.toString());
                               }
+                            }
                             }
                           }
                         ),
