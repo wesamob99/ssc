@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/src/view/login/forgotPasswordComponents/resetPasswordBody.dart';
 import 'package:ssc/src/view/login/registerComponents/secondStepBody.dart';
+import 'package:ssc/src/viewModel/accountSettings/accountSettingsProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
@@ -14,6 +15,7 @@ import '../../../../infrastructure/userConfig.dart';
 import '../../../../utilities/constants.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/login/loginProvider.dart';
+import '../../../viewModel/services/servicesProvider.dart';
 import '../../../viewModel/utilities/language/globalAppProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../splash/splashScreen.dart';
@@ -22,7 +24,8 @@ import 'forthStepBody.dart';
 class OTPScreen extends StatefulWidget {
   final String contactTarget;
   final String type;
-  const OTPScreen({Key key, this.contactTarget, this.type}) : super(key: key);
+  final int flag; /// 1 for register & 2 for update phone number from profile screen
+  const OTPScreen({Key key, this.contactTarget, this.type, this.flag = 1}) : super(key: key);
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -186,53 +189,111 @@ class _OTPScreenState extends State<OTPScreen> {
                                       ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),),
                                   pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
                                       () async {if(pinController.length == 4){
-                                        errorMessage = "";
-                                        loginProvider.isLoading = true;
-                                        loginProvider.notifyMe();
-                                        try{
-                                          if(widget.type == 'phone') {
-                                            await loginProvider.checkMobileOTP(
-                                              int.parse(widget.contactTarget),
-                                              "00962", int.parse(pinController.text), 0)
-                                              .then((value){
-                                            if(value["PO_status_code"] == 0){
-                                              errorMessage = UserConfig.instance.checkLanguage()
-                                                  ? "${value["PO_status_desc_en"]}" : "${value["PO_status_desc_ar"]}";
-                                              showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
-                                            }else{
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(builder: (context) => const SecondStepBody()),
-                                              );
+                                        if(widget.flag == 1){
+                                          errorMessage = "";
+                                          loginProvider.isLoading = true;
+                                          loginProvider.notifyMe();
+                                          try{
+                                            if(widget.type == 'phone') {
+                                              await loginProvider.checkMobileOTP(
+                                                  int.parse(widget.contactTarget),
+                                                  "00962", int.parse(pinController.text), 0)
+                                                  .then((value){
+                                                if(value["PO_status_code"] == 0){
+                                                  errorMessage = UserConfig.instance.checkLanguage()
+                                                      ? "${value["PO_status_desc_en"]}" : "${value["PO_status_desc_ar"]}";
+                                                  showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
+                                                }else{
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(builder: (context) => const SecondStepBody()),
+                                                  );
+                                                }
+                                              });
+                                            } else{
+                                              await loginProvider.checkRegisterEmailOTP(
+                                                  widget.contactTarget,
+                                                  int.parse(pinController.text), widget.type == "emailFromReset" ? 1 : 0)
+                                                  .then((value){
+                                                if(value["PO_status_code"] == 0){
+                                                  errorMessage = UserConfig.instance.checkLanguage()
+                                                      ? "${value["PO_status_desc_en"]}" : "${value["PO_status_desc_ar"]}";
+                                                  showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
+                                                }else{
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (context) => widget.type == "emailFromReset"
+                                                          ? ResetPasswordBody(otpCode: pinController.text, email: widget.contactTarget,)
+                                                          : const ForthStepBody(),
+                                                    ),
+                                                  );
+                                                }
+                                              });
                                             }
-                                          });
-                                          } else{
-                                            await loginProvider.checkRegisterEmailOTP(
-                                                widget.contactTarget,
-                                                int.parse(pinController.text), widget.type == "emailFromReset" ? 1 : 0)
-                                                .then((value){
-                                              if(value["PO_status_code"] == 0){
-                                                errorMessage = UserConfig.instance.checkLanguage()
-                                                    ? "${value["PO_status_desc_en"]}" : "${value["PO_status_desc_ar"]}";
-                                                showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
-                                              }else{
-                                                Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                    builder: (context) => widget.type == "emailFromReset"
-                                                        ? ResetPasswordBody(otpCode: pinController.text, email: widget.contactTarget,)
-                                                        : const ForthStepBody(),
-                                                  ),
-                                                );
+                                            loginProvider.isLoading = false;
+                                            loginProvider.notifyMe();
+                                          }catch(e){
+                                            loginProvider.isLoading = false;
+                                            loginProvider.notifyMe();
+                                            if (kDebugMode) {
+                                              print(e.toString());
+                                            }
+                                          }
+                                        } else if(widget.flag == 2){
+                                          AccountSettingsProvider accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
+                                          loginProvider.isLoading = true;
+                                          loginProvider.notifyMe();
+                                          String message = '';
+                                          try{
+                                            if(widget.type == 'phone'){
+                                              await Provider.of<ServicesProvider>(context, listen: false).updateUserMobileNumberCheckOTP(pinController.text)
+                                                  .whenComplete((){}).then((val){
+                                                if(val['PO_STATUS'] == 1){
+                                                  accountSettingsProvider.updateUserInfo(2, accountSettingsProvider.mobileNumberController.text).whenComplete((){}).then((value){
+                                                    if(value["PO_STATUS"] == 0){
+                                                      showMyDialog(context, 'mobileNumberUpdatedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/mobileNumberUpdated.svg').then((value) {
+                                                        Navigator.of(context).pushAndRemoveUntil(
+                                                            MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                                                (route) => false
+                                                        );
+                                                      });
+                                                    }else{
+                                                      message = UserConfig.instance.checkLanguage()
+                                                          ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                                                      showMyDialog(context, 'updateMobileNumberFailed', message, 'retryAgain', themeNotifier);
+                                                    }
+                                                  });
+                                                }else{
+                                                  errorMessage = UserConfig.instance.checkLanguage()
+                                                      ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                                  showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                                }
+                                              });
+                                            } else{
+                                              /// TODO: check OTP first
+                                              accountSettingsProvider.updateUserInfo(3, accountSettingsProvider.emailController.text).whenComplete((){}).then((value){
+                                                if(value["PO_STATUS"] == 0){
+                                                  showMyDialog(context, 'emailUpdatedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/emailUpdated.svg').then((value) {
+                                                    Navigator.of(context).pushAndRemoveUntil(
+                                                        MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                                            (route) => false
+                                                    );
+                                                  });
+                                                }else{
+                                                  message = UserConfig.instance.checkLanguage()
+                                                      ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                                                  showMyDialog(context, 'emailUpdateFailed', message, 'retryAgain', themeNotifier);
+                                                }
+                                              });
+                                            }
+                                            loginProvider.isLoading = false;
+                                            loginProvider.notifyMe();
+                                          }catch(e){
+                                            loginProvider.isLoading = false;
+                                            loginProvider.notifyMe();
+                                              if (kDebugMode) {
+                                                print(e.toString());
                                               }
-                                            });
-                                          }
-                                          loginProvider.isLoading = false;
-                                          loginProvider.notifyMe();
-                                        }catch(e){
-                                          loginProvider.isLoading = false;
-                                          loginProvider.notifyMe();
-                                          if (kDebugMode) {
-                                            print(e.toString());
-                                          }
+                                            }
                                         }
                                   }}
                               ),
