@@ -16,7 +16,7 @@ import 'dart:math' as math;
 import '../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../viewModel/utilities/language/globalAppProvider.dart';
 import 'accountSettingsComponents/callUsScreen.dart';
-import 'accountSettingsComponents/frequentlyAskedQuestions.dart';
+import 'accountSettingsComponents/frequentlyAskedQuestionsScreen.dart';
 import 'accountSettingsComponents/profileScreen.dart';
 import 'accountSettingsComponents/suggestionsAndComplaintsScreen.dart';
 import 'accountSettingsComponents/termsAndConditionsScreen.dart';
@@ -188,7 +188,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           }),
                           buildNavigationButton('frequentlyAskedQuestions', (){
                             Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => const FrequentlyAskedQuestions())
+                                MaterialPageRoute(builder: (context) => const FrequentlyAskedQuestionsScreen())
                             );
                           }),
                         ],
