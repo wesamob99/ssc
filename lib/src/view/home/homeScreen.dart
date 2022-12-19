@@ -180,12 +180,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
                           ),
                           const HomeSlideShowWidget(),
+                          if(userInformation.curGetdata.isNotEmpty)
                           SizedBox(
                             height: height(0.02, context),
                           ),
+                          if(userInformation.curGetdata.isNotEmpty)
                           Text(translate('pastYearsPays', context),
                               style: TextStyle(
                                   fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                          if(userInformation.curGetdata.isNotEmpty)
                           HomeChartWidget(data: userInformation),
                           SizedBox(
                             height: height(Provider.of<HomeProvider>(context).showFloatingButton ? 0.1 : 0.0, context),
