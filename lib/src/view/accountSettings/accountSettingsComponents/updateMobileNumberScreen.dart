@@ -30,6 +30,7 @@ class _UpdateMobileNumberScreenState extends State<UpdateMobileNumberScreen> {
   void initState() {
     accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
     accountSettingsProvider.mobileNumberController.text = widget.mobileNumber;
+    accountSettingsProvider.isLoading = false;
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     super.initState();
   }
@@ -123,7 +124,17 @@ class _UpdateMobileNumberScreenState extends State<UpdateMobileNumberScreen> {
                   ),
                 ),
               ),
-            )
+            ),
+            if(Provider.of<AccountSettingsProvider>(context).isLoading)
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              width: width(1, context),
+              height: height(1, context),
+              color: Colors.white70,
+              child: Center(
+                child: animatedLoader(context),
+              ),
+            ),
           ],
         ),
       ),
