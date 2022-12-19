@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  flutter_expandable_widget
   flutter_secure_storage_linux
   smart_auth
 )

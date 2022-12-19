@@ -195,6 +195,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+  flutter_expandable_widget:
+    dependency: "direct main"
+    description:
+      name: flutter_expandable_widget
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.5"
   flutter_image_slideshow:
     dependency: "direct main"
     description:
