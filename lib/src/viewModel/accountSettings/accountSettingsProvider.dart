@@ -17,7 +17,6 @@ class AccountSettingsProvider extends ChangeNotifier {
   TextEditingController currentPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmNewPasswordController = TextEditingController();
-  TextEditingController complaintsDescController = TextEditingController();
   TextEditingController mobileNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController searchController = TextEditingController();
@@ -26,7 +25,6 @@ class AccountSettingsProvider extends ChangeNotifier {
   bool updatePasswordIsObscure = true;
   bool updatePasswordEnabled = false;
   bool showFloatingButton = true;
-  String complaintsRelatedTo = 'choose';
   bool isLoading = true;
 
   Future<UserProfileData> getAccountData({String internalKey = ''}) async{

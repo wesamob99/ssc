@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,13 @@ class SuggestionsAndComplaintsScreen extends StatefulWidget {
 class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaintsScreen> {
 
   AccountSettingsProvider accountSettingsProvider;
+  TextEditingController complaintsDescController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController familyNameController = TextEditingController();
+  TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController theRightTimeToCallController = TextEditingController();
+  String complaintsRelatedTo = 'choose';
   ThemeNotifier themeNotifier;
   List<String> relatedToList = ['choose', 'eServices', 'financeServices', 'callCenterServices', 'branchServices'];
 
@@ -28,7 +36,6 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
   void initState() {
     accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
-    accountSettingsProvider.complaintsDescController.text = "";
     super.initState();
   }
   @override
@@ -64,7 +71,7 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
                   buildFieldTitle(context, 'descriptionOfTheComplaintOrSuggestion', required: false),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
-                    child: buildTextFormField(context, themeNotifier, accountSettingsProvider.complaintsDescController, '', (val){}, minLines: 6),
+                    child: buildTextFormField(context, themeNotifier, complaintsDescController, '', (val){}, minLines: 6),
                   ),
                   const SizedBox(height: 10.0,),
                   buildFieldTitle(context, 'attachPhoto', required: false),
@@ -100,37 +107,51 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
                   buildFieldTitle(context, 'firstName', required: false),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
-                    child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                    child: buildTextFormField(context, themeNotifier, firstNameController, '', (val){}),
                   ),
                   const SizedBox(height: 10.0,),
                   buildFieldTitle(context, 'familyName', required: false),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
-                    child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                    child: buildTextFormField(context, themeNotifier, familyNameController, '', (val){}),
                   ),
                   buildFieldTitle(context, 'mobileNumber', required: false),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
-                    child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                    child: buildTextFormField(context, themeNotifier, mobileNumberController, '', (val){}),
                   ),
                   const SizedBox(height: 10.0,),
                   buildFieldTitle(context, 'email', required: false),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
-                    child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                    child: buildTextFormField(context, themeNotifier, emailController, '', (val){}),
                   ),
                   const SizedBox(height: 10.0,),
                   buildFieldTitle(context, 'theRightTimeToCall', required: false),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 10.0),
-                    child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                    child: buildTextFormField(context, themeNotifier, theRightTimeToCallController, '', (val){}),
                   ),
                   const SizedBox(height: 25.0,),
-                  textButton(context, themeNotifier, 'update', !Provider.of<AccountSettingsProvider>(context).updatePasswordEnabled
-                      ? HexColor('#DADADA')
-                      : getPrimaryColor(context, themeNotifier),
-                      Provider.of<AccountSettingsProvider>(context).updatePasswordEnabled
-                          ? HexColor('#ffffff') : HexColor('#363636'), () async {}
+                  Container(
+                    width: width(1, context),
+                    alignment: Alignment.center,
+                    child: textButton(context, themeNotifier, 'update', !true
+                        ? HexColor('#DADADA')
+                        : getPrimaryColor(context, themeNotifier),
+                        !false
+                            ? HexColor('#ffffff') : HexColor('#363636'), () async {
+                          if(kDebugMode){
+                            print(complaintsDescController.text);
+                            print(firstNameController.text);
+                            print(familyNameController.text);
+                            print(mobileNumberController.text);
+                            print(emailController.text);
+                            print(theRightTimeToCallController.text);
+                            print(complaintsRelatedTo);
+                          }
+                        }
+                    ),
                   ),
                   const SizedBox(height: 25.0,),
                 ],
@@ -155,7 +176,7 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             DropdownButton<String>(
-              value: accountSettingsProvider.complaintsRelatedTo,
+              value: complaintsRelatedTo,
               icon: const Icon(
                 Icons.arrow_drop_down_outlined,
                 size: 0,
@@ -168,8 +189,7 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
               ),
               onChanged: (String value){
                 setState(() {
-                  accountSettingsProvider.complaintsRelatedTo = value;
-                  accountSettingsProvider.notifyMe();
+                  complaintsRelatedTo = value;
                 });
                 // checkContinueEnable(loginProvider);
                 accountSettingsProvider.notifyMe();
