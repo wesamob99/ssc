@@ -315,7 +315,11 @@
   "howDoIApplyToWorkOnSocialSecurity": "كيف يمكنني التقدم للعمل في الضمان الاجتماعي؟",
   "generalQuestions": "اسئلة عامة",
   "accountAndRegistration": "الحساب والتسجيل",
-  "payingOff": "الدفع"
+  "payingOff": "الدفع",
+  "unableToMakePhoneCall": "غير قادر على إجراء مكالمة هاتفية",
+  "unableToOpenTheEmail": "غير قادر على فتح البريد الإلكتروني",
+  "unableToOpenWhatsApp": "غير قادر على فتح تطبيق الواتس آب",
+  "unableToOpenTheLink": "غير قادر على فتح الرابط"
 
 
 }

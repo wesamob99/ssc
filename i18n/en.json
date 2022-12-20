@@ -314,7 +314,11 @@
   "howDoIApplyToWorkOnSocialSecurity": "How do I apply to work on Social Security?",
   "generalQuestions": "general questions",
   "accountAndRegistration": "Account and registration",
-  "payingOff": "paying off"
+  "payingOff": "paying off",
+  "unableToMakePhoneCall": "Unable to make phone call",
+  "unableToOpenTheEmail": "Unable to open the email",
+  "unableToOpenWhatsApp": "Unable to open WhatsApp",
+  "unableToOpenTheLink": "Unable to open the link"
 
 
 }
