@@ -335,9 +335,10 @@ Future<void> showMyDialog(
                       );
                     } else{
                       Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => const SplashScreen()
-                          ), (route) => false);
+                        MaterialPageRoute(
+                            builder: (context) => const SplashScreen()
+                        ), (route) => false,
+                      );
                     }
                   });
                 }catch(e){
