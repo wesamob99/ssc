@@ -146,8 +146,8 @@ class _MainScreenState extends State<MainScreen> {
                   MaterialPageRoute(builder: (context) => const AccountSettingsScreen())
               );
             },
-
-            child: Column(
+            child: userSecuredStorage.insuranceNumber.isNotEmpty
+            ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children:[
@@ -155,7 +155,7 @@ class _MainScreenState extends State<MainScreen> {
                 const SizedBox(height: 2.0),
                 Text(userSecuredStorage.insuranceNumber, style: const TextStyle(fontSize: 12),),
               ],
-            ),
+            ) : Text(userSecuredStorage.userName, style: const TextStyle(fontSize: 14),),
           ),
         ),
         actions: [
