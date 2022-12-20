@@ -68,6 +68,7 @@ dependencies:
   flutter_image_slideshow: ^0.1.4
   dotted_border: ^2.0.0+3
   flutter_expandable_widget: ^1.0.5
+  url_launcher: ^6.1.7
 
 dev_dependencies:
   flutter_test:
