@@ -50,6 +50,7 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
             height: height(1, context),
             child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     translate('suggestionOrComplaintInformation', context),
