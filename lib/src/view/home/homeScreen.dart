@@ -172,7 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             )
                           ),
-                          const QuickAccessWidget(),
+                          // ignore: prefer_const_constructors
+                          QuickAccessWidget(),
                           Padding(
                             padding: EdgeInsets.only(bottom: height(0.007, context)),
                             child: Text(translate('advertisements', context),
