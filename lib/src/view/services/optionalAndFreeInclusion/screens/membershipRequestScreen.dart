@@ -291,7 +291,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               String sMonth = selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw' ? selectedMonth.name : null;
                               if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
                                 percentDecreaseVal = confirmSalaryValue;
-                                appliedSalary = servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'];
+                                appliedSalary = double.parse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString());
                                 sYear = int.tryParse(selectedYear.name);
                                 sRate = int.tryParse(selectedRate.name);
                               }
