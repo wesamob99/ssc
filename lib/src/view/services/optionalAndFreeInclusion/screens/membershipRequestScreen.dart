@@ -70,6 +70,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
       fillCalculateAccordingToList();
       currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORDEC'].toString());
       maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORDEC'].toString());
+      if(selectedCalculateAccordingTo == 'lastSalary'){
+        currentSliderValue = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString());
+      }
     } else{
       calculateAccordingToList = [];
       submissionType = null;
@@ -429,7 +432,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                     selectedCalculateAccordingTo = value;
                     if(selectedCalculateAccordingTo == 'lastSalary'){
                       submissionType = 1;
-                      currentSliderValue = minSalary;
+                      currentSliderValue = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString());
                       confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
                       confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                     }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
@@ -789,6 +792,10 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   }
 
   monthlyInstallmentTextFormField(controller, themeNotifier, onChanged){
+    ServicesProvider s = Provider.of<ServicesProvider>(context);
+    bool rightInput = (s.monthlyInstallmentController.text.isNotEmpty &&
+        double.tryParse(s.monthlyInstallmentController.text) >= minSalary &&
+        double.tryParse(s.monthlyInstallmentController.text) <= maxSalary);
     return Container(
       decoration: BoxDecoration(
         color: Colors.transparent,
@@ -811,14 +818,16 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: getPrimaryColor(context, themeNotifier),
+                color: rightInput
+                  ? getPrimaryColor(context, themeNotifier) : HexColor('#BC0D0D'),
                 width: 0.5,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: getPrimaryColor(context, themeNotifier),
+                color: rightInput
+                  ? getPrimaryColor(context, themeNotifier) : HexColor('#BC0D0D'),
                 width: 0.8,
               ),
             )
