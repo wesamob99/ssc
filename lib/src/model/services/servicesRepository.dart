@@ -109,7 +109,7 @@ class ServicesRepository{
       "LIVELOCATION": result['LIVELOCATION'],
       "PHONECODE": null,
       "INTERNATIONAL_CODE": result['INTERNATIONAL_CODE'],
-      "ADDRESS": result['ADDRESS'],
+      "ADDRESS": result['ADDRESS'] ?? "jordan",
       "REFERANCE_MOBILE": result['REFERANCE_MOBILE'],
       "SALARYREQUST": salaryRequest,
       "MONTHLYPAY": monthlyPay,

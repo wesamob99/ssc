@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
+import 'package:ssc/src/view/splash/splashScreen.dart';
 import 'package:ssc/src/viewModel/accountSettings/accountSettingsProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
@@ -328,9 +329,16 @@ Future<void> showMyDialog(
               onPressed: () async{
                 try{
                   Provider.of<HomeProvider>(context, listen: false).getAmountToBePaid().whenComplete((){}).then((value){
-                    Navigator.of(context).push(
+                    if(value != null) {
+                      Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => PayScreen(payments: value.subPayCur[0]))
-                    );
+                      );
+                    } else{
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const SplashScreen()
+                          ), (route) => false);
+                    }
                   });
                 }catch(e){
                   if (kDebugMode) {
