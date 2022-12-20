@@ -225,11 +225,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (kDebugMode) {
                   print('financialInformation: ${financialInformation.mainPayCur[0][0].amt}');
                 }
-                if(double.parse(financialInformation.mainPayCur[0][0].amt.toString() ?? '0').toStringAsFixed(2) == '0.00'){
+                if(double.parse((financialInformation.mainPayCur[0][0].amt ?? '0').toString()).toStringAsFixed(2) == '0.00'){
                   Provider.of<HomeProvider>(context).showFloatingButton = false;
                 }
                 return
-                  double.parse(financialInformation.mainPayCur[0][0].amt.toString() ?? '0').toStringAsFixed(2) != '0.00'
+                  double.parse((financialInformation.mainPayCur[0][0].amt ?? '0').toString()).toStringAsFixed(2) != '0.00'
                   ? Padding(
                     padding: EdgeInsets.only(
                       right: UserConfig.instance.checkLanguage() ? 0 : width(0.075, context),
@@ -297,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      double.parse((financialInformation.mainPayCur[0][0].amt.toString() ?? '0').toString()).toStringAsFixed(3),
+                                      double.parse((financialInformation.mainPayCur[0][0].amt ?? '0').toString()).toStringAsFixed(3),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
