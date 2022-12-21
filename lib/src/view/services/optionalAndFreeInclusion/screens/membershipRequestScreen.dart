@@ -524,7 +524,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                         child: Column(
                           children: [
                             Text(
-                              translate('installmentValue', context),
+                              translate('sal', context),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: HexColor('#363636'),
