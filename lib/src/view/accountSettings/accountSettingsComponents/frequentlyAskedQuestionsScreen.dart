@@ -50,8 +50,9 @@ class _FrequentlyAskedQuestionsScreenState extends State<FrequentlyAskedQuestion
                 showSearchBar = !showSearchBar;
               });
             },
-            icon: const Icon(
-              Icons.search, color: Colors.white,
+            icon: Icon(
+              showSearchBar ? Icons.filter_list: Icons.search,
+              color: Colors.white,
             ),
           )
         ],
