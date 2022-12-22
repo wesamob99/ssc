@@ -69,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if(snapshot.hasData && !snapshot.hasError){
                     UserProfileData userProfileData = snapshot.data;
                     CurGetdatum data = userProfileData.curGetdata[0][0];
-                    ListOfNationalities countryOfResidence = widget.nationalities.where((element) => element.natcode == data.livecontry).first;
+                    ListOfNationalities countryOfResidence = widget.nationalities.where((element) => element.natcode == data.livecontry ?? 111).first;
                     if (kDebugMode) {
                       print(jsonEncode(data));
                     }
@@ -79,14 +79,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Column(
                               children: [
                                 buildDataField('userName', '${data.firstname ?? ''} ${data.fathername ?? ''} ${data.grandfathername ?? ''} ${data.familyname ?? ''}', withEditIcon: false),
-                                buildDataField('mobileNumber', '${data.mobilenumber}', onTap: (){
+                                buildDataField('mobileNumber', '${data.mobilenumber ?? ''}', onTap: (){
                                   Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => UpdateMobileNumberScreen(mobileNumber: data.mobilenumber.toString(),))
+                                    MaterialPageRoute(builder: (context) => UpdateMobileNumberScreen(mobileNumber: (data.mobilenumber ?? '').toString(),))
                                   );
                                 }),
-                                buildDataField('email', data.email, emailVerified: true, onTap: (){
+                                buildDataField('email', data.email ?? '', emailVerified: true, onTap: (){
                                   Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) => UpdateEmailScreen(email: data.email.toString(),))
+                                      MaterialPageRoute(builder: (context) => UpdateEmailScreen(email: (data.email  ?? '').toString(),))
                                   );
                                 }),
                                 buildDataField('countryOfResidence', UserConfig.instance.checkLanguage() ? countryOfResidence.natdescEn : countryOfResidence.natdesc, onTap: (){
@@ -99,9 +99,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   );
                                 }),
                                 // buildDataField('homeAddress', 'عمان - دوار الداخليه - خلف مستشفى الأمل'),
-                                buildDataField('nationalId', data.userName, withEditIcon: false),
-                                buildDataField('securityNumber', data.insuranceno.toString(), withEditIcon: false),
-                                buildDataField('DateOfBirth', data.dateofbirth, withEditIcon: false),
+                                buildDataField('nationalId', data.userName ?? '', withEditIcon: false),
+                                buildDataField('securityNumber', (data.insuranceno ?? '').toString(), withEditIcon: false),
+                                buildDataField('DateOfBirth', data.dateofbirth  ?? '', withEditIcon: false),
                                 Container(
                                   padding: const EdgeInsets.all(15.0),
                                   decoration: BoxDecoration(
