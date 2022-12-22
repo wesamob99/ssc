@@ -17,34 +17,47 @@ class AboutTheApplicationScreen extends StatelessWidget {
         title: Text(translate('aboutSscApplication', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
       ),
-      body: Container(
-        width: width(1, context),
-        height: height(0.8, context),
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset('assets/logo/logo_with_name.svg'),
-            SizedBox(height: height(0.07, context)),
-            Text(
-              translate('version', context) + "  3.0.2",
-              style: TextStyle(
-                color: HexColor('#363636'),
-                fontWeight: FontWeight.w500,
-                fontSize: 18
+      body: Stack(
+        children: [
+          Opacity(
+            opacity: 0.5,
+            child: Container(
+              alignment: Alignment.bottomLeft,
+              child: SvgPicture.asset(
+                  'assets/logo/logo_tree.svg'
               ),
             ),
-            SizedBox(height: height(0.015, context)),
-            Text(
-              translate('allRightReserved', context),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Color.fromRGBO(95, 95, 95, 0.65),
-              ),
-            )
-          ],
-        ),
+          ),
+          Container(
+            width: width(1, context),
+            height: height(0.8, context),
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset('assets/logo/logo_with_name.svg'),
+                SizedBox(height: height(0.07, context)),
+                Text(
+                  translate('version', context) + "  3.0.2",
+                  style: TextStyle(
+                    color: HexColor('#363636'),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18
+                  ),
+                ),
+                SizedBox(height: height(0.015, context)),
+                Text(
+                  translate('allRightReserved', context),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      color: Color.fromRGBO(95, 95, 95, 0.65),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
