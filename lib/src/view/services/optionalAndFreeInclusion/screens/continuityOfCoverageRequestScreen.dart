@@ -220,9 +220,9 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
                                   ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
                             }
                             showMyDialog(context, (value != '' && value['PO_status'] == 0) ? 'currentRateOfIncreaseDoneSuccessfully' : 'failed',
-                                message, (value != '' && value['PO_status'] == 0) ? '#2D452E' : 'cancel',
+                                message, (value != '' && value['PO_status'] == 0) ? '#ok' : 'cancel',
                                 themeNotifier,
-                                titleColor: (value != '' && value['PO_status'] == 0) ? 'ok' : '#ED3124',
+                                titleColor: (value != '' && value['PO_status'] == 0) ? '#2D452E' : '#ED3124',
                                 icon: (value != '' && value['PO_status'] == 0) ? 'assets/icons/serviceSuccess.svg' : 'assets/icons/loginError.svg').then((_){
                               SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
                                 servicesProvider.selectedServiceRate = -1;
