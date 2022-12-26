@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/src/view/services/mostVisited/mostVisitedBody.dart';
+import 'package:ssc/src/view/services/retirementServices/retirementBody.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/util.dart';
 
@@ -69,6 +70,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 SizedBox(height: height(0.02, context)),
                 if(selectedIndex == 0)
                 const MostVisitedBody(),
+                if(selectedIndex == 1)
+                const RetirementBody(),
                 if(selectedIndex == 2)
                 const OptionalAndFreeInclusionBody(),
                 if(selectedIndex == 5)
