@@ -278,7 +278,12 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                   try{
                                     await widget.serviceApiCall.call().whenComplete((){}).then((value){
                                       /// TODO: check this condition every time you pass new [serviceApiCall]
-                                      if(value != null && (!value.containsKey('PO_status_no') || value["PO_status_no"] == 0 || value["PO_status_no"] == 1)){
+                                      if(value != null &&
+                                          (
+                                              (!value.containsKey('PO_status_no') || value["PO_status_no"] == 0 || value["PO_status_no"] == 1) ||
+                                              (widget.serviceTitle == 'requestToAmendTheAnnualIncreasePercentage') && value["PO_status_no"] == null
+                                          )
+                                      ){
                                         servicesProvider.result = value;
                                         Navigator.of(context).push(
                                             MaterialPageRoute(builder: (context) => widget.serviceScreen)
