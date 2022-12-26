@@ -47,6 +47,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.updateUserMobileNumberSendOTPService(newNumber);
   }
 
+  Future submitOptionSubIncrement(int selectedRate, double newSalary) async{
+    return await servicesRepository.submitOptionSubIncrementService(selectedRate, newSalary);
+  }
+
   Future updateUserMobileNumberCheckOTP(String code) async{
     return await servicesRepository.updateUserMobileNumberCheckOTPService(code);
   }

@@ -159,6 +159,19 @@ class ServicesRepository{
     }
     return null;
   }
+
+  Future submitOptionSubIncrementService(int selectedRate, double newSalary) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/individuals/SubmitOptionSubIncrement', {"SELECTED_MAX_PER_OF_INC":selectedRate,"BRANCH":60,"SALARYAFTER":newSalary}
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
 /// **************************************************************MEMBERSHIP - END******************************************************************************
 
 /// **************************************************************UPDATE USER MOBILE NUMBER - START*************************************************************
