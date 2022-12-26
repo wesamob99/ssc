@@ -320,7 +320,8 @@
   "unableToOpenWhatsApp": "Unable to open WhatsApp",
   "unableToOpenTheLink": "Unable to open the link",
   "sal": "Salary",
-  "requestToAmendTheAnnualIncreasePercentage": "Request to amend the annual increase percentage"
+  "requestToAmendTheAnnualIncreasePercentage": "Request to amend the annual increase percentage",
+  "currentRateOfIncrease": "Current rate of increase"
 
 
 }

@@ -321,7 +321,8 @@
   "unableToOpenWhatsApp": "غير قادر على فتح تطبيق الواتس آب",
   "unableToOpenTheLink": "غير قادر على فتح الرابط",
   "sal": "الأجر الخاضع",
-  "requestToAmendTheAnnualIncreasePercentage": "طلب تعديل نسبة الزيادة السنوية"
+  "requestToAmendTheAnnualIncreasePercentage": "طلب تعديل نسبة الزيادة السنوية",
+  "currentRateOfIncrease": "نسبة الزيادة السنويه الحاليه"
 
 
 }
