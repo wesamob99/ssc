@@ -322,7 +322,8 @@
   "unableToOpenTheLink": "غير قادر على فتح الرابط",
   "sal": "الأجر الخاضع",
   "requestToAmendTheAnnualIncreasePercentage": "طلب تعديل نسبة الزيادة السنوية",
-  "currentRateOfIncrease": "نسبة الزيادة السنويه الحاليه"
+  "currentRateOfIncrease": "نسبة الزيادة السنويه الحاليه",
+  "currentRateOfIncreaseDoneSuccessfully": "تم تعديل نسبة الزيادة السنوية"
 
 
 }

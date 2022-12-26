@@ -321,7 +321,8 @@
   "unableToOpenTheLink": "Unable to open the link",
   "sal": "Salary",
   "requestToAmendTheAnnualIncreasePercentage": "Request to amend the annual increase percentage",
-  "currentRateOfIncrease": "Current rate of increase"
+  "currentRateOfIncrease": "Current rate of increase",
+  "currentRateOfIncreaseDoneSuccessfully": "The annual increase rate has been modified"
 
 
 }
