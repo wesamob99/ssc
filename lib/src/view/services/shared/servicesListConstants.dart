@@ -68,7 +68,7 @@ class ServicesList{
       title: "continuityOfCoverage", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service amendTheAnnualIncreasePercentage = Service(
-      title: "requestToAmendTheAnnualIncreasePercentage", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const ContinuityOfCoverageRequestScreen(), serviceApiCall: ()=> _servicesRepository.getAccountDataService()
+      title: "requestToAmendTheAnnualIncreasePercentage", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const ContinuityOfCoverageRequestScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubIncGetDetailNewService()
   );
   static Service excessPaymentRequest = Service(
       title: "excessPaymentRequest", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
