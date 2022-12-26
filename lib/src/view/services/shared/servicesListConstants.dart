@@ -71,8 +71,14 @@ class ServicesList{
   );
   static List<Service> optionalAndFreeInclusionServices = [membershipRequest, continuityOfCoverage, excessPaymentRequest];
 
-/// **************************************************************************
 
+/// **************************************************************************
+/// retirement Services ******************************************************
+
+  //retirementServices
+  static List<Service> retirementServices = [];
+
+/// **************************************************************************
 
   static List<Service> allServices = [individualsUnemploymentApplication, continuityOfCoverage, maternityUnemploymentApplication, onePayment, reportAnAccident, optionalSubscription, accountStatement, membershipRequest, requestRetiredLoan, reportSicknessComplaint, oneTimeCompensationRequest, savingsBalanceDisbursementRequest, workInjuryInsurance];
 
