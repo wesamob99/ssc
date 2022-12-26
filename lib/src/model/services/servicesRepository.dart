@@ -22,7 +22,7 @@ class ServicesRepository{
     return null;
   }
 
-  /// **************************************************************MEMBERSHIP REQUEST - START**********************************************************************
+  /// **************************************************************MEMBERSHIP - START******************************************************************************
   Future optionalSubGetDetailService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
@@ -146,7 +146,20 @@ class ServicesRepository{
     }
     return '';
   }
-/// **************************************************************MEMBERSHIP REQUEST - END**********************************************************************
+
+  Future optionalSubIncGetDetailNewService() async {
+    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+    String internalKey = userSecuredStorage.insuranceNumber.toString();
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/OptionalSub_Inc_GetDetail_new?secno=$internalKey');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+/// **************************************************************MEMBERSHIP - END******************************************************************************
 
 /// **************************************************************UPDATE USER MOBILE NUMBER - START*************************************************************
   Future updateUserMobileNumberSendOTPService(String newNumber) async {
