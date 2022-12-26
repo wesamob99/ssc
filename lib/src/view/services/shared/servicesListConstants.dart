@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../model/services/servicesRepository.dart';
 import '../insuranceServices/screens/workInjuryComplaintScreen.dart';
+import '../optionalAndFreeInclusion/screens/continuityOfCoverageRequestScreen.dart';
 import '../optionalAndFreeInclusion/screens/membershipRequestScreen.dart';
 
 class ServicesList{
@@ -66,10 +67,13 @@ class ServicesList{
   static Service continuityOfCoverage = Service(
       title: "continuityOfCoverage", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
+  static Service amendTheAnnualIncreasePercentage = Service(
+      title: "requestToAmendTheAnnualIncreasePercentage", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const ContinuityOfCoverageRequestScreen(), serviceApiCall: ()=> _servicesRepository.getAccountDataService()
+  );
   static Service excessPaymentRequest = Service(
       title: "excessPaymentRequest", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
-  static List<Service> optionalAndFreeInclusionServices = [membershipRequest, continuityOfCoverage, excessPaymentRequest];
+  static List<Service> optionalAndFreeInclusionServices = [membershipRequest, continuityOfCoverage, amendTheAnnualIncreasePercentage, excessPaymentRequest];
 
 
 /// **************************************************************************
