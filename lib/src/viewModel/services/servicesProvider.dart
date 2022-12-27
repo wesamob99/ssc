@@ -55,6 +55,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.updateUserMobileNumberCheckOTPService(code);
   }
 
+  Future getPensionsBasicInformations() async{
+    return await servicesRepository.getPensionsBasicInformationsService();
+  }
+
   Future<void> readCountriesJson() async {
     countries = [];
     final String response = await rootBundle.loadString('assets/jsonFiles/countries.json');

@@ -208,4 +208,21 @@ class ServicesRepository{
 
 /// **************************************************************UPDATE USER MOBILE NUMBER - END***************************************************************
 
+/// **************************************************************RETIREMENT - START****************************************************************************
+
+  Future getPensionsBasicInformationsService() async {
+    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+    String internalKey = userSecuredStorage.insuranceNumber.toString();
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/pensionsBasicInformation?sceNo=$internalKey');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+
+/// **************************************************************RETIREMENT - END******************************************************************************
+
 }
