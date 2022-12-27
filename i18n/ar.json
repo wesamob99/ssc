@@ -326,7 +326,8 @@
   "currentRateOfIncreaseDoneSuccessfully": "تم تعديل نسبة الزيادة السنوية",
   "pensionDetails": "تفاصيل الراتب التقاعدي",
   "historicalPensionDetails": "الرواتب التقاعديه التاريخيه",
-  "ChooseTheYear": "إختر السنه"
+  "chooseTheYear": "إختر السنه",
+  "thereAreNoData": "لا توجد بيانات"
 
 
 }

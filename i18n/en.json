@@ -325,7 +325,8 @@
   "currentRateOfIncreaseDoneSuccessfully": "The annual increase rate has been modified",
   "pensionDetails": "Pension details",
   "historicalPensionDetails": "Historical pension details",
-  "ChooseTheYear": "Choose the year"
+  "chooseTheYear": "Choose the year",
+  "thereAreNoData": "There are no data"
 
 
 }
