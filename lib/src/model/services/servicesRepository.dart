@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 
 import '../../../infrastructure/HTTPClientContract.dart';
+import '../../../models/services/pensionPaymentModel.dart';
 
 class ServicesRepository{
 
@@ -222,6 +223,20 @@ class ServicesRepository{
     }
     return null;
   }
+
+  Future<PensionPaymentModel> getPensionPaymentSPService(String year) async {
+    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+    String internalKey = userSecuredStorage.insuranceNumber.toString();
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/pension_paymentSP?pi_secno=$internalKey&Pi_year=$year');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return pensionPaymentModelFromJson(response.toString());
+    }
+    return null;
+  }
+
 
 /// **************************************************************RETIREMENT - END******************************************************************************
 
