@@ -322,7 +322,9 @@
   "sal": "Salary",
   "requestToAmendTheAnnualIncreasePercentage": "Request to amend the annual increase percentage",
   "currentRateOfIncrease": "Current rate of increase",
-  "currentRateOfIncreaseDoneSuccessfully": "The annual increase rate has been modified"
+  "currentRateOfIncreaseDoneSuccessfully": "The annual increase rate has been modified",
+  "pensionDetails": "Pension details",
+  "historicalPensionDetails": "Historical pension details"
 
 
 }
