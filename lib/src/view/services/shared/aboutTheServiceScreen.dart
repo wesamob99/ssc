@@ -292,7 +292,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                       } else{
                                         errorMessage = UserConfig.instance.checkLanguage()
                                             ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
-                                        showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
+                                        showMyDialog(context, 'failed', errorMessage ?? translate('thereAreNoData', context), 'ok', themeNotifier);
                                       }
                                     });
                                     servicesProvider.isLoading = false;
