@@ -46,7 +46,7 @@ class _HistoricalPensionDetailsScreenState extends State<HistoricalPensionDetail
         child: Column(
           // child: Text(servicesProvider.result['cur_getdata'][0][0]['ACCNO']),
           children: [
-            buildFieldTitle(context, 'ChooseTheYear', required: false),
+            buildFieldTitle(context, 'chooseTheYear', required: false),
             const SizedBox(height: 10.0,),
             buildDropDown(context, listOfYears, 1, servicesProvider),
             const SizedBox(height: 15.0,),
@@ -93,7 +93,7 @@ class _HistoricalPensionDetailsScreenState extends State<HistoricalPensionDetail
                             ],
                           );
                         }else {
-                          return Text(translate('emptyList', context));
+                          return Text(translate('thereAreNoData', context));
                         }
                       }
                       break;
