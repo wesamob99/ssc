@@ -20,12 +20,13 @@ class _HistoricalPensionDetailsScreenState extends State<HistoricalPensionDetail
 
   ServicesProvider servicesProvider;
   List<SelectedListItem> listOfYears = [];
-  SelectedListItem selectedYear = SelectedListItem(name: '0', natCode: null, flag: '');
+  SelectedListItem selectedYear;
 
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     listOfYears = [];
+    selectedYear = SelectedListItem(name: DateFormat("dd/MM/yyyy").parse(servicesProvider.result['cur_getdata'][0][0]['STARDT']).year.toString(), natCode: null, flag: '');
     for(int i=DateFormat("dd/MM/yyyy").parse(servicesProvider.result['cur_getdata'][0][0]['STARDT']).year ; i<=2022 ; i++){
       listOfYears.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
     }
