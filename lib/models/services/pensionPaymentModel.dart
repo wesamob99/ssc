@@ -2,6 +2,8 @@
 //
 //     final pensionPaymentModel = pensionPaymentModelFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 PensionPaymentModel pensionPaymentModelFromJson(String str) => PensionPaymentModel.fromJson(json.decode(str));
