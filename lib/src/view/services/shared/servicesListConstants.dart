@@ -5,6 +5,8 @@ import '../../../model/services/servicesRepository.dart';
 import '../insuranceServices/screens/workInjuryComplaintScreen.dart';
 import '../optionalAndFreeInclusion/screens/continuityOfCoverageRequestScreen.dart';
 import '../optionalAndFreeInclusion/screens/membershipRequestScreen.dart';
+import '../retirementServices/screens/historicalPensionDetailsScreen.dart';
+import '../retirementServices/screens/pensionDetailsScreen.dart';
 
 class ServicesList{
 
@@ -79,8 +81,14 @@ class ServicesList{
 /// **************************************************************************
 /// retirement Services ******************************************************
 
-  //retirementServices
-  static List<Service> retirementServices = [];
+  static Service pensionDetails = Service(
+      title: "pensionDetails", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
+  );
+  static Service historicalPensionDetails = Service(
+      title: "historicalPensionDetails", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/retiredServices.svg', screen:  const HistoricalPensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
+  );
+
+  static List<Service> retirementServices = [pensionDetails, historicalPensionDetails];
 
 /// **************************************************************************
 
