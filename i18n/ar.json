@@ -323,7 +323,9 @@
   "sal": "الأجر الخاضع",
   "requestToAmendTheAnnualIncreasePercentage": "طلب تعديل نسبة الزيادة السنوية",
   "currentRateOfIncrease": "نسبة الزيادة السنويه الحاليه",
-  "currentRateOfIncreaseDoneSuccessfully": "تم تعديل نسبة الزيادة السنوية"
+  "currentRateOfIncreaseDoneSuccessfully": "تم تعديل نسبة الزيادة السنوية",
+  "pensionDetails": "تفاصيل الراتب التقاعدي",
+  "historicalPensionDetails": "الرواتب التقاعديه التاريخيه"
 
 
 }
