@@ -65,7 +65,7 @@ class _RetirementBodyState extends State<RetirementBody> {
                   itemCount: retirementServices.length,
                   itemBuilder: (context, index2){
                     return retirementServices[index2].supTitle == supTitles[index1]
-                        ? Column(
+                    ? Column(
                       children: [
                         InkWell(
                           onTap: (){
