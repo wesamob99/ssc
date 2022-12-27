@@ -280,8 +280,9 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                       /// TODO: check this condition every time you pass new [serviceApiCall]
                                       if(value != null &&
                                           (
-                                              (!value.containsKey('PO_status_no') || value["PO_status_no"] == 0 || value["PO_status_no"] == 1) ||
-                                              (widget.serviceTitle == 'requestToAmendTheAnnualIncreasePercentage') && value["PO_status_no"] == null
+                                              ((!value.containsKey('PO_status_no') || value["PO_status_no"] == 0 || value["PO_status_no"] == 1) && (widget.serviceTitle != 'historicalPensionDetails') && (widget.serviceTitle != 'requestToAmendTheAnnualIncreasePercentage')) ||
+                                              ((widget.serviceTitle == 'requestToAmendTheAnnualIncreasePercentage') && value["PO_status_no"] == null) ||
+                                              ((widget.serviceTitle == 'historicalPensionDetails') && value['cur_getdata'].length != 0)
                                           )
                                       ){
                                         servicesProvider.result = value;
