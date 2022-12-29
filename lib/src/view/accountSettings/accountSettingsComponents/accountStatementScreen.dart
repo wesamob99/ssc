@@ -299,7 +299,6 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
   }
 
   financialSalariesBody(data){
-    print(data[0]);
     List<int> years = [];
     data.forEach((element){
       if(!years.contains(element['YEAR'])){
@@ -313,12 +312,10 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
         itemBuilder: (context, indexOfYear){
           double noOfElements = 0;
           data.forEach((element){
-            print(element['YEAR']);
             if(element['YEAR'] == years[indexOfYear]){
               noOfElements++;
             }
           });
-          print(noOfElements);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -424,7 +421,5 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
       ),
     );
   }
-
-
 
 }
