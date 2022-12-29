@@ -314,7 +314,7 @@
   "howCanIBenefitFromSocialSecurityServices": "كيف يمكنني الاستفاده من خدمات الضمان؟",
   "howDoIApplyToWorkOnSocialSecurity": "كيف يمكنني التقدم للعمل في الضمان الاجتماعي؟",
   "generalQuestions": "اسئلة عامة",
-  "accountAndRegistration": "الحساب والتسجيل",
+  "accountAndRegistration": "الحساب والتسجيلي",
   "payingOff": "الدفع",
   "unableToMakePhoneCall": "غير قادر على إجراء مكالمة هاتفية",
   "unableToOpenTheEmail": "غير قادر على فتح البريد الإلكتروني",
@@ -334,7 +334,8 @@
   "paymentHistory": "سجل الدفعات",
   "card": "بطاقه",
   "waiting": "قيد الإنتضار",
-  "paymentCompleted": "تم الدفع"
+  "paymentCompleted": "تم الدفع",
+  "paymentDetail": "تفاصيل الدفعه"
 
 
 }
