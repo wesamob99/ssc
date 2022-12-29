@@ -339,7 +339,9 @@
   "payed": "Payed",
   "paymentDueDate": "Payment due date",
   "invoiceNumber": "Invoice number",
-  "payDate": "Pay date"
+  "payDate": "Pay date",
+  "subscriptionPeriods": "Subscription periods",
+  "financialSalaries": "Financial salaries"
 
 
 
