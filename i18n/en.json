@@ -334,7 +334,12 @@
   "card": "Card",
   "waiting": "Waiting",
   "paymentCompleted": "Payment completed",
-  "paymentDetail": "Payment detail"
+  "paymentDetail": "Payment detail",
+  "paymentStatus": "Payment status",
+  "payed": "Payed",
+  "paymentDueDate": "Payment due date",
+  "invoiceNumber": "Invoice number",
+  "payDate": "Pay date"
 
 
 

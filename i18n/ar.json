@@ -335,7 +335,12 @@
   "card": "بطاقه",
   "waiting": "قيد الإنتضار",
   "paymentCompleted": "تم الدفع",
-  "paymentDetail": "تفاصيل الدفعه"
+  "paymentDetail": "تفاصيل الدفعه",
+  "paymentStatus": "حالة الدفعه",
+  "payed": "مدفوع",
+  "paymentDueDate": "تاريخ استحقاق الدفعة",
+  "invoiceNumber": "رقم الوصل",
+  "payDate": "تاريخ الدفع"
 
 
 }
