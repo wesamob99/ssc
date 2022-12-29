@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/src/view/accountSettings/accountSettingsComponents/aboutTheApplicationScreen.dart';
+import 'package:ssc/src/view/accountSettings/accountSettingsComponents/paymentManagementScreen.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
 import '../../../infrastructure/userSecuredStorage.dart';
@@ -117,7 +118,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          buildNavigationButton('paymentManagement', (){}),
+                          buildNavigationButton('paymentManagement', (){
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => const PaymentManagementScreen())
+                            );
+                          }),
                           buildNavigationButton('paymentMethodsManagement', (){}),
                           buildNavigationButton('accountStatement', (){}),
                         ],
