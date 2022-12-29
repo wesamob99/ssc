@@ -330,7 +330,11 @@
   "thereAreNoData": "لا توجد بيانات",
   "balanceToBePaid": "الرصيد المستحق للدفع",
   "nextBatchDate": "تاريخ الدفعة التالية",
-  "onDate": "في تاريخ"
+  "onDate": "في تاريخ",
+  "paymentHistory": "سجل الدفعات",
+  "card": "بطاقه",
+  "waiting": "قيد الإنتضار",
+  "paymentCompleted": "تم الدفع"
 
 
 }
