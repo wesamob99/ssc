@@ -174,7 +174,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 16.0,),
-                                textButton(context, themeNotifier, 'payNow', HexColor('#ffffff'),
+                                textButton(context, themeNotifier, 'paymentManagement', HexColor('#ffffff'),
                                     HexColor('#946800'), () async {}, borderColor: '#946800'
                                 ),
                               ],
