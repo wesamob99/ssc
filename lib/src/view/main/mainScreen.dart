@@ -99,7 +99,7 @@ class _MainScreenState extends State<MainScreen> {
       firstLogin = value.getString(Constants.FIRST_LOGIN) ?? 'true';
       if(firstLogin == 'true') {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          modalBottomSheet(context, themeNotifier, supportState, (){
+          loginSuggestionsModalBottomSheet(context, themeNotifier, supportState, (){
             _authenticate();
             Navigator.of(context).pop();
             showMyDialog(
