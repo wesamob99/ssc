@@ -148,7 +148,6 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
   }
 
   subscriptionPeriodsBody(data){
-    print(data[0]);
     return Expanded(
       child: ListView.builder(
         itemCount: data.length,
@@ -174,7 +173,8 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                         borderRadius: BorderRadius.circular(50.0),
                       ),
                       child: Text(
-                        '${data[index]['descr'] ?? translate('onTopOfHisWork', context)}',
+                        '${data[index]['descr'] ?? 'على رأس عمله'}',
+                        //translate('onTopOfHisWork', context)
                         style: TextStyle(
                           color: data[index]['descr'] == null ? HexColor('#2D452E') : HexColor('#987803')
                         ),
