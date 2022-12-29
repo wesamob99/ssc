@@ -333,9 +333,9 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 5.0),
               SizedBox(
-                height: 190 * noOfElements,
+                height: 180 * noOfElements,
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: data.length,
