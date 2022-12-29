@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/src/view/accountSettings/accountSettingsComponents/aboutTheApplicationScreen.dart';
+import 'package:ssc/src/view/accountSettings/accountSettingsComponents/accountStatementScreen.dart';
 import 'package:ssc/src/view/accountSettings/accountSettingsComponents/paymentManagementScreen.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
@@ -124,7 +125,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             );
                           }),
                           buildNavigationButton('paymentMethodsManagement', (){}),
-                          buildNavigationButton('accountStatement', (){}),
+                          buildNavigationButton('accountStatement', (){
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => const AccountStatementScreen())
+                            );
+                          }),
                         ],
                       )
                   ),
