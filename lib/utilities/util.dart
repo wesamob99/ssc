@@ -417,7 +417,8 @@ animatedLoader(context){
   );
 }
 
-SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPressed, {double verticalPadding  = 16.0}){
+SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPressed,
+    {double verticalPadding  = 16.0, String borderColor = '#ffffff'}){
   return SizedBox(
     width: width(0.7, context),
     child: TextButton(
@@ -433,10 +434,10 @@ SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPres
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
-                // side: BorderSide(
-                //     color: Colors.grey.shade600,
-                //     width: 0.4
-                // )
+                side: BorderSide(
+                    color: HexColor(borderColor),
+                    width: 1
+                )
             ),
           )
       ),
