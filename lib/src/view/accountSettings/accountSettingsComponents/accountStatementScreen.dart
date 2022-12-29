@@ -134,7 +134,10 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                           ),
                           child: SvgPicture.asset('assets/icons/pdf.svg'),
                         ),
-                        subscriptionPeriodsBody(snapshot.data['cur_getdata2'][0])
+                        if(selectedIndex == 1)
+                        subscriptionPeriodsBody(snapshot.data['cur_getdata2'][0]),
+                        if(selectedIndex == 2)
+                        financialSalariesBody(snapshot.data['cur_getdata3'][0]),
                       ],
                     );
                   }
@@ -294,5 +297,134 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
       ),
     );
   }
+
+  financialSalariesBody(data){
+    print(data[0]);
+    List<int> years = [];
+    data.forEach((element){
+      if(!years.contains(element['YEAR'])){
+        years.add(element['YEAR']);
+      }
+    });
+
+    return Expanded(
+      child: ListView.builder(
+        itemCount: years.length,
+        itemBuilder: (context, indexOfYear){
+          double noOfElements = 0;
+          data.forEach((element){
+            print(element['YEAR']);
+            if(element['YEAR'] == years[indexOfYear]){
+              noOfElements++;
+            }
+          });
+          print(noOfElements);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12.0),
+                decoration: BoxDecoration(
+                  color: HexColor('#445740'),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Text(
+                  '${years[indexOfYear]}',
+                  //translate('onTopOfHisWork', context)
+                  style: TextStyle(
+                      color: HexColor('#ffffff')
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              SizedBox(
+                height: 190 * noOfElements,
+                child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: data.length,
+                  itemBuilder: (context, index){
+                    return data[index]['YEAR'] == years[indexOfYear]
+                    ? Card(
+                        elevation: 6.0,
+                        shadowColor: Colors.black45,
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Container(
+                          width: width(1, context),
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${data[index]['ename']}',
+                                style: TextStyle(
+                                  height: 1.4,
+                                  color: HexColor('#363636'),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 15.0,),
+                              Text(
+                                '${data[index]['EST']}',
+                                style: TextStyle(
+                                  color: HexColor('#716F6F'),
+                                ),
+                              ),
+                              const SizedBox(height: 15.0,),
+                              Divider(
+                                color: HexColor('#A6A6A6'),
+                                thickness: 1,
+                              ),
+                              const SizedBox(height: 10.0,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    translate('salary', context),
+                                    style: TextStyle(
+                                      color: HexColor('#716F6F'),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        '${data[index]['SAL']}',
+                                        style: TextStyle(
+                                          color: HexColor('#363636'),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 19,
+                                        ),
+                                      ),
+                                      Text(
+                                        ' ${translate('jd', context)}',
+                                        style: TextStyle(
+                                          color: HexColor('#363636'),
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                    )
+                    : const SizedBox.shrink();
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+
 
 }
