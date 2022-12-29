@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/src/model/accountSettings/accountSettingsRepository.dart';
 
+import '../../../models/accountSettings/inquireInsuredInfo.dart';
 import '../../../models/accountSettings/listOfNationalities.dart';
 import '../../../models/accountSettings/userProfileData.dart';
 import '../../../models/login/countries.dart';
@@ -35,6 +36,10 @@ class AccountSettingsProvider extends ChangeNotifier {
 
   Future<List<ListOfNationalities>> getListOfNationalities() async{
     return await accountSettingsRepository.getListOfNationalitiesService();
+  }
+
+  Future<InquireInsuredInfoModel> getInquireInsuredInfo() async{
+    return await accountSettingsRepository.getInquireInsuredInfoService();
   }
 
   getNationalityData(context){

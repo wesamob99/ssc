@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 
 import '../../../infrastructure/HTTPClientContract.dart';
+import '../../../models/accountSettings/inquireInsuredInfo.dart';
 import '../../../models/accountSettings/listOfNationalities.dart';
 import '../../../models/accountSettings/userProfileData.dart';
 
@@ -96,5 +97,16 @@ class AccountSettingsRepository{
     if (response != null && response.statusCode == 200) {
       return response;
     }
+  }
+
+  Future<InquireInsuredInfoModel> getInquireInsuredInfoService() async {
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/inquire_insured_info_new');
+    if (kDebugMode) {
+      print('response: $response');
+    }
+    if (response != null && response.statusCode == 200) {
+      return inquireInsuredInfoModelFromJson(response.toString());
+    }
+    return null;
   }
 }
