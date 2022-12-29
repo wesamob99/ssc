@@ -342,7 +342,8 @@
   "invoiceNumber": "رقم الوصل",
   "payDate": "تاريخ الدفع",
   "subscriptionPeriods": "فترات الاشتراك",
-  "financialSalaries": "الرواتب المالية"
+  "financialSalaries": "الرواتب المالية",
+  "onTopOfHisWork": "على رأس عمله"
 
 
 }
