@@ -549,7 +549,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
 }
 
 
-modalBottomSheet(context, themeNotifier, supportState, authenticate){
+loginSuggestionsModalBottomSheet(context, themeNotifier, supportState, authenticate){
   return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0))
