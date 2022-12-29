@@ -46,160 +46,157 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Flexible(
-              flex: 4,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Material(
-                          elevation: 5.0,
-                          shadowColor: Colors.black54,
-                          borderRadius: BorderRadius.circular(16.0),
-                          child: Container(
-                            padding: const EdgeInsets.all(16.0),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  translate('balanceToBePaid', context),
-                                  style: TextStyle(
-                                    color: HexColor('#363636'),
-                                    fontSize: 13,
-                                  ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Material(
+                        elevation: 5.0,
+                        shadowColor: Colors.black54,
+                        borderRadius: BorderRadius.circular(16.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                translate('balanceToBePaid', context),
+                                style: TextStyle(
+                                  color: HexColor('#363636'),
+                                  fontSize: 13,
                                 ),
-                                const SizedBox(height: 12.0,),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '250',
-                                      style: TextStyle(
-                                        color: HexColor('#363636'),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 19,
-                                      ),
+                              ),
+                              const SizedBox(height: 12.0,),
+                              Row(
+                                children: [
+                                  Text(
+                                    '250',
+                                    style: TextStyle(
+                                      color: HexColor('#363636'),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 19,
                                     ),
-                                    Text(
-                                      ' ${translate('jd', context)}',
-                                      style: TextStyle(
-                                        color: HexColor('#363636'),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12.0,),
-                                Text(
-                                  translate('unemploymentApplication', context),
-                                  style: TextStyle(
-                                    color: HexColor('#363636'),
-                                    fontSize: 13,
                                   ),
+                                  Text(
+                                    ' ${translate('jd', context)}',
+                                    style: TextStyle(
+                                      color: HexColor('#363636'),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12.0,),
+                              Text(
+                                translate('unemploymentApplication', context),
+                                style: TextStyle(
+                                  color: HexColor('#363636'),
+                                  fontSize: 13,
                                 ),
-                                const SizedBox(height: 16.0,),
-                                textButton(context, themeNotifier, 'payNow', getPrimaryColor(context, themeNotifier),
-                                    HexColor('#ffffff'), () async {}
-                                ),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(height: 16.0,),
+                              textButton(context, themeNotifier, 'payNow', getPrimaryColor(context, themeNotifier),
+                                  HexColor('#ffffff'), () async {}
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      const SizedBox(width: 16.0,),
-                      Expanded(
-                        child: Material(
-                          elevation: 5.0,
-                          shadowColor: Colors.black54,
-                          borderRadius: BorderRadius.circular(16.0),
-                          child: Container(
-                            padding: const EdgeInsets.all(16.0),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  translate('nextBatchDate', context),
-                                  style: TextStyle(
-                                    color: HexColor('#363636'),
-                                    fontSize: 13,
-                                  ),
-                                ),
-                                const SizedBox(height: 12.0,),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '250',
-                                      style: TextStyle(
-                                        color: HexColor('#363636'),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 19,
-                                      ),
-                                    ),
-                                    Text(
-                                      ' ${translate('jd', context)}',
-                                      style: TextStyle(
-                                        color: HexColor('#363636'),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12.0,),
-                                Row(
-                                  children: [
-                                    Text(
-                                      translate('onDate', context),
-                                      style: TextStyle(
-                                        color: HexColor('#363636'),
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                    Text(
-                                      ' 5/1/2023',
-                                      style: TextStyle(
-                                        color: HexColor('#363636'),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 16.0,),
-                                textButton(context, themeNotifier, 'paymentManagement', HexColor('#ffffff'),
-                                    HexColor('#946800'), () async {}, borderColor: '#946800'
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 25.0,),
-                  Text(
-                    translate('paymentHistory', context),
-                    style: TextStyle(
-                      color: HexColor('#363636'),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
                     ),
+                    const SizedBox(width: 16.0,),
+                    Expanded(
+                      child: Material(
+                        elevation: 5.0,
+                        shadowColor: Colors.black54,
+                        borderRadius: BorderRadius.circular(16.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                translate('nextBatchDate', context),
+                                style: TextStyle(
+                                  color: HexColor('#363636'),
+                                  fontSize: 13,
+                                ),
+                              ),
+                              const SizedBox(height: 12.0,),
+                              Row(
+                                children: [
+                                  Text(
+                                    '250',
+                                    style: TextStyle(
+                                      color: HexColor('#363636'),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 19,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' ${translate('jd', context)}',
+                                    style: TextStyle(
+                                      color: HexColor('#363636'),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12.0,),
+                              Row(
+                                children: [
+                                  Text(
+                                    translate('onDate', context),
+                                    style: TextStyle(
+                                      color: HexColor('#363636'),
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' 5/1/2023',
+                                    style: TextStyle(
+                                      color: HexColor('#363636'),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16.0,),
+                              textButton(context, themeNotifier, 'paymentManagement', HexColor('#ffffff'),
+                                  HexColor('#946800'), () async {}, borderColor: '#946800'
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 25.0,),
+                Text(
+                  translate('paymentHistory', context),
+                  style: TextStyle(
+                    color: HexColor('#363636'),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 15.0,)
+              ],
             ),
             Expanded(
-              flex: 9,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
