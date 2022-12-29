@@ -326,7 +326,10 @@
   "pensionDetails": "Pension details",
   "historicalPensionDetails": "Historical pension details",
   "chooseTheYear": "Choose the year",
-  "thereAreNoData": "There are no data"
+  "thereAreNoData": "There are no data",
+  "balanceToBePaid": "Balance to be paid",
+  "nextBatchDate": "Next batch date",
+  "onDate": "On date"
 
 
 }

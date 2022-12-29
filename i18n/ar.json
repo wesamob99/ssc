@@ -327,7 +327,10 @@
   "pensionDetails": "تفاصيل الراتب التقاعدي",
   "historicalPensionDetails": "الرواتب التقاعديه التاريخيه",
   "chooseTheYear": "إختر السنه",
-  "thereAreNoData": "لا توجد بيانات"
+  "thereAreNoData": "لا توجد بيانات",
+  "balanceToBePaid": "الرصيد المستحق للدفع",
+  "nextBatchDate": "تاريخ الدفعة التالية",
+  "onDate": "في تاريخ"
 
 
 }
