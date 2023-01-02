@@ -244,7 +244,7 @@ class _LoginBodyState extends State<LoginBody> {
           duration: const Duration(milliseconds: 300),
           width: width(1, context),
           height: height(1, context),
-          color: Colors.white70,
+          color: themeNotifier.isLight() ? Colors.white70 : Colors.black45,
           child: Center(
             child: animatedLoader(context),
           ),
