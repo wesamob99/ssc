@@ -17,6 +17,7 @@ import 'dart:math' as math;
 
 import '../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../viewModel/utilities/language/globalAppProvider.dart';
+import '../../viewModel/utilities/theme/themeProvider.dart';
 import 'accountSettingsComponents/callUsScreen.dart';
 import 'accountSettingsComponents/frequentlyAskedQuestionsScreen.dart';
 import 'accountSettingsComponents/profileScreen.dart';
@@ -45,6 +46,8 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -259,7 +262,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             duration: const Duration(milliseconds: 300),
             width: width(1, context),
             height: height(1, context),
-            color: Colors.white70,
+            color: themeNotifier.isLight() ? Colors.white70 : Colors.black45,
             child: Center(
               child: animatedLoader(context),
             ),
