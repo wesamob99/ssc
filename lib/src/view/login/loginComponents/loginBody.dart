@@ -84,7 +84,10 @@ class _LoginBodyState extends State<LoginBody> {
                             child: Row(
                               children: [
                                 SvgPicture.asset(
-                                    'assets/icons/global.svg'
+                                  'assets/icons/global.svg',
+                                  color: themeNotifier.isLight()
+                                      ? HexColor('2D452')
+                                      : Colors.white,
                                 ),
                                 const SizedBox(width: 4.0),
                                 DropdownButton<String>(
@@ -134,7 +137,20 @@ class _LoginBodyState extends State<LoginBody> {
                     SingleChildScrollView(
                       child: Column(
                         children: [
-                          SvgPicture.asset('assets/logo/logo_with_name.svg'),
+                          // SvgPicture.asset('assets/logo/logo_with_name.svg'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset('assets/logo/logo.svg'),
+                              const SizedBox(width: 10.0),
+                              SvgPicture.asset(
+                                'assets/logo/name.svg',
+                                color: themeNotifier.isLight()
+                                    ? HexColor('#51504E')
+                                    : HexColor('ffffff'),
+                              ),
+                            ],
+                          ),
                           SizedBox(height: height(0.04, context)),
                           Text(
                             translate('login', context),
@@ -181,7 +197,7 @@ class _LoginBodyState extends State<LoginBody> {
                               child: Text(
                                 translate('forgotPassword', context) + (UserConfig.instance.checkLanguage() ? ' ?' : ' ؟'),
                                 style: TextStyle(
-                                  color: HexColor('#363636')
+                                  color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff')
                                 ),
                               ),
                             ),
@@ -205,7 +221,7 @@ class _LoginBodyState extends State<LoginBody> {
                                 child: Text(
                                   translate('register', context),
                                   style: TextStyle(
-                                      color: HexColor('#003C97')
+                                      color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#4e66c8')
                                   ),
                                 ),
                               ),
@@ -339,7 +355,7 @@ class _LoginBodyState extends State<LoginBody> {
             : '',
         hintStyle: TextStyle(
           color: getGrey2Color(context).withOpacity(
-            themeNotifier.isLight() ? 1 : 0.5,
+            themeNotifier.isLight() ? 1 : 0.7,
           ),
           fontSize: 14,
         ),
@@ -362,14 +378,18 @@ class _LoginBodyState extends State<LoginBody> {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
           borderSide: BorderSide(
-            color: getPrimaryColor(context, themeNotifier),
+            color: themeNotifier.isLight()
+                ? getPrimaryColor(context, themeNotifier)
+                : Colors.white,
             width: 0.5,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
           borderSide: BorderSide(
-            color: getPrimaryColor(context, themeNotifier),
+            color: themeNotifier.isLight()
+                ? getPrimaryColor(context, themeNotifier)
+                : Colors.white,
             width: 0.8,
           ),
         )

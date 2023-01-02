@@ -5,7 +5,7 @@ import '../hexColor.dart';
 import 'package:provider/provider.dart';
 
 Color primaryColor = HexColor('#445740');
-Color primaryColorDark = HexColor('#013220');
+Color primaryColorDark = HexColor('#1c2e19');
 Color headerColor = HexColor('#1379AA');
 Color whiteColor = HexColor('#FFFFFF');
 Color screenDefaultBackgroundColor = HexColor('#FFFFFF');

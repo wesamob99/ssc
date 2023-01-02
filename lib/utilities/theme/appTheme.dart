@@ -54,7 +54,7 @@ class AppTheme {
     primarySwatch: Colors.red,
     //accentColor: Colors.amber,
     appBarTheme: AppBarTheme(
-      color: HexColor('#013220'),
+      color: HexColor('#1c2e19'),
       centerTitle: true,
       elevation: 0,
       titleTextStyle: TextStyle(
@@ -67,7 +67,7 @@ class AppTheme {
     scaffoldBackgroundColor: HexColor('#212121'),
     backgroundColor: HexColor('#212121'),
     fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
-
+    highlightColor: primaryColorDark,
     textTheme: textTheme('dark')
     // textTheme: UserConfig.instance.checkLanguage()
     //     ? GoogleFonts.muktaTextTheme().merge(textTheme)
