@@ -133,13 +133,23 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
                           ),
                           if(homeProviderListener.isEditQuickAccessActive)
                           Container(
-                            margin: const EdgeInsets.all(2.0).copyWith(top: 5.0),
-                            padding: const EdgeInsets.all(2.0),
-                            child: SvgPicture.asset(
-                              quickAccessServices[index].isSelected
-                              ? 'assets/icons/minus.svg' : 'assets/icons/plus.svg',
-                              width: isTablet(context) ? 38 : 23,
-                              height: isTablet(context) ? 38 : 23,
+                            margin: const EdgeInsets.all(4.0).copyWith(top: 7.0),
+                            padding: const EdgeInsets.all(3.0),
+                            decoration: BoxDecoration(
+                                color: getContainerColor(context),
+                                borderRadius: BorderRadius.circular(25.0),
+                                border: Border.all(
+                                  color: quickAccessServices[index].isSelected
+                                      ? themeNotifier.isLight() ? HexColor('#BC0D0D') : HexColor('#e53935')
+                                      : themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff'),
+                                )
+                            ),
+                            child: Icon(
+                              quickAccessServices[index].isSelected ? Icons.remove : Icons.add,
+                              color: quickAccessServices[index].isSelected
+                                  ? themeNotifier.isLight() ? HexColor('#BC0D0D') : HexColor('#e53935')
+                                  : themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff'),
+                              size: isTablet(context) ? 30 : 16,
                             ),
                           ),
                         ],
