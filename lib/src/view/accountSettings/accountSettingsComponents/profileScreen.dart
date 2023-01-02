@@ -17,6 +17,7 @@ import '../../../../models/accountSettings/userProfileData.dart';
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/accountSettings/accountSettingsProvider.dart';
+import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../splash/splashScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -44,6 +45,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -158,7 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           duration: const Duration(milliseconds: 300),
                           width: width(1, context),
                           height: height(1, context),
-                          color: Colors.white70,
+                          color: themeNotifier.isLight() ? Colors.white70 : Colors.black45,
                           child: Center(
                             child: animatedLoader(context),
                           ),
