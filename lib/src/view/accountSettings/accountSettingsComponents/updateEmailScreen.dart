@@ -67,7 +67,7 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                           Text(
                             translate('emailUpdateDesc', context),
                             style: TextStyle(
-                                color: HexColor('#003C97'),
+                                color: HexColor(themeNotifier.isLight() ? '#003C97' : '#00b0ff'),
                                 fontSize: 14
                             ),
                           ),
