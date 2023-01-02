@@ -84,7 +84,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   child: Container(
                     alignment: Alignment.bottomLeft,
                     child: SvgPicture.asset(
-                        'assets/logo/logo_tree.svg'
+                      'assets/logo/logo_tree.svg',
+                      color: themeNotifier.isLight()
+                          ? HexColor('2D452')
+                          : Colors.white,
                     ),
                   ),
                 ),
@@ -117,6 +120,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                               ? -math.pi / 1.0 : 0,
                                           child: SvgPicture.asset(
                                             'assets/icons/back.svg',
+                                              color: themeNotifier.isLight()
+                                              ? HexColor('2D452')
+                                              : Colors.white,
                                           ),
                                         ),
                                       ),
@@ -135,7 +141,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 child: Row(
                                   children: [
                                     SvgPicture.asset(
-                                        'assets/icons/global.svg'
+                                        'assets/icons/global.svg',
+                                      color: themeNotifier.isLight()
+                                          ? HexColor('2D452')
+                                          : Colors.white,
                                     ),
                                     const SizedBox(width: 4.0),
                                     DropdownButton<String>(
@@ -325,14 +334,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4),
             borderSide: BorderSide(
-              color: getPrimaryColor(context, themeNotifier),
+              color: themeNotifier.isLight()
+                  ? getPrimaryColor(context, themeNotifier)
+                  : Colors.white,
               width: 0.5,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4),
             borderSide: BorderSide(
-              color: getPrimaryColor(context, themeNotifier),
+              color: themeNotifier.isLight()
+                  ? getPrimaryColor(context, themeNotifier)
+                  : Colors.white,
               width: 0.8,
             ),
           )

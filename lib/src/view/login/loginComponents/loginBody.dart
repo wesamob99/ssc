@@ -66,7 +66,10 @@ class _LoginBodyState extends State<LoginBody> {
               child: Container(
                 alignment: Alignment.bottomLeft,
                 child: SvgPicture.asset(
-                    'assets/logo/logo_tree.svg'
+                  'assets/logo/logo_tree.svg',
+                  color: themeNotifier.isLight()
+                      ? HexColor('2D452')
+                      : Colors.white,
                 ),
               ),
             ),
@@ -318,7 +321,9 @@ class _LoginBodyState extends State<LoginBody> {
             backgroundColor: MaterialStateProperty.all<Color>(
               Provider.of<LoginProvider>(context).enabledSubmitButton &&
                   Provider.of<LoginProvider>(context).numberOfAttempts < 5
-                  ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
+                  ? themeNotifier.isLight()
+                  ? primaryColor : HexColor('#445740')
+                  : HexColor('#DADADA'),
             ),
             foregroundColor:  MaterialStateProperty.all<Color>(
                 Provider.of<LoginProvider>(context).enabledSubmitButton &&
