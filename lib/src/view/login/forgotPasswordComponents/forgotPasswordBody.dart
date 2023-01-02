@@ -116,7 +116,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: width(0.033, context),
-                              color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#4e66c8')
+                              color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff')
                           ),
                         ),
                       ),

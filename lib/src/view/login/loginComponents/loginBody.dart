@@ -224,7 +224,7 @@ class _LoginBodyState extends State<LoginBody> {
                                 child: Text(
                                   translate('register', context),
                                   style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#4e66c8')
+                                      color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff')
                                   ),
                                 ),
                               ),

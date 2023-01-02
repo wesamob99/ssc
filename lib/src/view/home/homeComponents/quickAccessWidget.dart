@@ -6,10 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:ssc/src/view/services/shared/aboutTheServiceScreen.dart';
 import 'package:ssc/src/view/services/shared/servicesListConstants.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
+import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../../../infrastructure/userConfig.dart';
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
+import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class QuickAccessWidget extends StatefulWidget {
   const QuickAccessWidget({Key key}) : super(key: key);
@@ -24,6 +26,7 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
   @override
   Widget build(BuildContext context) {
     HomeProvider homeProviderListener = Provider.of<HomeProvider>(context);
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
 
     return SizedBox(
       height: homeProviderListener.isQuickAccessListEmpty && !homeProviderListener.isEditQuickAccessActive
@@ -115,12 +118,14 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
                               ),
                               margin: EdgeInsets.symmetric(vertical: 3.0, horizontal: isTablet(context) ? 5.0 : 0).copyWith(bottom: 7),
                               shadowColor: const Color.fromRGBO(45, 69, 46, 0.28),
-                              color: HexColor('#FFFFFF'),
+                              color: getContainerColor(context),
                               child: Padding(
                                 padding: EdgeInsets.all(isTablet(context) ? 17.0 : 14.0),
                                 child: SvgPicture.asset(
                                   quickAccessServices[index].icon,
-                                  color: !quickAccessServices[index].isSelected ? Colors.black26 : HexColor('#946800'),
+                                  color: !quickAccessServices[index].isSelected
+                                      ? themeNotifier.isLight() ? Colors.black26 : Colors.white30
+                                      : themeNotifier.isLight() ? HexColor('#946800') : HexColor('#c99639'),
                                   width: isTablet(context) ? 48 : 32,
                                   height: isTablet(context) ? 48 : 32,
                                 ),

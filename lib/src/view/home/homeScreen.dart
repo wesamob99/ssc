@@ -164,7 +164,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ? translate('editComplete', context) : translate('edit', context),
                                         style: TextStyle(
                                           fontSize: width(isTablet(context) ? 0.028 : 0.031, context),
-                                          color: HexColor('#003C97'),
+                                          color: themeNotifier.isLight() 
+                                            ? HexColor('#003C97')
+                                            : HexColor('#00b0ff'),
                                         )
                                     ),
                                   ),
