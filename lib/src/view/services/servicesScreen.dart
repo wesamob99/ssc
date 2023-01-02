@@ -117,7 +117,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   height: height(0.1, context),
                   color: index == selectedIndex
                       ? themeNotifier.isLight()
-                      ? Colors.white : HexColor('#8A8A8A')
+                      ? Colors.white : HexColor('#5d5d5d')
                       : themeNotifier.isLight()
                       ? HexColor('#F0F2F0') : HexColor('#454545'),
                   child: Column(
@@ -126,7 +126,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                       SvgPicture.asset(sideBarItems[index]['icon'],
                           color: index == selectedIndex
                               ? themeNotifier.isLight()
-                              ? HexColor('#946800') : HexColor('#8A8A8A')
+                              ? HexColor('#946800') : HexColor('#c99639')
                               : themeNotifier.isLight()
                           ? HexColor('#716F6F') : HexColor('#ffffff'),
                         height: height(0.04, context), width: height(0.04, context),
@@ -138,7 +138,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         style: TextStyle(
                         color: index == selectedIndex
                             ? themeNotifier.isLight()
-                            ? HexColor('#946800') : HexColor('#8A8A8A')
+                            ? HexColor('#946800') : HexColor('#c99639')
                             : themeNotifier.isLight()
                             ? HexColor('#716F6F') : HexColor('#ffffff'),
                         fontSize: width(isTablet(context) ? 0.021 : 0.028, context),

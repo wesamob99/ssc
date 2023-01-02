@@ -47,7 +47,7 @@ class _OptionalAndFreeInclusionBodyState extends State<OptionalAndFreeInclusionB
                   margin: const EdgeInsets.only(bottom: 10.0),
                   decoration: BoxDecoration(
                       color: themeNotifier.isLight()
-                          ? HexColor('#F0F2F0') : HexColor('#454545'),
+                          ? HexColor('#F0F2F0') : HexColor('#ffffff'),
                       borderRadius: BorderRadius.circular(50)
                   ),
                   child: Text(
