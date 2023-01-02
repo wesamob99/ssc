@@ -70,7 +70,7 @@ class _UpdateMobileNumberScreenState extends State<UpdateMobileNumberScreen> {
                           Text(
                             translate('mobileUpdateDesc', context),
                             style: TextStyle(
-                              color: HexColor('#003C97'),
+                              color: HexColor(themeNotifier.isLight() ? '#003C97' : '#00b0ff'),
                               fontSize: 14
                             ),
                           ),
