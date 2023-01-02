@@ -349,7 +349,9 @@ class _LoginBodyState extends State<LoginBody> {
       controller: controller,
       keyboardType: inputType,
       obscureText: controller ==  loginProvider.passwordController ? obscurePassword : false,
-      cursorColor: getPrimaryColor(context, themeNotifier),
+      cursorColor: themeNotifier.isLight()
+          ? getPrimaryColor(context, themeNotifier)
+          : Colors.white,
       cursorWidth: 1,
       style: const TextStyle(
         fontSize: 15

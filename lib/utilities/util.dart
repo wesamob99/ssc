@@ -495,7 +495,9 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
         fontSize: isTablet(context) ? 20 : 15,
         color: enabled ? HexColor('#363636') : HexColor('#6B6B6B')
       ),
-      cursorColor: getPrimaryColor(context, themeNotifier),
+      cursorColor: themeNotifier.isLight()
+          ? getPrimaryColor(context, themeNotifier)
+          : Colors.white,
       cursorWidth: 1,
       decoration: InputDecoration(
           suffixIcon: isPassword

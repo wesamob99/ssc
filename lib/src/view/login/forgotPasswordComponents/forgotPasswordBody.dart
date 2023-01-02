@@ -406,7 +406,9 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
     return TextFormField(
       controller: controller,
       keyboardType: inputType,
-      cursorColor: getPrimaryColor(context, themeNotifier),
+      cursorColor: themeNotifier.isLight()
+          ? getPrimaryColor(context, themeNotifier)
+          : Colors.white,
       cursorWidth: 1,
       decoration: InputDecoration(
           hintStyle: TextStyle(
@@ -420,7 +422,9 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4),
             borderSide: BorderSide(
-              color: getPrimaryColor(context, themeNotifier),
+              color: themeNotifier.isLight()
+                  ? getPrimaryColor(context, themeNotifier)
+                  : Colors.white,
               width: 0.5,
             ),
           ),

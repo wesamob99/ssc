@@ -811,7 +811,9 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
           fontSize: isTablet(context) ? 20 : 15,
           color: minSalary != maxSalary ? HexColor('#363636') : Colors.grey,
         ),
-        cursorColor: getPrimaryColor(context, themeNotifier),
+        cursorColor: themeNotifier.isLight()
+            ? getPrimaryColor(context, themeNotifier)
+            : Colors.white,
         cursorWidth: 1,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: isTablet(context) ? 20 : 0,),

@@ -163,7 +163,9 @@ class _FrequentlyAskedQuestionsScreenState extends State<FrequentlyAskedQuestion
             fontSize: isTablet(context) ? 20 : 15,
             color: HexColor('#363636')
         ),
-        cursorColor: getPrimaryColor(context, themeNotifier),
+        cursorColor: themeNotifier.isLight()
+            ? getPrimaryColor(context, themeNotifier)
+            : Colors.white,
         cursorWidth: 1,
         decoration: InputDecoration(
             prefixIcon: InkWell(
