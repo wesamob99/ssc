@@ -455,12 +455,13 @@ SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPres
 
 
 Widget buildFieldTitle(context, title, {required = true, filled = false}){
+  ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
   return Row(
     children: [
       Text(
         translate(title, context),
         style: TextStyle(
-          color: HexColor('#363636'),
+          color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
           fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
         ),
       ),
@@ -468,7 +469,9 @@ Widget buildFieldTitle(context, title, {required = true, filled = false}){
       Text(
         ' *',
         style: TextStyle(
-          color: filled ? HexColor('#445740') : HexColor('#FF1818'),
+          color: filled
+            ? themeNotifier.isLight() ? HexColor('#445740') : HexColor('#6f846b')
+            : themeNotifier.isLight() ? HexColor('#FF1818') : HexColor('ffffff'),
         ),
       ),
     ],
@@ -494,7 +497,9 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
       readOnly: !enabled,
       style: TextStyle(
         fontSize: isTablet(context) ? 20 : 15,
-        color: enabled ? HexColor('#363636') : HexColor('#6B6B6B')
+        color: enabled
+            ? themeNotifier.isLight() ? HexColor('#363636') : Colors.white
+            : themeNotifier.isLight() ? HexColor('#6B6B6B') : HexColor('#999999')
       ),
       cursorColor: themeNotifier.isLight()
           ? getPrimaryColor(context, themeNotifier)
@@ -526,7 +531,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
           hintText: hintText == '' ? '' : translate('ex', context) + hintText,
           hintStyle: TextStyle(
             color: getGrey2Color(context).withOpacity(
-              themeNotifier.isLight() ? 1 : 0.5,
+              themeNotifier.isLight() ? 1 : 0.7,
             ),
             fontSize:  isTablet(context) ? 19 : 14,
           ),
