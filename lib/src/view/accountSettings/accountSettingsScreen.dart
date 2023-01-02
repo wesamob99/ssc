@@ -10,6 +10,7 @@ import 'package:ssc/src/view/accountSettings/accountSettingsComponents/aboutTheA
 import 'package:ssc/src/view/accountSettings/accountSettingsComponents/accountStatementScreen.dart';
 import 'package:ssc/src/view/accountSettings/accountSettingsComponents/paymentManagementScreen.dart';
 import 'package:ssc/utilities/hexColor.dart';
+import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../../infrastructure/userSecuredStorage.dart';
 import '../../../utilities/util.dart';
@@ -36,17 +37,19 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   AccountSettingsProvider accountSettingsProvider;
+  ThemeNotifier themeNotifier;
 
   @override
   void initState(){
     accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
+    themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+
     accountSettingsProvider.isLoading = false;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -64,7 +67,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   Container(
                     padding: const EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: getContainerColor(context),
                       borderRadius: BorderRadius.circular(8.0)
                     ),
                     width: width(1, context),
@@ -77,7 +80,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             Text(
                               userSecuredStorage.userName,
                               style: TextStyle(
-                                color: HexColor('#445740'),
+                                color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
                               ),
                             ),
                             InkWell(
@@ -108,7 +111,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         Text(
                           translate('modifyAndManageYourAccountDetails', context),
                           style: TextStyle(
-                            color: HexColor('#999A9A'),
+                            color: themeNotifier.isLight() ? HexColor('#999A9A') : Colors.white70,
                             fontSize: 12.0
                           ),
                         ),
@@ -148,7 +151,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             );
                           }),
                           buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/disableToggle.svg', height: 12, width: 12,), 'enableFingerprintLogin', (){}),
-                          buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/enableToggle.svg', height: 12, width: 12,), 'enablePasscodeLogin', (){}),
+                          buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/enableToggle.svg', height: 12, width: 12, color: themeNotifier.isLight() ? HexColor('#445740') : HexColor('6f846b')), 'enablePasscodeLogin', (){}),
                         ],
                       )
                   ),
@@ -233,19 +236,19 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                     child: Container(
                       padding: const EdgeInsets.all(12.0),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: getContainerColor(context),
                           borderRadius: BorderRadius.circular(8.0)
                       ),
                       width: width(1, context),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SvgPicture.asset('assets/icons/profileIcons/star.svg'),
+                          SvgPicture.asset('assets/icons/profileIcons/star.svg', color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,),
                           const SizedBox(width: 10.0),
                           Text(
                             translate('rateTheApp', context),
                             style: TextStyle(
-                                color: HexColor('#445740')
+                                color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
                             ),
                           ),
                         ],
@@ -279,7 +282,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
         Container(
           padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: getContainerColor(context),
               borderRadius: BorderRadius.circular(8.0)
           ),
           width: width(1, context),
@@ -289,12 +292,12 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SvgPicture.asset(icon),
+                  SvgPicture.asset(icon, color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,),
                   const SizedBox(width: 10.0),
                   Text(
                     translate(title, context),
                     style: TextStyle(
-                        color: HexColor('#445740')
+                        color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
                     ),
                   ),
                 ],
@@ -321,13 +324,13 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             Text(
               translate(text, context),
               style: TextStyle(
-                  color: HexColor('#445740')
+                  color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
               ),
             ),
             Transform.rotate(
               angle: UserConfig.instance.checkLanguage()
                   ? -math.pi / 1.0 : 0,
-              child: SvgPicture.asset('assets/icons/profileIcons/arrow.svg'),
+              child: SvgPicture.asset('assets/icons/profileIcons/arrow.svg', color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,),
             ),
           ],
         ),
@@ -347,7 +350,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             Text(
               noTranslate ? text : translate(text, context),
               style: TextStyle(
-                  color: HexColor('#445740')
+                color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
               ),
             ),
             icon,
