@@ -265,14 +265,14 @@ class _PayScreenState extends State<PayScreen> {
                                             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                                             decoration: BoxDecoration(
                                                 border: Border.all(
-                                                  color: HexColor('#445740'),
+                                                  color: themeNotifier.isLight() ? HexColor('#445740') : HexColor('#6f846b'),
                                                 ),
                                                 borderRadius: BorderRadius.circular(8.0)
                                             ),
                                             child: Text(
                                               '${value['PO_PAY_COD']}',
                                               style: TextStyle(
-                                                color: HexColor('#363636'),
+                                                color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                                                 fontSize: width(isTablet(context) ? 0.03 : 0.034, context),
                                               ),
                                             ),
@@ -288,12 +288,12 @@ class _PayScreenState extends State<PayScreen> {
                                             },
                                             icon: Icon(
                                               Icons.copy,
-                                              color: HexColor('#003C97'),
+                                              color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff'),
                                             ),
                                             label: Text(
                                               translate('copy', context),
                                               style: TextStyle(
-                                                  color: HexColor('#003C97'),
+                                                  color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff'),
                                                   decoration: TextDecoration.underline
                                               ),
                                             ),

@@ -91,7 +91,9 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: methods[index]['isSelected'] ? HexColor('#363636') : HexColor('#B3B3B3'),
+                                  color: methods[index]['isSelected']
+                                      ? themeNotifier.isLight() ? HexColor('#363636') : Colors.white
+                                      : HexColor('#B3B3B3'),
                                   fontSize: 11
                                 ),
                               )
@@ -135,14 +137,14 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                                 padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: HexColor('#445740'),
+                                      color: themeNotifier.isLight() ? HexColor('#445740') : HexColor('#6f846b'),
                                     ),
                                     borderRadius: BorderRadius.circular(12.0)
                                 ),
                                 child: Text(
                                   widget.payCode,
                                   style: TextStyle(
-                                    color: HexColor('#363636'),
+                                    color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                                     fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
                                   ),
                                 ),
@@ -156,12 +158,12 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                                 },
                                 icon: Icon(
                                   Icons.copy,
-                                  color: HexColor('#003C97'),
+                                  color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff'),
                                 ),
                                 label: Text(
                                   translate('copy', context),
                                   style: TextStyle(
-                                      color: HexColor('#003C97'),
+                                      color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff'),
                                       decoration: TextDecoration.underline
                                   ),
                                 ),
