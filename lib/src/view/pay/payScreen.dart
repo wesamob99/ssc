@@ -118,7 +118,7 @@ class _PayScreenState extends State<PayScreen> {
                                     ),
                                     child: SvgPicture.asset(
                                       payments[index].icon,
-                                      color: HexColor('#2D452E'),
+                                      color: themeNotifier.isLight() ? HexColor('#2D452E') : HexColor('#b4cfb4'),
                                       height: width(isTablet(context) ? 0.066 : 0.07, context),
                                       width: width(isTablet(context) ? 0.066 : 0.07, context),
                                     ),
@@ -131,7 +131,7 @@ class _PayScreenState extends State<PayScreen> {
                                         Text(
                                           payments[index].title,
                                           style: TextStyle(
-                                            color: HexColor('#363636'),
+                                            color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                                             fontSize: width(isTablet(context) ? 0.027 : 0.031, context)
                                           ),
                                         ),
@@ -139,7 +139,7 @@ class _PayScreenState extends State<PayScreen> {
                                         Text(
                                           payments[index].date,
                                           style: TextStyle(
-                                              color: HexColor('#666666'),
+                                              color: themeNotifier.isLight() ? HexColor('#666666') : Colors.white70,
                                               fontSize: width(isTablet(context) ? 0.023 : 0.027, context)
                                           ),
                                         ),
@@ -153,14 +153,14 @@ class _PayScreenState extends State<PayScreen> {
                                   Text(
                                     payments[index].value.toString(),
                                     style: TextStyle(
-                                      color: HexColor('#363636'),
+                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                                       fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
                                     ),
                                   ),
                                   Text(
                                     ' ${translate('jd', context)}',
                                     style: TextStyle(
-                                      color: HexColor('#363636'),
+                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                                       fontSize: width(isTablet(context) ? 0.026 : 0.03, context),
                                     ),
                                   ),
@@ -187,7 +187,7 @@ class _PayScreenState extends State<PayScreen> {
                               height: 1.0,
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
-                                  color: HexColor('#363636'),
+                                  color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                                 ),
                               ),
                             );
@@ -206,7 +206,7 @@ class _PayScreenState extends State<PayScreen> {
                       Text(
                         translate('totalSummation', context),
                         style: TextStyle(
-                          color: HexColor('#363636'),
+                          color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                           fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
                         ),
                       ),
@@ -215,7 +215,7 @@ class _PayScreenState extends State<PayScreen> {
                           Text(
                             totalSummation.toStringAsFixed(3),
                             style: TextStyle(
-                              color: HexColor('#363636'),
+                              color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                               fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
                             ),
                           ),
@@ -250,7 +250,7 @@ class _PayScreenState extends State<PayScreen> {
                           if(value['PO_STATUS'] == 0){
                             showMyDialog(
                                 context, 'unifiedPaymentCodeReleased', translate('yourUnifiedPaymentCodeIs', context),
-                                'continueToPay', themeNotifier, icon: 'assets/icons/unifiedCodeReleased.svg', titleColor: '#363636',
+                                'continueToPay', themeNotifier, icon: 'assets/icons/unifiedCodeReleased.svg', titleColor: themeNotifier.isLight() ? '#363636' : '#ffffff',
                                 extraWidgetBody: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
