@@ -2,6 +2,8 @@
 //
 //     final inquireInsuredInfoModel = inquireInsuredInfoModelFromJson(jsonString);
 
+// ignore_for_file: file_names, constant_identifier_names
+
 import 'dart:convert';
 
 InquireInsuredInfoModel inquireInsuredInfoModelFromJson(String str) => InquireInsuredInfoModel.fromJson(json.decode(str));
