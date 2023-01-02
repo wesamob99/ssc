@@ -10,6 +10,7 @@ import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/src/view/accountSettings/accountSettingsComponents/updateCountryOfResidence.dart';
 import 'package:ssc/src/view/accountSettings/accountSettingsComponents/updateEmailScreen.dart';
 import 'package:ssc/src/view/accountSettings/accountSettingsComponents/updateMobileNumberScreen.dart';
+import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../../../infrastructure/userSecuredStorage.dart';
 import '../../../../models/accountSettings/listOfNationalities.dart';
@@ -32,10 +33,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future accountDataFuture;
   AccountSettingsProvider accountSettingsProvider;
+  ThemeNotifier themeNotifier;
 
   @override
   void initState() {
     accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
+    themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     accountDataFuture = accountSettingsProvider.getAccountData().whenComplete(() {
       accountSettingsProvider.getNationalityData(context);
     });
@@ -45,8 +48,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -108,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Container(
                                   padding: const EdgeInsets.all(15.0),
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: getContainerColor(context),
                                       borderRadius: BorderRadius.circular(8.0)
                                   ),
                                   width: width(1, context),
@@ -141,12 +142,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        SvgPicture.asset('assets/icons/profileIcons/logout.svg', color: HexColor('#BC0D0D')),
+                                        SvgPicture.asset('assets/icons/profileIcons/logout.svg', color: themeNotifier.isLight() ? HexColor('#BC0D0D') : HexColor('#e53935')),
                                         const SizedBox(width: 10.0),
                                         Text(
                                           translate('logout', context),
                                           style: TextStyle(
-                                              color: HexColor('#BC0D0D')
+                                              color: themeNotifier.isLight() ? HexColor('#BC0D0D') : HexColor('#e53935')
                                           ),
                                         ),
                                       ],
@@ -183,7 +184,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: EdgeInsets.all(withEditIcon ? emailVerified ? 5.0 : 10.0 : 15.0).copyWith(left: 15, right: 15),
       margin: const EdgeInsets.only(bottom: 12.0),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: getContainerColor(context),
           borderRadius: BorderRadius.circular(8.0)
       ),
       width: width(1, context),
@@ -202,7 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Text(
                     translate(title, context),
                     style: TextStyle(
-                        color: HexColor('#8B8B8B'),
+                        color: themeNotifier.isLight() ? HexColor('#8B8B8B') : Colors.white,
                         fontSize: 13
                     ),
                   ),
@@ -222,7 +223,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Text(
             data,
             style: TextStyle(
-                color: HexColor('#51504E'),
+                color: themeNotifier.isLight() ? HexColor('#51504E') : Colors.white70,
                 fontWeight: FontWeight.w600
             ),
           ),
