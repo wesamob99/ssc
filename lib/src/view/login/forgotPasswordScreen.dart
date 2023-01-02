@@ -229,7 +229,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               duration: const Duration(milliseconds: 300),
               width: width(1, context),
               height: height(1, context),
-              color: Colors.white70,
+              color: themeNotifier.isLight() ? Colors.white70 : Colors.black45,
               child: Center(
                 child: animatedLoader(context),
               ),
@@ -294,7 +294,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(
               Provider.of<LoginProvider>(context).enabledSubmitButton
-                  ? getPrimaryColor(context, themeNotifier) : Colors.grey,
+                  ? themeNotifier.isLight()
+                  ? primaryColor : HexColor('#445740') : Colors.grey,
             ),
             foregroundColor:  MaterialStateProperty.all<Color>(
                 Colors.white
