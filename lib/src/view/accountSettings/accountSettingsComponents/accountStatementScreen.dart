@@ -5,7 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/src/viewModel/accountSettings/accountSettingsProvider.dart';
+import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
+import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../../../utilities/util.dart';
 
@@ -20,12 +22,14 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
 
   Future inquireInsuredInfo;
   AccountSettingsProvider accountSettingsProvider;
+  ThemeNotifier themeNotifier;
   bool isEnglish;
   int selectedIndex;
 
   @override
   void initState() {
     accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
+    themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     inquireInsuredInfo = accountSettingsProvider.getInquireInsuredInfo();
     isEnglish = UserConfig.instance.checkLanguage();
     selectedIndex = 1;
@@ -74,7 +78,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                   padding: const EdgeInsets.all(16.0),
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                      color: selectedIndex == 1 ? HexColor('#445740') : HexColor('#EAEAEA'),
+                                      color: selectedIndex == 1 ? getPrimaryColor(context, themeNotifier) : getContainerColor(context),
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(isEnglish ? 12.0 : 0),
                                         bottomLeft: Radius.circular(isEnglish ? 12.0 : 0),
@@ -85,7 +89,8 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                   child: Text(
                                     translate('subscriptionPeriods', context),
                                     style: TextStyle(
-                                      color: selectedIndex == 1 ? HexColor('#FFFFFF') : HexColor('#716F6F'),
+                                      color: selectedIndex == 1 ? HexColor('#FFFFFF')
+                                          : themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
                                     ),
                                   ),
                                 ),
@@ -104,7 +109,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                   padding: const EdgeInsets.all(16.0),
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                      color: selectedIndex == 2 ? HexColor('#445740') : HexColor('#EAEAEA'),
+                                      color: selectedIndex == 2 ? getPrimaryColor(context, themeNotifier) : getContainerColor(context),
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(isEnglish ? 0 : 12.0),
                                         bottomLeft: Radius.circular(isEnglish ? 0 : 12.0),
@@ -115,7 +120,8 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                   child: Text(
                                     translate('financialSalaries', context),
                                     style: TextStyle(
-                                      color: selectedIndex == 2 ? HexColor('#FFFFFF') : HexColor('#716F6F'),
+                                      color: selectedIndex == 2 ? HexColor('#FFFFFF')
+                                          : themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
                                     ),
                                   ),
                                 ),
@@ -158,7 +164,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
           return Card(
               elevation: 6.0,
               shadowColor: Colors.black45,
-              color: Colors.white,
+              color: getContainerColor(context),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
@@ -172,14 +178,17 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                       decoration: BoxDecoration(
                         color: data[index]['descr'] == null
-                            ? const Color.fromRGBO(0, 121, 5, 0.38) : const Color.fromRGBO(221, 201, 129, 0.49),
+                            ? themeNotifier.isLight() ? const Color.fromRGBO(0, 121, 5, 0.38) : HexColor('#006600')
+                            : themeNotifier.isLight() ? const Color.fromRGBO(221, 201, 129, 0.49): HexColor('#bcbe40'),
                         borderRadius: BorderRadius.circular(50.0),
                       ),
                       child: Text(
                         '${data[index]['descr'] ?? 'على رأس عمله'}',
                         //translate('onTopOfHisWork', context)
                         style: TextStyle(
-                          color: data[index]['descr'] == null ? HexColor('#2D452E') : HexColor('#987803')
+                          color: themeNotifier.isLight()
+                          ? data[index]['descr'] == null ? HexColor('#2D452E') : HexColor('#987803')
+                          : Colors.white
                         ),
                       ),
                     ),
@@ -188,7 +197,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                       '${data[index]['ename']}',
                       style: TextStyle(
                         height: 1.4,
-                        color: HexColor('#363636'),
+                        color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -196,7 +205,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                     Text(
                       '${data[index]['ESTNO']}',
                       style: TextStyle(
-                        color: HexColor('#716F6F'),
+                        color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#716F6F'),
                       ),
                     ),
                     const SizedBox(height: 15.0,),
@@ -204,26 +213,26 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/icons/calender.svg', width: 15,),
+                        SvgPicture.asset('assets/icons/calender.svg', width: 15, color: !themeNotifier.isLight() ? Colors.white : Colors.black,),
                         const SizedBox(width: 10.0,),
                         Text(
                           '${data[index]['STADATE']}',
                           style: TextStyle(
-                            color: HexColor('#979797'),
+                            color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                           ),
                         ),
                         const SizedBox(width: 7.5,),
                         Text(
                           data[index]['STODATE'] != null ? '-' : '',
                           style: TextStyle(
-                            color: HexColor('#716F6F'),
+                            color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#716F6F'),
                           ),
                         ),
                         const SizedBox(width: 7.5,),
                         Text(
                           '${data[index]['STODATE'] ?? ''}',
                           style: TextStyle(
-                            color: HexColor('#979797'),
+                            color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                           ),
                         ),
                       ],
@@ -233,12 +242,12 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/icons/hashtag.svg', width: 15,),
+                        SvgPicture.asset('assets/icons/hashtag.svg', width: 15, color: !themeNotifier.isLight() ? Colors.white : Colors.black,),
                         const SizedBox(width: 10.0,),
                         Text(
                           '${data[index]['MONTH_COUNT']}',
                           style: TextStyle(
-                            color: HexColor('#979797'),
+                            color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                           ),
                         ),
                         const SizedBox(width: 7.5,),
@@ -246,7 +255,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                           UserConfig.instance.checkLanguage()
                               ? 'Subscriptions' : 'إشتراكات',
                           style: TextStyle(
-                            color: HexColor('#979797'),
+                            color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                           ),
                         ),
                       ],
@@ -264,7 +273,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                         Text(
                           translate('salary', context),
                           style: TextStyle(
-                            color: HexColor('#716F6F'),
+                            color: !themeNotifier.isLight() ? Colors.white : HexColor('#716F6F'),
                           ),
                         ),
                         Row(
@@ -272,7 +281,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                             Text(
                               '${data[index]['SALARY']}',
                               style: TextStyle(
-                                color: HexColor('#363636'),
+                                color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 19,
                               ),
@@ -280,7 +289,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                             Text(
                               ' ${translate('jd', context)}',
                               style: TextStyle(
-                                color: HexColor('#363636'),
+                                color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                 fontWeight: FontWeight.w400,
                                 fontSize: 13,
                               ),
@@ -322,7 +331,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
               Container(
                 padding: const EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
-                  color: HexColor('#445740'),
+                  color: getPrimaryColor(context, themeNotifier),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: Text(
@@ -344,7 +353,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                     ? Card(
                         elevation: 6.0,
                         shadowColor: Colors.black45,
-                        color: Colors.white,
+                        color: getContainerColor(context),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -358,7 +367,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                 '${data[index]['ename']}',
                                 style: TextStyle(
                                   height: 1.4,
-                                  color: HexColor('#363636'),
+                                  color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -366,7 +375,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                               Text(
                                 '${data[index]['EST']}',
                                 style: TextStyle(
-                                  color: HexColor('#716F6F'),
+                                  color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                                 ),
                               ),
                               const SizedBox(height: 15.0,),
@@ -382,7 +391,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                   Text(
                                     translate('salary', context),
                                     style: TextStyle(
-                                      color: HexColor('#716F6F'),
+                                      color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
                                     ),
                                   ),
                                   Row(
@@ -390,7 +399,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                       Text(
                                         '${data[index]['SAL']}',
                                         style: TextStyle(
-                                          color: HexColor('#363636'),
+                                          color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 19,
                                         ),
@@ -398,7 +407,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                       Text(
                                         ' ${translate('jd', context)}',
                                         style: TextStyle(
-                                          color: HexColor('#363636'),
+                                          color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
                                           fontWeight: FontWeight.w400,
                                           fontSize: 13,
                                         ),
