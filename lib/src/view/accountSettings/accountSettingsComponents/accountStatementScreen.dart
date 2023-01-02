@@ -134,7 +134,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                           margin: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 8.0),
                           decoration: BoxDecoration(
                               border: Border.all(
-                                color: HexColor('#747474'),
+                                color: themeNotifier.isLight() ? HexColor('#747474') : Colors.white,
                               ),
                               borderRadius: BorderRadius.circular(6.0)
                           ),
