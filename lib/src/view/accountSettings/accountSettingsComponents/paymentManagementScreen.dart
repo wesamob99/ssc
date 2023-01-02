@@ -35,7 +35,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: themeNotifier.isLight() ? Colors.grey.shade100 : HexColor('212121'),
       appBar: AppBar(
         centerTitle: false,
         title: Text(translate('paymentManagement', context), style: const TextStyle(fontSize: 14),),
@@ -59,7 +59,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                         child: Container(
                           padding: const EdgeInsets.all(16.0),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: getContainerColor(context),
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                           child: Column(
@@ -68,7 +68,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                               Text(
                                 translate('balanceToBePaid', context),
                                 style: TextStyle(
-                                  color: HexColor('#363636'),
+                                  color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                   fontSize: 13,
                                 ),
                               ),
@@ -78,7 +78,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                                   Text(
                                     '250',
                                     style: TextStyle(
-                                      color: HexColor('#363636'),
+                                      color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                       fontWeight: FontWeight.bold,
                                       fontSize: 19,
                                     ),
@@ -86,7 +86,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                                   Text(
                                     ' ${translate('jd', context)}',
                                     style: TextStyle(
-                                      color: HexColor('#363636'),
+                                      color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                       fontWeight: FontWeight.w400,
                                       fontSize: 13,
                                     ),
@@ -97,7 +97,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                               Text(
                                 translate('unemploymentApplication', context),
                                 style: TextStyle(
-                                  color: HexColor('#363636'),
+                                  color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                   fontSize: 13,
                                 ),
                               ),
@@ -119,7 +119,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                         child: Container(
                           padding: const EdgeInsets.all(16.0),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: getContainerColor(context),
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                           child: Column(
@@ -128,7 +128,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                               Text(
                                 translate('nextBatchDate', context),
                                 style: TextStyle(
-                                  color: HexColor('#363636'),
+                                  color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                   fontSize: 13,
                                 ),
                               ),
@@ -138,7 +138,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                                   Text(
                                     '250',
                                     style: TextStyle(
-                                      color: HexColor('#363636'),
+                                      color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                       fontWeight: FontWeight.bold,
                                       fontSize: 19,
                                     ),
@@ -146,7 +146,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                                   Text(
                                     ' ${translate('jd', context)}',
                                     style: TextStyle(
-                                      color: HexColor('#363636'),
+                                      color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                       fontWeight: FontWeight.w400,
                                       fontSize: 13,
                                     ),
@@ -159,14 +159,14 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                                   Text(
                                     translate('onDate', context),
                                     style: TextStyle(
-                                      color: HexColor('#363636'),
+                                      color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                       fontSize: 13,
                                     ),
                                   ),
                                   Text(
                                     ' 5/1/2023',
                                     style: TextStyle(
-                                      color: HexColor('#363636'),
+                                      color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                       fontWeight: FontWeight.bold,
                                       fontSize: 13,
                                     ),
@@ -174,8 +174,9 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                                 ],
                               ),
                               const SizedBox(height: 16.0,),
-                              textButton(context, themeNotifier, 'paymentManagement', HexColor('#ffffff'),
-                                  HexColor('#946800'), () async {}, borderColor: '#946800'
+                              textButton(context, themeNotifier, 'paymentManagement', Colors.transparent,
+                                  themeNotifier.isLight() ? HexColor('#946800') : HexColor('#c99639'), () async {},
+                                  borderColor: themeNotifier.isLight() ? '#946800': '#c99639'
                               ),
                             ],
                           ),
@@ -188,7 +189,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                 Text(
                   translate('paymentHistory', context),
                   style: TextStyle(
-                    color: HexColor('#363636'),
+                    color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
@@ -238,7 +239,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                   UserConfig.instance.checkLanguage()
                       ? 'Pay an optional subscription fee' : 'تسديد رسوم اشتراك اختياري',
                   style: TextStyle(
-                    color: HexColor('#363636'),
+                    color:!themeNotifier.isLight() ? Colors.white :  HexColor('#363636'),
                     fontSize: 14,
                   ),
                 ),
@@ -254,7 +255,9 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                   child: Text(
                     translate(statusText, context),
                     style: TextStyle(
-                      color: status == 1 ? HexColor('#987803') : HexColor('#248389'),
+                      color: status == 1
+                          ? !themeNotifier.isLight() ? HexColor('#ffd86d') : HexColor('#987803')
+                          : !themeNotifier.isLight() ? HexColor('#8fe5eb') : HexColor('#248389'),
                       fontSize: 14,
                     ),
                   ),
@@ -272,7 +275,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                         Text(
                           amount,
                           style: TextStyle(
-                            color: HexColor('#363636'),
+                            color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                             fontWeight: FontWeight.bold,
                             fontSize: 19,
                           ),
@@ -280,7 +283,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                         Text(
                           ' ${translate('jd', context)}',
                           style: TextStyle(
-                            color: HexColor('#363636'),
+                            color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                             fontWeight: FontWeight.w400,
                             fontSize: 13,
                           ),
@@ -299,14 +302,14 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                           Text(
                             translate('card', context),
                             style: TextStyle(
-                              color: HexColor('#716F6F'),
+                              color: !themeNotifier.isLight() ? Colors.white : HexColor('#716F6F'),
                               fontSize: 14,
                             ),
                           ),
                           Text(
                             ' $cardNo',
                             style: TextStyle(
-                              color: HexColor('#716F6F'),
+                              color: !themeNotifier.isLight() ? Colors.white : HexColor('#716F6F'),
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
                             ),
@@ -346,7 +349,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
             child: Material(
               elevation: 100,
               borderRadius: BorderRadius.circular(25.0),
-              color: Colors.white,
+              color: getContainerColor(context),
               shadowColor: Colors.black,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0).copyWith(top: 15.0),
@@ -361,7 +364,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                           width: 45,
                           height: 6,
                           decoration: BoxDecoration(
-                              color: HexColor('#000000'),
+                              color: !themeNotifier.isLight() ? Colors.white : HexColor('#000000'),
                               borderRadius: const BorderRadius.all(Radius.circular(25.0))),
                         ),
                       ],
@@ -373,7 +376,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                         Text(
                           translate('paymentDetail', context),
                           style: TextStyle(
-                            color: HexColor('#363636'),
+                            color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                             fontWeight: FontWeight.w600,
                             fontSize: 16,
                           ),
@@ -382,7 +385,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                           onTap: (){
                             Navigator.of(context).pop();
                           },
-                          child: SvgPicture.asset('assets/icons/close.svg'),
+                          child: SvgPicture.asset('assets/icons/close.svg', color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),),
                         )
                       ],
                     ),
@@ -396,7 +399,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                             UserConfig.instance.checkLanguage()
                                 ? 'Pay an optional subscription fee' : 'تسديد رسوم اشتراك اختياري',
                             style: TextStyle(
-                              color: HexColor('#363636'),
+                              color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                               fontSize: 16,
                             ),
                           ),
@@ -404,7 +407,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                           Text(
                             '25/12/2022',
                             style: TextStyle(
-                              color: HexColor('#363636'),
+                              color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
@@ -417,7 +420,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                       UserConfig.instance.checkLanguage()
                           ? 'The amount paid' : 'المبلغ المدفوع',
                       style: TextStyle(
-                        color: HexColor('#363636'),
+                        color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                         fontSize: 16,
                       ),
                     ),
@@ -428,7 +431,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                         Text(
                           '250',
                           style: TextStyle(
-                            color: HexColor('#363636'),
+                            color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                             fontWeight: FontWeight.w700,
                             fontSize: 35,
                           ),
@@ -436,7 +439,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                         Text(
                           ' ${translate('jd', context)}',
                           style: TextStyle(
-                            color: HexColor('#363636'),
+                            color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -450,14 +453,14 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                         Text(
                           translate('card', context),
                           style: TextStyle(
-                            color: HexColor('#716F6F'),
+                            color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#716F6F'),
                             fontSize: 14,
                           ),
                         ),
                         Text(
                           ' 5656',
                           style: TextStyle(
-                            color: HexColor('#716F6F'),
+                            color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#716F6F'),
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
                           ),
@@ -469,7 +472,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                       child: DottedBorder(
                         radius: const Radius.circular(8.0),
                         padding: EdgeInsets.zero,
-                        color: HexColor('#979797'),
+                        color: !themeNotifier.isLight() ? Colors.white : HexColor('#979797'),
                         borderType: BorderType.Rect,
                         dashPattern: const [8],
                         strokeWidth: 1.2, child: Container(),
@@ -487,14 +490,14 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                               Text(
                                 translate('paymentStatus', context),
                                 style: TextStyle(
-                                  color: HexColor('#979797'),
+                                  color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                                   fontSize: 14,
                                 ),
                               ),
                               Text(
                                 translate('paymentDueDate', context),
                                 style: TextStyle(
-                                  color: HexColor('#979797'),
+                                  color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                                   fontSize: 14,
                                 ),
                               ),
@@ -507,14 +510,14 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                               Text(
                                 translate('payed', context),
                                 style: TextStyle(
-                                  color: HexColor('#595959'),
+                                  color: !themeNotifier.isLight() ? Colors.white : HexColor('#595959'),
                                   fontSize: 14,
                                 ),
                               ),
                               Text(
                                 '25/12/2022',
                                 style: TextStyle(
-                                  color: HexColor('#595959'),
+                                  color: !themeNotifier.isLight() ? Colors.white : HexColor('#595959'),
                                   fontSize: 14,
                                 ),
                               ),
@@ -536,14 +539,14 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                               Text(
                                 translate('invoiceNumber', context),
                                 style: TextStyle(
-                                  color: HexColor('#979797'),
+                                  color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                                   fontSize: 14,
                                 ),
                               ),
                               Text(
                                 translate('payDate', context),
                                 style: TextStyle(
-                                  color: HexColor('#979797'),
+                                  color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                                   fontSize: 14,
                                 ),
                               ),
@@ -556,14 +559,14 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                               Text(
                                 '435975',
                                 style: TextStyle(
-                                  color: HexColor('#595959'),
+                                  color: !themeNotifier.isLight() ? Colors.white : HexColor('#595959'),
                                   fontSize: 14,
                                 ),
                               ),
                               Text(
                                 '25/12/2022',
                                 style: TextStyle(
-                                  color: HexColor('#595959'),
+                                  color: !themeNotifier.isLight() ? Colors.white : HexColor('#595959'),
                                   fontSize: 14,
                                 ),
                               ),
