@@ -13,8 +13,10 @@ import 'package:ssc/src/view/main/mainScreen.dart';
 import 'package:ssc/src/viewModel/home/homeProvider.dart';
 
 import '../../../models/home/payOffFinancialInformations.dart';
+import '../../../utilities/hexColor.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/services/servicesProvider.dart';
+import '../../viewModel/utilities/theme/themeProvider.dart';
 
 class SplashScreen extends StatefulWidget {
   final bool fromMain;
@@ -100,6 +102,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.dark
@@ -124,9 +128,23 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset('assets/logo/logo_with_name.png', width: width(isTablet(context) ? 0.42 : 0.62, context),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset('assets/logo/logo.svg', width: 70),
+                      const SizedBox(width: 10.0),
+                      SvgPicture.asset(
+                        'assets/logo/name.svg',
+                        width: 230,
+                        color: themeNotifier.isLight()
+                            ? HexColor('#51504E')
+                            : HexColor('ffffff'),
+                      ),
+                    ],
+                  ),
+                  // Image.asset('assets/logo/logo_with_name.png', width: width(isTablet(context) ? 0.42 : 0.62, context),),
                   SizedBox(height: height(0.1, context),),
-                  loadingIndicator(context),
+                  loadingIndicator(context, themeNotifier),
                 ],
               ),
             ),

@@ -314,7 +314,7 @@ Future<void> showMyDialog(
                       body,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: HexColor('#5F5F5F'),
+                          color: themeNotifier.isLight() ? HexColor('#5F5F5F') : HexColor('ffffff'),
                           fontWeight: FontWeight.w500
                       ),
                     ),
@@ -372,7 +372,8 @@ Future<void> showMyDialog(
               },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
-                    withPayButton ? Colors.transparent : getPrimaryColor(context, themeNotifier),
+                    withPayButton ? Colors.transparent : themeNotifier.isLight()
+                        ? primaryColor : HexColor('#445740'),
                   ),
                   foregroundColor:  MaterialStateProperty.all<Color>(
                      withPayButton ? HexColor('#363636') : Colors.white
@@ -533,14 +534,18 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
-              color: getPrimaryColor(context, themeNotifier),
+              color: themeNotifier.isLight()
+                  ? getPrimaryColor(context, themeNotifier)
+                  : Colors.white,
               width: 0.5,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
-              color: getPrimaryColor(context, themeNotifier),
+              color: themeNotifier.isLight()
+                  ? getPrimaryColor(context, themeNotifier)
+                  : Colors.white,
               width: 0.8,
             ),
           )
@@ -868,14 +873,19 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
   );
 }
 
-loadingIndicator(context){
+loadingIndicator(BuildContext context, ThemeNotifier themeNotifier){
   return SizedBox(
     width: width(isTablet(context) ? 0.2 : 0.4, context),
     height: width(isTablet(context) ? 0.2 : 0.4, context),
     child: LoadingIndicator(
       indicatorType: Indicator.ballSpinFadeLoader, /// Required, The loading type of the widget
       colors: [
-        HexColor('#445740'), HexColor('#946800').withOpacity(0.6)
+        HexColor(
+            themeNotifier.isLight() ? '#445740' : '#6f846b'
+        ),
+        HexColor(
+            themeNotifier.isLight() ? '#946800' : '#c99639'
+        ).withOpacity(0.6)
       ],
       backgroundColor: Colors.transparent,
     ),

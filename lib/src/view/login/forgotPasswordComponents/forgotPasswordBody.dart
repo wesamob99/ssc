@@ -116,7 +116,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: width(0.033, context),
-                              color: HexColor('#003C97')
+                              color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#4e66c8')
                           ),
                         ),
                       ),
@@ -197,7 +197,8 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                         themeNotifier, 'sendCode',
                         MaterialStateProperty.all<Color>(
                           (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
-                            ? HexColor('#DADADA') : getPrimaryColor(context, themeNotifier),),
+                            ? HexColor('#DADADA') : themeNotifier.isLight()
+                              ? primaryColor : HexColor('#445740')),
                             (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
                                 ? HexColor('#363636') : Colors.white,
                             () async {if(loginProvider.enabledSendCodeButton && isEmail(emailController.text)){
@@ -244,7 +245,8 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                     textButton(
                       themeNotifier, 'continue',
                       MaterialStateProperty.all<Color>(pinController.text.length == 4
-                      ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),),
+                      ? themeNotifier.isLight()
+                          ? primaryColor : HexColor('#445740') : HexColor('#DADADA'),),
                       pinController.text.length == 4 ? Colors.white : HexColor('#363636'),
                         () async {if(pinController.length == 4){
                           errorMessage = "";
@@ -295,8 +297,10 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
   }
 
   Directionality pinPut(themeNotifier){
-    Color focusedBorderColor = getPrimaryColor(context, themeNotifier);
-    Color fillColor = const Color.fromRGBO(243, 246, 249, 0);
+    Color focusedBorderColor = themeNotifier.isLight()
+        ? getPrimaryColor(context, themeNotifier)
+        : Colors.white;
+    Color fillColor = themeNotifier.isLight() ? const Color.fromRGBO(243, 246, 249, 0) : Colors.white;
     Color borderColor = HexColor('#979797');
 
     final defaultPinTheme = PinTheme(
@@ -431,7 +435,9 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4),
             borderSide: BorderSide(
-              color: getPrimaryColor(context, themeNotifier),
+              color: themeNotifier.isLight()
+                  ? getPrimaryColor(context, themeNotifier)
+                  : Colors.white,
               width: 0.8,
             ),
           )
