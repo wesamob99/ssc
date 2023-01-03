@@ -15,6 +15,7 @@ import '../../../../utilities/util.dart';
 import '../../../viewModel/login/loginProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../splash/splashScreen.dart';
+import '../registerComponents/firstStepBody.dart';
 
 class ForgotPasswordBody extends StatefulWidget {
   const ForgotPasswordBody({Key key}) : super(key: key);
@@ -97,10 +98,16 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                     SizedBox(height: height(0.022, context),),
                     InkWell(
                       onTap: (){
-                        if(userSecuredStorage.email != "0") {
+                        if(userSecuredStorage.email != "0" && !useAnotherMethod) {
                           setState(() {
                           useAnotherMethod = true;
-                        });
+                          });
+                        }else{
+                          loginProvider.flag = 1;
+                          loginProvider.notifyMe();
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => const FirstStepBody())
+                          );
                         }
                       },
                       overlayColor: MaterialStateProperty.all<Color>(
