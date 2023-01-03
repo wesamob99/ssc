@@ -43,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
     loginProvider.thirdStepSelection = ['choose', 'optionalChoose'];
     /// all
     loginProvider.isLoading = false;
+    loginProvider.flag = 0;
     super.initState();
   }
   @override
