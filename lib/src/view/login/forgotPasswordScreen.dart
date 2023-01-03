@@ -86,7 +86,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     child: SvgPicture.asset(
                       'assets/logo/logo_tree.svg',
                       color: themeNotifier.isLight()
-                          ? HexColor('2D452')
+                          ? HexColor('#5D6470')
                           : Colors.white,
                     ),
                   ),
@@ -121,7 +121,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                           child: SvgPicture.asset(
                                             'assets/icons/back.svg',
                                               color: themeNotifier.isLight()
-                                              ? HexColor('2D452')
+                                              ? HexColor('#5D6470')
                                               : Colors.white,
                                           ),
                                         ),
@@ -143,7 +143,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                     SvgPicture.asset(
                                         'assets/icons/global.svg',
                                       color: themeNotifier.isLight()
-                                          ? HexColor('2D452')
+                                          ? HexColor('#5D6470')
                                           : Colors.white,
                                     ),
                                     const SizedBox(width: 4.0),
