@@ -125,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 SizedBox(width: width(0.03, context)),
                                 Text(
-                                  translate('createAnAccount', context),
+                                  translate(loginProvider.flag == 1 ? 'reRegister' : 'createAnAccount', context),
                                   style: isTablet(context)
                                   ? const TextStyle(
                                     fontWeight: FontWeight.w700,
