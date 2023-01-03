@@ -47,6 +47,7 @@ class LoginProvider extends ChangeNotifier {
 
   /// all
   bool isLoading = false;
+  int flag = 0; // if flag == 0, then its normal register, if it's equal to 1 then it's re-register
 
 
   Future login(String nationalId, String password) async{
