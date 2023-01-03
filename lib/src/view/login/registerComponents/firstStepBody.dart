@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:provider/provider.dart';
+import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/login/registerScreen.dart';
 
 import '../../../../infrastructure/userConfig.dart';
@@ -37,6 +38,9 @@ class _FirstStepBodyState extends State<FirstStepBody> {
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     loginProvider.readCountriesJson();
+    if(loginProvider.flag == 1){
+      selectedNationality = (UserSecuredStorage.instance.internationalCode == '962') ? 'jordanian' : 'nonJordanian';
+    }
     loginProvider.isLoading = false;
     selectedCountryOfResident = selectedCountryForJoMobileNumber = SelectedListItem(
       name: UserConfig.instance.checkLanguage() ? "Jordan" : "الأردن",
@@ -55,8 +59,6 @@ class _FirstStepBodyState extends State<FirstStepBody> {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-    LoginProvider loginProvider = Provider.of<LoginProvider>(
-        context, listen: false);
 
     return Stack(
       children: [
@@ -84,9 +86,9 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                           ),
                           SizedBox(height: height(0.006, context),),
                           Text(
-                            '${translate('nationality', context)}'
-                                '${UserConfig.instance.checkLanguage() ? ',' : ''}'
-                                ' ${translate('countryOfResidence', context)}'
+                            '${loginProvider.flag == 0 ? translate('nationality', context) : ''}'
+                                '${UserConfig.instance.checkLanguage() && loginProvider.flag == 0 ? ', ' : ' '}'
+                                '${translate('countryOfResidence', context)}'
                                 ' ${translate('and', context)}'
                                 '${translate('mobileNumber', context)}',
                             style: TextStyle(
@@ -112,8 +114,11 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                         ],
                       ),
                       SizedBox(height: height(0.02, context),),
+                      if(loginProvider.flag == 0)
                       buildFieldTitle(context, 'nationality', required: false),
+                      if(loginProvider.flag == 0)
                       SizedBox(height: height(0.01, context),),
+                      if(loginProvider.flag == 0)
                       RadioGroup<String>.builder(
                         activeColor: HexColor('#2D452E'),
                         direction: Axis.horizontal,
@@ -278,6 +283,12 @@ class _FirstStepBodyState extends State<FirstStepBody> {
     loginProvider.registerData.nationalMobileCode = selectedNationality == 'jordanian' ? null : int.parse(selectedExactNationality.value.toString());
     loginProvider.registerData.countryCodeNo = selectedExactNationality.value.toString();
     loginProvider.registerData.nationalNumber = int.parse(selectedExactNationality.natCode.toString());
+    if(loginProvider.flag == 1){
+      UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+      loginProvider.registerData.nationalNumber = selectedNationality == 'jordanian' ? int.tryParse(userSecuredStorage.nationalId) : null;
+      loginProvider.registerData.personalNumber = selectedNationality == 'jordanian' ? null : int.tryParse(userSecuredStorage.nationalId);
+      loginProvider.registerData.userId = int.tryParse(userSecuredStorage.nationalId);
+    }
     loginProvider.notifyMe();
   }
 

@@ -42,12 +42,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ///login
     loginProvider.passwordController = TextEditingController();
     loginProvider.numberOfAttempts = 0;
-    loginProvider.nationalIdController = TextEditingController();
+    if(loginProvider.flag == 0){
+      loginProvider.nationalIdController = TextEditingController();
+    }
     loginProvider.enabledSubmitButton = false;
     ///register
     loginProvider.jordanianMobileNumberController = TextEditingController();
     loginProvider.foreignMobileNumberController = TextEditingController();
-    loginProvider.registerNationalIdController = TextEditingController();
+    if(loginProvider.flag == 0) {
+      loginProvider.registerNationalIdController = TextEditingController();
+    }
     loginProvider.passportNumberController = TextEditingController();
     loginProvider.insuranceNumberController = TextEditingController();
     loginProvider.civilIdNumberController = TextEditingController();

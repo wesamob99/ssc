@@ -94,11 +94,11 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                         ],
                       ),
                       SizedBox(height: height(0.02, context),),
-                      buildFieldTitle(context, 'enterNationalId', filled: loginProvider.registerNationalIdController.text.length == 10),
+                      buildFieldTitle(context, 'enterNationalId', filled: (loginProvider.registerNationalIdController.text.length == 10 || loginProvider.flag == 1)),
                       SizedBox(height: height(0.015, context),),
-                      buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, '9999999999', (val){
+                      buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, (loginProvider.flag == 0) ? '9999999999' : loginProvider.registerData.userId.toString(), (val){
                         checkContinueEnable(loginProvider);
-                      }, inputType: TextInputType.number),
+                      }, inputType: TextInputType.number, enabled: (loginProvider.flag == 0)),
                       SizedBox(height: height(0.02, context),),
                       if(isJordanian)
                       buildFieldTitle(context, 'civilIdNumber', filled: (loginProvider.civilIdNumberController.text.isNotEmpty &&
@@ -239,9 +239,11 @@ class _SecondStepBodyState extends State<SecondStepBody> {
   }
 
   setSecondStepData(LoginProvider loginProvider){
-    loginProvider.registerData.nationalNumber = isJordanian ? int.tryParse(loginProvider.registerNationalIdController.text) : null;
-    loginProvider.registerData.personalNumber = isJordanian ? null : int.tryParse(loginProvider.registerNationalIdController.text);
-    loginProvider.registerData.userId = int.tryParse(loginProvider.registerNationalIdController.text);
+    if(loginProvider.flag == 0){
+      loginProvider.registerData.nationalNumber = isJordanian ? int.tryParse(loginProvider.registerNationalIdController.text) : null;
+      loginProvider.registerData.personalNumber = isJordanian ? null : int.tryParse(loginProvider.registerNationalIdController.text);
+      loginProvider.registerData.userId = int.tryParse(loginProvider.registerNationalIdController.text);
+    }
     loginProvider.registerData.personalCardNo = isJordanian ? loginProvider.civilIdNumberController.text : null;
     loginProvider.registerData.relativeNatId = isJordanian ? int.tryParse(loginProvider.relativeNatIdController.text) : null;
     loginProvider.registerData.relativeType = isJordanian ? relationTypes.indexOf(loginProvider.thirdStepSelection[0]) : null;
@@ -315,7 +317,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
   checkContinueEnable(LoginProvider loginProvider){
     if(isJordanian) {
       loginProvider.registerContinueEnabled =  (
-        loginProvider.registerNationalIdController.text.length == 10 &&
+        (loginProvider.registerNationalIdController.text.length == 10 || loginProvider.flag == 1) &&
             (loginProvider.civilIdNumberController.text.isNotEmpty &&
             loginProvider.civilIdNumberController.text.length <= 8) &&
             loginProvider.relativeNatIdController.text.length == 10 &&
@@ -323,7 +325,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
       );
     }else{
       loginProvider.registerContinueEnabled =  (
-          loginProvider.registerNationalIdController.text.length == 10 &&
+          (loginProvider.registerNationalIdController.text.length == 10 || loginProvider.flag == 1) &&
           RegExp(r"^(?!^0+$)[a-zA-Z0-9]{3,20}$").hasMatch(loginProvider.passportNumberController.text) &&
           (loginProvider.insuranceNumberController.text.isEmpty ||
           loginProvider.insuranceNumberController.text.length == 10) &&
