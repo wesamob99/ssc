@@ -217,6 +217,8 @@ class _LoginBodyState extends State<LoginBody> {
                               SizedBox(width: width(0.005, context)),
                               InkWell(
                                 onTap: (){
+                                  loginProvider.flag = 0;
+                                  loginProvider.notifyMe();
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) => const FirstStepBody())
                                   );
