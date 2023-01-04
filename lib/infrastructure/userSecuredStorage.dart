@@ -17,7 +17,7 @@ class UserSecuredStorage {
   /// ***
   String _userName = "";
   String _userFullName = "";
-  // String _userGroup = "";
+  String _gender = "";
   String _insuranceNumber = "";
   String _nationalId = "";
   String _email = "";
@@ -137,6 +137,16 @@ class UserSecuredStorage {
   set internationalCode(String value) {
     addKeyPair('internationalCode', value);
     _internationalCode = value;
+  }
+
+  String get gender {
+    _gender = _box.get('gender') ?? "";
+    return _gender;
+  }
+
+  set gender(String value) {
+    addKeyPair('gender', value);
+    _gender = value;
   }
 
   String get userNameAr {
