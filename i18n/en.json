@@ -343,7 +343,13 @@
   "subscriptionPeriods": "Subscription periods",
   "financialSalaries": "Financial salaries",
   "onTopOfHisWork": "On top of his work",
-  "reRegister": "Re-register"
+  "reRegister": "Re-register",
+  "earlyRetirementRequest": "Early retirement request",
+  "applicationForOldAgePension": "Application for old age pension",
+  "deceasedRetirementApplication": "Deceased retirement application",
+  "applicationForPensionersLoan": "Application for pensioners loan",
+  "applicationOfReschedulePensionersLoan": "Application of reschedule pensioners loan",
+  "dependentInformationUpdate": "Dependent information update"
 
 
 

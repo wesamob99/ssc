@@ -344,7 +344,13 @@
   "subscriptionPeriods": "فترات الاشتراك",
   "financialSalaries": "الرواتب المالية",
   "onTopOfHisWork": "على رأس عمله",
-  "reRegister": "إعادة تسجيل"
+  "reRegister": "إعادة تسجيل",
+  "earlyRetirementRequest": "طلب تقاعد مبكر",
+  "applicationForOldAgePension": "طلب تقاعد شيخوخة",
+  "deceasedRetirementApplication": "طلب تقاعد متوفي",
+  "applicationForPensionersLoan": "طلب سلفة تقاعد",
+  "applicationOfReschedulePensionersLoan": "إعادة جدولة السلفة",
+  "dependentInformationUpdate": "تحديث معلومات المعالين"
 
 
 }
