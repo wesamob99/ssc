@@ -279,6 +279,7 @@ class _LoginBodyState extends State<LoginBody> {
                     userSecuredStorage.userFullName = '${data.firstname??''} ${data.fathername??''} ${data.grandfathername??''} ${data.familyname??''}'; // user's full name params
                     userSecuredStorage.realMobileNumber = data.mobilenumber.toString() ?? ''; // poRealMobileno -> user mobile number
                     userSecuredStorage.internationalCode = data.internationalcode.toString() ?? ''; // poInternationalcode -> country code
+                    userSecuredStorage.gender = data.gender.toString() ?? ''; // gender -> user gender // 1 -> male & 2 -> female
                   });
                 }
                 if(userData.poStatusDescEn != null){

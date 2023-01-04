@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/util.dart';
+import '../../../../infrastructure/userSecuredStorage.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../shared/aboutTheServiceScreen.dart';
 import '../shared/servicesListConstants.dart';
@@ -39,7 +40,9 @@ class _MostVisitedBodyState extends State<MostVisitedBody> {
           itemBuilder: (context, index1){
             int last = -1;
             last = mostVisitedServices.lastIndexWhere((element) => element.supTitle == supTitles[index1]);
-            return Column(
+            return supTitles[index1] != 'maternity'
+            || (supTitles[index1] == 'maternity' && UserSecuredStorage.instance.gender != '1')
+            ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
@@ -113,7 +116,7 @@ class _MostVisitedBodyState extends State<MostVisitedBody> {
                 ),
                 SizedBox(height: isTablet(context) ? 15 : isScreenHasSmallHeight(context) ? 0 : 5,)
               ],
-            );
+            ) : const SizedBox.shrink();
           }
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
+import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/services/mostVisited/mostVisitedBody.dart';
 import 'package:ssc/src/view/services/retirementServices/retirementBody.dart';
 import 'package:ssc/utilities/hexColor.dart';
@@ -105,7 +106,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
             // physics: const NeverScrollableScrollPhysics(),
             itemCount: sideBarItems.length,
             itemBuilder: (context, index){
-              return InkWell(
+              return (sideBarItems[index]['title'] != 'maternityServices') ||
+              (sideBarItems[index]['title'] == 'maternityServices' && UserSecuredStorage.instance.gender != '1')
+              ? InkWell(
                 onTap: (){
                   setState(() {
                     selectedIndex = index;
@@ -148,7 +151,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     ],
                   ),
                 ),
-              );
+              ) : const SizedBox.shrink();
             }
         ),
       ),
