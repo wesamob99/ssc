@@ -350,7 +350,8 @@
   "deceasedRetirementApplication": "طلب تقاعد متوفي",
   "applicationForPensionersLoan": "طلب سلفة تقاعد",
   "applicationOfReschedulePensionersLoan": "إعادة جدولة السلفة",
-  "dependentInformationUpdate": "تحديث معلومات المعالين"
+  "dependentInformationUpdate": "تحديث معلومات المعالين",
+  "theAmount": "المبلغ"
 
 
 }
