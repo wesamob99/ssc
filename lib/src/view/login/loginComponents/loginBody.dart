@@ -68,7 +68,7 @@ class _LoginBodyState extends State<LoginBody> {
                 child: SvgPicture.asset(
                   'assets/logo/logo_tree.svg',
                   color: themeNotifier.isLight()
-                      ? HexColor('2D452')
+                      ? HexColor('#5D6470')
                       : Colors.white,
                 ),
               ),
@@ -89,7 +89,7 @@ class _LoginBodyState extends State<LoginBody> {
                                 SvgPicture.asset(
                                   'assets/icons/global.svg',
                                   color: themeNotifier.isLight()
-                                      ? HexColor('2D452')
+                                      ? HexColor('#5D6470')
                                       : Colors.white,
                                 ),
                                 const SizedBox(width: 4.0),
