@@ -69,6 +69,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 case 3: servicesProvider.stepNumber = 2; break;
                 case 4: servicesProvider.stepNumber = 3; break;
                 case 5: servicesProvider.stepNumber = 4; break;
+                case 6: servicesProvider.stepNumber = 6; break;
               }
               servicesProvider.notifyMe();
             },
@@ -97,9 +98,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                      const FirstStepScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 5),
+                      const FirstStepScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 6),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                      VerifyMobileNumberScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 4, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                      VerifyMobileNumberScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 6, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
                       secondStep(context, themeNotifier),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 3)
@@ -108,9 +109,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                       forthStep(context, themeNotifier),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 5)
                       fifthStep(context, themeNotifier),
+                    if(Provider.of<ServicesProvider>(context).stepNumber == 6)
+                      sixthStep(context, themeNotifier),
                     textButton(context,
                       themeNotifier,
-                      Provider.of<ServicesProvider>(context).stepNumber != 5 ? 'continue' : 'send',
+                      Provider.of<ServicesProvider>(context).stepNumber != 6 ? 'continue' : 'send',
                       checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
                           ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
                       checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
@@ -205,11 +208,20 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                             }
                           } break;
                           case 4: {
-                            if(checkContinueEnabled(flag: 3)){
+                            if(checkContinueEnabled(flag: 4)){
                               servicesProvider.stepNumber = 5;
                             }
                           } break;
-                          case 5: {} break;
+                          case 5: {
+                            if(checkContinueEnabled(flag: 5)){
+                              servicesProvider.stepNumber = 6;
+                            }
+                          } break;
+                          case 6: {
+                            while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
+                              Navigator.pop(context);
+                            }
+                          } break;
                         }
                         servicesProvider.notifyMe();
                       },
@@ -272,7 +284,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '2/5',
+                      '2/6',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.025, context)
@@ -334,7 +346,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '3/5',
+                      '3/6',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.025, context)
@@ -395,7 +407,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '4/5',
+                      '4/6',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.025, context)
@@ -438,6 +450,67 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 ),
                 SizedBox(height: height(0.006, context),),
                 Text(
+                  translate('receiptOfAllowances', context),
+                  style: TextStyle(
+                      color: HexColor('#5F5F5F'),
+                      fontSize: width(0.035, context)
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: height(0.01, context),),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox.shrink(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      '5/6',
+                      style: TextStyle(
+                          color: HexColor('#979797'),
+                          fontSize: width(0.025, context)
+                      ),
+                    ),
+                    Text(
+                      '${translate('next', context)}: ${translate('confirmRequest', context)}',
+                      style: TextStyle(
+                          color: HexColor('#979797'),
+                          fontSize: width(0.032, context)
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget sixthStep(context, themeNotifier){
+    return SizedBox(
+      height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: height(0.02, context),),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  translate('fifthStep', context),
+                  style: TextStyle(
+                      color: HexColor('#979797'),
+                      fontSize: width(0.03, context)
+                  ),
+                ),
+                SizedBox(height: height(0.006, context),),
+                Text(
                   translate('confirmRequest', context),
                   style: TextStyle(
                       color: HexColor('#5F5F5F'),
@@ -456,7 +529,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '5/5',
+                      '6/6',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.025, context)
