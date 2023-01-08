@@ -5,6 +5,7 @@ import '../../../model/services/servicesRepository.dart';
 import '../insuranceServices/screens/workInjuryComplaintScreen.dart';
 import '../optionalAndFreeInclusion/screens/continuityOfCoverageRequestScreen.dart';
 import '../optionalAndFreeInclusion/screens/membershipRequestScreen.dart';
+import '../retirementServices/screens/earlyRetirementRequestScreen.dart';
 import '../retirementServices/screens/historicalPensionDetailsScreen.dart';
 import '../retirementServices/screens/pensionDetailsScreen.dart';
 
@@ -82,7 +83,7 @@ class ServicesList{
 /// retirement Services ******************************************************
 
   static Service earlyRetirementRequest = Service(
-      title: "earlyRetirementRequest", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
+      title: "earlyRetirementRequest", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const EarlyRetirementRequestScreen(), serviceApiCall: ()=> _servicesRepository.getEarlyRetirementService()
   );
   static Service deceasedRetirementApplication = Service(
       title: "deceasedRetirementApplication", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
