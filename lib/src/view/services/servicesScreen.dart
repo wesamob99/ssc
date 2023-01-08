@@ -107,7 +107,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
             itemCount: sideBarItems.length,
             itemBuilder: (context, index){
               return (sideBarItems[index]['title'] != 'maternityServices') ||
-              (sideBarItems[index]['title'] == 'maternityServices' && UserSecuredStorage.instance.gender != '1')
+              (sideBarItems[index]['title'] == 'maternityServices' && UserSecuredStorage.instance.gender == '2')
               ? InkWell(
                 onTap: (){
                   setState(() {
