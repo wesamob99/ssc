@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 
 import '../../../infrastructure/HTTPClientContract.dart';
+import '../../../models/services/getEarlyRetirementModel.dart';
 import '../../../models/services/pensionPaymentModel.dart';
 
 class ServicesRepository{
@@ -233,6 +234,19 @@ class ServicesRepository{
     }
     if (response != null && response.statusCode == 200) {
       return pensionPaymentModelFromJson(response.toString());
+    }
+    return null;
+  }
+
+  Future<GetEarlyRetirementModel> getEarlyRetirementService() async {
+    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+    String internalKey = userSecuredStorage.insuranceNumber.toString();
+    var response = await HTTPClientContract.instance.getHTTP('/website/get_application?p_app_id=$internalKey&p_app_type=8&p_status=1&p_id=null&isDefense=null');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return getEarlyRetirementModelFromJson(response.toString());
     }
     return null;
   }

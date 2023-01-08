@@ -63,6 +63,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.getPensionPaymentSPService(year);
   }
 
+  Future getEarlyRetirement() async{
+    return await servicesRepository.getEarlyRetirementService();
+  }
+
   Future<void> readCountriesJson() async {
     countries = [];
     final String response = await rootBundle.loadString('assets/jsonFiles/countries.json');
