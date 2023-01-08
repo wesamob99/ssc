@@ -279,12 +279,12 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                     await widget.serviceApiCall.call().whenComplete((){}).then((value){
                                       /// TODO: check this condition every time you pass new [serviceApiCall]
                                       if(value != null &&
-                                          (
-                                              ((widget.serviceTitle == 'membershipRequest') && (value["PO_status_no"] == 0 || value["PO_status_no"] == 1)) ||
-                                              ((widget.serviceTitle == 'requestToAmendTheAnnualIncreasePercentage') && value["PO_status_no"] == null) ||
-                                              ((widget.serviceTitle == 'historicalPensionDetails') && value['cur_getdata'].length != 0) ||
-                                              ((widget.serviceTitle == 'earlyRetirementRequest') && value['P_Message'][0][0]['PO_STATUS'] == 0)
-                                          )
+                                        (
+                                          ((widget.serviceTitle == 'membershipRequest') && (value["PO_status_no"] == 0 || value["PO_status_no"] == 1)) || /// membership request - طلب اختياري
+                                          ((widget.serviceTitle == 'requestToAmendTheAnnualIncreasePercentage') && value["PO_status_no"] == null) || /// request to amend the annual increase percentage - طلب تعديل نسبة الزيادة السنوية
+                                          ((widget.serviceTitle == 'historicalPensionDetails') && value['cur_getdata'].length != 0) || /// historical pension details - الرواتب التقاعديه التاريخيه
+                                          ((widget.serviceTitle == 'earlyRetirementRequest') && value['P_Message'][0][0]['PO_STATUS'] == 0) /// early retirement - تقاعد مبكر
+                                        )
                                       ){
                                         servicesProvider.result = value;
                                         Navigator.of(context).push(
