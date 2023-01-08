@@ -280,9 +280,10 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                       /// TODO: check this condition every time you pass new [serviceApiCall]
                                       if(value != null &&
                                           (
-                                              ((!value.containsKey('PO_status_no') || value["PO_status_no"] == 0 || value["PO_status_no"] == 1) && (widget.serviceTitle != 'historicalPensionDetails') && (widget.serviceTitle != 'requestToAmendTheAnnualIncreasePercentage')) ||
+                                              ((widget.serviceTitle == 'membershipRequest') && (value["PO_status_no"] == 0 || value["PO_status_no"] == 1)) ||
                                               ((widget.serviceTitle == 'requestToAmendTheAnnualIncreasePercentage') && value["PO_status_no"] == null) ||
-                                              ((widget.serviceTitle == 'historicalPensionDetails') && value['cur_getdata'].length != 0)
+                                              ((widget.serviceTitle == 'historicalPensionDetails') && value['cur_getdata'].length != 0) ||
+                                              ((widget.serviceTitle == 'earlyRetirementRequest') && value['P_Message'][0][0]['PO_STATUS'] == 0)
                                           )
                                       ){
                                         servicesProvider.result = value;
@@ -290,8 +291,13 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                             MaterialPageRoute(builder: (context) => widget.serviceScreen)
                                         );
                                       } else{
-                                        errorMessage = UserConfig.instance.checkLanguage()
-                                            ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
+                                        if((widget.serviceTitle == 'earlyRetirementRequest')){
+                                          errorMessage = UserConfig.instance.checkLanguage()
+                                          ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                        } else{
+                                          errorMessage = UserConfig.instance.checkLanguage()
+                                              ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
+                                        }
                                         showMyDialog(context, 'failed', errorMessage ?? translate('thereAreNoData', context), 'ok', themeNotifier);
                                       }
                                     });
