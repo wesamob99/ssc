@@ -418,7 +418,7 @@ animatedLoader(context){
   );
 }
 
-SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPressed,
+SizedBox textButton(context, ThemeNotifier themeNotifier, String textKey, Color buttonColor, Color textColor, onPressed,
     {double verticalPadding  = 16.0, String borderColor = '#ffffff'}){
   return SizedBox(
     width: width(0.7, context),
@@ -443,7 +443,7 @@ SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPres
           )
       ),
       child: Text(
-        translate(text, context),
+        translate(textKey, context),
         style: TextStyle(
           color: textColor,
           fontWeight: FontWeight.w300
@@ -453,6 +453,44 @@ SizedBox textButton(context, themeNotifier, text, buttonColor, textColor, onPres
   );
 }
 
+SizedBox textButtonWithIcon(context, ThemeNotifier themeNotifier, String textKey, Color buttonColor, Color textColor, onPressed,
+    {double verticalPadding  = 16.0, String borderColor = '#ffffff', IconData icon = Icons.add, String iconColor = '#2D452E'}){
+  return SizedBox(
+    width: width(0.7, context),
+    child: TextButton.icon(
+      onPressed: onPressed,
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+              buttonColor
+          ),
+          foregroundColor: MaterialStateProperty.all<Color>(
+              Colors.white
+          ),
+          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: verticalPadding)),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+                side: BorderSide(
+                    color: HexColor(borderColor),
+                    width: 1
+                )
+            ),
+          )
+      ),
+      label: Text(
+        translate(textKey, context),
+        style: TextStyle(
+            color: textColor,
+            fontWeight: FontWeight.w300
+        ),
+      ),
+      icon: Icon(
+        icon,
+        color: HexColor(iconColor),
+      ),
+    ),
+  );
+}
 
 Widget buildFieldTitle(context, title, {required = true, filled = false}){
   ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
