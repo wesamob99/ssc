@@ -105,6 +105,7 @@
   "secondStep": "الخطوة الثانيه",
   "thirdStep": "الخطوة الثالثه",
   "forthStep": "الخطوة الرابعه",
+  "fifthStep": "الخطوة الخامسه",
   "civilIdNumber": "رقم الهوية المدنيه",
   "relativeNationalNumber": "رقم وطني لأحد الاقارب",
   "relativeRelation": "صلة القرابة",
@@ -354,7 +355,8 @@
   "theAmount": "المبلغ",
   "ensureFinancialSolvency": "التأكد من الملاءة المالية",
   "confirmationOfDependentInformation": "تأكيد معلومات المعالين",
-  "receiptMethods": "طرق الاستلام"
+  "receiptMethods": "طرق الاستلام",
+  "receiptOfAllowances": "استلام المخصصات"
 
 
 }

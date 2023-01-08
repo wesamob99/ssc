@@ -105,6 +105,7 @@
   "secondStep": "Second step",
   "thirdStep": "Third step",
   "forthStep": "Forth step",
+  "fifthStep": "Fifth step",
   "civilIdNumber": "Civil ID number",
   "relativeNationalNumber": "A relative's national number",
   "relativeRelation": "Relative relation",
@@ -353,7 +354,8 @@
   "theAmount": "The amount",
   "ensureFinancialSolvency": "Ensure financial solvency",
   "confirmationOfDependentInformation": "Confirmation of dependent information",
-  "receiptMethods": "Receipt methods"
+  "receiptMethods": "Receipt methods",
+  "receiptOfAllowances": "Receipt of allowances"
 
 
 
