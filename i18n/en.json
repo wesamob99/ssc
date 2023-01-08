@@ -350,7 +350,10 @@
   "applicationForPensionersLoan": "Application for pensioners loan",
   "applicationOfReschedulePensionersLoan": "Application of reschedule pensioners loan",
   "dependentInformationUpdate": "Dependent information update",
-  "theAmount": "The amount"
+  "theAmount": "The amount",
+  "ensureFinancialSolvency": "Ensure financial solvency",
+  "confirmationOfDependentInformation": "Confirmation of dependent information",
+  "receiptMethods": "Receipt methods"
 
 
 

@@ -351,7 +351,10 @@
   "applicationForPensionersLoan": "طلب سلفة تقاعد",
   "applicationOfReschedulePensionersLoan": "إعادة جدولة السلفة",
   "dependentInformationUpdate": "تحديث معلومات المعالين",
-  "theAmount": "المبلغ"
+  "theAmount": "المبلغ",
+  "ensureFinancialSolvency": "التأكد من الملاءة المالية",
+  "confirmationOfDependentInformation": "تأكيد معلومات المعالين",
+  "receiptMethods": "طرق الاستلام"
 
 
 }
