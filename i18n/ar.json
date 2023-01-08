@@ -200,6 +200,7 @@
   "savingsBalanceDisbursementRequest": "طلب صرف الرصيد الادخاري",
   "workInjuryInsurance": "تأمين إصابات العمل",
   "edit": "تعديل",
+  "delete": "حذف",
   "editComplete": "تم التعديل",
   "emptyList": "قائمة فارغة!",
   "emptyListDesc": "قائمة الروابط السريعه فارغة، اضغط على تعديل لإضافة العناصر.",
@@ -356,7 +357,26 @@
   "ensureFinancialSolvency": "التأكد من الملاءة المالية",
   "confirmationOfDependentInformation": "تأكيد معلومات المعالين",
   "receiptMethods": "طرق الاستلام",
-  "receiptOfAllowances": "استلام المخصصات"
+  "receiptOfAllowances": "استلام المخصصات",
+  "yes": "نعم",
+  "no": "لا",
+  "areYouAuthorizedToSignForCompany": "هل انت مفوض بالتوقيع لإحدى الشركات ؟",
+  "areYouPartnerInLimitedLiabilityCompany": "هل انت شريك في شركة ذات مسؤلية محدودة ؟",
+  "numberOfDependents": "عدد المعالين",
+  "addNewDependents": "إضافة معالين جدد",
+  "maritalStatus": "الحالة الاجتماعية",
+  "employmentStatus": "الحاله الوظيفيه",
+  "hasDisability": "لديه عجز",
+  "getsSalary": "يتقاضى راتب",
+  "status": "الحالة",
+  "alive": "على قيد الحياة",
+  "dead": "في ذمة الله",
+  "singleM": "أعزب",
+  "singleF": "عزباء",
+  "marriedM": "متزوج",
+  "marriedF": "متزوجه",
+  "unemployed": "لا يعمل",
+  "employed": "يعمل"
 
 
 }

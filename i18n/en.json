@@ -199,6 +199,7 @@
   "savingsBalanceDisbursementRequest": "Savings balance disbursement request",
   "workInjuryInsurance": "Work injury insurance",
   "edit": "Edit",
+  "delete": "Delete",
   "editComplete": "Edit complete",
   "emptyList": "Empty list!",
   "emptyListDesc": "Your quick access list is empty, press edit to add items.",
@@ -355,8 +356,23 @@
   "ensureFinancialSolvency": "Ensure financial solvency",
   "confirmationOfDependentInformation": "Confirmation of dependent information",
   "receiptMethods": "Receipt methods",
-  "receiptOfAllowances": "Receipt of allowances"
-
-
+  "receiptOfAllowances": "Receipt of allowances",
+  "yes": "Yes",
+  "no": "No",
+  "areYouAuthorizedToSignForCompany": "Are you authorized to sign for a company ?",
+  "areYouPartnerInLimitedLiabilityCompany": "Are you a partner in a limited liability company ?",
+  "numberOfDependents": "Number og dependents",
+  "addNewDependents": "Add new dependents",
+  "maritalStatus": "Marital status",
+  "employmentStatus": "Employment status",
+  "hasDisability": "Has a disability",
+  "getsSalary": "Gets a salary",
+  "status": "Status",
+  "alive": "Alive",
+  "dead": "Dead",
+  "single": "Single",
+  "married": "Married",
+  "unemployed": "Unemployed",
+  "employed": "Employed"
 
 }
