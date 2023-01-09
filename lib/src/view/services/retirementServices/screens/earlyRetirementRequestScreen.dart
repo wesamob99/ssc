@@ -13,6 +13,7 @@ import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/theme/themes.dart';
 import '../../../../../utilities/util.dart';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import '../../shared/firstStepScreen.dart';
 import '../../shared/verifyMobileNumberScreen.dart';
@@ -30,6 +31,13 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   ThemeNotifier themeNotifier;
   String firstSelectedItem = 'no';
   String secondSelectedItem = 'no';
+
+  String selectedStatus;
+  String selectedJobStatus;
+  String selectedGetsSalary;
+  String selectedHasDisability;
+  String selectedMaritalStatus;
+  List<String> maritalList;
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
@@ -51,7 +59,6 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     servicesProvider.stepNumber = 1;
-
     super.initState();
   }
 
@@ -306,11 +313,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
             SizedBox(height: height(0.02, context),),
             buildFieldTitle(context, 'areYouAuthorizedToSignForCompany', required: false),
             SizedBox(height: height(0.01, context),),
-            radioButtonGroup(1),
+            yesNoTwoRadioButtons(1),
             const SizedBox(height: 30,),
             buildFieldTitle(context, 'areYouPartnerInLimitedLiabilityCompany', required: false),
             SizedBox(height: height(0.01, context),),
-            radioButtonGroup(2),
+            yesNoTwoRadioButtons(2),
           ],
         ),
       ),
@@ -445,7 +452,36 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   PopupMenuButton<ContextMenu>(
                                     onSelected: (ContextMenu result) async {
                                       switch (result.index) {
-                                        case 0: {} break;
+                                        case 0: {
+                                          selectedStatus = servicesProvider.result['P_Dep'][0][index]['IS_ALIVE'] == 1
+                                              ? 'alive' : 'dead';
+                                          selectedJobStatus = servicesProvider.result['P_Dep'][0][index]['WORK_STATUS'] == 0
+                                              ? 'unemployed' : 'employed';
+                                          selectedGetsSalary = servicesProvider.result['P_Dep'][0][index]['IS_RETIRED'] == 0
+                                              ? 'no' : 'yes';
+                                          selectedHasDisability = servicesProvider.result['P_Dep'][0][index]['DISABILITY'] == 0
+                                              ? 'no' : 'yes';
+                                          selectedMaritalStatus = servicesProvider.result['P_Dep'][0][index]['MARITAL_STATUS'] == 1
+                                              ? UserConfig.instance.checkLanguage()
+                                              ? 'single' : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'singleM' : 'singleF'
+                                              : UserConfig.instance.checkLanguage()
+                                              ? 'married' : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'marriedM' : 'marriedF';
+                                          maritalList = [
+                                            UserConfig.instance.checkLanguage()
+                                                ? 'single'
+                                                : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'singleM' : 'singleF',
+                                            UserConfig.instance.checkLanguage()
+                                                ? 'married'
+                                                : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
+                                            UserConfig.instance.checkLanguage()
+                                                ? 'divorced'
+                                                : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF',
+                                            UserConfig.instance.checkLanguage()
+                                                ? 'widow'
+                                                : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'widowM' : 'widowF',
+                                          ];
+                                          editDependentModalBottomSheet(index);
+                                        } break;
                                         case 1: {} break;
                                         default: {} break;
                                       }
@@ -841,7 +877,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     );
   }
 
-  radioButtonGroup(int flag){
+  Widget yesNoTwoRadioButtons(int flag){
     return Row(
       children: [
         InkWell(
@@ -943,6 +979,333 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     );
   }
 
+  Widget customTwoRadioButtons(int flag, String firstChoice, String secondChoice, setState){
+    return Row(
+      children: [
+        InkWell(
+          onTap: (){
+            setState(() {
+              if(flag == 1) {
+                selectedStatus = firstChoice;
+              }
+              if(flag == 2) {
+                selectedJobStatus = firstChoice;
+              }
+              if(flag == 3) {
+                selectedGetsSalary = firstChoice;
+              }
+              if(flag == 4) {
+                selectedHasDisability = firstChoice;
+              }
+            });
+          },
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(500.0),
+                  border: Border.all(
+                    color: HexColor('#2D452E'),
+                  ),
+                ),
+                padding: const EdgeInsets.all(2.0),
+                child: CircleAvatar(
+                  radius: isTablet(context) ? 10 : 5,
+                  backgroundColor: (flag == 1 && selectedStatus == firstChoice) || (flag == 2 && selectedJobStatus == firstChoice) ||
+                      (flag == 3 && selectedGetsSalary == firstChoice) || (flag == 4 && selectedHasDisability == firstChoice)
+                      ? HexColor('#2D452E') : Colors.transparent,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  translate(firstChoice, context),
+                  style: TextStyle(
+                    color: HexColor('#666666'),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 10.0,),
+        InkWell(
+          onTap: (){
+            setState(() {
+              if(flag == 1) {
+                selectedStatus = secondChoice;
+              }
+              if(flag == 2) {
+                selectedJobStatus = secondChoice;
+              }
+              if(flag == 3) {
+                selectedGetsSalary = secondChoice;
+              }
+              if(flag == 4) {
+                selectedHasDisability = secondChoice;
+              }
+            });
+          },
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(500.0),
+                  border: Border.all(
+                    color: HexColor('#2D452E'),
+                  ),
+                ),
+                padding: const EdgeInsets.all(2.0),
+                child: CircleAvatar(
+                  radius: isTablet(context) ? 10 : 5,
+                  backgroundColor: (flag == 1 && selectedStatus == secondChoice) || (flag == 2 && selectedJobStatus == secondChoice) ||
+                      (flag == 3 && selectedGetsSalary == secondChoice) || (flag == 4 && selectedHasDisability == secondChoice)
+                      ? HexColor('#2D452E') : Colors.transparent,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  translate(secondChoice, context),
+                  style: TextStyle(
+                    color: HexColor('#666666'),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget customRadioButtonGroup(List choices, setState){
+    return Expanded(
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 4,
+        itemBuilder: (context, index){
+          return Column(
+            children: [
+              InkWell(
+                onTap: (){
+                  setState(() {
+                    selectedMaritalStatus = choices[index];
+                  });
+                },
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(500.0),
+                        border: Border.all(
+                          color: HexColor('#2D452E'),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(2.0),
+                      child: CircleAvatar(
+                        radius: isTablet(context) ? 10 : 5,
+                        backgroundColor: selectedMaritalStatus == choices[index]
+                            ? HexColor('#2D452E') : Colors.transparent,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        translate(choices[index], context),
+                        style: TextStyle(
+                          color: HexColor('#666666'),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10.0,)
+            ],
+          );
+        }
+      ),
+    );
+  }
+
+  editDependentModalBottomSheet(index){
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25.0))
+      ),
+      context: context,
+      barrierColor: Colors.black26,
+      backgroundColor: const Color.fromRGBO(250, 250, 250, 1.0),
+      isScrollControlled: true,
+      constraints: BoxConstraints(
+          maxHeight: height(0.9, context)
+      ),
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, setState) => BackdropFilter(
+            filter: ui.ImageFilter.blur(
+              sigmaX: 1.0,
+              sigmaY: 1.0,
+            ),
+            child: Material(
+              elevation: 100,
+              borderRadius: BorderRadius.circular(25.0),
+              color: getContainerColor(context),
+              shadowColor: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0).copyWith(top: 15.0),
+                child: Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              width: 45,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                  color: !themeNotifier.isLight() ? Colors.white : HexColor('#000000'),
+                                  borderRadius: const BorderRadius.all(Radius.circular(25.0))),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 25.0,),
+                        Card(
+                            elevation: 2.0,
+                            shadowColor: Colors.black45,
+                            color: getContainerColor(context),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            child: Container(
+                              width: width(1, context),
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        servicesProvider.result['P_Dep'][0][index]['NAME'],
+                                        style: TextStyle(
+                                          height: 1.4,
+                                          color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                                        decoration: BoxDecoration(
+                                          color: servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
+                                              ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        child: Text(
+                                          getRelationType(servicesProvider.result['P_Dep'][0][index]['RELATION']),
+                                          style: TextStyle(
+                                            color: servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
+                                                ? HexColor('#003C97') : HexColor('#2D452E'),
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 15.0,),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        servicesProvider.result['P_Dep'][0][index]['NATIONAL_NO'],
+                                        style: TextStyle(
+                                          color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                        ),
+                                      ),
+                                      Text(
+                                        ' / ',
+                                        style: TextStyle(
+                                          color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                        ),
+                                      ),
+                                      Text(
+                                        translate(
+                                            servicesProvider.result['P_Dep'][0][index]['NATIONALITY'] == 1
+                                                ? 'jordanian' : 'nonJordanian',
+                                            context),
+                                        style: TextStyle(
+                                          color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                        ),
+                        const SizedBox(height: 20.0,),
+                        Expanded(
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: [
+                              buildFieldTitle(context, 'status', required: false),
+                              const SizedBox(height: 10.0,),
+                              customTwoRadioButtons(1, 'alive', 'dead', setState),
+                              const SizedBox(height: 20.0,),
+                              buildFieldTitle(context, 'employmentStatus', required: false),
+                              const SizedBox(height: 10.0,),
+                              customTwoRadioButtons(2, 'unemployed', 'employed', setState),
+                              const SizedBox(height: 20.0,),
+                              buildFieldTitle(context, 'getsSalary', required: false),
+                              const SizedBox(height: 10.0,),
+                              customTwoRadioButtons(3, 'yes', 'no', setState),
+                              const SizedBox(height: 20.0,),
+                              buildFieldTitle(context, 'hasDisability', required: false),
+                              const SizedBox(height: 10.0,),
+                              customTwoRadioButtons(4, 'yes', 'no', setState),
+                              const SizedBox(height: 20.0,),
+                              buildFieldTitle(context, 'maritalStatus', required: false),
+                              const SizedBox(height: 10.0,),
+                              customRadioButtonGroup(maritalList, setState),
+                              const SizedBox(height: 100.0,),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      width: width(0.9, context),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          textButton(context, themeNotifier, 'save', HexColor('#445740'), Colors.white, (){
+                            Navigator.of(context).pop();
+                          }),
+                          const SizedBox(height: 4.0,),
+                          textButton(context, themeNotifier, 'cancel', HexColor('#DADADA'), HexColor('#363636'), (){
+                            Navigator.of(context).pop();
+                          }),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget contextMenuItem(String key, String icon, String iconColor) {
     return Row(
       children: <Widget>[
@@ -953,7 +1316,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     );
   }
 
-  getRelationType(int relation){
+  String getRelationType(int relation){
     String result = '';
     servicesProvider.result['P_RELATION'][0].forEach((element){
       if(element['REL_ID'].toString() == relation.toString()){
