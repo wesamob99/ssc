@@ -263,7 +263,8 @@ Future<void> showMyDialog(
     String body,
     String buttonText,
     ThemeNotifier themeNotifier,
-    {titleColor = '#ED3124',
+    { bool withCancelButton = false,
+    titleColor = '#ED3124',
     icon = 'assets/icons/loginError.svg',
     withPayButton = false,
     Widget extraWidgetBody = const SizedBox.shrink(),
@@ -388,6 +389,31 @@ Future<void> showMyDialog(
                   )
               ),
               child: Text(translate(buttonText, context)),
+            ),
+            if(withCancelButton)
+            const SizedBox(height: 5.0,),
+            if(withCancelButton)
+            TextButton(
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      HexColor('#DADADA')
+                  ),
+                  foregroundColor:  MaterialStateProperty.all<Color>(
+                      HexColor('#363636')
+                  ),
+                  fixedSize:  MaterialStateProperty.all<Size>(
+                    Size(width(1, context), height(0.05, context)),
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)
+                      )
+                  )
+              ),
+              child: Text(translate('cancel', context)),
             ),
           ],
           shape: const RoundedRectangleBorder(
