@@ -459,7 +459,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                               ? 'alive' : 'dead';
                                           selectedJobStatus = servicesProvider.result['P_Dep'][0][index]['WORK_STATUS'] == 0
                                               ? 'unemployed' : 'employed';
-                                          selectedGetsSalary = servicesProvider.result['P_Dep'][0][index]['IS_RETIRED'] == 0
+                                          selectedGetsSalary = servicesProvider.result['P_Dep'][0][index]['IS_RETIRED_A'] == 1
                                               ? 'no' : 'yes';
                                           selectedHasDisability = servicesProvider.result['P_Dep'][0][index]['DISABILITY'] == 0
                                               ? 'no' : 'yes';
@@ -658,7 +658,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   const SizedBox(height: 10.0,),
                                   Text(
                                     translate(
-                                    servicesProvider.result['P_Dep'][0][index]['IS_RETIRED'] == 0
+                                    servicesProvider.result['P_Dep'][0][index]['IS_RETIRED_A'] == 1
                                         ? 'no' : 'yes',
                                     context),
                                     style: TextStyle(
