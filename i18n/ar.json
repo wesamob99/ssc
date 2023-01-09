@@ -375,8 +375,13 @@
   "singleF": "عزباء",
   "marriedM": "متزوج",
   "marriedF": "متزوجه",
+  "divorcedM": "مطلق",
+  "divorcedF": "مطلقة",
+  "widowM": "أرمل",
+  "widowF": "أرملة",
   "unemployed": "لا يعمل",
-  "employed": "يعمل"
+  "employed": "يعمل",
+  "save": "حفظ"
 
 
 }
