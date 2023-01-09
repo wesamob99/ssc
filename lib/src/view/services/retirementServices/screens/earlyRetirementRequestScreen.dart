@@ -482,7 +482,13 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                           ];
                                           editDependentModalBottomSheet(index);
                                         } break;
-                                        case 1: {} break;
+                                        case 1: {
+                                          showMyDialog(
+                                            context, 'wouldYouLikeToConfirmDeletionOfDependents',
+                                            servicesProvider.result['P_Dep'][0][index]['NAME'],
+                                            'yesContinue', themeNotifier, icon: 'assets/icons/dialogDeleteIcon.svg',
+                                            onPressed: (){}, withCancelButton: true);
+                                        } break;
                                         default: {} break;
                                       }
                                     },
