@@ -28,6 +28,7 @@ class EarlyRetirementRequestScreen extends StatefulWidget {
 class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScreen> {
 
   ServicesProvider servicesProvider;
+  Future documentsFuture;
   ThemeNotifier themeNotifier;
   String firstSelectedItem = 'no';
   String secondSelectedItem = 'no';
@@ -58,6 +59,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+    documentsFuture = servicesProvider.getRequiredDocuments();
     servicesProvider.stepNumber = 1;
     super.initState();
   }
@@ -698,64 +700,108 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   }
 
   Widget forthStep(context, themeNotifier){
-    return SizedBox(
-      height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: height(0.02, context),),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  translate('forthStep', context),
-                  style: TextStyle(
-                      color: HexColor('#979797'),
-                      fontSize: width(0.03, context)
-                  ),
-                ),
-                SizedBox(height: height(0.006, context),),
-                Text(
-                  translate('documents', context),
-                  style: TextStyle(
-                      color: HexColor('#5F5F5F'),
-                      fontSize: width(0.035, context)
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: height(0.01, context),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox.shrink(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      '4/6',
-                      style: TextStyle(
-                          color: HexColor('#979797'),
-                          fontSize: width(0.025, context)
-                      ),
+    return FutureBuilder(
+        future: documentsFuture,
+        builder: (context, snapshot){
+          switch(snapshot.connectionState){
+            case ConnectionState.none:
+              return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc'); break;
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              return Expanded(
+                  child: animatedLoader(context)
+              ); break;
+            case ConnectionState.done:
+              if(!snapshot.hasError && snapshot.hasData){
+                print(snapshot.data['R_RESULT'][0]);
+                return SizedBox(
+                  height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: height(0.02, context),),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              translate('forthStep', context),
+                              style: TextStyle(
+                                  color: HexColor('#979797'),
+                                  fontSize: width(0.03, context)
+                              ),
+                            ),
+                            SizedBox(height: height(0.006, context),),
+                            Text(
+                              translate('documents', context),
+                              style: TextStyle(
+                                  color: HexColor('#5F5F5F'),
+                                  fontSize: width(0.035, context)
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: height(0.01, context),),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox.shrink(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '4/6',
+                                  style: TextStyle(
+                                      color: HexColor('#979797'),
+                                      fontSize: width(0.025, context)
+                                  ),
+                                ),
+                                Text(
+                                  '${translate('next', context)}: ${translate('receiptOfAllowances', context)}',
+                                  style: TextStyle(
+                                      color: HexColor('#979797'),
+                                      fontSize: width(0.032, context)
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: height(0.02, context),),
+                        Text(
+                          translate('numberOfDocumentsRequired', context) + ' ( ${snapshot.data['R_RESULT'][0].length} )',
+                          style: TextStyle(
+                            color: HexColor('#363636'),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                          ),
+                        ),
+                        const SizedBox(height: 40,),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data['R_RESULT'][0].length,
+                          itemBuilder: (context, index){
+                            return Text(
+                              UserConfig.instance.checkLanguage()
+                              ? '${snapshot.data['R_RESULT'][0][index]['NAME_EN']}'
+                              : '${snapshot.data['R_RESULT'][0][index]['NAME_AR']}',
+                              style: TextStyle(
+                                color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
+                                fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
+                              ),
+                            );
+                          },
+                        )
+                      ],
                     ),
-                    Text(
-                      '${translate('next', context)}: ${translate('receiptOfAllowances', context)}',
-                      style: TextStyle(
-                          color: HexColor('#979797'),
-                          fontSize: width(0.032, context)
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: height(0.02, context),),
-          ],
-        ),
-      ),
+                  ),
+                );
+              }
+              break;
+          }
+          return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc');
+        }
     );
   }
 
