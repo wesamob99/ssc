@@ -376,6 +376,8 @@
   "widow": "Widow",
   "unemployed": "Unemployed",
   "employed": "Employed",
-  "save": "Save"
+  "save": "Save",
+  "wouldYouLikeToConfirmDeletionOfDependents": "Would you like to confirm deletion of dependents",
+  "yesContinue": "Yes, continue"
 
 }

@@ -381,7 +381,8 @@
   "widowF": "أرملة",
   "unemployed": "لا يعمل",
   "employed": "يعمل",
-  "save": "حفظ"
-
+  "save": "حفظ",
+  "wouldYouLikeToConfirmDeletionOfDependents": "هل تود تأكيد حذف المعال",
+  "yesContinue": "نعم، استمر"
 
 }
