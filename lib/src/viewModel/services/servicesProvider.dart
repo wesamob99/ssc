@@ -27,6 +27,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.getAccountDataService();
   }
 
+  Future getRequiredDocuments() async{
+    return await servicesRepository.getRequiredDocumentsService(result);
+  }
+
   Future<UserProfileData> optionalSubIncGetDetailNew() async{
     return await servicesRepository.optionalSubIncGetDetailNewService();
   }
