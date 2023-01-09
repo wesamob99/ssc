@@ -713,7 +713,6 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               ); break;
             case ConnectionState.done:
               if(!snapshot.hasError && snapshot.hasData){
-                print(snapshot.data['R_RESULT'][0]);
                 return SizedBox(
                   height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
                   child: SingleChildScrollView(
