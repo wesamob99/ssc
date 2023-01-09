@@ -60,7 +60,7 @@ class HTTPClientContract {
   static final BaseOptions _opts = BaseOptions(
     baseUrl: BASE_URL,
     responseType: _DEFAULT_RESPONSE_TYPE,
-    connectTimeout: 30000,
+    connectTimeout: 40000,
     receiveTimeout: 60000,
     receiveDataWhenStatusError: true,
     validateStatus: (status) => true,
