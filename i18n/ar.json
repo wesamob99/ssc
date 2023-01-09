@@ -383,6 +383,12 @@
   "employed": "يعمل",
   "save": "حفظ",
   "wouldYouLikeToConfirmDeletionOfDependents": "هل تود تأكيد حذف المعال",
-  "yesContinue": "نعم، استمر"
+  "yesContinue": "نعم، استمر",
+  "noCancel": "لا، إلغاء",
+  "numberOfDocumentsRequired": "عدد الوثائق المطلوبة",
+  "firstDocument": "الوثيقة الأولى",
+  "secondDocument": "الوثيقة الثانيه",
+  "serviceTerminationLetter": "كتاب إنهاء خدمة",
+  "civilRetirementLetter": "كتاب التقاعد المدني"
 
 }

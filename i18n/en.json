@@ -378,6 +378,12 @@
   "employed": "Employed",
   "save": "Save",
   "wouldYouLikeToConfirmDeletionOfDependents": "Would you like to confirm deletion of dependents",
-  "yesContinue": "Yes, continue"
+  "yesContinue": "Yes, continue",
+  "noCancel": "No, cancel",
+  "numberOfDocumentsRequired": "Number of documents required",
+  "firstDocument": "The first document",
+  "secondDocument": "The second document",
+  "serviceTerminationLetter": "Service termination letter",
+  "civilRetirementLetter": "Civil retirement letter"
 
 }
