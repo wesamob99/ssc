@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:drop_down_list/drop_down_list.dart';
+import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,12 +12,14 @@ import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 
 import '../../../../../infrastructure/userConfig.dart';
 import '../../../../../infrastructure/userSecuredStorage.dart';
+import '../../../../../utilities/countries.dart';
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/theme/themes.dart';
 import '../../../../../utilities/util.dart';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
+import '../../../../viewModel/login/loginProvider.dart';
 import '../../shared/firstStepScreen.dart';
 import '../../shared/verifyMobileNumberScreen.dart';
 
@@ -31,6 +35,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   ServicesProvider servicesProvider;
   Future documentsFuture;
   ThemeNotifier themeNotifier;
+  SelectedListItem selectedMobileCountry = SelectedListItem(
+    name: UserConfig.instance.checkLanguage() ? "Jordan" : "الأردن",
+    value: "962", natCode: 111,
+    flag: countries[110].flag,
+  );
   String firstSelectedItem = 'no';
   String secondSelectedItem = 'no';
 
@@ -39,6 +48,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   String selectedGetsSalary;
   String selectedHasDisability;
   String selectedMaritalStatus;
+  String selectedMethodOfReceiving = 'insideJordan';
   List<String> maritalList;
 
   checkContinueEnabled({flag = 0}){
@@ -58,6 +68,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
 
   @override
   void initState() {
+    Provider.of<LoginProvider>(context, listen: false).readCountriesJson();
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     documentsFuture = servicesProvider.getRequiredDocuments();
@@ -81,7 +92,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 case 3: servicesProvider.stepNumber = 2; break;
                 case 4: servicesProvider.stepNumber = 3; break;
                 case 5: servicesProvider.stepNumber = 4; break;
-                case 6: servicesProvider.stepNumber = 6; break;
+                case 6: servicesProvider.stepNumber = 5; break;
               }
               servicesProvider.notifyMe();
             },
@@ -906,6 +917,58 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               ],
             ),
             SizedBox(height: height(0.02, context),),
+            buildFieldTitle(context, 'methodOfReceivingSalary', required: false),
+            const SizedBox(height: 10.0,),
+            customTwoRadioButtons(5, 'insideJordan', 'outsideJordan', setState),
+            const SizedBox(height: 30.0,),
+            if(selectedMethodOfReceiving == 'insideJordan')
+            Container(),
+            if(selectedMethodOfReceiving == 'outsideJordan')
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildFieldTitle(context, 'country', required: false),
+                const SizedBox(height: 10.0,),
+                buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                const SizedBox(height: 16,),
+                buildFieldTitle(context, 'bankName', required: false),
+                const SizedBox(height: 10.0,),
+                buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                const SizedBox(height: 16,),
+                buildFieldTitle(context, 'bankBranch', required: false),
+                const SizedBox(height: 10.0,),
+                buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                const SizedBox(height: 16,),
+                buildFieldTitle(context, 'bankAddress', required: false),
+                const SizedBox(height: 10.0,),
+                buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                const SizedBox(height: 16,),
+                buildFieldTitle(context, 'accountNumber', required: false),
+                const SizedBox(height: 10.0,),
+                buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}, inputType: TextInputType.number),
+                const SizedBox(height: 16,),
+                buildFieldTitle(context, 'swiftCode', required: false),
+                const SizedBox(height: 10.0,),
+                buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}, inputType: TextInputType.text),
+                const SizedBox(height: 16,),
+                buildFieldTitle(context, 'mobileNumber', required: false),
+                const SizedBox(height: 10.0,),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}, inputType: TextInputType.number),
+                    ),
+                    const SizedBox(width: 10.0,),
+                    Expanded(
+                      flex: 2,
+                      child: buildCountriesDropDown(selectedMobileCountry),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20,),
+              ],
+            ),
           ],
         ),
       ),
@@ -1094,6 +1157,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               if(flag == 4) {
                 selectedHasDisability = firstChoice;
               }
+              if(flag == 5) {
+                selectedMethodOfReceiving = firstChoice;
+              }
             });
           },
           child: Row(
@@ -1110,7 +1176,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 child: CircleAvatar(
                   radius: isTablet(context) ? 10 : 5,
                   backgroundColor: (flag == 1 && selectedStatus == firstChoice) || (flag == 2 && selectedJobStatus == firstChoice) ||
-                      (flag == 3 && selectedGetsSalary == firstChoice) || (flag == 4 && selectedHasDisability == firstChoice)
+                      (flag == 3 && selectedGetsSalary == firstChoice) || (flag == 4 && selectedHasDisability == firstChoice) || (flag == 5 && selectedMethodOfReceiving == firstChoice)
                       ? HexColor('#2D452E') : Colors.transparent,
                 ),
               ),
@@ -1142,6 +1208,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               if(flag == 4) {
                 selectedHasDisability = secondChoice;
               }
+              if(flag == 5) {
+                selectedMethodOfReceiving = secondChoice;
+              }
             });
           },
           child: Row(
@@ -1158,7 +1227,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 child: CircleAvatar(
                   radius: isTablet(context) ? 10 : 5,
                   backgroundColor: (flag == 1 && selectedStatus == secondChoice) || (flag == 2 && selectedJobStatus == secondChoice) ||
-                      (flag == 3 && selectedGetsSalary == secondChoice) || (flag == 4 && selectedHasDisability == secondChoice)
+                      (flag == 3 && selectedGetsSalary == secondChoice) || (flag == 4 && selectedHasDisability == secondChoice) || (flag == 5 && selectedMethodOfReceiving == secondChoice)
                       ? HexColor('#2D452E') : Colors.transparent,
                 ),
               ),
@@ -1422,6 +1491,86 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     });
     return result;
   }
+
+  Widget buildCountriesDropDown(SelectedListItem selectedCountry) {
+    List<SelectedListItem> selectedListItem = [];
+    for (var element in Provider.of<LoginProvider>(context, listen: false).countries) {
+      int inx = countries.indexWhere((value) => value.dialCode == element.callingCode);
+      selectedListItem.add(
+        SelectedListItem(
+          name: UserConfig.instance.checkLanguage() ? countries[inx == -1
+              ? 0
+              : inx].name : element.country,
+          natCode: element.natcode,
+          value: countries[inx == -1 ? 0 : inx].dialCode,
+          isSelected: false,
+          flag: countries[inx == -1 ? 0 : inx].flag,
+        ),
+      );
+    }
+    return InkWell(
+      onTap: () {
+        DropDownState(
+          DropDown(
+            isSearchVisible: true,
+            data: selectedListItem ?? [],
+            selectedItems: (List<dynamic> selectedList) {
+              for (var item in selectedList) {
+                if (item is SelectedListItem) {
+                  setState(() {
+                    selectedMobileCountry = item;
+                  });
+                }
+              }
+            },
+            enableMultipleSelection: false,
+          ),
+        ).showModal(context);
+      },
+      child: Container(
+          alignment: UserConfig.instance.checkLanguage()
+              ? Alignment.centerLeft
+              : Alignment.centerRight,
+          padding: const EdgeInsets.symmetric(
+              horizontal: 16.0, vertical: 9.3),
+          decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(
+                  color: HexColor('#979797')
+              )
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    selectedCountry?.flag ?? "",
+                    style: const TextStyle(
+                      fontSize: 25,
+                    ),
+                  ),
+                  SizedBox(width: width(0.01, context),),
+                  Text(
+                    selectedCountry?.value ?? "",
+                    style: TextStyle(
+                        color: HexColor('#363636'),
+                        fontSize: 15
+                    ),
+                  ),
+                ],
+              ),
+              Icon(
+                Icons.arrow_drop_down_outlined,
+                color: HexColor('#363636'),
+              )
+            ],
+          )
+      ),
+    );
+  }
+
 
 }
 
