@@ -389,6 +389,8 @@
   "firstDocument": "الوثيقة الأولى",
   "secondDocument": "الوثيقة الثانيه",
   "serviceTerminationLetter": "كتاب إنهاء خدمة",
-  "civilRetirementLetter": "كتاب التقاعد المدني"
+  "civilRetirementLetter": "كتاب التقاعد المدني",
+  "chooseFile": "اختر الملف",
+  "attachFileHere": "ارفع الملف هنا"
 
 }

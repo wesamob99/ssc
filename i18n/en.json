@@ -384,6 +384,8 @@
   "firstDocument": "The first document",
   "secondDocument": "The second document",
   "serviceTerminationLetter": "Service termination letter",
-  "civilRetirementLetter": "Civil retirement letter"
+  "civilRetirementLetter": "Civil retirement letter",
+  "chooseFile": "Choose file",
+  "attachFileHere": "Attach file here"
 
 }
