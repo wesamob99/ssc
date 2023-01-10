@@ -50,6 +50,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   String selectedMaritalStatus;
   String selectedMethodOfReceiving = 'insideJordan';
   List<String> maritalList;
+  bool termsChecked = false;
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
@@ -978,61 +979,122 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   Widget sixthStep(context, themeNotifier){
     return SizedBox(
       height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: height(0.02, context),),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  translate('fifthStep', context),
-                  style: TextStyle(
-                      color: HexColor('#979797'),
-                      fontSize: width(0.03, context)
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: height(0.02, context),),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                translate('fifthStep', context),
+                style: TextStyle(
+                    color: HexColor('#979797'),
+                    fontSize: width(0.03, context)
+                ),
+              ),
+              SizedBox(height: height(0.006, context),),
+              Text(
+                translate('confirmRequest', context),
+                style: TextStyle(
+                    color: HexColor('#5F5F5F'),
+                    fontSize: width(0.035, context)
+                ),
+              )
+            ],
+          ),
+          SizedBox(height: height(0.01, context),),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox.shrink(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '6/6',
+                    style: TextStyle(
+                        color: HexColor('#979797'),
+                        fontSize: width(0.025, context)
+                    ),
+                  ),
+                  Text(
+                    translate('finished', context),
+                    style: TextStyle(
+                        color: HexColor('#979797'),
+                        fontSize: width(0.032, context)
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: height(0.02, context),),
+          Text(
+            translate('reviewYourDetailedStatement', context),
+            style: TextStyle(
+              color: HexColor('#363636'),
+            ),
+          ),
+          const SizedBox(height: 20.0,),
+          Container(
+            width: width(1, context),
+            padding: const EdgeInsets.all(14.0),
+            decoration: BoxDecoration(
+              color: const Color.fromRGBO(208, 208, 208, 0.26),
+              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(
+                color: HexColor('#979797')
+              )
+            ),
+            child: Text(
+              translate('detailedDisclosure', context),
+              style: TextStyle(
+                color: HexColor('#003C97'),
+              ),
+            ),
+          ),
+          Expanded(child: Container()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: (){
+                  setState(() {
+                    termsChecked = !termsChecked;
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                      color: HexColor('#DADADA'),
+                      borderRadius: BorderRadius.circular(3.0)
+                  ),
+                  child: Container(
+                    width: width(0.04, context),
+                    height: width(0.04, context),
+                    decoration: BoxDecoration(
+                        color: termsChecked ? HexColor('#2D452E') : HexColor('#DADADA'),
+                        borderRadius: BorderRadius.circular(4.0)
+                    ),
                   ),
                 ),
-                SizedBox(height: height(0.006, context),),
-                Text(
-                  translate('confirmRequest', context),
+              ),
+              SizedBox(width: width(0.05, context),),
+              Expanded(
+                child: Text(
+                  translate('earlyRetirementTermsAndConditions', context),
                   style: TextStyle(
-                      color: HexColor('#5F5F5F'),
-                      fontSize: width(0.035, context)
+                    color: HexColor('#595959'),
                   ),
-                )
-              ],
-            ),
-            SizedBox(height: height(0.01, context),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox.shrink(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      '6/6',
-                      style: TextStyle(
-                          color: HexColor('#979797'),
-                          fontSize: width(0.025, context)
-                      ),
-                    ),
-                    Text(
-                      translate('finished', context),
-                      style: TextStyle(
-                          color: HexColor('#979797'),
-                          fontSize: width(0.032, context)
-                      ),
-                    ),
-                  ],
                 ),
-              ],
-            ),
-            SizedBox(height: height(0.02, context),),
-          ],
-        ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 30.0,)
+        ],
       ),
     );
   }
