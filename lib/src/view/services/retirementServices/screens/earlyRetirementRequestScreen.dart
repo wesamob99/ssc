@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -776,19 +777,64 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                             fontSize: 17,
                           ),
                         ),
-                        const SizedBox(height: 40,),
                         ListView.builder(
                           shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: snapshot.data['R_RESULT'][0].length,
                           itemBuilder: (context, index){
-                            return Text(
-                              UserConfig.instance.checkLanguage()
-                              ? '${snapshot.data['R_RESULT'][0][index]['NAME_EN']}'
-                              : '${snapshot.data['R_RESULT'][0][index]['NAME_AR']}',
-                              style: TextStyle(
-                                color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
-                                fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
-                              ),
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 40,),
+                                Text(
+                                  UserConfig.instance.checkLanguage()
+                                      ? '${snapshot.data['R_RESULT'][0][index]['NAME_EN']}'
+                                      : '${snapshot.data['R_RESULT'][0][index]['NAME_AR']}',
+                                  style: TextStyle(
+                                      color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
+                                      fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
+                                  ),
+                                ),
+                                const SizedBox(height: 20.0,),
+                                DottedBorder(
+                                  radius: const Radius.circular(8.0),
+                                  padding: EdgeInsets.zero,
+                                  color: HexColor('#979797'),
+                                  borderType: BorderType.RRect,
+                                  dashPattern: const [5],
+                                  strokeWidth: 1.2,
+                                  child: Container(
+                                    width: width(1, context),
+                                    height: height(0.14, context),
+                                    decoration: BoxDecoration(
+                                        color: const Color.fromRGBO(117, 161, 119, 0.22),
+                                        borderRadius: BorderRadius.circular(8.0)
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset('assets/icons/upload.svg'),
+                                        const SizedBox(height: 4.0),
+                                        Text(
+                                          translate('attachFileHere', context),
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: HexColor('#363636'),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10.0),
+                                        Text(
+                                          translate('chooseFile', context),
+                                          style: TextStyle(
+                                            color: HexColor('#2D452E'),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             );
                           },
                         )
