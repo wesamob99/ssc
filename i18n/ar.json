@@ -391,6 +391,16 @@
   "serviceTerminationLetter": "كتاب إنهاء خدمة",
   "civilRetirementLetter": "كتاب التقاعد المدني",
   "chooseFile": "اختر الملف",
-  "attachFileHere": "ارفع الملف هنا"
+  "attachFileHere": "ارفع الملف هنا",
+  "insideJordan": "داخل الاردن",
+  "outsideJordan": "خارج الاردن",
+  "methodOfReceivingSalary": "طريقة استلام الراتب",
+  "country": "الدولة",
+  "bankName": "اسم البنك",
+  "bankBranch": "فرع البنك",
+  "bankAddress": "عنوان البنك",
+  "accountNumber": "رقم الحساب",
+  "swiftCode": "Swift Code"
+
 
 }

@@ -386,6 +386,15 @@
   "serviceTerminationLetter": "Service termination letter",
   "civilRetirementLetter": "Civil retirement letter",
   "chooseFile": "Choose file",
-  "attachFileHere": "Attach file here"
+  "attachFileHere": "Attach file here",
+  "insideJordan": "Inside jordan",
+  "outsideJordan": "Outside jordan",
+  "methodOfReceivingSalary": "Method of receiving salary",
+  "country": "Country",
+  "bankName": "Bank name",
+  "bankBranch": "Bank branch",
+  "bankAddress": "Bank address",
+  "accountNumber": "Account number",
+  "swiftCode": "Swift Code"
 
 }
