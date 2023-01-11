@@ -841,34 +841,39 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   borderType: BorderType.RRect,
                                   dashPattern: const [5],
                                   strokeWidth: 1.2,
-                                  child: Container(
-                                    width: width(1, context),
-                                    height: height(0.14, context),
-                                    decoration: BoxDecoration(
-                                        color: const Color.fromRGBO(117, 161, 119, 0.22),
-                                        borderRadius: BorderRadius.circular(8.0)
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset('assets/icons/upload.svg'),
-                                        const SizedBox(height: 4.0),
-                                        Text(
-                                          translate('attachFileHere', context),
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: HexColor('#363636'),
+                                  child: InkWell(
+                                    onTap: (){
+                                      /// TODO: upload files
+                                    },
+                                    child: Container(
+                                      width: width(1, context),
+                                      height: height(0.14, context),
+                                      decoration: BoxDecoration(
+                                          color: const Color.fromRGBO(117, 161, 119, 0.22),
+                                          borderRadius: BorderRadius.circular(8.0)
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset('assets/icons/upload.svg'),
+                                          const SizedBox(height: 4.0),
+                                          Text(
+                                            translate('attachFileHere', context),
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: HexColor('#363636'),
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 10.0),
-                                        Text(
-                                          translate('chooseFile', context),
-                                          style: TextStyle(
-                                            color: HexColor('#2D452E'),
+                                          const SizedBox(height: 10.0),
+                                          Text(
+                                            translate('chooseFile', context),
+                                            style: TextStyle(
+                                              color: HexColor('#2D452E'),
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
