@@ -47,6 +47,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.optionalSubFirstInsertNewService(result['cur_getdata'][0][0], monthlyPay, salaryRequest , submissionType);
   }
 
+  Future deleteDependent(int id) async{
+    return await servicesRepository.deleteDependentService(id);
+  }
+
   Future updateUserMobileNumberSendOTP(String newNumber) async{
     return await servicesRepository.updateUserMobileNumberSendOTPService(newNumber);
   }
@@ -57,6 +61,10 @@ class ServicesProvider extends ChangeNotifier {
 
   Future updateUserMobileNumberCheckOTP(String code) async{
     return await servicesRepository.updateUserMobileNumberCheckOTPService(code);
+  }
+
+  Future setEarlyRetirementApplication() async{
+    return await servicesRepository.setEarlyRetirementApplicationService(result);
   }
 
   Future getPensionsBasicInformations() async{

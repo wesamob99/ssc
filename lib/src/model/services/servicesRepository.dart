@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 
 import '../../../infrastructure/HTTPClientContract.dart';
+import '../../../models/services/getEarlyRetirementModel.dart';
 import '../../../models/services/pensionPaymentModel.dart';
 
 class ServicesRepository{
@@ -284,6 +285,281 @@ class ServicesRepository{
     return null;
   }
 
+  Future deleteDependentService(int id) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/website/DELETE_DEP', {"PI_ID": id}
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+  Future setEarlyRetirementApplicationService(result) async {
+
+    GetEarlyRetirementModel earlyRetirementModel = result;
+    earlyRetirementModel.pResult[0][0].bankLocation = earlyRetirementModel.pResult[0][0].bankLocation ?? 1;
+    earlyRetirementModel.pResult[0][0].swiftCode = earlyRetirementModel.pResult[0][0].swiftCode ?? '';
+    earlyRetirementModel.pResult[0][0].bankDetails = earlyRetirementModel.pResult[0][0].bankDetails ?? '';
+    earlyRetirementModel.pResult[0][0].iban = null;
+    earlyRetirementModel.pResult[0][0].repNationality = earlyRetirementModel.pResult[0][0].repNationality ?? '';
+    earlyRetirementModel.pResult[0][0].repNationalNo = earlyRetirementModel.pResult[0][0].repNationalNo ?? '';
+    earlyRetirementModel.pResult[0][0].repName = earlyRetirementModel.pResult[0][0].repName ?? '';
+    earlyRetirementModel.pResult[0][0].notApproveReason = earlyRetirementModel.pResult[0][0].notApproveReason ?? '';
+
+    var data = {
+      "params": {
+        "XML": {
+           "row": {
+             "PAYMENT_METHOD": 3,
+             "BANK_LOCATION": 1,
+             "BRANCH_ID": 1001,
+             "BRANCH_NAME": null,
+             "BANK_ID": 1000,
+             "BANK_NAME": null,
+             "ACCOUNT_NAME": null,
+             "PAYMENT_COUNTRY": null,
+             "PAYMENT_COUNTRY_CODE": null,
+             "PAYMENT_PHONE": null,
+             "IFSC": null,
+             "SWIFT_CODE": "",
+             "BANK_DETAILS": "",
+             "IBAN": null,
+             "CASH_BANK_ID": null,
+             "REP_NATIONALITY": "",
+             "REP_NATIONAL_NO": "",
+             "REP_NAME": "",
+             "WALLET_TYPE": null,
+             "WALLET_OTP_VERIVIED": null,
+             "WALLET_OTP": null,
+             "WALLET_PHONE": null,
+             "WALLET_PHONE_VERIVIED": null,
+             "WALLET_PASSPORT_NUMBER": null,
+             "PEN_IBAN": null,
+             "APPROVE_DISCLOSURE": 1,
+             "NOT_APPROVE_REASON": "",
+             "SIG_ATHORIZED": 1,
+             "WANT_INSURANCE": "0",
+             "OFFNO": 60,
+             "AGREE_TERMS": 1,
+             "SECNO": 9691014000,
+             "NAT_DESC": "الاردن",
+             "NAT": 111,
+             "NAT_NO": 9691035582,
+             "PERS_NO": null,
+             "LAST_EST_NAME": "شركة **********",
+             "NAME1": "فراس",
+             "NAME2": "فائق سميح",
+             "NAME3": "محمد",
+             "NAME4": "حبول",
+             "FULL_NAME_EN": "F F M H",
+             "EMAIL": "fhabool@ssc.gov.jo",
+             "MOBILE": 795567682,
+             "INTERNATIONAL_CODE": 962,
+             "INSURED_ADDRESS": null,
+             "MARITAL_STATUS": null,
+             "REGDATE": null,
+             "REGRATE": null,
+             "LAST_SALARY": null,
+             "LAST_STODATE": "25/10/4670",
+             "ACTUAL_STODATE": null,
+             "GENDER": "1",
+             "CIVIL_WORK_DOC": 1,
+             "MILITARY_WORK_DOC": 0,
+             "CIV_MIL_RETIRED_DOC": 0,
+             "PEN_START_DATE": null,
+             "GOVERNORATE": null,
+             "DETAILED_ADDRESS": null,
+             "PASS_NO": null,
+             "RESIDENCY_NO": null,
+             "DOB": "16/08/1969",
+             "JOB_NO": null,
+             "JOB_DESC": null,
+             "ENAME1": null,
+             "ENAME2": null,
+             "ENAME3": null,
+             "ENAME4": null,
+             "LAST_EST_NO": 66500,
+             "FAM_NO": null,
+             "nextVaild": null,
+             "wantAddFamily": null,
+             "GENDER_DESC": "ذكر",
+             "PI_EPAY": null,
+             "INSURED": null,
+             "APPLICANT_ID": "9691035582",
+             "APPLICANT_NO": "9691035582",
+             "SERVICE_TYPE": 8,
+             "IS_DEFENSE": null,
+             "APP_STATUS_EXTERNAL": 2,
+             "OTHER_DEPENDANTS": 0,
+             "ID": 4252,
+             "LEAVE_START_DATE": null,
+             "LEAVE_END_DATE": null,
+             "BIRTH_DATE": null,
+             "IBAN_CONFIG": "1"
+           },
+           "doc": [
+             {
+               "PATH": "./i5d61brglcrd04o6.png",
+               "DOC_TYPE": 8,
+               "FILE": {},
+               "FILE_NAME": "thumbnail_image013 (1).png",
+               "DOC_TYPE_DESC_AR": "",
+               "DOC_TYPE_DESC_EN": "",
+               "DOCUMENT_DATE": "11/01/2023, 10:45",
+               "required": 0,
+               "APP_ID": 4252,
+               "ID": "",
+               "STATUS": 1,
+               "HIDE_ACTIONS": false
+             }
+           ],
+           "dep": [
+             {
+               "ID": 7950,
+               "FIRSTNAME": "ليدا",
+               "SECONDNAME": "فراس",
+               "THIRDNAME": "فائق سميح",
+               "LASTNAME": "حبول",
+               "BIRTHDATE": "11/09/2005",
+               "NATIONALITY": "1",
+               "NATIONAL_NO": "2001108378",
+               "RELATION": 6,
+               "GENDER": 2,
+               "AGE": 17,
+               "MARITAL_STATUS": 1,
+               "MARITAL_STATUS_A": 1,
+               "WORK_STATUS": "0",
+               "WORK_STATUS_A": 0,
+               "IS_ALIVE": 1,
+               "IS_ALIVE_A": 1,
+               "LAST_EVENT_DATE": null,
+               "DISABILITY": 0,
+               "WANT_HEALTH_INSURANCE": "",
+               "PreLoad": 1,
+               "Added": 0,
+               "SOURCE_FLAG": 1,
+               "doc_dep": [],
+               "REQ_DOC": "",
+               "MERIT": null,
+               "IS_RETIRED": 0,
+               "IS_RETIRED_A": 0,
+               "DEP_CODE": "4931906202212241999149300000"
+             },
+             {
+               "ID": 7951,
+               "FIRSTNAME": "هبه",
+               "SECONDNAME": "محمد منذر",
+               "THIRDNAME": "محمد",
+               "LASTNAME": "تفاحه",
+               "BIRTHDATE": "21/06/1973",
+               "NATIONALITY": "1",
+               "NATIONAL_NO": "9732031054",
+               "RELATION": 11,
+               "GENDER": 2,
+               "AGE": 49,
+               "MARITAL_STATUS": 2,
+               "MARITAL_STATUS_A": 2,
+               "WORK_STATUS": "0",
+               "WORK_STATUS_A": 0,
+               "IS_ALIVE": 1,
+               "IS_ALIVE_A": 1,
+               "LAST_EVENT_DATE": "08/11/2004",
+               "DISABILITY": 0,
+               "WANT_HEALTH_INSURANCE": "",
+               "PreLoad": 1,
+               "Added": 0,
+               "SOURCE_FLAG": 1,
+               "doc_dep": [],
+               "REQ_DOC": "",
+               "MERIT": null,
+               "IS_RETIRED": 1,
+               "IS_RETIRED_A": 1,
+               "DEP_CODE": "4421906202212242049344200001"
+             },
+             {
+               "ID": 7952,
+               "FIRSTNAME": "عمر",
+               "SECONDNAME": "فراس",
+               "THIRDNAME": "فائق سميح",
+               "LASTNAME": "حبول",
+               "BIRTHDATE": "04/08/2013",
+               "NATIONALITY": "1",
+               "NATIONAL_NO": "2002845830",
+               "RELATION": 5,
+               "GENDER": 1,
+               "AGE": 9,
+               "MARITAL_STATUS": 1,
+               "MARITAL_STATUS_A": 1,
+               "WORK_STATUS": "0",
+               "WORK_STATUS_A": 0,
+               "IS_ALIVE": 1,
+               "IS_ALIVE_A": 1,
+               "LAST_EVENT_DATE": null,
+               "DISABILITY": 0,
+               "WANT_HEALTH_INSURANCE": "",
+               "PreLoad": 1,
+               "Added": 0,
+               "SOURCE_FLAG": 1,
+               "doc_dep": [],
+               "REQ_DOC": "",
+               "MERIT": null,
+               "IS_RETIRED": 0,
+               "IS_RETIRED_A": 0,
+               "DEP_CODE": "1671906202212242099516700002"
+             },
+             {
+               "ID": 7953,
+               "FIRSTNAME": "جنى",
+               "SECONDNAME": "فراس",
+               "THIRDNAME": "فائق سميح",
+               "LASTNAME": "حبول",
+               "BIRTHDATE": "27/07/2008",
+               "NATIONALITY": "1",
+               "NATIONAL_NO": "2001707246",
+               "RELATION": 6,
+               "GENDER": 2,
+               "AGE": 14,
+               "MARITAL_STATUS": 1,
+               "MARITAL_STATUS_A": 1,
+               "WORK_STATUS": "0",
+               "WORK_STATUS_A": 0,
+               "IS_ALIVE": 1,
+               "IS_ALIVE_A": 1,
+               "LAST_EVENT_DATE": "22/06/2022",
+               "DISABILITY": 0,
+               "WANT_HEALTH_INSURANCE": "",
+               "PreLoad": 1,
+               "Added": 0,
+               "SOURCE_FLAG": 1,
+               "doc_dep": [],
+               "REQ_DOC": "",
+               "MERIT": null,
+               "IS_RETIRED": 0,
+               "IS_RETIRED_A": 0,
+               "DEP_CODE": "99190620221224214979900003"
+             }
+           ],
+           "INHERITORS": [],
+           "isWebsite": true
+          }
+      }
+    };
+
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/website/set_application', data
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
 
 /// **************************************************************RETIREMENT - END******************************************************************************
 
