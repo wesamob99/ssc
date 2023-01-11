@@ -524,6 +524,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       ),
                                       PopupMenuItem<ContextMenu>(
                                         value: ContextMenu.delete,
+                                        enabled: servicesProvider.result['P_Dep'][0][index]['SOURCE_FLAG'] == 2,
                                         child: contextMenuItem(
                                           "delete",
                                           'assets/icons/delete.svg',
