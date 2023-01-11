@@ -502,7 +502,32 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                             context, 'wouldYouLikeToConfirmDeletionOfDependents',
                                             servicesProvider.result['P_Dep'][0][index]['NAME'],
                                             'yesContinue', themeNotifier, icon: 'assets/icons/dialogDeleteIcon.svg',
-                                            onPressed: (){}, withCancelButton: true);
+                                            onPressed: () async{
+                                              String errorMessage = '';
+                                              servicesProvider.isLoading = true;
+                                              servicesProvider.notifyMe();
+                                              try{
+                                                await servicesProvider.deleteDependent(int.tryParse(servicesProvider.result['P_Dep'][0][index]["ID"].toString())).then((value){
+                                                  Navigator.of(context).pop();
+                                                  if(value['PO_RESULT'] == 1){
+                                                    servicesProvider.result['P_Dep'][0].removeAt(index);
+                                                    showMyDialog(context, 'dependentWereDeleted', '', 'ok', themeNotifier, titleColor: '#2D452E');
+                                                  } else{
+                                                    errorMessage = UserConfig.instance.checkLanguage()
+                                                        ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
+                                                    showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
+                                                  }
+                                                });
+                                                servicesProvider.isLoading = false;
+                                                servicesProvider.notifyMe();
+                                              }catch(e){
+                                                servicesProvider.isLoading = false;
+                                                servicesProvider.notifyMe();
+                                                if (kDebugMode) {
+                                                  print(e.toString());
+                                                }
+                                              }
+                                            }, withCancelButton: true);
                                         } break;
                                         default: {} break;
                                       }
