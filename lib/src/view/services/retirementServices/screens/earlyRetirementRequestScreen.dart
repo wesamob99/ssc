@@ -399,7 +399,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
             children: [
               Expanded(
                 child: Text(
-                  translate('numberOfDependents', context) + ' ( ${servicesProvider.result['P_Dep'][0].length} )',
+                  translate('numberOfDependents', context) + ' ( ${servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length : 0} )',
                   style: TextStyle(
                     color: HexColor('#363636'),
                     fontWeight: FontWeight.w500,
@@ -419,7 +419,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
           SizedBox(height: height(0.02, context),),
           Expanded(
             child: ListView.builder(
-              itemCount: servicesProvider.result['P_Dep'][0].length,
+              itemCount: servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length : 0,
               itemBuilder: (context, index){
                 return Card(
                     elevation: 6.0,
