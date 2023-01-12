@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
@@ -842,8 +843,25 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   dashPattern: const [5],
                                   strokeWidth: 1.2,
                                   child: InkWell(
-                                    onTap: (){
-                                      /// TODO: upload files
+                                    onTap: () async {
+                                      await showModalActionSheet<String>(
+                                        context: context,
+                                        title: 'Upload from',
+                                        // message: 'message',
+                                        actions: [
+                                          const SheetAction(
+                                            icon: Icons.filter,
+                                            label: 'Gallery',
+                                            key: 'helloKey',
+                                          ),
+                                          const SheetAction(
+                                            icon: Icons.camera_alt_outlined,
+                                            label: 'Camera',
+                                            key: 'destructiveKey',
+                                          ),
+                                        ],
+                                        cancelLabel: 'Cancel',
+                                      );
                                     },
                                     child: Container(
                                       width: width(1, context),
