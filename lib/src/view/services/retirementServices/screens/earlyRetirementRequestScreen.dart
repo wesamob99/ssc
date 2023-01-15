@@ -833,14 +833,27 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 40,),
-                                Text(
-                                  UserConfig.instance.checkLanguage()
-                                      ? '${snapshot.data['R_RESULT'][0][index]['NAME_EN']}'
-                                      : '${snapshot.data['R_RESULT'][0][index]['NAME_AR']}',
-                                  style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
-                                      fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
-                                  ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        UserConfig.instance.checkLanguage()
+                                            ? '${snapshot.data['R_RESULT'][0][index]['NAME_EN']}'
+                                            : '${snapshot.data['R_RESULT'][0][index]['NAME_AR']}',
+                                        style: TextStyle(
+                                            color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
+                                            fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: textButtonWithIcon(
+                                          context, themeNotifier, 'addNewPhoto', Colors.transparent, HexColor('#2D452E'),
+                                              (){},
+                                          borderColor: '#2D452E'
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 const SizedBox(height: 20.0,),
                                 DottedBorder(
