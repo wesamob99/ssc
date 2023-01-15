@@ -44,9 +44,6 @@ class DevHttpOverrides extends HttpOverrides {
 class HTTPClientContract {
   static const String BASE_URL = 'https://mfiles.ssc.gov.jo:6018/eservicestg/api';
   static final _dio = _createDio();
-  static const int _MAX_RETRY = 7;
-  static const ResponseType _DEFAULT_RESPONSE_TYPE = ResponseType.plain;
-  static int _retryCount = 0;
   static CancelToken _cancelToken;
   static final _baseAPI = _addInterceptors(_dio);
   static final bytesAPI = _addInterceptors(_createBytesDio());
@@ -59,7 +56,7 @@ class HTTPClientContract {
 
   static final BaseOptions _opts = BaseOptions(
     baseUrl: BASE_URL,
-    responseType: _DEFAULT_RESPONSE_TYPE,
+    responseType: ResponseType.plain,
     connectTimeout: 40000,
     receiveTimeout: 60000,
     receiveDataWhenStatusError: true,
@@ -94,25 +91,9 @@ class HTTPClientContract {
         return handler.next(options);
       }, onError: (e, handler) async {
         if ((e.response?.statusCode == 403 || e.response?.statusCode == 401)) {
-          try {
-            if (_retryCount > _MAX_RETRY) {
-              _retryCount = 0;
-              return handler.next(e);
-            }
-            _retryCount++;
-            final RequestOptions options = e.response?.requestOptions;
-            options?.headers['Authorization'] = "Bearer ${UserSecuredStorage.instance.token}";
-            final Response response = await dio.fetch(options);
-            _retryCount = 0;
-            return handler.resolve(response);
-          } on DioError catch(e){
-            _retryCount = 0;
-            return handler.next(e);
-          }
-        } else {
-          _retryCount = 0;
-          return handler.next(e);
+
         }
+        return handler.next(e);
       }, onResponse: (response, handler) {
         return handler.next(response);
       }));
