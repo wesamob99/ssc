@@ -283,7 +283,8 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                           ((widget.serviceTitle == 'membershipRequest') && (value["PO_status_no"] == 0 || value["PO_status_no"] == 1)) || /// membership request - طلب اختياري
                                           ((widget.serviceTitle == 'requestToAmendTheAnnualIncreasePercentage') && value["PO_status_no"] == null) || /// request to amend the annual increase percentage - طلب تعديل نسبة الزيادة السنوية
                                           ((widget.serviceTitle == 'historicalPensionDetails') && value['cur_getdata'].length != 0) || /// historical pension details - الرواتب التقاعديه التاريخيه
-                                          ((widget.serviceTitle == 'earlyRetirementRequest') && value['P_Message'][0][0]['PO_STATUS'] == 0) /// early retirement - تقاعد مبكر
+                                          ((widget.serviceTitle == 'earlyRetirementRequest') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// early retirement - تقاعد مبكر
+                                          ((widget.serviceTitle == 'report_a_sickness/work_injury_complaint') && value != null) /// report_a_sickness/work_injury_complaint - تبليغ عن حادث العمل / مرض مهني
                                         )
                                       ){
                                         servicesProvider.result = value;
