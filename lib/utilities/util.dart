@@ -480,7 +480,7 @@ SizedBox textButton(context, ThemeNotifier themeNotifier, String textKey, Color 
 }
 
 SizedBox textButtonWithIcon(context, ThemeNotifier themeNotifier, String textKey, Color buttonColor, Color textColor, onPressed,
-    {double verticalPadding  = 16.0, String borderColor = '#ffffff', IconData icon = Icons.add, String iconColor = '#2D452E'}){
+    {double verticalPadding  = 12.0, String borderColor = '#ffffff', IconData icon = Icons.add, String iconColor = '#2D452E'}){
   return SizedBox(
     width: width(0.7, context),
     child: TextButton.icon(
