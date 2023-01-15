@@ -400,7 +400,9 @@
   "earlyRetirementTermsAndConditions": "\nI acknowledge that I have reviewed all the terms and conditions related to the disbursement of the insurance benefit, and I bear full legal responsibility in the event that I violate any of these terms and conditions, and the financial implications that result from that in accordance with the provisions of the law and the legislation issued pursuant thereto I acknowledge that the data contained in my detailed data statement are correct after I have read it, whether in terms of the number of contributions or wages covered by the provisions of the law, and I also acknowledge that I have read all the terms and conditions related to the allocation of early retirement pension, including the terms and conditions for returning to work covered by the provisions of the law, And the terms and conditions related to the dependency allowance, and I bear full legal responsibility in case I violate any of them, and the financial implications that result from in accordance with the provisions of the Social Security Law and the legislation issued pursuant thereto.",
   "detailedDisclosure": "Detailed disclosure",
   "dependentWereDeleted": "Dependent were deleted",
-  "addNewPhoto": "Add a new photo"
+  "addNewPhoto": "Add a new photo",
+  "sessionExpired": "session expired",
+  "sessionExpiredDesc": "Please login again"
 
 
 }
