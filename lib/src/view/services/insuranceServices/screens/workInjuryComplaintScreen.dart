@@ -4,7 +4,6 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:group_radio_button/group_radio_button.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/src/view/services/shared/firstStepScreen.dart';
 import 'package:ssc/src/view/services/shared/verifyMobileNumberScreen.dart';
@@ -198,23 +197,78 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            RadioGroup<String>.builder(
-              activeColor: HexColor('#2D452E'),
-              direction: Axis.horizontal,
-              horizontalAlignment: MainAxisAlignment.start,
-              groupValue: servicesProvider.selectedInjuredType,
-              // spacebetween: 30,
-              onChanged: (value){
-                servicesProvider.selectedInjuredType = value;
-                servicesProvider.notifyMe();
-              },
-              textStyle: TextStyle(
-                fontSize: isTablet(context) ? 20 : 15
-              ),
-              items: const ['occupationalDisease', 'workInjury'],
-              itemBuilder: (item) => RadioButtonBuilder(
-                translate(item, context),
-              ),
+            Row(
+              children: [
+                InkWell(
+                  onTap: (){
+                    servicesProvider.selectedInjuredType = 'occupationalDisease';
+                    servicesProvider.notifyMe();
+                  },
+                  child: Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(500.0),
+                          border: Border.all(
+                            color: HexColor('#2D452E'),
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(2.0),
+                        child: CircleAvatar(
+                          radius: isTablet(context) ? 10 : 5,
+                          backgroundColor: servicesProvider.selectedInjuredType == 'occupationalDisease'
+                              ? HexColor('#2D452E') : Colors.transparent,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          translate('occupationalDisease', context),
+                          style: TextStyle(
+                            color: HexColor('#666666'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10.0,),
+                InkWell(
+                  onTap: (){
+                    servicesProvider.selectedInjuredType = 'workInjury';
+                    servicesProvider.notifyMe();
+                  },
+                  child: Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(500.0),
+                          border: Border.all(
+                            color: HexColor('#2D452E'),
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(2.0),
+                        child: CircleAvatar(
+                          radius: isTablet(context) ? 10 : 5,
+                          backgroundColor: servicesProvider.selectedInjuredType == 'workInjury'
+                              ? HexColor('#2D452E') : Colors.transparent,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          translate('workInjury', context),
+                          style: TextStyle(
+                            color: HexColor('#666666'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             SizedBox(height: height(0.015, context),),
             Text(

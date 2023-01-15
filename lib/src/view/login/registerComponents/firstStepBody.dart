@@ -4,7 +4,6 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:group_radio_button/group_radio_button.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/src/view/login/registerScreen.dart';
@@ -119,38 +118,127 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                       if(loginProvider.flag == 0)
                       SizedBox(height: height(0.01, context),),
                       if(loginProvider.flag == 0)
-                      RadioGroup<String>.builder(
-                        activeColor: HexColor('#2D452E'),
-                        direction: Axis.horizontal,
-                        horizontalAlignment: MainAxisAlignment.start,
-                        groupValue: selectedNationality,
-                        // spacebetween: 30,
-                        textStyle: isTablet(context)
-                          ? TextStyle(
-                            fontSize: width(0.025, context)
-                          ) : const TextStyle(),
-                        onChanged: (value) =>
-                            setState(() {
-                              selectedNationality = value;
-                              loginProvider.registerContinueEnabled = (loginProvider.jordanianMobileNumberController.text.startsWith('0')
-                              ? loginProvider.jordanianMobileNumberController.text.length == 10
-                              : loginProvider.jordanianMobileNumberController.text.length == 9);
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                selectedNationality = 'jordanian';
+                                loginProvider.registerContinueEnabled = (loginProvider.jordanianMobileNumberController.text.startsWith('0')
+                                    ? loginProvider.jordanianMobileNumberController.text.length == 10
+                                    : loginProvider.jordanianMobileNumberController.text.length == 9);
+                                loginProvider.notifyMe();
+                              });
+                            },
+                            child: Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(500.0),
+                                    border: Border.all(
+                                      color: HexColor('#2D452E'),
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: CircleAvatar(
+                                    radius: isTablet(context) ? 10 : 5,
+                                    backgroundColor: selectedNationality == 'jordanian'
+                                        ? HexColor('#2D452E') : Colors.transparent,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    translate('jordanian', context),
+                                    style: TextStyle(
+                                      color: HexColor('#666666'),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 10.0,),
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                selectedNationality = 'nonJordanian';
+                                loginProvider.registerContinueEnabled = (loginProvider.jordanianMobileNumberController.text.startsWith('0')
+                                    ? loginProvider.jordanianMobileNumberController.text.length == 10
+                                    : loginProvider.jordanianMobileNumberController.text.length == 9);
 
-                              if(value == 'nonJordanian') {
                                 selectedExactNationality = selectedCountryForForeignMobileNumber = SelectedListItem(
                                   name: UserConfig.instance.checkLanguage() ? "Palestine" : "فلسطين",
                                   value: "970", natCode: 188,
                                   flag: countries[168].flag,
                                 );
-                              }
-                              loginProvider.notifyMe();
-                            }),
-                        items: const ['jordanian', 'nonJordanian'],
-                        itemBuilder: (item) =>
-                            RadioButtonBuilder(
-                              translate(item, context),
+                                loginProvider.notifyMe();
+                              });
+                            },
+                            child: Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(500.0),
+                                    border: Border.all(
+                                      color: HexColor('#2D452E'),
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: CircleAvatar(
+                                    radius: isTablet(context) ? 10 : 5,
+                                    backgroundColor: selectedNationality == 'nonJordanian'
+                                        ? HexColor('#2D452E') : Colors.transparent,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    translate('nonJordanian', context),
+                                    style: TextStyle(
+                                      color: HexColor('#666666'),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                      ),
+                          ),
+                        ],
+                    ),
+                      // RadioGroup<String>.builder(
+                      //   activeColor: HexColor('#2D452E'),
+                      //   direction: Axis.horizontal,
+                      //   horizontalAlignment: MainAxisAlignment.start,
+                      //   groupValue: selectedNationality,
+                      //   // spacebetween: 30,
+                      //   textStyle: isTablet(context)
+                      //     ? TextStyle(
+                      //       fontSize: width(0.025, context)
+                      //     ) : const TextStyle(),
+                      //   onChanged: (value) =>
+                      //       setState(() {
+                      //         selectedNationality = value;
+                      //         loginProvider.registerContinueEnabled = (loginProvider.jordanianMobileNumberController.text.startsWith('0')
+                      //         ? loginProvider.jordanianMobileNumberController.text.length == 10
+                      //         : loginProvider.jordanianMobileNumberController.text.length == 9);
+                      //
+                      //         if(value == 'nonJordanian') {
+                      //           selectedExactNationality = selectedCountryForForeignMobileNumber = SelectedListItem(
+                      //             name: UserConfig.instance.checkLanguage() ? "Palestine" : "فلسطين",
+                      //             value: "970", natCode: 188,
+                      //             flag: countries[168].flag,
+                      //           );
+                      //         }
+                      //         loginProvider.notifyMe();
+                      //       }),
+                      //   items: const ['jordanian', 'nonJordanian'],
+                      //   itemBuilder: (item) =>
+                      //       RadioButtonBuilder(
+                      //         translate(item, context),
+                      //       ),
+                      // ),
                       SizedBox(height: height(0.02, context),),
                       buildFieldTitle(context, 'countryOfResidence', required: false),
                       SizedBox(height: height(0.015, context),),
