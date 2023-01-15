@@ -24,7 +24,7 @@ import 'forthStepBody.dart';
 class OTPScreen extends StatefulWidget {
   final String contactTarget;
   final String type;
-  final int flag; /// 1 for register & 2 for update phone number from profile screen
+  final int flag; /// 1 for register & 2 for update (mobile number & email) from profile screen
   const OTPScreen({Key key, this.contactTarget, this.type, this.flag = 1}) : super(key: key);
 
   @override
@@ -269,18 +269,26 @@ class _OTPScreenState extends State<OTPScreen> {
                                                 }
                                               });
                                             } else{
-                                              /// TODO: check OTP first
-                                              accountSettingsProvider.updateUserInfo(3, accountSettingsProvider.emailController.text).whenComplete((){}).then((value){
-                                                if(value["PO_STATUS"] == 0){
-                                                  showMyDialog(context, 'emailUpdatedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/emailUpdated.svg').then((value) {
-                                                    Navigator.of(context).pushAndRemoveUntil(
-                                                        MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                                            (route) => false
-                                                    );
+                                              await Provider.of<ServicesProvider>(context, listen: false).updateUserEmailCheckOTP(accountSettingsProvider.emailController.text, int.tryParse(pinController.text), 1)
+                                                  .whenComplete((){}).then((val){
+                                                if(val['PO_status_code'] == 1){
+                                                  accountSettingsProvider.updateUserInfo(3, accountSettingsProvider.emailController.text).whenComplete((){}).then((value){
+                                                    if(value["PO_STATUS"] == 0){
+                                                      showMyDialog(context, 'emailUpdatedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/emailUpdated.svg').then((value) {
+                                                        Navigator.of(context).pushAndRemoveUntil(
+                                                            MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                                                (route) => false
+                                                        );
+                                                      });
+                                                    }else{
+                                                      message = UserConfig.instance.checkLanguage()
+                                                          ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                                                      showMyDialog(context, 'emailUpdateFailed', message, 'retryAgain', themeNotifier);
+                                                    }
                                                   });
                                                 }else{
                                                   message = UserConfig.instance.checkLanguage()
-                                                      ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                                                      ? val["PO_status_desc_en"] : val["PO_status_desc_ar"];
                                                   showMyDialog(context, 'emailUpdateFailed', message, 'retryAgain', themeNotifier);
                                                 }
                                               });

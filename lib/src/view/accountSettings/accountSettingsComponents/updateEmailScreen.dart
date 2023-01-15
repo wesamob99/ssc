@@ -1,13 +1,16 @@
 // ignore_for_file: file_names
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 
+import '../../../../infrastructure/userConfig.dart';
 import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/accountSettings/accountSettingsProvider.dart';
+import '../../../viewModel/services/servicesProvider.dart';
 import '../../login/registerComponents/OTPScreen.dart';
 
 class UpdateEmailScreen extends StatefulWidget {
@@ -75,47 +78,41 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: height(0.25, context)),
-                        child: textButton(context, themeNotifier, 'update', !isEmail(Provider.of<AccountSettingsProvider>(context).emailController.text)
+                        child: textButton(context, themeNotifier, 'update', !isEmail(Provider.of<AccountSettingsProvider>(context).emailController.text)  || !(accountSettingsProvider.emailController.text != widget.email)
                             ? HexColor('#DADADA')
                             : getPrimaryColor(context, themeNotifier),
-                            isEmail(Provider.of<AccountSettingsProvider>(context).emailController.text)
+                            isEmail(Provider.of<AccountSettingsProvider>(context).emailController.text) && (accountSettingsProvider.emailController.text != widget.email)
                                 ? HexColor('#ffffff') : HexColor('#363636'), () async {
-                              if(isEmail(accountSettingsProvider.emailController.text)){
-                                /// TODO: send OTP to the email first
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => OTPScreen(
-                                      contactTarget: accountSettingsProvider.emailController.text,
-                                      type: 'email',
-                                      flag: 2,
-                                    ))
-                                );
-                                // accountSettingsProvider.isLoading = true;
-                                // accountSettingsProvider.notifyMe();
-                                // String message = '';
-                                // try{
-                                //   accountSettingsProvider.updateUserInfo(3, accountSettingsProvider.emailController.text).whenComplete((){}).then((value){
-                                //     if(value["PO_STATUS"] == 0){
-                                //       showMyDialog(context, 'emailUpdatedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/emailUpdated.svg').then((value) {
-                                //         Navigator.of(context).pushAndRemoveUntil(
-                                //             MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                //                 (route) => false
-                                //         );
-                                //       });
-                                //     }else{
-                                //       message = UserConfig.instance.checkLanguage()
-                                //           ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
-                                //       showMyDialog(context, 'emailUpdateFailed', message, 'retryAgain', themeNotifier);
-                                //     }
-                                //   });
-                                //   accountSettingsProvider.isLoading = false;
-                                //   accountSettingsProvider.notifyMe();
-                                // }catch(e){
-                                //   accountSettingsProvider.isLoading = false;
-                                //   accountSettingsProvider.notifyMe();
-                                //   if (kDebugMode) {
-                                //     print(e.toString());
-                                //   }
-                                // }
+                              if(isEmail(accountSettingsProvider.emailController.text) && (accountSettingsProvider.emailController.text != widget.email)){
+                                accountSettingsProvider.isLoading = true;
+                                accountSettingsProvider.notifyMe();
+                                String errorMessage = '';
+                                try{
+                                  await Provider.of<ServicesProvider>(context, listen: false).updateUserEmailSendOTP(accountSettingsProvider.emailController.text, 1)
+                                      .whenComplete((){}).then((value){
+                                    if(value['PO_status'] == 1){
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (context) => OTPScreen(
+                                            contactTarget: accountSettingsProvider.emailController.text,
+                                            type: 'email',
+                                            flag: 2,
+                                          ))
+                                      );
+                                    }else{
+                                      errorMessage = UserConfig.instance.checkLanguage()
+                                          ? value['PO_STATUS_DESC_EN'] : value['PO_STATUS_DESC_AR'];
+                                      showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                    }
+                                  });
+                                  accountSettingsProvider.isLoading = false;
+                                  accountSettingsProvider.notifyMe();
+                                }catch(e){
+                                  accountSettingsProvider.isLoading = false;
+                                  accountSettingsProvider.notifyMe();
+                                  if (kDebugMode) {
+                                    print(e.toString());
+                                  }
+                                }
                               }
                             }
                         ),

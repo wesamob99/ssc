@@ -242,6 +242,42 @@ class ServicesRepository{
     return '';
   }
 
+
+  Future updateUserEmailSendOTPService(String email, int firstTime) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/mobile/email-code',
+        {
+          "email": email, // string // user email
+          "reset": firstTime // 0 -> first time, 1-> reset
+        }
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+  Future updateUserEmailCheckOTPService(String email, int code, int firstTime) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/mobile/email-code-verify',
+        {
+          "email": email,// string // user email
+          "code": code, // number // OTP code
+          "reset": firstTime// number // 0 -> first time, 1-> reset
+        }
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
 /// **************************************************************UPDATE USER MOBILE NUMBER - END***************************************************************
 
 /// **************************************************************RETIREMENT - START****************************************************************************

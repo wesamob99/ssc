@@ -51,16 +51,26 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.deleteDependentService(id);
   }
 
-  Future updateUserMobileNumberSendOTP(String newNumber) async{
-    return await servicesRepository.updateUserMobileNumberSendOTPService(newNumber);
-  }
-
   Future submitOptionSubIncrement(int selectedRate, double newSalary) async{
     return await servicesRepository.submitOptionSubIncrementService(selectedRate, newSalary);
   }
 
+  Future updateUserMobileNumberSendOTP(String newNumber) async{
+    return await servicesRepository.updateUserMobileNumberSendOTPService(newNumber);
+  }
+
   Future updateUserMobileNumberCheckOTP(String code) async{
     return await servicesRepository.updateUserMobileNumberCheckOTPService(code);
+  }
+
+  Future updateUserEmailSendOTP(String email, int firstTime) async{
+    final response = await servicesRepository.updateUserEmailSendOTPService(email, firstTime);
+    return response;
+  }
+
+  Future updateUserEmailCheckOTP(String email, int code, int firstTime) async{
+    final response = await servicesRepository.updateUserEmailCheckOTPService(email, code, firstTime);
+    return response;
   }
 
   Future setEarlyRetirementApplication() async{
