@@ -53,6 +53,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   List<String> maritalList;
   bool termsChecked = false;
 
+  int dependentIndex = 0;
+
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
       return ((servicesProvider.isMobileNumberUpdated == true && servicesProvider.mobileNumberController.text.length == 9) || servicesProvider.isMobileNumberUpdated == false);
@@ -91,7 +93,14 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               switch(servicesProvider.stepNumber){
                 case 1: Navigator.of(context).pop(); break;
                 case 2: servicesProvider.stepNumber = 1; break;
-                case 3: servicesProvider.stepNumber = 2; break;
+                case 3:
+                  {
+                    if(dependentIndex > 0){
+                      dependentIndex--;
+                    }else{
+                      servicesProvider.stepNumber = 2;
+                    }
+                  } break;
                 case 4: servicesProvider.stepNumber = 3; break;
                 case 5: servicesProvider.stepNumber = 4; break;
                 case 6: servicesProvider.stepNumber = 5; break;
@@ -229,7 +238,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                           } break;
                           case 3: {
                             if(checkContinueEnabled(flag: 3)){
-                              servicesProvider.stepNumber = 4;
+                              if(dependentIndex < (servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length - 1 : 0)){
+                                dependentIndex++;
+                              }else{
+                                servicesProvider.stepNumber = 4;
+                              }
                             }
                           } break;
                           case 4: {
@@ -400,7 +413,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
             children: [
               Expanded(
                 child: Text(
-                  translate('numberOfDependents', context) + ' ( ${servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length : 0} )',
+                  translate('numberOfDependents', context) + ' ( ${dependentIndex + 1} / ${servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length : 0} )',
                   style: TextStyle(
                     color: HexColor('#363636'),
                     fontWeight: FontWeight.w500,
@@ -418,322 +431,631 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
             ],
           ),
           SizedBox(height: height(0.02, context),),
-          Expanded(
-            child: ListView.builder(
-              itemCount: servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length : 0,
-              itemBuilder: (context, index){
-                return Card(
-                    elevation: 6.0,
-                    shadowColor: Colors.black45,
-                    color: getContainerColor(context),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    child: Container(
-                      width: width(1, context),
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                servicesProvider.result['P_Dep'][0][index]['NAME'],
-                                style: TextStyle(
-                                  height: 1.4,
-                                  color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                                    decoration: BoxDecoration(
-                                      color: servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
-                                          ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Text(
-                                      getRelationType(servicesProvider.result['P_Dep'][0][index]['RELATION']),
-                                      style: TextStyle(
-                                        color: servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
-                                            ? HexColor('#003C97') : HexColor('#2D452E'),
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5.0,),
-                                  PopupMenuButton<ContextMenu>(
-                                    onSelected: (ContextMenu result) async {
-                                      switch (result.index) {
-                                        case 0: {
-                                          selectedStatus = servicesProvider.result['P_Dep'][0][index]['IS_ALIVE'] == 1
-                                              ? 'alive' : 'dead';
-                                          selectedJobStatus = servicesProvider.result['P_Dep'][0][index]['WORK_STATUS'] == 0
-                                              ? 'unemployed' : 'employed';
-                                          selectedGetsSalary = servicesProvider.result['P_Dep'][0][index]['IS_RETIRED_A'] == 1
-                                              ? 'no' : 'yes';
-                                          selectedHasDisability = servicesProvider.result['P_Dep'][0][index]['DISABILITY'] == 0
-                                              ? 'no' : 'yes';
-                                          selectedMaritalStatus = servicesProvider.result['P_Dep'][0][index]['MARITAL_STATUS'] == 1
-                                              ? UserConfig.instance.checkLanguage()
-                                              ? 'single' : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'singleM' : 'singleF'
-                                              : UserConfig.instance.checkLanguage()
-                                              ? 'married' : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'marriedM' : 'marriedF';
-                                          maritalList = [
-                                            UserConfig.instance.checkLanguage()
-                                                ? 'single'
-                                                : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'singleM' : 'singleF',
-                                            UserConfig.instance.checkLanguage()
-                                                ? 'married'
-                                                : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
-                                            UserConfig.instance.checkLanguage()
-                                                ? 'divorced'
-                                                : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF',
-                                            UserConfig.instance.checkLanguage()
-                                                ? 'widow'
-                                                : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'widowM' : 'widowF',
-                                          ];
-                                          editDependentModalBottomSheet(index);
-                                        } break;
-                                        case 1: {
-                                          showMyDialog(
-                                            context, 'wouldYouLikeToConfirmDeletionOfDependents',
-                                            servicesProvider.result['P_Dep'][0][index]['NAME'],
-                                            'yesContinue', themeNotifier, icon: 'assets/icons/dialogDeleteIcon.svg',
-                                            onPressed: () async{
-                                              String errorMessage = '';
-                                              servicesProvider.isLoading = true;
-                                              servicesProvider.notifyMe();
-                                              try{
-                                                await servicesProvider.deleteDependent(int.tryParse(servicesProvider.result['P_Dep'][0][index]["ID"].toString())).then((value){
-                                                  Navigator.of(context).pop();
-                                                  if(value['PO_RESULT'] == 1){
-                                                    servicesProvider.result['P_Dep'][0].removeAt(index);
-                                                    showMyDialog(context, 'dependentWereDeleted', '', 'ok', themeNotifier, titleColor: '#2D452E');
-                                                  } else{
-                                                    errorMessage = UserConfig.instance.checkLanguage()
-                                                        ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
-                                                    showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
-                                                  }
-                                                });
-                                                servicesProvider.isLoading = false;
-                                                servicesProvider.notifyMe();
-                                              }catch(e){
-                                                servicesProvider.isLoading = false;
-                                                servicesProvider.notifyMe();
-                                                if (kDebugMode) {
-                                                  print(e.toString());
-                                                }
-                                              }
-                                            }, withCancelButton: true);
-                                        } break;
-                                        default: {} break;
-                                      }
-                                    },
-                                    icon: Icon(
-                                      Icons.more_vert,
-                                      color: HexColor('#51504E'),
-                                      size: 25,
-                                    ),
-                                    itemBuilder: (BuildContext context) =>
-                                    <PopupMenuEntry<ContextMenu>>[
-                                      PopupMenuItem<ContextMenu>(
-                                        value: ContextMenu.edit,
-                                        child: contextMenuItem(
-                                          "edit",
-                                          'assets/icons/edit.svg',
-                                          '#363636'
-                                        ),
-                                      ),
-                                      PopupMenuItem<ContextMenu>(
-                                        value: ContextMenu.delete,
-                                        enabled: servicesProvider.result['P_Dep'][0][index]['SOURCE_FLAG'] == 2,
-                                        child: contextMenuItem(
-                                          "delete",
-                                          'assets/icons/delete.svg',
-                                          '#ED3124'
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
+          Card(
+              elevation: 6.0,
+              shadowColor: Colors.black45,
+              color: getContainerColor(context),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: Container(
+                width: width(1, context),
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          servicesProvider.result['P_Dep'][0][dependentIndex]['NAME'],
+                          style: TextStyle(
+                            height: 1.4,
+                            color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(height: 15.0,),
-                          Row(
-                            children: [
-                              Text(
-                                servicesProvider.result['P_Dep'][0][index]['NATIONAL_NO'],
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                              decoration: BoxDecoration(
+                                color: servicesProvider.result['P_Dep'][0][dependentIndex]['RELATION'] == 11
+                                    ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                getRelationType(servicesProvider.result['P_Dep'][0][dependentIndex]['RELATION']),
                                 style: TextStyle(
-                                  color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                  color: servicesProvider.result['P_Dep'][0][dependentIndex]['RELATION'] == 11
+                                      ? HexColor('#003C97') : HexColor('#2D452E'),
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              Text(
-                                ' / ',
-                                style: TextStyle(
-                                  color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
-                                ),
-                              ),
-                              Text(
-                                translate(
-                                  servicesProvider.result['P_Dep'][0][index]['NATIONALITY'] == 1
-                                  ? 'jordanian' : 'nonJordanian',
-                                context),
-                                style: TextStyle(
-                                  color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 40.0,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    translate('maritalStatus', context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10.0,),
-                                  Text(
-                                    translate(
-                                    servicesProvider.result['P_Dep'][0][index]['MARITAL_STATUS'] == 1
+                            ),
+                            const SizedBox(width: 5.0,),
+                            PopupMenuButton<ContextMenu>(
+                              onSelected: (ContextMenu result) async {
+                                switch (result.index) {
+                                  case 0: {
+                                    selectedStatus = servicesProvider.result['P_Dep'][0][dependentIndex]['IS_ALIVE'] == 1
+                                        ? 'alive' : 'dead';
+                                    selectedJobStatus = servicesProvider.result['P_Dep'][0][dependentIndex]['WORK_STATUS'] == 0
+                                        ? 'unemployed' : 'employed';
+                                    selectedGetsSalary = servicesProvider.result['P_Dep'][0][dependentIndex]['IS_RETIRED_A'] == 1
+                                        ? 'no' : 'yes';
+                                    selectedHasDisability = servicesProvider.result['P_Dep'][0][dependentIndex]['DISABILITY'] == 0
+                                        ? 'no' : 'yes';
+                                    selectedMaritalStatus = servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 1
                                         ? UserConfig.instance.checkLanguage()
-                                        ? 'single' : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'singleM' : 'singleF'
+                                        ? 'single' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
                                         : UserConfig.instance.checkLanguage()
-                                        ? 'married' : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
-                                    context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
-                                    ),
-                                  ),
-                                ],
+                                        ? 'married' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF';
+                                    maritalList = [
+                                      UserConfig.instance.checkLanguage()
+                                          ? 'single'
+                                          : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF',
+                                      UserConfig.instance.checkLanguage()
+                                          ? 'married'
+                                          : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
+                                      UserConfig.instance.checkLanguage()
+                                          ? 'divorced'
+                                          : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF',
+                                      UserConfig.instance.checkLanguage()
+                                          ? 'widow'
+                                          : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF',
+                                    ];
+                                    editDependentModalBottomSheet(dependentIndex);
+                                  } break;
+                                  case 1: {
+                                    showMyDialog(
+                                        context, 'wouldYouLikeToConfirmDeletionOfDependents',
+                                        servicesProvider.result['P_Dep'][0][dependentIndex]['NAME'],
+                                        'yesContinue', themeNotifier, icon: 'assets/icons/dialogDeleteIcon.svg',
+                                        onPressed: () async{
+                                          String errorMessage = '';
+                                          servicesProvider.isLoading = true;
+                                          servicesProvider.notifyMe();
+                                          try{
+                                            await servicesProvider.deleteDependent(int.tryParse(servicesProvider.result['P_Dep'][0][dependentIndex]["ID"].toString())).then((value){
+                                              Navigator.of(context).pop();
+                                              if(value['PO_RESULT'] == 1){
+                                                servicesProvider.result['P_Dep'][0].removeAt(dependentIndex);
+                                                showMyDialog(context, 'dependentWereDeleted', '', 'ok', themeNotifier, titleColor: '#2D452E');
+                                              } else{
+                                                errorMessage = UserConfig.instance.checkLanguage()
+                                                    ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
+                                                showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
+                                              }
+                                            });
+                                            servicesProvider.isLoading = false;
+                                            servicesProvider.notifyMe();
+                                          }catch(e){
+                                            servicesProvider.isLoading = false;
+                                            servicesProvider.notifyMe();
+                                            if (kDebugMode) {
+                                              print(e.toString());
+                                            }
+                                          }
+                                        }, withCancelButton: true);
+                                  } break;
+                                  default: {} break;
+                                }
+                              },
+                              icon: Icon(
+                                Icons.more_vert,
+                                color: HexColor('#51504E'),
+                                size: 25,
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    translate('employmentStatus', context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
-                                    ),
+                              itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<ContextMenu>>[
+                                PopupMenuItem<ContextMenu>(
+                                  value: ContextMenu.edit,
+                                  child: contextMenuItem(
+                                      "edit",
+                                      'assets/icons/edit.svg',
+                                      '#363636'
                                   ),
-                                  const SizedBox(height: 10.0,),
-                                  Text(
-                                    translate(
-                                    servicesProvider.result['P_Dep'][0][index]['WORK_STATUS'] == 0
-                                        ? 'unemployed' : 'employed',
-                                    context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
-                                    ),
+                                ),
+                                PopupMenuItem<ContextMenu>(
+                                  value: ContextMenu.delete,
+                                  enabled: servicesProvider.result['P_Dep'][0][dependentIndex]['SOURCE_FLAG'] == 2,
+                                  child: contextMenuItem(
+                                      "delete",
+                                      'assets/icons/delete.svg',
+                                      '#ED3124'
                                   ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    translate('status', context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10.0,),
-                                  Text(
-                                    translate(
-                                    servicesProvider.result['P_Dep'][0][index]['IS_ALIVE'] == 1
-                                        ? 'alive' : 'dead',
-                                    context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 15.0,),
+                    Row(
+                      children: [
+                        Text(
+                          servicesProvider.result['P_Dep'][0][dependentIndex]['NATIONAL_NO'],
+                          style: TextStyle(
+                            color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                           ),
-                          const SizedBox(height: 40.0,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    translate('hasDisability', context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10.0,),
-                                  Text(
-                                    translate(
-                                    servicesProvider.result['P_Dep'][0][index]['DISABILITY'] == 0
-                                        ? 'no' : 'yes',
-                                    context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    translate('getsSalary', context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10.0,),
-                                  Text(
-                                    translate(
-                                    servicesProvider.result['P_Dep'][0][index]['IS_RETIRED_A'] == 1
-                                        ? 'no' : 'yes',
-                                    context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    translate('getsSalary', context),
-                                    style: const TextStyle(
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10.0,),
-                                  const Text(
-                                    'على قيد الحياة',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                        ),
+                        Text(
+                          ' / ',
+                          style: TextStyle(
+                            color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                           ),
-                        ],
-                      ),
-                    )
-                );
-              },
-            ),
-          )
+                        ),
+                        Text(
+                          translate(
+                              servicesProvider.result['P_Dep'][0][dependentIndex]['NATIONALITY'] == 1
+                                  ? 'jordanian' : 'nonJordanian',
+                              context),
+                          style: TextStyle(
+                            color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 40.0,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              translate('maritalStatus', context),
+                              style: TextStyle(
+                                color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                              ),
+                            ),
+                            const SizedBox(height: 10.0,),
+                            Text(
+                              translate(
+                                  servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 1
+                                      ? UserConfig.instance.checkLanguage()
+                                      ? 'single' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
+                                      : UserConfig.instance.checkLanguage()
+                                      ? 'married' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
+                                  context),
+                              style: TextStyle(
+                                color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              translate('employmentStatus', context),
+                              style: TextStyle(
+                                color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                              ),
+                            ),
+                            const SizedBox(height: 10.0,),
+                            Text(
+                              translate(
+                                  servicesProvider.result['P_Dep'][0][dependentIndex]['WORK_STATUS'] == 0
+                                      ? 'unemployed' : 'employed',
+                                  context),
+                              style: TextStyle(
+                                color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              translate('status', context),
+                              style: TextStyle(
+                                color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                              ),
+                            ),
+                            const SizedBox(height: 10.0,),
+                            Text(
+                              translate(
+                                  servicesProvider.result['P_Dep'][0][dependentIndex]['IS_ALIVE'] == 1
+                                      ? 'alive' : 'dead',
+                                  context),
+                              style: TextStyle(
+                                color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 40.0,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              translate('hasDisability', context),
+                              style: TextStyle(
+                                color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                              ),
+                            ),
+                            const SizedBox(height: 10.0,),
+                            Text(
+                              translate(
+                                  servicesProvider.result['P_Dep'][0][dependentIndex]['DISABILITY'] == 0
+                                      ? 'no' : 'yes',
+                                  context),
+                              style: TextStyle(
+                                color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              translate('getsSalary', context),
+                              style: TextStyle(
+                                color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                              ),
+                            ),
+                            const SizedBox(height: 10.0,),
+                            Text(
+                              translate(
+                                  servicesProvider.result['P_Dep'][0][dependentIndex]['IS_RETIRED_A'] == 1
+                                      ? 'no' : 'yes',
+                                  context),
+                              style: TextStyle(
+                                color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              translate('getsSalary', context),
+                              style: const TextStyle(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            const SizedBox(height: 10.0,),
+                            const Text(
+                              'على قيد الحياة',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+          ),
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length : 0,
+          //     itemBuilder: (context, index){
+          //       return Card(
+          //           elevation: 6.0,
+          //           shadowColor: Colors.black45,
+          //           color: getContainerColor(context),
+          //           shape: RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(15.0),
+          //           ),
+          //           child: Container(
+          //             width: width(1, context),
+          //             padding: const EdgeInsets.all(20.0),
+          //             child: Column(
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children: [
+          //                 Row(
+          //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                   children: [
+          //                     Text(
+          //                       servicesProvider.result['P_Dep'][0][index]['NAME'],
+          //                       style: TextStyle(
+          //                         height: 1.4,
+          //                         color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
+          //                         fontWeight: FontWeight.bold,
+          //                       ),
+          //                     ),
+          //                     Row(
+          //                       children: [
+          //                         Container(
+          //                           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+          //                           decoration: BoxDecoration(
+          //                             color: servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
+          //                                 ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
+          //                             borderRadius: BorderRadius.circular(8.0),
+          //                           ),
+          //                           child: Text(
+          //                             getRelationType(servicesProvider.result['P_Dep'][0][index]['RELATION']),
+          //                             style: TextStyle(
+          //                               color: servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
+          //                                   ? HexColor('#003C97') : HexColor('#2D452E'),
+          //                               fontWeight: FontWeight.w400,
+          //                             ),
+          //                           ),
+          //                         ),
+          //                         const SizedBox(width: 5.0,),
+          //                         PopupMenuButton<ContextMenu>(
+          //                           onSelected: (ContextMenu result) async {
+          //                             switch (result.index) {
+          //                               case 0: {
+          //                                 selectedStatus = servicesProvider.result['P_Dep'][0][index]['IS_ALIVE'] == 1
+          //                                     ? 'alive' : 'dead';
+          //                                 selectedJobStatus = servicesProvider.result['P_Dep'][0][index]['WORK_STATUS'] == 0
+          //                                     ? 'unemployed' : 'employed';
+          //                                 selectedGetsSalary = servicesProvider.result['P_Dep'][0][index]['IS_RETIRED_A'] == 1
+          //                                     ? 'no' : 'yes';
+          //                                 selectedHasDisability = servicesProvider.result['P_Dep'][0][index]['DISABILITY'] == 0
+          //                                     ? 'no' : 'yes';
+          //                                 selectedMaritalStatus = servicesProvider.result['P_Dep'][0][index]['MARITAL_STATUS'] == 1
+          //                                     ? UserConfig.instance.checkLanguage()
+          //                                     ? 'single' : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'singleM' : 'singleF'
+          //                                     : UserConfig.instance.checkLanguage()
+          //                                     ? 'married' : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'marriedM' : 'marriedF';
+          //                                 maritalList = [
+          //                                   UserConfig.instance.checkLanguage()
+          //                                       ? 'single'
+          //                                       : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'singleM' : 'singleF',
+          //                                   UserConfig.instance.checkLanguage()
+          //                                       ? 'married'
+          //                                       : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
+          //                                   UserConfig.instance.checkLanguage()
+          //                                       ? 'divorced'
+          //                                       : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF',
+          //                                   UserConfig.instance.checkLanguage()
+          //                                       ? 'widow'
+          //                                       : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'widowM' : 'widowF',
+          //                                 ];
+          //                                 editDependentModalBottomSheet(index);
+          //                               } break;
+          //                               case 1: {
+          //                                 showMyDialog(
+          //                                   context, 'wouldYouLikeToConfirmDeletionOfDependents',
+          //                                   servicesProvider.result['P_Dep'][0][index]['NAME'],
+          //                                   'yesContinue', themeNotifier, icon: 'assets/icons/dialogDeleteIcon.svg',
+          //                                   onPressed: () async{
+          //                                     String errorMessage = '';
+          //                                     servicesProvider.isLoading = true;
+          //                                     servicesProvider.notifyMe();
+          //                                     try{
+          //                                       await servicesProvider.deleteDependent(int.tryParse(servicesProvider.result['P_Dep'][0][index]["ID"].toString())).then((value){
+          //                                         Navigator.of(context).pop();
+          //                                         if(value['PO_RESULT'] == 1){
+          //                                           servicesProvider.result['P_Dep'][0].removeAt(index);
+          //                                           showMyDialog(context, 'dependentWereDeleted', '', 'ok', themeNotifier, titleColor: '#2D452E');
+          //                                         } else{
+          //                                           errorMessage = UserConfig.instance.checkLanguage()
+          //                                               ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
+          //                                           showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
+          //                                         }
+          //                                       });
+          //                                       servicesProvider.isLoading = false;
+          //                                       servicesProvider.notifyMe();
+          //                                     }catch(e){
+          //                                       servicesProvider.isLoading = false;
+          //                                       servicesProvider.notifyMe();
+          //                                       if (kDebugMode) {
+          //                                         print(e.toString());
+          //                                       }
+          //                                     }
+          //                                   }, withCancelButton: true);
+          //                               } break;
+          //                               default: {} break;
+          //                             }
+          //                           },
+          //                           icon: Icon(
+          //                             Icons.more_vert,
+          //                             color: HexColor('#51504E'),
+          //                             size: 25,
+          //                           ),
+          //                           itemBuilder: (BuildContext context) =>
+          //                           <PopupMenuEntry<ContextMenu>>[
+          //                             PopupMenuItem<ContextMenu>(
+          //                               value: ContextMenu.edit,
+          //                               child: contextMenuItem(
+          //                                 "edit",
+          //                                 'assets/icons/edit.svg',
+          //                                 '#363636'
+          //                               ),
+          //                             ),
+          //                             PopupMenuItem<ContextMenu>(
+          //                               value: ContextMenu.delete,
+          //                               enabled: servicesProvider.result['P_Dep'][0][index]['SOURCE_FLAG'] == 2,
+          //                               child: contextMenuItem(
+          //                                 "delete",
+          //                                 'assets/icons/delete.svg',
+          //                                 '#ED3124'
+          //                               ),
+          //                             ),
+          //                           ],
+          //                         ),
+          //                       ],
+          //                     )
+          //                   ],
+          //                 ),
+          //                 const SizedBox(height: 15.0,),
+          //                 Row(
+          //                   children: [
+          //                     Text(
+          //                       servicesProvider.result['P_Dep'][0][index]['NATIONAL_NO'],
+          //                       style: TextStyle(
+          //                         color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+          //                       ),
+          //                     ),
+          //                     Text(
+          //                       ' / ',
+          //                       style: TextStyle(
+          //                         color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+          //                       ),
+          //                     ),
+          //                     Text(
+          //                       translate(
+          //                         servicesProvider.result['P_Dep'][0][index]['NATIONALITY'] == 1
+          //                         ? 'jordanian' : 'nonJordanian',
+          //                       context),
+          //                       style: TextStyle(
+          //                         color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+          //                       ),
+          //                     ),
+          //                   ],
+          //                 ),
+          //                 const SizedBox(height: 40.0,),
+          //                 Row(
+          //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                   children: [
+          //                     Column(
+          //                       crossAxisAlignment: CrossAxisAlignment.start,
+          //                       children: [
+          //                         Text(
+          //                           translate('maritalStatus', context),
+          //                           style: TextStyle(
+          //                             color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+          //                           ),
+          //                         ),
+          //                         const SizedBox(height: 10.0,),
+          //                         Text(
+          //                           translate(
+          //                           servicesProvider.result['P_Dep'][0][index]['MARITAL_STATUS'] == 1
+          //                               ? UserConfig.instance.checkLanguage()
+          //                               ? 'single' : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'singleM' : 'singleF'
+          //                               : UserConfig.instance.checkLanguage()
+          //                               ? 'married' : servicesProvider.result['P_Dep'][0][index]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
+          //                           context),
+          //                           style: TextStyle(
+          //                             color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                     Column(
+          //                       crossAxisAlignment: CrossAxisAlignment.start,
+          //                       children: [
+          //                         Text(
+          //                           translate('employmentStatus', context),
+          //                           style: TextStyle(
+          //                             color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+          //                           ),
+          //                         ),
+          //                         const SizedBox(height: 10.0,),
+          //                         Text(
+          //                           translate(
+          //                           servicesProvider.result['P_Dep'][0][index]['WORK_STATUS'] == 0
+          //                               ? 'unemployed' : 'employed',
+          //                           context),
+          //                           style: TextStyle(
+          //                             color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                     Column(
+          //                       crossAxisAlignment: CrossAxisAlignment.start,
+          //                       children: [
+          //                         Text(
+          //                           translate('status', context),
+          //                           style: TextStyle(
+          //                             color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+          //                           ),
+          //                         ),
+          //                         const SizedBox(height: 10.0,),
+          //                         Text(
+          //                           translate(
+          //                           servicesProvider.result['P_Dep'][0][index]['IS_ALIVE'] == 1
+          //                               ? 'alive' : 'dead',
+          //                           context),
+          //                           style: TextStyle(
+          //                             color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   ],
+          //                 ),
+          //                 const SizedBox(height: 40.0,),
+          //                 Row(
+          //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                   children: [
+          //                     Column(
+          //                       crossAxisAlignment: CrossAxisAlignment.start,
+          //                       children: [
+          //                         Text(
+          //                           translate('hasDisability', context),
+          //                           style: TextStyle(
+          //                             color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+          //                           ),
+          //                         ),
+          //                         const SizedBox(height: 10.0,),
+          //                         Text(
+          //                           translate(
+          //                           servicesProvider.result['P_Dep'][0][index]['DISABILITY'] == 0
+          //                               ? 'no' : 'yes',
+          //                           context),
+          //                           style: TextStyle(
+          //                             color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                     Column(
+          //                       crossAxisAlignment: CrossAxisAlignment.start,
+          //                       children: [
+          //                         Text(
+          //                           translate('getsSalary', context),
+          //                           style: TextStyle(
+          //                             color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+          //                           ),
+          //                         ),
+          //                         const SizedBox(height: 10.0,),
+          //                         Text(
+          //                           translate(
+          //                           servicesProvider.result['P_Dep'][0][index]['IS_RETIRED_A'] == 1
+          //                               ? 'no' : 'yes',
+          //                           context),
+          //                           style: TextStyle(
+          //                             color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                     Column(
+          //                       crossAxisAlignment: CrossAxisAlignment.start,
+          //                       children: [
+          //                         Text(
+          //                           translate('getsSalary', context),
+          //                           style: const TextStyle(
+          //                             color: Colors.transparent,
+          //                           ),
+          //                         ),
+          //                         const SizedBox(height: 10.0,),
+          //                         const Text(
+          //                           'على قيد الحياة',
+          //                           style: TextStyle(
+          //                             color: Colors.white,
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   ],
+          //                 ),
+          //               ],
+          //             ),
+          //           )
+          //       );
+          //     },
+          //   ),
+          // )
         ],
       ),
     );
