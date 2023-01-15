@@ -3,7 +3,13 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
+import 'package:ssc/src/view/splash/splashScreen.dart';
+import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
+import '../main.dart';
 import '../utilities/util.dart';
 import 'userSecuredStorage.dart';
 
@@ -100,8 +106,10 @@ class HTTPClientContract {
   }
 
   Future<Response> getHTTP(String url) async {
+    checkInternetConnection();
     try {
       Response response = await _baseAPI.get(url, cancelToken: _cancelToken);
+      checkSessionExpired(response);
       return response;
     } on DioError catch (e) {
       if (CancelToken.isCancel(e)) {}
@@ -110,8 +118,10 @@ class HTTPClientContract {
   }
 
   Future<Response> postHTTP(String url, dynamic data) async {
+    checkInternetConnection();
     try {
       Response response = await _baseAPI.post(url, data: data);
+      checkSessionExpired(response);
       return response;
     } on DioError catch (e) {
       return e.response;
@@ -119,6 +129,7 @@ class HTTPClientContract {
   }
 
   Future<Response> putHTTP(String url, dynamic data) async {
+    checkInternetConnection();
     try {
       Response response = await _baseAPI.put(url, data: data);
       return response;
@@ -128,8 +139,10 @@ class HTTPClientContract {
   }
 
   Future<Response> deleteHTTP(String url) async {
+    checkInternetConnection();
     try {
       Response response = await _baseAPI.delete(url);
+      checkSessionExpired(response);
       return response;
     } on DioError catch (e) {
       return e.response;
@@ -137,12 +150,46 @@ class HTTPClientContract {
   }
 
   Future<Response> patchHTTP(String url, dynamic data) async {
+    checkInternetConnection();
     try {
       Response response = await _baseAPI.patch(url, data: data);
+      checkSessionExpired(response);
       return response;
     } on DioError catch (e) {
       return e.response;
     }
   }
 
+
+  checkInternetConnection() async {
+    if(!await InternetConnectionChecker().hasConnection) {
+      UserConfig.instance.showPlatformFlushBar(
+          UserConfig.instance.checkLanguage()
+              ? 'No internet Connection'
+              : 'لا يوجد اتصال بالانترنت. ',
+          UserConfig.instance.checkLanguage()
+              ? 'Please make sure your device is connected to internet.'
+              : 'الرجاء التاكد من الاتصال بالانترنت.',
+          navigatorKey.currentContext,
+          seconds: 200
+      );
+    }
+  }
+
+  checkSessionExpired(Response response){
+    if ((response?.statusCode == 403 || response?.statusCode == 401)) {
+      String title = 'sessionExpired';
+      String body = translate('sessionExpiredDesc', navigatorKey.currentContext);
+      showMyDialog(
+        navigatorKey.currentContext,
+        title, body, 'login',
+        Provider.of<ThemeNotifier>(navigatorKey.currentContext, listen: false),
+      ).then((value) {
+        Navigator.of(navigatorKey.currentContext).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const SplashScreen()),
+                (route) => false
+        );
+      });
+    }
+  }
 }
