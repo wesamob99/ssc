@@ -2,6 +2,8 @@
 //
 //     final getEarlyRetirementModel = getEarlyRetirementModelFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 GetEarlyRetirementModel getEarlyRetirementModelFromJson(String str) => GetEarlyRetirementModel.fromJson(json.decode(str));
