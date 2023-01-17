@@ -25,29 +25,89 @@ class ServicesRepository{
   }
 
   Future getRequiredDocumentsService(result) async {
-    var data = {"params":{"Data":"{\"PAYMENT_METHOD\":${result['P_Result'][0][0]['PAYMENT_METHOD']},\"BANK_LOCATION\":${result['P_Result'][0][0]['BANK_LOCATION']},"
-        "\"BRANCH_ID\":${result['P_Result'][0][0]['BRANCH_ID']},\"BRANCH_NAME\":${result['P_Result'][0][0]['BRANCH_NAME']},\"BANK_ID\":${result['P_Result'][0][0]['BANK_ID']},"
-        "\"BANK_NAME\":${result['P_Result'][0][0]['BANK_NAME']},\"ACCOUNT_NAME\":${result['P_Result'][0][0]['ACCOUNT_NAME']},\"PAYMENT_COUNTRY\":${result['P_Result'][0][0]['PAYMENT_COUNTRY']},"
-        "\"PAYMENT_COUNTRY_CODE\":${result['P_Result'][0][0]['PAYMENT_COUNTRY_CODE']},\"PAYMENT_PHONE\":${result['P_Result'][0][0]['PAYMENT_PHONE']},"
-        "\"IFSC\":${result['P_Result'][0][0]['IFSC']},\"SWIFT_CODE\":${result['P_Result'][0][0]['SWIFT_CODE'] ?? ''}\"\",\"BANK_DETAILS\":${result['P_Result'][0][0]['SWIFT_CODE'] ?? ''}\"\",\"IBAN\":null,"
-        "\"CASH_BANK_ID\":${result['P_Result'][0][0]['CASH_BANK_ID']},\"REP_NATIONALITY\":${result['P_Result'][0][0]['REP_NATIONALITY'] ?? ''}\"\","
-        "\"REP_NATIONAL_NO\":${result['P_Result'][0][0]['REP_NATIONAL_NO'] ?? ''}\"\",\"REP_NAME\":${result['P_Result'][0][0]['REP_NAME'] ?? ''}\"\",\"WALLET_TYPE\":${result['P_Result'][0][0]['WALLET_TYPE']},\"WALLET_OTP_VERIVIED\":${result['P_Result'][0][0]['WALLET_OTP_VERIVIED']},"
-        "\"WALLET_OTP\":${result['P_Result'][0][0]['WALLET_OTP']},\"WALLET_PHONE\":${result['P_Result'][0][0]['WALLET_PHONE']},"
-        "\"WALLET_PHONE_VERIVIED\":${result['P_Result'][0][0]['WALLET_PHONE_VERIVIED']},\"WALLET_PASSPORT_NUMBER\":${result['P_Result'][0][0]['WALLET_PASSPORT_NUMBER']},\"PEN_IBAN\":${result['P_Result'][0][0]['PEN_IBAN']},"
-        "\"SECNO\":${result['p_per_info'][0][0]['SECNO']},\"NAT_DESC\":\"${result['P_Result'][0][0]['NAT_DESC']}\",\"NAT\":${result['P_Result'][0][0]['NAT']},"
-        "\"NAT_NO\":${result['P_Result'][0][0]['NAT_NO']},\"PERS_NO\":${result['P_Result'][0][0]['PERS_NO']},\"LAST_EST_NAME\":\"${result['P_Result'][0][0]['LAST_EST_NAME']}\",\"NAME1\":\"${result['p_per_info'][0][0]['NAME1']}\",\"NAME2\":\"${result['p_per_info'][0][0]['NAME2']}\",\"NAME3\":\"${result['p_per_info'][0][0]['NAME3']}\","
-        "\"NAME4\":\"${result['p_per_info'][0][0]['NAME4']}\",\"FULL_NAME_EN\":\"${result['p_per_info'][0][0]['FULL_NAME_EN']}\",\"EMAIL\":\"${result['p_per_info'][0][0]['EMAIL']}\",\"MOBILE\":${result['p_per_info'][0][0]['MOBILE']},\"INTERNATIONAL_CODE\":${result['p_per_info'][0][0]['INTERNATIONAL_CODE']},\"INSURED_ADDRESS\":${result['P_Result'][0][0]['INSURED_ADDRESS']},"
-        "\"MARITAL_STATUS\":${result['P_Result'][0][0]['MARITAL_STATUS']},\"REGDATE\":${result['P_Result'][0][0]['REGDATE']},\"REGRATE\":${result['P_Result'][0][0]['REGRATE']},\"LAST_SALARY\":${result['P_Result'][0][0]['LAST_SALARY']},\"LAST_STODATE\":\"${result['P_Result'][0][0]['LAST_STODATE']}\",\"ACTUAL_STODATE\":${result['P_Result'][0][0]['ACTUAL_STODATE']},\"GENDER\":\"${result['p_per_info'][0][0]['GENDER']}\","
-        "\"CIVIL_WORK_DOC\":${result['P_Result'][0][0]['CIVIL_WORK_DOC']},\"MILITARY_WORK_DOC\":${result['P_Result'][0][0]['MILITARY_WORK_DOC']},\"CIV_MIL_RETIRED_DOC\":${result['P_Result'][0][0]['CIV_MIL_RETIRED_DOC']},\"PEN_START_DATE\":${result['P_Result'][0][0]['PEN_START_DATE']},\"GOVERNORATE\":${result['P_Result'][0][0]['GOVERNORATE']},\"DETAILED_ADDRESS\":${result['P_Result'][0][0]['DETAILED_ADDRESS']},"
-        "\"PASS_NO\":${result['P_Result'][0][0]['PASS_NO']},\"RESIDENCY_NO\":${result['P_Result'][0][0]['RESIDENCY_NO']},\"DOB\":\"${result['P_Result'][0][0]['DOB']}\",\"JOB_NO\":${result['P_Result'][0][0]['JOB_NO']},\"JOB_DESC\":${result['P_Result'][0][0]['JOB_DESC']},\"ENAME1\":${result['P_Result'][0][0]['ENAME1']},\"ENAME2\":${result['P_Result'][0][0]['ENAME2']},\"ENAME3\":${result['P_Result'][0][0]['ENAME3']},"
-        "\"ENAME4\":${result['P_Result'][0][0]['ENAME4']},\"LAST_EST_NO\":${result['P_Result'][0][0]['LAST_EST_NO']},\"FAM_NO\":${result['P_Result'][0][0]['FAM_NO']},\"nextVaild\":${result['P_Result'][0][0]['nextVaild']},\"wantAddFamily\":${result['P_Result'][0][0]['wantAddFamily']},\"GENDER_DESC\":\"${result['p_per_info'][0][0]['GENDER_DESC']}\",\"PI_EPAY\":${result['P_Result'][0][0]['PI_EPAY']},"
-        "\"INSURED\":${result['P_Result'][0][0]['INSURED']},\"ID\":${result['P_Result'][0][0]['ID']},\"DEP_FLAG\":${result['P_Result'][0][0]['DEP_FLAG']}}","SERVICE_NO": 8}};
-    /// {"params":{"Data":jsonEncode(result),"SERVICE_NO":8}};
+    var data = {
+      "params":{
+        "Data": jsonEncode({
+          "PAYMENT_METHOD": 3,
+          "BANK_LOCATION": 1,
+          "BRANCH_ID": 3003,
+          "BRANCH_NAME": null,
+          "BANK_ID": 3000,
+          "BANK_NAME": null,
+          "ACCOUNT_NAME": null,
+          "PAYMENT_COUNTRY": null,
+          "PAYMENT_COUNTRY_CODE": null,
+          "PAYMENT_PHONE": null,
+          "IFSC": null,
+          "SWIFT_CODE": "",
+          "BANK_DETAILS": "",
+          "IBAN": null,
+          "CASH_BANK_ID": null,
+          "REP_NATIONALITY": "",
+          "REP_NATIONAL_NO": "",
+          "REP_NAME": "",
+          "WALLET_TYPE": null,
+          "WALLET_OTP_VERIVIED": null,
+          "WALLET_OTP": null,
+          "WALLET_PHONE": null,
+          "WALLET_PHONE_VERIVIED": null,
+          "WALLET_PASSPORT_NUMBER": null,
+          "PEN_IBAN": null,
+          "SECNO": 9681013362,
+          "NAT_DESC": "الاردن",
+          "NAT": 111,
+          "NAT_NO": 9681030847,
+          "PERS_NO": null,
+          "LAST_EST_NAME": "شركة **********",
+          "NAME1": "رامي",
+          "NAME2": "رشدي",
+          "NAME3": "يوسف",
+          "NAME4": "الخطيب",
+          "FULL_NAME_EN": "",
+          "EMAIL": "ahadidi@ssc.gov.j",
+          "MOBILE": 792281383,
+          "INTERNATIONAL_CODE": 962,
+          "INSURED_ADDRESS": null,
+          "MARITAL_STATUS": null,
+          "REGDATE": null,
+          "REGRATE": null,
+          "LAST_SALARY": null,
+          "LAST_STODATE": "01/07/2020",
+          "ACTUAL_STODATE": null,
+          "GENDER": "1",
+          "CIVIL_WORK_DOC": 1,
+          "MILITARY_WORK_DOC": 0,
+          "CIV_MIL_RETIRED_DOC": 0,
+          "PEN_START_DATE": null,
+          "GOVERNORATE": null,
+          "DETAILED_ADDRESS": null,
+          "PASS_NO": null,
+          "RESIDENCY_NO": null,
+          "DOB": "11/09/1968",
+          "JOB_NO": null,
+          "JOB_DESC": null,
+          "ENAME1": null,
+          "ENAME2": null,
+          "ENAME3": null,
+          "ENAME4": null,
+          "LAST_EST_NO": 66500,
+          "FAM_NO": null,
+          "nextVaild": null,
+          "wantAddFamily": null,
+          "GENDER_DESC": "ذكر",
+          "PI_EPAY": null,
+          "INSURED": null,
+          "ID": null,
+          "DEP_FLAG": 0
+        }),
+        "SERVICE_NO": 8
+      }
+    };
     if (kDebugMode) {
-      print(jsonEncode(data));
+      print(data);
     }
     var response = await HTTPClientContract.instance.postHTTP(
-        '/website/GetDocumentRequired', jsonEncode(data)
+        '/website/GetDocumentRequired', data
     );
     if (kDebugMode) {
       print(response);
