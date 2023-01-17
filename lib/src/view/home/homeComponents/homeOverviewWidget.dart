@@ -50,13 +50,13 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             children: [
                               Text(translate('subscriptions', context),
                                   style: TextStyle(
-                                      fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                                      fontSize: isTablet(context) ? 18 : 12)),
                               Text(
                                 data.poMonthsCount.toString(),
                                 style: TextStyle(
                                     color: HexColor('#37662D'),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: width(isTablet(context) ? 0.033 : 0.036, context)),
+                                    fontSize: isTablet(context) ? 26 : 18),
                               ),
                             ],
                           ),
@@ -81,7 +81,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             children: [
                               Text(translate('idleBalance', context),
                                   style: TextStyle(
-                                      fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                                      fontSize: isTablet(context) ? 18 : 12)),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -91,7 +91,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: data.poIdleBalance >= 0
                                             ? HexColor('#37662D') : HexColor('#BC0D0D'),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: width(isTablet(context) ? 0.033 : 0.036, context)),
+                                        fontSize: isTablet(context) ? 26 : 18),
                                   ),
                                   Text(
                                     translate('jd', context),
@@ -99,7 +99,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: themeNotifier.isLight()
                                             ? Colors.black
                                             : Colors.white,
-                                        fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
+                                        fontSize: isTablet(context) ? 20 : 14),
                                   ),
                                 ],
                               )
@@ -133,13 +133,13 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                           Text(UserConfig.instance.checkLanguage()
                               ? 'Al-Qawasmi Company'
                               : 'شركة القواسمي وشركاة',
-                              style: TextStyle(fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                              style: TextStyle(fontSize: isTablet(context) ? 18 : 12)),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(translate('salary', context),
                                   style: TextStyle(
-                                      fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                                      fontSize: isTablet(context) ? 18 : 12)),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -148,7 +148,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                     style: TextStyle(
                                         color: HexColor('#37662D'),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: width(isTablet(context) ? 0.033 : 0.036, context)),
+                                        fontSize: isTablet(context) ? 26 : 18),
                                   ),
                                   Text(
                                     translate('jd', context),
@@ -156,7 +156,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: themeNotifier.isLight()
                                             ? Colors.black
                                             : Colors.white,
-                                        fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
+                                        fontSize: isTablet(context) ? 20 : 14),
                                   ),
                                 ],
                               )
@@ -167,7 +167,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             children: [
                               Text(translate('deductionValue', context),
                                   style: TextStyle(
-                                      fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                                      fontSize: isTablet(context) ? 18 : 12)),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -176,7 +176,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                     style: TextStyle(
                                         color: HexColor('#BE8703'),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: width(isTablet(context) ? 0.033 : 0.036, context)),
+                                        fontSize: isTablet(context) ? 26 : 18),
                                   ),
                                   Text(
                                     translate('jd', context),
@@ -184,7 +184,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: themeNotifier.isLight()
                                             ? Colors.black
                                             : Colors.white,
-                                        fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
+                                        fontSize: isTablet(context) ? 20 : 14),
                                   ),
                                 ],
                               )
@@ -195,10 +195,10 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             children: [
                               Text(translate('lastPayment', context),
                                   style: TextStyle(
-                                      fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                                      fontSize: isTablet(context) ? 18 : 12)),
                               Text('22/7/2022',
                                   style: TextStyle(
-                                      fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                                      fontSize: isTablet(context) ? 20 : 14)),
                             ],
                           )
                         ],
@@ -237,7 +237,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                         children: [
                           Text(
                             translate('number_of_contributions_to_retirement', context),
-                            style: TextStyle(fontSize: width(isTablet(context) ? 0.028 : 0.031, context)),
+                            style: TextStyle(fontSize: isTablet(context) ? 18 : 12),
                           ),
                           SizedBox(height: height(0.005, context),),
                           SizedBox(
@@ -249,7 +249,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                 Text(
                                   '300/${(int.parse(data.poMonthsCount.toStringAsFixed(0)) <= 300) ? int.parse(data.poMonthsCount.toStringAsFixed(0)) : 300}',
                                   style: TextStyle(
-                                      fontSize: width(0.03, context)),
+                                      fontSize: isTablet(context) ? 19 : 13),
                                 ),
                                 Container(
                                   width: width(1, context),
