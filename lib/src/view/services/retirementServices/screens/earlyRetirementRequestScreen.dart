@@ -821,7 +821,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                           style: TextStyle(
                             color: HexColor('#363636'),
                             fontWeight: FontWeight.w500,
-                            fontSize: 17,
+                            fontSize: 16,
                           ),
                         ),
                         ListView.builder(
