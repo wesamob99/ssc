@@ -137,9 +137,9 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                           Directionality(
                             textDirection: TextDirection.ltr,
                             child: Container(
+                              padding: const EdgeInsets.all(10.0),
                               alignment: Alignment.center,
-                              width: width(isTimerEnded ? 0.5 : 0.23, context),
-                              height: height(0.04, context),
+                              width: width(isTimerEnded ? 0.6 : 0.3, context),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
@@ -152,7 +152,10 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                                   alignment: Alignment.center,
                                   child: Text(
                                     'code has been disabled',
-                                    style: TextStyle(color: HexColor('#FF0000')),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: HexColor('#FF0000'),
+                                    ),
                                   ),
                                 ),
                                 endTime: endTime,
