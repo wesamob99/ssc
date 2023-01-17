@@ -41,7 +41,9 @@ class AccountSettingsRepository{
     var response = await HTTPClientContract.instance.postHTTP(
         '/individuals/UPDATE_INDIVIDUALUSERINFO', data
     );
-
+    if (kDebugMode) {
+      print('response: $response');
+    }
     if (response != null && response.statusCode == 200) {
       return jsonDecode(response.data);
     }
