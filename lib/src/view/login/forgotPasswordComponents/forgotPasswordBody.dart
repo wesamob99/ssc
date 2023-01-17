@@ -64,7 +64,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                       translate('identityVerify', context),
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        fontSize: width(0.04, context)
+                        fontSize: isTablet(context) ? 28 : 18,
                       ),
                     ),
                     SizedBox(height: height(0.04, context),),
@@ -75,7 +75,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                           + (useAnotherMethod ? '  ${userSecuredStorage.email}' : ''),
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
-                              fontSize: width(0.034, context)
+                              fontSize: isTablet(context) ? 20 : 14,
                           ),
                         ),
                         SizedBox(height: height(0.015, context),),
@@ -85,7 +85,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                           textDirection: TextDirection.ltr,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: width(0.034, context),
+                            fontSize: isTablet(context) ? 20 : 14,
                           ),
                         )
                       ],
@@ -122,7 +122,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                           translate((useAnotherMethod || userSecuredStorage.email == "0") ?'dontHaveAnyMethod' : 'useAnotherMethod', context),
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
-                              fontSize: width(0.033, context),
+                              fontSize: isTablet(context) ? 20 : 14,
                               color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff')
                           ),
                         ),

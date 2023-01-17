@@ -108,11 +108,11 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: height(0.05, context), bottom: height(0.035, context)),
+              padding: const EdgeInsets.only(top: 33, bottom: 18),
               child: Text(
                 translate('steps', context),
-                style: const TextStyle(
-                  fontSize: 22,
+                style: TextStyle(
+                  fontSize: isTablet(context) ? 25 : 16,
                   fontWeight: FontWeight.w600
                 ),
               ),
@@ -122,12 +122,15 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(bottom: height(0.012, context)),
+                      padding: const EdgeInsets.only(bottom: 23),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             translate('bankStep_1', context),
+                            style: TextStyle(
+                              fontSize: isTablet(context) ? 20 : 14,
+                            ),
                           ),
                           const SizedBox(height: 10.0),
                           Row(
@@ -145,7 +148,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                                   widget.payCode,
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
-                                    fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
+                                    fontSize: isTablet(context) ? 22 : 16,
                                   ),
                                 ),
                               ),
@@ -174,15 +177,18 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                       )
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: height(0.024, context)),
+                    padding: const EdgeInsets.only(bottom: 21),
                     child: Text(
                       translate('bankStep_2', context),
+                      style: TextStyle(
+                        fontSize: isTablet(context) ? 20 : 14,
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: height(0.024, context)),
-                    child: Text(
-                      translate('bankStep_3', context),
+                  Text(
+                    translate('bankStep_3', context),
+                    style: TextStyle(
+                      fontSize: isTablet(context) ? 20 : 14,
                     ),
                   ),
                 ],

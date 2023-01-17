@@ -132,7 +132,7 @@ class _PayScreenState extends State<PayScreen> {
                                           payments[index].title,
                                           style: TextStyle(
                                             color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
-                                            fontSize: width(isTablet(context) ? 0.027 : 0.031, context)
+                                            fontSize: isTablet(context) ? 20 : 14
                                           ),
                                         ),
                                         const SizedBox(height: 5.0),
@@ -140,7 +140,7 @@ class _PayScreenState extends State<PayScreen> {
                                           payments[index].date,
                                           style: TextStyle(
                                               color: themeNotifier.isLight() ? HexColor('#666666') : Colors.white70,
-                                              fontSize: width(isTablet(context) ? 0.023 : 0.027, context)
+                                              fontSize: isTablet(context) ? 18 : 12
                                           ),
                                         ),
                                       ],
@@ -154,14 +154,14 @@ class _PayScreenState extends State<PayScreen> {
                                     payments[index].value.toString(),
                                     style: TextStyle(
                                       color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
-                                      fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
+                                      fontSize: isTablet(context) ? 24 : 18,
                                     ),
                                   ),
                                   Text(
                                     ' ${translate('jd', context)}',
                                     style: TextStyle(
                                       color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
-                                      fontSize: width(isTablet(context) ? 0.026 : 0.03, context),
+                                      fontSize: isTablet(context) ? 20 : 14,
                                     ),
                                   ),
                                 ],
@@ -207,7 +207,7 @@ class _PayScreenState extends State<PayScreen> {
                         translate('totalSummation', context),
                         style: TextStyle(
                           color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
-                          fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
+                          fontSize: isTablet(context) ? 20 : 14,
                         ),
                       ),
                       Row(
@@ -216,14 +216,14 @@ class _PayScreenState extends State<PayScreen> {
                             totalSummation.toStringAsFixed(3),
                             style: TextStyle(
                               color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
-                              fontSize: width(isTablet(context) ? 0.036 : 0.04, context),
+                              fontSize: isTablet(context) ? 24 : 18,
                             ),
                           ),
                           Text(
                             ' ${translate('jd', context)}',
                             style: TextStyle(
                               color: HexColor('#363636'),
-                              fontSize: width(isTablet(context) ? 0.026 : 0.03, context),
+                              fontSize: isTablet(context) ? 20 : 14,
                             ),
                           ),
                         ],
@@ -273,7 +273,7 @@ class _PayScreenState extends State<PayScreen> {
                                               '${value['PO_PAY_COD']}',
                                               style: TextStyle(
                                                 color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
-                                                fontSize: width(isTablet(context) ? 0.03 : 0.034, context),
+                                                fontSize: isTablet(context) ? 22 : 16,
                                               ),
                                             ),
                                           ),
@@ -306,7 +306,7 @@ class _PayScreenState extends State<PayScreen> {
                                       translate('codeExpiration', context),
                                       style: TextStyle(
                                         color: HexColor('#FF0000'),
-                                        fontSize: width(isTablet(context) ? 0.026 : 0.03, context),
+                                        fontSize: isTablet(context) ? 18 : 12,
                                       ),
                                     ),
                                   ],

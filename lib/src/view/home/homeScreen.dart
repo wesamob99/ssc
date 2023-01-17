@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           //           padding: EdgeInsets.only(bottom: height(0.01, context)),
                           //           child: Text(translate('myAccount', context),
                           //               style: TextStyle(
-                          //                   fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                          //                   fontSize: isTablet(context) ? 20 : 14)),
                           //         ),
                           //         HomeOverviewWidget(data: userInformation),
                           //       ],
@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           //           padding: EdgeInsets.only(bottom: height(0.01, context)),
                           //           child: Text(translate('pastYearsPays', context),
                           //               style: TextStyle(
-                          //                   fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                          //                   fontSize: isTablet(context) ? 20 : 14)),
                           //         ),
                           //         HomeChartWidget(data: userInformation),
                           //       ],
@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: EdgeInsets.only(bottom: height(0.01, context)),
                             child: Text(translate('myAccount', context),
                                 style: TextStyle(
-                                    fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                                    fontSize: isTablet(context) ? 20 : 14)),
                           ),
                           HomeOverviewWidget(data: userInformation),
                           SizedBox(
@@ -151,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 Text(translate('quickAccess', context),
                                     style: TextStyle(
-                                        fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                                        fontSize: isTablet(context) ? 20 : 14)),
                                 InkWell(
                                   onTap: (){
                                     homeProvider.isEditQuickAccessActive = !homeProvider.isEditQuickAccessActive;
@@ -163,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         homeProviderListener.isEditQuickAccessActive
                                         ? translate('editComplete', context) : translate('edit', context),
                                         style: TextStyle(
-                                          fontSize: width(isTablet(context) ? 0.028 : 0.031, context),
+                                          fontSize: isTablet(context) ? 20 : 14,
                                           color: themeNotifier.isLight() 
                                             ? HexColor('#003C97')
                                             : HexColor('#00b0ff'),
@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: EdgeInsets.only(bottom: height(0.007, context)),
                             child: Text(translate('advertisements', context),
                                 style: TextStyle(
-                                    fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                                    fontSize: isTablet(context) ? 20 : 14)),
                           ),
                           const HomeSlideShowWidget(),
                           if(userInformation.curGetdata.isNotEmpty)
@@ -190,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           if(userInformation.curGetdata.isNotEmpty)
                           Text(translate('pastYearsPays', context),
                               style: TextStyle(
-                                  fontSize: width(isTablet(context) ? 0.028 : 0.031, context))),
+                                  fontSize: isTablet(context) ? 20 : 14)),
                           if(userInformation.curGetdata.isNotEmpty)
                           HomeChartWidget(data: userInformation),
                           SizedBox(

@@ -457,7 +457,7 @@ SizedBox textButton(context, ThemeNotifier themeNotifier, String textKey, Color 
           foregroundColor: MaterialStateProperty.all<Color>(
               Colors.white
           ),
-          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: verticalPadding)),
+          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: verticalPadding == 16.0 ? isTablet(context) ? 24 : 16.0 : verticalPadding)),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -526,7 +526,7 @@ Widget buildFieldTitle(context, title, {required = true, filled = false}){
         translate(title, context),
         style: TextStyle(
           color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
-          fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
+          fontSize: isTablet(context) ? 20 : 14
         ),
       ),
       if(required)
@@ -662,7 +662,7 @@ loginSuggestionsModalBottomSheet(context, themeNotifier, supportState, authentic
                           style: TextStyle(
                             color: HexColor('#363636'),
                             fontWeight: FontWeight.bold,
-                            fontSize: width(0.04, context),
+                            fontSize: isTablet(context) ? 20 : 14
                           ),
                         ),
                         InkWell(
