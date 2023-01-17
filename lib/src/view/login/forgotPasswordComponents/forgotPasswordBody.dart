@@ -394,7 +394,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
             foregroundColor:  MaterialStateProperty.all<Color>(
                 Colors.white
             ),
-            padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 16.0)),
+            padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: isTablet(context) ? 24 : 16.0)),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
