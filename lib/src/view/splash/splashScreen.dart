@@ -131,7 +131,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset('assets/logo/logo.svg', width: 70),
+                      SvgPicture.asset('assets/logo/logo.svg', width: 60),
                       const SizedBox(width: 10.0),
                       SvgPicture.asset(
                         'assets/logo/name.svg',
