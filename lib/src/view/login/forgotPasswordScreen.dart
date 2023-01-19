@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../infrastructure/userConfig.dart';
 import '../../../infrastructure/userSecuredStorage.dart';
@@ -13,7 +12,6 @@ import '../../../utilities/hexColor.dart';
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
 import '../../viewModel/login/loginProvider.dart';
-import '../../viewModel/utilities/language/globalAppProvider.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
 import 'forgotPasswordComponents/forgotPasswordBody.dart';
 import 'dart:math' as math;
@@ -31,16 +29,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   LoginProvider loginProvider;
   bool showError = false;
 
-  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-  String selectedLanguage;
   bool showResetPasswordBody;
-
-  getAppLanguage(){
-    prefs.then((value) {
-      selectedLanguage = value.getString('language_code') ?? 'en';
-    });
-  }
 
   @override
   void initState() {
@@ -54,14 +44,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     showResetPasswordBody = false;
     /// all
     loginProvider.isLoading = false;
-    getAppLanguage();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-    GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(10.0),
@@ -135,42 +123,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                     ],
                                   )
                             ),
-                            InkWell(
-                              onTap: ()async{
-                                setState(() {
-                                  selectedLanguage = (selectedLanguage == 'en' ? 'ar' : 'en');
-                                });
-                                globalAppProvider.changeLanguage(Locale(selectedLanguage));
-                                globalAppProvider.notifyMe();
-                                prefs.then((value) {
-                                  value.setString('language_code', selectedLanguage);
-                                });
-                              },
-                              child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                                  alignment: Alignment.topRight,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        selectedLanguage == 'en' ? 'عربي' : 'English',
-                                        style: TextStyle(
-                                          color: themeNotifier.isLight()
-                                              ? primaryColor
-                                              : Colors.white,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 5.0),
-                                      SvgPicture.asset(
-                                        'assets/icons/global.svg',
-                                        color: themeNotifier.isLight()
-                                            ? HexColor('#5D6470')
-                                            : Colors.white,
-                                      ),
-                                    ],
-                                  )
-                              ),
-                            ),
+                            updateLanguageWidget(context)
                           ],
                         ),
                         SizedBox(height: height(0.03, context),),

@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/src/view/splash/splashScreen.dart';
 import 'package:ssc/src/viewModel/accountSettings/accountSettingsProvider.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
@@ -14,6 +15,7 @@ import '../src/view/pay/payScreen.dart';
 import '../src/viewModel/home/homeProvider.dart';
 import '../src/viewModel/login/loginProvider.dart';
 import '../src/viewModel/services/servicesProvider.dart';
+import '../src/viewModel/utilities/language/globalAppProvider.dart';
 import 'hexColor.dart';
 import 'language/appLocalizations.dart';
 import 'dart:ui' as ui;
@@ -1007,6 +1009,45 @@ buildExpandableWidget(context, String title, String child){
         ),
       ),
     ],
+  );
+}
+
+updateLanguageWidget(BuildContext context){
+  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
+  GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
+  return InkWell(
+    onTap: ()async{
+      globalAppProvider.changeLanguage(Locale(UserConfig.instance.checkLanguage() ? 'ar' : 'en'));
+      globalAppProvider.notifyMe();
+      prefs.then((value) {
+        value.setString('language_code', UserConfig.instance.checkLanguage() ? 'ar' : 'en');
+      });
+    },
+    child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        alignment: Alignment.topRight,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              UserConfig.instance.checkLanguage() ? 'عربي' : 'English',
+              style: TextStyle(
+                color: themeNotifier.isLight()
+                    ? primaryColor
+                    : Colors.white,
+              ),
+            ),
+            const SizedBox(width: 5.0),
+            SvgPicture.asset(
+              'assets/icons/global.svg',
+              color: themeNotifier.isLight()
+                  ? HexColor('#5D6470')
+                  : Colors.white,
+            ),
+          ],
+        )
+    ),
   );
 }
 

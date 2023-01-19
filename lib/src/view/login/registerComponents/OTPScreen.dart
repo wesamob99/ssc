@@ -1,10 +1,8 @@
 // ignore_for_file: file_names
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ssc/src/view/login/forgotPasswordComponents/resetPasswordBody.dart';
 import 'package:ssc/src/view/login/registerComponents/secondStepBody.dart';
 import 'package:ssc/src/viewModel/accountSettings/accountSettingsProvider.dart';
@@ -15,7 +13,6 @@ import '../../../../infrastructure/userConfig.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/login/loginProvider.dart';
 import '../../../viewModel/services/servicesProvider.dart';
-import '../../../viewModel/utilities/language/globalAppProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../splash/splashScreen.dart';
 import 'forthStepBody.dart';
@@ -32,32 +29,20 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
 
-  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   final pinController = TextEditingController();
   LoginProvider loginProvider;
   final focusNode = FocusNode();
   bool enableContinue = false;
   String errorMessage = "";
-  String selectedLanguage;
-
-  getAppLanguage(){
-    prefs.then((value) {
-      setState((){
-        selectedLanguage = value.getString('language_code') ?? 'en';
-      });
-    });
-  }
 
   @override
   void initState() {
-    getAppLanguage();
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-    GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
 
     return Stack(
       children: [
@@ -84,42 +69,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          InkWell(
-                            onTap: ()async{
-                              setState(() {
-                                selectedLanguage = (selectedLanguage == 'en' ? 'ar' : 'en');
-                              });
-                              globalAppProvider.changeLanguage(Locale(selectedLanguage));
-                              globalAppProvider.notifyMe();
-                              prefs.then((value) {
-                                value.setString('language_code', selectedLanguage);
-                              });
-                            },
-                            child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                                alignment: Alignment.topRight,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      selectedLanguage == 'en' ? 'عربي' : 'English',
-                                      style: TextStyle(
-                                        color: themeNotifier.isLight()
-                                            ? primaryColor
-                                            : Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 5.0),
-                                    SvgPicture.asset(
-                                      'assets/icons/global.svg',
-                                      color: themeNotifier.isLight()
-                                          ? HexColor('#5D6470')
-                                          : Colors.white,
-                                    ),
-                                  ],
-                                )
-                            ),
-                          ),
+                          updateLanguageWidget(context)
                         ],
                       ),
                       SizedBox(height: height(0.06, context),),
