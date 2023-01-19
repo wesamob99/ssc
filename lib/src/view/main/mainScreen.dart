@@ -138,14 +138,14 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         titleSpacing: 5,
         centerTitle: false,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          child: InkWell(
-            onTap: (){
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const AccountSettingsScreen())
-              );
-            },
+        title: InkWell(
+          onTap: (){
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const AccountSettingsScreen())
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: userSecuredStorage.insuranceNumber.isNotEmpty
             ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
