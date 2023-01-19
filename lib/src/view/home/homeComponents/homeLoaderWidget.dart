@@ -33,14 +33,14 @@ class HomeLoaderWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CardLoading(
-                  height: height(0.075, context),
+                  height: height(isTablet(context) ? 0.08 : 0.075, context),
                   width: width(0.35, context),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   margin: const EdgeInsets.only(bottom: 10),
                   cardLoadingTheme: cardLoadingTheme,
                 ),
                 CardLoading(
-                  height: height(0.075, context),
+                  height: height(isTablet(context) ? 0.08 : 0.075, context),
                   width: width(0.35, context),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   margin: const EdgeInsets.only(bottom: 10),
@@ -50,7 +50,7 @@ class HomeLoaderWidget extends StatelessWidget {
             ),
             CardLoading(
               height: height(0.17, context),
-              width: width(0.55, context),
+              width: width(isTablet(context) ? 0.6 : 0.55, context),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               margin: const EdgeInsets.only(bottom: 10),
               cardLoadingTheme: cardLoadingTheme,
