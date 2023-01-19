@@ -9,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../infrastructure/userConfig.dart';
 import '../../../infrastructure/userSecuredStorage.dart';
 import '../../../models/login/resetPasswordGetDetail.dart';
-import '../../../utilities/constants.dart';
 import '../../../utilities/hexColor.dart';
 import '../../../utilities/theme/themes.dart';
 import '../../../utilities/util.dart';
@@ -98,10 +97,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: !showResetPasswordBody ? MainAxisAlignment.spaceBetween : MainAxisAlignment.end,
                           children: [
                             if(!showResetPasswordBody)
-                              Container(
+                            Container(
                                   alignment: Alignment.topLeft,
                                   child: Row(
                                     children: [
@@ -135,57 +134,42 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                       ),
                                     ],
                                   )
-                              ),
-                            Container(
-                                alignment: Alignment.topLeft,
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
+                            ),
+                            InkWell(
+                              onTap: ()async{
+                                setState(() {
+                                  selectedLanguage = (selectedLanguage == 'en' ? 'ar' : 'en');
+                                });
+                                globalAppProvider.changeLanguage(Locale(selectedLanguage));
+                                globalAppProvider.notifyMe();
+                                prefs.then((value) {
+                                  value.setString('language_code', selectedLanguage);
+                                });
+                              },
+                              child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                                  alignment: Alignment.topRight,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        selectedLanguage == 'en' ? 'عربي' : 'English',
+                                        style: TextStyle(
+                                          color: themeNotifier.isLight()
+                                              ? primaryColor
+                                              : Colors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5.0),
+                                      SvgPicture.asset(
                                         'assets/icons/global.svg',
-                                      color: themeNotifier.isLight()
-                                          ? HexColor('#5D6470')
-                                          : Colors.white,
-                                    ),
-                                    const SizedBox(width: 4.0),
-                                    DropdownButton<String>(
-                                      isDense: true,
-                                      value: UserConfig.instance.checkLanguage() ? 'en' : 'ar',
-                                      icon: const Icon(
-                                        Icons.arrow_drop_down_outlined,
-                                        size: 0,
+                                        color: themeNotifier.isLight()
+                                            ? HexColor('#5D6470')
+                                            : Colors.white,
                                       ),
-                                      elevation: 16,
-                                      style: const TextStyle(color: Colors.black),
-                                      underline: Container(
-                                        height: 0,
-                                        color: primaryColor,
-                                      ),
-                                      onChanged: (String value) async{
-                                        setState(() {
-                                          selectedLanguage = value;
-                                        });
-                                        globalAppProvider.changeLanguage(Locale(selectedLanguage));
-                                        globalAppProvider.notifyMe();
-                                        prefs.then((value) {
-                                          value.setString('language_code', selectedLanguage);
-                                        });
-                                      },
-                                      items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(
-                                            value == 'en' ? 'English' : 'عربي',
-                                            style: TextStyle(
-                                              color: themeNotifier.isLight()
-                                                  ? primaryColor
-                                                  : Colors.white,
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ],
-                                )
+                                    ],
+                                  )
+                              ),
                             ),
                           ],
                         ),

@@ -9,7 +9,6 @@ import 'package:ssc/src/view/login/loginScreen.dart';
 
 import '../../../../infrastructure/userConfig.dart';
 import '../../../../infrastructure/userSecuredStorage.dart';
-import '../../../../utilities/constants.dart';
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/theme/themes.dart';
 import '../../../../utilities/util.dart';
@@ -120,53 +119,41 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                 ],
                               )
                           ),
-                          Container(
-                              alignment: Alignment.topLeft,
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/icons/global.svg'
-                                  ),
-                                  const SizedBox(width: 4.0),
-                                  DropdownButton<String>(
-                                    isDense: true,
-                                    value: selectedLanguage,
-                                    icon: const Icon(
-                                      Icons.arrow_drop_down_outlined,
-                                      size: 0,
+                          InkWell(
+                            onTap: ()async{
+                              setState(() {
+                                selectedLanguage = (selectedLanguage == 'en' ? 'ar' : 'en');
+                              });
+                              globalAppProvider.changeLanguage(Locale(selectedLanguage));
+                              globalAppProvider.notifyMe();
+                              prefs.then((value) {
+                                value.setString('language_code', selectedLanguage);
+                              });
+                            },
+                            child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                                alignment: Alignment.topRight,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      selectedLanguage == 'en' ? 'عربي' : 'English',
+                                      style: TextStyle(
+                                        color: themeNotifier.isLight()
+                                            ? primaryColor
+                                            : Colors.white,
+                                      ),
                                     ),
-                                    elevation: 16,
-                                    style: const TextStyle(color: Colors.black),
-                                    underline: Container(
-                                      height: 0,
-                                      color: primaryColor,
+                                    const SizedBox(width: 5.0),
+                                    SvgPicture.asset(
+                                      'assets/icons/global.svg',
+                                      color: themeNotifier.isLight()
+                                          ? HexColor('#5D6470')
+                                          : Colors.white,
                                     ),
-                                    onChanged: (String value) async{
-                                      setState(() {
-                                        selectedLanguage = value;
-                                      });
-                                      globalAppProvider.changeLanguage(Locale(selectedLanguage));
-                                      globalAppProvider.notifyMe();
-                                      prefs.then((value) {
-                                        value.setString('language_code', selectedLanguage);
-                                      });
-                                    },
-                                    items: Constants.LANGUAGES.map<DropdownMenuItem<String>>((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(
-                                          value == 'en' ? 'English' : 'عربي',
-                                          style: TextStyle(
-                                            color: themeNotifier.isLight()
-                                                ? primaryColor
-                                                : Colors.white,
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ],
-                              )
+                                  ],
+                                )
+                            ),
                           ),
                         ],
                       ),
