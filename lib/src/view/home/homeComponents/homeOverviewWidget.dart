@@ -64,7 +64,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                       ),
                     ),
                     SizedBox(
-                      height: height(0.005, context),
+                      height: isTablet(context) ? 13 : 8,
                     ),
                     Flexible(
                       child: Material(
@@ -112,7 +112,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                 ),
               ),
               SizedBox(
-                width: width(0.015, context),
+                width: isTablet(context) ? 13 : 8,
               ),
               Expanded(
                 child: Material(
@@ -239,7 +239,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                             translate('number_of_contributions_to_retirement', context),
                             style: TextStyle(fontSize: isTablet(context) ? 18 : 12),
                           ),
-                          SizedBox(height: height(0.005, context),),
+                          SizedBox(height: isTablet(context) ? 13 : 8,),
                           SizedBox(
                             width: width(1, context),
                             child: Column(
