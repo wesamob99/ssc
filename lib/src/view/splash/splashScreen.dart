@@ -45,6 +45,8 @@ class _SplashScreenState extends State<SplashScreen> {
     InternetConnectionStatus connection = await InternetConnectionChecker().connectionStatus;
     PayOffFinancialInformation result;
     try{
+    Provider.of<HomeProvider>(context, listen: false).isSplashScreenLoading = true;
+    Provider.of<HomeProvider>(context, listen: false).notifyMe();
     result = await Provider.of<HomeProvider>(context, listen: false).getAmountToBePaid();
     }catch(e){
       if (kDebugMode) {
@@ -64,7 +66,10 @@ class _SplashScreenState extends State<SplashScreen> {
       }
       if (!mounted) return;
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => screen), (route) => false);
+          MaterialPageRoute(builder: (context) => screen), (route) => false).then((_){
+        Provider.of<HomeProvider>(context, listen: false).isSplashScreenLoading = false;
+        Provider.of<HomeProvider>(context, listen: false).notifyMe();
+      });
     }else if(InternetConnectionStatus.disconnected == connection){
       if (!mounted) return;
       _showAlert(context);

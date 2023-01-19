@@ -10,6 +10,7 @@ import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/src/view/splash/splashScreen.dart';
 import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
 import '../main.dart';
+import '../src/viewModel/home/homeProvider.dart';
 import '../utilities/util.dart';
 import 'userSecuredStorage.dart';
 
@@ -162,7 +163,7 @@ class HTTPClientContract {
 
 
   checkInternetConnection() async {
-    if(!await InternetConnectionChecker().hasConnection) {
+    if(!await InternetConnectionChecker().hasConnection && !Provider.of<HomeProvider>(navigatorKey.currentContext, listen: false).isSplashScreenLoading) {
       UserConfig.instance.showPlatformFlushBar(
           UserConfig.instance.checkLanguage()
               ? 'No internet Connection'
@@ -177,7 +178,7 @@ class HTTPClientContract {
   }
 
   checkSessionExpired(Response response){
-    if ((response?.statusCode == 403 || response?.statusCode == 401)) {
+    if ((response?.statusCode == 403 || response?.statusCode == 401) && !Provider.of<HomeProvider>(navigatorKey.currentContext, listen: false).isSplashScreenLoading) {
       String title = 'sessionExpired';
       String body = translate('sessionExpiredDesc', navigatorKey.currentContext);
       showMyDialog(
