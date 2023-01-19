@@ -223,7 +223,6 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                         ? HexColor('#ffffff') : HexColor('#363636'), () async {
                       if(loginProvider.registerContinueEnabled){
                         loginProvider.registerData.email = item1['value'] ? loginProvider.emailController.text : null;
-                        /// TODO: check updates about activationBy in case email is selected
                         loginProvider.registerData.activationBy = 3; //activationBy
                         loginProvider.notifyMe();
                         if(item1['value']) {
