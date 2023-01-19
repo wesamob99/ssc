@@ -2,6 +2,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -149,6 +150,12 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                               ),
                               child: CountdownTimer(
                                 textStyle: TextStyle(color: HexColor('#FF0000')),
+                                widgetBuilder: (BuildContext context, CurrentRemainingTime remaining) {
+                                  return Text(
+                                    '0${remaining.min} : ${remaining.sec % 60}',
+                                     style: TextStyle(color: HexColor('#FF0000')),
+                                  );
+                                },
                                 endWidget: Container(
                                   alignment: Alignment.center,
                                   child: Text(
