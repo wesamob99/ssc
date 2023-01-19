@@ -211,7 +211,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
           ),
         ),
         SizedBox(
-          height: height(0.01, context),
+          height: isTablet(context) ? 13 : 8,
         ),
         SizedBox(
           width: width(1, context),
@@ -260,8 +260,8 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                     value: ((double.parse(data.poMonthsCount.toString()) <= 300) ? double.parse(data.poMonthsCount.toString()) : 300) / 3, // 300 is the currently fixed total number of subscriptions ///TODO : change it
                                     valueColor: HexColor('#2D452E'),
                                     pathColor: HexColor('#EAEAEA'),
-                                    pathStrokeWidth: height(0.008, context),
-                                    valueStrokeWidth: height(0.008, context),
+                                    pathStrokeWidth: isTablet(context) ? 12 : 7,
+                                    valueStrokeWidth: isTablet(context) ? 12 : 7,
                                     roundCap: true,
                                   ),
                                 ),
