@@ -34,7 +34,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
   bool enableContinue = false;
   bool useAnotherMethod = false;
   String errorMessage = "";
-  int endTime = DateTime.now().millisecondsSinceEpoch + 300000;
+  int endTime = DateTime.now().millisecondsSinceEpoch + 30000;
   bool isTimerEnded = false;
 
   @override
@@ -152,7 +152,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                                 textStyle: TextStyle(color: HexColor('#FF0000')),
                                 widgetBuilder: (BuildContext context, CurrentRemainingTime remaining) {
                                   return Text(
-                                    '0${remaining.min} : ${remaining.sec % 60}',
+                                    '0${remaining?.min ?? 0} : ${(remaining?.sec ?? 0) < 10 ? 0 : ''}${(remaining?.sec ?? 0) % 60}',
                                      style: TextStyle(color: HexColor('#FF0000')),
                                   );
                                 },
