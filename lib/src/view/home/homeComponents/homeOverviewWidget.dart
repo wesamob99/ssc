@@ -56,7 +56,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                 style: TextStyle(
                                     color: HexColor('#37662D'),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: isTablet(context) ? 26 : 18),
+                                    fontSize: isTablet(context) ? 24 : 16),
                               ),
                             ],
                           ),
@@ -91,7 +91,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         color: data.poIdleBalance >= 0
                                             ? HexColor('#37662D') : HexColor('#BC0D0D'),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: isTablet(context) ? 26 : 18),
+                                        fontSize: isTablet(context) ? 24 : 16),
                                   ),
                                   Text(
                                     translate('jd', context),
@@ -148,7 +148,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                     style: TextStyle(
                                         color: HexColor('#37662D'),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: isTablet(context) ? 26 : 18),
+                                        fontSize: isTablet(context) ? 24 : 16),
                                   ),
                                   Text(
                                     translate('jd', context),
@@ -176,7 +176,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                     style: TextStyle(
                                         color: HexColor('#BE8703'),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: isTablet(context) ? 26 : 18),
+                                        fontSize: isTablet(context) ? 24 : 16),
                                   ),
                                   Text(
                                     translate('jd', context),
