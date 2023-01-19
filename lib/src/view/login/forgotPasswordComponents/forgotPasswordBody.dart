@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -420,6 +421,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
     return TextFormField(
       controller: controller,
       keyboardType: inputType,
+      inputFormatters: (inputType == TextInputType.number) ? [FilteringTextInputFormatter.allow(RegExp('[0-9]'))] : [],
       cursorColor: themeNotifier.isLight()
           ? getPrimaryColor(context, themeNotifier)
           : Colors.white,

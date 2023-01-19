@@ -5,6 +5,7 @@ import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:provider/provider.dart';
@@ -807,6 +808,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
         textAlign: TextAlign.center,
         controller: controller,
         keyboardType: TextInputType.number,
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
         style: TextStyle(
           fontSize: isTablet(context) ? 20 : 15,
           color: minSalary != maxSalary ? HexColor('#363636') : Colors.grey,

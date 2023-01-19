@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, use_build_context_synchronously
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -291,6 +292,7 @@ class _LoginBodyState extends State<LoginBody> {
       enableInteractiveSelection: controller ==  loginProvider.passwordController ? false : true,
       controller: controller,
       keyboardType: inputType,
+      inputFormatters: (inputType == TextInputType.number) ? [FilteringTextInputFormatter.allow(RegExp('[0-9]'))] : [],
       obscureText: controller ==  loginProvider.passwordController ? obscurePassword : false,
       cursorColor: themeNotifier.isLight()
           ? getPrimaryColor(context, themeNotifier)
@@ -345,7 +347,7 @@ class _LoginBodyState extends State<LoginBody> {
         )
       ),
       onChanged: (val){
-        loginProvider.enabledSubmitButton = ( loginProvider.nationalIdController.text.isNotEmpty &&
+        loginProvider.enabledSubmitButton = ( loginProvider.nationalIdController.text.length == 10 &&
             loginProvider.passwordController.text.isNotEmpty);
         loginProvider.notifyMe();
       },

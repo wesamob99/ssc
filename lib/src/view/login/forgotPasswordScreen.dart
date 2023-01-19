@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
@@ -254,6 +255,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return TextFormField(
       controller: controller,
       keyboardType: inputType,
+      inputFormatters: (inputType == TextInputType.number) ? [FilteringTextInputFormatter.allow(RegExp('[0-9]'))] : [],
       style: const TextStyle(
         fontSize: 15
       ),
@@ -291,7 +293,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           )
       ),
       onChanged: (val){
-        loginProvider.enabledSubmitButton =  loginProvider.nationalIdController.text.isNotEmpty;
+        loginProvider.enabledSubmitButton =  loginProvider.nationalIdController.text.length == 10;
         loginProvider.notifyMe();
       },
     );

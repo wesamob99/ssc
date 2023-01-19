@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_expandable_widget/flutter_expandable_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -559,6 +560,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
       maxLines: minLines,
       controller: controller,
       keyboardType: inputType,
+      inputFormatters: (inputType == TextInputType.number) ? [FilteringTextInputFormatter.allow(RegExp('[0-9]'))] : [],
       obscureText: isPassword && ((Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2) || (Provider.of<AccountSettingsProvider>(context).updatePasswordIsObscure && flag == 3)) ,
       readOnly: !enabled,
       style: TextStyle(
