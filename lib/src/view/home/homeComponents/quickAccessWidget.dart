@@ -30,8 +30,8 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
 
     return SizedBox(
       height: homeProviderListener.isQuickAccessListEmpty && !homeProviderListener.isEditQuickAccessActive
-         ? height(isScreenHasSmallHeight(context) ? 0.08 : 0.06, context)
-         : height(isScreenHasSmallHeight(context) ? 0.14 : 0.12, context),
+         ? height(isScreenHasSmallHeight(context) ? 0.1 : 0.08, context)
+         : height(isScreenHasSmallHeight(context) ? 0.16 : 0.14, context),
       child: homeProviderListener.isQuickAccessListEmpty && !homeProviderListener.isEditQuickAccessActive
         ? Container(
           width: width(1, context),
