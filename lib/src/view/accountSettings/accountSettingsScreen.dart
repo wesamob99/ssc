@@ -13,6 +13,7 @@ import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../../infrastructure/userSecuredStorage.dart';
+import '../../../utilities/constants.dart';
 import '../../../utilities/util.dart';
 import 'dart:math' as math;
 
@@ -183,6 +184,38 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                   value.setString('language_code', "en");
                                 });
                               }, noTranslate: true),
+                        ],
+                      )
+                  ),
+                  /// TODO: update icon
+                  buildButtonsContainer(
+                      'select_app_theme',
+                      'assets/icons/profileIcons/language.svg',
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          buildCustomizableButton(
+                              themeNotifier.isLight() ? SvgPicture.asset(
+                                'assets/icons/profileIcons/checked.svg', height: 22, width: 22,
+                              ) : const SizedBox.shrink(),
+                              'Light', (){
+                            themeNotifier.setThemeMode(ThemeMode.light);
+                            prefs.then((value) {
+                              value.setString(Constants.APP_THEME, Constants.LIGHT);
+                            });
+                            setState(() {});
+                          }),
+                          buildCustomizableButton(
+                              !themeNotifier.isLight() ? SvgPicture.asset(
+                                'assets/icons/profileIcons/checked.svg', height: 22, width: 22,
+                              ) : const SizedBox.shrink(),
+                              'Dark', (){
+                            themeNotifier.setThemeMode(ThemeMode.dark);
+                            prefs.then((value) {
+                              value.setString(Constants.APP_THEME, Constants.DARK);
+                            });
+                            setState(() {});
+                          }),
                         ],
                       )
                   ),
