@@ -106,7 +106,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                       if(!isJordanian)
                       buildFieldTitle(context, 'passportNumber', filled: RegExp(r"^(?!^0+$)[a-zA-Z0-9]{3,20}$").hasMatch(loginProvider.passportNumberController.text)),
                       SizedBox(height: height(0.015, context),),
-                      buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.civilIdNumberController : loginProvider.passportNumberController, 'AER20995', (val){
+                      buildTextFormField(context, themeNotifier, isJordanian ? loginProvider.civilIdNumberController : loginProvider.passportNumberController, isJordanian ? 'AER20995' : '', (val){
                         checkContinueEnable(loginProvider);
                       },),
                       SizedBox(height: height(0.02, context),),
