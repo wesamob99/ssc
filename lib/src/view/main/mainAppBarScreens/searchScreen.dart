@@ -36,19 +36,19 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     MainProvider mainProvider = Provider.of<MainProvider>(context);
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(height(0.07, context)),
-        child: AppBar(
-          title: buildSearchField(themeNotifier, mainProvider),
-          leading: leadingBackIcon(context),
-        )
-      ),
-      body: GestureDetector(
-        onTap: (){
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: Padding(
+    return GestureDetector(
+      onTap: (){
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(height(0.07, context)),
+          child: AppBar(
+            title: buildSearchField(themeNotifier, mainProvider),
+            leading: leadingBackIcon(context),
+          )
+        ),
+        body: Padding(
           padding: const EdgeInsets.all(14.0),
           child: Stack(
             children: [
@@ -139,7 +139,7 @@ class _SearchScreenState extends State<SearchScreen> {
       height: height(0.05, context),
       width: width(1, context),
       decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.9),
+          color: getContainerColor(context),
           borderRadius: BorderRadius.circular(8.0)
       ),
       child: TextFormField(
@@ -164,14 +164,12 @@ class _SearchScreenState extends State<SearchScreen> {
               mainProvider.searchController.text.isEmpty
               ? Icons.content_paste_search
               : Icons.cancel_outlined,
-              color: primaryColor,
+              color: themeNotifier.isLight() ? primaryColor : Colors.white,
             ),
           ),
           hintText: translate('search', context),
           hintStyle: TextStyle(
-            color: getGrey5Color(context).withOpacity(
-              themeNotifier.isLight() ? 1 : 0.5,
-            ),
+            color: getGrey5Color(context),
             fontSize:  isTablet(context) ? 19 : 14,
           ),
           contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: height(0.03, context) / 2),
