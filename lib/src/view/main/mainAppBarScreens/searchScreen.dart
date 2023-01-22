@@ -120,30 +120,11 @@ class _SearchScreenState extends State<SearchScreen> {
               Container(
                 alignment: UserConfig.instance.checkLanguage() ? Alignment.topRight : Alignment.topLeft,
                 width: width(1, context),
-                height: 50,
                 child: InkWell(
                     onTap: (){
                       openFilterDialog();
                     },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/icons/filter.png',
-                          width: 30,
-                          height: 30,
-                          color: primaryColor,
-                        ),
-                        Text(
-                          translate('filter', context),
-                          style: TextStyle(
-                            color: primaryColor,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
-                    )
+                    child: SvgPicture.asset('assets/icons/profileIcons/filter.svg'),
                 ),
               ),
             ],
