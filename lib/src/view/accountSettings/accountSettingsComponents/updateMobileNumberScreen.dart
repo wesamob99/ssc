@@ -78,14 +78,14 @@ class _UpdateMobileNumberScreenState extends State<UpdateMobileNumberScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: height(0.25, context)),
-                        child: textButton(context, themeNotifier, 'update', (Provider.of<AccountSettingsProvider>(context).mobileNumberController.text.length != 9 ||
+                        child: textButton(context, themeNotifier, 'update', (!mobileNumberValidate(Provider.of<AccountSettingsProvider>(context).mobileNumberController.text) ||
                             Provider.of<AccountSettingsProvider>(context).mobileNumberController.text == widget.mobileNumber)
                             ? HexColor('#DADADA')
                             : getPrimaryColor(context, themeNotifier),
-                            (Provider.of<AccountSettingsProvider>(context).mobileNumberController.text.length == 9 &&
+                            (mobileNumberValidate(Provider.of<AccountSettingsProvider>(context).mobileNumberController.text) &&
                                 Provider.of<AccountSettingsProvider>(context).mobileNumberController.text != widget.mobileNumber)
                                 ? HexColor('#ffffff') : HexColor('#363636'), () async {
-                          if(accountSettingsProvider.mobileNumberController.text.length == 9 &&
+                          if(mobileNumberValidate(Provider.of<AccountSettingsProvider>(context).mobileNumberController.text) &&
                               accountSettingsProvider.mobileNumberController.text != widget.mobileNumber){
                             accountSettingsProvider.isLoading = true;
                             accountSettingsProvider.notifyMe();

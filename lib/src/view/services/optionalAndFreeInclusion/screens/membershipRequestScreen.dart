@@ -114,7 +114,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
-      return ((servicesProvider.isMobileNumberUpdated == true && servicesProvider.mobileNumberController.text.length == 9) || servicesProvider.isMobileNumberUpdated == false);
+      return ((servicesProvider.isMobileNumberUpdated == true && mobileNumberValidate(servicesProvider.mobileNumberController.text)) || servicesProvider.isMobileNumberUpdated == false);
     } else if(flag == 2){
       if(servicesProvider.isMobileNumberUpdated){
         return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;

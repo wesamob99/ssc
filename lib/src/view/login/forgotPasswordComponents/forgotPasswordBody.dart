@@ -34,7 +34,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
   bool enableContinue = false;
   bool useAnotherMethod = false;
   String errorMessage = "";
-  int endTime = DateTime.now().millisecondsSinceEpoch + 30000;
+  int endTime = DateTime.now().millisecondsSinceEpoch + 300000;
   bool isTimerEnded = false;
 
   @override

@@ -124,9 +124,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                             onTap: (){
                               setState(() {
                                 selectedNationality = 'jordanian';
-                                loginProvider.registerContinueEnabled = (loginProvider.jordanianMobileNumberController.text.startsWith('0')
-                                    ? loginProvider.jordanianMobileNumberController.text.length == 10
-                                    : loginProvider.jordanianMobileNumberController.text.length == 9);
+                                loginProvider.registerContinueEnabled = mobileNumberValidate(loginProvider.jordanianMobileNumberController.text);
                                 loginProvider.notifyMe();
                               });
                             },
@@ -164,9 +162,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                             onTap: (){
                               setState(() {
                                 selectedNationality = 'nonJordanian';
-                                loginProvider.registerContinueEnabled = (loginProvider.jordanianMobileNumberController.text.startsWith('0')
-                                    ? loginProvider.jordanianMobileNumberController.text.length == 10
-                                    : loginProvider.jordanianMobileNumberController.text.length == 9);
+                                loginProvider.registerContinueEnabled = mobileNumberValidate(loginProvider.jordanianMobileNumberController.text);
 
                                 selectedExactNationality = selectedCountryForForeignMobileNumber = SelectedListItem(
                                   name: UserConfig.instance.checkLanguage() ? "Palestine" : "فلسطين",
@@ -252,9 +248,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                       buildCountriesDropDown(2, selectedExactNationality, showSelectedName: true),
                       if(selectedNationality != 'jordanian')
                       SizedBox(height: height(0.02, context),),
-                      buildFieldTitle(context, 'jordanianMobileNumber', required: true, filled: (loginProvider.jordanianMobileNumberController.text.startsWith('0')
-                          ? loginProvider.jordanianMobileNumberController.text.length == 10
-                          : loginProvider.jordanianMobileNumberController.text.length == 9)),
+                      buildFieldTitle(context, 'jordanianMobileNumber', required: true, filled: mobileNumberValidate(loginProvider.jordanianMobileNumberController.text)),
                       SizedBox(height: height(0.015, context),),
                       Row(
                         children: [
@@ -262,9 +256,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                               child: buildTextFormField(
                                   context, themeNotifier, loginProvider.jordanianMobileNumberController,
                                   '', (val) {
-                                loginProvider.registerContinueEnabled = (loginProvider.jordanianMobileNumberController.text.startsWith('0')
-                                    ? loginProvider.jordanianMobileNumberController.text.length == 10
-                                    : loginProvider.jordanianMobileNumberController.text.length == 9);
+                                loginProvider.registerContinueEnabled = mobileNumberValidate(loginProvider.jordanianMobileNumberController.text);
                                 loginProvider.notifyMe();
                               }, inputType: TextInputType.number, ),
                           ),
@@ -284,9 +276,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                             child: buildTextFormField(
                                 context, themeNotifier, loginProvider.foreignMobileNumberController,
                                 '', (val) {
-                              loginProvider.registerContinueEnabled = (loginProvider.jordanianMobileNumberController.text.startsWith('0')
-                                  ? loginProvider.jordanianMobileNumberController.text.length == 10
-                                  : loginProvider.jordanianMobileNumberController.text.length == 9);
+                              loginProvider.registerContinueEnabled = mobileNumberValidate(loginProvider.jordanianMobileNumberController.text);
                               loginProvider.notifyMe();
                             }, inputType: TextInputType.number),
                           ),

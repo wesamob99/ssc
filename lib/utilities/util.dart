@@ -69,9 +69,9 @@ bool isScreenHasSmallHeight(context){
 }
 
 mobileNumberValidate(String number){
-  if(number[0] == '7' && number.length == 9){
+  if(number != '' && number[0] == '7' && number.length == 9){
     return (number.substring(0, 2) == "78" || number.substring(0, 2) == "77" || number.substring(0, 2) == "79");
-  }else if(number[0] == '0' && number.length == 10){
+  }else if(number != '' && number[0] == '0' && number.length == 10){
     return (number.substring(0, 3) == "078" || number.substring(0, 3) == "077" || number.substring(0, 3) == "079");
   } else{
     return false;
