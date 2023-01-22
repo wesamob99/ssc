@@ -407,6 +407,7 @@
   "dependentWereDeleted": "تم حذف المعال",
   "addNewPhoto": "إضافة صورة جديدة",
   "sessionExpired": "انتهت صلاحية الجلسة",
-  "sessionExpiredDesc": "يرجى تسجيل الدخول مرة أخرى"
+  "sessionExpiredDesc": "يرجى تسجيل الدخول مرة أخرى",
+  "addToPay": "أضف للدفع"
 
 }

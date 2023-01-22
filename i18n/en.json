@@ -402,7 +402,8 @@
   "dependentWereDeleted": "Dependent were deleted",
   "addNewPhoto": "Add a new photo",
   "sessionExpired": "session expired",
-  "sessionExpiredDesc": "Please login again"
+  "sessionExpiredDesc": "Please login again",
+  "addToPay": "Add to pay"
 
 
 }
