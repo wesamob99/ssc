@@ -68,6 +68,16 @@ bool isScreenHasSmallHeight(context){
   return height(1, context) < 700;
 }
 
+mobileNumberValidate(String number){
+  if(number[0] == '7' && number.length == 9){
+    return (number.substring(0, 2) == "78" || number.substring(0, 2) == "77" || number.substring(0, 2) == "79");
+  }else if(number[0] == '0' && number.length == 10){
+    return (number.substring(0, 3) == "078" || number.substring(0, 3) == "077" || number.substring(0, 3) == "079");
+  } else{
+    return false;
+  }
+}
+
 bool checkTextLanguage(String text) {
   List<String> items = [
     'a',
