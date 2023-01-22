@@ -166,7 +166,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         children: [
                           buildCustomizableButton(
                               !UserConfig.instance.checkLanguage() ? SvgPicture.asset(
-                                'assets/icons/profileIcons/checked.svg', height: 20, width: 20,
+                                'assets/icons/profileIcons/checked.svg', height: 18, width: 18,
                               ) : const SizedBox.shrink(),
                               'العربية', (){
                                 Provider.of<GlobalAppProvider>(context, listen: false).changeLanguage(const Locale("ar"));
@@ -177,7 +177,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                               }, noTranslate: true),
                           buildCustomizableButton(
                               UserConfig.instance.checkLanguage() ? SvgPicture.asset(
-                                'assets/icons/profileIcons/checked.svg', height: 20, width: 20,
+                                'assets/icons/profileIcons/checked.svg', height: 18, width: 18,
                               ) : const SizedBox.shrink(),
                               'English', (){
                                 Provider.of<GlobalAppProvider>(context, listen: false).changeLanguage(const Locale("en"));
@@ -198,7 +198,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         children: [
                           buildCustomizableButton(
                               themeNotifier.isLight() ? SvgPicture.asset(
-                                'assets/icons/profileIcons/checked.svg', height: 20, width: 20,
+                                'assets/icons/profileIcons/checked.svg', height: 18, width: 18,
                               ) : const SizedBox.shrink(),
                               'Light', (){
                             themeNotifier.setThemeMode(ThemeMode.light);
@@ -209,7 +209,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           }),
                           buildCustomizableButton(
                               !themeNotifier.isLight() ? SvgPicture.asset(
-                                'assets/icons/profileIcons/checked.svg', height: 20, width: 20,
+                                'assets/icons/profileIcons/checked.svg', height: 18, width: 18,
                               ) : const SizedBox.shrink(),
                               'Dark', (){
                             themeNotifier.setThemeMode(ThemeMode.dark);
