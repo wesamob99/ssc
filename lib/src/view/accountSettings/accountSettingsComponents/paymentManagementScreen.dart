@@ -186,13 +186,25 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                   ],
                 ),
                 const SizedBox(height: 25.0,),
-                Text(
-                  translate('paymentHistory', context),
-                  style: TextStyle(
-                    color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      translate('paymentHistory', context),
+                      style: TextStyle(
+                        color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset('assets/icons/profileIcons/filter.svg'),
+                        const SizedBox(width: 5.0,),
+                        SvgPicture.asset('assets/icons/profileIcons/pdf.svg'),
+                      ],
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 15.0,)
               ],

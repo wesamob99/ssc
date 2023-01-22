@@ -129,16 +129,16 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                             ),
                           ],
                         ),
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          margin: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 8.0),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                color: themeNotifier.isLight() ? HexColor('#747474') : Colors.white,
-                              ),
-                              borderRadius: BorderRadius.circular(6.0)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0, top: 15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SvgPicture.asset('assets/icons/profileIcons/filter.svg'),
+                              const SizedBox(width: 5.0,),
+                              SvgPicture.asset('assets/icons/profileIcons/pdf.svg'),
+                            ],
                           ),
-                          child: SvgPicture.asset('assets/icons/pdf.svg'),
                         ),
                         if(selectedIndex == 1)
                         subscriptionPeriodsBody(snapshot.data['cur_getdata2'][0]),
