@@ -399,7 +399,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               children: [
                 if(extraIcon != '')
                 SvgPicture.asset(extraIcon),
-                const SizedBox(width: 10.0,),
+                const SizedBox(width: 15.0,),
                 icon,
               ],
             ),
