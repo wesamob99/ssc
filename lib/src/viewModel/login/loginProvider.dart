@@ -104,13 +104,13 @@ class LoginProvider extends ChangeNotifier {
       int nationality, int nationalNo,
       int personalNo, String cardNo,
       String birthDate, int secNo,
-      int natCode, int relNatNo, int relType, int reRegister
+      int natCode, int relNatNo, int relType
     ) async{
     final response = await loginRepository.registerSubmitSecondStepService(
         nationality, nationalNo,
         personalNo, cardNo,
         birthDate, secNo,
-        natCode, relNatNo, relType, reRegister);
+        natCode, relNatNo, relType, flag);
     return response;
   }
 
