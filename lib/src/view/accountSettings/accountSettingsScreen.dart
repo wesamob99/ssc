@@ -151,8 +151,10 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                               MaterialPageRoute(builder: (context) => const UpdatePasswordScreen())
                             );
                           }),
-                          buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/disableToggle.svg', height: 12, width: 12,), 'enableFingerprintLogin', (){}),
-                          buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/enableToggle.svg', height: 12, width: 12, color: themeNotifier.isLight() ? HexColor('#445740') : HexColor('6f846b')), 'enablePasscodeLogin', (){}),
+                          buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/disableToggle.svg', height: 12, width: 12,), 'enableFingerprintLogin', (){}, extraIcon: 'assets/icons/profileIcons/soonIcon.svg'),
+                          buildCustomizableButton(SvgPicture.asset('assets/icons/profileIcons/disableToggle.svg', height: 12, width: 12,), 'enablePasscodeLogin', (){}, extraIcon: 'assets/icons/profileIcons/soonIcon.svg'),
+                          /// on: 'assets/icons/profileIcons/enableToggle.svg' | color: themeNotifier.isLight() ? HexColor('#445740') : HexColor('6f846b')
+                          /// off: 'assets/icons/profileIcons/disableToggle.svg'
                         ],
                       )
                   ),
@@ -350,7 +352,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(bottom: 5.0),
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+        padding: EdgeInsets.symmetric(vertical: extraIcon != '' ? 0.0 : 15.0, horizontal: 10.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -363,7 +365,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             Row(
               children: [
                 if(extraIcon != '')
-                  SvgPicture.asset(extraIcon),
+                SvgPicture.asset(extraIcon),
                 const SizedBox(width: 30.0,),
                 Transform.rotate(
                   angle: UserConfig.instance.checkLanguage()
@@ -378,12 +380,12 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     );
   }
 
-  Widget buildCustomizableButton(Widget icon, String text, void Function() onTap, {bool noTranslate = false}){
+  Widget buildCustomizableButton(Widget icon, String text, void Function() onTap, {bool noTranslate = false, String extraIcon = ''}){
     return InkWell(
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(bottom: 5.0),
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+        padding: EdgeInsets.symmetric(vertical: extraIcon != '' ? 0.0 : 15.0, horizontal: 10.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -393,7 +395,14 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
               ),
             ),
-            icon,
+            Row(
+              children: [
+                if(extraIcon != '')
+                SvgPicture.asset(extraIcon),
+                const SizedBox(width: 10.0,),
+                icon,
+              ],
+            ),
           ],
         ),
       ),
