@@ -213,15 +213,15 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    buildPaymentCard('title', '250', 1, '5656'),
+                    buildPaymentCard('title', '250', 2, '5656'),
                     buildPaymentCard('title', '140', 2, '5656'),
-                    buildPaymentCard('title', '315', 1, '5656'),
+                    buildPaymentCard('title', '315', 2, '5656'),
                     buildPaymentCard('title', '28', 2, '5656'),
                     buildPaymentCard('title', '88', 2, '5656'),
                     buildPaymentCard('title', '198', 2, '5656'),
-                    buildPaymentCard('title', '88', 1, '5656'),
+                    buildPaymentCard('title', '88', 2, '5656'),
                     buildPaymentCard('title', '198', 2, '5656'),
-                    buildPaymentCard('title', '88', 1, '5656'),
+                    buildPaymentCard('title', '88', 2, '5656'),
                     buildPaymentCard('title', '198', 2, '5656'),
                   ],
                 ),
