@@ -149,7 +149,8 @@ class LoginRepository{
       int nationality, int nationalNo,
       int personalNo, String cardNo,
       String birthDate, int secNo,
-      int natCode, int relNatNo, int relType
+      int natCode, int relNatNo, int relType,
+      int reRegister
     ) async {
     var response = await HTTPClientContract.instance.postHTTP(
         '/mobile/INDV_VALIDATE_PERS_RELATIVES',
@@ -162,8 +163,8 @@ class LoginRepository{
         'secNo': secNo, // insurance number
         'natCode':  natCode, // national code,
         'relNatNo' : relNatNo, // relative national number
-        'relType':  relType // relative type
-        /// TODO: add the reRegister parameter
+        'relType':  relType, // relative type
+        'reregister': reRegister // 1 for reRegister and 0 for register
       }
     );
     if (kDebugMode) {
