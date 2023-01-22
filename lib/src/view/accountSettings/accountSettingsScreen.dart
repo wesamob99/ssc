@@ -131,7 +131,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                 MaterialPageRoute(builder: (context) => const PaymentManagementScreen())
                             );
                           }),
-                          buildNavigationButton('paymentMethodsManagement', (){}),
+                          buildNavigationButton('paymentMethodsManagement', (){}, extraIcon: 'assets/icons/profileIcons/soonIcon.svg'),
                           buildNavigationButton('accountStatement', (){
                             Navigator.of(context).push(
                                 MaterialPageRoute(builder: (context) => const AccountStatementScreen())
@@ -345,7 +345,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     );
   }
 
-  Widget buildNavigationButton(String text, void Function() onTap){
+  Widget buildNavigationButton(String text, void Function() onTap, {String extraIcon = ''}){
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -357,13 +357,20 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             Text(
               translate(text, context),
               style: TextStyle(
-                  color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
+                color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
               ),
             ),
-            Transform.rotate(
-              angle: UserConfig.instance.checkLanguage()
-                  ? -math.pi / 1.0 : 0,
-              child: SvgPicture.asset('assets/icons/profileIcons/arrow.svg', color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,),
+            Row(
+              children: [
+                if(extraIcon != '')
+                  SvgPicture.asset(extraIcon),
+                const SizedBox(width: 30.0,),
+                Transform.rotate(
+                  angle: UserConfig.instance.checkLanguage()
+                      ? -math.pi / 1.0 : 0,
+                  child: SvgPicture.asset('assets/icons/profileIcons/arrow.svg', color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,),
+                ),
+              ],
             ),
           ],
         ),
