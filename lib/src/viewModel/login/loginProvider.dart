@@ -88,6 +88,11 @@ class LoginProvider extends ChangeNotifier {
   }
 
   Future registerUser() async {
+    if(flag == 1){
+      registerData.nationalNumber = registerData.nationalNumber.toString();
+      registerData.personalNumber = registerData.nationalNumber.toString();
+      registerData.userId = registerData.userId.toString();
+    }
     final response = await loginRepository.registerUserService(registerData);
     return response;
   }
