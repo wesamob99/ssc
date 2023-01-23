@@ -1124,7 +1124,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 await servicesProvider.getInquiryInsuredInformation().then((value) async{
                   await servicesProvider.getInsuredInformationReport(value).then((value) async {
                     downloadPDF(value, translate('detailedDisclosure', context)).whenComplete((){
-                      print('completed!');
+                      if (kDebugMode) {
+                        print('completed!');
+                      }
                     });
                   });
                 });
