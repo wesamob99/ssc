@@ -24,6 +24,37 @@ class ServicesRepository{
     return null;
   }
 
+  Future getInquiryInsuredInformationService() async {
+    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+    String internalKey = userSecuredStorage.insuranceNumber.toString();
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/inquiryInsuredInformation?sceNo=$internalKey');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+
+  Future getInsuredInformationReportService(value) async {
+    var data = {
+      "formObj": jsonEncode(value["cur_getdata"][0][0]),
+      "periods": jsonEncode(value["cur_getdata2"][0]),
+      "salaries": jsonEncode(value["cur_getdata3"][0]),
+    };
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/individuals/InsuredInformationReport', data
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return response;
+    }
+    return '';
+  }
+
   Future getRequiredDocumentsService(result) async {
     var data = {
       "params":{
