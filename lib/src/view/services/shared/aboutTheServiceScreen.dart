@@ -48,6 +48,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.stepNumber = 1;
+    servicesProvider.isLoading = false;
     super.initState();
   }
 
@@ -132,7 +133,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                         color: HexColor('#FFFFFF'),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                                          child: SvgPicture.asset('assets/icons/check.svg'),
+                                          child: SvgPicture.asset('assets/icons/check.svg', width: 15, height: 15,),
                                         ),
                                       ),
                                       SizedBox(width: width(0.03, context),),
