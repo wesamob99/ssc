@@ -408,6 +408,8 @@
   "addNewPhoto": "إضافة صورة جديدة",
   "sessionExpired": "انتهت صلاحية الجلسة",
   "sessionExpiredDesc": "يرجى تسجيل الدخول مرة أخرى",
-  "addToPay": "أضف للدفع"
+  "addToPay": "أضف للدفع",
+  "yourRequestHasBeenSentSuccessfully": "تم ارسال طلبك بنجاح",
+  "youCanCheckAndFollowItsStatusFromMyOrdersScreen": "يمكنك التحقق ومتابعة حالته من سجل طلباتي"
 
 }

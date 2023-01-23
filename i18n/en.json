@@ -403,7 +403,9 @@
   "addNewPhoto": "Add a new photo",
   "sessionExpired": "session expired",
   "sessionExpiredDesc": "Please login again",
-  "addToPay": "Add to pay"
+  "addToPay": "Add to pay",
+  "yourRequestHasBeenSentSuccessfully": "Your request has been sent successfully",
+  "youCanCheckAndFollowItsStatusFromMyOrdersScreen": "You can check and follow its status from my orders screen"
 
 
 }
