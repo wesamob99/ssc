@@ -6,6 +6,7 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/src/viewModel/services/servicesProvider.dart';
@@ -256,9 +257,16 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                             }
                           } break;
                           case 6: {
-                            while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
-                              Navigator.pop(context);
-                            }
+                            showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
+                                translate('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context), 'ok',
+                                themeNotifier,
+                                icon: 'assets/icons/serviceSuccess.svg').then((_){
+                              SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                servicesProvider.selectedServiceRate = -1;
+                                servicesProvider.notifyMe();
+                                rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                              });
+                            });
                           } break;
                         }
                         servicesProvider.notifyMe();
