@@ -44,7 +44,7 @@ class RegisterData {
   });
 
   int nationality;
-  int nationalNumber;
+  dynamic nationalNumber;
   dynamic personalNumber;
   String personalCardNo;
   int relativeNatId;
@@ -63,7 +63,7 @@ class RegisterData {
   dynamic bankCode;
   dynamic iban;
   String password;
-  int userId;
+  dynamic userId;
   int activationBy;
   int language;
   String recaptchaReactive;
