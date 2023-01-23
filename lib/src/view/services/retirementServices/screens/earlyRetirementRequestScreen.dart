@@ -1116,20 +1116,43 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
             ),
           ),
           const SizedBox(height: 20.0,),
-          Container(
-            width: width(1, context),
-            padding: const EdgeInsets.all(14.0),
-            decoration: BoxDecoration(
-              color: const Color.fromRGBO(208, 208, 208, 0.26),
-              borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(
-                color: HexColor('#979797')
-              )
-            ),
-            child: Text(
-              translate('detailedDisclosure', context),
-              style: TextStyle(
-                color: HexColor('#003C97'),
+          InkWell(
+            onTap: () async{
+              servicesProvider.isLoading = true;
+              servicesProvider.notifyMe();
+              try{
+                await servicesProvider.getInquiryInsuredInformation().then((value) async{
+                  await servicesProvider.getInsuredInformationReport(value).then((value) async {
+                    downloadPDF(value, translate('detailedDisclosure', context)).whenComplete((){
+                      print('completed!');
+                    });
+                  });
+                });
+                servicesProvider.isLoading = false;
+                servicesProvider.notifyMe();
+              } catch(e){
+                servicesProvider.isLoading = false;
+                servicesProvider.notifyMe();
+                if (kDebugMode) {
+                  print(e.toString());
+                }
+              }
+            },
+            child: Container(
+              width: width(1, context),
+              padding: const EdgeInsets.all(14.0),
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(208, 208, 208, 0.26),
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(
+                  color: HexColor('#979797')
+                )
+              ),
+              child: Text(
+                translate('detailedDisclosure', context),
+                style: TextStyle(
+                  color: HexColor('#003C97'),
+                ),
               ),
             ),
           ),
@@ -1165,6 +1188,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 child: Text(
                   translate('earlyRetirementTermsAndConditions', context),
                   style: TextStyle(
+                    fontSize: height(0.015, context),
                     color: HexColor('#595959'),
                   ),
                 ),
