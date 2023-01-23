@@ -38,7 +38,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     loginProvider.readCountriesJson();
     if(loginProvider.flag == 1){
-      selectedNationality = (UserSecuredStorage.instance.internationalCode == '962') ? 'jordanian' : 'nonJordanian';
+      selectedNationality = (UserSecuredStorage.instance.nationality == '1') ? 'jordanian' : 'nonJordanian';
     }
     loginProvider.isLoading = false;
     selectedCountryOfResident = selectedCountryForJoMobileNumber = SelectedListItem(

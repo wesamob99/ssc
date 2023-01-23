@@ -24,7 +24,7 @@ class UserSecuredStorage {
   String _internationalCode = "";
   String _mobileNumber = "";
   String _realMobileNumber = "";
-  // String _nationality = "";
+  String _nationality = "";
   String _token = "";
   var _box;
 
@@ -127,6 +127,16 @@ class UserSecuredStorage {
   set realMobileNumber(String value) {
     addKeyPair('realMobileNumber', value);
     _realMobileNumber = value;
+  }
+
+  String get nationality {
+    _nationality = _box.get('nationality') ?? "";
+    return _nationality;
+  }
+
+  set nationality(String value) {
+    addKeyPair('nationality', value);
+    _nationality = value;
   }
 
   String get internationalCode {
