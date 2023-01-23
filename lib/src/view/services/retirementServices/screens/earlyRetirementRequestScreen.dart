@@ -1237,11 +1237,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               Padding(
                 padding: const EdgeInsets.all(8.0).copyWith(
                   left: UserConfig.instance.checkLanguage()
-                      ? 10
-                      : width(isTablet(context) ? 0.1 : 0.2, context),
+                      ? 10 : width(isTablet(context) ? 0.1 : 0.2, context),
                   right: UserConfig.instance.checkLanguage()
-                      ? width(isTablet(context) ? 0.1 : 0.2, context)
-                      : 10,
+                      ? width(isTablet(context) ? 0.1 : 0.2, context) : 10,
                 ),
                 child: Text(
                   translate('yes', context),
