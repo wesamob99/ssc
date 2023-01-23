@@ -606,7 +606,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
                   : Colors.white,
             ),
           ) : const SizedBox.shrink(),
-          hintText: hintText == '' ? '' : translate('ex', context) + hintText,
+          hintText: hintText == '' ? '' : hintText.substring(0, 3) == 'val' ? hintText.substring(3) : translate('ex', context) + hintText,
           hintStyle: TextStyle(
             color: getGrey2Color(context).withOpacity(
               themeNotifier.isLight() ? 1 : 0.7,
