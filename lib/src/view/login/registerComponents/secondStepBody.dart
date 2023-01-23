@@ -96,13 +96,12 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                       SizedBox(height: height(0.02, context),),
                       buildFieldTitle(context, 'enterNationalId', filled: (loginProvider.registerNationalIdController.text.length == 10 || loginProvider.flag == 1)),
                       SizedBox(height: height(0.015, context),),
-                      buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, (loginProvider.flag == 0) ? '9999999999' : loginProvider.registerData.userId.toString(), (val){
+                      buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, (loginProvider.flag == 0) ? '9999999999' : 'val${loginProvider.registerData.userId}', (val){
                         checkContinueEnable(loginProvider);
                       }, inputType: TextInputType.number, enabled: (loginProvider.flag == 0)),
                       SizedBox(height: height(0.02, context),),
                       if(isJordanian)
-                      buildFieldTitle(context, 'civilIdNumber', filled: (loginProvider.civilIdNumberController.text.isNotEmpty &&
-                          loginProvider.civilIdNumberController.text.length <= 8)),
+                      buildFieldTitle(context, 'civilIdNumber', filled: loginProvider.civilIdNumberController.text.length == 8),
                       if(!isJordanian)
                       buildFieldTitle(context, 'passportNumber', filled: RegExp(r"^(?!^0+$)[a-zA-Z0-9]{3,20}$").hasMatch(loginProvider.passportNumberController.text)),
                       SizedBox(height: height(0.015, context),),
@@ -318,8 +317,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
     if(isJordanian) {
       loginProvider.registerContinueEnabled =  (
         (loginProvider.registerNationalIdController.text.length == 10 || loginProvider.flag == 1) &&
-            (loginProvider.civilIdNumberController.text.isNotEmpty &&
-            loginProvider.civilIdNumberController.text.length <= 8) &&
+            loginProvider.civilIdNumberController.text.length == 8 &&
             loginProvider.relativeNatIdController.text.length == 10 &&
             loginProvider.thirdStepSelection[0] != 'choose'
       );
