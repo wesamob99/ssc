@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
+import 'package:ssc/source/viewModel/utilities/theme/themeProvider.dart';
 
 import '../hexColor.dart';
 import 'package:provider/provider.dart';

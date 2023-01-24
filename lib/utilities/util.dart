@@ -1,24 +1,30 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_expandable_widget/flutter_expandable_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ssc/src/view/splash/splashScreen.dart';
-import 'package:ssc/src/viewModel/accountSettings/accountSettingsProvider.dart';
-import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
+import 'package:ssc/source/view/splash/splashScreen.dart';
+import 'package:ssc/source/viewModel/accountSettings/accountSettingsProvider.dart';
+import 'package:ssc/source/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 import '../infrastructure/userConfig.dart';
-import '../src/view/pay/payScreen.dart';
-import '../src/viewModel/home/homeProvider.dart';
-import '../src/viewModel/login/loginProvider.dart';
-import '../src/viewModel/services/servicesProvider.dart';
-import '../src/viewModel/utilities/language/globalAppProvider.dart';
+import '../source/view/pay/payScreen.dart';
+import '../source/viewModel/home/homeProvider.dart';
+import '../source/viewModel/login/loginProvider.dart';
+import '../source/viewModel/services/servicesProvider.dart';
+import '../source/viewModel/utilities/language/globalAppProvider.dart';
 import 'hexColor.dart';
 import 'language/appLocalizations.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:ui' as ui;
 import 'dart:math' as math;
 
@@ -1062,6 +1068,58 @@ updateLanguageWidget(BuildContext context){
     ),
   );
 }
+
+// Function to download a PDF file from the server
+Future<void> downloadPDF(Response response, String fileName) async {
+  try {
+    // Get the directory to store the file
+    var dir = await getApplicationDocumentsDirectory();
+
+    // Create the file on the device
+    File pdfFile = File('${dir.path}/$fileName.pdf');
+    pdfFile = await pdfFile.create();
+
+    // Write file content to the file
+    pdfFile.writeAsBytesSync(utf8.encode(response.data));
+
+    // Open the file on the device
+    OpenFile.open(pdfFile.path);
+  } catch (e) {
+    if (kDebugMode) {
+      print(e);
+    }
+  }
+}
+
+// Future<void> saveFile(String fileName, Response response) async {
+//   var file = File('');
+//
+//   // Platform.isIOS comes from dart:io
+//   if (Platform.isIOS) {
+//     final dir = await getApplicationDocumentsDirectory();
+//     file = File('${dir.path}/$fileName');
+//   }
+//
+//   if (Platform.isAndroid) {
+//     var status = await Permission.storage.status;
+//     if (status != PermissionStatus.granted) {
+//       status = await Permission.storage.request();
+//     }
+//     if (status.isGranted) {
+//       const downloadsFolderPath = '/storage/emulated/0/Download/';
+//       Directory dir = Directory(downloadsFolderPath);
+//       file = File('${dir.path}/$fileName');
+//     }
+//   }
+//
+//   final byteData = response.bodyBytes;
+//   try {
+//     await file.writeAsBytes(byteData.buffer
+//         .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+//   } on FileSystemException catch (err) {
+//     // handle error
+//   }
+// }
 
 enum SupportState{
   unknown,

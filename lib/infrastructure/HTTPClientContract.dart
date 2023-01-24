@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
-import 'package:ssc/src/view/splash/splashScreen.dart';
-import 'package:ssc/src/viewModel/utilities/theme/themeProvider.dart';
+import 'package:ssc/source/view/splash/splashScreen.dart';
+import 'package:ssc/source/viewModel/utilities/theme/themeProvider.dart';
 import '../main.dart';
-import '../src/viewModel/home/homeProvider.dart';
+import '../source/viewModel/home/homeProvider.dart';
 import '../utilities/util.dart';
 import 'userSecuredStorage.dart';
 
