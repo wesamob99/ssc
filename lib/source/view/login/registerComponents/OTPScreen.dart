@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/source/view/login/forgotPasswordComponents/resetPasswordBody.dart';
@@ -296,6 +297,7 @@ class _OTPScreenState extends State<OTPScreen> {
       textDirection: TextDirection.ltr,
       child: Pinput(
         controller: pinController,
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
         focusNode: focusNode,
         androidSmsAutofillMethod:
         AndroidSmsAutofillMethod.smsUserConsentApi,

@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
@@ -148,6 +149,7 @@ class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
       textDirection: TextDirection.ltr,
       child: Pinput(
         controller: servicesProvider.pinPutCodeController,
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
         focusNode: FocusNode(),
         androidSmsAutofillMethod:
         AndroidSmsAutofillMethod.smsUserConsentApi,

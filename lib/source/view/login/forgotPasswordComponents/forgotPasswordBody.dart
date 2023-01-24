@@ -337,6 +337,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
       textDirection: TextDirection.ltr,
       child: Pinput(
         controller: pinController,
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
         focusNode: focusNode,
         androidSmsAutofillMethod:
         AndroidSmsAutofillMethod.smsUserConsentApi,
