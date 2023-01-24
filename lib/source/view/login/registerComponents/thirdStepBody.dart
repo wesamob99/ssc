@@ -34,7 +34,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
     if(item2['value']){
       loginProvider.registerContinueEnabled = true;
     } else{
-      loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
+      loginProvider.registerContinueEnabled = isEmail(loginProvider.emailController.text);
     }
     super.initState();
   }
@@ -112,7 +112,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                               if(item2['value']){
                                 loginProvider.registerContinueEnabled = true;
                               } else{
-                                loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
+                                loginProvider.registerContinueEnabled = isEmail(loginProvider.emailController.text);
                               }
                             });
                           },
@@ -154,7 +154,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                               if(item2['value']){
                                 loginProvider.registerContinueEnabled = true;
                               } else{
-                                loginProvider.registerContinueEnabled = loginProvider.emailController.text.isNotEmpty;
+                                loginProvider.registerContinueEnabled = isEmail(loginProvider.emailController.text);
                               }
                             });
                           },
@@ -206,9 +206,9 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                         SizedBox(height: height(0.015, context),),
                         buildTextFormField(context, themeNotifier, loginProvider.emailController, 'example@example.com', (value){
                           if(item2['value']){
-                            loginProvider.registerContinueEnabled = isEmail(loginProvider.emailController.text);
-                          } else{
                             loginProvider.registerContinueEnabled = true;
+                          } else{
+                            loginProvider.registerContinueEnabled = isEmail(loginProvider.emailController.text);
                           }
                           loginProvider.notifyMe();
                         }, inputType: TextInputType.emailAddress),
