@@ -382,6 +382,7 @@
   "noCancel": "No, cancel",
   "numberOfDocumentsRequired": "Number of documents required",
   "mandatoryDocumentsRequired": "Mandatory documents required",
+  "optionalDocuments": "Optional documents",
   "firstDocument": "The first document",
   "secondDocument": "The second document",
   "serviceTerminationLetter": "Service termination letter",
