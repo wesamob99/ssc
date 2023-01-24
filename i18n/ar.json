@@ -386,6 +386,7 @@
   "yesContinue": "نعم، استمر",
   "noCancel": "لا، إلغاء",
   "numberOfDocumentsRequired": "عدد الوثائق المطلوبة",
+  "mandatoryDocumentsRequired": "الوثائق الإجبارية المطلوبة",
   "firstDocument": "الوثيقة الأولى",
   "secondDocument": "الوثيقة الثانيه",
   "serviceTerminationLetter": "كتاب إنهاء خدمة",
