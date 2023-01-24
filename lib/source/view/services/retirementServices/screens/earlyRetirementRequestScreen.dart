@@ -53,8 +53,12 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   String selectedMethodOfReceiving = 'insideJordan';
   List<String> maritalList;
   bool termsChecked = false;
-
   int dependentIndex = 0;
+
+  int documentIndex = 0;
+  List mandatoryDocuments = [];
+  List optionalDocuments = [];
+
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
@@ -102,7 +106,15 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                       servicesProvider.stepNumber = 2;
                     }
                   } break;
-                case 4: servicesProvider.stepNumber = 3; break;
+                case 4:
+                  {
+                    if(documentIndex > 0){
+                      documentIndex--;
+                    } else {
+                      servicesProvider.stepNumber = 3;
+                    }
+                  }
+                  break;
                 case 5: servicesProvider.stepNumber = 4; break;
                 case 6: servicesProvider.stepNumber = 5; break;
               }
@@ -241,14 +253,18 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                             if(checkContinueEnabled(flag: 3)){
                               if(dependentIndex < (servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length - 1 : 0)){
                                 dependentIndex++;
-                              }else{
+                              }else {
                                 servicesProvider.stepNumber = 4;
                               }
                             }
                           } break;
                           case 4: {
                             if(checkContinueEnabled(flag: 4)){
-                              servicesProvider.stepNumber = 5;
+                              if(documentIndex < mandatoryDocuments.length-1){
+                                documentIndex++;
+                              }else {
+                                servicesProvider.stepNumber = 5;
+                              }
                             }
                           } break;
                           case 5: {
@@ -769,99 +785,96 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               ); break;
             case ConnectionState.done:
               if(!snapshot.hasError && snapshot.hasData){
+                snapshot.data['R_RESULT'][0].forEach((element){
+                  if(element['OPTIONAL'] == 2){
+                    if(!mandatoryDocuments.contains(element)) {
+                      mandatoryDocuments.add(element);
+                    }
+                  } else{
+                    if(!optionalDocuments.contains(element)) {
+                      optionalDocuments.add(element);
+                    }
+                  }
+                });
                 return SizedBox(
                   height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: height(0.02, context),),
-                        Column(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SingleChildScrollView(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              translate('forthStep', context),
-                              style: TextStyle(
-                                  color: HexColor('#979797'),
-                                  fontSize: width(0.03, context)
-                              ),
-                            ),
-                            SizedBox(height: height(0.006, context),),
-                            Text(
-                              translate('documents', context),
-                              style: TextStyle(
-                                  color: HexColor('#5F5F5F'),
-                                  fontSize: width(0.035, context)
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(height: height(0.01, context),),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const SizedBox.shrink(),
+                            SizedBox(height: height(0.02, context),),
                             Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  '4/6',
-                                  style: TextStyle(
-                                      color: HexColor('#979797'),
-                                      fontSize: width(0.025, context)
-                                  ),
-                                ),
-                                Text(
-                                  '${translate('next', context)}: ${translate('receiptOfAllowances', context)}',
-                                  style: TextStyle(
-                                      color: HexColor('#979797'),
-                                      fontSize: width(0.032, context)
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: height(0.02, context),),
-                        Text(
-                          translate('numberOfDocumentsRequired', context) + ' ( ${snapshot.data['R_RESULT'][0].length} )',
-                          style: TextStyle(
-                            color: HexColor('#363636'),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
-                        ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: snapshot.data['R_RESULT'][0].length,
-                          itemBuilder: (context, index){
-                            return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const SizedBox(height: 40,),
-                                Row(
+                                Text(
+                                  translate('forthStep', context),
+                                  style: TextStyle(
+                                      color: HexColor('#979797'),
+                                      fontSize: width(0.03, context)
+                                  ),
+                                ),
+                                SizedBox(height: height(0.006, context),),
+                                Text(
+                                  translate('documents', context),
+                                  style: TextStyle(
+                                      color: HexColor('#5F5F5F'),
+                                      fontSize: width(0.035, context)
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(height: height(0.01, context),),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const SizedBox.shrink(),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Expanded(
-                                      child: Text(
-                                        UserConfig.instance.checkLanguage()
-                                            ? '${snapshot.data['R_RESULT'][0][index]['NAME_EN']}'
-                                            : '${snapshot.data['R_RESULT'][0][index]['NAME_AR']}',
-                                        style: TextStyle(
-                                            color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
-                                            fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
-                                        ),
+                                    Text(
+                                      '4/6',
+                                      style: TextStyle(
+                                          color: HexColor('#979797'),
+                                          fontSize: width(0.025, context)
                                       ),
                                     ),
-                                    Expanded(
-                                      child: textButtonWithIcon(
-                                          context, themeNotifier, 'addNewPhoto', Colors.transparent, HexColor('#2D452E'),
-                                              (){},
-                                          borderColor: '#2D452E'
+                                    Text(
+                                      '${translate('next', context)}: ${translate('receiptOfAllowances', context)}',
+                                      style: TextStyle(
+                                          color: HexColor('#979797'),
+                                          fontSize: width(0.032, context)
                                       ),
                                     ),
                                   ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: height(0.02, context),),
+                            Text(
+                              translate('mandatoryDocumentsRequired', context) + ' ( ${documentIndex + 1} / ${mandatoryDocuments.length} )',
+                              style: TextStyle(
+                                color: HexColor('#363636'),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 40,),
+                                Text(
+                                  UserConfig.instance.checkLanguage()
+                                      ? '${mandatoryDocuments[documentIndex]['NAME_EN']}'
+                                      : '${mandatoryDocuments[documentIndex]['NAME_AR']}',
+                                  style: TextStyle(
+                                      color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
+                                      fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
+                                  ),
                                 ),
                                 const SizedBox(height: 20.0,),
                                 DottedBorder(
@@ -925,11 +938,102 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   ),
                                 ),
                               ],
-                            );
-                          },
-                        )
-                      ],
-                    ),
+                            ),
+                            // ListView.builder(
+                            //   shrinkWrap: true,
+                            //   physics: const NeverScrollableScrollPhysics(),
+                            //   itemCount: snapshot.data['R_RESULT'][0].length,
+                            //   itemBuilder: (context, index){
+                            //     return Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.start,
+                            //       children: [
+                            //         const SizedBox(height: 40,),
+                            //         Text(
+                            //           UserConfig.instance.checkLanguage()
+                            //               ? '${snapshot.data['R_RESULT'][0][index]['NAME_EN']}'
+                            //               : '${snapshot.data['R_RESULT'][0][index]['NAME_AR']}',
+                            //           style: TextStyle(
+                            //               color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
+                            //               fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
+                            //           ),
+                            //         ),
+                            //         const SizedBox(height: 20.0,),
+                            //         DottedBorder(
+                            //           radius: const Radius.circular(8.0),
+                            //           padding: EdgeInsets.zero,
+                            //           color: HexColor('#979797'),
+                            //           borderType: BorderType.RRect,
+                            //           dashPattern: const [5],
+                            //           strokeWidth: 1.2,
+                            //           child: InkWell(
+                            //             onTap: () async {
+                            //               await showModalActionSheet<String>(
+                            //                 context: context,
+                            //                 title: 'Upload from',
+                            //                 // message: 'message',
+                            //                 actions: [
+                            //                   const SheetAction(
+                            //                     icon: Icons.filter,
+                            //                     label: 'Gallery',
+                            //                     key: 'helloKey',
+                            //                   ),
+                            //                   const SheetAction(
+                            //                     icon: Icons.camera_alt_outlined,
+                            //                     label: 'Camera',
+                            //                     key: 'destructiveKey',
+                            //                   ),
+                            //                 ],
+                            //                 cancelLabel: 'Cancel',
+                            //               );
+                            //             },
+                            //             child: Container(
+                            //               width: width(1, context),
+                            //               height: height(0.14, context),
+                            //               decoration: BoxDecoration(
+                            //                   color: const Color.fromRGBO(117, 161, 119, 0.22),
+                            //                   borderRadius: BorderRadius.circular(8.0)
+                            //               ),
+                            //               child: Column(
+                            //                 mainAxisAlignment: MainAxisAlignment.center,
+                            //                 crossAxisAlignment: CrossAxisAlignment.center,
+                            //                 children: [
+                            //                   SvgPicture.asset('assets/icons/upload.svg'),
+                            //                   const SizedBox(height: 4.0),
+                            //                   Text(
+                            //                     translate('attachFileHere', context),
+                            //                     style: TextStyle(
+                            //                       fontSize: 12,
+                            //                       color: HexColor('#363636'),
+                            //                     ),
+                            //                   ),
+                            //                   const SizedBox(height: 10.0),
+                            //                   Text(
+                            //                     translate('chooseFile', context),
+                            //                     style: TextStyle(
+                            //                       color: HexColor('#2D452E'),
+                            //                     ),
+                            //                   ),
+                            //                 ],
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5.0),
+                        child: textButtonWithIcon(
+                            context, themeNotifier, 'addNewPhoto', Colors.transparent, HexColor('#2D452E'),
+                                (){},
+                            borderColor: '#2D452E'
+                        ),
+                      ),
+                    ],
                   ),
                 );
               }
