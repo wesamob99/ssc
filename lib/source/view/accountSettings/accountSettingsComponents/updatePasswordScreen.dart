@@ -122,7 +122,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                   accountSettingsProvider.currentPasswordController.text
                                 ).whenComplete((){}).then((value){
                                 if(value["PO_STATUS"] == 1){
-                                  showMyDialog(context, 'updatePasswordSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E').then((value) {
+                                  showMyDialog(context, 'updatePasswordSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/serviceSuccess.svg').then((value) {
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(builder: (context) => const SplashScreen()),
                                             (route) => false

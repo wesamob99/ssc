@@ -65,7 +65,7 @@ class _UpdateMobileNumberScreenState extends State<UpdateMobileNumberScreen> {
                             padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
                             child: buildTextFormField(context, themeNotifier, accountSettingsProvider.mobileNumberController, '', (val){
                               accountSettingsProvider.notifyMe();
-                            }),
+                            }, inputType: TextInputType.number),
                           ),
                           Text(
                             translate('mobileUpdateDesc', context),
