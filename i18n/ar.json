@@ -412,6 +412,8 @@
   "sessionExpiredDesc": "يرجى تسجيل الدخول مرة أخرى",
   "addToPay": "أضف للدفع",
   "yourRequestHasBeenSentSuccessfully": "تم ارسال طلبك بنجاح",
-  "youCanCheckAndFollowItsStatusFromMyOrdersScreen": "يمكنك التحقق ومتابعة حالته من سجل طلباتي"
+  "youCanCheckAndFollowItsStatusFromMyOrdersScreen": "يمكنك التحقق ومتابعة حالته من سجل طلباتي",
+  "youHaveNoSubscriptions": "لا يوجد لديك اشتراكات",
+  "youDoNotHaveFinancialSalaries": "لا يوجد لديك رواتب ماليه"
 
 }
