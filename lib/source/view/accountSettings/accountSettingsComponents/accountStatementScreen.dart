@@ -158,7 +158,8 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
 
   subscriptionPeriodsBody(data){
     return Expanded(
-      child: ListView.builder(
+      child: data[0] != 1
+      ? ListView.builder(
         itemCount: data.length,
         itemBuilder: (context, index){
           return Card(
@@ -303,20 +304,24 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
               )
           );
         },
-      ),
+      )
+      : Center(child: Text(translate('youHaveNoSubscriptions', context)),),
     );
   }
 
   financialSalariesBody(data){
     List<int> years = [];
-    data.forEach((element){
-      if(!years.contains(element['YEAR'])){
-        years.add(element['YEAR']);
-      }
-    });
+    if(data[0] != 1){
+      data.forEach((element){
+        if(!years.contains(element['YEAR'])){
+          years.add(element['YEAR']);
+        }
+      });
+    }
 
     return Expanded(
-      child: ListView.builder(
+      child: data[0] != 1
+      ? ListView.builder(
         itemCount: years.length,
         itemBuilder: (context, indexOfYear){
           double noOfElements = 0;
@@ -427,7 +432,8 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
             ],
           );
         },
-      ),
+      )
+      : Center(child: Text(translate('youDoNotHaveFinancialSalaries', context)),),
     );
   }
 
