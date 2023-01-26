@@ -8,50 +8,49 @@ import '../hexColor.dart';
 
 class AppTheme {
   TextTheme textTheme(String theme) => TextTheme(
-    headline6: TextStyle(
+    titleLarge: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
       height: 1.1,
     ),
-    bodyText2: TextStyle(
+    bodyMedium: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
       height: 1.1,
     ),
-    bodyText1: TextStyle(
+    bodyLarge: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
       height: 1.1,
     ),
-    headline1: TextStyle(
+    displayLarge: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
       height: 1.1,
     ),
-    headline2: TextStyle(
+    displayMedium: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
       height: 1.1,
     ),
-    headline3: TextStyle(
+    displaySmall: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
       height: 1.1,
     ),
-    headline4: TextStyle(
+    headlineMedium: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
       height: 1.1,
     ),
-    headline5: TextStyle(
+    headlineSmall: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
       height: 1.1,
     ),
-    subtitle1: TextStyle(
+    titleMedium: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
       height: 1.1,
     ),
-    subtitle2: TextStyle(
+    titleSmall: TextStyle(
       color: theme == 'dark' ? Colors.white : HexColor('#363636'),
       height: 1.1,
     ),
   );
   get darkTheme => ThemeData(
     brightness: Brightness.dark,
-    primarySwatch: Colors.red,
     //accentColor: Colors.amber,
     appBarTheme: AppBarTheme(
       color: HexColor('#1c2e19'),
@@ -65,10 +64,10 @@ class AppTheme {
       //     : GoogleFonts.tajawal(),
     ),
     scaffoldBackgroundColor: HexColor('#212121'),
-    backgroundColor: HexColor('#212121'),
     fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
     highlightColor: primaryColorDark,
-    textTheme: textTheme('dark')
+    textTheme: textTheme('dark'),
+    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red).copyWith(background: HexColor('#212121'))
     // textTheme: UserConfig.instance.checkLanguage()
     //     ? GoogleFonts.muktaTextTheme().merge(textTheme)
     //     : GoogleFonts.tajawalTextTheme().merge(textTheme),
@@ -96,12 +95,7 @@ class AppTheme {
       ),
       fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
       scaffoldBackgroundColor: const Color.fromRGBO(250, 250, 250, 1.0),
-      backgroundColor: HexColor('#ffffff'),
       highlightColor: primaryColor,
       textTheme: textTheme('light'),
-      // textTheme: UserConfig.instance.checkLanguage()
-      //     ? GoogleFonts.muktaTextTheme()
-      //     : GoogleFonts.tajawalTextTheme(),
-      colorScheme:
-      ColorScheme.fromSwatch().copyWith(secondary: orangeColorDark));
+      colorScheme: ColorScheme.fromSwatch().copyWith(secondary: orangeColorDark).copyWith(background: HexColor('#ffffff')));
 }
