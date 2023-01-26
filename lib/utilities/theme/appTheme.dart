@@ -50,7 +50,6 @@ class AppTheme {
     ),
   );
   get darkTheme => ThemeData(
-    brightness: Brightness.dark,
     //accentColor: Colors.amber,
     appBarTheme: AppBarTheme(
       color: HexColor('#1c2e19'),
@@ -59,18 +58,12 @@ class AppTheme {
       titleTextStyle: TextStyle(
         fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
       )
-      // titleTextStyle: UserConfig.instance.checkLanguage()
-      //     ? GoogleFonts.mukta()
-      //     : GoogleFonts.tajawal(),
     ),
     scaffoldBackgroundColor: HexColor('#212121'),
     fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
     highlightColor: primaryColorDark,
     textTheme: textTheme('dark'),
-    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red).copyWith(background: HexColor('#212121'))
-    // textTheme: UserConfig.instance.checkLanguage()
-    //     ? GoogleFonts.muktaTextTheme().merge(textTheme)
-    //     : GoogleFonts.tajawalTextTheme().merge(textTheme),
+    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red, brightness: Brightness.dark).copyWith(background: HexColor('#212121'))
   );
 
   get lightTheme => ThemeData(
@@ -89,13 +82,10 @@ class AppTheme {
           titleTextStyle: TextStyle(
             fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
           )
-          // titleTextStyle: UserConfig.instance.checkLanguage()
-          //     ? GoogleFonts.mukta()
-          //     : GoogleFonts.tajawal(),
       ),
       fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
       scaffoldBackgroundColor: const Color.fromRGBO(250, 250, 250, 1.0),
       highlightColor: primaryColor,
       textTheme: textTheme('light'),
-      colorScheme: ColorScheme.fromSwatch().copyWith(secondary: orangeColorDark).copyWith(background: HexColor('#ffffff')));
+      colorScheme: ColorScheme.fromSwatch(brightness: Brightness.light).copyWith(secondary: orangeColorDark, background: HexColor('#ffffff')));
 }
