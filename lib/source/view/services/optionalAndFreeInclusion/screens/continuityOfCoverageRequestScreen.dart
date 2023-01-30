@@ -112,7 +112,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
                     if(Provider.of<ServicesProvider>(context).stepNumber == 1)
                       const FirstStepScreen(nextStep: 'payCalculation', numberOfSteps: 3),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                      VerifyMobileNumberScreen(nextStep: 'payCalculation', numberOfSteps: 4, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                      VerifyMobileNumberScreen(nextStep: 'payCalculation', numberOfSteps: 3, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
                       secondStep(context, themeNotifier),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 3)
