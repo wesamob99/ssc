@@ -324,12 +324,6 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
       ? ListView.builder(
         itemCount: years.length,
         itemBuilder: (context, indexOfYear){
-          double noOfElements = 0;
-          data.forEach((element){
-            if(element['YEAR'] == years[indexOfYear]){
-              noOfElements++;
-            }
-          });
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -347,15 +341,16 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 5.0),
-              SizedBox(
-                height: 180 * noOfElements,
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: data.length,
-                  itemBuilder: (context, index){
-                    return data[index]['YEAR'] == years[indexOfYear]
-                    ? Card(
+              const SizedBox(height: 10.0),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: data.length,
+                itemBuilder: (context, index){
+                  return data[index]['YEAR'] == years[indexOfYear]
+                  ? Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: Card(
                         elevation: 6.0,
                         shadowColor: Colors.black45,
                         color: getContainerColor(context),
@@ -424,10 +419,10 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                             ],
                           ),
                         )
-                    )
-                    : const SizedBox.shrink();
-                  },
-                ),
+                    ),
+                  )
+                  : const SizedBox.shrink();
+                },
               ),
             ],
           );
