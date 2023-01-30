@@ -52,7 +52,7 @@ class _OptionalAndFreeInclusionBodyState extends State<OptionalAndFreeInclusionB
                   ),
                   child: Text(
                     translate(supTitles[index1], context),
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.start,
                     style: TextStyle(
                         color: HexColor('#2D452E'),
                         fontSize: width(0.03, context)

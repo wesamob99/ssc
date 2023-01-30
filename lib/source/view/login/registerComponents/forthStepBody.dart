@@ -228,7 +228,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                                     } else{
                                       message = '';
                                       loginProvider.registerContinueEnabled = false;
-                                      showMyDialog(context, 'registerCompleted', message, 'login', themeNotifier).then((value){
+                                      showMyDialog(context, 'registerCompleted', message, 'login', themeNotifier, icon: 'assets/icons/serviceSuccess.svg').then((value){
                                         Navigator.of(context).pushAndRemoveUntil(
                                             MaterialPageRoute(builder: (context) => const SplashScreen()),
                                                 (route) => false
