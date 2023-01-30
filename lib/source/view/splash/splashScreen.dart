@@ -47,8 +47,13 @@ class _SplashScreenState extends State<SplashScreen> {
     try{
     Provider.of<HomeProvider>(context, listen: false).isSplashScreenLoading = true;
     Provider.of<HomeProvider>(context, listen: false).notifyMe();
-    result = await Provider.of<HomeProvider>(context, listen: false).getAmountToBePaid();
+    result = await Provider.of<HomeProvider>(context, listen: false).getAmountToBePaid().whenComplete((){
+      Provider.of<HomeProvider>(context, listen: false).isSplashScreenLoading = false;
+      Provider.of<HomeProvider>(context, listen: false).notifyMe();
+    });
     }catch(e){
+      Provider.of<HomeProvider>(context, listen: false).isSplashScreenLoading = false;
+      Provider.of<HomeProvider>(context, listen: false).notifyMe();
       if (kDebugMode) {
         print(e.toString());
       }
@@ -65,11 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
         UserSecuredStorage.instance.token = '';
       }
       if (!mounted) return;
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => screen), (route) => false).then((_){
-        Provider.of<HomeProvider>(context, listen: false).isSplashScreenLoading = false;
-        Provider.of<HomeProvider>(context, listen: false).notifyMe();
-      });
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => screen), (route) => false);
     }else if(InternetConnectionStatus.disconnected == connection){
       if (!mounted) return;
       _showAlert(context);

@@ -107,7 +107,7 @@ class _FrequentlyAskedQuestionsScreenState extends State<FrequentlyAskedQuestion
                                         translate(filterList[index], context),
                                         style: TextStyle(
                                           color: indexSelected == index ? HexColor('#2D452E') : HexColor('#51504E'),
-                                          fontSize: 14
+                                          fontSize: 13
                                         ),
                                       ),
                                     ),

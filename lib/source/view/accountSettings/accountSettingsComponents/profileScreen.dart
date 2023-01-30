@@ -73,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if(snapshot.hasData && !snapshot.hasError){
                     UserProfileData userProfileData = snapshot.data;
                     CurGetdatum data = userProfileData.curGetdata[0][0];
-                    ListOfNationalities countryOfResidence = widget.nationalities.where((element) => element.natcode == data.livecontry ?? 111).first;
+                    ListOfNationalities countryOfResidence = widget.nationalities.where((element) => element.natcode == (data.livecontry ?? 111)).first;
                     if (kDebugMode) {
                       print(jsonEncode(data));
                     }

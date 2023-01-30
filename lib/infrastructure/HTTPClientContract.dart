@@ -133,6 +133,7 @@ class HTTPClientContract {
     checkInternetConnection();
     try {
       Response response = await _baseAPI.put(url, data: data);
+      checkSessionExpired(response);
       return response;
     } on DioError catch (e) {
       return e.response;

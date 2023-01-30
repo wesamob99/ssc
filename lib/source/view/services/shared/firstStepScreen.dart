@@ -186,7 +186,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                     servicesProvider.isMobileNumberUpdated = false;
                   }
                   servicesProvider.notifyMe();
-                })
+                }, inputType: TextInputType.number)
             ),
             SizedBox(width: width(0.015, context)),
             InkWell(

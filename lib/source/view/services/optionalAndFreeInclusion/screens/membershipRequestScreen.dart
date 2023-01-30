@@ -438,13 +438,14 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                     }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
                       submissionType = 2;
+                      currentSliderValue = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString());
                       selectedRate = selectedYear = SelectedListItem(name: '0', natCode: null, flag: '');
                       confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
                       confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                     } else if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
                       submissionType = 3;
                       currentSliderValue = maxSalary;
-                      servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
+                      servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(3);
                       confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
                       confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                     } else if(selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw'){
@@ -488,7 +489,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               divisions: minSalary != maxSalary ? (maxSalary - minSalary).floor() : 1,
                               label: currentSliderValue.round().toString(),
                               onChanged: (double value) {
-                                servicesProvider.monthlyInstallmentController.text = value.toStringAsFixed(0);
+                                servicesProvider.monthlyInstallmentController.text = value.toStringAsFixed(3);
                                 servicesProvider.notifyMe();
                                 setState(() {
                                   currentSliderValue = value;

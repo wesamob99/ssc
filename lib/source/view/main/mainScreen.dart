@@ -17,6 +17,7 @@ import '../../../infrastructure/userConfig.dart';
 import '../../../utilities/constants.dart';
 import '../../../utilities/hexColor.dart';
 import '../../../utilities/util.dart';
+import '../../viewModel/home/homeProvider.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
 import '../accountSettings/accountSettingsScreen.dart';
 import '../services/servicesScreen.dart';
@@ -49,6 +50,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     // ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+    Provider.of<HomeProvider>(context, listen: false).isSplashScreenLoading = false;
+    Provider.of<HomeProvider>(context, listen: false).notifyMe();
     UserConfig.instance.checkDataConnection();
 
     //check whether there is local authentication available on this device or not
