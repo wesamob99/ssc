@@ -414,6 +414,7 @@
   "yourRequestHasBeenSentSuccessfully": "تم ارسال طلبك بنجاح",
   "youCanCheckAndFollowItsStatusFromMyOrdersScreen": "يمكنك التحقق ومتابعة حالته من سجل طلباتي",
   "youHaveNoSubscriptions": "لا يوجد لديك اشتراكات",
-  "youDoNotHaveFinancialSalaries": "لا يوجد لديك رواتب ماليه"
+  "youDoNotHaveFinancialSalaries": "لا يوجد لديك رواتب ماليه",
+  "yourMaximumSalaryLimitIs": "الحد الأعلى للراتب الخاص بك هو"
 
 }

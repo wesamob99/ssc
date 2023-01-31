@@ -409,7 +409,8 @@
   "yourRequestHasBeenSentSuccessfully": "Your request has been sent successfully",
   "youCanCheckAndFollowItsStatusFromMyOrdersScreen": "You can check and follow its status from my orders screen",
   "youHaveNoSubscriptions": "You have no subscriptions",
-  "youDoNotHaveFinancialSalaries": "You do not have financial salaries"
+  "youDoNotHaveFinancialSalaries": "You do not have financial salaries",
+  "yourMaximumSalaryLimitIs": "Your maximum salary limit is"
 
 
 }
