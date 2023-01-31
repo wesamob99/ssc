@@ -13,6 +13,10 @@ class ServicesProvider extends ChangeNotifier {
   int selectedServiceRate = -1;
   bool isMobileNumberUpdated = false;
   bool isLoading = false;
+
+  bool isModalLoading = false;
+  bool isNationalIdValid = false;
+
   // ignore: prefer_typing_uninitialized_variables
   var result;
   TextEditingController monthlyInstallmentController = TextEditingController();
@@ -22,6 +26,14 @@ class ServicesProvider extends ChangeNotifier {
   TextEditingController pinPutCodeController = TextEditingController();
   bool pinPutFilled = false;
   List<Countries> countries = [];
+
+  /// documents screen
+  bool showMandatoryDocumentsScreen = false;
+  int documentIndex = 0;
+  bool mandatoryDocumentsFinished = false;
+  List mandatoryDocuments = [];
+  List optionalDocuments = [];
+  ///
 
   Future<UserProfileData> getAccountData() async{
     return await servicesRepository.getAccountDataService();
@@ -57,6 +69,10 @@ class ServicesProvider extends ChangeNotifier {
 
   Future deleteDependent(int id) async{
     return await servicesRepository.deleteDependentService(id);
+  }
+
+  Future addNewDependent(String natID) async{
+    return await servicesRepository.addNewDependentService(natID);
   }
 
   Future submitOptionSubIncrement(int selectedRate, double newSalary) async{
