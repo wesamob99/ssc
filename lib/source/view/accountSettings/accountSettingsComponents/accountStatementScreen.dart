@@ -141,9 +141,9 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                           ),
                         ),
                         if(selectedIndex == 1)
-                        subscriptionPeriodsBody(snapshot.data['cur_getdata2'][0]),
+                        subscriptionPeriodsBody(snapshot.data['cur_getdata2']),
                         if(selectedIndex == 2)
-                        financialSalariesBody(snapshot.data['cur_getdata3'][0]),
+                        financialSalariesBody(snapshot.data['cur_getdata3']),
                       ],
                     );
                   }
@@ -158,9 +158,9 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
 
   subscriptionPeriodsBody(data){
     return Expanded(
-      child: data[0] != 1
+      child: data.isNotEmpty && data[0][0] != 1
       ? ListView.builder(
-        itemCount: data.length,
+        itemCount: data[0].length,
         itemBuilder: (context, index){
           return Card(
               elevation: 6.0,
@@ -178,24 +178,24 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                       decoration: BoxDecoration(
-                        color: data[index]['descr'] == null
+                        color: data[0][index]['descr'] == null
                             ? themeNotifier.isLight() ? const Color.fromRGBO(0, 121, 5, 0.38) : HexColor('#006600')
                             : themeNotifier.isLight() ? const Color.fromRGBO(221, 201, 129, 0.49): HexColor('#bcbe40'),
                         borderRadius: BorderRadius.circular(50.0),
                       ),
                       child: Text(
-                        '${data[index]['descr'] ?? 'على رأس عمله'}',
+                        '${data[0][index]['descr'] ?? translate('onTopOfHisWork', context)}',
                         //translate('onTopOfHisWork', context)
                         style: TextStyle(
                           color: themeNotifier.isLight()
-                          ? data[index]['descr'] == null ? HexColor('#2D452E') : HexColor('#987803')
+                          ? data[0][index]['descr'] == null ? HexColor('#2D452E') : HexColor('#987803')
                           : Colors.white
                         ),
                       ),
                     ),
                     const SizedBox(height: 15.0),
                     Text(
-                      '${data[index]['ename']}',
+                      '${data[0][index]['ename']}',
                       style: TextStyle(
                         height: 1.4,
                         color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
@@ -204,7 +204,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                     ),
                     const SizedBox(height: 15.0,),
                     Text(
-                      '${data[index]['ESTNO']}',
+                      '${data[0][index]['ESTNO']}',
                       style: TextStyle(
                         color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#716F6F'),
                       ),
@@ -217,21 +217,21 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                         SvgPicture.asset('assets/icons/calender.svg', width: 15, color: !themeNotifier.isLight() ? Colors.white : Colors.black,),
                         const SizedBox(width: 10.0,),
                         Text(
-                          '${data[index]['STADATE']}',
+                          '${data[0][index]['STADATE']}',
                           style: TextStyle(
                             color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                           ),
                         ),
                         const SizedBox(width: 7.5,),
                         Text(
-                          data[index]['STODATE'] != null ? '-' : '',
+                          data[0][index]['STODATE'] != null ? '-' : '',
                           style: TextStyle(
                             color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#716F6F'),
                           ),
                         ),
                         const SizedBox(width: 7.5,),
                         Text(
-                          '${data[index]['STODATE'] ?? ''}',
+                          '${data[0][index]['STODATE'] ?? ''}',
                           style: TextStyle(
                             color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                           ),
@@ -246,7 +246,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                         SvgPicture.asset('assets/icons/hashtag.svg', width: 15, color: !themeNotifier.isLight() ? Colors.white : Colors.black,),
                         const SizedBox(width: 10.0,),
                         Text(
-                          '${data[index]['MONTH_COUNT']}',
+                          '${data[0][index]['MONTH_COUNT']}',
                           style: TextStyle(
                             color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                           ),
@@ -280,7 +280,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                         Row(
                           children: [
                             Text(
-                              '${data[index]['SALARY']}',
+                              '${data[0][index]['SALARY']}',
                               style: TextStyle(
                                 color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                 fontWeight: FontWeight.bold,
@@ -311,8 +311,8 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
 
   financialSalariesBody(data){
     List<int> years = [];
-    if(data[0] != 1){
-      data.forEach((element){
+    if(data.isNotEmpty && data[0][0] != 1){
+      data[0].forEach((element){
         if(!years.contains(element['YEAR'])){
           years.add(element['YEAR']);
         }
@@ -320,7 +320,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
     }
 
     return Expanded(
-      child: data[0] != 1
+      child: data.isNotEmpty && data[0][0] != 1
       ? ListView.builder(
         itemCount: years.length,
         itemBuilder: (context, indexOfYear){
@@ -345,9 +345,9 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: data.length,
+                itemCount: data[0].length,
                 itemBuilder: (context, index){
-                  return data[index]['YEAR'] == years[indexOfYear]
+                  return data[0][index]['YEAR'] == years[indexOfYear]
                   ? Padding(
                     padding: const EdgeInsets.only(bottom: 15.0),
                     child: Card(
@@ -364,7 +364,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${data[index]['ename']}',
+                                '${data[0][index]['ename']}',
                                 style: TextStyle(
                                   height: 1.4,
                                   color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
@@ -373,7 +373,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                               ),
                               const SizedBox(height: 15.0,),
                               Text(
-                                '${data[index]['EST']}',
+                                '${data[0][index]['EST']}',
                                 style: TextStyle(
                                   color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                                 ),
@@ -397,7 +397,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                   Row(
                                     children: [
                                       Text(
-                                        '${data[index]['SAL']}',
+                                        '${data[0][index]['SAL']}',
                                         style: TextStyle(
                                           color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
                                           fontWeight: FontWeight.bold,
