@@ -51,7 +51,6 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     // ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     Provider.of<HomeProvider>(context, listen: false).isSplashScreenLoading = false;
-    Provider.of<HomeProvider>(context, listen: false).notifyMe();
     UserConfig.instance.checkDataConnection();
 
     //check whether there is local authentication available on this device or not
