@@ -412,6 +412,17 @@ class ServicesRepository{
     return null;
   }
 
+  Future addNewDependentService(String natID) async {
+    var response = await HTTPClientContract.instance.getHTTP('/website/support_GetDetail?pi_relative_nat_pers_no=$natID&PI_relatiev_nat=1');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+
   Future deleteDependentService(int id) async {
     var response = await HTTPClientContract.instance.postHTTP(
         '/website/DELETE_DEP', {"PI_ID": id}
