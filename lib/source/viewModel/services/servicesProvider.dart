@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -17,23 +17,32 @@ class ServicesProvider extends ChangeNotifier {
   bool isModalLoading = false;
   bool isNationalIdValid = false;
 
-  // ignore: prefer_typing_uninitialized_variables
+  /// this variable used in every service, the get API called when any service open return result and we save that result in this variable
+  /// check the servicesListConstants.dart to see service's API
   var result;
-  TextEditingController monthlyInstallmentController = TextEditingController();
+  ///
   int stepNumber = 1;
   String selectedInjuredType = 'occupationalDisease';
+  TextEditingController monthlyInstallmentController = TextEditingController();
   TextEditingController mobileNumberController = TextEditingController();
   TextEditingController pinPutCodeController = TextEditingController();
   bool pinPutFilled = false;
   List<Countries> countries = [];
 
-  /// documents screen
+  /// documents screen controllers *****************
   bool showMandatoryDocumentsScreen = false;
+  bool showOptionalDocumentsScreen = false;
   int documentIndex = 0;
   bool mandatoryDocumentsFinished = false;
+  bool optionalDocumentsFinished = false;
   List mandatoryDocuments = [];
   List optionalDocuments = [];
-  ///
+  // List uploadedFiles = [];
+  Map uploadedFiles = {
+    "mandatory": [],
+    "optional": [],
+  };
+  /// **********************************************
 
   Future<UserProfileData> getAccountData() async{
     return await servicesRepository.getAccountDataService();
