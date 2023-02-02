@@ -1,14 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_expandable_widget/flutter_expandable_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +19,6 @@ import '../source/viewModel/services/servicesProvider.dart';
 import '../source/viewModel/utilities/language/globalAppProvider.dart';
 import 'hexColor.dart';
 import 'language/appLocalizations.dart';
-import 'package:path_provider/path_provider.dart';
 import 'dart:ui' as ui;
 import 'dart:math' as math;
 
@@ -1070,26 +1064,26 @@ updateLanguageWidget(BuildContext context){
 }
 
 // Function to download a PDF file from the server
-Future<void> downloadPDF(Response response, String fileName) async {
-  try {
-    // Get the directory to store the file
-    var dir = await getApplicationDocumentsDirectory();
-
-    // Create the file on the device
-    File pdfFile = File('${dir.path}/$fileName.pdf');
-    pdfFile = await pdfFile.create();
-
-    // Write file content to the file
-    pdfFile.writeAsBytesSync(utf8.encode(response.data));
-
-    // Open the file on the device
-    OpenFile.open(pdfFile.path);
-  } catch (e) {
-    if (kDebugMode) {
-      print(e);
-    }
-  }
-}
+// Future<void> downloadPDF(Response response, String fileName) async {
+//   try {
+//     // Get the directory to store the file
+//     var dir = await getApplicationDocumentsDirectory();
+//
+//     // Create the file on the device
+//     File pdfFile = File('${dir.path}/$fileName.pdf');
+//     pdfFile = await pdfFile.create();
+//
+//     // Write file content to the file
+//     pdfFile.writeAsBytesSync(utf8.encode(response.data));
+//
+//     // Open the file on the device
+//     OpenFile.open(pdfFile.path);
+//   } catch (e) {
+//     if (kDebugMode) {
+//       print(e);
+//     }
+//   }
+// }
 
 // Future<void> saveFile(String fileName, Response response) async {
 //   var file = File('');
