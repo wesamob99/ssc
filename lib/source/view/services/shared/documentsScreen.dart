@@ -297,7 +297,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             FilePickerResult result = await FilePicker.platform.pickFiles(
               allowMultiple: true,
               /// TODO: check allowed extensions
-              // allowedExtensions: ['jpg', 'pdf', 'png', 'jpeg'],
+              /// allowedExtensions: ['jpg', 'pdf', 'png', 'jpeg'],
             );
 
             if (result != null) {
@@ -309,49 +309,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             } else {
               // User canceled the picker
             }
-            // showDialog(
-            //   context: context,
-            //   builder: (BuildContext context) {
-            //     return AlertDialog(
-            //       titlePadding: const EdgeInsets.only(bottom: 25.0, top: 15.0),
-            //       actionsPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-            //       title: const Text(
-            //         "Upload from",
-            //         textAlign: TextAlign.center,
-            //         style: TextStyle(
-            //           fontSize: 22,
-            //           fontWeight: FontWeight.w400,
-            //         ),
-            //       ),
-            //       actions: [
-            //         SizedBox(
-            //           width: width(1, context),
-            //           child: Row(
-            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //             children: [
-            //               Expanded(
-            //                 child: textButton(context, themeNotifier, 'files', getPrimaryColor(context, themeNotifier), Colors.white, () async {
-            //                   FilePickerResult result = await FilePicker.platform.pickFiles();
-            //
-            //                   if (result != null) {
-            //                     File file = File(result.files.single.path);
-            //                     print(file);
-            //                   } else {
-            //                     // User canceled the picker
-            //                   }
-            //                 })
-            //               ),
-            //               const SizedBox(width: 10.0,),
-            //               Expanded(
-            //                   child: textButton(context, themeNotifier, 'camera', getPrimaryColor(context, themeNotifier), Colors.white, (){})
-            //               ),
-            //             ],
-            //           ),
-            //         )
-            //       ],
-            //     );
-            //   },
-            // );
           },
           child: Container(
             width: width(1, context),
