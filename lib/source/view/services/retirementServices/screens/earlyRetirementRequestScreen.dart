@@ -1,7 +1,5 @@
 // ignore_for_file: file_names
 
-import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
@@ -9,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:ssc/source/view/services/shared/documentsScreen.dart';
 import 'package:ssc/source/viewModel/services/servicesProvider.dart';
 import 'package:ssc/source/viewModel/utilities/theme/themeProvider.dart';
 
@@ -42,8 +41,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     value: "962", natCode: 111,
     flag: countries[110].flag,
   );
-  String firstSelectedItem = 'no';
-  String secondSelectedItem = 'no';
+  String areYouAuthorizedToSignForCompany = 'no';
+  String areYouPartnerInLimitedLiabilityCompany = 'no';
 
   String selectedStatus;
   String selectedJobStatus;
@@ -55,10 +54,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   bool termsChecked = false;
   int dependentIndex = 0;
 
-  int documentIndex = 0;
-  List mandatoryDocuments = [];
-  List optionalDocuments = [];
-
+  TextEditingController nationalIdController = TextEditingController();
+  String nationality = 'jordanian';
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
@@ -79,15 +76,28 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   void initState() {
     Provider.of<LoginProvider>(context, listen: false).readCountriesJson();
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
+    servicesProvider.showMandatoryDocumentsScreen = false;
+    servicesProvider.showOptionalDocumentsScreen = false;
+    servicesProvider.documentIndex = 0;
+    servicesProvider.mandatoryDocumentsFinished = false;
+    servicesProvider.mandatoryDocuments = [];
+    servicesProvider.optionalDocuments = [];
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     documentsFuture = servicesProvider.getRequiredDocuments();
     servicesProvider.stepNumber = 1;
+    servicesProvider.uploadedFiles = {
+      "mandatory": [],
+      "optional": [],
+    };
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      backgroundColor: (servicesProvider.showMandatoryDocumentsScreen || servicesProvider.showOptionalDocumentsScreen)
+          ? HexColor('#445740') : HexColor('#ffffff'),
       appBar: AppBar(
         centerTitle: false,
         title: Text(translate('earlyRetirementRequest', context)),
@@ -102,20 +112,46 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   {
                     if(dependentIndex > 0){
                       dependentIndex--;
-                    }else{
+                    } else{
                       servicesProvider.stepNumber = 2;
                     }
                   } break;
                 case 4:
                   {
-                    if(documentIndex > 0){
-                      documentIndex--;
+                    if(servicesProvider.documentIndex > 0){
+                      servicesProvider.documentIndex--;
+                    } else if(servicesProvider.documentIndex == 0 && servicesProvider.mandatoryDocumentsFinished){
+                      servicesProvider.mandatoryDocumentsFinished = false;
+                      if(servicesProvider.showOptionalDocumentsScreen){
+                        servicesProvider.showOptionalDocumentsScreen = false;
+                        servicesProvider.documentIndex = servicesProvider.mandatoryDocuments.length - 1;
+                        servicesProvider.mandatoryDocumentsFinished = false;
+                      } else {
+                        servicesProvider.mandatoryDocumentsFinished = true;
+                        servicesProvider.showOptionalDocumentsScreen = true;
+                      }
+                    } else if(servicesProvider.documentIndex == 0 && !servicesProvider.mandatoryDocumentsFinished && servicesProvider.showOptionalDocumentsScreen){
+                      servicesProvider.mandatoryDocumentsFinished = true;
+                      servicesProvider.documentIndex = servicesProvider.mandatoryDocuments.length - 1;
+                      servicesProvider.showOptionalDocumentsScreen = false;
                     } else {
-                      servicesProvider.stepNumber = 3;
+                      if(servicesProvider.showMandatoryDocumentsScreen){
+                        servicesProvider.showMandatoryDocumentsScreen = false;
+                        servicesProvider.stepNumber = 3;
+                      } else {
+                        servicesProvider.showMandatoryDocumentsScreen = true;
+                      }
                     }
+                    servicesProvider.notifyMe();
                   }
                   break;
-                case 5: servicesProvider.stepNumber = 4; break;
+                case 5:
+                  {
+                    servicesProvider.mandatoryDocumentsFinished = servicesProvider.optionalDocuments.isNotEmpty ? true : false;
+                    servicesProvider.documentIndex = servicesProvider.optionalDocuments.isNotEmpty ? servicesProvider.optionalDocuments.length - 1 : servicesProvider.mandatoryDocuments.length - 1;
+                    servicesProvider.stepNumber = 4;
+                  }
+                  break;
                 case 6: servicesProvider.stepNumber = 5; break;
               }
               servicesProvider.notifyMe();
@@ -153,11 +189,26 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                     if(Provider.of<ServicesProvider>(context).stepNumber == 3)
                       thirdStep(context, themeNotifier),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-                      forthStep(context, themeNotifier),
+                      const DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 6),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 5)
                       fifthStep(context, themeNotifier),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 6)
                       sixthStep(context, themeNotifier),
+                    // if(!servicesProvider.showMandatoryDocumentsScreen &&
+                    //   (servicesProvider.mandatoryDocuments.isNotEmpty || servicesProvider.mandatoryDocuments.isNotEmpty) &&
+                    //   servicesProvider.stepNumber == 4)
+                    //   Padding(
+                    //     padding: const EdgeInsets.symmetric(vertical: 5.0),
+                    //     child: textButtonWithIcon(
+                    //         context, themeNotifier, 'addNewPhoto', Colors.transparent, HexColor('#2D452E'),
+                    //         (){
+                    //           servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].length += 1;
+                    //           servicesProvider.notifyMe();
+                    //         },
+                    //         borderColor: '#2D452E'
+                    //     ),
+                    //   ),
+                    if(!servicesProvider.showMandatoryDocumentsScreen && !servicesProvider.showOptionalDocumentsScreen)
                     textButton(context,
                       themeNotifier,
                       Provider.of<ServicesProvider>(context).stepNumber != 6 ? 'continue' : 'send',
@@ -254,16 +305,37 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               if(dependentIndex < (servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length - 1 : 0)){
                                 dependentIndex++;
                               }else {
+                                servicesProvider.showMandatoryDocumentsScreen = true;
+                                servicesProvider.notifyMe();
                                 servicesProvider.stepNumber = 4;
                               }
                             }
                           } break;
                           case 4: {
                             if(checkContinueEnabled(flag: 4)){
-                              if(documentIndex < mandatoryDocuments.length-1){
-                                documentIndex++;
-                              }else {
-                                servicesProvider.stepNumber = 5;
+                              // if(servicesProvider.documentIndex == servicesProvider.mandatoryDocuments.length-1 && !servicesProvider.mandatoryDocumentsFinished){
+                              //   servicesProvider.mandatoryDocumentsFinished = true;
+                              //   servicesProvider.showOptionalDocumentsScreen = true;
+                              //   servicesProvider.documentIndex = 0;
+                              // }
+                              // else if(servicesProvider.documentIndex == servicesProvider.optionalDocuments.length-1 && !servicesProvider.optionalDocumentsFinished){
+                              //   servicesProvider.optionalDocumentsFinished = true;
+                              // }
+                              if(servicesProvider.documentIndex < servicesProvider.mandatoryDocuments.length-1 && !servicesProvider.mandatoryDocumentsFinished){
+                                servicesProvider.documentIndex++;
+                              } else if(servicesProvider.documentIndex < servicesProvider.optionalDocuments.length-1 && !servicesProvider.optionalDocumentsFinished){
+                                servicesProvider.documentIndex++;
+                              } else if(servicesProvider.documentIndex == servicesProvider.mandatoryDocuments.length-1 || servicesProvider.documentIndex == servicesProvider.optionalDocuments.length-1){
+                                if(!servicesProvider.mandatoryDocumentsFinished){
+                                  servicesProvider.mandatoryDocumentsFinished = true;
+                                  servicesProvider.showOptionalDocumentsScreen = true;
+                                  servicesProvider.documentIndex = 0;
+                                } else{
+                                  servicesProvider.showMandatoryDocumentsScreen = false;
+                                  servicesProvider.showOptionalDocumentsScreen = false;
+                                  servicesProvider.notifyMe();
+                                  servicesProvider.stepNumber = 5;
+                                }
                               }
                             }
                           } break;
@@ -287,13 +359,13 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                         }
                         servicesProvider.notifyMe();
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
           ),
-          if(Provider.of<ServicesProvider>(context).isLoading)
+          if(Provider.of<ServicesProvider>(context).isLoading && !Provider.of<ServicesProvider>(context).isModalLoading)
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               width: width(1, context),
@@ -520,7 +592,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                               ? 'widow'
                                               : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF',
                                         ];
-                                        editDependentModalBottomSheet(dependentIndex);
+                                        dependentModalBottomSheet(dependentIndex);
                                       } break;
                                       case 1: {
                                         showMyDialog(
@@ -722,7 +794,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 const SizedBox(height: 10.0,),
                                 Text(
                                   translate(
-                                      servicesProvider.result['P_Dep'][0][dependentIndex]['IS_RETIRED_A'] == 1
+                                      servicesProvider.result['P_Dep'][0][dependentIndex]['IS_RETIRED'] != 1
                                           ? 'no' : 'yes',
                                       context),
                                   style: TextStyle(
@@ -762,285 +834,37 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
             padding: const EdgeInsets.only(bottom: 5.0),
             child: textButtonWithIcon(
                 context, themeNotifier, 'addNewDependents', Colors.transparent, HexColor('#2D452E'),
-                    (){},
+                (){
+                  nationalIdController = TextEditingController();
+                  nationality = 'jordanian';
+                  servicesProvider.isNationalIdValid = false;
+                  servicesProvider.isLoading = false;
+                  servicesProvider.notifyMe();
+                  ///
+                  selectedStatus = 'alive';
+                  selectedJobStatus = 'employed';
+                  selectedGetsSalary = 'yes';
+                  selectedHasDisability = 'yes';
+                  selectedMaritalStatus = UserConfig.instance.checkLanguage()
+                  ? 'single' : 'singleM';
+                  maritalList = [
+                  UserConfig.instance.checkLanguage()
+                  ? 'single' : 'singleM',
+                  UserConfig.instance.checkLanguage()
+                  ? 'married' : 'marriedM',
+                  UserConfig.instance.checkLanguage()
+                  ? 'divorced' : 'divorcedM',
+                  UserConfig.instance.checkLanguage()
+                  ? 'widow' : 'widowM',
+                  ];
+                  ///
+                  dependentModalBottomSheet(1, isEdit: true);
+                },
                 borderColor: '#2D452E'
             ),
           )
         ],
       ),
-    );
-  }
-
-  Widget forthStep(context, themeNotifier){
-    return FutureBuilder(
-        future: documentsFuture,
-        builder: (context, snapshot){
-          switch(snapshot.connectionState){
-            case ConnectionState.none:
-              return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc'); break;
-            case ConnectionState.waiting:
-            case ConnectionState.active:
-              return Expanded(
-                  child: animatedLoader(context)
-              ); break;
-            case ConnectionState.done:
-              if(!snapshot.hasError && snapshot.hasData){
-                snapshot.data['R_RESULT'][0].forEach((element){
-                  if(element['OPTIONAL'] == 2){
-                    if(!mandatoryDocuments.contains(element)) {
-                      mandatoryDocuments.add(element);
-                    }
-                  } else{
-                    if(!optionalDocuments.contains(element)) {
-                      optionalDocuments.add(element);
-                    }
-                  }
-                });
-                return SizedBox(
-                  height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: height(0.02, context),),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  translate('forthStep', context),
-                                  style: TextStyle(
-                                      color: HexColor('#979797'),
-                                      fontSize: width(0.03, context)
-                                  ),
-                                ),
-                                SizedBox(height: height(0.006, context),),
-                                Text(
-                                  translate('documents', context),
-                                  style: TextStyle(
-                                      color: HexColor('#5F5F5F'),
-                                      fontSize: width(0.035, context)
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: height(0.01, context),),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const SizedBox.shrink(),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      '4/6',
-                                      style: TextStyle(
-                                          color: HexColor('#979797'),
-                                          fontSize: width(0.025, context)
-                                      ),
-                                    ),
-                                    Text(
-                                      '${translate('next', context)}: ${translate('receiptOfAllowances', context)}',
-                                      style: TextStyle(
-                                          color: HexColor('#979797'),
-                                          fontSize: width(0.032, context)
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: height(0.02, context),),
-                            Text(
-                              translate('mandatoryDocumentsRequired', context) + ' ( ${documentIndex + 1} / ${mandatoryDocuments.length} )',
-                              style: TextStyle(
-                                color: HexColor('#363636'),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 40,),
-                                Text(
-                                  UserConfig.instance.checkLanguage()
-                                      ? '${mandatoryDocuments[documentIndex]['NAME_EN']}'
-                                      : '${mandatoryDocuments[documentIndex]['NAME_AR']}',
-                                  style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
-                                      fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
-                                  ),
-                                ),
-                                const SizedBox(height: 20.0,),
-                                DottedBorder(
-                                  radius: const Radius.circular(8.0),
-                                  padding: EdgeInsets.zero,
-                                  color: HexColor('#979797'),
-                                  borderType: BorderType.RRect,
-                                  dashPattern: const [5],
-                                  strokeWidth: 1.2,
-                                  child: InkWell(
-                                    onTap: () async {
-                                      await showModalActionSheet<String>(
-                                        context: context,
-                                        title: 'Upload from',
-                                        // message: 'message',
-                                        actions: [
-                                          const SheetAction(
-                                            icon: Icons.filter,
-                                            label: 'Gallery',
-                                            key: 'helloKey',
-                                          ),
-                                          const SheetAction(
-                                            icon: Icons.camera_alt_outlined,
-                                            label: 'Camera',
-                                            key: 'destructiveKey',
-                                          ),
-                                        ],
-                                        cancelLabel: 'Cancel',
-                                      );
-                                    },
-                                    child: Container(
-                                      width: width(1, context),
-                                      height: height(0.14, context),
-                                      decoration: BoxDecoration(
-                                          color: const Color.fromRGBO(117, 161, 119, 0.22),
-                                          borderRadius: BorderRadius.circular(8.0)
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset('assets/icons/upload.svg'),
-                                          const SizedBox(height: 4.0),
-                                          Text(
-                                            translate('attachFileHere', context),
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: HexColor('#363636'),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 10.0),
-                                          Text(
-                                            translate('chooseFile', context),
-                                            style: TextStyle(
-                                              color: HexColor('#2D452E'),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            // ListView.builder(
-                            //   shrinkWrap: true,
-                            //   physics: const NeverScrollableScrollPhysics(),
-                            //   itemCount: snapshot.data['R_RESULT'][0].length,
-                            //   itemBuilder: (context, index){
-                            //     return Column(
-                            //       crossAxisAlignment: CrossAxisAlignment.start,
-                            //       children: [
-                            //         const SizedBox(height: 40,),
-                            //         Text(
-                            //           UserConfig.instance.checkLanguage()
-                            //               ? '${snapshot.data['R_RESULT'][0][index]['NAME_EN']}'
-                            //               : '${snapshot.data['R_RESULT'][0][index]['NAME_AR']}',
-                            //           style: TextStyle(
-                            //               color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
-                            //               fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
-                            //           ),
-                            //         ),
-                            //         const SizedBox(height: 20.0,),
-                            //         DottedBorder(
-                            //           radius: const Radius.circular(8.0),
-                            //           padding: EdgeInsets.zero,
-                            //           color: HexColor('#979797'),
-                            //           borderType: BorderType.RRect,
-                            //           dashPattern: const [5],
-                            //           strokeWidth: 1.2,
-                            //           child: InkWell(
-                            //             onTap: () async {
-                            //               await showModalActionSheet<String>(
-                            //                 context: context,
-                            //                 title: 'Upload from',
-                            //                 // message: 'message',
-                            //                 actions: [
-                            //                   const SheetAction(
-                            //                     icon: Icons.filter,
-                            //                     label: 'Gallery',
-                            //                     key: 'helloKey',
-                            //                   ),
-                            //                   const SheetAction(
-                            //                     icon: Icons.camera_alt_outlined,
-                            //                     label: 'Camera',
-                            //                     key: 'destructiveKey',
-                            //                   ),
-                            //                 ],
-                            //                 cancelLabel: 'Cancel',
-                            //               );
-                            //             },
-                            //             child: Container(
-                            //               width: width(1, context),
-                            //               height: height(0.14, context),
-                            //               decoration: BoxDecoration(
-                            //                   color: const Color.fromRGBO(117, 161, 119, 0.22),
-                            //                   borderRadius: BorderRadius.circular(8.0)
-                            //               ),
-                            //               child: Column(
-                            //                 mainAxisAlignment: MainAxisAlignment.center,
-                            //                 crossAxisAlignment: CrossAxisAlignment.center,
-                            //                 children: [
-                            //                   SvgPicture.asset('assets/icons/upload.svg'),
-                            //                   const SizedBox(height: 4.0),
-                            //                   Text(
-                            //                     translate('attachFileHere', context),
-                            //                     style: TextStyle(
-                            //                       fontSize: 12,
-                            //                       color: HexColor('#363636'),
-                            //                     ),
-                            //                   ),
-                            //                   const SizedBox(height: 10.0),
-                            //                   Text(
-                            //                     translate('chooseFile', context),
-                            //                     style: TextStyle(
-                            //                       color: HexColor('#2D452E'),
-                            //                     ),
-                            //                   ),
-                            //                 ],
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     );
-                            //   },
-                            // )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5.0),
-                        child: textButtonWithIcon(
-                            context, themeNotifier, 'addNewPhoto', Colors.transparent, HexColor('#2D452E'),
-                                (){},
-                            borderColor: '#2D452E'
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }
-              break;
-          }
-          return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc');
-        }
     );
   }
 
@@ -1227,11 +1051,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               try{
                 await servicesProvider.getInquiryInsuredInformation().then((value) async{
                   await servicesProvider.getInsuredInformationReport(value).then((value) async {
-                    downloadPDF(value, translate('detailedDisclosure', context)).whenComplete((){
-                      if (kDebugMode) {
-                        print('completed!');
-                      }
-                    });
+                    // downloadPDF(value, translate('detailedDisclosure', context)).whenComplete((){
+                    //   if (kDebugMode) {
+                    //     print('completed!');
+                    //   }
+                    // });
                   });
                 });
                 servicesProvider.isLoading = false;
@@ -1314,10 +1138,10 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
           onTap: (){
             setState(() {
               if(flag == 1) {
-                firstSelectedItem = 'yes';
+                areYouAuthorizedToSignForCompany = 'yes';
               }
               if(flag == 2) {
-                secondSelectedItem = 'yes';
+                areYouPartnerInLimitedLiabilityCompany = 'yes';
               }
             });
           },
@@ -1334,7 +1158,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 padding: const EdgeInsets.all(2.0),
                 child: CircleAvatar(
                   radius: isTablet(context) ? 10 : 5,
-                  backgroundColor: (flag == 1 && firstSelectedItem == 'yes') || (flag == 2 && secondSelectedItem == 'yes')
+                  backgroundColor: (flag == 1 && areYouAuthorizedToSignForCompany == 'yes') || (flag == 2 && areYouPartnerInLimitedLiabilityCompany == 'yes')
                     ? HexColor('#2D452E') : Colors.transparent,
                 ),
               ),
@@ -1360,10 +1184,10 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
           onTap: (){
             setState(() {
               if(flag == 1) {
-                firstSelectedItem = 'no';
+                areYouAuthorizedToSignForCompany = 'no';
               }
               if(flag == 2) {
-                secondSelectedItem = 'no';
+                areYouPartnerInLimitedLiabilityCompany = 'no';
               }
             });
           },
@@ -1380,7 +1204,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 padding: const EdgeInsets.all(2.0),
                 child: CircleAvatar(
                   radius: isTablet(context) ? 10 : 5,
-                  backgroundColor: (flag == 1 && firstSelectedItem == 'no') || (flag == 2 && secondSelectedItem == 'no')
+                  backgroundColor: (flag == 1 && areYouAuthorizedToSignForCompany == 'no') || (flag == 2 && areYouPartnerInLimitedLiabilityCompany == 'no')
                       ? HexColor('#2D452E') : Colors.transparent,
                 ),
               ),
@@ -1428,6 +1252,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               if(flag == 5) {
                 selectedMethodOfReceiving = firstChoice;
               }
+              if(flag == 6) {
+                nationality = firstChoice;
+              }
             });
           },
           child: Row(
@@ -1444,7 +1271,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 child: CircleAvatar(
                   radius: isTablet(context) ? 10 : 5,
                   backgroundColor: (flag == 1 && selectedStatus == firstChoice) || (flag == 2 && selectedJobStatus == firstChoice) ||
-                      (flag == 3 && selectedGetsSalary == firstChoice) || (flag == 4 && selectedHasDisability == firstChoice) || (flag == 5 && selectedMethodOfReceiving == firstChoice)
+                      (flag == 3 && selectedGetsSalary == firstChoice) || (flag == 4 && selectedHasDisability == firstChoice) || (flag == 5 && selectedMethodOfReceiving == firstChoice) || (flag == 6 && nationality == firstChoice)
                       ? HexColor('#2D452E') : Colors.transparent,
                 ),
               ),
@@ -1479,6 +1306,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               if(flag == 5) {
                 selectedMethodOfReceiving = secondChoice;
               }
+              if(flag == 6) {
+                nationality = secondChoice;
+              }
             });
           },
           child: Row(
@@ -1495,7 +1325,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 child: CircleAvatar(
                   radius: isTablet(context) ? 10 : 5,
                   backgroundColor: (flag == 1 && selectedStatus == secondChoice) || (flag == 2 && selectedJobStatus == secondChoice) ||
-                      (flag == 3 && selectedGetsSalary == secondChoice) || (flag == 4 && selectedHasDisability == secondChoice) || (flag == 5 && selectedMethodOfReceiving == secondChoice)
+                      (flag == 3 && selectedGetsSalary == secondChoice) || (flag == 4 && selectedHasDisability == secondChoice) || (flag == 5 && selectedMethodOfReceiving == secondChoice) || (flag == 6 && nationality == secondChoice)
                       ? HexColor('#2D452E') : Colors.transparent,
                 ),
               ),
@@ -1567,7 +1397,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     );
   }
 
-  editDependentModalBottomSheet(index){
+  dependentModalBottomSheet(int index, {bool isEdit = false}){
     return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0))
@@ -1586,153 +1416,230 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               sigmaX: 1.0,
               sigmaY: 1.0,
             ),
-            child: Material(
-              elevation: 100,
-              borderRadius: BorderRadius.circular(25.0),
-              color: getContainerColor(context),
-              shadowColor: Colors.black,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0).copyWith(top: 15.0),
-                child: Stack(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+            child: Stack(
+              children: [
+                Material(
+                  elevation: 100,
+                  borderRadius: BorderRadius.circular(25.0),
+                  color: getContainerColor(context),
+                  shadowColor: Colors.black,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0).copyWith(top: 15.0),
+                    child: Stack(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              width: 45,
-                              height: 6,
-                              decoration: BoxDecoration(
-                                  color: !themeNotifier.isLight() ? Colors.white : HexColor('#000000'),
-                                  borderRadius: const BorderRadius.all(Radius.circular(25.0))),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  width: 45,
+                                  height: 6,
+                                  decoration: BoxDecoration(
+                                      color: !themeNotifier.isLight() ? Colors.white : HexColor('#000000'),
+                                      borderRadius: const BorderRadius.all(Radius.circular(25.0))),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 25.0,),
+                            if(isEdit)
+                            Column(
+                              children: [
+                                buildFieldTitle(context, 'nationality', required: false),
+                                const SizedBox(height: 10.0,),
+                                customTwoRadioButtons(6, 'jordanian', 'nonJordanian', setState),
+                                const SizedBox(height: 20.0,),
+                                buildFieldTitle(context, 'nationalId', required: false),
+                                const SizedBox(height: 10.0,),
+                                buildTextFormField(context, themeNotifier, nationalIdController, '', (val){setState((){});}, inputType: TextInputType.number, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid),
+                                const SizedBox(height: 15.0,),
+                              ],
+                            ),
+                            Expanded(
+                              child: ListView(
+                                shrinkWrap: true,
+                                children: [
+                                  Card(
+                                      elevation: 5.0,
+                                      shadowColor: Colors.black45,
+                                      color: getContainerColor(context),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0),
+                                      ),
+                                      child: Container(
+                                        width: width(1, context),
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  !isEdit ? servicesProvider.result['P_Dep'][0][index]['NAME'] : 'NAME',
+                                                  style: TextStyle(
+                                                    height: 1.4,
+                                                    color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                                                  decoration: BoxDecoration(
+                                                    color: !isEdit
+                                                        ? servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
+                                                        ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38)
+                                                        : const Color.fromRGBO(0, 121, 5, 0.38),
+                                                    borderRadius: BorderRadius.circular(8.0),
+                                                  ),
+                                                  child: Text(
+                                                    !isEdit ? getRelationType(servicesProvider.result['P_Dep'][0][index]['RELATION']) : 'RELATION',
+                                                    style: TextStyle(
+                                                      color: !isEdit
+                                                          ? servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
+                                                          ? HexColor('#003C97') : HexColor('#2D452E')
+                                                          : HexColor('#2D452E'),
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 15.0,),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  !isEdit ? servicesProvider.result['P_Dep'][0][index]['NATIONAL_NO'] : 'NATIONAL_NO',
+                                                  style: TextStyle(
+                                                    color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  ' / ',
+                                                  style: TextStyle(
+                                                    color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  translate(
+                                                      !isEdit
+                                                          ? servicesProvider.result['P_Dep'][0][index]['NATIONALITY'] == 1
+                                                          ? 'jordanian' : 'nonJordanian'
+                                                          : 'jordanian',
+                                                      context),
+                                                  style: TextStyle(
+                                                    color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                  ),
+                                  const SizedBox(height: 20.0,),
+                                  if(!isEdit)
+                                  buildFieldTitle(context, 'status', required: false),
+                                  if(!isEdit)
+                                  const SizedBox(height: 10.0,),
+                                  if(!isEdit)
+                                  customTwoRadioButtons(1, 'alive', 'dead', setState),
+                                  if(!isEdit)
+                                  const SizedBox(height: 20.0,),
+                                  buildFieldTitle(context, 'employmentStatus', required: false),
+                                  const SizedBox(height: 10.0,),
+                                  customTwoRadioButtons((isEdit && !servicesProvider.isNationalIdValid) ? 69 : 2, 'unemployed', 'employed', setState),
+                                  const SizedBox(height: 20.0,),
+                                  buildFieldTitle(context, 'getsSalary', required: false),
+                                  const SizedBox(height: 10.0,),
+                                  customTwoRadioButtons((isEdit && !servicesProvider.isNationalIdValid) ? 69 : 3, 'yes', 'no', setState),
+                                  const SizedBox(height: 20.0,),
+                                  buildFieldTitle(context, 'hasDisability', required: false),
+                                  const SizedBox(height: 10.0,),
+                                  customTwoRadioButtons((isEdit && !servicesProvider.isNationalIdValid) ? 69 : 4, 'yes', 'no', setState),
+                                  if(!isEdit)
+                                  const SizedBox(height: 20.0,),
+                                  if(!isEdit)
+                                  buildFieldTitle(context, 'maritalStatus', required: false),
+                                  if(!isEdit)
+                                  const SizedBox(height: 10.0,),
+                                  if(!isEdit)
+                                  customRadioButtonGroup(maritalList, setState),
+                                  const SizedBox(height: 100.0,),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 25.0,),
-                        Card(
-                            elevation: 2.0,
-                            shadowColor: Colors.black45,
-                            color: getContainerColor(context),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
+                        Positioned(
+                          bottom: 15,
+                          width: width(0.9, context),
+                          child: Container(
+                            color: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                textButton(context, themeNotifier, 'save', (!isEdit || ( isEdit && nationalIdController.text.length == 10)) ? HexColor('#445740') : HexColor('DADADA'),
+                                    (!isEdit || ( isEdit && nationalIdController.text.length == 10)) ? Colors.white : HexColor('#363636'), () async {
+                                  if(!isEdit) {
+                                    Navigator.of(context).pop();
+                                  } else{
+                                    if(nationalIdController.text.length == 10){
+                                      String message = '';
+                                      servicesProvider.isLoading = true;
+                                      servicesProvider.isModalLoading = true;
+                                      servicesProvider.notifyMe();
+                                      try{
+                                        await servicesProvider.addNewDependent(nationalIdController.text).then((value) async {
+                                          if(value['PO_status'] != 1){
+                                            ///TODO : get dependent informations
+                                            servicesProvider.isNationalIdValid = true;
+                                            servicesProvider.notifyMe();
+                                          } else{
+                                            message = UserConfig.instance.checkLanguage()
+                                                ? value['PO_status_desc_EN'] : value['PO_status_desc_AR'];
+                                            showMyDialog(context, 'failed', message, 'ok', themeNotifier);
+                                          }
+                                        });
+                                        servicesProvider.isLoading = false;
+                                        servicesProvider.isModalLoading = false;
+                                        servicesProvider.notifyMe();
+                                      } catch(e){
+                                        servicesProvider.isLoading = false;
+                                        servicesProvider.isModalLoading = false;
+                                        servicesProvider.notifyMe();
+                                        if (kDebugMode) {
+                                          print(e.toString());
+                                        }
+                                      }
+                                    }
+                                  }
+                                }),
+                                const SizedBox(height: 4.0,),
+                                textButton(context, themeNotifier, 'cancel', HexColor('#DADADA'), HexColor('#363636'), (){
+                                  Navigator.of(context).pop();
+                                }),
+                              ],
                             ),
-                            child: Container(
-                              width: width(1, context),
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        servicesProvider.result['P_Dep'][0][index]['NAME'],
-                                        style: TextStyle(
-                                          height: 1.4,
-                                          color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                                        decoration: BoxDecoration(
-                                          color: servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
-                                              ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        child: Text(
-                                          getRelationType(servicesProvider.result['P_Dep'][0][index]['RELATION']),
-                                          style: TextStyle(
-                                            color: servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
-                                                ? HexColor('#003C97') : HexColor('#2D452E'),
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 15.0,),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        servicesProvider.result['P_Dep'][0][index]['NATIONAL_NO'],
-                                        style: TextStyle(
-                                          color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
-                                        ),
-                                      ),
-                                      Text(
-                                        ' / ',
-                                        style: TextStyle(
-                                          color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
-                                        ),
-                                      ),
-                                      Text(
-                                        translate(
-                                            servicesProvider.result['P_Dep'][0][index]['NATIONALITY'] == 1
-                                                ? 'jordanian' : 'nonJordanian',
-                                            context),
-                                        style: TextStyle(
-                                          color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )
-                        ),
-                        const SizedBox(height: 20.0,),
-                        Expanded(
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              buildFieldTitle(context, 'status', required: false),
-                              const SizedBox(height: 10.0,),
-                              customTwoRadioButtons(1, 'alive', 'dead', setState),
-                              const SizedBox(height: 20.0,),
-                              buildFieldTitle(context, 'employmentStatus', required: false),
-                              const SizedBox(height: 10.0,),
-                              customTwoRadioButtons(2, 'unemployed', 'employed', setState),
-                              const SizedBox(height: 20.0,),
-                              buildFieldTitle(context, 'getsSalary', required: false),
-                              const SizedBox(height: 10.0,),
-                              customTwoRadioButtons(3, 'yes', 'no', setState),
-                              const SizedBox(height: 20.0,),
-                              buildFieldTitle(context, 'hasDisability', required: false),
-                              const SizedBox(height: 10.0,),
-                              customTwoRadioButtons(4, 'yes', 'no', setState),
-                              const SizedBox(height: 20.0,),
-                              buildFieldTitle(context, 'maritalStatus', required: false),
-                              const SizedBox(height: 10.0,),
-                              customRadioButtonGroup(maritalList, setState),
-                              const SizedBox(height: 100.0,),
-                            ],
                           ),
-                        ),
+                        )
                       ],
                     ),
-                    Positioned(
-                      bottom: 5,
-                      width: width(0.9, context),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          textButton(context, themeNotifier, 'save', HexColor('#445740'), Colors.white, (){
-                            Navigator.of(context).pop();
-                          }),
-                          const SizedBox(height: 4.0,),
-                          textButton(context, themeNotifier, 'cancel', HexColor('#DADADA'), HexColor('#363636'), (){
-                            Navigator.of(context).pop();
-                          }),
-                        ],
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
+                if(Provider.of<ServicesProvider>(context).isLoading && Provider.of<ServicesProvider>(context).isModalLoading)
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    width: width(1, context),
+                    color: themeNotifier.isLight() ? Colors.white70 : Colors.black45,
+                    child: Center(
+                      child: animatedLoader(context),
+                    ),
+                  ),
+              ],
             ),
           ),
         );
