@@ -65,42 +65,20 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                   if(snapshot.data['R_RESULT'][0][i]['OPTIONAL'] == 2){
                     if(!servicesProvider.mandatoryDocuments.contains(snapshot.data['R_RESULT'][0][i])) {
                       servicesProvider.uploadedFiles["mandatory"].length ++;
-                      servicesProvider.uploadedFiles["mandatory"][0] = [];
+                      servicesProvider.uploadedFiles["mandatory"][i] = servicesProvider.uploadedFiles["mandatory"][i] ?? [];
                       servicesProvider.mandatoryDocuments.add(snapshot.data['R_RESULT'][0][i]);
-
-                      ///
-                      servicesProvider.uploadedFiles["mandatory"].length ++;
-                      servicesProvider.uploadedFiles["mandatory"][1] = [];
-                      servicesProvider.mandatoryDocuments.add(snapshot.data['R_RESULT'][0][i]);
-
-                      servicesProvider.uploadedFiles["mandatory"].length ++;
-                      servicesProvider.uploadedFiles["mandatory"][2] = [];
-                      servicesProvider.mandatoryDocuments.add(snapshot.data['R_RESULT'][0][i]);
-
-                      servicesProvider.uploadedFiles["mandatory"].length ++;
-                      servicesProvider.uploadedFiles["mandatory"][3] = [];
-                      servicesProvider.mandatoryDocuments.add(snapshot.data['R_RESULT'][0][i]);
-
-                      servicesProvider.uploadedFiles["optional"].length ++;
-                      servicesProvider.uploadedFiles["optional"][0] = [];
-                      servicesProvider.optionalDocuments.add(snapshot.data['R_RESULT'][0][i]);
-
-                      servicesProvider.uploadedFiles["optional"].length ++;
-                      servicesProvider.uploadedFiles["optional"][1] = [];
-                      servicesProvider.optionalDocuments.add(snapshot.data['R_RESULT'][0][i]);
-                      ///
                     }
                   } else{
                     if(!servicesProvider.optionalDocuments.contains(snapshot.data['R_RESULT'][0][i])) {
                       servicesProvider.uploadedFiles["optional"].length ++;
-                      servicesProvider.uploadedFiles["optional"][i] = [];
+                      servicesProvider.uploadedFiles["optional"][i] = servicesProvider.uploadedFiles["optional"][i] ?? [];
                       servicesProvider.optionalDocuments.add(snapshot.data['R_RESULT'][0][i]);
                     }
                   }
                 }
 
                 return !servicesProvider.showMandatoryDocumentsScreen && !servicesProvider.showOptionalDocumentsScreen
-                ? (servicesProvider.mandatoryDocuments.isNotEmpty || servicesProvider.mandatoryDocuments.isNotEmpty)
+                ? (!servicesProvider.mandatoryDocumentsFinished ? servicesProvider.mandatoryDocuments.isNotEmpty : servicesProvider.optionalDocuments.isNotEmpty)
                 ? SizedBox(
                   height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
                   child: SingleChildScrollView(
@@ -189,7 +167,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                               itemBuilder: (context, index){
                                 return buildFileUploader(index);
                               },
-                              itemCount: servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].length + 1
+                              itemCount: !servicesProvider.mandatoryDocumentsFinished
+                                ? servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].length + 1
+                                : servicesProvider.uploadedFiles["optional"][servicesProvider.documentIndex].length + 1
                             ),
                           ],
                         ),
@@ -226,44 +206,68 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                               padding: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 20.0),
                               child: Column(
                                 children: [
-                                  Text(
-                                    servicesProvider.showMandatoryDocumentsScreen
-                                        ? translate('mandatoryDocumentsRequired', context)
-                                        : translate('chooseTheDocumentsYouWantToAttach', context),
-                                    style: TextStyle(
-                                      color: HexColor('#363636'),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                                  !(servicesProvider.showMandatoryDocumentsScreen ? servicesProvider.mandatoryDocuments.isEmpty : servicesProvider.optionalDocuments.isEmpty)
+                                   ? Column(
+                                    children: [
+                                      Text(
+                                        servicesProvider.showMandatoryDocumentsScreen
+                                            ? translate('mandatoryDocumentsRequired', context)
+                                            : translate('chooseTheDocumentsYouWantToAttach', context),
+                                        style: TextStyle(
+                                          color: HexColor('#363636'),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 25.0,),
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: servicesProvider.showMandatoryDocumentsScreen ? servicesProvider.mandatoryDocuments.length : servicesProvider.optionalDocuments.length,
+                                        itemBuilder: (context, index){
+                                          return Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  SvgPicture.asset('assets/icons/check.svg'),
+                                                  const SizedBox(width: 15.0,),
+                                                  Text(
+                                                    UserConfig.instance.checkLanguage()
+                                                        ? servicesProvider.showMandatoryDocumentsScreen ? '${servicesProvider.mandatoryDocuments[index]['NAME_EN']}' : '${servicesProvider.optionalDocuments[index]['NAME_EN']}'
+                                                        : servicesProvider.showMandatoryDocumentsScreen ? '${servicesProvider.mandatoryDocuments[index]['NAME_AR']}' : '${servicesProvider.optionalDocuments[index]['NAME_AR']}',
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 10.0,),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ) : Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Text(
+                                      servicesProvider.showMandatoryDocumentsScreen
+                                      ? translate('NoMandatoryDocumentsToAdd', context)
+                                      : translate('NoOptionalDocumentsToAdd', context),
                                     ),
                                   ),
-                                  const SizedBox(height: 25.0,),
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: servicesProvider.showMandatoryDocumentsScreen ? servicesProvider.mandatoryDocuments.length : servicesProvider.optionalDocuments.length,
-                                    itemBuilder: (context, index){
-                                      return Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              SvgPicture.asset('assets/icons/check.svg'),
-                                              const SizedBox(width: 15.0,),
-                                              Text(
-                                                UserConfig.instance.checkLanguage()
-                                                    ? servicesProvider.showMandatoryDocumentsScreen ? '${servicesProvider.mandatoryDocuments[index]['NAME_EN']}' : '${servicesProvider.optionalDocuments[index]['NAME_EN']}'
-                                                    : servicesProvider.showMandatoryDocumentsScreen ? '${servicesProvider.mandatoryDocuments[index]['NAME_AR']}' : '${servicesProvider.optionalDocuments[index]['NAME_AR']}',
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 10.0,),
-                                        ],
-                                      );
-                                    },
-                                  ),
-                                  textButton(context, themeNotifier, 'startNow', HexColor('#445740'), HexColor('#FFFFFF'), (){
-                                    setState(() {
-                                      servicesProvider.showMandatoryDocumentsScreen ? servicesProvider.showMandatoryDocumentsScreen = false : servicesProvider.showOptionalDocumentsScreen = false;
+                                  textButton(context, themeNotifier, (servicesProvider.showMandatoryDocumentsScreen ? servicesProvider.mandatoryDocuments.isEmpty : servicesProvider.optionalDocuments.isEmpty) ? 'continue' : 'startNow', HexColor('#445740'), HexColor('#FFFFFF'), (){
+                                    if(servicesProvider.showMandatoryDocumentsScreen && servicesProvider.mandatoryDocuments.isEmpty){
+                                      servicesProvider.showMandatoryDocumentsScreen = false;
+                                      servicesProvider.showOptionalDocumentsScreen = true;
+                                      setState(() {});
                                       servicesProvider.notifyMe();
-                                    });
+                                    } else if(!servicesProvider.showMandatoryDocumentsScreen && servicesProvider.optionalDocuments.isEmpty){
+                                      servicesProvider.showMandatoryDocumentsScreen = false;
+                                      servicesProvider.showOptionalDocumentsScreen = false;
+                                      servicesProvider.stepNumber = 5;
+                                      servicesProvider.notifyMe();
+                                    }else{
+                                      setState(() {
+                                        servicesProvider.showMandatoryDocumentsScreen ? servicesProvider.showMandatoryDocumentsScreen = false : servicesProvider.showOptionalDocumentsScreen = false;
+                                        servicesProvider.notifyMe();
+                                      });
+                                    }
                                   })
                                 ],
                               ),
@@ -294,20 +298,28 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
         strokeWidth: 1.2,
         child: InkWell(
           onTap: () async {
-            FilePickerResult result = await FilePicker.platform.pickFiles(
-              allowMultiple: true,
-              /// TODO: check allowed extensions
-              /// allowedExtensions: ['jpg', 'pdf', 'png', 'jpeg'],
-            );
+            if(!(!servicesProvider.mandatoryDocumentsFinished
+            ? (servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].isNotEmpty && servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].length-1 >= index)
+            : (servicesProvider.uploadedFiles["optional"][servicesProvider.documentIndex].isNotEmpty && servicesProvider.uploadedFiles["optional"][servicesProvider.documentIndex].length-1 >= index))){
+              FilePickerResult result = await FilePicker.platform.pickFiles(
+                allowMultiple: true,
+                /// TODO: check allowed extensions
+                /// allowedExtensions: ['jpg', 'pdf', 'png', 'jpeg'],
+              );
 
-            if (result != null) {
-              List<File> files = result.paths.map((path) => File(path)).toList();
-              for (var element in files) {
-                servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].add(element);
+              if (result != null) {
+                List<File> files = result.paths.map((path) => File(path)).toList();
+                for (var element in files) {
+                  if(!servicesProvider.mandatoryDocumentsFinished) {
+                    servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].add(element);
+                  } else {
+                    servicesProvider.uploadedFiles["optional"][servicesProvider.documentIndex].add(element);
+                  }
+                }
+                servicesProvider.notifyMe();
+              } else {
+                // User canceled the picker
               }
-              servicesProvider.notifyMe();
-            } else {
-              // User canceled the picker
             }
           },
           child: Container(
@@ -317,7 +329,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 color: const Color.fromRGBO(117, 161, 119, 0.22),
                 borderRadius: BorderRadius.circular(8.0)
             ),
-            child: servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].isNotEmpty && servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].length-1 >= index
+            child: (!servicesProvider.mandatoryDocumentsFinished
+            ? (servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].isNotEmpty && servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].length-1 >= index)
+            : (servicesProvider.uploadedFiles["optional"][servicesProvider.documentIndex].isNotEmpty && servicesProvider.uploadedFiles["optional"][servicesProvider.documentIndex].length-1 >= index))
             ? const Center(child: Text('uploaded!'),)
             : Column(
               mainAxisAlignment: MainAxisAlignment.center,

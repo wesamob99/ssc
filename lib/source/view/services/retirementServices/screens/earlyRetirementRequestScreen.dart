@@ -67,6 +67,19 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
         // return ((selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears' && selectedRate.name != '0' && selectedYear.name != '0') || selectedCalculateAccordingTo != 'increaseInAllowanceForDeductionYears');
         return true;
       }
+    } else if(flag == 3){
+      if(servicesProvider.isMobileNumberUpdated){
+        return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
+      } else{
+        // return ((selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears' && selectedRate.name != '0' && selectedYear.name != '0') || selectedCalculateAccordingTo != 'increaseInAllowanceForDeductionYears');
+        return true;
+      }
+    } else if(flag == 4){
+      if(!servicesProvider.mandatoryDocumentsFinished){
+        return servicesProvider.uploadedFiles['mandatory'].isNotEmpty && servicesProvider.uploadedFiles['mandatory'][servicesProvider.documentIndex].isNotEmpty;
+      } else {
+        return true;
+      }
     } else{
       return true;
     }
@@ -118,28 +131,36 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   } break;
                 case 4:
                   {
-                    if(servicesProvider.documentIndex > 0){
-                      servicesProvider.documentIndex--;
-                    } else if(servicesProvider.documentIndex == 0 && servicesProvider.mandatoryDocumentsFinished){
-                      servicesProvider.mandatoryDocumentsFinished = false;
-                      if(servicesProvider.showOptionalDocumentsScreen){
-                        servicesProvider.showOptionalDocumentsScreen = false;
-                        servicesProvider.documentIndex = servicesProvider.mandatoryDocuments.length - 1;
-                        servicesProvider.mandatoryDocumentsFinished = false;
-                      } else {
-                        servicesProvider.mandatoryDocumentsFinished = true;
-                        servicesProvider.showOptionalDocumentsScreen = true;
-                      }
-                    } else if(servicesProvider.documentIndex == 0 && !servicesProvider.mandatoryDocumentsFinished && servicesProvider.showOptionalDocumentsScreen){
-                      servicesProvider.mandatoryDocumentsFinished = true;
-                      servicesProvider.documentIndex = servicesProvider.mandatoryDocuments.length - 1;
+                    if(servicesProvider.showOptionalDocumentsScreen && servicesProvider.mandatoryDocuments.isEmpty){
+                      servicesProvider.showMandatoryDocumentsScreen = false;
                       servicesProvider.showOptionalDocumentsScreen = false;
-                    } else {
-                      if(servicesProvider.showMandatoryDocumentsScreen){
-                        servicesProvider.showMandatoryDocumentsScreen = false;
-                        servicesProvider.stepNumber = 3;
+                      servicesProvider.stepNumber = 3;
+                      setState(() {});
+                      servicesProvider.notifyMe();
+                    } else{
+                      if(servicesProvider.documentIndex > 0){
+                        servicesProvider.documentIndex--;
+                      } else if(servicesProvider.documentIndex == 0 && servicesProvider.mandatoryDocumentsFinished){
+                        servicesProvider.mandatoryDocumentsFinished = false;
+                        if(servicesProvider.showOptionalDocumentsScreen){
+                          servicesProvider.showOptionalDocumentsScreen = false;
+                          servicesProvider.documentIndex = servicesProvider.mandatoryDocuments.length - 1;
+                          servicesProvider.mandatoryDocumentsFinished = false;
+                        } else {
+                          servicesProvider.mandatoryDocumentsFinished = true;
+                          servicesProvider.showOptionalDocumentsScreen = true;
+                        }
+                      } else if(servicesProvider.documentIndex == 0 && !servicesProvider.mandatoryDocumentsFinished && servicesProvider.showOptionalDocumentsScreen){
+                        servicesProvider.mandatoryDocumentsFinished = true;
+                        servicesProvider.documentIndex = servicesProvider.mandatoryDocuments.length - 1;
+                        servicesProvider.showOptionalDocumentsScreen = false;
                       } else {
-                        servicesProvider.showMandatoryDocumentsScreen = true;
+                        if(servicesProvider.showMandatoryDocumentsScreen){
+                          servicesProvider.showMandatoryDocumentsScreen = false;
+                          servicesProvider.stepNumber = 3;
+                        } else {
+                          servicesProvider.showMandatoryDocumentsScreen = true;
+                        }
                       }
                     }
                     servicesProvider.notifyMe();
@@ -147,9 +168,21 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   break;
                 case 5:
                   {
-                    servicesProvider.mandatoryDocumentsFinished = servicesProvider.optionalDocuments.isNotEmpty ? true : false;
-                    servicesProvider.documentIndex = servicesProvider.optionalDocuments.isNotEmpty ? servicesProvider.optionalDocuments.length - 1 : servicesProvider.mandatoryDocuments.length - 1;
-                    servicesProvider.stepNumber = 4;
+                    if(servicesProvider.optionalDocuments.isEmpty){
+                      if(servicesProvider.mandatoryDocuments.isNotEmpty){
+                        servicesProvider.documentIndex = servicesProvider.mandatoryDocuments.length - 1;
+                      }else {
+                        servicesProvider.showMandatoryDocumentsScreen = true;
+                      }
+                      servicesProvider.mandatoryDocumentsFinished = false;
+                      servicesProvider.stepNumber = 4;
+                      setState(() {});
+                      servicesProvider.notifyMe();
+                    } else{
+                      servicesProvider.mandatoryDocumentsFinished = servicesProvider.optionalDocuments.isNotEmpty ? true : false;
+                      servicesProvider.documentIndex = servicesProvider.optionalDocuments.isNotEmpty ? servicesProvider.optionalDocuments.length - 1 : servicesProvider.mandatoryDocuments.length - 1;
+                      servicesProvider.stepNumber = 4;
+                    }
                   }
                   break;
                 case 6: servicesProvider.stepNumber = 5; break;
@@ -194,20 +227,6 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                       fifthStep(context, themeNotifier),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 6)
                       sixthStep(context, themeNotifier),
-                    // if(!servicesProvider.showMandatoryDocumentsScreen &&
-                    //   (servicesProvider.mandatoryDocuments.isNotEmpty || servicesProvider.mandatoryDocuments.isNotEmpty) &&
-                    //   servicesProvider.stepNumber == 4)
-                    //   Padding(
-                    //     padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    //     child: textButtonWithIcon(
-                    //         context, themeNotifier, 'addNewPhoto', Colors.transparent, HexColor('#2D452E'),
-                    //         (){
-                    //           servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].length += 1;
-                    //           servicesProvider.notifyMe();
-                    //         },
-                    //         borderColor: '#2D452E'
-                    //     ),
-                    //   ),
                     if(!servicesProvider.showMandatoryDocumentsScreen && !servicesProvider.showOptionalDocumentsScreen)
                     textButton(context,
                       themeNotifier,
@@ -313,14 +332,6 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                           } break;
                           case 4: {
                             if(checkContinueEnabled(flag: 4)){
-                              // if(servicesProvider.documentIndex == servicesProvider.mandatoryDocuments.length-1 && !servicesProvider.mandatoryDocumentsFinished){
-                              //   servicesProvider.mandatoryDocumentsFinished = true;
-                              //   servicesProvider.showOptionalDocumentsScreen = true;
-                              //   servicesProvider.documentIndex = 0;
-                              // }
-                              // else if(servicesProvider.documentIndex == servicesProvider.optionalDocuments.length-1 && !servicesProvider.optionalDocumentsFinished){
-                              //   servicesProvider.optionalDocumentsFinished = true;
-                              // }
                               if(servicesProvider.documentIndex < servicesProvider.mandatoryDocuments.length-1 && !servicesProvider.mandatoryDocumentsFinished){
                                 servicesProvider.documentIndex++;
                               } else if(servicesProvider.documentIndex < servicesProvider.optionalDocuments.length-1 && !servicesProvider.optionalDocumentsFinished){
@@ -333,10 +344,10 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 } else{
                                   servicesProvider.showMandatoryDocumentsScreen = false;
                                   servicesProvider.showOptionalDocumentsScreen = false;
-                                  servicesProvider.notifyMe();
                                   servicesProvider.stepNumber = 5;
                                 }
                               }
+                              servicesProvider.notifyMe();
                             }
                           } break;
                           case 5: {
