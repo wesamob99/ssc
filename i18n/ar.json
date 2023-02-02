@@ -387,6 +387,7 @@
   "noCancel": "لا، إلغاء",
   "numberOfDocumentsRequired": "عدد الوثائق المطلوبة",
   "mandatoryDocumentsRequired": "الوثائق الإجبارية المطلوبة",
+  "chooseTheDocumentsYouWantToAttach": "اختر الوثائق التي تود ارفاقها",
   "optionalDocuments": "الوثائق الإختيارية",
   "firstDocument": "الوثيقة الأولى",
   "secondDocument": "الوثيقة الثانيه",
@@ -415,6 +416,9 @@
   "youCanCheckAndFollowItsStatusFromMyOrdersScreen": "يمكنك التحقق ومتابعة حالته من سجل طلباتي",
   "youHaveNoSubscriptions": "لا يوجد لديك اشتراكات",
   "youDoNotHaveFinancialSalaries": "لا يوجد لديك رواتب ماليه",
-  "yourMaximumSalaryLimitIs": "الحد الأعلى للراتب الخاص بك هو"
+  "yourMaximumSalaryLimitIs": "الحد الأعلى للراتب الخاص بك هو",
+  "gallery": "المعرض",
+  "camera": "الكاميرا",
+  "files": "الملفات"
 
 }

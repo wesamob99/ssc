@@ -382,6 +382,7 @@
   "noCancel": "No, cancel",
   "numberOfDocumentsRequired": "Number of documents required",
   "mandatoryDocumentsRequired": "Mandatory documents required",
+  "chooseTheDocumentsYouWantToAttach": "Choose the documents you want to attach",
   "optionalDocuments": "Optional documents",
   "firstDocument": "The first document",
   "secondDocument": "The second document",
@@ -410,7 +411,10 @@
   "youCanCheckAndFollowItsStatusFromMyOrdersScreen": "You can check and follow its status from my orders screen",
   "youHaveNoSubscriptions": "You have no subscriptions",
   "youDoNotHaveFinancialSalaries": "You do not have financial salaries",
-  "yourMaximumSalaryLimitIs": "Your maximum salary limit is"
+  "yourMaximumSalaryLimitIs": "Your maximum salary limit is",
+  "gallery": "Gallery",
+  "camera": "Camera",
+  "files": "Files"
 
 
 }
