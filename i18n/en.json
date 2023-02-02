@@ -384,6 +384,8 @@
   "mandatoryDocumentsRequired": "Mandatory documents required",
   "chooseTheDocumentsYouWantToAttach": "Choose the documents you want to attach",
   "optionalDocuments": "Optional documents",
+  "NoOptionalDocumentsToAdd": "There are no optional documents to attach",
+  "NoMandatoryDocumentsToAdd": "There are no mandatory documents to attach",
   "firstDocument": "The first document",
   "secondDocument": "The second document",
   "serviceTerminationLetter": "Service termination letter",

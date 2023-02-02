@@ -389,6 +389,8 @@
   "mandatoryDocumentsRequired": "الوثائق الإجبارية المطلوبة",
   "chooseTheDocumentsYouWantToAttach": "اختر الوثائق التي تود ارفاقها",
   "optionalDocuments": "الوثائق الإختيارية",
+  "NoOptionalDocumentsToAdd": "لا يوجد وثائق إختيارية لإرفاقها",
+  "NoMandatoryDocumentsToAdd": "لا يوجد وثائق إجباريه لإرفاقها",
   "firstDocument": "الوثيقة الأولى",
   "secondDocument": "الوثيقة الثانيه",
   "serviceTerminationLetter": "كتاب إنهاء خدمة",
