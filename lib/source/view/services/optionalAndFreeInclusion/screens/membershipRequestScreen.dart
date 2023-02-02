@@ -29,6 +29,7 @@ class MembershipRequestScreen extends StatefulWidget {
 
 class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   ServicesProvider servicesProvider;
+  ThemeNotifier themeNotifier;
   String selectedCalculateAccordingTo = 'lastSalary';
   int submissionType = 1;
   List<String> calculateAccordingToList = [];
@@ -47,6 +48,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
+    themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     servicesProvider.stepNumber = 1;
 
     listOfYears = [];
@@ -129,7 +131,6 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -868,8 +869,16 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 for(int i=1 ; i<=int.tryParse(selectedYear.name) ; i++){
                   temp += (currentSliderValue + temp) * (double.tryParse(selectedRate.name) / 100);
                 }
-                confirmSalaryValue = (currentSliderValue + temp).toStringAsFixed(3);
-                confirmMonthlyValue = ((currentSliderValue + temp) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
+                // ** each user has a maximum salary **
+                // ** check if the new salary is less than the maximum salary before update [ confirmSalaryValue && confirmMonthlyValue ] **
+                if((currentSliderValue + temp) < double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'])) {
+                  confirmSalaryValue = (currentSliderValue + temp).toStringAsFixed(3);
+                  confirmMonthlyValue = ((currentSliderValue + temp) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
+                } else{
+                  flag == 1 ? selectedRate = SelectedListItem(name: '0', natCode: null, flag: '') : selectedYear = SelectedListItem(name: '0', natCode: null, flag: '');
+                  /// TODO: check with the back-end if the problem solved
+                  // showMyDialog(context, 'failed', translate('yourMaximumSalaryLimitIs', context) + servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'], 'ok', themeNotifier);
+                }
               } else{
                 confirmSalaryValue = double.parse(selectedMonth.value).toStringAsFixed(3);
                 confirmMonthlyValue = (servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
