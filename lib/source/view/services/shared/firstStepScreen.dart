@@ -42,9 +42,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     return SizedBox(
       height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
-      child: SingleChildScrollView(
-        child: firstStepBody(themeNotifier),
-      ),
+      child: firstStepBody(themeNotifier),
     );
   }
 
@@ -209,9 +207,8 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                 ).showModal(context);
               },
               child: Container(
-                width: width(isTablet(context) ? 0.14 : 0.23, context),
                 alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: isTablet(context) ? 15 : 9),
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: isTablet(context) ? 15 : 13),
                 decoration: BoxDecoration(
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(8.0),
@@ -227,14 +224,12 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                       textDirection: TextDirection.ltr,
                       style: TextStyle(
                           color: HexColor('#363636'),
-                          fontSize: isTablet(context) ? 18 : 15
                       ),
                     ),
                     Text(
                       selectedCountry.flag,
                       style: TextStyle(
-                          color: HexColor('#363636'),
-                          fontSize: isTablet(context) ? 28 : 25
+                        color: HexColor('#363636'),
                       ),
                     ),
                   ],
