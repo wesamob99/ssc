@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
@@ -55,6 +56,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   int dependentIndex = 0;
 
   TextEditingController nationalIdController = TextEditingController();
+  TextEditingController quatrainNounController = TextEditingController();
+  TextEditingController dateOfBirthController = TextEditingController();
   String nationality = 'jordanian';
 
   checkContinueEnabled({flag = 0}){
@@ -847,6 +850,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 context, themeNotifier, 'addNewDependents', Colors.transparent, HexColor('#2D452E'),
                 (){
                   nationalIdController = TextEditingController();
+                  quatrainNounController = TextEditingController();
                   nationality = 'jordanian';
                   servicesProvider.isNationalIdValid = false;
                   servicesProvider.isLoading = false;
@@ -1464,7 +1468,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 const SizedBox(height: 20.0,),
                                 buildFieldTitle(context, 'nationalId', required: false),
                                 const SizedBox(height: 10.0,),
-                                buildTextFormField(context, themeNotifier, nationalIdController, '', (val){setState((){});}, inputType: TextInputType.number, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid),
+                                buildTextFormField(context, themeNotifier, nationalIdController, '9999999999', (val){setState((){});}, inputType: TextInputType.number, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid),
                                 const SizedBox(height: 15.0,),
                               ],
                             ),
@@ -1472,6 +1476,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               child: ListView(
                                 shrinkWrap: true,
                                 children: [
+                                  if(nationality == 'jordanian')
                                   Card(
                                       elevation: 5.0,
                                       shadowColor: Colors.black45,
@@ -1550,6 +1555,56 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                         ),
                                       )
                                   ),
+                                  if(nationality == 'nonJordanian')
+                                  Column(
+                                    children: [
+                                      buildFieldTitle(context, 'quatrainNoun', required: false),
+                                      const SizedBox(height: 10.0,),
+                                      buildTextFormField(context, themeNotifier, quatrainNounController, '', (val){setState((){});}, inputType: TextInputType.number, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid),
+                                      const SizedBox(height: 20.0,),
+                                      buildFieldTitle(context, 'sex', required: false),
+                                      const SizedBox(height: 10.0,),
+                                      customTwoRadioButtons((isEdit && !servicesProvider.isNationalIdValid) ? 69 : 2, 'male', 'female', setState),
+                                      const SizedBox(height: 20.0,),
+                                      buildFieldTitle(context, 'DateOfBirth', required: false),
+                                      SizedBox(height: height(0.015, context),),
+                                      DateTimePicker(
+                                        decoration: InputDecoration(
+                                          suffixIcon: Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: SvgPicture.asset('assets/icons/datePickerIcon.svg'),
+                                          ),
+                                          contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: HexColor('#979797'),
+                                              width: 0.5,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: HexColor('#445740'),
+                                              width: 0.8,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: HexColor('#363636')
+                                        ),
+                                        type: DateTimePickerType.date,
+                                        initialDate: DateTime.now(),
+                                        dateMask: 'dd/MM/yyyy',
+                                        controller: dateOfBirthController,
+                                        firstDate: DateTime(1900),
+                                        lastDate: DateTime.now(),
+                                        dateLabelText: 'Date',
+                                        // onChanged: (val) => checkContinueEnable(loginProvider),
+                                      ),
+                                    ],
+                                  ),
                                   const SizedBox(height: 20.0,),
                                   if(!isEdit)
                                   buildFieldTitle(context, 'status', required: false),
@@ -1578,18 +1633,18 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   const SizedBox(height: 10.0,),
                                   if(!isEdit)
                                   customRadioButtonGroup(maritalList, setState),
-                                  // const SizedBox(height: 100.0,),
+                                  SizedBox(height: height(isScreenHasSmallHeight(context) ? 0.2 : 0.11, context),),
                                 ],
                               ),
                             ),
                           ],
                         ),
                         Positioned(
-                          bottom: 15,
+                          bottom: 0,
                           width: width(0.9, context),
                           child: Container(
                             color: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            padding: const EdgeInsets.symmetric(vertical: 5.0).copyWith(bottom: 15),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -1756,7 +1811,6 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
       ),
     );
   }
-
 
 }
 
