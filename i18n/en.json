@@ -416,7 +416,10 @@
   "yourMaximumSalaryLimitIs": "Your maximum salary limit is",
   "gallery": "Gallery",
   "camera": "Camera",
-  "files": "Files"
+  "files": "Files",
+  "sex": "Sex",
+  "male": "Male",
+  "female": "Female"
 
 
 }
