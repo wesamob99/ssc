@@ -43,8 +43,8 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
     }
 
     salary = double.parse(servicesProvider.result['cur_getdata'][0][0]['SALARY'].toString());
-    confirmSalaryValue = servicesProvider.result['cur_getdata'][0][0]['SALARY'].toStringAsFixed(3);
-    confirmMonthlyValue = (servicesProvider.result['cur_getdata'][0][0]['SALARY'] * (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100).toStringAsFixed(3);
+    confirmSalaryValue = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['SALARY']).toStringAsFixed(3);
+    confirmMonthlyValue = (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['SALARY']) * (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100).toStringAsFixed(3);
     super.initState();
   }
 

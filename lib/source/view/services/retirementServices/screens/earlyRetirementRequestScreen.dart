@@ -1481,7 +1481,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       ),
                                       child: Container(
                                         width: width(1, context),
-                                        padding: const EdgeInsets.all(20.0),
+                                        padding: const EdgeInsets.all(15.0),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
@@ -1578,7 +1578,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   const SizedBox(height: 10.0,),
                                   if(!isEdit)
                                   customRadioButtonGroup(maritalList, setState),
-                                  const SizedBox(height: 100.0,),
+                                  // const SizedBox(height: 100.0,),
                                 ],
                               ),
                             ),
