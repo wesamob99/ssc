@@ -74,7 +74,10 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
       currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORDEC'].toString());
       maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORDEC'].toString());
       if(selectedCalculateAccordingTo == 'lastSalary'){
-        currentSliderValue = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString());
+        /// TODO: check calculate according to the last salary if the last salary is lower than MINIMUMSALARYFORCHOOSE
+        currentSliderValue = double.tryParse(
+            (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString()) > double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString())
+                ? servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] : servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE']).toString());
       }
     } else{
       calculateAccordingToList = [];
@@ -141,21 +144,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             onTap: (){
               switch(servicesProvider.stepNumber){
                 case 1: Navigator.of(context).pop(); break;
-                case 2:
-                  {
-                    // if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0){
-                    //   currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString());
-                    //   servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(0);
-                    //   maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORCHOOSE'].toString());
-                    //   submissionType = (servicesProvider.result['cur_getdata'][0][0]['COMPLEMENTARY_SUBSC'] == 1) ? 5 : 1;
-                    // } else{
-                    //   submissionType = null;
-                    // }
-                    // selectedCalculateAccordingTo = 'lastSalary';
-                    // confirmSalaryValue = '';
-                    // confirmMonthlyValue = '';
-                    servicesProvider.stepNumber = 1;
-                  } break;
+                case 2: servicesProvider.stepNumber = 1; break;
                 case 3: servicesProvider.stepNumber = 2; break;
               }
               servicesProvider.notifyMe();
@@ -181,159 +170,161 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               child: Container(
                 width: width(1, context),
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                      const FirstStepScreen(nextStep: 'payCalculation', numberOfSteps: 3),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                      VerifyMobileNumberScreen(nextStep: 'payCalculation', numberOfSteps: 3, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                      secondStep(context, themeNotifier),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                      thirdStep(context, themeNotifier),
-                    textButton(context,
-                      themeNotifier,
-                      Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'send',
-                      checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
-                      ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
-                      checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
-                      ? HexColor('#ffffff') : HexColor('#363636'),
-                          () async {
-                        switch(servicesProvider.stepNumber){
-                          case 1: {
-                            if(checkContinueEnabled(flag: 1)){
-                              if(servicesProvider.isMobileNumberUpdated){
-                                servicesProvider.isLoading = true;
-                                servicesProvider.notifyMe();
-                                String errorMessage = "";
-                                try{
-                                  await servicesProvider.updateUserMobileNumberSendOTP(servicesProvider.mobileNumberController.text).whenComplete((){})
-                                      .then((val) async {
-                                    if(val['PO_STATUS'] == '1'){
-                                      servicesProvider.isMobileNumberUpdated = true;
-                                      servicesProvider.stepNumber = 2;
-                                    }else{
-                                      servicesProvider.isMobileNumberUpdated = false;
-                                      errorMessage = UserConfig.instance.checkLanguage()
-                                          ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
-                                      showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
-                                    }
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 1)
+                        const FirstStepScreen(nextStep: 'payCalculation', numberOfSteps: 3),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                        VerifyMobileNumberScreen(nextStep: 'payCalculation', numberOfSteps: 3, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                        secondStep(context, themeNotifier),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 3)
+                        thirdStep(context, themeNotifier),
+                      textButton(context,
+                        themeNotifier,
+                        Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'send',
+                        checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
+                        ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
+                        checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
+                        ? HexColor('#ffffff') : HexColor('#363636'),
+                            () async {
+                          switch(servicesProvider.stepNumber){
+                            case 1: {
+                              if(checkContinueEnabled(flag: 1)){
+                                if(servicesProvider.isMobileNumberUpdated){
+                                  servicesProvider.isLoading = true;
+                                  servicesProvider.notifyMe();
+                                  String errorMessage = "";
+                                  try{
+                                    await servicesProvider.updateUserMobileNumberSendOTP(servicesProvider.mobileNumberController.text).whenComplete((){})
+                                        .then((val) async {
+                                      if(val['PO_STATUS'] == '1'){
+                                        servicesProvider.isMobileNumberUpdated = true;
+                                        servicesProvider.stepNumber = 2;
+                                      }else{
+                                        servicesProvider.isMobileNumberUpdated = false;
+                                        errorMessage = UserConfig.instance.checkLanguage()
+                                            ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                        showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                      }
+                                      servicesProvider.notifyMe();
+                                    });
+                                    servicesProvider.isLoading = false;
                                     servicesProvider.notifyMe();
-                                  });
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.notifyMe();
-                                }catch(e){
+                                  }catch(e){
+                                    servicesProvider.isMobileNumberUpdated = false;
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                    if (kDebugMode) {
+                                      print(e.toString());
+                                    }
+                                  }
+                                } else{
+                                  servicesProvider.stepNumber = 2;
                                   servicesProvider.isMobileNumberUpdated = false;
-                                  servicesProvider.isLoading = false;
                                   servicesProvider.notifyMe();
-                                  if (kDebugMode) {
-                                    print(e.toString());
+                                }
+                              }
+                            } break;
+                            case 2: {
+                              if(checkContinueEnabled(flag: 2)){
+                                if(servicesProvider.isMobileNumberUpdated){
+                                  servicesProvider.isLoading = true;
+                                  servicesProvider.notifyMe();
+                                  String errorMessage = "";
+                                  try{
+                                    await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
+                                        .then((val) async {
+                                      if(val['PO_STATUS'] == 1){
+                                        servicesProvider.stepNumber = 2;
+                                        servicesProvider.isMobileNumberUpdated = false;
+                                        UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
+                                      }else{
+                                        servicesProvider.stepNumber = 2;
+                                        servicesProvider.isMobileNumberUpdated = true;
+                                        errorMessage = UserConfig.instance.checkLanguage()
+                                            ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                        showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                      }
+                                      servicesProvider.notifyMe();
+                                    });
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                  }catch(e){
+                                    servicesProvider.stepNumber = 2;
+                                    servicesProvider.isMobileNumberUpdated = true;
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                    if (kDebugMode) {
+                                      print(e.toString());
+                                    }
+                                  }
+                                  servicesProvider.isLoading = false;
+                                  servicesProvider.pinPutCodeController.text = "";
+                                  servicesProvider.pinPutFilled = false;
+                                  servicesProvider.notifyMe();
+                                } else{
+                                  if(checkContinueEnabled(flag: 2)) {
+                                    servicesProvider.stepNumber = 3;
+                                    servicesProvider.isMobileNumberUpdated = false;
                                   }
                                 }
-                              } else{
-                                servicesProvider.stepNumber = 2;
-                                servicesProvider.isMobileNumberUpdated = false;
-                                servicesProvider.notifyMe();
                               }
-                            }
-                          } break;
-                          case 2: {
-                            if(checkContinueEnabled(flag: 2)){
-                              if(servicesProvider.isMobileNumberUpdated){
+                            } break;
+                            case 3: {
+                              String message = translate('somethingWrongHappened', context);
+                              if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 1 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 2) {
+                                double appliedSalary = double.tryParse(confirmSalaryValue);
+                                String percentDecreaseVal = 'null';
+                                int sYear;
+                                int sRate;
+                                String sMonth = selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw' ? selectedMonth.name : null;
+                                if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
+                                  percentDecreaseVal = confirmSalaryValue;
+                                  appliedSalary = double.parse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString());
+                                  sYear = int.tryParse(selectedYear.name);
+                                  sRate = int.tryParse(selectedRate.name);
+                                }
                                 servicesProvider.isLoading = true;
                                 servicesProvider.notifyMe();
-                                String errorMessage = "";
-                                try{
-                                  await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
-                                      .then((val) async {
-                                    if(val['PO_STATUS'] == 1){
-                                      servicesProvider.stepNumber = 2;
-                                      servicesProvider.isMobileNumberUpdated = false;
-                                      UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
-                                    }else{
-                                      servicesProvider.stepNumber = 2;
-                                      servicesProvider.isMobileNumberUpdated = true;
-                                      errorMessage = UserConfig.instance.checkLanguage()
-                                          ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
-                                      showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
-                                    }
-                                    servicesProvider.notifyMe();
-                                  });
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.notifyMe();
-                                }catch(e){
-                                  servicesProvider.stepNumber = 2;
-                                  servicesProvider.isMobileNumberUpdated = true;
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.notifyMe();
-                                  if (kDebugMode) {
-                                    print(e.toString());
-                                  }
+                                var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), servicesProvider.result['PO_is_it_firstOptionalSub'], appliedSalary, submissionType, sYear, sRate, percentDecreaseVal, sMonth).whenComplete((){});
+                                if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 1){
+                                  value = await servicesProvider.optionalSubFirstInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType).whenComplete((){});
                                 }
                                 servicesProvider.isLoading = false;
-                                servicesProvider.pinPutCodeController.text = "";
-                                servicesProvider.pinPutFilled = false;
                                 servicesProvider.notifyMe();
-                              } else{
-                                if(checkContinueEnabled(flag: 2)) {
-                                  servicesProvider.stepNumber = 3;
-                                  servicesProvider.isMobileNumberUpdated = false;
+                                if(value != '') {
+                                  message = UserConfig.instance.checkLanguage()
+                                    ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
                                 }
-                              }
-                            }
-                          } break;
-                          case 3: {
-                            String message = translate('somethingWrongHappened', context);
-                            if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 1 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 2) {
-                              double appliedSalary = double.tryParse(confirmSalaryValue);
-                              String percentDecreaseVal = 'null';
-                              int sYear;
-                              int sRate;
-                              String sMonth = selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw' ? selectedMonth.name : null;
-                              if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
-                                percentDecreaseVal = confirmSalaryValue;
-                                appliedSalary = double.parse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString());
-                                sYear = int.tryParse(selectedYear.name);
-                                sRate = int.tryParse(selectedRate.name);
-                              }
-                              servicesProvider.isLoading = true;
-                              servicesProvider.notifyMe();
-                              var value = await servicesProvider.optionalSubInsertNew(double.tryParse(confirmMonthlyValue), servicesProvider.result['PO_is_it_firstOptionalSub'], appliedSalary, submissionType, sYear, sRate, percentDecreaseVal, sMonth).whenComplete((){});
-                              if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 1){
-                                value = await servicesProvider.optionalSubFirstInsertNew(double.tryParse(confirmMonthlyValue), double.tryParse(confirmSalaryValue), submissionType).whenComplete((){});
-                              }
-                              servicesProvider.isLoading = false;
-                              servicesProvider.notifyMe();
-                              if(value != '') {
-                                message = UserConfig.instance.checkLanguage()
-                                  ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
-                              }
-                              showMyDialog(context, (value != '' && value['PO_status'] == 1) ? 'youAreIncludedOptional' : 'failed',
-                                  message, (value != '' && value['PO_status'] == 1) ? 'ok' : 'cancel',
-                                  themeNotifier, withPayButton: (value != '' && value['PO_status'] == 1) ? true : false,
-                                  icon: (value != '' && value['PO_status'] == 1) ? 'assets/icons/serviceSuccess.svg' : 'assets/icons/loginError.svg').then((_){
-                                SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                                  servicesProvider.selectedServiceRate = -1;
-                                  servicesProvider.notifyMe();
-                                  rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                showMyDialog(context, (value != '' && value['PO_status'] == 1) ? 'youAreIncludedOptional' : 'failed',
+                                    message, (value != '' && value['PO_status'] == 1) ? 'ok' : 'cancel',
+                                    themeNotifier, withPayButton: (value != '' && value['PO_status'] == 1) ? true : false,
+                                    icon: (value != '' && value['PO_status'] == 1) ? 'assets/icons/serviceSuccess.svg' : 'assets/icons/loginError.svg').then((_){
+                                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                    servicesProvider.selectedServiceRate = -1;
+                                    servicesProvider.notifyMe();
+                                    rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                  });
                                 });
-                              });
-                            }else{
-                              showMyDialog(context, 'failed', message, 'ok', themeNotifier).then((_){
-                                SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                                  servicesProvider.selectedServiceRate = -1;
-                                  servicesProvider.notifyMe();
-                                  rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                              }else{
+                                showMyDialog(context, 'failed', message, 'ok', themeNotifier).then((_){
+                                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                    servicesProvider.selectedServiceRate = -1;
+                                    servicesProvider.notifyMe();
+                                    rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                  });
                                 });
-                              });
-                            }
-                          } break;
-                        }
-                        servicesProvider.notifyMe();
-                      },
-                    )
-                  ],
+                              }
+                            } break;
+                          }
+                          servicesProvider.notifyMe();
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -434,12 +425,16 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                     selectedCalculateAccordingTo = value;
                     if(selectedCalculateAccordingTo == 'lastSalary'){
                       submissionType = 1;
-                      currentSliderValue = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString());
+                      currentSliderValue = double.tryParse(
+                          (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString()) > double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString())
+                                  ? servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] : servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE']).toString());
                       confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
                       confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
                     }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
                       submissionType = 2;
-                      currentSliderValue = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString());
+                      currentSliderValue = double.tryParse(
+                          (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString()) > double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString())
+                                  ? servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] : servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE']).toString());
                       selectedRate = selectedYear = SelectedListItem(name: '0', natCode: null, flag: '');
                       confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
                       confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
@@ -795,10 +790,10 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
   }
 
   monthlyInstallmentTextFormField(controller, themeNotifier, onChanged){
-    ServicesProvider s = Provider.of<ServicesProvider>(context);
-    bool rightInput = (s.monthlyInstallmentController.text.isNotEmpty &&
-        double.tryParse(s.monthlyInstallmentController.text) >= minSalary &&
-        double.tryParse(s.monthlyInstallmentController.text) <= maxSalary);
+    ServicesProvider servicesProvider = Provider.of<ServicesProvider>(context);
+    bool rightInput = (servicesProvider.monthlyInstallmentController.text.isNotEmpty &&
+        double.tryParse(servicesProvider.monthlyInstallmentController.text) >= minSalary &&
+        double.tryParse(servicesProvider.monthlyInstallmentController.text) <= maxSalary);
     return Container(
       decoration: BoxDecoration(
         color: Colors.transparent,
@@ -839,6 +834,17 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             )
         ),
         onChanged: onChanged,
+        onTapOutside: (_){
+          if(!rightInput){
+            if(servicesProvider.monthlyInstallmentController.text.isEmpty ||
+                double.tryParse(servicesProvider.monthlyInstallmentController.text) < minSalary){
+              servicesProvider.monthlyInstallmentController.text = minSalary.toString();
+            } else if(double.tryParse(servicesProvider.monthlyInstallmentController.text) > maxSalary){
+              servicesProvider.monthlyInstallmentController.text = maxSalary.toString();
+            }
+            setState(() {});
+          }
+        },
       ),
     );
   }
