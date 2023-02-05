@@ -574,7 +574,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
       obscureText: isPassword && ((Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2) || (Provider.of<AccountSettingsProvider>(context).updatePasswordIsObscure && flag == 3)) ,
       readOnly: !enabled,
       style: TextStyle(
-        fontSize: isTablet(context) ? 20 : 15,
+        fontSize: isTablet(context) ? 20 : 14,
         color: enabled
             ? themeNotifier.isLight() ? HexColor('#363636') : Colors.white
             : themeNotifier.isLight() ? HexColor('#6B6B6B') : HexColor('#999999')
