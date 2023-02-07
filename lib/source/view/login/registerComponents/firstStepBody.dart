@@ -363,7 +363,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
     loginProvider.registerData.nationalNumber = int.parse(selectedExactNationality.natCode.toString());
     if(loginProvider.flag == 1){
       UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-      loginProvider.registerData.nationalNumber = selectedNationality == 'jordanian' ? int.tryParse(userSecuredStorage.nationalId) : null;
+      loginProvider.registerData.nationalId = selectedNationality == 'jordanian' ? int.tryParse(userSecuredStorage.nationalId) : null;
       loginProvider.registerData.personalNumber = selectedNationality == 'jordanian' ? null : int.tryParse(userSecuredStorage.nationalId);
       loginProvider.registerData.userId = int.tryParse(userSecuredStorage.nationalId);
     }
