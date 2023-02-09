@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:ssc/source/view/login/registerComponents/firstStepBody.dart';
 
 import '../../../infrastructure/userConfig.dart';
 import '../../../infrastructure/userSecuredStorage.dart';
@@ -187,7 +188,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             String errorMessage = "";
             loginProvider.isLoading = true;
             loginProvider.notifyMe();
-            try{
+            // try{
               // ignore: prefer_typing_uninitialized_variables
               var response;
               await loginProvider.resetPasswordGetDetail(loginProvider.nationalIdController.text).whenComplete((){})
@@ -200,34 +201,50 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   errorMessage = '';
                   userSecuredStorage.email = resetPasswordGetDetail.poEmail ?? ''; // poEmail -> user email
                   userSecuredStorage.mobileNumber = resetPasswordGetDetail.poMobileno ?? ''; // poMobileno -> user mobile number
-                  userSecuredStorage.realMobileNumber = resetPasswordGetDetail.poRealMobileno.toString() ?? ''; // realMobileNumber -> user real mobile number
+                  userSecuredStorage.realMobileNumber = (resetPasswordGetDetail.poRealMobileno ?? 0).toString(); // realMobileNumber -> user real mobile number
                   userSecuredStorage.nationalId =  loginProvider.nationalIdController.text ?? ''; // poUserName -> user national ID
                   userSecuredStorage.internationalCode =  resetPasswordGetDetail.poInternationalcode ?? ''; // poInternationalcode -> country code
                   userSecuredStorage.nationality =  resetPasswordGetDetail.poNationality ?? ''; // poNationality -> user nationality // 1 for jordanian
-                  response = await loginProvider.sendMobileOTP(int.parse(userSecuredStorage.realMobileNumber), userSecuredStorage.internationalCode.toString(), 1);
-                }
-                if(resetPasswordGetDetail.poStatus == 1 && response != null && response["PO_status"] != null && response["PO_status"] == 1){
-                  setState((){
-                    showResetPasswordBody = true;
-                  });
-                }else{
-                  if(errorMessage == ''){
-                    errorMessage = UserConfig.instance.checkLanguage()
-                        ? response["PO_STATUS_DESC_EN"] : response["PO_STATUS_DESC_AR"];
+                  if(userSecuredStorage.realMobileNumber != '0') {
+                    response = await loginProvider.sendMobileOTP(int.parse(userSecuredStorage.realMobileNumber), userSecuredStorage.internationalCode.toString(), 1);
                   }
-                  showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                }
+                if(userSecuredStorage.realMobileNumber != '0'){
+                  if(resetPasswordGetDetail.poStatus == 1 && response != null && response["PO_status"] != null && response["PO_status"] == 1){
+                    setState((){
+                      showResetPasswordBody = true;
+                    });
+                  }else{
+                    if(errorMessage == ''){
+                      errorMessage = UserConfig.instance.checkLanguage()
+                          ? response["PO_STATUS_DESC_EN"] : response["PO_STATUS_DESC_AR"];
+                    }
+                    showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
+                  }
+                } else if(userSecuredStorage.email == ''){
+                  showResetPasswordBody = true;
+                } else{
+                  showMyDialog(context, 'resetPasswordFailed', translate('userMobileNumberAndEmailAreEmptyPleaseReRegister', context),
+                  'reRegister', themeNotifier, onPressed: (){
+                    loginProvider.flag = 1;
+                    loginProvider.notifyMe();
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => const FirstStepBody())
+                    );
+                  }
+                  );
                 }
                 loginProvider.notifyMe();
               });
               loginProvider.isLoading = false;
               loginProvider.notifyMe();
-            }catch(e){
-              loginProvider.isLoading = false;
-              loginProvider.notifyMe();
-              if (kDebugMode) {
-                print(e.toString());
-              }
-            }
+            // }catch(e){
+            //   loginProvider.isLoading = false;
+            //   loginProvider.notifyMe();
+            //   if (kDebugMode) {
+            //     print(e.toString());
+            //   }
+            // }
           }
         },
         style: ButtonStyle(

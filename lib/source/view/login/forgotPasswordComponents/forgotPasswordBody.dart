@@ -27,6 +27,7 @@ class ForgotPasswordBody extends StatefulWidget {
 }
 
 class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
+  UserSecuredStorage userSecuredStorage;
   final pinController = TextEditingController();
   final emailController = TextEditingController();
   LoginProvider loginProvider;
@@ -39,6 +40,8 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
 
   @override
   void initState() {
+    userSecuredStorage = UserSecuredStorage.instance;
+    useAnotherMethod = userSecuredStorage.realMobileNumber == '0';
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     /// all
     loginProvider.isLoading = false;
@@ -47,7 +50,6 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     return GestureDetector(
       onTap: (){
         FocusScope.of(context).requestFocus(FocusNode());
