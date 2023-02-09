@@ -77,12 +77,6 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
         // return ((selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears' && selectedRate.name != '0' && selectedYear.name != '0') || selectedCalculateAccordingTo != 'increaseInAllowanceForDeductionYears');
         return true;
       }
-    } else if(flag == 4){
-      if(!servicesProvider.mandatoryDocumentsFinished){
-        return servicesProvider.uploadedFiles['mandatory'].isNotEmpty && servicesProvider.uploadedFiles['mandatory'][servicesProvider.documentIndex].isNotEmpty;
-      } else {
-        return true;
-      }
     } else{
       return true;
     }
@@ -92,12 +86,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   void initState() {
     Provider.of<LoginProvider>(context, listen: false).readCountriesJson();
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
-    servicesProvider.showMandatoryDocumentsScreen = false;
-    servicesProvider.showOptionalDocumentsScreen = false;
     servicesProvider.documentIndex = 0;
-    servicesProvider.mandatoryDocumentsFinished = false;
     servicesProvider.mandatoryDocuments = [];
     servicesProvider.optionalDocuments = [];
+    servicesProvider.optionalDocumentsCheckBox = [];
+    servicesProvider.selectedOptionalDocuments = [];
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     documentsFuture = servicesProvider.getRequiredDocuments();
     servicesProvider.stepNumber = 1;
@@ -110,10 +103,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor: (servicesProvider.showMandatoryDocumentsScreen || servicesProvider.showOptionalDocumentsScreen)
-          ? HexColor('#445740') : HexColor('#ffffff'),
+      backgroundColor: (servicesProvider.documentsScreensStepNumber == 1 || servicesProvider.documentsScreensStepNumber == 3) && servicesProvider.stepNumber == 4
+      ? HexColor('#445740') : HexColor('#ffffff'),
       appBar: AppBar(
         centerTitle: false,
         title: Text(translate('earlyRetirementRequest', context)),
@@ -121,74 +113,64 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
             onTap: (){
-              switch(servicesProvider.stepNumber){
-                case 1: Navigator.of(context).pop(); break;
-                case 2: servicesProvider.stepNumber = 1; break;
-                case 3:
-                  {
-                    if(dependentIndex > 0){
-                      dependentIndex--;
+              if(servicesProvider.stepNumber == 4){
+                switch(servicesProvider.documentsScreensStepNumber){
+                  case 1: servicesProvider.stepNumber = 3; break;
+                  case 2: {
+                    if(servicesProvider.documentIndex > 0){
+                      servicesProvider.documentIndex--;
                     } else{
-                      servicesProvider.stepNumber = 2;
+                      servicesProvider.documentsScreensStepNumber = 1;
                     }
                   } break;
-                case 4:
-                  {
-                    if(servicesProvider.showOptionalDocumentsScreen && servicesProvider.mandatoryDocuments.isEmpty){
-                      servicesProvider.showMandatoryDocumentsScreen = false;
-                      servicesProvider.showOptionalDocumentsScreen = false;
-                      servicesProvider.stepNumber = 3;
-                      setState(() {});
-                      servicesProvider.notifyMe();
+                  case 3: {
+                    if(servicesProvider.mandatoryDocuments.isNotEmpty){
+                      servicesProvider.documentIndex = servicesProvider.mandatoryDocuments.length - 1;
+                      servicesProvider.documentsScreensStepNumber = 2;
                     } else{
-                      if(servicesProvider.documentIndex > 0){
-                        servicesProvider.documentIndex--;
-                      } else if(servicesProvider.documentIndex == 0 && servicesProvider.mandatoryDocumentsFinished){
-                        servicesProvider.mandatoryDocumentsFinished = false;
-                        if(servicesProvider.showOptionalDocumentsScreen){
-                          servicesProvider.showOptionalDocumentsScreen = false;
-                          servicesProvider.documentIndex = servicesProvider.mandatoryDocuments.length - 1;
-                          servicesProvider.mandatoryDocumentsFinished = false;
-                        } else {
-                          servicesProvider.mandatoryDocumentsFinished = true;
-                          servicesProvider.showOptionalDocumentsScreen = true;
-                        }
-                      } else if(servicesProvider.documentIndex == 0 && !servicesProvider.mandatoryDocumentsFinished && servicesProvider.showOptionalDocumentsScreen){
-                        servicesProvider.mandatoryDocumentsFinished = true;
-                        servicesProvider.documentIndex = servicesProvider.mandatoryDocuments.length - 1;
-                        servicesProvider.showOptionalDocumentsScreen = false;
-                      } else {
-                        if(servicesProvider.showMandatoryDocumentsScreen){
-                          servicesProvider.showMandatoryDocumentsScreen = false;
-                          servicesProvider.stepNumber = 3;
-                        } else {
-                          servicesProvider.showMandatoryDocumentsScreen = true;
-                        }
-                      }
+                      servicesProvider.documentsScreensStepNumber = 1;
                     }
-                    servicesProvider.notifyMe();
-                  }
-                  break;
-                case 5:
-                  {
-                    if(servicesProvider.optionalDocuments.isEmpty){
-                      if(servicesProvider.mandatoryDocuments.isNotEmpty){
-                        servicesProvider.documentIndex = servicesProvider.mandatoryDocuments.length - 1;
-                      }else {
-                        servicesProvider.showMandatoryDocumentsScreen = true;
-                      }
-                      servicesProvider.mandatoryDocumentsFinished = false;
-                      servicesProvider.stepNumber = 4;
-                      setState(() {});
-                      servicesProvider.notifyMe();
+                  } break;
+                  case 4: {
+                    if(servicesProvider.documentIndex > 0){
+                      servicesProvider.documentIndex--;
                     } else{
-                      servicesProvider.mandatoryDocumentsFinished = servicesProvider.optionalDocuments.isNotEmpty ? true : false;
-                      servicesProvider.documentIndex = servicesProvider.optionalDocuments.isNotEmpty ? servicesProvider.optionalDocuments.length - 1 : servicesProvider.mandatoryDocuments.length - 1;
-                      servicesProvider.stepNumber = 4;
+                      servicesProvider.documentsScreensStepNumber = 3;
                     }
-                  }
-                  break;
-                case 6: servicesProvider.stepNumber = 5; break;
+                  } break;
+                  case 5: {
+                    if(servicesProvider.selectedOptionalDocuments.isNotEmpty){
+                      servicesProvider.documentIndex = servicesProvider.selectedOptionalDocuments.length - 1;
+                      servicesProvider.documentsScreensStepNumber = 4;
+                    } else{
+                      servicesProvider.documentsScreensStepNumber = 3;
+                    }
+                  } break;
+                }
+              } else{
+                switch(servicesProvider.stepNumber){
+                  case 1: Navigator.of(context).pop(); break;
+                  case 2: servicesProvider.stepNumber = 1; break;
+                  case 3:
+                    {
+                      if(dependentIndex > 0){
+                        dependentIndex--;
+                      } else{
+                        servicesProvider.stepNumber = 2;
+                      }
+                    } break;
+                  case 5:
+                    {
+                      servicesProvider.stepNumber = 4;
+                      servicesProvider.documentsScreensStepNumber = 5;
+                      // if(!servicesProvider.showDocumentsConfirmation){
+                      //   servicesProvider.showDocumentsConfirmation = true;
+                      //   servicesProvider.stepNumber = 4;
+                      // }
+                    }
+                    break;
+                  case 6: servicesProvider.stepNumber = 5; break;
+                }
               }
               servicesProvider.notifyMe();
             },
@@ -225,12 +207,12 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                     if(Provider.of<ServicesProvider>(context).stepNumber == 3)
                       thirdStep(context, themeNotifier),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-                      const DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 6),
+                    const DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 6),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 5)
                       fifthStep(context, themeNotifier),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 6)
                       sixthStep(context, themeNotifier),
-                    if(!servicesProvider.showMandatoryDocumentsScreen && !servicesProvider.showOptionalDocumentsScreen)
+                    if(!(Provider.of<ServicesProvider>(context).stepNumber == 4))
                     textButton(context,
                       themeNotifier,
                       Provider.of<ServicesProvider>(context).stepNumber != 6 ? 'continue' : 'send',
@@ -324,33 +306,13 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                           } break;
                           case 3: {
                             if(checkContinueEnabled(flag: 3)){
+                              servicesProvider.documentsScreensStepNumber = 1;
                               if(dependentIndex < (servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length - 1 : 0)){
                                 dependentIndex++;
                               }else {
-                                servicesProvider.showMandatoryDocumentsScreen = true;
                                 servicesProvider.notifyMe();
                                 servicesProvider.stepNumber = 4;
                               }
-                            }
-                          } break;
-                          case 4: {
-                            if(checkContinueEnabled(flag: 4)){
-                              if(servicesProvider.documentIndex < servicesProvider.mandatoryDocuments.length-1 && !servicesProvider.mandatoryDocumentsFinished){
-                                servicesProvider.documentIndex++;
-                              } else if(servicesProvider.documentIndex < servicesProvider.optionalDocuments.length-1 && !servicesProvider.optionalDocumentsFinished){
-                                servicesProvider.documentIndex++;
-                              } else if(servicesProvider.documentIndex == servicesProvider.mandatoryDocuments.length-1 || servicesProvider.documentIndex == servicesProvider.optionalDocuments.length-1){
-                                if(!servicesProvider.mandatoryDocumentsFinished){
-                                  servicesProvider.mandatoryDocumentsFinished = true;
-                                  servicesProvider.showOptionalDocumentsScreen = true;
-                                  servicesProvider.documentIndex = 0;
-                                } else{
-                                  servicesProvider.showMandatoryDocumentsScreen = false;
-                                  servicesProvider.showOptionalDocumentsScreen = false;
-                                  servicesProvider.stepNumber = 5;
-                                }
-                              }
-                              servicesProvider.notifyMe();
                             }
                           } break;
                           case 5: {
