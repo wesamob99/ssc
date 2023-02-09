@@ -993,13 +993,13 @@ leadingBackIcon(context){
   );
 }
 
-buildExpandableWidget(context, String title, String child){
+buildExpandableWidget(context, String title, dynamic child, {bool needTranslate = true, bool isChildTypeText = true}){
   return ExpandableWidget(
     titlePadding: const EdgeInsets.all(10.0),
     padding: const EdgeInsets.all(0.0),
     title: Expanded(
       child: Text(
-        translate(title, context),
+        needTranslate ? translate(title, context) : title,
         style: TextStyle(
             color: HexColor('#363636')
         ),
@@ -1014,11 +1014,15 @@ buildExpandableWidget(context, String title, String child){
     ),
     childrenPadding: const EdgeInsets.only(top: 10),
     children: [
-      Text(
+      isChildTypeText
+      ? Text(
         translate(child, context),
         style: TextStyle(
             color: HexColor('#363636')
         ),
+      ) : Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: child,
       ),
     ],
   );
