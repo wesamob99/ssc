@@ -383,6 +383,7 @@
   "noCancel": "No, cancel",
   "numberOfDocumentsRequired": "Number of documents required",
   "mandatoryDocumentsRequired": "Mandatory documents required",
+  "mandatoryDocuments": "Mandatory documents",
   "chooseTheDocumentsYouWantToAttach": "Choose the documents you want to attach",
   "optionalDocuments": "Optional documents",
   "NoOptionalDocumentsToAdd": "There are no optional documents to attach",
@@ -420,7 +421,8 @@
   "files": "Files",
   "sex": "Sex",
   "male": "Male",
-  "female": "Female"
+  "female": "Female",
+  "userMobileNumberAndEmailAreEmptyPleaseReRegister": "The user's mobile number and e-mail are empty. Please re-register"
 
 
 }

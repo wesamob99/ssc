@@ -388,6 +388,7 @@
   "noCancel": "لا، إلغاء",
   "numberOfDocumentsRequired": "عدد الوثائق المطلوبة",
   "mandatoryDocumentsRequired": "الوثائق الإجبارية المطلوبة",
+  "mandatoryDocuments": "الوثائق الإجبارية",
   "chooseTheDocumentsYouWantToAttach": "اختر الوثائق التي تود ارفاقها",
   "optionalDocuments": "الوثائق الإختيارية",
   "NoOptionalDocumentsToAdd": "لا يوجد وثائق إختيارية لإرفاقها",
@@ -425,6 +426,7 @@
   "files": "الملفات",
   "sex": "الجنس",
   "male": "ذكر",
-  "female": "أنثى"
+  "female": "أنثى",
+  "userMobileNumberAndEmailAreEmptyPleaseReRegister": "رقم جوال المستخدم والبريد الإلكتروني فارغين الرجاء إعادة التسجيل"
 
 }
