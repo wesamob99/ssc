@@ -73,15 +73,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                       servicesProvider.uploadedFiles["mandatory"].length ++;
                       servicesProvider.uploadedFiles["mandatory"][1] = servicesProvider.uploadedFiles["mandatory"][1] ?? [];
                       servicesProvider.mandatoryDocuments.add(snapshot.data['R_RESULT'][0][i]);
-                      servicesProvider.uploadedFiles["mandatory"].length ++;
-                      servicesProvider.uploadedFiles["mandatory"][2] = servicesProvider.uploadedFiles["mandatory"][2] ?? [];
-                      servicesProvider.mandatoryDocuments.add(snapshot.data['R_RESULT'][0][i]);
-                      servicesProvider.uploadedFiles["mandatory"].length ++;
-                      servicesProvider.uploadedFiles["mandatory"][3] = servicesProvider.uploadedFiles["mandatory"][3] ?? [];
-                      servicesProvider.mandatoryDocuments.add(snapshot.data['R_RESULT'][0][i]);
-                      servicesProvider.uploadedFiles["mandatory"].length ++;
-                      servicesProvider.uploadedFiles["mandatory"][4] = servicesProvider.uploadedFiles["mandatory"][4] ?? [];
-                      servicesProvider.mandatoryDocuments.add(snapshot.data['R_RESULT'][0][i]);
 
                       servicesProvider.uploadedFiles["optional"].length ++;
                       servicesProvider.uploadedFiles["optional"][0] = servicesProvider.uploadedFiles["optional"][0] ?? [];
@@ -288,7 +279,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                         physics: const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         itemBuilder: (context, index){
-                                          return buildFileUploader(index, 1);
+                                          return buildFileUploader(index, 2);
                                         },
                                         itemCount: servicesProvider.uploadedFiles["optional"][servicesProvider.documentIndex].length + 1
                                     ),
@@ -374,9 +365,22 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                       itemBuilder: (context, index){
                                         return Padding(
                                           padding: const EdgeInsets.only(bottom: 10.0),
-                                          child: Text(UserConfig.instance.checkLanguage()
-                                              ? '${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME_EN']}'
-                                              : '${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME_AR']}',),
+                                          child:  buildExpandableWidget(
+                                            context,
+                                            UserConfig.instance.checkLanguage()
+                                            ? '${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME_EN']}'
+                                            : '${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME_AR']}',
+                                            ListView.builder(
+                                                physics: const NeverScrollableScrollPhysics(),
+                                                shrinkWrap: true,
+                                                itemBuilder: (context, index){
+                                                  return buildFileUploader(index, 1);
+                                                },
+                                                itemCount: servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].length
+                                            ),
+                                            needTranslate: false,
+                                            isChildTypeText: false
+                                          ),
                                         );
                                       }
                                   ),
@@ -403,9 +407,22 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                         itemBuilder: (context, index){
                                           return Padding(
                                             padding: const EdgeInsets.only(bottom: 10.0),
-                                            child: Text(UserConfig.instance.checkLanguage()
-                                                ? '${servicesProvider.selectedOptionalDocuments[servicesProvider.documentIndex]['NAME_EN']}'
-                                                : '${servicesProvider.selectedOptionalDocuments[servicesProvider.documentIndex]['NAME_AR']}',),
+                                            child: buildExpandableWidget(
+                                                context,
+                                                UserConfig.instance.checkLanguage()
+                                                ? '${servicesProvider.optionalDocuments[servicesProvider.documentIndex]['NAME_EN']}'
+                                                : '${servicesProvider.optionalDocuments[servicesProvider.documentIndex]['NAME_AR']}',
+                                                ListView.builder(
+                                                  physics: const NeverScrollableScrollPhysics(),
+                                                  shrinkWrap: true,
+                                                  itemBuilder: (context, index){
+                                                    return buildFileUploader(index, 2);
+                                                  },
+                                                  itemCount: servicesProvider.uploadedFiles["optional"][servicesProvider.documentIndex].length
+                                                ),
+                                                needTranslate: false,
+                                                isChildTypeText: false
+                                            ),
                                           );
                                         }
                                     ),
@@ -418,20 +435,26 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     if(Provider.of<ServicesProvider>(context).documentsScreensStepNumber != 1 && Provider.of<ServicesProvider>(context).documentsScreensStepNumber != 3)
                     textButton(context,
                       themeNotifier, 'continue',
-                      getPrimaryColor(context, themeNotifier),
-                      HexColor('#ffffff'),
+                      (servicesProvider.documentsScreensStepNumber == 2 && servicesProvider.uploadedFiles['mandatory'].isNotEmpty && servicesProvider.uploadedFiles['mandatory'][servicesProvider.documentIndex].isNotEmpty) ||
+                      (servicesProvider.documentsScreensStepNumber == 4 && servicesProvider.uploadedFiles['optional'].isNotEmpty && servicesProvider.uploadedFiles['optional'][servicesProvider.documentIndex].isNotEmpty) ||
+                      servicesProvider.documentsScreensStepNumber == 5
+                      ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
+                      (servicesProvider.documentsScreensStepNumber == 2 && servicesProvider.uploadedFiles['mandatory'].isNotEmpty && servicesProvider.uploadedFiles['mandatory'][servicesProvider.documentIndex].isNotEmpty) ||
+                      (servicesProvider.documentsScreensStepNumber == 4 && servicesProvider.uploadedFiles['optional'].isNotEmpty && servicesProvider.uploadedFiles['optional'][servicesProvider.documentIndex].isNotEmpty) ||
+                      servicesProvider.documentsScreensStepNumber == 5
+                      ? HexColor('#ffffff') : HexColor('#363636'),
                       () async {
                         if(servicesProvider.documentsScreensStepNumber == 5){
                           servicesProvider.stepNumber = 5;
                         } else{
-                          if(servicesProvider.documentsScreensStepNumber == 2){
+                          if(servicesProvider.documentsScreensStepNumber == 2 && servicesProvider.uploadedFiles['mandatory'].isNotEmpty && servicesProvider.uploadedFiles['mandatory'][servicesProvider.documentIndex].isNotEmpty){
                             if(servicesProvider.documentIndex < servicesProvider.mandatoryDocuments.length-1){
                               servicesProvider.documentIndex++;
                             } else if(servicesProvider.documentIndex == servicesProvider.mandatoryDocuments.length-1){
                               servicesProvider.documentIndex = 0;
                               servicesProvider.documentsScreensStepNumber ++;
                             }
-                          } else if(servicesProvider.documentsScreensStepNumber == 4){
+                          } else if(servicesProvider.documentsScreensStepNumber == 4 && servicesProvider.uploadedFiles['optional'].isNotEmpty && servicesProvider.uploadedFiles['optional'][servicesProvider.documentIndex].isNotEmpty){
                             if(servicesProvider.documentIndex < servicesProvider.selectedOptionalDocuments.length-1){
                               servicesProvider.documentIndex++;
                             } else if(servicesProvider.documentIndex == servicesProvider.selectedOptionalDocuments.length-1){
