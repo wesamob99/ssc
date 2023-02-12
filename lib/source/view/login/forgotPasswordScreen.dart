@@ -221,7 +221,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     }
                     showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
                   }
-                } else if(userSecuredStorage.email == ''){
+                } else if(userSecuredStorage.email != ''){
                   showResetPasswordBody = true;
                 } else{
                   showMyDialog(context, 'resetPasswordFailed', translate('userMobileNumberAndEmailAreEmptyPleaseReRegister', context),

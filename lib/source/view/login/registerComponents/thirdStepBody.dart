@@ -31,6 +31,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
   @override
   void initState() {
     LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    loginProvider.emailController.clear();
     if(item2['value']){
       loginProvider.registerContinueEnabled = true;
     } else{

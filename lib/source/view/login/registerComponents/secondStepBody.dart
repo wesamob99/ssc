@@ -25,6 +25,7 @@ class SecondStepBody extends StatefulWidget {
 
 class _SecondStepBodyState extends State<SecondStepBody> {
 
+  LoginProvider loginProvider;
   List<String> relationTypes = ['choose', 'parent', 'brother', 'wife', 'child'];
   List<String> academicLevels = ['optionalChoose', 'phd', 'master',
     'hDiploma', 'ba', 'mDiploma', 'highSchool', 'lessHighSchool',
@@ -35,13 +36,21 @@ class _SecondStepBodyState extends State<SecondStepBody> {
 
   @override
   void initState() {
+    loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    loginProvider.registerNationalIdController.clear();
+    loginProvider.passportNumberController.clear();
+    loginProvider.insuranceNumberController.clear();
+    loginProvider.dateOfBirthController.clear();
+    loginProvider.civilIdNumberController.clear();
+    loginProvider.relativeNatIdController.clear();
+    loginProvider.relativeNatIdController.clear();
+    loginProvider.thirdStepSelection = ['choose', 'optionalChoose'];
     isJordanian = Provider.of<LoginProvider>(context, listen: false).registerData.nationality == 1;
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-    LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
 
     return WillPopScope(
       onWillPop: () async => false,

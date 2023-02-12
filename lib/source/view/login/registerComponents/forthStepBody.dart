@@ -38,6 +38,8 @@ class _ForthStepBodyState extends State<ForthStepBody> {
   void initState() {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     loginProvider.registerObscurePassword = true;
+    loginProvider.registerPasswordController.clear();
+    loginProvider.registerConfirmPasswordController.clear();
     super.initState();
   }
 

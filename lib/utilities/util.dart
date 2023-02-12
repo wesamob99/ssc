@@ -574,7 +574,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
       obscureText: isPassword && ((Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2) || (Provider.of<AccountSettingsProvider>(context).updatePasswordIsObscure && flag == 3)) ,
       readOnly: !enabled,
       style: TextStyle(
-        fontSize: isTablet(context) ? 20 : 14,
+        fontSize: isTablet(context) ? 20 : 13,
         color: enabled
             ? themeNotifier.isLight() ? HexColor('#363636') : Colors.white
             : themeNotifier.isLight() ? HexColor('#6B6B6B') : HexColor('#999999')
@@ -605,7 +605,8 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
                   ? getPrimaryColor(context, themeNotifier)
                   : Colors.white,
             ),
-          ) : const SizedBox.shrink(),
+          )
+          : const SizedBox.shrink(),
           hintText: hintText == '' ? '' : hintText.substring(0, 3) == 'val' ? hintText.substring(3) : translate('ex', context) + hintText,
           hintStyle: TextStyle(
             color: getGrey2Color(context).withOpacity(

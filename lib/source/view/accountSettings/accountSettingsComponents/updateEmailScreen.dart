@@ -29,7 +29,7 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
   @override
   void initState() {
     accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
-    accountSettingsProvider.emailController.text = widget.email;
+    accountSettingsProvider.emailController.text = widget.email.replaceAll(' ', '');
     accountSettingsProvider.isLoading = false;
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     super.initState();
@@ -78,22 +78,22 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: height(0.25, context)),
-                        child: textButton(context, themeNotifier, 'update', !isEmail(Provider.of<AccountSettingsProvider>(context).emailController.text)  || !(accountSettingsProvider.emailController.text != widget.email)
+                        child: textButton(context, themeNotifier, 'update', !isEmail(Provider.of<AccountSettingsProvider>(context).emailController.text)  || !(accountSettingsProvider.emailController.text.replaceAll(' ', '') != widget.email)
                             ? HexColor('#DADADA')
                             : getPrimaryColor(context, themeNotifier),
-                            isEmail(Provider.of<AccountSettingsProvider>(context).emailController.text) && (accountSettingsProvider.emailController.text != widget.email)
+                            isEmail(Provider.of<AccountSettingsProvider>(context).emailController.text) && (accountSettingsProvider.emailController.text.replaceAll(' ', '') != widget.email.replaceAll(' ', ''))
                                 ? HexColor('#ffffff') : HexColor('#363636'), () async {
-                              if(isEmail(accountSettingsProvider.emailController.text) && (accountSettingsProvider.emailController.text != widget.email)){
+                              if(isEmail(accountSettingsProvider.emailController.text) && (accountSettingsProvider.emailController.text.replaceAll(' ', '') != widget.email.replaceAll(' ', ''))){
                                 accountSettingsProvider.isLoading = true;
                                 accountSettingsProvider.notifyMe();
                                 String errorMessage = '';
                                 try{
-                                  await Provider.of<ServicesProvider>(context, listen: false).updateUserEmailSendOTP(accountSettingsProvider.emailController.text, 1)
+                                  await Provider.of<ServicesProvider>(context, listen: false).updateUserEmailSendOTP(accountSettingsProvider.emailController.text.replaceAll(' ', ''), 1)
                                       .whenComplete((){}).then((value){
                                     if(value['PO_status'] == 1){
                                       Navigator.of(context).push(
                                           MaterialPageRoute(builder: (context) => OTPScreen(
-                                            contactTarget: accountSettingsProvider.emailController.text,
+                                            contactTarget: accountSettingsProvider.emailController.text.replaceAll(' ', ''),
                                             type: 'email',
                                             flag: 2,
                                           ))

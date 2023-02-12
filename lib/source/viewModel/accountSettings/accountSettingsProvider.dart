@@ -43,8 +43,8 @@ class AccountSettingsProvider extends ChangeNotifier {
 
   getNationalityData(context){
     Provider.of<LoginProvider>(context, listen: false).readCountriesJson().then((List<Countries> value){
-      Countries c2 = value.where((element) => element.natcode == accountData.curGetdata[0][0].nationalityCode).first;
-      Country country2 = countries.where((element) => element.dialCode == c2.callingCode).first;
+      Countries c2 = value.where((element) => element.natcode == (accountData.curGetdata[0][0].nationalityCode ?? 111)).first;
+      Country country2 = countries.where((element) => element.dialCode == c2.callingCode)?.first;
       nationality = SelectedListItem(
         name: c2.country,
         natCode: c2.natcode,
@@ -58,12 +58,12 @@ class AccountSettingsProvider extends ChangeNotifier {
     var data = {
       "params": {
         "ID": accountData.curGetdata[0][0].insuranceno.toString(),
-        "ENAME1": accountData.curGetdata[0][0].ename1.toString(),
-        "ENAME2": accountData.curGetdata[0][0].ename2.toString(),
-        "ENAME3": accountData.curGetdata[0][0].ename3.toString(),
-        "ENAME4": accountData.curGetdata[0][0].ename4.toString(),
-        "BANKBRANCH_CODE": int.tryParse(accountData.curGetdata[0][0].bankbranchCode),
-        "ACADEMICLEVEL": accountData.curGetdata[0][0].academiclevel.toString(),
+        "ENAME1": accountData.curGetdata[0][0]?.ename1,
+        "ENAME2": accountData.curGetdata[0][0]?.ename2,
+        "ENAME3": accountData.curGetdata[0][0]?.ename3,
+        "ENAME4": accountData.curGetdata[0][0]?.ename4,
+        "BANKBRANCH_CODE": accountData.curGetdata[0][0].bankbranchCode != null ? int.tryParse(accountData.curGetdata[0][0].bankbranchCode) : null,
+        "ACADEMICLEVEL": accountData.curGetdata[0][0].academiclevel != null ? accountData.curGetdata[0][0].academiclevel.toString() : "",
         "RELATIONSHIPSTATUS": "",
         "LIVECONTRY": flag == 1 ? value : accountData.curGetdata[0][0].livecontry, // National Code
         "POBOX": "",
@@ -75,7 +75,7 @@ class AccountSettingsProvider extends ChangeNotifier {
         "PI_user_name": accountData.curGetdata[0][0].userName,
         "PI_INTERNATIONALCODE": accountData.curGetdata[0][0].internationalcode,
         "PI_IBAN": "---",
-        "PI_BANK_NO": accountData.curGetdata[0][0].bankNo.toString(),
+        "PI_BANK_NO": accountData.curGetdata[0][0].bankNo?.toString(),
         "NATIONALITY_CODE": {
           "NATCODE": nationality.natCode,
           "NATDESC": nationality.name,
