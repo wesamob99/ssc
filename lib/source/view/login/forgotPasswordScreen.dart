@@ -188,7 +188,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             String errorMessage = "";
             loginProvider.isLoading = true;
             loginProvider.notifyMe();
-            // try{
+            try{
               // ignore: prefer_typing_uninitialized_variables
               var response;
               await loginProvider.resetPasswordGetDetail(loginProvider.nationalIdController.text).whenComplete((){})
@@ -210,7 +210,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   }
                 }
                 if(userSecuredStorage.realMobileNumber != '0'){
-                  if(resetPasswordGetDetail.poStatus == 1 && response != null && response["PO_status"] != null && response["PO_status"] == 1){
+                  if(resetPasswordGetDetail.poStatus != -1 && response != null && response["PO_status"] != null && response["PO_status"] == 1){
                     setState((){
                       showResetPasswordBody = true;
                     });
@@ -231,20 +231,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => const FirstStepBody())
                     );
-                  }
-                  );
+                  });
                 }
                 loginProvider.notifyMe();
               });
               loginProvider.isLoading = false;
               loginProvider.notifyMe();
-            // }catch(e){
-            //   loginProvider.isLoading = false;
-            //   loginProvider.notifyMe();
-            //   if (kDebugMode) {
-            //     print(e.toString());
-            //   }
-            // }
+            }catch(e){
+              loginProvider.isLoading = false;
+              loginProvider.notifyMe();
+              if (kDebugMode) {
+                print(e.toString());
+              }
+            }
           }
         },
         style: ButtonStyle(
