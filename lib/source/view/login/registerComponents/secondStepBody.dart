@@ -103,7 +103,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                         ],
                       ),
                       SizedBox(height: height(0.02, context),),
-                      buildFieldTitle(context, 'enterNationalId', filled: (loginProvider.registerNationalIdController.text.length == 10 || loginProvider.flag == 1)),
+                      buildFieldTitle(context, isJordanian ? 'enterJoNationalId' : 'enterNonJoNationalId', filled: (loginProvider.registerNationalIdController.text.length == 10 || loginProvider.flag == 1)),
                       SizedBox(height: height(0.015, context),),
                       buildTextFormField(context, themeNotifier, loginProvider.registerNationalIdController, (loginProvider.flag == 0) ? '9999999999' : 'val${loginProvider.registerData.userId}', (val){
                         checkContinueEnable(loginProvider);
