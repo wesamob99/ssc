@@ -18,6 +18,8 @@
   "login": "تسجيل دخول",
   "logout":  "تسجيل خروج",
   "enterNationalId": "أدخل الرقم الوطني/الشخصي الخاص بك",
+  "enterJoNationalId": "أدخل الرقم الوطني الخاص بك",
+  "enterNonJoNationalId": "أدخل الرقم االشخصي الخاص بك",
   "password": "كلمة المرور",
   "confirmPassword": "تأكيد كلمة المرور",
   "ex": "مثال : ",

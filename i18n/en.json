@@ -18,6 +18,8 @@
   "login": "LogIn",
   "logout":  "logout",
   "enterNationalId": "Enter your national/personal ID",
+  "enterJoNationalId": "Enter your national ID",
+  "enterNonJoNationalId": "Enter your personal ID",
   "password": "password",
   "confirmPassword": "Confirm password",
   "ex": "Ex: ",
