@@ -85,7 +85,7 @@ class _UpdateMobileNumberScreenState extends State<UpdateMobileNumberScreen> {
                             (mobileNumberValidate(Provider.of<AccountSettingsProvider>(context).mobileNumberController.text) &&
                                 Provider.of<AccountSettingsProvider>(context).mobileNumberController.text != widget.mobileNumber)
                                 ? HexColor('#ffffff') : HexColor('#363636'), () async {
-                          if(mobileNumberValidate(Provider.of<AccountSettingsProvider>(context).mobileNumberController.text) &&
+                          if(mobileNumberValidate(Provider.of<AccountSettingsProvider>(context, listen: false).mobileNumberController.text) &&
                               accountSettingsProvider.mobileNumberController.text != widget.mobileNumber){
                             accountSettingsProvider.isLoading = true;
                             accountSettingsProvider.notifyMe();
