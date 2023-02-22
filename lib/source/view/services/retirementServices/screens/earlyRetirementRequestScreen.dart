@@ -1,11 +1,15 @@
 // ignore_for_file: file_names
 
+import 'dart:convert';
+
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:intl/intl.dart';
+import 'package:path/path.dart' as path;
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/source/view/services/shared/documentsScreen.dart';
@@ -35,30 +39,47 @@ class EarlyRetirementRequestScreen extends StatefulWidget {
 class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScreen> {
 
   ServicesProvider servicesProvider;
-  Future documentsFuture;
   ThemeNotifier themeNotifier;
   SelectedListItem selectedMobileCountry = SelectedListItem(
     name: UserConfig.instance.checkLanguage() ? "Jordan" : "الأردن",
     value: "962", natCode: 111,
     flag: countries[110].flag,
   );
+
+  SelectedListItem selectedPaymentCountry = SelectedListItem(
+    name: UserConfig.instance.checkLanguage() ? "Iraq" : "عراق",
+    value: "964", natCode: 112,
+    flag: countries.where((element) => element.dialCode == "964").first.flag,
+  );
   String areYouAuthorizedToSignForCompany = 'no';
   String areYouPartnerInLimitedLiabilityCompany = 'no';
+  bool nonJordanianSubmitEnabled = false;
 
   String selectedStatus;
   String selectedJobStatus;
   String selectedGetsSalary;
   String selectedHasDisability;
   String selectedMaritalStatus;
-  String selectedMethodOfReceiving = 'insideJordan';
+  String selectedGender;
+  String selectedRelation;
   List<String> maritalList;
   bool termsChecked = false;
   int dependentIndex = 0;
+  String nationality = 'jordanian';
 
+  Map selectedActivePayment;
+  List activePayment = [];
   TextEditingController nationalIdController = TextEditingController();
   TextEditingController quatrainNounController = TextEditingController();
   TextEditingController dateOfBirthController = TextEditingController();
-  String nationality = 'jordanian';
+
+  TextEditingController bankNameController = TextEditingController();
+  TextEditingController bankBranchController = TextEditingController();
+  TextEditingController bankAddressController = TextEditingController();
+  TextEditingController accountNoController = TextEditingController();
+  TextEditingController swiftCodeController = TextEditingController();
+  TextEditingController mobileNumberController = TextEditingController();
+
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
@@ -67,16 +88,27 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
       if(servicesProvider.isMobileNumberUpdated){
         return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
       } else{
-        // return ((selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears' && selectedRate.name != '0' && selectedYear.name != '0') || selectedCalculateAccordingTo != 'increaseInAllowanceForDeductionYears');
         return true;
       }
     } else if(flag == 3){
       if(servicesProvider.isMobileNumberUpdated){
         return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
       } else{
-        // return ((selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears' && selectedRate.name != '0' && selectedYear.name != '0') || selectedCalculateAccordingTo != 'increaseInAllowanceForDeductionYears');
         return true;
       }
+    }else if(flag == 5){
+      if(selectedActivePayment['ID'] == 5){
+        return bankNameController.text.isNotEmpty &&
+            bankBranchController.text.isNotEmpty &&
+            bankAddressController.text.isNotEmpty &&
+            accountNoController.text.isNotEmpty &&
+            swiftCodeController.text.isNotEmpty &&
+            mobileNumberController.text.isNotEmpty;
+      } else{
+        return true;
+      }
+    }else if(flag == 6){
+      return termsChecked;
     } else{
       return true;
     }
@@ -86,13 +118,19 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   void initState() {
     Provider.of<LoginProvider>(context, listen: false).readCountriesJson();
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
+    servicesProvider.getActivePayment(servicesProvider.result['P_Result'][0][0]['SERVICE_TYPE'].toString(), servicesProvider.result['P_Result'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
+      value['R_RESULT'][0].forEach((element){
+        activePayment.add(element);
+      });
+      selectedActivePayment = activePayment[0];
+    });
     servicesProvider.documentIndex = 0;
+    servicesProvider.dependentsDocuments = [];
     servicesProvider.mandatoryDocuments = [];
     servicesProvider.optionalDocuments = [];
     servicesProvider.optionalDocumentsCheckBox = [];
     servicesProvider.selectedOptionalDocuments = [];
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
-    documentsFuture = servicesProvider.getRequiredDocuments();
     servicesProvider.stepNumber = 1;
     servicesProvider.uploadedFiles = {
       "mandatory": [],
@@ -163,10 +201,6 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                     {
                       servicesProvider.stepNumber = 4;
                       servicesProvider.documentsScreensStepNumber = 5;
-                      // if(!servicesProvider.showDocumentsConfirmation){
-                      //   servicesProvider.showDocumentsConfirmation = true;
-                      //   servicesProvider.stepNumber = 4;
-                      // }
                     }
                     break;
                   case 6: servicesProvider.stepNumber = 5; break;
@@ -307,7 +341,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                           case 3: {
                             if(checkContinueEnabled(flag: 3)){
                               servicesProvider.documentsScreensStepNumber = 1;
-                              if(dependentIndex < (servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length - 1 : 0)){
+                              if(dependentIndex < ((servicesProvider.result['P_Dep'].length != 0  && servicesProvider.result['P_Dep'][0].length != 0) ? servicesProvider.result['P_Dep'][0].length - 1 : 0)){
                                 dependentIndex++;
                               }else {
                                 servicesProvider.notifyMe();
@@ -321,16 +355,69 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                             }
                           } break;
                           case 6: {
-                            showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
-                                translate('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context), 'ok',
-                                themeNotifier,
-                                icon: 'assets/icons/serviceSuccess.svg').then((_){
-                              SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                                servicesProvider.selectedServiceRate = -1;
-                                servicesProvider.notifyMe();
-                                rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                            try{
+                              String message = '';
+                              servicesProvider.isLoading = true;
+                              servicesProvider.isModalLoading = true;
+                              servicesProvider.notifyMe();
+                              List mandatoryDocs = await saveFiles('mandatory');
+                              List optionalDocs = await saveFiles('optional');
+                              List docs = mandatoryDocs + optionalDocs;
+                              Map<String, dynamic> paymentInfo = {
+                                'PAYMENT_METHOD': selectedActivePayment['ID'],
+                                'BANK_LOCATION': selectedActivePayment['ID'] == 5 ? bankAddressController.text : '',
+                                'BRANCH_ID': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'BRANCH_NAME': selectedActivePayment['ID'] == 5 ? bankBranchController.text : '',
+                                'BANK_ID': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'BANK_NAME': selectedActivePayment['ID'] == 5 ? bankNameController.text : '',
+                                'ACCOUNT_NAME': selectedActivePayment['ID'] == 5 ? accountNoController.text : '',
+                                'PAYMENT_COUNTRY': selectedActivePayment['ID'] == 5 ? selectedPaymentCountry.name : '',
+                                'PAYMENT_COUNTRY_CODE': selectedActivePayment['ID'] == 5 ? selectedPaymentCountry.value : '',
+                                'PAYMENT_PHONE': selectedActivePayment['ID'] == 5 ? mobileNumberController.text : '',
+                                'SWIFT_CODE': selectedActivePayment['ID'] == 5 ? swiftCodeController.text : '',
+                                'BANK_DETAILS': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'IBAN': selectedActivePayment['ID'] == 3 ? servicesProvider.result['P_Result'][0][0]['IBAN'] : '',
+                                'CASH_BANK_ID': selectedActivePayment['ID'] == 5 ? '' : '',
+                                // معلومات الوكيل (REP)
+                                'REP_NATIONALITY': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'REP_NATIONAL_NO': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'REP_NAME': selectedActivePayment['ID'] == 5 ? '' : '',
+                                // معلومات المحفظه (WALLET)
+                                'WALLET_TYPE': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'WALLET_OTP_VERIVIED': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'WALLET_OTP': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'WALLET_PHONE': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'WALLET_PHONE_VERIVIED': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'WALLET_PASSPORT_NUMBER': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'PEN_IBAN': selectedActivePayment['ID'] == 5 ? '' : '',
+                              };
+                              await servicesProvider.setEarlyRetirementApplication(docs, paymentInfo, areYouAuthorizedToSignForCompany == 'yes' ? 1 : 0).whenComplete(() {}).then((value) {
+                                if(value != null && value['P_Message'][0][0]['PO_STATUS'] == 1){
+                                  showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
+                                      translate('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context), 'ok',
+                                      themeNotifier,
+                                      icon: 'assets/icons/serviceSuccess.svg').then((_){
+                                    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                      servicesProvider.selectedServiceRate = -1;
+                                      servicesProvider.notifyMe();
+                                      rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                    });
+                                  });
+                                } else{
+                                  message = UserConfig.instance.checkLanguage()
+                                      ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
+                                  showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
+                                }
                               });
-                            });
+                              servicesProvider.isLoading = false;
+                              servicesProvider.notifyMe();
+                            } catch(e){
+                              servicesProvider.isLoading = false;
+                              servicesProvider.notifyMe();
+                              if (kDebugMode) {
+                                print(e.toString());
+                              }
+                            }
                           } break;
                         }
                         servicesProvider.notifyMe();
@@ -354,6 +441,65 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
         ],
       ),
     );
+  }
+
+  saveFiles(String type) async{
+    List docs = [];
+    for(int i=0 ; i<servicesProvider.uploadedFiles[type].length ; i++){
+      if(servicesProvider.uploadedFiles[type][i] != null){
+        int j=0;
+        while(j<servicesProvider.uploadedFiles[type][i].length){
+          try{
+            await servicesProvider.saveFile(servicesProvider.uploadedFiles[type][i][j]["file"]).whenComplete(() {}).then((value) {
+              if (kDebugMode) {
+                print('value: $value');
+              }
+              String documentDate = DateFormat('MM/dd/yyyy, HH:mm').format(DateTime.now());
+              Map document = {
+                "PATH": value['path'],
+                "DOC_TYPE": servicesProvider.uploadedFiles[type][i][j]["document"]["ID"],
+                "FILE": {},
+                "FILE_NAME": path.basename(value['path'].toString()),
+                "DOC_TYPE_DESC_AR": servicesProvider.uploadedFiles[type][i][j]["document"]["NAME_AR"],
+                "DOC_TYPE_DESC_EN": servicesProvider.uploadedFiles[type][i][j]["document"]["NAME_EN"],
+                "DOCUMENT_DATE": documentDate.toString(),
+                "required": type == 'mandatory' ? 0 : 1,
+                "APP_ID": servicesProvider.uploadedFiles[type][i][j]["document"]["CODE"],
+                "ID": "",
+                "STATUS": 1,
+                "HIDE_ACTIONS": false
+              };
+              bool isDependentDoc = false;
+              if(type == 'mandatory' && servicesProvider.result["P_Dep"].isNotEmpty){
+                servicesProvider.result['P_Dep'][0].forEach((element) {
+                  if(element['DEP_CODE'].toString() == servicesProvider.uploadedFiles[type][i][j]["document"]['CODE'].toString()){
+                    if (kDebugMode) {
+                      print('value: $value');
+                    }
+                    isDependentDoc = true;
+                    if(element['doc_dep'] is String){
+                      element['doc_dep'] = [document];
+                    }else{
+                      element['doc_dep'].add(document);
+                    }
+                  }
+                });
+              }
+              if(!isDependentDoc) {
+                docs.add(document);
+              }
+            });
+            j++;
+          }catch(e){
+            j++;
+            if (kDebugMode) {
+              print(e.toString());
+            }
+          }
+        }
+      }
+    }
+    return docs;
   }
 
   Widget secondStep(context, themeNotifier){
@@ -485,7 +631,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               ),
               SizedBox(height: height(0.02, context),),
               Text(
-                translate('numberOfDependents', context) + ' ( ${servicesProvider.result['P_Dep'].length != 0 ? dependentIndex + 1 : 0} / ${servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length : 0} )',
+                translate('numberOfDependents', context) + ' ( ${(servicesProvider.result['P_Dep'].length != 0  && servicesProvider.result['P_Dep'][0].length != 0) ? dependentIndex + 1 : 0} / ${(servicesProvider.result['P_Dep'].length != 0  && servicesProvider.result['P_Dep'][0].length != 0) ? servicesProvider.result['P_Dep'][0].length : 0} )',
                 style: TextStyle(
                   color: HexColor('#363636'),
                   fontWeight: FontWeight.w500,
@@ -493,7 +639,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 ),
               ),
               SizedBox(height: height(0.02, context),),
-              if(servicesProvider.result['P_Dep'].length != 0)
+              if(servicesProvider.result['P_Dep'].length != 0 && servicesProvider.result['P_Dep'][0].length != 0)
               Card(
                   elevation: 6.0,
                   shadowColor: Colors.black45,
@@ -516,9 +662,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 height: 1.4,
                                 color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                                 fontWeight: FontWeight.bold,
+                                fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
                               ),
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
@@ -533,10 +681,10 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       color: servicesProvider.result['P_Dep'][0][dependentIndex]['RELATION'] == 11
                                           ? HexColor('#003C97') : HexColor('#2D452E'),
                                       fontWeight: FontWeight.w400,
+                                      fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 5.0,),
                                 PopupMenuButton<ContextMenu>(
                                   onSelected: (ContextMenu result) async {
                                     switch (result.index) {
@@ -545,15 +693,22 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                             ? 'alive' : 'dead';
                                         selectedJobStatus = servicesProvider.result['P_Dep'][0][dependentIndex]['WORK_STATUS'] == 0
                                             ? 'unemployed' : 'employed';
-                                        selectedGetsSalary = servicesProvider.result['P_Dep'][0][dependentIndex]['IS_RETIRED_A'] == 1
+                                        selectedGetsSalary = servicesProvider.result['P_Dep'][0][dependentIndex]['IS_RETIRED_A'] == 0
                                             ? 'no' : 'yes';
                                         selectedHasDisability = servicesProvider.result['P_Dep'][0][dependentIndex]['DISABILITY'] == 0
                                             ? 'no' : 'yes';
                                         selectedMaritalStatus = servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 1
                                             ? UserConfig.instance.checkLanguage()
                                             ? 'single' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
-                                            : UserConfig.instance.checkLanguage()
-                                            ? 'married' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF';
+                                            : servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 2
+                                            ? UserConfig.instance.checkLanguage()
+                                            ? 'married' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF'
+                                            : servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 3
+                                            ? UserConfig.instance.checkLanguage()
+                                            ? 'divorced' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF'
+                                            : servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 4
+                                            ? UserConfig.instance.checkLanguage()
+                                            ? 'widow' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF' : 'single';
                                         maritalList = [
                                           UserConfig.instance.checkLanguage()
                                               ? 'single'
@@ -583,7 +738,13 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 await servicesProvider.deleteDependent(int.tryParse(servicesProvider.result['P_Dep'][0][dependentIndex]["ID"].toString())).then((value){
                                                   Navigator.of(context).pop();
                                                   if(value['PO_RESULT'] == 1){
+                                                    servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == servicesProvider.result['P_Dep'][0][dependentIndex]["DEP_CODE"]);
                                                     servicesProvider.result['P_Dep'][0].removeAt(dependentIndex);
+                                                    if(dependentIndex == servicesProvider.result['P_Dep'][0].length && dependentIndex != 0){
+                                                      setState(() {
+                                                        dependentIndex--;
+                                                      });
+                                                    }
                                                     showMyDialog(context, 'dependentWereDeleted', '', 'ok', themeNotifier, titleColor: '#2D452E');
                                                   } else{
                                                     errorMessage = UserConfig.instance.checkLanguage()
@@ -608,7 +769,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   icon: Icon(
                                     Icons.more_vert,
                                     color: HexColor('#51504E'),
-                                    size: 25,
+                                    size: 22,
                                   ),
                                   itemBuilder: (BuildContext context) =>
                                   <PopupMenuEntry<ContextMenu>>[
@@ -672,6 +833,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   translate('maritalStatus', context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
                                 ),
                                 const SizedBox(height: 10.0,),
@@ -680,11 +842,19 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 1
                                           ? UserConfig.instance.checkLanguage()
                                           ? 'single' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
-                                          : UserConfig.instance.checkLanguage()
-                                          ? 'married' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
+                                          : servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 2
+                                          ? UserConfig.instance.checkLanguage()
+                                          ? 'married' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF'
+                                          : servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 3
+                                          ? UserConfig.instance.checkLanguage()
+                                          ? 'divorced' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF'
+                                          : servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 4
+                                          ? UserConfig.instance.checkLanguage()
+                                          ? 'widow' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF' : 'single',
                                       context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
                                 ),
                               ],
@@ -696,6 +866,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   translate('employmentStatus', context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
                                 ),
                                 const SizedBox(height: 10.0,),
@@ -706,6 +877,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
                                 ),
                               ],
@@ -717,6 +889,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   translate('status', context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
                                 ),
                                 const SizedBox(height: 10.0,),
@@ -727,6 +900,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
                                 ),
                               ],
@@ -744,6 +918,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   translate('hasDisability', context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
                                 ),
                                 const SizedBox(height: 10.0,),
@@ -754,6 +929,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
                                 ),
                               ],
@@ -765,16 +941,18 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   translate('getsSalary', context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
                                 ),
                                 const SizedBox(height: 10.0,),
                                 Text(
                                   translate(
-                                      servicesProvider.result['P_Dep'][0][dependentIndex]['IS_RETIRED'] != 1
+                                      servicesProvider.result['P_Dep'][0][dependentIndex]['IS_RETIRED_A'] == 0
                                           ? 'no' : 'yes',
                                       context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
                                 ),
                               ],
@@ -805,14 +983,17 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               ),
             ],
           ),
-          if(dependentIndex == (servicesProvider.result['P_Dep'].length != 0 ? servicesProvider.result['P_Dep'][0].length - 1 : 0))
+          if(dependentIndex == ((servicesProvider.result['P_Dep'].length != 0  && servicesProvider.result['P_Dep'][0].length != 0) ? servicesProvider.result['P_Dep'][0].length - 1 : 0))
           Padding(
             padding: const EdgeInsets.only(bottom: 5.0),
             child: textButtonWithIcon(
                 context, themeNotifier, 'addNewDependents', Colors.transparent, HexColor('#2D452E'),
                 (){
+                  nonJordanianSubmitEnabled = false;
+                  servicesProvider.dependentInfo = null;
                   nationalIdController = TextEditingController();
                   quatrainNounController = TextEditingController();
+                  dateOfBirthController = TextEditingController();
                   nationality = 'jordanian';
                   servicesProvider.isNationalIdValid = false;
                   servicesProvider.isLoading = false;
@@ -821,21 +1002,23 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   selectedStatus = 'alive';
                   selectedJobStatus = 'employed';
                   selectedGetsSalary = 'yes';
-                  selectedHasDisability = 'yes';
+                  selectedHasDisability = 'no';
+                  selectedGender = 'male';
+                  selectedRelation = getRelationType(1);
                   selectedMaritalStatus = UserConfig.instance.checkLanguage()
                   ? 'single' : 'singleM';
                   maritalList = [
-                  UserConfig.instance.checkLanguage()
-                  ? 'single' : 'singleM',
-                  UserConfig.instance.checkLanguage()
-                  ? 'married' : 'marriedM',
-                  UserConfig.instance.checkLanguage()
-                  ? 'divorced' : 'divorcedM',
-                  UserConfig.instance.checkLanguage()
-                  ? 'widow' : 'widowM',
+                    UserConfig.instance.checkLanguage()
+                    ? 'single' : 'singleM',
+                    UserConfig.instance.checkLanguage()
+                    ? 'married' : 'marriedM',
+                    UserConfig.instance.checkLanguage()
+                    ? 'divorced' : 'divorcedM',
+                    UserConfig.instance.checkLanguage()
+                    ? 'widow' : 'widowM',
                   ];
                   ///
-                  dependentModalBottomSheet(1, isEdit: true);
+                  dependentModalBottomSheet(dependentIndex, isEdit: true);
                 },
                 borderColor: '#2D452E'
             ),
@@ -900,40 +1083,61 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 ),
               ],
             ),
+            //activePayment
             SizedBox(height: height(0.02, context),),
             buildFieldTitle(context, 'methodOfReceivingSalary', required: false),
             const SizedBox(height: 10.0,),
-            customTwoRadioButtons(5, 'insideJordan', 'outsideJordan', setState),
-            const SizedBox(height: 30.0,),
-            if(selectedMethodOfReceiving == 'insideJordan')
-            Container(),
-            if(selectedMethodOfReceiving == 'outsideJordan')
+            // customTwoRadioButtons(5, 'insideJordan', 'outsideJordan', setState),
+            SizedBox(
+              height: activePayment.length * 50.0,
+              child: customRadioButtonGroup(3, activePayment, setState),
+            ),
+            if(selectedActivePayment['ID'] == 3) // inside jordan
+            Text(
+              servicesProvider.result["p_per_info"][0][0]["IBAN"].length == 30
+              ? '${translate('iban', context)}: ${servicesProvider.result["p_per_info"][0][0]["IBAN"]}'
+              : translate('goToYourBanksApplicationAndSendYourIBANToTheEscrow', context),
+            ),
+            if(selectedActivePayment['ID'] == 5) // outside jordan
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 buildFieldTitle(context, 'country', required: false),
                 const SizedBox(height: 10.0,),
-                buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                // buildTextFormField(context, themeNotifier, countryController, '', (val){
+                //   servicesProvider.notifyMe();
+                // }),
+                buildCountriesDropDown(selectedPaymentCountry, 1),
                 const SizedBox(height: 16,),
                 buildFieldTitle(context, 'bankName', required: false),
                 const SizedBox(height: 10.0,),
-                buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                buildTextFormField(context, themeNotifier, bankNameController, '', (val){
+                  servicesProvider.notifyMe();
+                }),
                 const SizedBox(height: 16,),
                 buildFieldTitle(context, 'bankBranch', required: false),
                 const SizedBox(height: 10.0,),
-                buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                buildTextFormField(context, themeNotifier, bankBranchController, '', (val){
+                  servicesProvider.notifyMe();
+                }),
                 const SizedBox(height: 16,),
                 buildFieldTitle(context, 'bankAddress', required: false),
                 const SizedBox(height: 10.0,),
-                buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}),
+                buildTextFormField(context, themeNotifier, bankAddressController, '', (val){
+                  servicesProvider.notifyMe();
+                }),
                 const SizedBox(height: 16,),
                 buildFieldTitle(context, 'accountNumber', required: false),
                 const SizedBox(height: 10.0,),
-                buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}, inputType: TextInputType.number),
+                buildTextFormField(context, themeNotifier, accountNoController, '', (val){
+                  servicesProvider.notifyMe();
+                }, inputType: TextInputType.number),
                 const SizedBox(height: 16,),
                 buildFieldTitle(context, 'swiftCode', required: false),
                 const SizedBox(height: 10.0,),
-                buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}, inputType: TextInputType.text),
+                buildTextFormField(context, themeNotifier, swiftCodeController, '', (val){
+                  servicesProvider.notifyMe();
+                }, inputType: TextInputType.text),
                 const SizedBox(height: 16,),
                 buildFieldTitle(context, 'mobileNumber', required: false),
                 const SizedBox(height: 10.0,),
@@ -941,12 +1145,14 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   children: [
                     Expanded(
                       flex: 4,
-                      child: buildTextFormField(context, themeNotifier, TextEditingController(), '', (val){}, inputType: TextInputType.number),
+                      child: buildTextFormField(context, themeNotifier, mobileNumberController, '', (val){
+                        servicesProvider.notifyMe();
+                      }, inputType: TextInputType.number),
                     ),
                     const SizedBox(width: 10.0,),
                     Expanded(
                       flex: 2,
-                      child: buildCountriesDropDown(selectedMobileCountry),
+                      child: buildCountriesDropDown(selectedMobileCountry, 2),
                     ),
                   ],
                 ),
@@ -1028,11 +1234,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               try{
                 await servicesProvider.getInquiryInsuredInformation().then((value) async{
                   await servicesProvider.getInsuredInformationReport(value).then((value) async {
-                    // downloadPDF(value, translate('detailedDisclosure', context)).whenComplete((){
-                    //   if (kDebugMode) {
-                    //     print('completed!');
-                    //   }
-                    // });
+                    await downloadPDF(value, translate('detailedDisclosure', context)).whenComplete(() {
+                      if (kDebugMode) {
+                        print('completed');
+                      }
+                    });
                   });
                 });
                 servicesProvider.isLoading = false;
@@ -1208,31 +1414,36 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     );
   }
 
-  Widget customTwoRadioButtons(int flag, String firstChoice, String secondChoice, setState){
+  Widget customTwoRadioButtons(int flag, String firstChoice, String secondChoice, setState, {bool disabled = false}){
     return Row(
       children: [
         InkWell(
           onTap: (){
-            setState(() {
-              if(flag == 1) {
-                selectedStatus = firstChoice;
-              }
-              if(flag == 2) {
-                selectedJobStatus = firstChoice;
-              }
-              if(flag == 3) {
-                selectedGetsSalary = firstChoice;
-              }
-              if(flag == 4) {
-                selectedHasDisability = firstChoice;
-              }
-              if(flag == 5) {
-                selectedMethodOfReceiving = firstChoice;
-              }
-              if(flag == 6) {
-                nationality = firstChoice;
-              }
+            if(!disabled) {
+              setState(() {
+                if(flag == 1) {
+                  selectedStatus = firstChoice;
+                }
+                if(flag == 2) {
+                  selectedJobStatus = firstChoice;
+                }
+                if(flag == 3) {
+                  selectedGetsSalary = firstChoice;
+                }
+                if(flag == 4) {
+                  selectedHasDisability = firstChoice;
+                }
+                if(flag == 5) {
+                  // selectedMethodOfReceiving = firstChoice;
+                }
+                if(flag == 6) {
+                  nationality = firstChoice;
+                }
+                if(flag == 7) {
+                  selectedGender = firstChoice;
+                }
             });
+            }
           },
           child: Row(
             children: [
@@ -1248,8 +1459,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 child: CircleAvatar(
                   radius: isTablet(context) ? 10 : 5,
                   backgroundColor: (flag == 1 && selectedStatus == firstChoice) || (flag == 2 && selectedJobStatus == firstChoice) ||
-                      (flag == 3 && selectedGetsSalary == firstChoice) || (flag == 4 && selectedHasDisability == firstChoice) || (flag == 5 && selectedMethodOfReceiving == firstChoice) || (flag == 6 && nationality == firstChoice)
-                      ? HexColor('#2D452E') : Colors.transparent,
+                      (flag == 3 && selectedGetsSalary == firstChoice) || (flag == 4 && selectedHasDisability == firstChoice) ||
+                      (flag == 6 && nationality == firstChoice) || (flag == 7 && selectedGender == firstChoice)
+                      // || (flag == 5 && selectedMethodOfReceiving == firstChoice)
+                      ? disabled ? Colors.grey : HexColor('#2D452E')
+                      : Colors.transparent,
                 ),
               ),
               Padding(
@@ -1267,26 +1481,31 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
         const SizedBox(width: 10.0,),
         InkWell(
           onTap: (){
-            setState(() {
-              if(flag == 1) {
-                selectedStatus = secondChoice;
-              }
-              if(flag == 2) {
-                selectedJobStatus = secondChoice;
-              }
-              if(flag == 3) {
-                selectedGetsSalary = secondChoice;
-              }
-              if(flag == 4) {
-                selectedHasDisability = secondChoice;
-              }
-              if(flag == 5) {
-                selectedMethodOfReceiving = secondChoice;
-              }
-              if(flag == 6) {
-                nationality = secondChoice;
-              }
+            if(!disabled) {
+              setState(() {
+                if(flag == 1) {
+                  selectedStatus = secondChoice;
+                }
+                if(flag == 2) {
+                  selectedJobStatus = secondChoice;
+                }
+                if(flag == 3) {
+                  selectedGetsSalary = secondChoice;
+                }
+                if(flag == 4) {
+                  selectedHasDisability = secondChoice;
+                }
+                if(flag == 5) {
+                  // selectedMethodOfReceiving = secondChoice;
+                }
+                if(flag == 6) {
+                  nationality = secondChoice;
+                }
+                if(flag == 7) {
+                  selectedGender = secondChoice;
+                }
             });
+            }
           },
           child: Row(
             children: [
@@ -1302,8 +1521,10 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 child: CircleAvatar(
                   radius: isTablet(context) ? 10 : 5,
                   backgroundColor: (flag == 1 && selectedStatus == secondChoice) || (flag == 2 && selectedJobStatus == secondChoice) ||
-                      (flag == 3 && selectedGetsSalary == secondChoice) || (flag == 4 && selectedHasDisability == secondChoice) || (flag == 5 && selectedMethodOfReceiving == secondChoice) || (flag == 6 && nationality == secondChoice)
-                      ? HexColor('#2D452E') : Colors.transparent,
+                      (flag == 3 && selectedGetsSalary == secondChoice) || (flag == 4 && selectedHasDisability == secondChoice) ||
+                      (flag == 6 && nationality == secondChoice) || (flag == 7 && selectedGender == secondChoice)
+                      // || (flag == 5 && selectedMethodOfReceiving == secondChoice)
+                      ? disabled ? Colors.grey : HexColor('#2D452E') : Colors.transparent,
                 ),
               ),
               Padding(
@@ -1322,19 +1543,28 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     );
   }
 
-  Widget customRadioButtonGroup(List choices, setState){
+  Widget customRadioButtonGroup(int flag, List choices, setState){
     return Expanded(
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: 4,
+        itemCount: choices.length,
         itemBuilder: (context, index){
           return Column(
             children: [
               InkWell(
                 onTap: (){
                   setState(() {
-                    selectedMaritalStatus = choices[index];
+                    if(flag == 1) {
+                      selectedMaritalStatus = choices[index];
+                    }
+                    if(flag == 2) {
+                      selectedRelation = UserConfig.instance.checkLanguage()
+                          ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR'];
+                    }
+                    if(flag == 3) {
+                      selectedActivePayment = choices[index];
+                    }
                   });
                 },
                 child: Row(
@@ -1350,14 +1580,18 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                       padding: const EdgeInsets.all(2.0),
                       child: CircleAvatar(
                         radius: isTablet(context) ? 10 : 5,
-                        backgroundColor: selectedMaritalStatus == choices[index]
+                        backgroundColor: (flag == 1 && selectedMaritalStatus == choices[index]) || (flag == 2 && selectedRelation == (UserConfig.instance.checkLanguage()
+                            ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR']))  || (flag == 3 && selectedActivePayment == choices[index])
                             ? HexColor('#2D452E') : Colors.transparent,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        translate(choices[index], context),
+                        flag == 1
+                        ? translate(choices[index], context)
+                        : UserConfig.instance.checkLanguage()
+                        ? choices[index][flag == 2 ? 'REL_DESC_EN' : 'NAME_EN'] : choices[index][flag == 2 ? 'REL_DESC_AR' : 'NAME_AR'],
                         style: TextStyle(
                           color: HexColor('#666666'),
                         ),
@@ -1426,14 +1660,54 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               children: [
                                 buildFieldTitle(context, 'nationality', required: false),
                                 const SizedBox(height: 10.0,),
-                                customTwoRadioButtons(6, 'jordanian', 'nonJordanian', setState),
+                                customTwoRadioButtons(6, 'jordanian', 'nonJordanian', setState, disabled: servicesProvider.isNationalIdValid),
                                 const SizedBox(height: 20.0,),
                                 buildFieldTitle(context, nationality == 'jordanian' ? 'nationalId' : 'personalId', required: false),
                                 const SizedBox(height: 10.0,),
-                                buildTextFormField(context, themeNotifier, nationalIdController, '9999999999', (val){setState((){});}, inputType: TextInputType.number, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid),
+                                buildTextFormField(
+                                    context, themeNotifier, nationalIdController, servicesProvider.isNationalIdValid ? 'val${nationalIdController.text}' : '9999999999', (val) async {
+                                      if((val.length == 10 && nationality == 'jordanian')){
+                                        FocusScope.of(context).requestFocus(FocusNode());
+                                        String message = '';
+                                        servicesProvider.isLoading = true;
+                                        servicesProvider.isModalLoading = true;
+                                        servicesProvider.notifyMe();
+                                        try{
+                                          await servicesProvider.getDependentInfo(val).whenComplete((){}).then((value) {
+                                            if(value['PO_status'] == 0){
+                                              servicesProvider.isNationalIdValid = true;
+                                              setState((){
+                                                servicesProvider.dependentInfo = value;
+                                                servicesProvider.notifyMe();
+                                              });
+                                            } else{
+                                              message = UserConfig.instance.checkLanguage()
+                                                  ? value['PO_status_desc_EN'] : value['PO_status_desc_AR'];
+                                              showMyDialog(context, 'failed', message, 'ok', themeNotifier);
+                                            }
+                                          });
+                                          servicesProvider.isLoading = false;
+                                          servicesProvider.isModalLoading = false;
+                                          servicesProvider.notifyMe();
+                                        }catch(e){
+                                          servicesProvider.isLoading = false;
+                                          servicesProvider.isModalLoading = false;
+                                          servicesProvider.notifyMe();
+                                          if (kDebugMode) {
+                                            print(e.toString());
+                                          }
+                                        }
+                                      }
+                                      setState((){
+                                        checkNonJordanianInfo();
+                                      });
+                                    },
+                                    inputType: TextInputType.number, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid
+                                ),
                                 const SizedBox(height: 15.0,),
                               ],
                             ),
+                            if((nationality == 'jordanian' && servicesProvider.isNationalIdValid) || nationality == 'nonJordanian')
                             Expanded(
                               child: ListView(
                                 shrinkWrap: true,
@@ -1456,7 +1730,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  !isEdit ? servicesProvider.result['P_Dep'][0][index]['NAME'] : 'NAME',
+                                                  !isEdit
+                                                      ? servicesProvider.result['P_Dep'][0][index]['NAME']
+                                                      : '${servicesProvider.dependentInfo['cur_getdata'][0][0]['FULL_NAME']}',
                                                   style: TextStyle(
                                                     height: 1.4,
                                                     color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
@@ -1469,16 +1745,20 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                     color: !isEdit
                                                         ? servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
                                                         ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38)
-                                                        : const Color.fromRGBO(0, 121, 5, 0.38),
+                                                        : servicesProvider.dependentInfo['cur_getdata'][0][0]['RELATIVETYPE'] == 11
+                                                        ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
                                                     borderRadius: BorderRadius.circular(8.0),
                                                   ),
                                                   child: Text(
-                                                    !isEdit ? getRelationType(servicesProvider.result['P_Dep'][0][index]['RELATION']) : 'RELATION',
+                                                    !isEdit
+                                                        ? getRelationType(servicesProvider.result['P_Dep'][0][index]['RELATION'])
+                                                        : getRelationType(servicesProvider.dependentInfo['cur_getdata'][0][0]['RELATIVETYPE']),
                                                     style: TextStyle(
                                                       color: !isEdit
                                                           ? servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
                                                           ? HexColor('#003C97') : HexColor('#2D452E')
-                                                          : HexColor('#2D452E'),
+                                                          : servicesProvider.dependentInfo['cur_getdata'][0][0]['RELATIVETYPE'] == 11
+                                                          ? HexColor('#003C97') : HexColor('#2D452E'),
                                                       fontWeight: FontWeight.w400,
                                                     ),
                                                   ),
@@ -1489,7 +1769,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                             Row(
                                               children: [
                                                 Text(
-                                                  !isEdit ? servicesProvider.result['P_Dep'][0][index]['NATIONAL_NO'] : 'NATIONAL_NO',
+                                                  !isEdit
+                                                      ? servicesProvider.result['P_Dep'][0][index]['NATIONAL_NO']
+                                                      : servicesProvider.dependentInfo['cur_getdata'][0][0]['NATIONALNUMBER'],
                                                   style: TextStyle(
                                                     color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                                                   ),
@@ -1505,7 +1787,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                       !isEdit
                                                           ? servicesProvider.result['P_Dep'][0][index]['NATIONALITY'] == 1
                                                           ? 'jordanian' : 'nonJordanian'
-                                                          : 'jordanian',
+                                                          : servicesProvider.dependentInfo['cur_getdata'][0][0]['NATIONALITY'] == 1
+                                                          ? 'jordanian' : 'nonJordanian',
                                                       context),
                                                   style: TextStyle(
                                                     color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
@@ -1522,11 +1805,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                     children: [
                                       buildFieldTitle(context, 'quatrainNoun', required: false),
                                       const SizedBox(height: 10.0,),
-                                      buildTextFormField(context, themeNotifier, quatrainNounController, '', (val){setState((){});}, inputType: TextInputType.number, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid),
+                                      buildTextFormField(context, themeNotifier, quatrainNounController, '', (val){setState((){checkNonJordanianInfo();});}, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid),
                                       const SizedBox(height: 10.0,),
                                       buildFieldTitle(context, 'sex', required: false),
                                       const SizedBox(height: 10.0,),
-                                      customTwoRadioButtons((isEdit && !servicesProvider.isNationalIdValid) ? 69 : 2, 'male', 'female', setState),
+                                      customTwoRadioButtons(7, 'male', 'female', setState),
                                       const SizedBox(height: 20.0,),
                                       buildFieldTitle(context, 'DateOfBirth', required: false),
                                       SizedBox(height: height(0.015, context),),
@@ -1563,7 +1846,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                         firstDate: DateTime(1900),
                                         lastDate: DateTime.now(),
                                         dateLabelText: 'Date',
-                                        // onChanged: (val) => checkContinueEnable(loginProvider),
+                                        onChanged: (val) => setState((){checkNonJordanianInfo();}),
                                       ),
                                     ],
                                   ),
@@ -1578,15 +1861,15 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   const SizedBox(height: 20.0,),
                                   buildFieldTitle(context, 'employmentStatus', required: false),
                                   const SizedBox(height: 10.0,),
-                                  customTwoRadioButtons((isEdit && !servicesProvider.isNationalIdValid) ? 69 : 2, 'unemployed', 'employed', setState),
+                                  customTwoRadioButtons(2, 'unemployed', 'employed', setState),
                                   const SizedBox(height: 20.0,),
                                   buildFieldTitle(context, 'getsSalary', required: false),
                                   const SizedBox(height: 10.0,),
-                                  customTwoRadioButtons((isEdit && !servicesProvider.isNationalIdValid) ? 69 : 3, 'yes', 'no', setState),
+                                  customTwoRadioButtons(3, 'yes', 'no', setState),
                                   const SizedBox(height: 20.0,),
                                   buildFieldTitle(context, 'hasDisability', required: false),
                                   const SizedBox(height: 10.0,),
-                                  customTwoRadioButtons((isEdit && !servicesProvider.isNationalIdValid) ? 69 : 4, 'yes', 'no', setState),
+                                  customTwoRadioButtons(4, 'yes', 'no', setState),
                                   if(!isEdit)
                                   const SizedBox(height: 20.0,),
                                   if(!isEdit)
@@ -1594,7 +1877,15 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   if(!isEdit)
                                   const SizedBox(height: 10.0,),
                                   if(!isEdit)
-                                  customRadioButtonGroup(maritalList, setState),
+                                  customRadioButtonGroup(1, maritalList, setState),
+                                  if(nationality == 'nonJordanian')
+                                  const SizedBox(height: 20.0,),
+                                  if(nationality == 'nonJordanian')
+                                  buildFieldTitle(context, 'relativeRelation', required: false),
+                                  if(nationality == 'nonJordanian')
+                                  const SizedBox(height: 10.0,),
+                                  if(nationality == 'nonJordanian')
+                                  customRadioButtonGroup(2, UserConfig.instance.checkLanguage() ? servicesProvider.result['P_RELATION'][0]: servicesProvider.result['P_RELATION'][0], setState),
                                   SizedBox(height: height(isScreenHasSmallHeight(context) ? 0.2 : 0.11, context),),
                                 ],
                               ),
@@ -1610,22 +1901,199 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                textButton(context, themeNotifier, 'save', (!isEdit || ( isEdit && nationalIdController.text.length == 10)) ? HexColor('#445740') : HexColor('DADADA'),
-                                    (!isEdit || ( isEdit && nationalIdController.text.length == 10)) ? Colors.white : HexColor('#363636'), () async {
+                                textButton(context, themeNotifier, 'save', (!isEdit || (isEdit && nationality == 'jordanian' && servicesProvider.isNationalIdValid) || (isEdit && nationality == 'nonJordanian' && nonJordanianSubmitEnabled)) ? HexColor('#445740') : HexColor('DADADA'),
+                                    (!isEdit || (isEdit && nationality == 'jordanian' && servicesProvider.isNationalIdValid) || (isEdit && nationality == 'nonJordanian' && nonJordanianSubmitEnabled)) ? Colors.white : HexColor('#363636'), () async {
+                                  FocusScope.of(context).requestFocus(FocusNode());
                                   if(!isEdit) {
-                                    Navigator.of(context).pop();
+                                    String message = '';
+                                    servicesProvider.isLoading = true;
+                                    servicesProvider.isModalLoading = true;
+                                    servicesProvider.notifyMe();
+                                    dynamic maritalStatus = selectedMaritalStatus == (UserConfig.instance.checkLanguage()
+                                        ? 'single' : servicesProvider.result['P_Dep'][0][index]["GENDER"] == 1 ? 'singleM' : 'singleF') ? 1
+                                        : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
+                                        ? 'married' : servicesProvider.result['P_Dep'][0][index]["GENDER"] == 1 ? 'marriedM' : 'marriedF') ? 2
+                                        : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
+                                        ? 'divorced' : servicesProvider.result['P_Dep'][0][index]["GENDER"] == 1 ? 'divorcedM' : 'divorcedF') ? 3
+                                        : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
+                                        ? 'widow' : servicesProvider.result['P_Dep'][0][index]["GENDER"] == 1 ? 'widowM' : 'widowF') ? 4 : 1;
+                                    try{
+                                      /// TODO: complete checkDocumentDependent!
+                                      await servicesProvider.checkDocumentDependent((selectedGender == "male") ? "1" : "2").then((value) async {
+                                        if(value['P_RESULT'].isEmpty){
+                                          var dependent = {
+                                            "NAME": servicesProvider.result['P_Dep'][0][index]["NAME"],
+                                            "RELATION": servicesProvider.result['P_Dep'][0][index]["RELATION"],
+                                            "IS_ALIVE": selectedStatus == 'alive' ? 1 : 0,
+                                            "WORK_STATUS": selectedJobStatus == 'unemployed' ? 0 : 1,
+                                            "IS_RETIRED": servicesProvider.result['P_Dep'][0][index]["IS_RETIRED"],
+                                            "DISABILITY": selectedHasDisability == 'no' ? 0 : 1,
+                                            "MARITAL_STATUS": maritalStatus,
+                                            "GENDER": servicesProvider.result['P_Dep'][0][index]["GENDER"],
+                                            "ID": servicesProvider.result['P_Dep'][0][index]["ID"],
+                                            "SOURCE_FLAG": servicesProvider.result['P_Dep'][0][index]["SOURCE_FLAG"],
+                                            "NATIONAL_NO": servicesProvider.result['P_Dep'][0][index]["NATIONAL_NO"],
+                                            "NATIONALITY": servicesProvider.result['P_Dep'][0][index]["NATIONALITY"],
+                                            "BIRTHDATE": servicesProvider.result['P_Dep'][0][index]["BIRTHDATE"],
+                                            "AGE": servicesProvider.result['P_Dep'][0][index]["AGE"],
+                                            "MARITAL_STATUS_A": servicesProvider.result['P_Dep'][0][index]["MARITAL_STATUS_A"],
+                                            "WORK_STATUS_A": servicesProvider.result['P_Dep'][0][index]["WORK_STATUS_A"],
+                                            "IS_ALIVE_A": servicesProvider.result['P_Dep'][0][index]["IS_ALIVE_A"],
+                                            "IS_RETIRED_A": selectedGetsSalary == 'yes' ? 1 : 0,
+                                            "LAST_EVENT_DATE": servicesProvider.result['P_Dep'][0][index]["LAST_EVENT_DATE"],
+                                            "WANT_HEALTH_INSURANCE": "",
+                                            "PreLoad": 0,
+                                            "Added": 1,
+                                            "doc_dep": [],
+                                            "DEP_CODE": servicesProvider.result['P_Dep'][0][index]["DEP_CODE"],
+                                            "IS_STOP": ""
+                                          };
+                                          servicesProvider.result['P_Dep'][0][index] = dependent;
+                                          await servicesProvider.getRequiredDocuments(
+                                              jsonEncode({
+                                                "row": {
+                                                  "NAT": "111",
+                                                  "GENDER": "1"
+                                                },
+                                                "dep": {
+                                                  "dep": dependent
+                                                }
+                                              }), 8
+                                          ).whenComplete((){}).then((value) {
+                                            servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == servicesProvider.result['P_Dep'][0][dependentIndex]["DEP_CODE"]);
+                                            if(value['R_RESULT'].isNotEmpty){
+                                              for(int i=0 ; i<value['R_RESULT'][0].length ; i++){
+                                                if(!servicesProvider.dependentsDocuments.contains(value['R_RESULT'][0][i])) {
+                                                  servicesProvider.dependentsDocuments.add(value['R_RESULT'][0][i]);
+                                                }
+                                              }
+                                            }
+                                          });
+                                          // ignore: use_build_context_synchronously
+                                          Navigator.pop(context);
+                                        } else{
+                                          message = UserConfig.instance.checkLanguage()
+                                              ? value['PO_status_desc_EN'] : value['PO_status_desc_AR'];
+                                          showMyDialog(context, 'failed', message, 'ok', themeNotifier);
+                                        }
+                                      });
+                                      servicesProvider.isLoading = false;
+                                      servicesProvider.isModalLoading = false;
+                                      servicesProvider.notifyMe();
+                                    } catch(e){
+                                      servicesProvider.isLoading = false;
+                                      servicesProvider.isModalLoading = false;
+                                      servicesProvider.notifyMe();
+                                      if (kDebugMode) {
+                                        print(e.toString());
+                                      }
+                                    }
                                   } else{
-                                    if(nationalIdController.text.length == 10){
+                                    if((nationality == 'jordanian' && servicesProvider.isNationalIdValid) || (nationality == 'nonJordanian' && nonJordanianSubmitEnabled)){
                                       String message = '';
                                       servicesProvider.isLoading = true;
                                       servicesProvider.isModalLoading = true;
                                       servicesProvider.notifyMe();
+                                      dynamic maritalStatus = selectedMaritalStatus == (UserConfig.instance.checkLanguage()
+                                          ? 'single' : servicesProvider.dependentInfo['cur_getdata'][0][0]["GENDER"] == 1 ? 'singleM' : 'singleF') ? 1
+                                          : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
+                                          ? 'married' : servicesProvider.dependentInfo['cur_getdata'][0][0]["GENDER"] == 1 ? 'marriedM' : 'marriedF') ? 2
+                                          : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
+                                          ? 'divorced' : servicesProvider.dependentInfo['cur_getdata'][0][0]["GENDER"] == 1 ? 'divorcedM' : 'divorcedF') ? 3
+                                          : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
+                                          ? 'widow' : servicesProvider.dependentInfo['cur_getdata'][0][0]["GENDER"] == 1 ? 'widowM' : 'widowF') ? 4 : 1;
                                       try{
-                                        await servicesProvider.addNewDependent(nationalIdController.text).then((value) async {
-                                          if(value['PO_status'] != 1){
-                                            ///TODO : get dependent informations
-                                            servicesProvider.isNationalIdValid = true;
-                                            servicesProvider.notifyMe();
+                                        await servicesProvider.checkDocumentDependent((selectedGender == "male") ? "1" : "2").then((value) async {
+                                          if(value['P_RESULT'].isEmpty){
+                                            Map<String, dynamic> dependent;
+                                            String id = "${DateTime.now().millisecondsSinceEpoch}${((math.Random().nextDouble() * 10000) + 1).floor()}";
+                                            if(nationality == 'jordanian'){
+                                              dependent = {
+                                                "NAME": servicesProvider.dependentInfo['cur_getdata'][0][0]["FULL_NAME"],
+                                                "GENDER": servicesProvider.dependentInfo['cur_getdata'][0][0]["GENDER"],
+                                                "FIRSTNAME": servicesProvider.dependentInfo['cur_getdata'][0][0]["FIRSTNAME"],
+                                                "SECONDNAME": servicesProvider.dependentInfo['cur_getdata'][0][0]["SECONDNAME"],
+                                                "THIRDNAME": servicesProvider.dependentInfo['cur_getdata'][0][0]["THIRDNAME"],
+                                                "LASTNAME": servicesProvider.dependentInfo['cur_getdata'][0][0]["LASTNAME"],
+                                                "BIRTHDATE": servicesProvider.dependentInfo['cur_getdata'][0][0]["BIRTHDATE"],
+                                                "AGE": servicesProvider.dependentInfo['cur_getdata'][0][0]["AGE"],
+                                                "MARITAL_STATUS_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["SOCIAL_STATUS"],
+                                                "MARITAL_STATUS": servicesProvider.dependentInfo['cur_getdata'][0][0]["SOCIAL_STATUS"],
+                                                "WORK_STATUS_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_WORK"],
+                                                "IS_ALIVE_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_ALIVE"],
+                                                "IS_ALIVE": servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_ALIVE"],
+                                                "IS_RETIRED_A": selectedGetsSalary == 'yes' ? 1 : 0,
+                                                "LAST_EVENT_DATE": servicesProvider.dependentInfo['cur_getdata'][0][0]["LAST_SOC_STATUS_DATE"],
+                                                "WANT_HEALTH_INSURANCE": "",
+                                                "PreLoad": null,
+                                                "Added": null,
+                                                "doc_dep": "",
+                                                "RELATION": servicesProvider.dependentInfo['cur_getdata'][0][0]["RELATIVETYPE"],
+                                                "WORK_STATUS": selectedJobStatus == 'unemployed' ? 0 : 1,
+                                                "IS_RETIRED": servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_RETIRED"],
+                                                "DISABILITY": selectedHasDisability == 'no' ? 0 : 1,
+                                                "ID": id,
+                                                "DEP_CODE": id,
+                                                "SOURCE_FLAG": 2,
+                                                "NATIONAL_NO": servicesProvider.dependentInfo['cur_getdata'][0][0]["NATIONALNUMBER"],
+                                                "NATIONALITY": servicesProvider.dependentInfo['cur_getdata'][0][0]["NATIONALITY"],
+                                              };
+                                            } else{
+                                              dependent = {
+                                                "NAME": quatrainNounController.text,
+                                                "RELATION": getRelationNumber(selectedRelation),
+                                                "IS_ALIVE": 1,
+                                                "WORK_STATUS": selectedJobStatus == 'unemployed' ? 0 : 1,
+                                                "IS_RETIRED": selectedGetsSalary == 'yes' ? 1 : 0,
+                                                "DISABILITY": selectedHasDisability == 'no' ? 0 : 1,
+                                                "MARITAL_STATUS": maritalStatus,
+                                                "MARITAL_STATUS_A": maritalStatus,
+                                                "GENDER": selectedGender == 'male' ? 1 : 2,
+                                                "ID": id,
+                                                "SOURCE_FLAG": 2,
+                                                "NATIONAL_NO": nationalIdController.text,
+                                                "NATIONALITY": 2,
+                                                "BIRTHDATE": dateOfBirthController.text,
+                                                "AGE": 0,
+                                                ///
+                                                "WORK_STATUS_A": selectedJobStatus == 'unemployed' ? 0 : 1,
+                                                "IS_ALIVE_A": 1,
+                                                "IS_RETIRED_A": selectedGetsSalary == 'yes' ? 1 : 0,
+                                                "LAST_EVENT_DATE": "",
+                                                "WANT_HEALTH_INSURANCE": "",
+                                                "PreLoad": null,
+                                                "Added": null,
+                                                "doc_dep": "",
+                                                "DEP_CODE": id,
+                                              };
+                                            }
+                                            await servicesProvider.getRequiredDocuments(
+                                                jsonEncode({
+                                                  "row": {
+                                                    "NAT": "111",
+                                                    "GENDER": "2"
+                                                  },
+                                                  "dep": {
+                                                    "dep": dependent
+                                                  }
+                                                }),
+                                                8
+                                            ).whenComplete((){}).then((value) {
+                                              if(value['R_RESULT'].isNotEmpty){
+                                                for(int i=0 ; i<value['R_RESULT'][0].length ; i++){
+                                                  if(!servicesProvider.dependentsDocuments.contains(value['R_RESULT'][0][i])) {
+                                                    servicesProvider.dependentsDocuments.add(value['R_RESULT'][0][i]);
+                                                  }
+                                                }
+                                              }
+                                            });
+                                            if(servicesProvider.result['P_Dep'].length != 0) {
+                                              servicesProvider.result['P_Dep'][0].add(dependent);
+                                            } else{
+                                              servicesProvider.result['P_Dep'].add([dependent]);
+                                            }
+                                            // ignore: use_build_context_synchronously
+                                            Navigator.pop(context);
                                           } else{
                                             message = UserConfig.instance.checkLanguage()
                                                 ? value['PO_status_desc_EN'] : value['PO_status_desc_AR'];
@@ -1666,7 +2134,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                     child: Center(
                       child: animatedLoader(context),
                     ),
-                  ),
+                ),
               ],
             ),
           ),
@@ -1695,11 +2163,22 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     return result;
   }
 
-  Widget buildCountriesDropDown(SelectedListItem selectedCountry) {
+  int getRelationNumber(String relation){
+    int result = 0;
+    servicesProvider.result['P_RELATION'][0].forEach((element){
+      if((UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR']) == relation){
+        result = element['REL_ID'];
+      }
+    });
+    return result;
+  }
+
+  Widget buildCountriesDropDown(SelectedListItem selectedCountry, int flag) {
     List<SelectedListItem> selectedListItem = [];
     for (var element in Provider.of<LoginProvider>(context, listen: false).countries) {
       int inx = countries.indexWhere((value) => value.dialCode == element.callingCode);
-      selectedListItem.add(
+      if((flag == 1 && element.natcode != 111) || flag == 2) {
+        selectedListItem.add(
         SelectedListItem(
           name: UserConfig.instance.checkLanguage() ? countries[inx == -1
               ? 0
@@ -1710,6 +2189,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
           flag: countries[inx == -1 ? 0 : inx].flag,
         ),
       );
+      }
     }
     return InkWell(
       onTap: () {
@@ -1721,7 +2201,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               for (var item in selectedList) {
                 if (item is SelectedListItem) {
                   setState(() {
-                    selectedMobileCountry = item;
+                    if(flag == 1){
+                      selectedPaymentCountry = item;
+                    }else if(flag == 2){
+                      selectedMobileCountry = item;
+                    }
                   });
                 }
               }
@@ -1756,7 +2240,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   ),
                   SizedBox(width: width(0.01, context),),
                   Text(
-                    selectedCountry?.value ?? "",
+                    flag == 1 ? selectedCountry.name : selectedCountry?.value ?? "",
                     style: TextStyle(
                         color: HexColor('#363636'),
                         fontSize: 15
@@ -1774,6 +2258,19 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     );
   }
 
+  checkNonJordanianInfo() {
+    if (nationalIdController.text.length == 10 &&
+        quatrainNounController.text.isNotEmpty &&
+        dateOfBirthController.text.isNotEmpty) {
+      setState(() {
+        nonJordanianSubmitEnabled = true;
+      });
+    } else {
+      setState(() {
+        nonJordanianSubmitEnabled = false;
+      });
+    }
+  }
 }
 
 enum ContextMenu { edit, delete }
