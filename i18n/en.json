@@ -424,7 +424,9 @@
   "sex": "Sex",
   "male": "Male",
   "female": "Female",
-  "userMobileNumberAndEmailAreEmptyPleaseReRegister": "The user's mobile number and e-mail are empty. Please re-register"
+  "userMobileNumberAndEmailAreEmptyPleaseReRegister": "The user's mobile number and e-mail are empty. Please re-register",
+  "goToYourBanksApplicationAndSendYourIBANToTheEscrow": "Go to your bank's application and send your IBAN to the Escrow",
+  "iban": "IBAN number"
 
 
 }

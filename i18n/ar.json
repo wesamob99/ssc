@@ -429,6 +429,8 @@
   "sex": "الجنس",
   "male": "ذكر",
   "female": "أنثى",
-  "userMobileNumberAndEmailAreEmptyPleaseReRegister": "رقم جوال المستخدم والبريد الإلكتروني فارغين الرجاء إعادة التسجيل"
+  "userMobileNumberAndEmailAreEmptyPleaseReRegister": "رقم جوال المستخدم والبريد الإلكتروني فارغين الرجاء إعادة التسجيل",
+  "goToYourBanksApplicationAndSendYourIBANToTheEscrow": "توجة الى تطبيق البنك الخاص بك  وارسل الايبان الخاص بك الى الضمان",
+  "iban": "رقم الايبان"
 
 }
