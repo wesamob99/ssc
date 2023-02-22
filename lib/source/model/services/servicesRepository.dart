@@ -2,11 +2,11 @@
 
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 
 import '../../../infrastructure/HTTPClientContract.dart';
-import '../../../models/services/getEarlyRetirementModel.dart';
 import '../../../models/services/pensionPaymentModel.dart';
 
 class ServicesRepository{
@@ -55,90 +55,45 @@ class ServicesRepository{
     return '';
   }
 
-  Future getRequiredDocumentsService(result) async {
+  Future getActivePaymentService(String serviceType, String nat) async {
+    var response = await HTTPClientContract.instance.getHTTP('/website/getActivePayment?p_service_type=$serviceType&NAT=$nat');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+  Future getRequiredDocumentsService(result, serviceNo) async {
     var data = {
       "params":{
-        "Data": jsonEncode({
-          "PAYMENT_METHOD": result['P_Result'][0][0]['PAYMENT_METHOD'],
-          "BANK_LOCATION": result['P_Result'][0][0]['BANK_LOCATION'], /// update
-          "BRANCH_ID": result['P_Result'][0][0]['BRANCH_ID'],
-          "BRANCH_NAME": result['P_Result'][0][0]['BRANCH_NAME'],
-          "BANK_ID": result['P_Result'][0][0]['BANK_ID'],
-          "BANK_NAME": result['P_Result'][0][0]['BANK_NAME'],
-          "ACCOUNT_NAME": result['P_Result'][0][0]['ACCOUNT_NAME'],
-          "PAYMENT_COUNTRY": result['P_Result'][0][0]['PAYMENT_COUNTRY'],
-          "PAYMENT_COUNTRY_CODE": result['P_Result'][0][0]['PAYMENT_COUNTRY_CODE'],
-          "PAYMENT_PHONE": result['P_Result'][0][0]['PAYMENT_PHONE'],
-          "IFSC": result['P_Result'][0][0]['IFSC'],
-          "SWIFT_CODE": result['P_Result'][0][0]['SWIFT_CODE'], /// update
-          "BANK_DETAILS": result['P_Result'][0][0]['BANK_DETAILS'], /// update
-          "IBAN": result['P_Result'][0][0]['IBAN'],
-          "CASH_BANK_ID": result['P_Result'][0][0]['CASH_BANK_ID'],
-          "REP_NATIONALITY": result['P_Result'][0][0]['REP_NATIONALITY'], /// update
-          "REP_NATIONAL_NO": result['P_Result'][0][0]['REP_NATIONAL_NO'], /// update
-          "REP_NAME": result['P_Result'][0][0]['REP_NAME'], /// update
-          "WALLET_TYPE": result['P_Result'][0][0]['WALLET_TYPE'],
-          "WALLET_OTP_VERIVIED": null,
-          "WALLET_OTP": null,
-          "WALLET_PHONE": result['P_Result'][0][0]['WALLET_PHONE'],
-          "WALLET_PHONE_VERIVIED": result['P_Result'][0][0]['WALLET_PHONE_VERIVIED'],
-          "WALLET_PASSPORT_NUMBER": result['P_Result'][0][0]['WALLET_PASSPORT_NUMBER'],
-          "PEN_IBAN": result['P_Result'][0][0]['PEN_IBAN'],
-          "SECNO": result['p_per_info'][0][0]['SECNO'],
-          "NAT_DESC": result['p_per_info'][0][0]['NAT_DESC'],
-          "NAT": result['P_Result'][0][0]['NAT'],
-          "NAT_NO": result['P_Result'][0][0]['NAT_NO'],
-          "PERS_NO": result['P_Result'][0][0]['PERS_NO'],
-          "LAST_EST_NAME": result['P_Result'][0][0]['LAST_EST_NAME'],
-          "NAME1": result['p_per_info'][0][0]['NAME1'],
-          "NAME2": result['p_per_info'][0][0]['NAME2'],
-          "NAME3": result['p_per_info'][0][0]['NAME3'],
-          "NAME4": result['p_per_info'][0][0]['NAME4'],
-          "FULL_NAME_EN": result['p_per_info'][0][0]['FULL_NAME_EN'],
-          "EMAIL": result['p_per_info'][0][0]['EMAIL'],
-          "MOBILE": result['p_per_info'][0][0]['MOBILE'],
-          "INTERNATIONAL_CODE": result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
-          "INSURED_ADDRESS": result['P_Result'][0][0]['INSURED_ADDRESS'],
-          "MARITAL_STATUS": result['P_Result'][0][0]['MARITAL_STATUS'],
-          "REGDATE": null,
-          "REGRATE": null,
-          "LAST_SALARY": null,
-          "LAST_STODATE": result['P_Result'][0][0]['LAST_STODATE'],
-          "ACTUAL_STODATE": result['P_Result'][0][0]['ACTUAL_STODATE'],
-          "GENDER": result['p_per_info'][0][0]['GENDER'],
-          "CIVIL_WORK_DOC": result['P_Result'][0][0]['CIVIL_WORK_DOC'],
-          "MILITARY_WORK_DOC": result['P_Result'][0][0]['MILITARY_WORK_DOC'],
-          "CIV_MIL_RETIRED_DOC": result['P_Result'][0][0]['CIV_MIL_RETIRED_DOC'],
-          "PEN_START_DATE": result['P_Result'][0][0]['PEN_START_DATE'],
-          "GOVERNORATE": result['P_Result'][0][0]['GOVERNORATE'],
-          "DETAILED_ADDRESS": null,
-          "PASS_NO": null,
-          "RESIDENCY_NO": null,
-          "DOB": result['p_per_info'][0][0]['DOB'],
-          "JOB_NO": null,
-          "JOB_DESC": result['P_Result'][0][0]['JOB_DESC'],
-          "ENAME1": null,
-          "ENAME2": null,
-          "ENAME3": null,
-          "ENAME4": null,
-          "LAST_EST_NO": result['P_Result'][0][0]['LAST_EST_NO'], /// update
-          "FAM_NO": null,
-          "nextVaild": null,
-          "wantAddFamily": null,
-          "GENDER_DESC": result['p_per_info'][0][0]['GENDER_DESC'],
-          "PI_EPAY": null,
-          "INSURED": null,
-          "ID": result['P_Result'][0][0]['ID'], /// update
-          "DEP_FLAG": 0
-        }),
-        "SERVICE_NO": result['P_Result'][0][0]['SERVICE_TYPE']
+        "Data": result,
+        "SERVICE_NO": serviceNo
       }
     };
     if (kDebugMode) {
-      print(data);
+      print('data: ${jsonEncode(data)}');
     }
     var response = await HTTPClientContract.instance.postHTTP(
         '/website/GetDocumentRequired', data
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+  Future saveFileService(file) async {
+    var formData = FormData();
+    formData.files.add(MapEntry("Excel", await MultipartFile.fromFile(file.path)));
+
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/ftp/saveFile?fileName=&folderName=24', formData
     );
     if (kDebugMode) {
       print(response);
@@ -386,6 +341,17 @@ class ServicesRepository{
     return null;
   }
 
+  Future getDependentInfoService(String id) async { // get dependent details when adding new dependent from the national ID
+    var response = await HTTPClientContract.instance.getHTTP('/website/support_GetDetail?pi_relative_nat_pers_no=$id&PI_relatiev_nat=1');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+
   Future<PensionPaymentModel> getPensionPaymentSPService(String year) async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
@@ -436,127 +402,179 @@ class ServicesRepository{
     return '';
   }
 
-  Future setEarlyRetirementApplicationService(result) async {
-
-    GetEarlyRetirementModel earlyRetirementModel = result;
-    earlyRetirementModel.pResult[0][0].iban = null;
+  Future setEarlyRetirementApplicationService(result, docs, paymentInfo, int authorizedToSign) async {
     var row = {
-      "PAYMENT_METHOD": result['P_Result'][0]['PAYMENT_METHOD'],
-      "BANK_LOCATION": result['P_Result'][0]['BANK_LOCATION'],
-      "BRANCH_ID": result['P_Result'][0]['BRANCH_ID'],
-      "BRANCH_NAME": result['P_Result'][0]['BRANCH_NAME'],
-      "BANK_ID": result['P_Result'][0]['BANK_ID'],
-      "BANK_NAME": result['P_Result'][0]['BANK_NAME'],
-      "ACCOUNT_NAME": result['P_Result'][0]['ACCOUNT_NAME'],
-      "PAYMENT_COUNTRY": result['P_Result'][0]['PAYMENT_COUNTRY'],
-      "PAYMENT_COUNTRY_CODE": result['P_Result'][0]['PAYMENT_COUNTRY_CODE'],
-      "PAYMENT_PHONE": result['P_Result'][0]['PAYMENT_PHONE'],
-      "IFSC": result['P_Result'][0]['IFSC'],
-      "SWIFT_CODE": result['P_Result'][0]['SWIFT_CODE'],
-      "BANK_DETAILS": result['P_Result'][0]['BANK_DETAILS'],
-      "IBAN": result['P_Result'][0]['IBAN'],
-      "CASH_BANK_ID": result['P_Result'][0]['CASH_BANK_ID'],
-      "REP_NATIONALITY": result['P_Result'][0]['REP_NATIONALITY'],
-      "REP_NATIONAL_NO": result['P_Result'][0]['REP_NATIONAL_NO'],
-      "REP_NAME": result['P_Result'][0]['REP_NAME'],
-      "WALLET_TYPE": result['P_Result'][0]['WALLET_TYPE'],
-      "WALLET_OTP_VERIVIED": null, /// not found
-      "WALLET_OTP": null, /// not found
-      "WALLET_PHONE": result['P_Result'][0]['WALLET_PHONE'],
-      "WALLET_PHONE_VERIVIED": result['P_Result'][0]['WALLET_PHONE_VERIVIED'],
-      "WALLET_PASSPORT_NUMBER": result['P_Result'][0]['WALLET_PASSPORT_NUMBER'],
-      "PEN_IBAN": result['P_Result'][0]['PEN_IBAN'],
-      "APPROVE_DISCLOSURE": result['P_Result'][0]['APPROVE_DISCLOSURE'],
-      "NOT_APPROVE_REASON": result['P_Result'][0]['NOT_APPROVE_REASON'],
-      "SIG_ATHORIZED": result['P_Result'][0]['SIG_ATHORIZED'],
-      "WANT_INSURANCE": result['P_Result'][0]['WANT_INSURANCE'],
-      "OFFNO": result['P_Result'][0]['OFFNO'],
-      "AGREE_TERMS": result['P_Result'][0]['AGREE_TERMS'],
-      "SECNO": result['p_per_info'][0]['SECNO'],
-      "NAT_DESC": result['p_per_info'][0]['NAT_DESC'],
-      "NAT": result['P_Result'][0]['NAT'],
-      "NAT_NO": result['P_Result'][0]['NAT_NO'],
-      "PERS_NO": result['P_Result'][0]['PERS_NO'],
-      "LAST_EST_NAME": result['P_Result'][0]['LAST_EST_NAME'],
-      "NAME1": result['p_per_info'][0]['NAME1'],
-      "NAME2": result['p_per_info'][0]['NAME2'],
-      "NAME3": result['p_per_info'][0]['NAME3'],
-      "NAME4": result['p_per_info'][0]['NAME4'],
-      "FULL_NAME_EN": result['p_per_info'][0]['FULL_NAME_EN'],
-      "EMAIL": result['p_per_info'][0]['EMAIL'],
-      "MOBILE": result['p_per_info'][0]['MOBILE'],
-      "INTERNATIONAL_CODE": result['p_per_info'][0]['INTERNATIONAL_CODE'],
-      "INSURED_ADDRESS": result['P_Result'][0]['INSURED_ADDRESS'],
-      "MARITAL_STATUS": result['P_Result'][0]['MARITAL_STATUS'],
+      /// payment info
+      "PAYMENT_METHOD": paymentInfo['PAYMENT_METHOD'],
+      "BANK_LOCATION": paymentInfo['BANK_LOCATION'],
+      "BRANCH_ID": paymentInfo['BRANCH_ID'],
+      "BRANCH_NAME": paymentInfo['BRANCH_NAME'],
+      "BANK_ID": paymentInfo['BANK_ID'],
+      "BANK_NAME": paymentInfo['BANK_NAME'],
+      "ACCOUNT_NAME": paymentInfo['ACCOUNT_NAME'],
+      "PAYMENT_COUNTRY": paymentInfo['PAYMENT_COUNTRY'],
+      "PAYMENT_COUNTRY_CODE": paymentInfo['PAYMENT_COUNTRY_CODE'],
+      "PAYMENT_PHONE": paymentInfo['PAYMENT_PHONE'],
+      "SWIFT_CODE": paymentInfo['SWIFT_CODE'],
+      "BANK_DETAILS": paymentInfo['BANK_DETAILS'],
+      "IBAN": paymentInfo['IBAN'],
+      "CASH_BANK_ID": paymentInfo['CASH_BANK_ID'],
+      "REP_NATIONALITY": paymentInfo['REP_NATIONALITY'],
+      "REP_NATIONAL_NO": paymentInfo['REP_NATIONAL_NO'],
+      "REP_NAME": paymentInfo['REP_NAME'],
+      "WALLET_TYPE": paymentInfo['WALLET_TYPE'],
+      "WALLET_OTP_VERIVIED": paymentInfo['WALLET_OTP_VERIVIED'],
+      "WALLET_OTP": paymentInfo['WALLET_OTP'],
+      "WALLET_PHONE": paymentInfo['WALLET_PHONE'],
+      "WALLET_PHONE_VERIVIED": paymentInfo['WALLET_PHONE_VERIVIED'],
+      "WALLET_PASSPORT_NUMBER": paymentInfo['WALLET_PASSPORT_NUMBER'],
+      "PEN_IBAN": paymentInfo['PEN_IBAN'],
+      /// ***
+      "IFSC": result['P_Result'][0][0]['IFSC'], /// ?!
+      "APPROVE_DISCLOSURE": result['P_Result'][0][0]['APPROVE_DISCLOSURE'],
+      "NOT_APPROVE_REASON": result['P_Result'][0][0]['NOT_APPROVE_REASON'],
+      "SIG_ATHORIZED": authorizedToSign,
+      "WANT_INSURANCE": result['P_Result'][0][0]['WANT_INSURANCE'],
+      "OFFNO": result['P_Result'][0][0]['OFFNO'],
+      "AGREE_TERMS": result['P_Result'][0][0]['AGREE_TERMS'],
+      "SECNO": result['p_per_info'][0][0]['SECNO'],
+      "NAT_DESC": result['p_per_info'][0][0]['NAT_DESC'],
+      "NAT": result['P_Result'][0][0]['NAT'],
+      "NAT_NO": result['P_Result'][0][0]['NAT_NO'],
+      "PERS_NO": result['P_Result'][0][0]['PERS_NO'],
+      "LAST_EST_NAME": result['P_Result'][0][0]['LAST_EST_NAME'],
+      "NAME1": result['p_per_info'][0][0]['NAME1'],
+      "NAME2": result['p_per_info'][0][0]['NAME2'],
+      "NAME3": result['p_per_info'][0][0]['NAME3'],
+      "NAME4": result['p_per_info'][0][0]['NAME4'],
+      "FULL_NAME_EN": result['p_per_info'][0][0]['FULL_NAME_EN'],
+      "EMAIL": result['p_per_info'][0][0]['EMAIL'],
+      "MOBILE": result['p_per_info'][0][0]['MOBILE'],
+      "INTERNATIONAL_CODE": result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
+      "INSURED_ADDRESS": result['P_Result'][0][0]['INSURED_ADDRESS'],
+      "MARITAL_STATUS": result['P_Result'][0][0]['MARITAL_STATUS'],
       "REGDATE": null, /// not found
       "REGRATE": null, /// not found
       "LAST_SALARY": null, /// not found
-      "LAST_STODATE": result['P_Result'][0]['LAST_STODATE'],
-      "ACTUAL_STODATE": result['P_Result'][0]['ACTUAL_STODATE'],
-      "GENDER": result['p_per_info'][0]['SECNO'],
-      "CIVIL_WORK_DOC": result['P_Result'][0]['CIVIL_WORK_DOC'],
-      "MILITARY_WORK_DOC": result['P_Result'][0]['MILITARY_WORK_DOC'],
-      "CIV_MIL_RETIRED_DOC": result['P_Result'][0]['CIV_MIL_RETIRED_DOC'],
-      "PEN_START_DATE": result['P_Result'][0]['PEN_START_DATE'],
-      "GOVERNORATE": result['P_Result'][0]['GOVERNORATE'],
+      "LAST_STODATE": result['P_Result'][0][0]['LAST_STODATE'],
+      "ACTUAL_STODATE": result['P_Result'][0][0]['ACTUAL_STODATE'],
+      "GENDER": result['p_per_info'][0][0]['GENDER'],
+      "CIVIL_WORK_DOC": result['P_Result'][0][0]['CIVIL_WORK_DOC'],
+      "MILITARY_WORK_DOC": result['P_Result'][0][0]['MILITARY_WORK_DOC'],
+      "CIV_MIL_RETIRED_DOC": result['P_Result'][0][0]['CIV_MIL_RETIRED_DOC'],
+      "PEN_START_DATE": result['P_Result'][0][0]['PEN_START_DATE'],
+      "GOVERNORATE": result['P_Result'][0][0]['GOVERNORATE'],
       "DETAILED_ADDRESS": null, /// not found
       "PASS_NO": null, /// not found
       "RESIDENCY_NO": null, /// not found
-      "DOB": result['p_per_info'][0]['DOB'],
+      "DOB": result['p_per_info'][0][0]['DOB'],
       "JOB_NO": null, /// not found
-      "JOB_DESC": result['P_Result'][0]['JOB_DESC'],
+      "JOB_DESC": result['P_Result'][0][0]['JOB_DESC'],
       "ENAME1": null, /// not found
       "ENAME2": null, /// not found
       "ENAME3": null, /// not found
       "ENAME4": null, /// not found
-      "LAST_EST_NO": result['P_Result'][0]['LAST_EST_NO'],
+      "LAST_EST_NO": result['P_Result'][0][0]['LAST_EST_NO'],
       "FAM_NO": null, /// not found
       "nextVaild": null, /// not found
       "wantAddFamily": null, /// not found
-      "GENDER_DESC": result['p_per_info'][0]['GENDER_DESC'],
+      "GENDER_DESC": result['p_per_info'][0][0]['GENDER_DESC'],
       "PI_EPAY": null, /// not found
       "INSURED": null, /// not found
-      "APPLICANT_ID": result['P_Result'][0]['APPLICANT_ID'],
-      "APPLICANT_NO": result['P_Result'][0]['APPLICANT_NO'],
-      "SERVICE_TYPE": result['P_Result'][0]['SERVICE_TYPE'],
-      "IS_DEFENSE": result['P_Result'][0]['IS_DEFENSE'],
-      "APP_STATUS_EXTERNAL": result['P_Result'][0]['APP_STATUS_EXTERNAL'],
-      "OTHER_DEPENDANTS": result['P_Result'][0]['OTHER_DEPENDANTS'],
-      "ID": result['P_Result'][0]['ID'],
-      "LEAVE_START_DATE": result['P_Result'][0]['LEAVE_START_DATE'],
-      "LEAVE_END_DATE": result['P_Result'][0]['LEAVE_END_DATE'],
-      "BIRTH_DATE": result['P_Result'][0]['BIRTH_DATE'],
+      "APPLICANT_ID": result['P_Result'][0][0]['APPLICANT_ID'],
+      "APPLICANT_NO": result['P_Result'][0][0]['APPLICANT_NO'],
+      "SERVICE_TYPE": result['P_Result'][0][0]['SERVICE_TYPE'],
+      "IS_DEFENSE": result['P_Result'][0][0]['IS_DEFENSE'],
+      "APP_STATUS_EXTERNAL": result['P_Result'][0][0]['APP_STATUS_EXTERNAL'],
+      "OTHER_DEPENDANTS": result['P_Result'][0][0]['OTHER_DEPENDANTS'],
+      "ID": result['P_Result'][0][0]['ID'],
+      "LEAVE_START_DATE": result['P_Result'][0][0]['LEAVE_START_DATE'],
+      "LEAVE_END_DATE": result['P_Result'][0][0]['LEAVE_END_DATE'],
+      "BIRTH_DATE": result['P_Result'][0][0]['BIRTH_DATE'],
       "IBAN_CONFIG": 1 /// not found
     };
     var data = {
       "params": {
-        "XML": {
-         "row": row,
-         "doc": [
-           {
-             "PATH": "./i5d61brglcrd04o6.png",
-             "DOC_TYPE": 8,
-             "FILE": {},
-             "FILE_NAME": "thumbnail_image013 (1).png",
-             "DOC_TYPE_DESC_AR": "",
-             "DOC_TYPE_DESC_EN": "",
-             "DOCUMENT_DATE": "11/01/2023, 10:45",
-             "required": 0,
-             "APP_ID": 4252,
-             "ID": "",
-             "STATUS": 1,
-             "HIDE_ACTIONS": false
-           }
-         ],
-         "dep": result["P_Dep"][0],
-         "INHERITORS": [],
-         "isWebsite": false
-        }
+        "XML": jsonEncode(
+          {
+            "row": row,
+            "doc": docs,
+            "dep": result["P_Dep"].isNotEmpty ? result["P_Dep"][0] : [],
+            "INHERITORS": [], // value always [] in early retirement
+            "isWebsite": false
+          }
+        )
       }
     };
 
+    print('data: ${jsonEncode(data)}');
     var response = await HTTPClientContract.instance.postHTTP(
         '/website/set_application', data
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+  // {"params":{"Obj":"{\"row\":{\"NAT\":\"111\",\"GENDER\":\"1\"},\"dep\":[]}"}}
+  Future checkDocumentDependentService(String gender,
+      {String natID,
+      String fName,
+      String sName,
+      String thName,
+      String lName,
+      String dateOfBirth,
+      int nationality,
+      List dependents}) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/website/check_doc_dep', {"params": {
+            "Obj": jsonEncode({
+              "row": {
+                "NAT": "111",
+                "GENDER": gender
+              },
+              "dep": nationality != 1
+              ? [
+                {
+                  "ID": "",
+                  "FIRSTNAME": fName,
+                  "SECONDNAME": sName,
+                  "THIRDNAME": thName,
+                  "LASTNAME": lName,
+                  "BIRTHDATE": dateOfBirth,
+                  "NATIONALITY": nationality,
+                  "NATIONAL_NO": natID,
+                  "RELATION": 2,
+                  "GENDER": 1,
+                  "AGE": "",
+                  "MARITAL_STATUS": "",
+                  "MARITAL_STATUS_A": 2,
+                  "WORK_STATUS": "",
+                  "WORK_STATUS_A": 1,
+                  "IS_ALIVE": "",
+                  "IS_ALIVE_A": "",
+                  "LAST_EVENT_DATE": null,
+                  "DISABILITY": 0,
+                  "WANT_HEALTH_INSURANCE": "",
+                  "PreLoad": 0,
+                  "Added": 1,
+                  "SOURCE_FLAG": 2,
+                  "doc_dep": [],
+                  "REQ_DOC": "",
+                  "IS_RETIRED": "",
+                  "IS_RETIRED_A": 1,
+                  "DEP_CODE": "167559085073882",
+                  "IS_STOP": ""
+                },
+              ]
+              : []
+            })
+          }
+        }
     );
     if (kDebugMode) {
       print(response);

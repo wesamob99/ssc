@@ -16,6 +16,8 @@ class ServicesProvider extends ChangeNotifier {
 
   bool isModalLoading = false;
   bool isNationalIdValid = false;
+  List dependentsDocuments;
+  var dependentInfo;
 
   /// this variable used in every service, the get API called when any service open return result and we save that result in this variable
   /// check the servicesListConstants.dart to see service's API
@@ -30,14 +32,13 @@ class ServicesProvider extends ChangeNotifier {
   List<Countries> countries = [];
 
   /// documents screen controllers *****************
-  bool showMandatoryDocumentsScreen = false;
-  bool showOptionalDocumentsScreen = false;
+  int documentsScreensStepNumber = 1;
+  List optionalDocumentsCheckBox = [];
+  List selectedOptionalDocuments = [];
+  ///
   int documentIndex = 0;
-  bool mandatoryDocumentsFinished = false;
-  bool optionalDocumentsFinished = false;
   List mandatoryDocuments = [];
   List optionalDocuments = [];
-  // List uploadedFiles = [];
   Map uploadedFiles = {
     "mandatory": [],
     "optional": [],
@@ -56,8 +57,16 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.getInsuredInformationReportService(value);
   }
 
-  Future getRequiredDocuments() async{
-    return await servicesRepository.getRequiredDocumentsService(result);
+  Future getActivePayment(String serviceType, String nat) async{
+    return await servicesRepository.getActivePaymentService(serviceType, nat);
+  }
+
+  Future getRequiredDocuments(data, serviceNo) async{
+    return await servicesRepository.getRequiredDocumentsService(data, serviceNo);
+  }
+
+  Future saveFile(file) async{
+    return await servicesRepository.saveFileService(file);
   }
 
   Future<UserProfileData> optionalSubIncGetDetailNew() async{
@@ -106,12 +115,20 @@ class ServicesProvider extends ChangeNotifier {
     return response;
   }
 
-  Future setEarlyRetirementApplication() async{
-    return await servicesRepository.setEarlyRetirementApplicationService(result);
+  Future setEarlyRetirementApplication(docs, Map paymentInfo, int authorizedToSign) async{
+    return await servicesRepository.setEarlyRetirementApplicationService(result, docs, paymentInfo, authorizedToSign);
+  }
+
+  Future checkDocumentDependent(String gender) async{
+    return await servicesRepository.checkDocumentDependentService(gender);
   }
 
   Future getPensionsBasicInformations() async{
     return await servicesRepository.getPensionsBasicInformationsService();
+  }
+
+  Future getDependentInfo(String id) async{
+    return await servicesRepository.getDependentInfoService(id);
   }
 
   Future getPensionPaymentSP(String year) async{
