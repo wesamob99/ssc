@@ -402,7 +402,7 @@ class ServicesRepository{
     return '';
   }
 
-  Future setEarlyRetirementApplicationService(result, docs, paymentInfo, int authorizedToSign) async {
+  Future setEarlyRetirementApplicationService(result, docs, paymentInfo, int authorizedToSign, int wantInsurance) async {
     var row = {
       /// payment info
       "PAYMENT_METHOD": paymentInfo['PAYMENT_METHOD'],
@@ -417,7 +417,7 @@ class ServicesRepository{
       "PAYMENT_PHONE": paymentInfo['PAYMENT_PHONE'],
       "SWIFT_CODE": paymentInfo['SWIFT_CODE'],
       "BANK_DETAILS": paymentInfo['BANK_DETAILS'],
-      "IBAN": paymentInfo['IBAN'],
+      "IBAN": paymentInfo['IBAN'] ?? "",
       "CASH_BANK_ID": paymentInfo['CASH_BANK_ID'],
       "REP_NATIONALITY": paymentInfo['REP_NATIONALITY'],
       "REP_NATIONAL_NO": paymentInfo['REP_NATIONAL_NO'],
@@ -429,20 +429,21 @@ class ServicesRepository{
       "WALLET_PHONE_VERIVIED": paymentInfo['WALLET_PHONE_VERIVIED'],
       "WALLET_PASSPORT_NUMBER": paymentInfo['WALLET_PASSPORT_NUMBER'],
       "PEN_IBAN": paymentInfo['PEN_IBAN'],
+      "IBAN_CONFIG": "1",
       /// ***
-      "IFSC": result['P_Result'][0][0]['IFSC'], /// ?!
-      "APPROVE_DISCLOSURE": result['P_Result'][0][0]['APPROVE_DISCLOSURE'],
-      "NOT_APPROVE_REASON": result['P_Result'][0][0]['NOT_APPROVE_REASON'],
+      "IFSC": result['P_Result'][0][0]['IFSC'] ?? "",
+      "APPROVE_DISCLOSURE": 1,
+      "NOT_APPROVE_REASON": null,
       "SIG_ATHORIZED": authorizedToSign,
-      "WANT_INSURANCE": result['P_Result'][0][0]['WANT_INSURANCE'],
+      "WANT_INSURANCE": wantInsurance,
       "OFFNO": result['P_Result'][0][0]['OFFNO'],
-      "AGREE_TERMS": result['P_Result'][0][0]['AGREE_TERMS'],
+      "AGREE_TERMS": 1,
       "SECNO": result['p_per_info'][0][0]['SECNO'],
       "NAT_DESC": result['p_per_info'][0][0]['NAT_DESC'],
       "NAT": result['P_Result'][0][0]['NAT'],
       "NAT_NO": result['P_Result'][0][0]['NAT_NO'],
       "PERS_NO": result['P_Result'][0][0]['PERS_NO'],
-      "LAST_EST_NAME": result['P_Result'][0][0]['LAST_EST_NAME'],
+      "LAST_EST_NAME": result['p_per_info'][0][0]['LAST_EST_NAME'],
       "NAME1": result['p_per_info'][0][0]['NAME1'],
       "NAME2": result['p_per_info'][0][0]['NAME2'],
       "NAME3": result['p_per_info'][0][0]['NAME3'],
@@ -474,24 +475,23 @@ class ServicesRepository{
       "ENAME2": null, /// not found
       "ENAME3": null, /// not found
       "ENAME4": null, /// not found
-      "LAST_EST_NO": result['P_Result'][0][0]['LAST_EST_NO'],
+      "LAST_EST_NO": result['p_per_info'][0][0]['LAST_EST_NO'],
       "FAM_NO": null, /// not found
       "nextVaild": null, /// not found
       "wantAddFamily": null, /// not found
       "GENDER_DESC": result['p_per_info'][0][0]['GENDER_DESC'],
       "PI_EPAY": null, /// not found
       "INSURED": null, /// not found
-      "APPLICANT_ID": result['P_Result'][0][0]['APPLICANT_ID'],
+      "APPLICANT_ID": int.parse(result['P_Result'][0][0]['APPLICANT_ID'].toString()),
       "APPLICANT_NO": result['P_Result'][0][0]['APPLICANT_NO'],
       "SERVICE_TYPE": result['P_Result'][0][0]['SERVICE_TYPE'],
       "IS_DEFENSE": result['P_Result'][0][0]['IS_DEFENSE'],
-      "APP_STATUS_EXTERNAL": result['P_Result'][0][0]['APP_STATUS_EXTERNAL'],
+      "APP_STATUS_EXTERNAL": 2,
       "OTHER_DEPENDANTS": result['P_Result'][0][0]['OTHER_DEPENDANTS'],
       "ID": result['P_Result'][0][0]['ID'],
       "LEAVE_START_DATE": result['P_Result'][0][0]['LEAVE_START_DATE'],
       "LEAVE_END_DATE": result['P_Result'][0][0]['LEAVE_END_DATE'],
       "BIRTH_DATE": result['P_Result'][0][0]['BIRTH_DATE'],
-      "IBAN_CONFIG": 1 /// not found
     };
     var data = {
       "params": {
@@ -507,7 +507,6 @@ class ServicesRepository{
       }
     };
 
-    print('data: ${jsonEncode(data)}');
     var response = await HTTPClientContract.instance.postHTTP(
         '/website/set_application', data
     );
@@ -530,6 +529,37 @@ class ServicesRepository{
       String dateOfBirth,
       int nationality,
       List dependents}) async {
+    dependents.add({
+          "ID": "",
+          "FIRSTNAME": fName,
+          "SECONDNAME": sName,
+          "THIRDNAME": thName,
+          "LASTNAME": lName,
+          "BIRTHDATE": dateOfBirth,
+          "NATIONALITY": nationality,
+          "NATIONAL_NO": natID,
+          "RELATION": 2,
+          "GENDER": 1,
+          "AGE": "",
+          "MARITAL_STATUS": "",
+          "MARITAL_STATUS_A": 2,
+          "WORK_STATUS": "",
+          "WORK_STATUS_A": 1,
+          "IS_ALIVE": "",
+          "IS_ALIVE_A": "",
+          "LAST_EVENT_DATE": null,
+          "DISABILITY": 0,
+          "WANT_HEALTH_INSURANCE": "",
+          "PreLoad": 0,
+          "Added": 1,
+          "SOURCE_FLAG": 2,
+          "doc_dep": [],
+          "REQ_DOC": "",
+          "IS_RETIRED": "",
+          "IS_RETIRED_A": 1,
+          "DEP_CODE": "167559085073882",
+          "IS_STOP": ""
+        });
     var response = await HTTPClientContract.instance.postHTTP(
         '/website/check_doc_dep', {"params": {
             "Obj": jsonEncode({
@@ -538,39 +568,7 @@ class ServicesRepository{
                 "GENDER": gender
               },
               "dep": nationality != 1
-              ? [
-                {
-                  "ID": "",
-                  "FIRSTNAME": fName,
-                  "SECONDNAME": sName,
-                  "THIRDNAME": thName,
-                  "LASTNAME": lName,
-                  "BIRTHDATE": dateOfBirth,
-                  "NATIONALITY": nationality,
-                  "NATIONAL_NO": natID,
-                  "RELATION": 2,
-                  "GENDER": 1,
-                  "AGE": "",
-                  "MARITAL_STATUS": "",
-                  "MARITAL_STATUS_A": 2,
-                  "WORK_STATUS": "",
-                  "WORK_STATUS_A": 1,
-                  "IS_ALIVE": "",
-                  "IS_ALIVE_A": "",
-                  "LAST_EVENT_DATE": null,
-                  "DISABILITY": 0,
-                  "WANT_HEALTH_INSURANCE": "",
-                  "PreLoad": 0,
-                  "Added": 1,
-                  "SOURCE_FLAG": 2,
-                  "doc_dep": [],
-                  "REQ_DOC": "",
-                  "IS_RETIRED": "",
-                  "IS_RETIRED_A": 1,
-                  "DEP_CODE": "167559085073882",
-                  "IS_STOP": ""
-                },
-              ]
+              ? dependents
               : []
             })
           }

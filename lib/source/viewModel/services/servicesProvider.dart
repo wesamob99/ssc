@@ -115,8 +115,8 @@ class ServicesProvider extends ChangeNotifier {
     return response;
   }
 
-  Future setEarlyRetirementApplication(docs, Map paymentInfo, int authorizedToSign) async{
-    return await servicesRepository.setEarlyRetirementApplicationService(result, docs, paymentInfo, authorizedToSign);
+  Future setEarlyRetirementApplication(docs, Map paymentInfo, int authorizedToSign, int wantInsurance) async{
+    return await servicesRepository.setEarlyRetirementApplicationService(result, docs, paymentInfo, authorizedToSign, wantInsurance);
   }
 
   Future checkDocumentDependent(String gender) async{
