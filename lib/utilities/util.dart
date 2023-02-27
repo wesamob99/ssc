@@ -1036,15 +1036,15 @@ buildExpandableWidget(context, String title, dynamic child, {bool needTranslate 
 }
 
 updateLanguageWidget(BuildContext context){
+  bool isEnglish = UserConfig.instance.checkLanguage();
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
-  GlobalAppProvider globalAppProvider = Provider.of<GlobalAppProvider>(context);
   return InkWell(
-    onTap: ()async{
-      globalAppProvider.changeLanguage(Locale(UserConfig.instance.checkLanguage() ? 'ar' : 'en'));
-      globalAppProvider.notifyMe();
+    onTap: () async{
+      Provider.of<GlobalAppProvider>(context, listen: false).changeLanguage(Locale(isEnglish ? "ar" : "en"));
+      Provider.of<GlobalAppProvider>(context, listen: false).notifyMe();
       prefs.then((value) {
-        value.setString('language_code', UserConfig.instance.checkLanguage() ? 'ar' : 'en');
+        value.setString('language_code', isEnglish ? 'ar' : 'en');
       });
     },
     child: Container(
@@ -1073,24 +1073,23 @@ updateLanguageWidget(BuildContext context){
     ),
   );
 }
-/// TODO: complete opening files
+
+/// TODO: download the file correctly
 // Function to download a PDF file from the server
 Future<void> downloadPDF(Response response, String fileName) async {
   try {
     // Get the directory to store the file
-    var dir = await getApplicationDocumentsDirectory();
+    var documentsDirectory = await getApplicationDocumentsDirectory();
 
     // Create the file on the device
-    File pdfFile = File('${dir.path}/$fileName.pdf');
+    File pdfFile = File('${documentsDirectory.path}/$fileName.pdf');
     pdfFile = await pdfFile.create();
 
     // Write file content to the file
-    pdfFile.writeAsBytesSync(utf8.encode(response.data));
+    await pdfFile.writeAsBytes(utf8.encode(response.data));
 
     // Open the file on the device
-    // await Process.run('open', [pdfFile.path]);
     OpenFilex.open(pdfFile.path);
-    // return pdfFile;
   } catch (e) {
     if (kDebugMode) {
       print(e);

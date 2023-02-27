@@ -216,26 +216,26 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                       textButton(
                         themeNotifier, 'sendCode',
                         MaterialStateProperty.all<Color>(
-                          (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
+                          (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text.replaceAll(' ', '')))
                             ? HexColor('#DADADA') : themeNotifier.isLight()
                               ? primaryColor : HexColor('#445740')),
-                            (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text))
+                            (!Provider.of<LoginProvider>(context).enabledSendCodeButton || !isEmail(emailController.text.replaceAll(' ', '')))
                                 ? HexColor('#363636') : Colors.white,
-                            () async {if(loginProvider.enabledSendCodeButton && isEmail(emailController.text)){
+                            () async {if(loginProvider.enabledSendCodeButton && isEmail(emailController.text.replaceAll(' ', ''))){
                               errorMessage = "";
                               loginProvider.isLoading = true;
                               loginProvider.notifyMe();
                               try{
-                                await loginProvider.resetPasswordVerifyEmail(userSecuredStorage.nationalId, emailController.text).then((result) async {
+                                await loginProvider.resetPasswordVerifyEmail(userSecuredStorage.nationalId, emailController.text.replaceAll(' ', '')).then((result) async {
                                   if(result["PO_status"] == 0) {
-                                    await loginProvider.sendEmailOTP(emailController.text, 1)
+                                    await loginProvider.sendEmailOTP(emailController.text.replaceAll(' ', ''), 1)
                                     .then((value){
                                   if(value["PO_status"] == 1){
                                     errorMessage = UserConfig.instance.checkLanguage()
                                         ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
 
                                     Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(builder: (context) => OTPScreen(contactTarget: emailController.text, type: 'emailFromReset',)),
+                                      MaterialPageRoute(builder: (context) => OTPScreen(contactTarget: emailController.text.replaceAll(' ', ''), type: 'emailFromReset',)),
                                           (route) => false
                                     );
                                   }else{
@@ -465,7 +465,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
           )
       ),
       onChanged: (val){
-        loginProvider.enabledSendCodeButton = emailController.text.isNotEmpty;
+        loginProvider.enabledSendCodeButton = emailController.text.replaceAll(' ', '').isNotEmpty;
         loginProvider.notifyMe();
       },
     );
