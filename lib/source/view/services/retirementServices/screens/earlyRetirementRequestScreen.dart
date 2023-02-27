@@ -2,12 +2,12 @@
 
 import 'dart:convert';
 
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter_svg/svg.dart';
@@ -66,12 +66,13 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   bool termsChecked = false;
   int dependentIndex = 0;
   String nationality = 'jordanian';
+  List docs = [];
 
   Map selectedActivePayment;
   List activePayment = [];
+  DateTime selectedDateOfBirth = DateTime.now();
   TextEditingController nationalIdController = TextEditingController();
   TextEditingController quatrainNounController = TextEditingController();
-  TextEditingController dateOfBirthController = TextEditingController();
 
   TextEditingController bankNameController = TextEditingController();
   TextEditingController bankBranchController = TextEditingController();
@@ -358,14 +359,14 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                             try{
                               String message = '';
                               servicesProvider.isLoading = true;
-                              servicesProvider.isModalLoading = true;
+                              servicesProvider.isModalLoading = false;
                               servicesProvider.notifyMe();
                               List mandatoryDocs = await saveFiles('mandatory');
                               List optionalDocs = await saveFiles('optional');
-                              List docs = mandatoryDocs + optionalDocs;
+                              docs.addAll(mandatoryDocs + optionalDocs);
                               Map<String, dynamic> paymentInfo = {
                                 'PAYMENT_METHOD': selectedActivePayment['ID'],
-                                'BANK_LOCATION': selectedActivePayment['ID'] == 5 ? bankAddressController.text : '',
+                                'BANK_LOCATION': selectedActivePayment['ID'] == 5 ? bankAddressController.text : 0,
                                 'BRANCH_ID': selectedActivePayment['ID'] == 5 ? '' : '',
                                 'BRANCH_NAME': selectedActivePayment['ID'] == 5 ? bankBranchController.text : '',
                                 'BANK_ID': selectedActivePayment['ID'] == 5 ? '' : '',
@@ -384,17 +385,24 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 'REP_NAME': selectedActivePayment['ID'] == 5 ? '' : '',
                                 // معلومات المحفظه (WALLET)
                                 'WALLET_TYPE': selectedActivePayment['ID'] == 5 ? '' : '',
-                                'WALLET_OTP_VERIVIED': selectedActivePayment['ID'] == 5 ? '' : '',
-                                'WALLET_OTP': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'WALLET_OTP_VERIVIED': selectedActivePayment['ID'] == 5 ? '' : null,
+                                'WALLET_OTP': selectedActivePayment['ID'] == 5 ? '' : null,
                                 'WALLET_PHONE': selectedActivePayment['ID'] == 5 ? '' : '',
                                 'WALLET_PHONE_VERIVIED': selectedActivePayment['ID'] == 5 ? '' : '',
                                 'WALLET_PASSPORT_NUMBER': selectedActivePayment['ID'] == 5 ? '' : '',
-                                'PEN_IBAN': selectedActivePayment['ID'] == 5 ? '' : '',
+                                'PEN_IBAN': selectedActivePayment['ID'] == 5 ? '' : null,
                               };
-                              await servicesProvider.setEarlyRetirementApplication(docs, paymentInfo, areYouAuthorizedToSignForCompany == 'yes' ? 1 : 0).whenComplete(() {}).then((value) {
-                                if(value != null && value['P_Message'][0][0]['PO_STATUS'] == 1){
+                              int wantInsurance = areYouPartnerInLimitedLiabilityCompany == 'yes' ? 1 : 0;
+                              int authorizedToSign = areYouAuthorizedToSignForCompany == 'yes' ? 1 : 0;
+                              await servicesProvider.setEarlyRetirementApplication(docs, paymentInfo, authorizedToSign, wantInsurance).whenComplete(() {}).then((value) {
+                                if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
+                                  message = translate('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
+                                  if(value['PO_TYPE'] == 2){
+                                    message = UserConfig.instance.checkLanguage()
+                                        ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                  }
                                   showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
-                                      translate('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context), 'ok',
+                                      message, 'ok',
                                       themeNotifier,
                                       icon: 'assets/icons/serviceSuccess.svg').then((_){
                                     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -405,7 +413,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   });
                                 } else{
                                   message = UserConfig.instance.checkLanguage()
-                                      ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
+                                      ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
                                   showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
                                 }
                               });
@@ -454,7 +462,6 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               if (kDebugMode) {
                 print('value: $value');
               }
-              String documentDate = DateFormat('MM/dd/yyyy, HH:mm').format(DateTime.now());
               Map document = {
                 "PATH": value['path'],
                 "DOC_TYPE": servicesProvider.uploadedFiles[type][i][j]["document"]["ID"],
@@ -462,9 +469,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 "FILE_NAME": path.basename(value['path'].toString()),
                 "DOC_TYPE_DESC_AR": servicesProvider.uploadedFiles[type][i][j]["document"]["NAME_AR"],
                 "DOC_TYPE_DESC_EN": servicesProvider.uploadedFiles[type][i][j]["document"]["NAME_EN"],
-                "DOCUMENT_DATE": documentDate.toString(),
+                "DOCUMENT_DATE": DateFormat('MM/dd/yyyy, HH:mm').format(DateTime.now()).toString(),
                 "required": type == 'mandatory' ? 0 : 1,
-                "APP_ID": servicesProvider.uploadedFiles[type][i][j]["document"]["CODE"],
+                "APP_ID": servicesProvider.result['P_Result'][0][0]['ID'],
                 "ID": "",
                 "STATUS": 1,
                 "HIDE_ACTIONS": false
@@ -993,7 +1000,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   servicesProvider.dependentInfo = null;
                   nationalIdController = TextEditingController();
                   quatrainNounController = TextEditingController();
-                  dateOfBirthController = TextEditingController();
+                  selectedDateOfBirth = DateTime.now();
                   nationality = 'jordanian';
                   servicesProvider.isNationalIdValid = false;
                   servicesProvider.isLoading = false;
@@ -1232,9 +1239,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               servicesProvider.isLoading = true;
               servicesProvider.notifyMe();
               try{
-                await servicesProvider.getInquiryInsuredInformation().then((value) async{
-                  await servicesProvider.getInsuredInformationReport(value).then((value) async {
-                    await downloadPDF(value, translate('detailedDisclosure', context)).whenComplete(() {
+                await servicesProvider.getInquiryInsuredInformation().then((val1) async{
+                  await servicesProvider.getInsuredInformationReport(val1).then((val2) async {
+                    await downloadPDF(val2, translate('detailedDisclosure', context)).whenComplete(() {
                       if (kDebugMode) {
                         print('completed');
                       }
@@ -1813,40 +1820,51 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       const SizedBox(height: 20.0,),
                                       buildFieldTitle(context, 'DateOfBirth', required: false),
                                       SizedBox(height: height(0.015, context),),
-                                      DateTimePicker(
-                                        decoration: InputDecoration(
-                                          suffixIcon: Padding(
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: SvgPicture.asset('assets/icons/datePickerIcon.svg'),
-                                          ),
-                                          contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(
+                                      InkWell(
+                                        onTap: () {
+                                          DatePicker.showDatePicker(
+                                            context,
+                                            showTitleActions: true,
+                                            theme: DatePickerTheme(
+                                              headerColor: primaryColor,
+                                              backgroundColor: Colors.white,
+                                              itemStyle: TextStyle(
+                                                color: primaryColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
+                                              doneStyle: const TextStyle(color: Colors.white, fontSize: 16,),
+                                              cancelStyle: const TextStyle(color: Colors.white, fontSize: 16),
+                                            ),
+                                            maxTime: DateTime.now(),
+                                            onConfirm: (date) {
+                                              setState((){
+                                                selectedDateOfBirth = date;
+                                                checkNonJordanianInfo();
+                                              });
+                                            },
+                                            currentTime: selectedDateOfBirth,
+                                            locale: LocaleType.en,
+                                          );
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(12.0),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
                                               color: HexColor('#979797'),
-                                              width: 0.5,
                                             ),
                                             borderRadius: BorderRadius.circular(8),
                                           ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: HexColor('#445740'),
-                                              width: 0.8,
-                                            ),
-                                            borderRadius: BorderRadius.circular(8),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                DateFormat('dd/MM/yyyy').format(selectedDateOfBirth),
+                                              ),
+                                              SvgPicture.asset('assets/icons/datePickerIcon.svg'),
+                                            ],
                                           ),
                                         ),
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: HexColor('#363636')
-                                        ),
-                                        type: DateTimePickerType.date,
-                                        initialDate: DateTime.now(),
-                                        dateMask: 'dd/MM/yyyy',
-                                        controller: dateOfBirthController,
-                                        firstDate: DateTime(1900),
-                                        lastDate: DateTime.now(),
-                                        dateLabelText: 'Date',
-                                        onChanged: (val) => setState((){checkNonJordanianInfo();}),
                                       ),
                                     ],
                                   ),
@@ -2053,7 +2071,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 "SOURCE_FLAG": 2,
                                                 "NATIONAL_NO": nationalIdController.text,
                                                 "NATIONALITY": 2,
-                                                "BIRTHDATE": dateOfBirthController.text,
+                                                "BIRTHDATE": DateFormat('dd/MM/yyyy').format(selectedDateOfBirth),
                                                 "AGE": 0,
                                                 ///
                                                 "WORK_STATUS_A": selectedJobStatus == 'unemployed' ? 0 : 1,
@@ -2261,7 +2279,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   checkNonJordanianInfo() {
     if (nationalIdController.text.length == 10 &&
         quatrainNounController.text.isNotEmpty &&
-        dateOfBirthController.text.isNotEmpty) {
+        DateFormat('dd/MM/yyyy').format(selectedDateOfBirth).isNotEmpty) {
       setState(() {
         nonJordanianSubmitEnabled = true;
       });

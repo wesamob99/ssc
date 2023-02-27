@@ -46,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     loginProvider.emailController = TextEditingController();
     loginProvider.registerPasswordController = TextEditingController();
     loginProvider.registerConfirmPasswordController = TextEditingController();
-    loginProvider.dateOfBirthController = TextEditingController();
+    loginProvider.selectedDateOfBirth = DateTime.now();
     loginProvider.thirdStepSelection = ['choose', 'optionalChoose'];
     super.initState();
   }

@@ -62,7 +62,7 @@ dependencies:
   flutter_countdown_timer: ^4.1.0
   readmore: ^2.2.0
   local_auth: ^2.1.2
-  date_time_picker: ^2.1.0
+  flutter_datetime_picker: ^1.5.1
   loading_indicator: ^3.1.0
   flutter_image_slideshow: ^0.1.4
   dotted_border: ^2.0.0+3

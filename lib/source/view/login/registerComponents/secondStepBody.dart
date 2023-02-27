@@ -1,9 +1,10 @@
 // ignore_for_file: file_names
 
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/models/login/registerData.dart';
 import 'package:ssc/source/view/login/registerComponents/thirdStepBody.dart';
@@ -40,10 +41,10 @@ class _SecondStepBodyState extends State<SecondStepBody> {
     loginProvider.registerNationalIdController.clear();
     loginProvider.passportNumberController.clear();
     loginProvider.insuranceNumberController.clear();
-    loginProvider.dateOfBirthController.clear();
     loginProvider.civilIdNumberController.clear();
     loginProvider.relativeNatIdController.clear();
     loginProvider.relativeNatIdController.clear();
+    loginProvider.selectedDateOfBirth = DateTime.now();
     loginProvider.thirdStepSelection = ['choose', 'optionalChoose'];
     isJordanian = Provider.of<LoginProvider>(context, listen: false).registerData.nationality == 1;
     super.initState();
@@ -130,45 +131,55 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                       if(isJordanian)
                       buildFieldTitle(context, 'relativeRelation', filled: loginProvider.thirdStepSelection[0] != 'choose'),
                       if(!isJordanian)
-                      buildFieldTitle(context, 'DateOfBirth', required: true, filled: loginProvider.dateOfBirthController.text.isNotEmpty),
+                      buildFieldTitle(context, 'DateOfBirth', required: true, filled: DateFormat('dd/MM/yyyy').format(loginProvider.selectedDateOfBirth).isNotEmpty),
                       SizedBox(height: height(0.015, context),),
                       if(isJordanian)
                       dropDownList(relationTypes, themeNotifier, loginProvider, 0),
                       if(!isJordanian)
-                      DateTimePicker(
-                        decoration: InputDecoration(
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: SvgPicture.asset('assets/icons/datePickerIcon.svg'),
-                          ),
-                          contentPadding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
+                      InkWell(
+                        onTap: () {
+                          DatePicker.showDatePicker(
+                            context,
+                            showTitleActions: true,
+                            theme: DatePickerTheme(
+                              headerColor: primaryColor,
+                              backgroundColor: Colors.white,
+                              itemStyle: TextStyle(
+                                color: primaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                              doneStyle: const TextStyle(color: Colors.white, fontSize: 16,),
+                              cancelStyle: const TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                            maxTime: DateTime.now(),
+                            onConfirm: (date) {
+                              checkContinueEnable(loginProvider);
+                              loginProvider.selectedDateOfBirth = date;
+                              loginProvider.notifyMe();
+                            },
+                            currentTime: loginProvider.selectedDateOfBirth,
+                            locale: LocaleType.en,
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(12.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
                               color: HexColor('#979797'),
-                              width: 0.5,
                             ),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: HexColor('#445740'),
-                              width: 0.8,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                DateFormat('dd/MM/yyyy').format(loginProvider.selectedDateOfBirth),
+                              ),
+                              SvgPicture.asset('assets/icons/datePickerIcon.svg'),
+                            ],
                           ),
                         ),
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: HexColor('#363636')
-                        ),
-                        type: DateTimePickerType.date,
-                        initialDate: DateTime.now(),
-                        dateMask: 'dd/MM/yyyy',
-                        controller: loginProvider.dateOfBirthController,
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime.now(),
-                        dateLabelText: 'Date',
-                        onChanged: (val) => checkContinueEnable(loginProvider),
                       ),
                       // SizedBox(height: height(0.02, context),),
                       // buildFieldTitle('academicLevel', required: false),
@@ -255,7 +266,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
     loginProvider.registerData.personalCardNo = isJordanian ? loginProvider.civilIdNumberController.text : null;
     loginProvider.registerData.relativeNatId = isJordanian ? int.tryParse(loginProvider.relativeNatIdController.text) : null;
     loginProvider.registerData.relativeType = isJordanian ? relationTypes.indexOf(loginProvider.thirdStepSelection[0]) : null;
-    loginProvider.registerData.dateOfBirth = isJordanian ? null : loginProvider.dateOfBirthController.text;
+    loginProvider.registerData.dateOfBirth = isJordanian ? null : DateFormat('dd/MM/yyyy').format(loginProvider.selectedDateOfBirth);
     loginProvider.registerData.insuranceNo = isJordanian ? null : int.tryParse(loginProvider.insuranceNumberController.text);
     loginProvider.registerData.passportNo = isJordanian ? null : int.tryParse(loginProvider.passportNumberController.text);
     loginProvider.notifyMe();
@@ -337,7 +348,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
           RegExp(r"^(?!^0+$)[a-zA-Z0-9]{3,20}$").hasMatch(loginProvider.passportNumberController.text) &&
           (loginProvider.insuranceNumberController.text.isEmpty ||
           loginProvider.insuranceNumberController.text.length == 10) &&
-          loginProvider.dateOfBirthController.text.isNotEmpty
+          DateFormat('dd/MM/yyyy').format(loginProvider.selectedDateOfBirth).isNotEmpty
       );
     }
     loginProvider.notifyMe();
