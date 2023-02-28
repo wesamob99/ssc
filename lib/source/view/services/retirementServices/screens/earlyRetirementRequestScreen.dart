@@ -1092,7 +1092,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
             ),
             //activePayment
             SizedBox(height: height(0.02, context),),
-            buildFieldTitle(context, 'methodOfReceivingSalary', required: false),
+            buildFieldTitle(context, 'methodOfReceivingTheAllowance', required: false),
             const SizedBox(height: 10.0,),
             // customTwoRadioButtons(5, 'insideJordan', 'outsideJordan', setState),
             SizedBox(
