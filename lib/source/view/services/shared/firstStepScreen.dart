@@ -46,6 +46,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
     );
   }
 
+  /// TODO: if the mobile number is null make him fill it
   Widget firstStepBody(themeNotifier){
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String name = userSecuredStorage.userFullName;
@@ -53,7 +54,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
     String insuranceNo = userSecuredStorage.insuranceNumber;
     String mobileNo = userSecuredStorage.realMobileNumber;
 
-    servicesProvider.mobileNumberController.text = mobileNo;
+    servicesProvider.mobileNumberController.text = (mobileNo != 'null' ? mobileNo : '');
 
     if(isFirstTime){
       String internationalCode = userSecuredStorage.internationalCode;
