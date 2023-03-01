@@ -10,6 +10,7 @@ import '../../../../../utilities/countries.dart';
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/util.dart';
 import '../../../../infrastructure/userSecuredStorage.dart';
+import '../../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../../viewModel/services/servicesProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 
@@ -25,12 +26,17 @@ class FirstStepScreen extends StatefulWidget {
 class _FirstStepScreenState extends State<FirstStepScreen> {
   Future accountDataFuture;
   ServicesProvider servicesProvider;
+  AccountSettingsProvider accountSettingsProvider;
   SelectedListItem selectedCountry;
   bool isFirstTime;
 
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
+    accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
+    accountDataFuture = accountSettingsProvider.getAccountData().whenComplete(() {
+      accountSettingsProvider.getNationalityData(context);
+    });
     servicesProvider.isMobileNumberUpdated = false;
     servicesProvider.mobileNumberController = TextEditingController();
     isFirstTime = true;
@@ -167,12 +173,11 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
         if(insuranceNo != '')
         buildTextFormField(context, themeNotifier, TextEditingController(text: insuranceNo), '', (val){}, enabled: false),
         SizedBox(height: height(0.015, context),),
-        Text(
-          translate('mobileNumber', context),
-          style: TextStyle(
-              color: HexColor('#363636'),
-              fontSize: width(0.032, context)
-          ),
+        buildFieldTitle(
+          context,
+          'mobileNumber',
+          required: !mobileNumberValidate(servicesProvider.mobileNumberController.text),
+          filled: mobileNumberValidate(servicesProvider.mobileNumberController.text),
         ),
         SizedBox(height: height(0.015, context),),
         Row(
