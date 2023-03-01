@@ -25,6 +25,7 @@ import '../../../../../utilities/util.dart';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
+import '../../../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../../../viewModel/login/loginProvider.dart';
 import '../../shared/firstStepScreen.dart';
 import '../../shared/verifyMobileNumberScreen.dart';
@@ -84,7 +85,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
-      return ((servicesProvider.isMobileNumberUpdated == true && mobileNumberValidate(servicesProvider.mobileNumberController.text)) || servicesProvider.isMobileNumberUpdated == false);
+      return ((servicesProvider.isMobileNumberUpdated == true && mobileNumberValidate(servicesProvider.mobileNumberController.text)) || (servicesProvider.isMobileNumberUpdated == false && mobileNumberValidate(servicesProvider.mobileNumberController.text)));
     } else if(flag == 2){
       if(servicesProvider.isMobileNumberUpdated){
         return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
@@ -304,9 +305,20 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
                                       .then((val) async {
                                     if(val['PO_STATUS'] == 1){
-                                      servicesProvider.stepNumber = 2;
-                                      servicesProvider.isMobileNumberUpdated = false;
-                                      UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
+                                      Provider.of<AccountSettingsProvider>(context, listen: false).updateUserInfo(2, servicesProvider.mobileNumberController.text).whenComplete((){}).then((value){
+                                        if(value["PO_STATUS"] == 0){
+                                          servicesProvider.stepNumber = 2;
+                                          servicesProvider.isMobileNumberUpdated = false;
+                                          UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
+                                        }else{
+                                          showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.checkLanguage()
+                                              ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"], 'retryAgain', themeNotifier).then((value) {
+                                            servicesProvider.mobileNumberController.text = '';
+                                            servicesProvider.stepNumber = 1;
+                                            servicesProvider.notifyMe();
+                                          });
+                                        }
+                                      });
                                     }else{
                                       servicesProvider.stepNumber = 2;
                                       servicesProvider.isMobileNumberUpdated = true;

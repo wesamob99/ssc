@@ -15,6 +15,7 @@ import 'dart:math' as math;
 import '../../../../../infrastructure/userConfig.dart';
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/theme/themes.dart';
+import '../../../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../../../viewModel/utilities/theme/themeProvider.dart';
 import '../../shared/verifyMobileNumberScreen.dart';
 
@@ -50,7 +51,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
-      return ((servicesProvider.isMobileNumberUpdated == true && mobileNumberValidate(servicesProvider.mobileNumberController.text)) || servicesProvider.isMobileNumberUpdated == false);
+      return ((servicesProvider.isMobileNumberUpdated == true && mobileNumberValidate(servicesProvider.mobileNumberController.text)) || (servicesProvider.isMobileNumberUpdated == false && mobileNumberValidate(servicesProvider.mobileNumberController.text)));
     } else if(flag == 2){
       if(servicesProvider.isMobileNumberUpdated){
         return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
@@ -173,9 +174,20 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
                                   await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
                                       .then((val) async {
                                     if(val['PO_STATUS'] == 1){
-                                      servicesProvider.stepNumber = 2;
-                                      servicesProvider.isMobileNumberUpdated = false;
-                                      UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
+                                      Provider.of<AccountSettingsProvider>(context, listen: false).updateUserInfo(2, servicesProvider.mobileNumberController.text).whenComplete((){}).then((value){
+                                        if(value["PO_STATUS"] == 0){
+                                          servicesProvider.stepNumber = 2;
+                                          servicesProvider.isMobileNumberUpdated = false;
+                                          UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
+                                        }else{
+                                          showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.checkLanguage()
+                                              ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"], 'retryAgain', themeNotifier).then((value) {
+                                            servicesProvider.mobileNumberController.text = '';
+                                            servicesProvider.stepNumber = 1;
+                                            servicesProvider.notifyMe();
+                                          });
+                                        }
+                                      });
                                     }else{
                                       servicesProvider.stepNumber = 2;
                                       servicesProvider.isMobileNumberUpdated = true;
