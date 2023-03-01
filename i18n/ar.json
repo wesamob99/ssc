@@ -431,6 +431,17 @@
   "female": "أنثى",
   "userMobileNumberAndEmailAreEmptyPleaseReRegister": "رقم جوال المستخدم والبريد الإلكتروني فارغين الرجاء إعادة التسجيل",
   "goToYourBanksApplicationAndSendYourIBANToTheEscrow": "توجة الى تطبيق البنك الخاص بك  وارسل الايبان الخاص بك الى الضمان",
-  "iban": "رقم الايبان"
+  "iban": "رقم الايبان",
+  "deceasedInformation": "معلومات المتوفي",
+  "heirsInformation": "معلومات الورثة",
+  "methodOfReceivingTheAllowance": "طريقة استلام المخصصات",
+  "theNationalNumberOfTheDeceased": "الرقم الوطني للمتوفي",
+  "thePersonalNumberOfTheDeceased": "الرقم الشخصي للمتوفي",
+  "deathType": "نوع الوفاة",
+  "aNaturalDeathWithinTheService": "وفاه طبيعيه داخل الخدمه",
+  "injuriesDeath": "وفاه اإصابيه",
+  "deathPlace": "مكان الوفاة",
+  "deathDate": "تاريخ الوفاه",
+  "numberOfHeirs": "عدد الورثه"
 
 }

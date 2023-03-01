@@ -426,7 +426,18 @@
   "female": "Female",
   "userMobileNumberAndEmailAreEmptyPleaseReRegister": "The user's mobile number and e-mail are empty. Please re-register",
   "goToYourBanksApplicationAndSendYourIBANToTheEscrow": "Go to your bank's application and send your IBAN to the Escrow",
-  "iban": "IBAN number"
+  "iban": "IBAN number",
+  "deceasedInformation": "Deceased information",
+  "heirsInformation": "Heirs information",
+  "methodOfReceivingTheAllowance": "The method of receiving the allowance",
+  "theNationalNumberOfTheDeceased": "The national number of the deceased",
+  "thePersonalNumberOfTheDeceased": "The personal number of the deceased",
+  "deathType": "Death type",
+  "aNaturalDeathWithinTheService": "A natural death within the service",
+  "injuriesDeath": "Injuries death",
+  "deathPlace": "Death place",
+  "deathDate": "Death date",
+  "numberOfHeirs": "Number of heirs"
 
 
 }
