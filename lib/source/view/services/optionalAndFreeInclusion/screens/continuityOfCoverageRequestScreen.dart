@@ -51,7 +51,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
-      return ((servicesProvider.isMobileNumberUpdated == true && mobileNumberValidate(servicesProvider.mobileNumberController.text)) || (servicesProvider.isMobileNumberUpdated == false && mobileNumberValidate(servicesProvider.mobileNumberController.text)));
+      return mobileNumberValidate(servicesProvider.mobileNumberController.text);
     } else if(flag == 2){
       if(servicesProvider.isMobileNumberUpdated){
         return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
