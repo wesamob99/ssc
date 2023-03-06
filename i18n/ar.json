@@ -442,6 +442,12 @@
   "injuriesDeath": "وفاه اإصابيه",
   "deathPlace": "مكان الوفاة",
   "deathDate": "تاريخ الوفاه",
-  "numberOfHeirs": "عدد الورثه"
+  "numberOfHeirs": "عدد الورثه",
+  "guardianshipArgumentWillBeRequestedInTheCompulsoryDocumentsStep": "سيتم طلب حجة الوصاية في خطوة الوثائق الإجبارية !",
+  "guardianNationality": "جنسية الوصي",
+  "guardianNationalNumber": "الرقم الوطني للوصي",
+  "guardianCardNumber": "رقم البطاقة للوصي",
+  "guardianInformation": "معلومات الوصي",
+  "noDocumentsHaveBeenAttached": "لم يتم ارفاق اية وثائق"
 
 }

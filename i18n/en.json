@@ -437,7 +437,12 @@
   "injuriesDeath": "Injuries death",
   "deathPlace": "Death place",
   "deathDate": "Death date",
-  "numberOfHeirs": "Number of heirs"
-
+  "numberOfHeirs": "Number of heirs",
+  "guardianshipArgumentWillBeRequestedInTheCompulsoryDocumentsStep": "Guardianship argument will be requested in the compulsory documents step!",
+  "guardianNationality": "Guardian's nationality",
+  "guardianNationalNumber": "Guardian's national number",
+  "guardianCardNumber": "Guardian's card number",
+  "guardianInformation": "Guardian information",
+  "noDocumentsHaveBeenAttached": "No documents have been attached"
 
 }
