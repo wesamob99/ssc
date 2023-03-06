@@ -446,22 +446,12 @@ Future<void> showMyDialog(
 
 animatedLoader(context){
   return Material(
-    elevation: 10.0,
+    elevation: 0.0,
     borderRadius: BorderRadius.circular(25.0),
-  child: Container(
-      width: width(isTablet(context) ? 0.3 : 0.4, context),
-      height: width(isTablet(context) ? 0.3 : 0.4, context),
-      padding: const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(25.0)
-      ),
-      child: Image.asset(
-        "assets/logo/loaderLogo.gif",
-      ),
-    ),
+    color: Colors.transparent,
+    child: loadingIndicator(context)
   );
-}
+} //ballTrianglePath
 
 SizedBox textButton(context, ThemeNotifier themeNotifier, String textKey, Color buttonColor, Color textColor, onPressed,
     {double verticalPadding  = 16.0, String borderColor = '#ffffff'}){
@@ -963,19 +953,15 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
   );
 }
 
-loadingIndicator(BuildContext context, ThemeNotifier themeNotifier){
+loadingIndicator(BuildContext context){
   return SizedBox(
     width: width(isTablet(context) ? 0.2 : 0.4, context),
     height: width(isTablet(context) ? 0.2 : 0.4, context),
     child: LoadingIndicator(
-      indicatorType: Indicator.ballSpinFadeLoader, /// Required, The loading type of the widget
+      indicatorType: Indicator.orbit, /// Required, The loading type of the widget
       colors: [
-        HexColor(
-            themeNotifier.isLight() ? '#445740' : '#6f846b'
-        ),
-        HexColor(
-            themeNotifier.isLight() ? '#946800' : '#c99639'
-        ).withOpacity(0.6)
+        HexColor('#6f846b'),
+        HexColor('#c99639')
       ],
       backgroundColor: Colors.transparent,
     ),
