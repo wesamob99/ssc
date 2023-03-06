@@ -48,7 +48,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
     ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
     return SizedBox(
       height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
-      child: firstStepBody(themeNotifier),
+      child: SingleChildScrollView(child: firstStepBody(themeNotifier)),
     );
   }
 
