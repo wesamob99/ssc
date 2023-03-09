@@ -958,7 +958,7 @@ loadingIndicator(BuildContext context){
     width: width(isTablet(context) ? 0.2 : 0.4, context),
     height: width(isTablet(context) ? 0.2 : 0.4, context),
     child: LoadingIndicator(
-      indicatorType: Indicator.orbit, /// Required, The loading type of the widget
+      indicatorType: Indicator.ballBeat, /// Required, The loading type of the widget
       colors: [
         HexColor('#6f846b'),
         HexColor('#c99639')
