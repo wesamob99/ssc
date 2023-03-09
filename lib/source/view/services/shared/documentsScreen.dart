@@ -116,8 +116,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                   });
                 }
 
-                /// TODO: continue documentFor in early
-
                 print(mandatoryDocumentFor);
                 print(optionalDocumentFor);
 
