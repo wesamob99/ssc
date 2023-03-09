@@ -369,7 +369,7 @@
   "maritalStatus": "Marital status",
   "employmentStatus": "Employment status",
   "hasDisability": "Has a disability",
-  "getsSalary": "Gets a salary",
+  "getsSalary": "Receive a pension",
   "status": "Status",
   "alive": "Alive",
   "dead": "Dead",
@@ -432,6 +432,7 @@
   "methodOfReceivingTheAllowance": "The method of receiving the allowance",
   "theNationalNumberOfTheDeceased": "The national number of the deceased",
   "thePersonalNumberOfTheDeceased": "The personal number of the deceased",
+  "thePersonalNumberOfTheGuardian": "The personal number of the Guardian",
   "deathType": "Death type",
   "aNaturalDeathWithinTheService": "A natural death within the service",
   "injuriesDeath": "Injuries death",
@@ -443,6 +444,10 @@
   "guardianNationalNumber": "Guardian's national number",
   "guardianCardNumber": "Guardian's card number",
   "guardianInformation": "Guardian information",
-  "noDocumentsHaveBeenAttached": "No documents have been attached"
+  "noDocumentsHaveBeenAttached": "No documents have been attached",
+  "guardianName": "Guardian name",
+  "submitGuardian": "Submit guardian",
+  "addNewHeir": "Add a new heir",
+  "relationshipWithTheDeceasedPerson": "Relationship with the deceased person"
 
 }
