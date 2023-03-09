@@ -38,7 +38,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
       accountSettingsProvider.getNationalityData(context);
     });
     servicesProvider.isMobileNumberUpdated = false;
-    servicesProvider.mobileNumberController = TextEditingController();
+    servicesProvider.mobileNumberController.text = UserSecuredStorage.instance.realMobileNumber;
     isFirstTime = true;
     super.initState();
   }

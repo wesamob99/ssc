@@ -37,6 +37,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
+    servicesProvider.mobileNumberController.text = UserSecuredStorage.instance.realMobileNumber;
     servicesProvider.stepNumber = 1;
     listOfRates = [];
     for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['MAX_PER_OF_INC'] ; i++){

@@ -12,6 +12,7 @@ import 'package:ssc/source/viewModel/services/servicesProvider.dart';
 import 'package:ssc/utilities/util.dart';
 import 'dart:math' as math;
 import '../../../../../infrastructure/userConfig.dart';
+import '../../../../../infrastructure/userSecuredStorage.dart';
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/theme/themes.dart';
 import '../../../../viewModel/utilities/theme/themeProvider.dart';
@@ -30,6 +31,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
+    servicesProvider.mobileNumberController.text = UserSecuredStorage.instance.realMobileNumber;
     servicesProvider.stepNumber = 1;
     servicesProvider.selectedInjuredType = 'occupationalDisease';
     super.initState();

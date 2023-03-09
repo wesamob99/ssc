@@ -51,6 +51,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     servicesProvider.stepNumber = 1;
+    servicesProvider.mobileNumberController.text = UserSecuredStorage.instance.realMobileNumber;
 
     listOfYears = [];
     for(int i=0 ; i<=servicesProvider.result['cur_getdata'][0][0]['NOOFINCREMENTS'] ; i++){
