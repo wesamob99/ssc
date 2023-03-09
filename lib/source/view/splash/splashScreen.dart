@@ -150,7 +150,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                   // Image.asset('assets/logo/logo_with_name.png', width: width(isTablet(context) ? 0.42 : 0.62, context),),
                   SizedBox(height: height(0.1, context),),
-                  loadingIndicator(context, themeNotifier),
+                  loadingIndicator(context),
                 ],
               ),
             ),
