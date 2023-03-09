@@ -69,6 +69,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   String nationality = 'jordanian';
   List docs = [];
 
+  List pDependents = [];
+
   Map selectedActivePayment;
   List activePayment = [];
   DateTime selectedDateOfBirth = DateTime.now();
@@ -120,12 +122,19 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   void initState() {
     Provider.of<LoginProvider>(context, listen: false).readCountriesJson();
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
-    servicesProvider.getActivePayment(servicesProvider.result['P_Result'][0][0]['SERVICE_TYPE'].toString(), servicesProvider.result['P_Result'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
+    if(servicesProvider.result['P_DEP_INFO'].length != 0){
+      pDependents = servicesProvider.result['P_DEP_INFO'];
+    }
+    if(servicesProvider.result['P_Dep'].length != 0){
+      pDependents = servicesProvider.result['P_Dep'];
+    }
+    servicesProvider.getActivePayment("8", servicesProvider.result['p_per_info'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
       value['R_RESULT'][0].forEach((element){
         activePayment.add(element);
       });
       selectedActivePayment = activePayment[0];
     });
+    servicesProvider.mobileNumberController.text = UserSecuredStorage.instance.realMobileNumber;
     servicesProvider.documentIndex = 0;
     servicesProvider.dependentsDocuments = [];
     servicesProvider.mandatoryDocuments = [];
@@ -243,7 +252,79 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                     if(Provider.of<ServicesProvider>(context).stepNumber == 3)
                       thirdStep(context, themeNotifier),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-                    const DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 6),
+                      DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 6, data: {
+                      "PAYMENT_METHOD": servicesProvider.result['p_per_info'][0][0]['PAYMENT_METHOD'],
+                      "BANK_LOCATION": servicesProvider.result['p_per_info'][0][0]['BANK_LOCATION'], /// update
+                      "BRANCH_ID": servicesProvider.result['p_per_info'][0][0]['BRANCH_ID'],
+                      "BRANCH_NAME": servicesProvider.result['p_per_info'][0][0]['BRANCH_NAME'],
+                      "BANK_ID": servicesProvider.result['p_per_info'][0][0]['BANK_ID'],
+                      "BANK_NAME": servicesProvider.result['p_per_info'][0][0]['BANK_NAME'],
+                      "ACCOUNT_NAME": servicesProvider.result['p_per_info'][0][0]['ACCOUNT_NAME'],
+                      "PAYMENT_COUNTRY": servicesProvider.result['p_per_info'][0][0]['PAYMENT_COUNTRY'],
+                      "PAYMENT_COUNTRY_CODE": servicesProvider.result['p_per_info'][0][0]['PAYMENT_COUNTRY_CODE'],
+                      "PAYMENT_PHONE": servicesProvider.result['p_per_info'][0][0]['PAYMENT_PHONE'],
+                      "IFSC": servicesProvider.result['p_per_info'][0][0]['IFSC'],
+                      "SWIFT_CODE": servicesProvider.result['p_per_info'][0][0]['SWIFT_CODE'], /// update
+                      "BANK_DETAILS": servicesProvider.result['p_per_info'][0][0]['BANK_DETAILS'], /// update
+                      "IBAN": servicesProvider.result['p_per_info'][0][0]['IBAN'],
+                      "CASH_BANK_ID": servicesProvider.result['p_per_info'][0][0]['CASH_BANK_ID'],
+                      "REP_NATIONALITY": servicesProvider.result['p_per_info'][0][0]['REP_NATIONALITY'], /// update
+                      "REP_NATIONAL_NO": servicesProvider.result['p_per_info'][0][0]['REP_NATIONAL_NO'], /// update
+                      "REP_NAME": servicesProvider.result['p_per_info'][0][0]['REP_NAME'], /// update
+                      "WALLET_TYPE": servicesProvider.result['p_per_info'][0][0]['WALLET_TYPE'],
+                      "WALLET_OTP_VERIVIED": null,
+                      "WALLET_OTP": null,
+                      "WALLET_PHONE": servicesProvider.result['p_per_info'][0][0]['WALLET_PHONE'],
+                      "WALLET_PHONE_VERIVIED": servicesProvider.result['p_per_info'][0][0]['WALLET_PHONE_VERIVIED'],
+                      "WALLET_PASSPORT_NUMBER": servicesProvider.result['p_per_info'][0][0]['WALLET_PASSPORT_NUMBER'],
+                      "PEN_IBAN": servicesProvider.result['p_per_info'][0][0]['PEN_IBAN'],
+                      "SECNO": servicesProvider.result['p_per_info'][0][0]['SECNO'],
+                      "NAT_DESC": servicesProvider.result['p_per_info'][0][0]['NAT_DESC'],
+                      "NAT": servicesProvider.result['p_per_info'][0][0]['NAT'],
+                      "NAT_NO": servicesProvider.result['p_per_info'][0][0]['NAT_NO'],
+                      "PERS_NO": servicesProvider.result['p_per_info'][0][0]['PERS_NO'],
+                      "LAST_EST_NAME": servicesProvider.result['p_per_info'][0][0]['LAST_EST_NAME'],
+                      "NAME1": servicesProvider.result['p_per_info'][0][0]['NAME1'],
+                      "NAME2": servicesProvider.result['p_per_info'][0][0]['NAME2'],
+                      "NAME3": servicesProvider.result['p_per_info'][0][0]['NAME3'],
+                      "NAME4": servicesProvider.result['p_per_info'][0][0]['NAME4'],
+                      "FULL_NAME_EN": servicesProvider.result['p_per_info'][0][0]['FULL_NAME_EN'],
+                      "EMAIL": servicesProvider.result['p_per_info'][0][0]['EMAIL'],
+                      "MOBILE": servicesProvider.result['p_per_info'][0][0]['MOBILE'],
+                      "INTERNATIONAL_CODE": servicesProvider.result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
+                      "INSURED_ADDRESS": servicesProvider.result['p_per_info'][0][0]['INSURED_ADDRESS'],
+                      "MARITAL_STATUS": servicesProvider.result['p_per_info'][0][0]['MARITAL_STATUS'] ?? servicesProvider.result['p_per_info'][0][0]['SOCIAL_STATUS'],
+                      "REGDATE": null,
+                      "REGRATE": null,
+                      "LAST_SALARY": null,
+                      "LAST_STODATE": servicesProvider.result['p_per_info'][0][0]['LAST_STODATE'],
+                      "ACTUAL_STODATE": servicesProvider.result['p_per_info'][0][0]['ACTUAL_STODATE'],
+                      "GENDER": servicesProvider.result['p_per_info'][0][0]['GENDER'],
+                      "CIVIL_WORK_DOC": servicesProvider.result['p_per_info'][0][0]['CIVIL_WORK_DOC'],
+                      "MILITARY_WORK_DOC": servicesProvider.result['p_per_info'][0][0]['MILITARY_WORK_DOC'],
+                      "CIV_MIL_RETIRED_DOC": servicesProvider.result['p_per_info'][0][0]['CIV_MIL_RETIRED_DOC'],
+                      "PEN_START_DATE": servicesProvider.result['p_per_info'][0][0]['PEN_START_DATE'],
+                      "GOVERNORATE": servicesProvider.result['p_per_info'][0][0]['GOVERNORATE'],
+                      "DETAILED_ADDRESS": null,
+                      "PASS_NO": null,
+                      "RESIDENCY_NO": null,
+                      "DOB": servicesProvider.result['p_per_info'][0][0]['DOB'],
+                      "JOB_NO": null,
+                      "JOB_DESC": servicesProvider.result['p_per_info'][0][0]['JOB_DESC'],
+                      "ENAME1": null,
+                      "ENAME2": null,
+                      "ENAME3": null,
+                      "ENAME4": null,
+                      "LAST_EST_NO": servicesProvider.result['p_per_info'][0][0]['LAST_EST_NO'], /// update
+                      "FAM_NO": null,
+                      "nextVaild": null,
+                      "wantAddFamily": null,
+                      "GENDER_DESC": servicesProvider.result['p_per_info'][0][0]['GENDER_DESC'],
+                      "PI_EPAY": null,
+                      "INSURED": null,
+                      "ID": servicesProvider.result['p_per_info'][0][0]['ID'], /// update
+                      "DEP_FLAG": 0
+                    }, serviceType: 8, dependents: pDependents,),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 5)
                       fifthStep(context, themeNotifier),
                     if(Provider.of<ServicesProvider>(context).stepNumber == 6)
@@ -354,7 +435,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                           case 3: {
                             if(checkContinueEnabled(flag: 3)){
                               servicesProvider.documentsScreensStepNumber = 1;
-                              if(dependentIndex < ((servicesProvider.result['P_Dep'].length != 0  && servicesProvider.result['P_Dep'][0].length != 0) ? servicesProvider.result['P_Dep'][0].length - 1 : 0)){
+                              if(dependentIndex < ((pDependents.isNotEmpty  && pDependents[0].length != 0) ? pDependents[0].length - 1 : 0)){
                                 dependentIndex++;
                               }else {
                                 servicesProvider.notifyMe();
@@ -489,8 +570,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 "HIDE_ACTIONS": false
               };
               bool isDependentDoc = false;
-              if(type == 'mandatory' && servicesProvider.result["P_Dep"].isNotEmpty){
-                servicesProvider.result['P_Dep'][0].forEach((element) {
+              if(type == 'mandatory' && servicesProvider.result["P_DEP_INFO"].isNotEmpty){
+                pDependents[0].forEach((element) {
                   if(element['DEP_CODE'].toString() == servicesProvider.uploadedFiles[type][i][j]["document"]['CODE'].toString()){
                     if (kDebugMode) {
                       print('value: $value');
@@ -591,6 +672,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   }
 
   Widget thirdStep(context, themeNotifier){
+    // if(pDependents.isNotEmpty && pDependents[0].length != 0){
+    //   servicesProvider.checkDocumentDependent(pDependents[0]);
+    // }
     return SizedBox(
       height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
       child: Column(
@@ -650,7 +734,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               ),
               SizedBox(height: height(0.02, context),),
               Text(
-                translate('numberOfDependents', context) + ' ( ${(servicesProvider.result['P_Dep'].length != 0  && servicesProvider.result['P_Dep'][0].length != 0) ? dependentIndex + 1 : 0} / ${(servicesProvider.result['P_Dep'].length != 0  && servicesProvider.result['P_Dep'][0].length != 0) ? servicesProvider.result['P_Dep'][0].length : 0} )',
+                translate('numberOfDependents', context) + ' ( ${(pDependents.isNotEmpty  && pDependents[0].length != 0) ? dependentIndex + 1 : 0} / ${(pDependents.isNotEmpty  && pDependents[0].length != 0) ? pDependents[0].length : 0} )',
                 style: TextStyle(
                   color: HexColor('#363636'),
                   fontWeight: FontWeight.w500,
@@ -658,7 +742,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 ),
               ),
               SizedBox(height: height(0.02, context),),
-              if(servicesProvider.result['P_Dep'].length != 0 && servicesProvider.result['P_Dep'][0].length != 0)
+              if(pDependents.isNotEmpty && pDependents[0].length != 0)
               Card(
                   elevation: 6.0,
                   shadowColor: Colors.black45,
@@ -676,7 +760,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              servicesProvider.result['P_Dep'][0][dependentIndex]['NAME'],
+                              pDependents[0][dependentIndex]['NAME'] ?? pDependents[0][dependentIndex]['FULL_NAME'],
                               style: TextStyle(
                                 height: 1.4,
                                 color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
@@ -690,14 +774,14 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
                                   decoration: BoxDecoration(
-                                    color: servicesProvider.result['P_Dep'][0][dependentIndex]['RELATION'] == 11
+                                    color: (pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 11
                                         ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                   child: Text(
-                                    getRelationType(servicesProvider.result['P_Dep'][0][dependentIndex]['RELATION']),
+                                    getRelationType(pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']),
                                     style: TextStyle(
-                                      color: servicesProvider.result['P_Dep'][0][dependentIndex]['RELATION'] == 11
+                                      color: (pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 11
                                           ? HexColor('#003C97') : HexColor('#2D452E'),
                                       fontWeight: FontWeight.w400,
                                       fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
@@ -708,58 +792,58 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   onSelected: (ContextMenu result) async {
                                     switch (result.index) {
                                       case 0: {
-                                        selectedStatus = servicesProvider.result['P_Dep'][0][dependentIndex]['IS_ALIVE'] == 1
+                                        selectedStatus = pDependents[0][dependentIndex]['IS_ALIVE'] == 1
                                             ? 'alive' : 'dead';
-                                        selectedJobStatus = servicesProvider.result['P_Dep'][0][dependentIndex]['WORK_STATUS'] == 0
+                                        selectedJobStatus = (pDependents[0][dependentIndex]['WORK_STATUS'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
                                             ? 'unemployed' : 'employed';
-                                        selectedGetsSalary = servicesProvider.result['P_Dep'][0][dependentIndex]['IS_RETIRED_A'] == 0
+                                        selectedGetsSalary = (pDependents[0][dependentIndex]['IS_RETIRED_A'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
                                             ? 'no' : 'yes';
-                                        selectedHasDisability = servicesProvider.result['P_Dep'][0][dependentIndex]['DISABILITY'] == 0
+                                        selectedHasDisability = (pDependents[0][dependentIndex]['DISABILITY'] ?? pDependents[0][dependentIndex]['IS_SUPPORT_TO_OTHER_PEN']) == 0
                                             ? 'no' : 'yes';
-                                        selectedMaritalStatus = servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 1
+                                        selectedMaritalStatus = (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 1
                                             ? UserConfig.instance.checkLanguage()
-                                            ? 'single' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
-                                            : servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 2
+                                            ? 'single' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
+                                            : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 2
                                             ? UserConfig.instance.checkLanguage()
-                                            ? 'married' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF'
-                                            : servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 3
+                                            ? 'married' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF'
+                                            : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 3
                                             ? UserConfig.instance.checkLanguage()
-                                            ? 'divorced' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF'
-                                            : servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 4
+                                            ? 'divorced' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF'
+                                            : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 4
                                             ? UserConfig.instance.checkLanguage()
-                                            ? 'widow' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF' : 'single';
+                                            ? 'widow' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF' : 'single';
                                         maritalList = [
                                           UserConfig.instance.checkLanguage()
                                               ? 'single'
-                                              : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF',
+                                              : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF',
                                           UserConfig.instance.checkLanguage()
                                               ? 'married'
-                                              : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
+                                              : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
                                           UserConfig.instance.checkLanguage()
                                               ? 'divorced'
-                                              : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF',
+                                              : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF',
                                           UserConfig.instance.checkLanguage()
                                               ? 'widow'
-                                              : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF',
+                                              : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF',
                                         ];
                                         dependentModalBottomSheet(dependentIndex);
                                       } break;
                                       case 1: {
                                         showMyDialog(
                                             context, 'wouldYouLikeToConfirmDeletionOfDependents',
-                                            servicesProvider.result['P_Dep'][0][dependentIndex]['NAME'],
+                                            pDependents[0][dependentIndex]['NAME'] ?? pDependents[0][dependentIndex]['FULL_NAME'],
                                             'yesContinue', themeNotifier, icon: 'assets/icons/dialogDeleteIcon.svg',
                                             onPressed: () async{
                                               String errorMessage = '';
                                               servicesProvider.isLoading = true;
                                               servicesProvider.notifyMe();
                                               try{
-                                                await servicesProvider.deleteDependent(int.tryParse(servicesProvider.result['P_Dep'][0][dependentIndex]["ID"].toString())).then((value){
+                                                await servicesProvider.deleteDependent(int.tryParse(pDependents[0][dependentIndex]["ID"].toString())).then((value){
                                                   Navigator.of(context).pop();
                                                   if(value['PO_RESULT'] == 1){
-                                                    servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == servicesProvider.result['P_Dep'][0][dependentIndex]["DEP_CODE"]);
-                                                    servicesProvider.result['P_Dep'][0].removeAt(dependentIndex);
-                                                    if(dependentIndex == servicesProvider.result['P_Dep'][0].length && dependentIndex != 0){
+                                                    servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == pDependents[0][dependentIndex]["DEP_CODE"]);
+                                                    pDependents[0].removeAt(dependentIndex);
+                                                    if(dependentIndex == pDependents[0].length && dependentIndex != 0){
                                                       setState(() {
                                                         dependentIndex--;
                                                       });
@@ -802,7 +886,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                     ),
                                     PopupMenuItem<ContextMenu>(
                                       value: ContextMenu.delete,
-                                      enabled: servicesProvider.result['P_Dep'][0][dependentIndex]['SOURCE_FLAG'] == 2,
+                                      enabled: pDependents[0][dependentIndex]['SOURCE_FLAG'] == 2,
                                       child: contextMenuItem(
                                           "delete",
                                           'assets/icons/delete.svg',
@@ -819,7 +903,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                         Row(
                           children: [
                             Text(
-                              servicesProvider.result['P_Dep'][0][dependentIndex]['NATIONAL_NO'],
+                              pDependents[0][dependentIndex]['NATIONAL_NO'],
                               style: TextStyle(
                                 color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                               ),
@@ -832,7 +916,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                             ),
                             Text(
                               translate(
-                                  servicesProvider.result['P_Dep'][0][dependentIndex]['NATIONALITY'] == 1
+                                  pDependents[0][dependentIndex]['NATIONALITY'] == 1
                                       ? 'jordanian' : 'nonJordanian',
                                   context),
                               style: TextStyle(
@@ -858,18 +942,18 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 const SizedBox(height: 10.0,),
                                 Text(
                                   translate(
-                                      servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 1
+                                      (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 1
                                           ? UserConfig.instance.checkLanguage()
-                                          ? 'single' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
-                                          : servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 2
+                                          ? 'single' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
+                                          : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 2
                                           ? UserConfig.instance.checkLanguage()
-                                          ? 'married' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF'
-                                          : servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 3
+                                          ? 'married' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF'
+                                          : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 3
                                           ? UserConfig.instance.checkLanguage()
-                                          ? 'divorced' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF'
-                                          : servicesProvider.result['P_Dep'][0][dependentIndex]['MARITAL_STATUS'] == 4
+                                          ? 'divorced' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF'
+                                          : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 4
                                           ? UserConfig.instance.checkLanguage()
-                                          ? 'widow' : servicesProvider.result['P_Dep'][0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF' : 'single',
+                                          ? 'widow' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF' : 'single',
                                       context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
@@ -891,7 +975,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 const SizedBox(height: 10.0,),
                                 Text(
                                   translate(
-                                      servicesProvider.result['P_Dep'][0][dependentIndex]['WORK_STATUS'] == 0
+                                      (pDependents[0][dependentIndex]['WORK_STATUS'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
                                           ? 'unemployed' : 'employed',
                                       context),
                                   style: TextStyle(
@@ -914,7 +998,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 const SizedBox(height: 10.0,),
                                 Text(
                                   translate(
-                                      servicesProvider.result['P_Dep'][0][dependentIndex]['IS_ALIVE'] == 1
+                                      pDependents[0][dependentIndex]['IS_ALIVE'] == 1
                                           ? 'alive' : 'dead',
                                       context),
                                   style: TextStyle(
@@ -943,7 +1027,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 const SizedBox(height: 10.0,),
                                 Text(
                                   translate(
-                                      servicesProvider.result['P_Dep'][0][dependentIndex]['DISABILITY'] == 0
+                                      (pDependents[0][dependentIndex]['DISABILITY'] ?? pDependents[0][dependentIndex]['IS_SUPPORT_TO_OTHER_PEN']) == 0
                                           ? 'no' : 'yes',
                                       context),
                                   style: TextStyle(
@@ -966,7 +1050,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 const SizedBox(height: 10.0,),
                                 Text(
                                   translate(
-                                      servicesProvider.result['P_Dep'][0][dependentIndex]['IS_RETIRED_A'] == 0
+                                      (pDependents[0][dependentIndex]['IS_RETIRED_A'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
                                           ? 'no' : 'yes',
                                       context),
                                   style: TextStyle(
@@ -1002,7 +1086,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               ),
             ],
           ),
-          if(dependentIndex == ((servicesProvider.result['P_Dep'].length != 0  && servicesProvider.result['P_Dep'][0].length != 0) ? servicesProvider.result['P_Dep'][0].length - 1 : 0))
+          if(dependentIndex == ((pDependents.isNotEmpty  && pDependents[0].length != 0) ? pDependents[0].length - 1 : 0))
           Padding(
             padding: const EdgeInsets.only(bottom: 5.0),
             child: textButtonWithIcon(
@@ -1113,7 +1197,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
             ),
             if(selectedActivePayment['ID'] == 3) // inside jordan
             Text(
-              servicesProvider.result["p_per_info"][0][0]["IBAN"].length == 30
+              servicesProvider.result["p_per_info"][0][0]["IBAN"] != null && servicesProvider.result["p_per_info"][0][0]["IBAN"].length == 30
               ? '${translate('iban', context)}: ${servicesProvider.result["p_per_info"][0][0]["IBAN"]}'
               : translate('goToYourBanksApplicationAndSendYourIBANToTheEscrow', context),
             ),
@@ -1563,67 +1647,65 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   }
 
   Widget customRadioButtonGroup(int flag, List choices, setState){
-    return Expanded(
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: choices.length,
-        itemBuilder: (context, index){
-          return Column(
-            children: [
-              InkWell(
-                onTap: (){
-                  setState(() {
-                    if(flag == 1) {
-                      selectedMaritalStatus = choices[index];
-                    }
-                    if(flag == 2) {
-                      selectedRelation = UserConfig.instance.checkLanguage()
-                          ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR'];
-                    }
-                    if(flag == 3) {
-                      selectedActivePayment = choices[index];
-                    }
-                  });
-                },
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(500.0),
-                        border: Border.all(
-                          color: HexColor('#2D452E'),
-                        ),
-                      ),
-                      padding: const EdgeInsets.all(2.0),
-                      child: CircleAvatar(
-                        radius: isTablet(context) ? 10 : 5,
-                        backgroundColor: (flag == 1 && selectedMaritalStatus == choices[index]) || (flag == 2 && selectedRelation == (UserConfig.instance.checkLanguage()
-                            ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR']))  || (flag == 3 && selectedActivePayment == choices[index])
-                            ? HexColor('#2D452E') : Colors.transparent,
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: choices.length,
+      itemBuilder: (context, index){
+        return Column(
+          children: [
+            InkWell(
+              onTap: (){
+                setState(() {
+                  if(flag == 1) {
+                    selectedMaritalStatus = choices[index];
+                  }
+                  if(flag == 2) {
+                    selectedRelation = UserConfig.instance.checkLanguage()
+                        ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR'];
+                  }
+                  if(flag == 3) {
+                    selectedActivePayment = choices[index];
+                  }
+                });
+              },
+              child: Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(500.0),
+                      border: Border.all(
+                        color: HexColor('#2D452E'),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        flag == 1
-                        ? translate(choices[index], context)
-                        : UserConfig.instance.checkLanguage()
-                        ? choices[index][flag == 2 ? 'REL_DESC_EN' : 'NAME_EN'] : choices[index][flag == 2 ? 'REL_DESC_AR' : 'NAME_AR'],
-                        style: TextStyle(
-                          color: HexColor('#666666'),
-                        ),
+                    padding: const EdgeInsets.all(2.0),
+                    child: CircleAvatar(
+                      radius: isTablet(context) ? 10 : 5,
+                      backgroundColor: (flag == 1 && selectedMaritalStatus == choices[index]) || (flag == 2 && selectedRelation == (UserConfig.instance.checkLanguage()
+                          ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR']))  || (flag == 3 && selectedActivePayment == choices[index])
+                          ? HexColor('#2D452E') : Colors.transparent,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      flag == 1
+                      ? translate(choices[index], context)
+                      : UserConfig.instance.checkLanguage()
+                      ? choices[index][flag == 2 ? 'REL_DESC_EN' : 'NAME_EN'] : choices[index][flag == 2 ? 'REL_DESC_AR' : 'NAME_AR'],
+                      style: TextStyle(
+                        color: HexColor('#666666'),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 10.0,)
-            ],
-          );
-        }
-      ),
+            ),
+            SizedBox(height: index == choices.length -1 ? 10.0 : 0.0,)
+          ],
+        );
+      }
     );
   }
 
@@ -1637,7 +1719,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
       backgroundColor: const Color.fromRGBO(250, 250, 250, 1.0),
       isScrollControlled: true,
       constraints: BoxConstraints(
-          maxHeight: height(0.9, context)
+          maxHeight: height(0.9, context),
       ),
       builder: (BuildContext context) {
         return StatefulBuilder(
@@ -1657,79 +1739,85 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                     padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0).copyWith(top: 15.0),
                     child: Stack(
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  width: 45,
-                                  height: 6,
-                                  decoration: BoxDecoration(
-                                      color: !themeNotifier.isLight() ? Colors.white : HexColor('#000000'),
-                                      borderRadius: const BorderRadius.all(Radius.circular(25.0))),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 25.0,),
-                            if(isEdit)
-                            Column(
-                              children: [
-                                buildFieldTitle(context, 'nationality', required: false),
-                                const SizedBox(height: 10.0,),
-                                customTwoRadioButtons(6, 'jordanian', 'nonJordanian', setState, disabled: servicesProvider.isNationalIdValid),
-                                const SizedBox(height: 20.0,),
-                                buildFieldTitle(context, nationality == 'jordanian' ? 'nationalId' : 'personalId', required: false),
-                                const SizedBox(height: 10.0,),
-                                buildTextFormField(
-                                    context, themeNotifier, nationalIdController, servicesProvider.isNationalIdValid ? 'val${nationalIdController.text}' : '9999999999', (val) async {
-                                      if((val.length == 10 && nationality == 'jordanian')){
-                                        FocusScope.of(context).requestFocus(FocusNode());
-                                        String message = '';
-                                        servicesProvider.isLoading = true;
-                                        servicesProvider.isModalLoading = true;
-                                        servicesProvider.notifyMe();
-                                        try{
-                                          await servicesProvider.getDependentInfo(val).whenComplete((){}).then((value) {
-                                            if(value['PO_status'] == 0){
-                                              servicesProvider.isNationalIdValid = true;
-                                              setState((){
-                                                servicesProvider.dependentInfo = value;
-                                                servicesProvider.notifyMe();
-                                              });
-                                            } else{
-                                              message = UserConfig.instance.checkLanguage()
-                                                  ? value['PO_status_desc_EN'] : value['PO_status_desc_AR'];
-                                              showMyDialog(context, 'failed', message, 'ok', themeNotifier);
+                        SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    width: 45,
+                                    height: 6,
+                                    decoration: BoxDecoration(
+                                        color: !themeNotifier.isLight() ? Colors.white : HexColor('#000000'),
+                                        borderRadius: const BorderRadius.all(Radius.circular(25.0))),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 25.0,),
+                              if(isEdit)
+                              Column(
+                                children: [
+                                  if(!servicesProvider.isNationalIdValid)
+                                  buildFieldTitle(context, 'nationality', required: false),
+                                  if(!servicesProvider.isNationalIdValid)
+                                  const SizedBox(height: 10.0,),
+                                  if(!servicesProvider.isNationalIdValid)
+                                  customTwoRadioButtons(6, 'jordanian', 'nonJordanian', setState, disabled: servicesProvider.isNationalIdValid),
+                                  if(!servicesProvider.isNationalIdValid)
+                                  const SizedBox(height: 20.0,),
+                                  buildFieldTitle(context, nationality == 'jordanian' ? 'nationalId' : 'personalId', required: false),
+                                  const SizedBox(height: 10.0,),
+                                  buildTextFormField(
+                                      context, themeNotifier, nationalIdController, servicesProvider.isNationalIdValid ? 'val${nationalIdController.text}' : '9999999999', (val) async {
+                                        if((val.length == 10 && nationality == 'jordanian')){
+                                          FocusScope.of(context).requestFocus(FocusNode());
+                                          String message = '';
+                                          servicesProvider.isLoading = true;
+                                          servicesProvider.isModalLoading = true;
+                                          servicesProvider.notifyMe();
+                                          try{
+                                            await servicesProvider.getDependentInfo(val).whenComplete((){}).then((value) {
+                                              if(value['PO_status'] == 0){
+                                                servicesProvider.isNationalIdValid = true;
+                                                setState((){
+                                                  servicesProvider.dependentInfo = value;
+                                                  servicesProvider.notifyMe();
+                                                });
+                                              } else{
+                                                message = UserConfig.instance.checkLanguage()
+                                                    ? value['PO_status_desc_EN'] : value['PO_status_desc_AR'];
+                                                showMyDialog(context, 'failed', message, 'ok', themeNotifier);
+                                              }
+                                            });
+                                            servicesProvider.isLoading = false;
+                                            servicesProvider.isModalLoading = false;
+                                            servicesProvider.notifyMe();
+                                          }catch(e){
+                                            servicesProvider.isLoading = false;
+                                            servicesProvider.isModalLoading = false;
+                                            servicesProvider.notifyMe();
+                                            if (kDebugMode) {
+                                              print(e.toString());
                                             }
-                                          });
-                                          servicesProvider.isLoading = false;
-                                          servicesProvider.isModalLoading = false;
-                                          servicesProvider.notifyMe();
-                                        }catch(e){
-                                          servicesProvider.isLoading = false;
-                                          servicesProvider.isModalLoading = false;
-                                          servicesProvider.notifyMe();
-                                          if (kDebugMode) {
-                                            print(e.toString());
                                           }
                                         }
-                                      }
-                                      setState((){
-                                        checkNonJordanianInfo();
-                                      });
-                                    },
-                                    inputType: TextInputType.number, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid
-                                ),
-                                const SizedBox(height: 15.0,),
-                              ],
-                            ),
-                            if((nationality == 'jordanian' && servicesProvider.isNationalIdValid) || nationality == 'nonJordanian')
-                            Expanded(
-                              child: ListView(
-                                shrinkWrap: true,
+                                        setState((){
+                                          checkNonJordanianInfo();
+                                        });
+                                      },
+                                      inputType: TextInputType.number, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid
+                                  ),
+                                  const SizedBox(height: 15.0,),
+                                  if(nationality == 'jordanian' && !servicesProvider.isNationalIdValid)
+                                  SizedBox(height: height(1, context),),
+                                ],
+                              ),
+                              if((nationality == 'jordanian' && (servicesProvider.isNationalIdValid) || !isEdit) || nationality == 'nonJordanian')
+                              Column(
+                                // shrinkWrap: true,
                                 children: [
                                   if(nationality == 'jordanian')
                                   Card(
@@ -1750,8 +1838,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                               children: [
                                                 Text(
                                                   !isEdit
-                                                      ? servicesProvider.result['P_Dep'][0][index]['NAME']
-                                                      : '${servicesProvider.dependentInfo['cur_getdata'][0][0]['FULL_NAME']}',
+                                                      ? pDependents[0][index]['NAME'] ?? pDependents[0][index]['FULL_NAME']
+                                                      : '${servicesProvider.dependentInfo['cur_getdata'][0][0]['FULL_NAME'] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]['NAME']}',
                                                   style: TextStyle(
                                                     height: 1.4,
                                                     color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
@@ -1762,7 +1850,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
                                                   decoration: BoxDecoration(
                                                     color: !isEdit
-                                                        ? servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
+                                                        ? (pDependents[0][index]['RELATION'] ?? pDependents[0][index]['RELATIVETYPE']) == 11
                                                         ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38)
                                                         : servicesProvider.dependentInfo['cur_getdata'][0][0]['RELATIVETYPE'] == 11
                                                         ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
@@ -1770,11 +1858,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                   ),
                                                   child: Text(
                                                     !isEdit
-                                                        ? getRelationType(servicesProvider.result['P_Dep'][0][index]['RELATION'])
+                                                        ? getRelationType(pDependents[0][index]['RELATION'] ?? pDependents[0][index]['RELATIVETYPE'])
                                                         : getRelationType(servicesProvider.dependentInfo['cur_getdata'][0][0]['RELATIVETYPE']),
                                                     style: TextStyle(
                                                       color: !isEdit
-                                                          ? servicesProvider.result['P_Dep'][0][index]['RELATION'] == 11
+                                                          ? (pDependents[0][index]['RELATION'] ?? pDependents[0][index]['RELATIVETYPE']) == 11
                                                           ? HexColor('#003C97') : HexColor('#2D452E')
                                                           : servicesProvider.dependentInfo['cur_getdata'][0][0]['RELATIVETYPE'] == 11
                                                           ? HexColor('#003C97') : HexColor('#2D452E'),
@@ -1789,7 +1877,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                               children: [
                                                 Text(
                                                   !isEdit
-                                                      ? servicesProvider.result['P_Dep'][0][index]['NATIONAL_NO']
+                                                      ? pDependents[0][index]['NATIONAL_NO']
                                                       : servicesProvider.dependentInfo['cur_getdata'][0][0]['NATIONALNUMBER'],
                                                   style: TextStyle(
                                                     color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
@@ -1804,7 +1892,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 Text(
                                                   translate(
                                                       !isEdit
-                                                          ? servicesProvider.result['P_Dep'][0][index]['NATIONALITY'] == 1
+                                                          ? pDependents[0][index]['NATIONALITY'] == 1
                                                           ? 'jordanian' : 'nonJordanian'
                                                           : servicesProvider.dependentInfo['cur_getdata'][0][0]['NATIONALITY'] == 1
                                                           ? 'jordanian' : 'nonJordanian',
@@ -1881,13 +1969,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                     ],
                                   ),
                                   const SizedBox(height: 20.0,),
-                                  if(!isEdit)
                                   buildFieldTitle(context, 'status', required: false),
-                                  if(!isEdit)
                                   const SizedBox(height: 10.0,),
-                                  if(!isEdit)
                                   customTwoRadioButtons(1, 'alive', 'dead', setState),
-                                  if(!isEdit)
                                   const SizedBox(height: 20.0,),
                                   buildFieldTitle(context, 'employmentStatus', required: false),
                                   const SizedBox(height: 10.0,),
@@ -1900,27 +1984,23 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   buildFieldTitle(context, 'hasDisability', required: false),
                                   const SizedBox(height: 10.0,),
                                   customTwoRadioButtons(4, 'yes', 'no', setState),
-                                  if(!isEdit)
                                   const SizedBox(height: 20.0,),
-                                  if(!isEdit)
                                   buildFieldTitle(context, 'maritalStatus', required: false),
-                                  if(!isEdit)
                                   const SizedBox(height: 10.0,),
-                                  if(!isEdit)
                                   customRadioButtonGroup(1, maritalList, setState),
-                                  if(nationality == 'nonJordanian')
-                                  const SizedBox(height: 20.0,),
+                                  // if(nationality == 'nonJordanian')
+                                  // const SizedBox(height: 10.0,),
                                   if(nationality == 'nonJordanian')
                                   buildFieldTitle(context, 'relativeRelation', required: false),
                                   if(nationality == 'nonJordanian')
                                   const SizedBox(height: 10.0,),
                                   if(nationality == 'nonJordanian')
-                                  customRadioButtonGroup(2, UserConfig.instance.checkLanguage() ? servicesProvider.result['P_RELATION'][0]: servicesProvider.result['P_RELATION'][0], setState),
-                                  SizedBox(height: height(isScreenHasSmallHeight(context) ? 0.2 : 0.11, context),),
+                                  customRadioButtonGroup(2, servicesProvider.result['P_RELATION'][0], setState),
+                                  SizedBox(height: height(isScreenHasSmallHeight(context) ? 0.25 : 0.15, context),),
                                 ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         Positioned(
                           bottom: 0,
@@ -1940,45 +2020,45 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                     servicesProvider.isModalLoading = true;
                                     servicesProvider.notifyMe();
                                     dynamic maritalStatus = selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                        ? 'single' : servicesProvider.result['P_Dep'][0][index]["GENDER"] == 1 ? 'singleM' : 'singleF') ? 1
+                                        ? 'single' : pDependents[0][index]["GENDER"] == 1 ? 'singleM' : 'singleF') ? 1
                                         : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                        ? 'married' : servicesProvider.result['P_Dep'][0][index]["GENDER"] == 1 ? 'marriedM' : 'marriedF') ? 2
+                                        ? 'married' : pDependents[0][index]["GENDER"] == 1 ? 'marriedM' : 'marriedF') ? 2
                                         : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                        ? 'divorced' : servicesProvider.result['P_Dep'][0][index]["GENDER"] == 1 ? 'divorcedM' : 'divorcedF') ? 3
+                                        ? 'divorced' : pDependents[0][index]["GENDER"] == 1 ? 'divorcedM' : 'divorcedF') ? 3
                                         : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                        ? 'widow' : servicesProvider.result['P_Dep'][0][index]["GENDER"] == 1 ? 'widowM' : 'widowF') ? 4 : 1;
+                                        ? 'widow' : pDependents[0][index]["GENDER"] == 1 ? 'widowM' : 'widowF') ? 4 : 1;
                                     try{
                                       /// TODO: complete checkDocumentDependent!
-                                      await servicesProvider.checkDocumentDependent((selectedGender == "male") ? "1" : "2").then((value) async {
+                                      await servicesProvider.checkDocumentDependent((pDependents.isNotEmpty && pDependents[0].length != 0) ? pDependents[0] : []).then((value) async {
                                         if(value['P_RESULT'].isEmpty){
                                           var dependent = {
-                                            "NAME": servicesProvider.result['P_Dep'][0][index]["NAME"],
-                                            "RELATION": servicesProvider.result['P_Dep'][0][index]["RELATION"],
+                                            "FULL_NAME": pDependents[0][index]["FULL_NAME"] ?? pDependents[0][index]['NAME'],
+                                            "RELATION": pDependents[0][index]["RELATION"] ?? pDependents[0][index]["RELATIVETYPE"],
                                             "IS_ALIVE": selectedStatus == 'alive' ? 1 : 0,
                                             "WORK_STATUS": selectedJobStatus == 'unemployed' ? 0 : 1,
-                                            "IS_RETIRED": servicesProvider.result['P_Dep'][0][index]["IS_RETIRED"],
+                                            "IS_RETIRED": pDependents[0][index]["IS_RETIRED"],
                                             "DISABILITY": selectedHasDisability == 'no' ? 0 : 1,
                                             "MARITAL_STATUS": maritalStatus,
-                                            "GENDER": servicesProvider.result['P_Dep'][0][index]["GENDER"],
-                                            "ID": servicesProvider.result['P_Dep'][0][index]["ID"],
-                                            "SOURCE_FLAG": servicesProvider.result['P_Dep'][0][index]["SOURCE_FLAG"],
-                                            "NATIONAL_NO": servicesProvider.result['P_Dep'][0][index]["NATIONAL_NO"],
-                                            "NATIONALITY": servicesProvider.result['P_Dep'][0][index]["NATIONALITY"],
-                                            "BIRTHDATE": servicesProvider.result['P_Dep'][0][index]["BIRTHDATE"],
-                                            "AGE": servicesProvider.result['P_Dep'][0][index]["AGE"],
-                                            "MARITAL_STATUS_A": servicesProvider.result['P_Dep'][0][index]["MARITAL_STATUS_A"],
-                                            "WORK_STATUS_A": servicesProvider.result['P_Dep'][0][index]["WORK_STATUS_A"],
-                                            "IS_ALIVE_A": servicesProvider.result['P_Dep'][0][index]["IS_ALIVE_A"],
+                                            "GENDER": pDependents[0][index]["GENDER"],
+                                            "ID": pDependents[0][index]["ID"],
+                                            "SOURCE_FLAG": pDependents[0][index]["SOURCE_FLAG"],
+                                            "NATIONAL_NO": pDependents[0][index]["NATIONAL_NO"],
+                                            "NATIONALITY": pDependents[0][index]["NATIONALITY"],
+                                            "BIRTHDATE": pDependents[0][index]["BIRTHDATE"],
+                                            "AGE": pDependents[0][index]["AGE"],
+                                            "MARITAL_STATUS_A": pDependents[0][index]["MARITAL_STATUS_A"] ?? pDependents[0][index]["SOCIAL_STATUS"],
+                                            "WORK_STATUS_A": pDependents[0][index]["WORK_STATUS_A"] ?? pDependents[0][index]["IS_WORK"],
+                                            "IS_ALIVE_A": pDependents[0][index]["IS_ALIVE_A"],
                                             "IS_RETIRED_A": selectedGetsSalary == 'yes' ? 1 : 0,
-                                            "LAST_EVENT_DATE": servicesProvider.result['P_Dep'][0][index]["LAST_EVENT_DATE"],
+                                            "LAST_EVENT_DATE": pDependents[0][index]["LAST_EVENT_DATE"],
                                             "WANT_HEALTH_INSURANCE": "",
                                             "PreLoad": 0,
                                             "Added": 1,
                                             "doc_dep": [],
-                                            "DEP_CODE": servicesProvider.result['P_Dep'][0][index]["DEP_CODE"],
+                                            "DEP_CODE": pDependents[0][index]["DEP_CODE"],
                                             "IS_STOP": ""
                                           };
-                                          servicesProvider.result['P_Dep'][0][index] = dependent;
+                                          pDependents[0][index] = dependent;
                                           await servicesProvider.getRequiredDocuments(
                                               jsonEncode({
                                                 "row": {
@@ -1990,7 +2070,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 }
                                               }), 8
                                           ).whenComplete((){}).then((value) {
-                                            servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == servicesProvider.result['P_Dep'][0][dependentIndex]["DEP_CODE"]);
+                                            servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == pDependents[0][dependentIndex]["DEP_CODE"]);
                                             if(value['R_RESULT'].isNotEmpty){
                                               for(int i=0 ; i<value['R_RESULT'][0].length ; i++){
                                                 if(!servicesProvider.dependentsDocuments.contains(value['R_RESULT'][0][i])) {
@@ -2033,13 +2113,13 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                           : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
                                           ? 'widow' : servicesProvider.dependentInfo['cur_getdata'][0][0]["GENDER"] == 1 ? 'widowM' : 'widowF') ? 4 : 1;
                                       try{
-                                        await servicesProvider.checkDocumentDependent((selectedGender == "male") ? "1" : "2").then((value) async {
+                                        await servicesProvider.checkDocumentDependent((pDependents.isNotEmpty && pDependents[0].length != 0) ? pDependents[0] : []).then((value) async {
                                           if(value['P_RESULT'].isEmpty){
                                             Map<String, dynamic> dependent;
                                             String id = "${DateTime.now().millisecondsSinceEpoch}${((math.Random().nextDouble() * 10000) + 1).floor()}";
                                             if(nationality == 'jordanian'){
                                               dependent = {
-                                                "NAME": servicesProvider.dependentInfo['cur_getdata'][0][0]["FULL_NAME"],
+                                                "NAME": servicesProvider.dependentInfo['cur_getdata'][0][0]["FULL_NAME"] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]["NAME"],
                                                 "GENDER": servicesProvider.dependentInfo['cur_getdata'][0][0]["GENDER"],
                                                 "FIRSTNAME": servicesProvider.dependentInfo['cur_getdata'][0][0]["FIRSTNAME"],
                                                 "SECONDNAME": servicesProvider.dependentInfo['cur_getdata'][0][0]["SECONDNAME"],
@@ -2047,9 +2127,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 "LASTNAME": servicesProvider.dependentInfo['cur_getdata'][0][0]["LASTNAME"],
                                                 "BIRTHDATE": servicesProvider.dependentInfo['cur_getdata'][0][0]["BIRTHDATE"],
                                                 "AGE": servicesProvider.dependentInfo['cur_getdata'][0][0]["AGE"],
-                                                "MARITAL_STATUS_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["SOCIAL_STATUS"],
-                                                "MARITAL_STATUS": servicesProvider.dependentInfo['cur_getdata'][0][0]["SOCIAL_STATUS"],
-                                                "WORK_STATUS_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_WORK"],
+                                                "MARITAL_STATUS_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["MARITAL_STATUS_A"] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]["SOCIAL_STATUS"],
+                                                "MARITAL_STATUS": servicesProvider.dependentInfo['cur_getdata'][0][0]["MARITAL_STATUS"] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]["SOCIAL_STATUS"],
+                                                "WORK_STATUS_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["WORK_STATUS_A"] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_WORK"],
                                                 "IS_ALIVE_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_ALIVE"],
                                                 "IS_ALIVE": servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_ALIVE"],
                                                 "IS_RETIRED_A": selectedGetsSalary == 'yes' ? 1 : 0,
@@ -2058,7 +2138,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 "PreLoad": null,
                                                 "Added": null,
                                                 "doc_dep": "",
-                                                "RELATION": servicesProvider.dependentInfo['cur_getdata'][0][0]["RELATIVETYPE"],
+                                                "RELATION": servicesProvider.dependentInfo['cur_getdata'][0][0]["RELATION"] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]["RELATIVETYPE"],
                                                 "WORK_STATUS": selectedJobStatus == 'unemployed' ? 0 : 1,
                                                 "IS_RETIRED": servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_RETIRED"],
                                                 "DISABILITY": selectedHasDisability == 'no' ? 0 : 1,
@@ -2117,10 +2197,10 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 }
                                               }
                                             });
-                                            if(servicesProvider.result['P_Dep'].length != 0) {
-                                              servicesProvider.result['P_Dep'][0].add(dependent);
+                                            if(pDependents.isNotEmpty) {
+                                              pDependents[0].add(dependent);
                                             } else{
-                                              servicesProvider.result['P_Dep'].add([dependent]);
+                                              pDependents.add([dependent]);
                                             }
                                             // ignore: use_build_context_synchronously
                                             Navigator.pop(context);
