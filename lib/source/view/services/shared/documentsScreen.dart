@@ -23,7 +23,11 @@ import '../../../viewModel/utilities/theme/themeProvider.dart';
 class DocumentsScreen extends StatefulWidget {
   final String nextStep;
   final int numberOfSteps;
-  const DocumentsScreen({Key key, this.nextStep, this.numberOfSteps}) : super(key: key);
+  final Map data;
+  final int serviceType;
+  final Map info;
+  final List dependents; // from early its dependents, from deceased its inheritors
+  const DocumentsScreen({Key key, this.nextStep, this.numberOfSteps, this.data, this.serviceType, this.info, this.dependents}) : super(key: key);
 
   @override
   State<DocumentsScreen> createState() => _DocumentsScreenState();
@@ -38,82 +42,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
-    final result = servicesProvider.result;
     documentsFuture = servicesProvider.getRequiredDocuments(
-        jsonEncode({
-          "PAYMENT_METHOD": result['P_Result'][0][0]['PAYMENT_METHOD'],
-          "BANK_LOCATION": result['P_Result'][0][0]['BANK_LOCATION'], /// update
-          "BRANCH_ID": result['P_Result'][0][0]['BRANCH_ID'],
-          "BRANCH_NAME": result['P_Result'][0][0]['BRANCH_NAME'],
-          "BANK_ID": result['P_Result'][0][0]['BANK_ID'],
-          "BANK_NAME": result['P_Result'][0][0]['BANK_NAME'],
-          "ACCOUNT_NAME": result['P_Result'][0][0]['ACCOUNT_NAME'],
-          "PAYMENT_COUNTRY": result['P_Result'][0][0]['PAYMENT_COUNTRY'],
-          "PAYMENT_COUNTRY_CODE": result['P_Result'][0][0]['PAYMENT_COUNTRY_CODE'],
-          "PAYMENT_PHONE": result['P_Result'][0][0]['PAYMENT_PHONE'],
-          "IFSC": result['P_Result'][0][0]['IFSC'],
-          "SWIFT_CODE": result['P_Result'][0][0]['SWIFT_CODE'], /// update
-          "BANK_DETAILS": result['P_Result'][0][0]['BANK_DETAILS'], /// update
-          "IBAN": result['P_Result'][0][0]['IBAN'],
-          "CASH_BANK_ID": result['P_Result'][0][0]['CASH_BANK_ID'],
-          "REP_NATIONALITY": result['P_Result'][0][0]['REP_NATIONALITY'], /// update
-          "REP_NATIONAL_NO": result['P_Result'][0][0]['REP_NATIONAL_NO'], /// update
-          "REP_NAME": result['P_Result'][0][0]['REP_NAME'], /// update
-          "WALLET_TYPE": result['P_Result'][0][0]['WALLET_TYPE'],
-          "WALLET_OTP_VERIVIED": null,
-          "WALLET_OTP": null,
-          "WALLET_PHONE": result['P_Result'][0][0]['WALLET_PHONE'],
-          "WALLET_PHONE_VERIVIED": result['P_Result'][0][0]['WALLET_PHONE_VERIVIED'],
-          "WALLET_PASSPORT_NUMBER": result['P_Result'][0][0]['WALLET_PASSPORT_NUMBER'],
-          "PEN_IBAN": result['P_Result'][0][0]['PEN_IBAN'],
-          "SECNO": result['p_per_info'][0][0]['SECNO'],
-          "NAT_DESC": result['p_per_info'][0][0]['NAT_DESC'],
-          "NAT": result['P_Result'][0][0]['NAT'],
-          "NAT_NO": result['P_Result'][0][0]['NAT_NO'],
-          "PERS_NO": result['P_Result'][0][0]['PERS_NO'],
-          "LAST_EST_NAME": result['P_Result'][0][0]['LAST_EST_NAME'],
-          "NAME1": result['p_per_info'][0][0]['NAME1'],
-          "NAME2": result['p_per_info'][0][0]['NAME2'],
-          "NAME3": result['p_per_info'][0][0]['NAME3'],
-          "NAME4": result['p_per_info'][0][0]['NAME4'],
-          "FULL_NAME_EN": result['p_per_info'][0][0]['FULL_NAME_EN'],
-          "EMAIL": result['p_per_info'][0][0]['EMAIL'],
-          "MOBILE": result['p_per_info'][0][0]['MOBILE'],
-          "INTERNATIONAL_CODE": result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
-          "INSURED_ADDRESS": result['P_Result'][0][0]['INSURED_ADDRESS'],
-          "MARITAL_STATUS": result['P_Result'][0][0]['MARITAL_STATUS'],
-          "REGDATE": null,
-          "REGRATE": null,
-          "LAST_SALARY": null,
-          "LAST_STODATE": result['P_Result'][0][0]['LAST_STODATE'],
-          "ACTUAL_STODATE": result['P_Result'][0][0]['ACTUAL_STODATE'],
-          "GENDER": result['p_per_info'][0][0]['GENDER'],
-          "CIVIL_WORK_DOC": result['P_Result'][0][0]['CIVIL_WORK_DOC'],
-          "MILITARY_WORK_DOC": result['P_Result'][0][0]['MILITARY_WORK_DOC'],
-          "CIV_MIL_RETIRED_DOC": result['P_Result'][0][0]['CIV_MIL_RETIRED_DOC'],
-          "PEN_START_DATE": result['P_Result'][0][0]['PEN_START_DATE'],
-          "GOVERNORATE": result['P_Result'][0][0]['GOVERNORATE'],
-          "DETAILED_ADDRESS": null,
-          "PASS_NO": null,
-          "RESIDENCY_NO": null,
-          "DOB": result['p_per_info'][0][0]['DOB'],
-          "JOB_NO": null,
-          "JOB_DESC": result['P_Result'][0][0]['JOB_DESC'],
-          "ENAME1": null,
-          "ENAME2": null,
-          "ENAME3": null,
-          "ENAME4": null,
-          "LAST_EST_NO": result['P_Result'][0][0]['LAST_EST_NO'], /// update
-          "FAM_NO": null,
-          "nextVaild": null,
-          "wantAddFamily": null,
-          "GENDER_DESC": result['p_per_info'][0][0]['GENDER_DESC'],
-          "PI_EPAY": null,
-          "INSURED": null,
-          "ID": result['P_Result'][0][0]['ID'], /// update
-          "DEP_FLAG": 0
-        }),
-        result['P_Result'][0][0]['SERVICE_TYPE']
+        jsonEncode(widget.data),
+        widget.serviceType
     );
     servicesProvider.mandatoryDocuments = [];
     servicesProvider.optionalDocuments = [];
@@ -143,24 +74,52 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               ); break;
             case ConnectionState.done:
               if(!snapshot.hasError && snapshot.hasData){
-                if(servicesProvider.dependentsDocuments.isNotEmpty && !snapshot.data['R_RESULT'][0].contains(servicesProvider.dependentsDocuments)){
-                  snapshot.data['R_RESULT'][0].addAll(servicesProvider.dependentsDocuments);
-                }
-                for(int i=0 ; i<snapshot.data['R_RESULT'][0].length ; i++){
-                  if(snapshot.data['R_RESULT'][0][i]['OPTIONAL'] == 2){
-                    if(!servicesProvider.mandatoryDocuments.contains(snapshot.data['R_RESULT'][0][i])) {
-                      servicesProvider.uploadedFiles["mandatory"].length ++;
-                      servicesProvider.uploadedFiles["mandatory"][i] = servicesProvider.uploadedFiles["mandatory"][i] ?? [];
-                      servicesProvider.mandatoryDocuments.add(snapshot.data['R_RESULT'][0][i]);
-                    }
-                  } else{
-                    if(!servicesProvider.optionalDocuments.contains(snapshot.data['R_RESULT'][0][i])) {
-                      servicesProvider.uploadedFiles["optional"].length ++;
-                      servicesProvider.uploadedFiles["optional"][i] = servicesProvider.uploadedFiles["optional"][i] ?? [];
-                      servicesProvider.optionalDocuments.add(snapshot.data['R_RESULT'][0][i]);
+                if(snapshot.data['R_RESULT'].isNotEmpty){
+                  for(int i=0 ; i<snapshot.data['R_RESULT'][0].length ; i++){
+                    if(servicesProvider.dependentsDocuments.isNotEmpty && !servicesProvider.dependentsDocuments.contains(snapshot.data['R_RESULT'][0][i])){
+                      snapshot.data['R_RESULT'][0][i]['CODE'] = widget.info['NAT_NO'];
+                      snapshot.data['R_RESULT'][0][i]['NAME'] = widget.info["NAME1"];
                     }
                   }
                 }
+                if(servicesProvider.dependentsDocuments.isNotEmpty && !snapshot.data['R_RESULT'][0].contains(servicesProvider.dependentsDocuments)){
+                  snapshot.data['R_RESULT'][0].addAll(servicesProvider.dependentsDocuments);
+                }
+                if(snapshot.data['R_RESULT'].isNotEmpty){
+                  for(int i=0 ; i<snapshot.data['R_RESULT'][0].length ; i++){
+                    if(snapshot.data['R_RESULT'][0][i]['OPTIONAL'] == 2){
+                      if(!servicesProvider.mandatoryDocuments.contains(snapshot.data['R_RESULT'][0][i])) {
+                        servicesProvider.uploadedFiles["mandatory"].length ++;
+                        servicesProvider.uploadedFiles["mandatory"][servicesProvider.uploadedFiles["mandatory"].length - 1] = servicesProvider.uploadedFiles["mandatory"][servicesProvider.uploadedFiles["mandatory"].length - 1] ?? [];
+                        servicesProvider.mandatoryDocuments.add(snapshot.data['R_RESULT'][0][i]);
+                      }
+                    } else{
+                      if(!servicesProvider.optionalDocuments.contains(snapshot.data['R_RESULT'][0][i])) {
+                        servicesProvider.uploadedFiles["optional"].length ++;
+                        servicesProvider.uploadedFiles["optional"][servicesProvider.uploadedFiles["optional"].length - 1] = servicesProvider.uploadedFiles["optional"][servicesProvider.uploadedFiles["optional"].length - 1] ?? [];
+                        servicesProvider.optionalDocuments.add(snapshot.data['R_RESULT'][0][i]);
+                      }
+                    }
+                  }
+                }
+
+                Map mandatoryDocumentFor = {};
+                Map optionalDocumentFor = {};
+                if(widget.dependents.isNotEmpty){
+                  widget.dependents[0].forEach((element) {
+                    if(servicesProvider.mandatoryDocuments.isNotEmpty && element['NATIONALNUMBER'].toString() == servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['CODE'].toString()){
+                      mandatoryDocumentFor = element;
+                    }
+                    if(servicesProvider.optionalDocuments.isNotEmpty && element['NATIONALNUMBER'].toString() == servicesProvider.optionalDocuments[servicesProvider.documentIndex]['CODE'].toString()){
+                      optionalDocumentFor = element;
+                    }
+                  });
+                }
+
+                /// TODO: continue documentFor in early
+
+                print(mandatoryDocumentFor);
+                print(optionalDocumentFor);
 
                 return Column(
                   children: [
@@ -236,15 +195,89 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const SizedBox(height: 40,),
+                                  const SizedBox(height: 20,),
                                   Text(
                                     UserConfig.instance.checkLanguage()
-                                        ? '${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME_EN']} (${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME'] ?? ""})'
-                                        : '${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME_AR']} (${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME'] ?? ""})',
+                                        ? '${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME_EN']}'
+                                        : '${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME_AR']}',
                                     style: TextStyle(
                                         color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
                                         fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
                                     ),
+                                  ),
+                                  if(mandatoryDocumentFor.isNotEmpty)
+                                  const SizedBox(height: 20.0,),
+                                  if(mandatoryDocumentFor.isNotEmpty)
+                                  Card(
+                                      elevation: 6.0,
+                                      shadowColor: Colors.black45,
+                                      color: getContainerColor(context),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0),
+                                      ),
+                                      child: Container(
+                                        width: width(1, context),
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  mandatoryDocumentFor["FULL_NAME"],
+                                                  style: TextStyle(
+                                                    height: 1.4,
+                                                    color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                                                  decoration: BoxDecoration(
+                                                    color: mandatoryDocumentFor['RELATIVETYPE'] == 11
+                                                        ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
+                                                    borderRadius: BorderRadius.circular(8.0),
+                                                  ),
+                                                  child: Text(
+                                                    getRelationType(mandatoryDocumentFor['RELATIVETYPE']),
+                                                    style: TextStyle(
+                                                      color: mandatoryDocumentFor['RELATIVETYPE'] == 11
+                                                          ? HexColor('#003C97') : HexColor('#2D452E'),
+                                                      fontWeight: FontWeight.w400,
+                                                      fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 15.0,),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  mandatoryDocumentFor["NATIONALNUMBER"],
+                                                  style: TextStyle(
+                                                    color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  ' / ',
+                                                  style: TextStyle(
+                                                    color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  translate(mandatoryDocumentFor["NATIONALITY"] == 1 ? 'jordanian' : 'nonJordanian', context),
+                                                  style: TextStyle(
+                                                    color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      )
                                   ),
                                   const SizedBox(height: 20.0,),
                                   ListView.builder(
@@ -336,13 +369,87 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                     const SizedBox(height: 40,),
                                     Text(
                                       UserConfig.instance.checkLanguage()
-                                          ? '${servicesProvider.selectedOptionalDocuments[servicesProvider.documentIndex]['NAME_EN']} (${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME'] ?? ""})'
-                                          : '${servicesProvider.selectedOptionalDocuments[servicesProvider.documentIndex]['NAME_AR']} (${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME'] ?? ""})',
+                                          ? '${servicesProvider.selectedOptionalDocuments[servicesProvider.documentIndex]['NAME_EN']}'
+                                          : '${servicesProvider.selectedOptionalDocuments[servicesProvider.documentIndex]['NAME_AR']}',
                                       style: TextStyle(
                                           color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
                                           fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
                                       ),
                                     ),
+                                    if(optionalDocumentFor.isNotEmpty)
+                                    const SizedBox(height: 20.0,),
+                                    if(optionalDocumentFor.isNotEmpty)
+                                    Card(
+                                        elevation: 6.0,
+                                        shadowColor: Colors.black45,
+                                        color: getContainerColor(context),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(15.0),
+                                        ),
+                                        child: Container(
+                                          width: width(1, context),
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    optionalDocumentFor["FULL_NAME"],
+                                                    style: TextStyle(
+                                                      height: 1.4,
+                                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                                                    decoration: BoxDecoration(
+                                                      color: optionalDocumentFor['RELATIVETYPE'] == 11
+                                                          ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
+                                                      borderRadius: BorderRadius.circular(8.0),
+                                                    ),
+                                                    child: Text(
+                                                      getRelationType(optionalDocumentFor['RELATIVETYPE']),
+                                                      style: TextStyle(
+                                                        color: optionalDocumentFor['RELATIVETYPE'] == 11
+                                                            ? HexColor('#003C97') : HexColor('#2D452E'),
+                                                        fontWeight: FontWeight.w400,
+                                                        fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 15.0,),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    optionalDocumentFor["NATIONALNUMBER"],
+                                                    style: TextStyle(
+                                                      color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    ' / ',
+                                                    style: TextStyle(
+                                                      color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    translate(optionalDocumentFor["NATIONALITY"] == 1 ? 'jordanian' : 'nonJordanian', context),
+                                                    style: TextStyle(
+                                                      color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ),
                                     const SizedBox(height: 20.0,),
                                     ListView.builder(
                                         physics: const NeverScrollableScrollPhysics(),
@@ -437,8 +544,8 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                           child:  buildExpandableWidget(
                                             context,
                                             UserConfig.instance.checkLanguage()
-                                            ? '${servicesProvider.mandatoryDocuments[index]['NAME_EN']} (${servicesProvider.mandatoryDocuments[index]['NAME'] ?? ""})'
-                                            : '${servicesProvider.mandatoryDocuments[index]['NAME_AR']} (${servicesProvider.mandatoryDocuments[index]['NAME'] ?? ""})',
+                                            ? '${servicesProvider.mandatoryDocuments[index]['NAME_EN']}' // (${servicesProvider.mandatoryDocuments[index]['NAME'] ?? ""})
+                                            : '${servicesProvider.mandatoryDocuments[index]['NAME_AR']}', // (${servicesProvider.mandatoryDocuments[index]['NAME'] ?? ""})
                                             ListView.builder(
                                               physics: const NeverScrollableScrollPhysics(),
                                               shrinkWrap: true,
@@ -519,7 +626,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                               ),
                               const SizedBox(height: 18,),
                               if(servicesProvider.selectedOptionalDocuments.isNotEmpty)
-                                Column(
+                              Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
@@ -541,8 +648,8 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                             child: buildExpandableWidget(
                                                 context,
                                                 UserConfig.instance.checkLanguage()
-                                                ? '${servicesProvider.optionalDocuments[index]['NAME_EN']} (${servicesProvider.mandatoryDocuments[index]['NAME'] ?? ""})'
-                                                : '${servicesProvider.optionalDocuments[index]['NAME_AR']} (${servicesProvider.mandatoryDocuments[index]['NAME'] ?? ""})',
+                                                ? '${servicesProvider.optionalDocuments[index]['NAME_EN']} (${servicesProvider.optionalDocuments[index]['NAME'] ?? ""})'
+                                                : '${servicesProvider.optionalDocuments[index]['NAME_AR']} (${servicesProvider.optionalDocuments[index]['NAME'] ?? ""})',
                                                 ListView.builder(
                                                   physics: const NeverScrollableScrollPhysics(),
                                                   shrinkWrap: true,
@@ -619,6 +726,8 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                     ),
                                   ],
                                 ),
+                              if(servicesProvider.selectedOptionalDocuments.isEmpty && servicesProvider.mandatoryDocuments.isEmpty)
+                              Center(child: Text(translate('noDocumentsHaveBeenAttached', context)))
                             ],
                           ),
                         ),
@@ -792,7 +901,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                         SizedBox(
                           width: width(0.6, context),
                           child: Text(
-                            path.basename(servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex][index]['file'].toString().split("'")[1]),
+                            path.basename(servicesProvider.uploadedFiles[type == 1 ? "mandatory" : "optional"][servicesProvider.documentIndex][index]['file'].toString().split("'")[1]),
                           ),
                         ),
                         InkWell(
@@ -907,10 +1016,13 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     ),
                   ),
                   const SizedBox(width: 15.0,),
-                  Text(
-                    UserConfig.instance.checkLanguage()
-                        ? '${chunk[index]['NAME_EN']} (${chunk[index]['NAME'] ?? ""})'
-                        : '${chunk[index]['NAME_AR']} (${chunk[index]['NAME'] ?? ""})',
+                  SizedBox(
+                    width: width(0.6, context),
+                    child: Text(
+                      UserConfig.instance.checkLanguage()
+                          ? '${chunk[index]['NAME_EN']}'
+                          : '${chunk[index]['NAME_AR']}',
+                    ),
                   ),
                 ],
               ),
@@ -932,4 +1044,13 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
     );
   }
 
+  String getRelationType(int relation){
+    String result = '';
+    servicesProvider.penDeath['Relative_type_getdata'][0].forEach((element){
+      if(element['REL_ID'].toString() == relation.toString()){
+        result = UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR'];
+      }
+    });
+    return result;
+  }
 }
