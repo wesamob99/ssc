@@ -18,6 +18,8 @@ class ServicesProvider extends ChangeNotifier {
   bool isNationalIdValid = false;
   List dependentsDocuments;
   var dependentInfo;
+  var deadPersonInfo;
+  Map penDeath;
 
   /// this variable used in every service, the get API called when any service open return result and we save that result in this variable
   /// check the servicesListConstants.dart to see service's API
@@ -119,8 +121,25 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.setEarlyRetirementApplicationService(result, docs, paymentInfo, authorizedToSign, wantInsurance);
   }
 
-  Future checkDocumentDependent(String gender) async{
-    return await servicesRepository.checkDocumentDependentService(gender);
+  Future setDeceasedRetirementApplication(docs, deathPlace) async{
+    return await servicesRepository.setDeceasedRetirementApplicationService(result, docs, deadPersonInfo, deathPlace);
+  }
+
+  Future checkDocumentDependent(List dependents) async{
+    return await servicesRepository.checkDocumentDependentService(dependents);
+  }
+
+  Future deadPersonGetDetails(Map<String, dynamic> data) async{
+    return await servicesRepository.deadPersonGetDetailsService(data);
+  }
+
+  Future guardianGetDetails(String natNo, int nationality, String cardNo, {String dateOfBirth = 'undefined'}) async{
+    return await servicesRepository.guardianGetDetailsService(natNo, nationality, cardNo, dateOfBirth);
+  }
+
+  Future penDeathLookup() async{
+    penDeath = await servicesRepository.penDeathLookup();
+    return penDeath;
   }
 
   Future getPensionsBasicInformations() async{
@@ -133,10 +152,6 @@ class ServicesProvider extends ChangeNotifier {
 
   Future getPensionPaymentSP(String year) async{
     return await servicesRepository.getPensionPaymentSPService(year);
-  }
-
-  Future getEarlyRetirement() async{
-    return await servicesRepository.getEarlyRetirementService();
   }
 
   Future<void> readCountriesJson() async {
