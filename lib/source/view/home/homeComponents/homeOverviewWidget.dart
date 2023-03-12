@@ -48,7 +48,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text(translate('subscriptions', context),
+                              Text(getTranslated('subscriptions', context),
                                   style: TextStyle(
                                       fontSize: isTablet(context) ? 18 : 12)),
                               Text(
@@ -79,7 +79,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text(translate('idleBalance', context),
+                              Text(getTranslated('idleBalance', context),
                                   style: TextStyle(
                                       fontSize: isTablet(context) ? 18 : 12)),
                               Row(
@@ -94,7 +94,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         fontSize: isTablet(context) ? 24 : 16),
                                   ),
                                   Text(
-                                    translate('jd', context),
+                                    getTranslated('jd', context),
                                     style: TextStyle(
                                         color: themeNotifier.isLight()
                                             ? Colors.black
@@ -137,7 +137,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(translate('salary', context),
+                              Text(getTranslated('salary', context),
                                   style: TextStyle(
                                       fontSize: isTablet(context) ? 18 : 12)),
                               Row(
@@ -151,7 +151,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         fontSize: isTablet(context) ? 24 : 16),
                                   ),
                                   Text(
-                                    translate('jd', context),
+                                    getTranslated('jd', context),
                                     style: TextStyle(
                                         color: themeNotifier.isLight()
                                             ? Colors.black
@@ -165,7 +165,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(translate('deductionValue', context),
+                              Text(getTranslated('deductionValue', context),
                                   style: TextStyle(
                                       fontSize: isTablet(context) ? 18 : 12)),
                               Row(
@@ -179,7 +179,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                                         fontSize: isTablet(context) ? 24 : 16),
                                   ),
                                   Text(
-                                    translate('jd', context),
+                                    getTranslated('jd', context),
                                     style: TextStyle(
                                         color: themeNotifier.isLight()
                                             ? Colors.black
@@ -193,7 +193,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(translate('lastPayment', context),
+                              Text(getTranslated('lastPayment', context),
                                   style: TextStyle(
                                       fontSize: isTablet(context) ? 18 : 12)),
                               Text('22/7/2022',
@@ -236,7 +236,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            translate('number_of_contributions_to_retirement', context),
+                            getTranslated('number_of_contributions_to_retirement', context),
                             style: TextStyle(fontSize: isTablet(context) ? 18 : 12),
                           ),
                           SizedBox(height: isTablet(context) ? 13 : 8,),

@@ -65,7 +65,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                   children: [
                     SizedBox(height: height(0.05, context),),
                     Text(
-                      translate('identityVerify', context),
+                      getTranslated('identityVerify', context),
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: isTablet(context) ? 28 : 18,
@@ -75,7 +75,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                     Column(
                       children: [
                         Text(
-                          translate(useAnotherMethod ? 'enterEmailVerificationCode' : 'enterMobileVerificationCode', context)
+                          getTranslated(useAnotherMethod ? 'enterEmailVerificationCode' : 'enterMobileVerificationCode', context)
                           + (useAnotherMethod ? '  ${userSecuredStorage.email}' : ''),
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
@@ -123,7 +123,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                             ? Alignment.topLeft : Alignment.topRight,
                         // padding: EdgeInsets.symmetric(horizontal: width(0.11, context)),
                         child: Text(
-                          translate((useAnotherMethod || userSecuredStorage.email == "0") ?'dontHaveAnyMethod' : 'useAnotherMethod', context),
+                          getTranslated((useAnotherMethod || userSecuredStorage.email == "0") ?'dontHaveAnyMethod' : 'useAnotherMethod', context),
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: isTablet(context) ? 20 : 14,
@@ -204,7 +204,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                               }
                             },
                             child: Text(
-                              translate('resend', context),
+                              getTranslated('resend', context),
                               style: TextStyle(color: isTimerEnded ? HexColor('#003C97') : HexColor('#DADADA')),
                             )
                           ),
@@ -417,7 +417,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
             )
         ),
         child: Text(
-          translate(text, context),
+          getTranslated(text, context),
           style: TextStyle(
             color: textColor,
             fontWeight: FontWeight.w300

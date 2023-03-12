@@ -77,7 +77,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            translate('firstStep', context),
+                            getTranslated('firstStep', context),
                             style: TextStyle(
                                 color: HexColor('#979797'),
                                 fontSize: isTablet(context) ? width(0.025, context) : width(0.03, context)
@@ -85,11 +85,11 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                           ),
                           SizedBox(height: height(0.006, context),),
                           Text(
-                            '${loginProvider.flag == 0 ? translate('nationality', context) : ''}'
+                            '${loginProvider.flag == 0 ? getTranslated('nationality', context) : ''}'
                                 '${UserConfig.instance.checkLanguage() && loginProvider.flag == 0 ? ', ' : ' '}'
-                                '${translate('countryOfResidence', context)}'
-                                ' ${translate('and', context)}'
-                                '${translate('mobileNumber', context)}',
+                                '${getTranslated('countryOfResidence', context)}'
+                                ' ${getTranslated('and', context)}'
+                                '${getTranslated('mobileNumber', context)}',
                             style: TextStyle(
                                 color: HexColor('#5F5F5F'),
                                 fontSize: isTablet(context) ? width(0.028, context) : width(0.035, context)
@@ -103,7 +103,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                         children: [
                           const SizedBox.shrink(),
                           Text(
-                            '${translate('next', context)}: ${translate(
+                            '${getTranslated('next', context)}: ${getTranslated(
                                 'personalInformations', context)}',
                             style: TextStyle(
                                 color: HexColor('#979797'),
@@ -148,7 +148,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    translate('jordanian', context),
+                                    getTranslated('jordanian', context),
                                     style: TextStyle(
                                       color: HexColor('#666666'),
                                     ),
@@ -192,7 +192,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    translate('nonJordanian', context),
+                                    getTranslated('nonJordanian', context),
                                     style: TextStyle(
                                       color: HexColor('#666666'),
                                     ),

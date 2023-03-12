@@ -58,7 +58,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate(widget.serviceTitle, context)),
+        title: Text(getTranslated(widget.serviceTitle, context)),
         leading: leadingBackIcon(context),
       ),
       body: Stack(
@@ -80,7 +80,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Text(
-                            translate('aboutTheService', context),
+                            getTranslated('aboutTheService', context),
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold
                             ),
@@ -91,8 +91,8 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                           trimLines: isTablet(context) ? 5 : 3,
                           colorClickableText: HexColor('#003C97'),
                           trimMode: TrimMode.Line,
-                          trimCollapsedText: translate('readMore', context),
-                          trimExpandedText: translate('readLess', context),
+                          trimCollapsedText: getTranslated('readMore', context),
+                          trimExpandedText: getTranslated('readLess', context),
                           style: TextStyle(
                               fontWeight: FontWeight.w100,
                               height: 1.2,
@@ -110,7 +110,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Text(
-                            translate('termsOfTheService', context),
+                            getTranslated('termsOfTheService', context),
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold
                             ),
@@ -166,13 +166,13 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${translate('stepsOfTheService', context)} ',
+                                  '${getTranslated('stepsOfTheService', context)} ',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
-                                  '( ${widget.stepsOfTheService.length} ${translate('steps', context)} )',
+                                  '( ${widget.stepsOfTheService.length} ${getTranslated('steps', context)} )',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w100,
                                     color: HexColor('#666666'),
@@ -252,15 +252,15 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Text(translate('termsAndConditionsAndPoliciesAgreement11', context), style: getTextStyle(context, false),),
-                                      Text(translate('termsAndConditionsAndPoliciesAgreement2', context), style: getTextStyle(context, true)),
+                                      Text(getTranslated('termsAndConditionsAndPoliciesAgreement11', context), style: getTextStyle(context, false),),
+                                      Text(getTranslated('termsAndConditionsAndPoliciesAgreement2', context), style: getTextStyle(context, true)),
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(translate('termsAndConditionsAndPoliciesAgreement3', context), style: getTextStyle(context, true)),
-                                      Text(translate('termsAndConditionsAndPoliciesAgreement4', context), style: getTextStyle(context, false))
+                                      Text(getTranslated('termsAndConditionsAndPoliciesAgreement3', context), style: getTextStyle(context, true)),
+                                      Text(getTranslated('termsAndConditionsAndPoliciesAgreement4', context), style: getTextStyle(context, false))
                                     ],
                                   )
                                 ],
@@ -301,7 +301,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                           errorMessage = UserConfig.instance.checkLanguage()
                                               ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
                                         }
-                                        showMyDialog(context, 'failed', errorMessage ?? translate('thereAreNoData', context), 'ok', themeNotifier);
+                                        showMyDialog(context, 'failed', errorMessage ?? getTranslated('thereAreNoData', context), 'ok', themeNotifier);
                                       }
                                     });
                                     servicesProvider.isLoading = false;

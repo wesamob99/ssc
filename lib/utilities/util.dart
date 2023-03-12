@@ -54,7 +54,7 @@ navigatorWithBack(BuildContext context, Widget screen) {
       context, MaterialPageRoute(builder: (context) => screen));
 }
 
-translate(String key, BuildContext context) {
+getTranslated(String key, BuildContext context) {
   return AppLocalizations.of(context)?.translate(key) ?? "No Translate";
 }
 
@@ -176,9 +176,9 @@ String textValidation(String value, BuildContext context) {
 
 String progressValidation(String value, BuildContext context) {
   String progressValid = int.parse(value) < 0
-      ? translate('progressLessThan0', context)
+      ? getTranslated('progressLessThan0', context)
       : int.parse(value) > 100
-      ? translate('progressGreaterThan100', context)
+      ? getTranslated('progressGreaterThan100', context)
       : null;
 
   return progressValid;
@@ -251,7 +251,7 @@ Widget somethingWrongWidget(BuildContext context, String title, String desc){
               height: height(0.01, context),
             ),
             Text(
-              translate(title, context),
+              getTranslated(title, context),
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
@@ -262,7 +262,7 @@ Widget somethingWrongWidget(BuildContext context, String title, String desc){
               height: height(0.01, context),
             ),
             Text(
-              translate(desc, context),
+              getTranslated(desc, context),
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
@@ -317,7 +317,7 @@ Future<void> showMyDialog(
           title: Padding(
             padding: EdgeInsets.symmetric(horizontal: width(0.03, context)),
             child: Text(
-              translate(title, context),
+              getTranslated(title, context),
               style: TextStyle(
                   color: HexColor(titleColor),
                   fontWeight: FontWeight.bold
@@ -383,7 +383,7 @@ Future<void> showMyDialog(
                       )
                   )
               ),
-              child: Text(translate('payNow', context)),
+              child: Text(getTranslated('payNow', context)),
             ),
             SizedBox(height: withPayButton ? 10.0 : 0.0),
             TextButton(
@@ -407,7 +407,7 @@ Future<void> showMyDialog(
                       )
                   )
               ),
-              child: Text(translate(buttonText, context)),
+              child: Text(getTranslated(buttonText, context)),
             ),
             if(withCancelButton)
             const SizedBox(height: 5.0,),
@@ -432,7 +432,7 @@ Future<void> showMyDialog(
                       )
                   )
               ),
-              child: Text(translate('cancel', context)),
+              child: Text(getTranslated('cancel', context)),
             ),
           ],
           shape: const RoundedRectangleBorder(
@@ -478,7 +478,7 @@ SizedBox textButton(context, ThemeNotifier themeNotifier, String textKey, Color 
           )
       ),
       child: Text(
-        translate(textKey, context),
+        getTranslated(textKey, context),
         style: TextStyle(
           color: textColor,
           fontWeight: FontWeight.w300
@@ -513,7 +513,7 @@ SizedBox textButtonWithIcon(context, ThemeNotifier themeNotifier, String textKey
           )
       ),
       label: Text(
-        translate(textKey, context),
+        getTranslated(textKey, context),
         style: TextStyle(
             color: textColor,
             fontWeight: FontWeight.w300
@@ -532,7 +532,7 @@ Widget buildFieldTitle(context, title, {required = true, filled = false}){
   return Row(
     children: [
       Text(
-        translate(title, context),
+        getTranslated(title, context),
         style: TextStyle(
           color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
           fontSize: isTablet(context) ? 20 : 14
@@ -603,7 +603,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
             ),
           )
           : const SizedBox.shrink(),
-          hintText: hintText == '' ? '' : hintText.substring(0, 3) == 'val' ? hintText.substring(3) : translate('ex', context) + hintText,
+          hintText: hintText == '' ? '' : hintText.substring(0, 3) == 'val' ? hintText.substring(3) : getTranslated('ex', context) + hintText,
           hintStyle: TextStyle(
             color: getGrey2Color(context).withOpacity(
               themeNotifier.isLight() ? 1 : 0.7,
@@ -669,7 +669,7 @@ loginSuggestionsModalBottomSheet(context, themeNotifier, supportState, authentic
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          translate('defineAnotherWayToEnter', context),
+                          getTranslated('defineAnotherWayToEnter', context),
                           style: TextStyle(
                             color: HexColor('#363636'),
                             fontWeight: FontWeight.bold,
@@ -699,7 +699,7 @@ loginSuggestionsModalBottomSheet(context, themeNotifier, supportState, authentic
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            translate('defineAnotherWayToEnterDesc', context),
+                            getTranslated('defineAnotherWayToEnterDesc', context),
                             style: TextStyle(
                                 color: HexColor('#363636'),
                                 height: 1.5
@@ -721,7 +721,7 @@ loginSuggestionsModalBottomSheet(context, themeNotifier, supportState, authentic
                                 )
                             ),
                             child: Text(
-                              translate('fingerprintOrFace', context),
+                              getTranslated('fingerprintOrFace', context),
                               style: TextStyle(
                                   color: HexColor('#363636'),
                                   fontWeight: FontWeight.w200
@@ -746,7 +746,7 @@ loginSuggestionsModalBottomSheet(context, themeNotifier, supportState, authentic
                                 )
                             ),
                             child: Text(
-                              translate('passcode', context),
+                              getTranslated('passcode', context),
                               style: TextStyle(
                                 color: HexColor('#363636'),
                                 fontWeight: FontWeight.w200,
@@ -770,7 +770,7 @@ loginSuggestionsModalBottomSheet(context, themeNotifier, supportState, authentic
                                 )
                             ),
                             child: Text(
-                              translate('skip', context),
+                              getTranslated('skip', context),
                               style: TextStyle(
                                 color: HexColor('#363636'),
                                 fontWeight: FontWeight.w200,
@@ -840,7 +840,7 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
                       height: height(0.015, context),
                     ),
                     Text(
-                      translate('serviceEvaluation', context),
+                      getTranslated('serviceEvaluation', context),
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontSize: height(0.023, context),
@@ -850,7 +850,7 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
                       height: height(0.023, context),
                     ),
                     Text(
-                      translate('howEasyToApply', context),
+                      getTranslated('howEasyToApply', context),
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontSize: height(0.018, context),
@@ -860,7 +860,7 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
                       height: height(0.013, context),
                     ),
                     Text(
-                      translate('howEasyToApplyDesc', context),
+                      getTranslated('howEasyToApplyDesc', context),
                       style: TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 12.0,
@@ -918,7 +918,7 @@ rateServiceBottomSheet(context, themeNotifier, ServicesProvider servicesProvider
                       height: height(0.025, context),
                     ),
                     Text(
-                      translate('shareYourOpinion', context),
+                      getTranslated('shareYourOpinion', context),
                       style: TextStyle(
                         fontSize: height(0.018, context),
                       ),
@@ -992,7 +992,7 @@ buildExpandableWidget(context, String title, dynamic child, {bool needTranslate 
     padding: const EdgeInsets.all(0.0),
     title: Expanded(
       child: Text(
-        needTranslate ? translate(title, context) : title,
+        needTranslate ? getTranslated(title, context) : title,
         style: TextStyle(
             color: HexColor('#363636')
         ),
@@ -1009,7 +1009,7 @@ buildExpandableWidget(context, String title, dynamic child, {bool needTranslate 
     children: [
       isChildTypeText
       ? Text(
-        translate(child, context),
+        getTranslated(child, context),
         style: TextStyle(
             color: HexColor('#363636')
         ),

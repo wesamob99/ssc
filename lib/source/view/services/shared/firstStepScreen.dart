@@ -94,7 +94,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              translate('firstStep', context),
+              getTranslated('firstStep', context),
               style: TextStyle(
                   color: HexColor('#979797'),
                   fontSize: width(0.03, context)
@@ -102,7 +102,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
             ),
             SizedBox(height: height(0.006, context),),
             Text(
-              translate('confirmPersonalInformation', context),
+              getTranslated('confirmPersonalInformation', context),
               style: TextStyle(
                   color: HexColor('#5F5F5F'),
                   fontSize: width(0.035, context)
@@ -127,7 +127,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                   ),
                 ),
                 Text(
-                  '${translate('next', context)}: ${translate(widget.nextStep, context)}',
+                  '${getTranslated('next', context)}: ${getTranslated(widget.nextStep, context)}',
                   style: TextStyle(
                       color: HexColor('#979797'),
                       fontSize: width(0.032, context)
@@ -139,7 +139,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
         ),
         SizedBox(height: height(0.02, context),),
         Text(
-          translate('quatrainNoun', context),
+          getTranslated('quatrainNoun', context),
           style: TextStyle(
               color: HexColor('#363636'),
               fontSize: width(0.032, context)
@@ -149,7 +149,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
         buildTextFormField(context, themeNotifier, TextEditingController(text: name), '', (val){}, enabled: false),
         SizedBox(height: height(0.015, context),),
         Text(
-          translate('nationalId', context),
+          getTranslated('nationalId', context),
           style: TextStyle(
               color: HexColor('#363636'),
               fontSize: width(0.032, context)
@@ -161,7 +161,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
         SizedBox(height: height(0.015, context),),
         if(insuranceNo != '')
         Text(
-          translate('securityNumber', context),
+          getTranslated('securityNumber', context),
           style: TextStyle(
               color: HexColor('#363636'),
               fontSize: width(0.032, context)

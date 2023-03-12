@@ -62,7 +62,7 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('countryOfResidence', context), style: const TextStyle(fontSize: 14)),
+        title: Text(getTranslated('countryOfResidence', context), style: const TextStyle(fontSize: 14)),
         leading: leadingBackIcon(context),
       ),
       body: Stack(

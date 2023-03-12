@@ -47,7 +47,7 @@ class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
               children: [
                 SizedBox(height: height(0.02, context),),
                 Text(
-                  translate('mobileNumberVerify', context),
+                  getTranslated('mobileNumberVerify', context),
                   style: TextStyle(
                       color: HexColor('#5F5F5F'),
                       fontSize: width(0.035, context)
@@ -70,7 +70,7 @@ class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
                           ),
                         ),
                         Text(
-                          '${translate('next', context)}: ${translate(widget.nextStep, context)}',
+                          '${getTranslated('next', context)}: ${getTranslated(widget.nextStep, context)}',
                           style: TextStyle(
                               color: HexColor('#979797'),
                               fontSize: width(0.032, context)
@@ -89,7 +89,7 @@ class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    translate('mobileNumberVerify', context),
+                    getTranslated('mobileNumberVerify', context),
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: width(0.04, context)
@@ -99,7 +99,7 @@ class _VerifyMobileNumberScreenState extends State<VerifyMobileNumberScreen> {
                   Column(
                     children: [
                       Text(
-                        translate('enterMobileVerificationCode', context),
+                        getTranslated('enterMobileVerificationCode', context),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,

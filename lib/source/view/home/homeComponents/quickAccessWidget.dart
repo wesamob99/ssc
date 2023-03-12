@@ -40,7 +40,7 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                translate('emptyList', context),
+                getTranslated('emptyList', context),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: isScreenHasSmallHeight(context) ? height(0.02, context) : height(0.018, context)
@@ -48,7 +48,7 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
               ),
               const SizedBox(height: 3.0),
               Text(
-                translate('emptyListDesc', context),
+                getTranslated('emptyListDesc', context),
                 style: TextStyle(
                   fontSize: isScreenHasSmallHeight(context) ? height(0.016, context) : height(0.014, context),
                 ),
@@ -157,7 +157,7 @@ class _QuickAccessWidgetState extends State<QuickAccessWidget> {
                       SizedBox(
                         width: isTablet(context) ? 90.0 : 65.0,
                         child: Text(
-                          translate(quickAccessServices[index].title, context),
+                          getTranslated(quickAccessServices[index].title, context),
                           textAlign: TextAlign.center,
                           maxLines: isScreenHasSmallHeight(context) ? 2 : 3,
                           overflow: TextOverflow.ellipsis,

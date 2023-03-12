@@ -40,7 +40,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('accountStatement', context), style: const TextStyle(fontSize: 14),),
+        title: Text(getTranslated('accountStatement', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
       ),
       body: Padding(
@@ -87,7 +87,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                       )
                                   ),
                                   child: Text(
-                                    translate('subscriptionPeriods', context),
+                                    getTranslated('subscriptionPeriods', context),
                                     style: TextStyle(
                                       color: selectedIndex == 1 ? HexColor('#FFFFFF')
                                           : themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
@@ -118,7 +118,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                       )
                                   ),
                                   child: Text(
-                                    translate('financialSalaries', context),
+                                    getTranslated('financialSalaries', context),
                                     style: TextStyle(
                                       color: selectedIndex == 2 ? HexColor('#FFFFFF')
                                           : themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
@@ -184,7 +184,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                         borderRadius: BorderRadius.circular(50.0),
                       ),
                       child: Text(
-                        '${data[0][index]['descr'] ?? translate('onTopOfHisWork', context)}',
+                        '${data[0][index]['descr'] ?? getTranslated('onTopOfHisWork', context)}',
                         //translate('onTopOfHisWork', context)
                         style: TextStyle(
                           color: themeNotifier.isLight()
@@ -272,7 +272,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          translate('salary', context),
+                          getTranslated('salary', context),
                           style: TextStyle(
                             color: !themeNotifier.isLight() ? Colors.white : HexColor('#716F6F'),
                           ),
@@ -288,7 +288,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                               ),
                             ),
                             Text(
-                              ' ${translate('jd', context)}',
+                              ' ${getTranslated('jd', context)}',
                               style: TextStyle(
                                 color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                 fontWeight: FontWeight.w400,
@@ -305,7 +305,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
           );
         },
       )
-      : Center(child: Text(translate('youHaveNoSubscriptions', context)),),
+      : Center(child: Text(getTranslated('youHaveNoSubscriptions', context)),),
     );
   }
 
@@ -389,7 +389,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    translate('salary', context),
+                                    getTranslated('salary', context),
                                     style: TextStyle(
                                       color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
                                     ),
@@ -405,7 +405,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                         ),
                                       ),
                                       Text(
-                                        ' ${translate('jd', context)}',
+                                        ' ${getTranslated('jd', context)}',
                                         style: TextStyle(
                                           color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
                                           fontWeight: FontWeight.w400,
@@ -428,7 +428,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
           );
         },
       )
-      : Center(child: Text(translate('youDoNotHaveFinancialSalaries', context)),),
+      : Center(child: Text(getTranslated('youDoNotHaveFinancialSalaries', context)),),
     );
   }
 

@@ -41,7 +41,7 @@ class _FrequentlyAskedQuestionsScreenState extends State<FrequentlyAskedQuestion
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('frequentlyAskedQuestions', context), style: const TextStyle(fontSize: 14),),
+        title: Text(getTranslated('frequentlyAskedQuestions', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
         actions: [
           IconButton(
@@ -104,7 +104,7 @@ class _FrequentlyAskedQuestionsScreenState extends State<FrequentlyAskedQuestion
                                           )
                                       ),
                                       child: Text(
-                                        translate(filterList[index], context),
+                                        getTranslated(filterList[index], context),
                                         style: TextStyle(
                                           color: indexSelected == index ? HexColor('#2D452E') : HexColor('#51504E'),
                                           fontSize: 13
@@ -128,8 +128,8 @@ class _FrequentlyAskedQuestionsScreenState extends State<FrequentlyAskedQuestion
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index){
                       return (UserConfig.instance.checkLanguage()
-                      ? translate(frequentlyAskedQuestionsList[index]['question'], context).toLowerCase().contains(accountSettingsProvider.searchController.text.toLowerCase())
-                      : translate(frequentlyAskedQuestionsList[index]['question'], context).contains(accountSettingsProvider.searchController.text))
+                      ? getTranslated(frequentlyAskedQuestionsList[index]['question'], context).toLowerCase().contains(accountSettingsProvider.searchController.text.toLowerCase())
+                      : getTranslated(frequentlyAskedQuestionsList[index]['question'], context).contains(accountSettingsProvider.searchController.text))
                       ? Column(
                         children: [
                           buildExpandableWidget(
@@ -183,7 +183,7 @@ class _FrequentlyAskedQuestionsScreenState extends State<FrequentlyAskedQuestion
                 color: primaryColor,
               ),
             ),
-            hintText: translate('search', context),
+            hintText: getTranslated('search', context),
             hintStyle: TextStyle(
               color: getGrey5Color(context).withOpacity(
                 themeNotifier.isLight() ? 1 : 0.5,

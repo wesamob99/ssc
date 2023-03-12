@@ -58,8 +58,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   itemCount: servicesList.length,
                   itemBuilder: (context, index){
                     return (UserConfig.instance.checkLanguage()
-                    ? translate(servicesList[index].title, context).toLowerCase().contains(mainProvider.searchController.text.toLowerCase())
-                    : translate(servicesList[index].title, context).contains(mainProvider.searchController.text))
+                    ? getTranslated(servicesList[index].title, context).toLowerCase().contains(mainProvider.searchController.text.toLowerCase())
+                    : getTranslated(servicesList[index].title, context).contains(mainProvider.searchController.text))
                       ? Padding(
                         padding: const EdgeInsets.only(bottom: 0.0),
                         child: Column(
@@ -98,7 +98,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     SizedBox(
                                       width: width(0.77, context),
                                       child: Text(
-                                        translate(servicesList[index].title, context) + (servicesList[index].duplicated ? ' ( ${translate(servicesList[index].supTitle, context)} )' : ''),
+                                        getTranslated(servicesList[index].title, context) + (servicesList[index].duplicated ? ' ( ${getTranslated(servicesList[index].supTitle, context)} )' : ''),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
@@ -167,7 +167,7 @@ class _SearchScreenState extends State<SearchScreen> {
               color: themeNotifier.isLight() ? primaryColor : Colors.white,
             ),
           ),
-          hintText: translate('search', context),
+          hintText: getTranslated('search', context),
           hintStyle: TextStyle(
             color: getGrey5Color(context),
             fontSize:  isTablet(context) ? 19 : 14,
@@ -209,7 +209,7 @@ class _SearchScreenState extends State<SearchScreen> {
             )
           ),
           title: Text(
-            translate('filter', context),
+            getTranslated('filter', context),
             style: const TextStyle(
               fontWeight: FontWeight.w500
             ),
@@ -250,7 +250,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        translate('filter', context),
+                        getTranslated('filter', context),
                         style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w200
@@ -261,7 +261,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   Expanded(
                     child: TextButton(
                       child: Text(
-                        translate('reset', context),
+                        getTranslated('reset', context),
                         style: TextStyle(
                             color: HexColor('#BC0D0D'),
                             fontWeight: FontWeight.w200

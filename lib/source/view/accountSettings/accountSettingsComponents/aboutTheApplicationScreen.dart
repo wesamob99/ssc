@@ -14,7 +14,7 @@ class AboutTheApplicationScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('aboutSscApplication', context), style: const TextStyle(fontSize: 14),),
+        title: Text(getTranslated('aboutSscApplication', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
       ),
       body: Stack(
@@ -39,7 +39,7 @@ class AboutTheApplicationScreen extends StatelessWidget {
                 SvgPicture.asset('assets/logo/logo_with_name.svg'),
                 SizedBox(height: height(0.07, context)),
                 Text(
-                  translate('version', context) + "  3.0.2",
+                  getTranslated('version', context) + "  3.0.2",
                   style: TextStyle(
                     color: HexColor('#363636'),
                     fontWeight: FontWeight.w500,
@@ -48,7 +48,7 @@ class AboutTheApplicationScreen extends StatelessWidget {
                 ),
                 SizedBox(height: height(0.015, context)),
                 Text(
-                  translate('allRightReserved', context),
+                  getTranslated('allRightReserved', context),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                       color: Color.fromRGBO(95, 95, 95, 0.65),

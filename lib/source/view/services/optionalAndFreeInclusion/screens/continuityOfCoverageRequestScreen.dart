@@ -71,7 +71,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('requestToAmendTheAnnualIncreasePercentage', context)),
+        title: Text(getTranslated('requestToAmendTheAnnualIncreasePercentage', context)),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
@@ -222,7 +222,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
                             }
                           } break;
                           case 3: {
-                            String message = translate('somethingWrongHappened', context);
+                            String message = getTranslated('somethingWrongHappened', context);
                             servicesProvider.isLoading = true;
                             servicesProvider.notifyMe();
                             var value = await servicesProvider.submitOptionSubIncrement(int.tryParse(selectedRate.name.toString()), double.tryParse(confirmSalaryValue));
@@ -280,7 +280,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('secondStep', context),
+                  getTranslated('secondStep', context),
                   style: TextStyle(
                       color: HexColor('#979797'),
                       fontSize: width(0.03, context)
@@ -288,7 +288,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
                 ),
                 SizedBox(height: height(0.006, context),),
                 Text(
-                  translate('payCalculation', context),
+                  getTranslated('payCalculation', context),
                   style: TextStyle(
                       color: HexColor('#5F5F5F'),
                       fontSize: width(0.035, context)
@@ -313,7 +313,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
                       ),
                     ),
                     Text(
-                      '${translate('next', context)}: ${translate('confirmRequest', context)}',
+                      '${getTranslated('next', context)}: ${getTranslated('confirmRequest', context)}',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.032, context)
@@ -328,7 +328,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('currentRateOfIncrease', context),
+                  getTranslated('currentRateOfIncrease', context),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -350,7 +350,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('rateOfIncrease', context),
+                  getTranslated('rateOfIncrease', context),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -365,7 +365,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
               children: [
                 SizedBox(height: height(0.02, context),),
                 Text(
-                  translate('monthlyInstallment', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
+                  getTranslated('monthlyInstallment', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -392,7 +392,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
                           ),
                         ),
                         Text(
-                          translate('jd', context),
+                          getTranslated('jd', context),
                           style: TextStyle(
                             color: HexColor('#716F6F'),
                             fontSize: 14,
@@ -408,7 +408,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
               children: [
                 SizedBox(height: height(0.03, context),),
                 Text(
-                  translate('salary', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
+                  getTranslated('salary', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -435,7 +435,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
                           ),
                         ),
                         Text(
-                          translate('jd', context),
+                          getTranslated('jd', context),
                           style: TextStyle(
                             color: HexColor('#716F6F'),
                             fontSize: 14,
@@ -464,7 +464,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('thirdStep', context),
+                  getTranslated('thirdStep', context),
                   style: TextStyle(
                       color: HexColor('#979797'),
                       fontSize: width(0.03, context)
@@ -472,7 +472,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
                 ),
                 SizedBox(height: height(0.006, context),),
                 Text(
-                  translate('confirmRequest', context),
+                  getTranslated('confirmRequest', context),
                   style: TextStyle(
                       color: HexColor('#5F5F5F'),
                       fontSize: width(0.035, context)
@@ -497,7 +497,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
                       ),
                     ),
                     Text(
-                      translate('finished', context),
+                      getTranslated('finished', context),
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.032, context)
@@ -509,7 +509,7 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
             ),
             SizedBox(height: height(0.035, context),),
             Text(
-              translate('rateOfIncrease', context),
+              getTranslated('rateOfIncrease', context),
               style: TextStyle(
                   color: HexColor('#363636'),
                   fontSize: width(0.036, context)
@@ -519,24 +519,24 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
             Text('${selectedRate.name} %'),
             SizedBox(height: height(0.035, context),),
             Text(
-              translate('monthlyInstallment', context),
+              getTranslated('monthlyInstallment', context),
               style: TextStyle(
                   color: HexColor('#363636'),
                   fontSize: width(0.036, context)
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            Text('$confirmMonthlyValue ${translate('jd', context)}'),
+            Text('$confirmMonthlyValue ${getTranslated('jd', context)}'),
             SizedBox(height: height(0.035, context),),
             Text(
-              translate('salary', context),
+              getTranslated('salary', context),
               style: TextStyle(
                   color: HexColor('#363636'),
                   fontSize: width(0.036, context)
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            Text('$confirmSalaryValue ${translate('jd', context)}'),
+            Text('$confirmSalaryValue ${getTranslated('jd', context)}'),
 
           ],
         ),

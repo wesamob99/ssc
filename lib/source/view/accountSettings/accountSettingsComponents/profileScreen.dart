@@ -51,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('profile', context), style: const TextStyle(fontSize: 14),),
+        title: Text(getTranslated('profile', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
       ),
       body: Padding(
@@ -145,7 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         SvgPicture.asset('assets/icons/profileIcons/logout.svg', color: themeNotifier.isLight() ? HexColor('#BC0D0D') : HexColor('#e53935')),
                                         const SizedBox(width: 10.0),
                                         Text(
-                                          translate('logout', context),
+                                          getTranslated('logout', context),
                                           style: TextStyle(
                                               color: themeNotifier.isLight() ? HexColor('#BC0D0D') : HexColor('#e53935')
                                           ),
@@ -201,7 +201,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    translate(title, context),
+                    getTranslated(title, context),
                     style: TextStyle(
                         color: themeNotifier.isLight() ? HexColor('#8B8B8B') : Colors.white,
                         fontSize: 13

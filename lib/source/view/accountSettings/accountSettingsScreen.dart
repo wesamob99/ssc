@@ -55,7 +55,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('accountSettings', context), style: const TextStyle(fontSize: 14),),
+        title: Text(getTranslated('accountSettings', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
       ),
       body: Stack(
@@ -110,7 +110,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         ),
                         const SizedBox(height: 10.0),
                         Text(
-                          translate('modifyAndManageYourAccountDetails', context),
+                          getTranslated('modifyAndManageYourAccountDetails', context),
                           style: TextStyle(
                             color: themeNotifier.isLight() ? HexColor('#999A9A') : Colors.white70,
                             fontSize: 12.0
@@ -281,7 +281,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           SvgPicture.asset('assets/icons/profileIcons/star.svg', color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,),
                           const SizedBox(width: 10.0),
                           Text(
-                            translate('rateTheApp', context),
+                            getTranslated('rateTheApp', context),
                             style: TextStyle(
                                 color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
                             ),
@@ -330,7 +330,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   SvgPicture.asset(icon, color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,),
                   const SizedBox(width: 10.0),
                   Text(
-                    translate(title, context),
+                    getTranslated(title, context),
                     style: TextStyle(
                         color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
                     ),
@@ -357,7 +357,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              translate(text, context),
+              getTranslated(text, context),
               style: TextStyle(
                 color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
               ),
@@ -390,7 +390,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              noTranslate ? text : translate(text, context),
+              noTranslate ? text : getTranslated(text, context),
               style: TextStyle(
                 color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
               ),

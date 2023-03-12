@@ -83,8 +83,8 @@ class _OTPScreenState extends State<OTPScreen> {
                               SizedBox(height: height(0.05, context),),
                               Text(
                                 widget.type == 'phone'
-                                    ? translate('mobileNumberVerify', context)
-                                    : translate('emailVerify', context),
+                                    ? getTranslated('mobileNumberVerify', context)
+                                    : getTranslated('emailVerify', context),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: width(0.04, context)
@@ -95,8 +95,8 @@ class _OTPScreenState extends State<OTPScreen> {
                                 children: [
                                   Text(
                                     widget.type == 'phone'
-                                    ? translate('enterMobileVerificationCode', context)
-                                    : translate('enterEmailVerificationCode2', context),
+                                    ? getTranslated('enterMobileVerificationCode', context)
+                                    : getTranslated('enterEmailVerificationCode2', context),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
@@ -375,7 +375,7 @@ class _OTPScreenState extends State<OTPScreen> {
             )
         ),
         child: Text(
-          translate(text, context),
+          getTranslated(text, context),
           style: TextStyle(
             color: textColor,
             fontWeight: FontWeight.w300

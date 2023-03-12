@@ -43,7 +43,7 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('suggestionsAndComplaints', context), style: const TextStyle(fontSize: 14),),
+        title: Text(getTranslated('suggestionsAndComplaints', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
       ),
       body: GestureDetector(
@@ -60,7 +60,7 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    translate('suggestionOrComplaintInformation', context),
+                    getTranslated('suggestionOrComplaintInformation', context),
                   ),
                   const SizedBox(height: 20.0,),
                   buildFieldTitle(context, 'relatedTo', required: false),
@@ -97,7 +97,7 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
                             children: [
                               SvgPicture.asset('assets/icons/profileIcons/imageGallery.svg'),
                               const SizedBox(height: 5.0),
-                              Text(translate('attachPhoto', context))
+                              Text(getTranslated('attachPhoto', context))
                             ],
                           ),
                         ),
@@ -200,7 +200,7 @@ class _SuggestionsAndComplaintsScreenState extends State<SuggestionsAndComplaint
                   child: SizedBox(
                     width: width(0.7, context),
                     child: Text(
-                      translate(value, context),
+                      getTranslated(value, context),
                       style: TextStyle(
                         color: value != 'choose'
                             ? (themeNotifier.isLight()

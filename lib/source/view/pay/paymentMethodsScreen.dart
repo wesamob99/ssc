@@ -34,7 +34,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('paymentMethods', context)),
+        title: Text(getTranslated('paymentMethods', context)),
         leading: leadingBackIcon(context),
       ),
       body: Padding(
@@ -86,7 +86,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                               ),
                               const SizedBox(height: 7.0),
                               Text(
-                                translate(methods[index]['name'], context),
+                                getTranslated(methods[index]['name'], context),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center,
@@ -110,7 +110,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 33, bottom: 18),
               child: Text(
-                translate('steps', context),
+                getTranslated('steps', context),
                 style: TextStyle(
                   fontSize: isTablet(context) ? 25 : 16,
                   fontWeight: FontWeight.w600
@@ -127,7 +127,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            translate('bankStep_1', context),
+                            getTranslated('bankStep_1', context),
                             style: TextStyle(
                               fontSize: isTablet(context) ? 20 : 14,
                             ),
@@ -164,7 +164,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                                   color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff'),
                                 ),
                                 label: Text(
-                                  translate('copy', context),
+                                  getTranslated('copy', context),
                                   style: TextStyle(
                                       color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff'),
                                       decoration: TextDecoration.underline
@@ -179,14 +179,14 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 21),
                     child: Text(
-                      translate('bankStep_2', context),
+                      getTranslated('bankStep_2', context),
                       style: TextStyle(
                         fontSize: isTablet(context) ? 20 : 14,
                       ),
                     ),
                   ),
                   Text(
-                    translate('bankStep_3', context),
+                    getTranslated('bankStep_3', context),
                     style: TextStyle(
                       fontSize: isTablet(context) ? 20 : 14,
                     ),

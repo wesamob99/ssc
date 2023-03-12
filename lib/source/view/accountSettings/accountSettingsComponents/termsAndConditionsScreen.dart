@@ -16,7 +16,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('termsAndConditions', context), style: const TextStyle(fontSize: 14),),
+        title: Text(getTranslated('termsAndConditions', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
       ),
       body: Padding(

@@ -181,7 +181,7 @@ class HTTPClientContract {
   checkSessionExpired(Response response){
     if ((response?.statusCode == 403 || response?.statusCode == 401) && !Provider.of<HomeProvider>(navigatorKey.currentContext, listen: false).isSplashScreenLoading) {
       String title = 'sessionExpired';
-      String body = translate('sessionExpiredDesc', navigatorKey.currentContext);
+      String body = getTranslated('sessionExpiredDesc', navigatorKey.currentContext);
       showMyDialog(
         navigatorKey.currentContext,
         title, body, 'login',

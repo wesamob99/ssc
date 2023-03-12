@@ -138,7 +138,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('membershipRequest', context)),
+        title: Text(getTranslated('membershipRequest', context)),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
@@ -286,7 +286,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                               }
                             } break;
                             case 3: {
-                              String message = translate('somethingWrongHappened', context);
+                              String message = getTranslated('somethingWrongHappened', context);
                               if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 1 || servicesProvider.result['PO_is_it_firstOptionalSub'] == 2) {
                                 double appliedSalary = double.tryParse(confirmSalaryValue);
                                 String percentDecreaseVal = 'null';
@@ -372,7 +372,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('secondStep', context),
+                  getTranslated('secondStep', context),
                   style: TextStyle(
                       color: HexColor('#979797'),
                       fontSize: width(0.03, context)
@@ -380,7 +380,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 ),
                 SizedBox(height: height(0.006, context),),
                 Text(
-                  translate('payCalculation', context),
+                  getTranslated('payCalculation', context),
                   style: TextStyle(
                       color: HexColor('#5F5F5F'),
                       fontSize: width(0.035, context)
@@ -405,7 +405,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       ),
                     ),
                     Text(
-                      '${translate('next', context)}: ${translate('confirmRequest', context)}',
+                      '${getTranslated('next', context)}: ${getTranslated('confirmRequest', context)}',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.032, context)
@@ -418,7 +418,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             SizedBox(height: height(0.02, context),),
             if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             Text(
-              translate('CalculateAccordingTo', context),
+              getTranslated('CalculateAccordingTo', context),
               style: TextStyle(
                   color: HexColor('#363636'),
                   fontSize: width(0.032, context)
@@ -467,7 +467,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               items: calculateAccordingToList,
               itemBuilder: (item) =>
                 RadioButtonBuilder(
-                  translate(item, context),
+                  getTranslated(item, context),
                 ),
             ),
             if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
@@ -477,7 +477,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('determineTheAffiliateWage', context),
+                  getTranslated('determineTheAffiliateWage', context),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -516,13 +516,13 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '$minSalary ${translate('jd', context)}',
+                                    '$minSalary ${getTranslated('jd', context)}',
                                     style: const TextStyle(
                                         fontSize: 13
                                     ),
                                   ),
                                   Text(
-                                    '$maxSalary ${translate('jd', context)}',
+                                    '$maxSalary ${getTranslated('jd', context)}',
                                     style: const TextStyle(
                                         fontSize: 13
                                     ),
@@ -538,7 +538,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                         child: Column(
                           children: [
                             Text(
-                              translate('sal', context),
+                              getTranslated('sal', context),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: HexColor('#363636'),
@@ -581,7 +581,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('theMonthFromWhichTheSubscriptionIsToStart', context),
+                  getTranslated('theMonthFromWhichTheSubscriptionIsToStart', context),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -597,7 +597,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('rateOfIncrease', context),
+                  getTranslated('rateOfIncrease', context),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -607,7 +607,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 buildDropDown(context, listOfRates, 1, servicesProvider),
                 SizedBox(height: height(0.02, context),),
                 Text(
-                  translate('numberOfYears', context),
+                  getTranslated('numberOfYears', context),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -622,7 +622,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               children: [
                 SizedBox(height: height(0.02, context),),
                 Text(
-                  translate('monthlyInstallment', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
+                  getTranslated('monthlyInstallment', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -649,7 +649,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                           ),
                         ),
                         Text(
-                          translate('jd', context),
+                          getTranslated('jd', context),
                           style: TextStyle(
                             color: HexColor('#716F6F'),
                             fontSize: 14,
@@ -665,7 +665,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               children: [
                 SizedBox(height: height(0.03, context),),
                 Text(
-                  translate('salary', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
+                  getTranslated('salary', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -692,7 +692,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                           ),
                         ),
                         Text(
-                          translate('jd', context),
+                          getTranslated('jd', context),
                           style: TextStyle(
                             color: HexColor('#716F6F'),
                             fontSize: 14,
@@ -721,7 +721,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('thirdStep', context),
+                  getTranslated('thirdStep', context),
                   style: TextStyle(
                       color: HexColor('#979797'),
                       fontSize: width(0.03, context)
@@ -729,7 +729,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                 ),
                 SizedBox(height: height(0.006, context),),
                 Text(
-                  translate('confirmRequest', context),
+                  getTranslated('confirmRequest', context),
                   style: TextStyle(
                       color: HexColor('#5F5F5F'),
                       fontSize: width(0.035, context)
@@ -754,7 +754,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                       ),
                     ),
                     Text(
-                      translate('finished', context),
+                      getTranslated('finished', context),
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.032, context)
@@ -768,7 +768,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             SizedBox(height: height(0.02, context),),
             if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             Text(
-              translate('CalculateAccordingTo', context),
+              getTranslated('CalculateAccordingTo', context),
               style: TextStyle(
                   color: HexColor('#363636'),
                   fontSize: width(0.036, context)
@@ -777,27 +777,27 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             SizedBox(height: height(0.015, context),),
             if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
-            Text(translate(selectedCalculateAccordingTo, context)),
+            Text(getTranslated(selectedCalculateAccordingTo, context)),
             SizedBox(height: height(0.035, context),),
             Text(
-              translate('monthlyInstallment', context),
+              getTranslated('monthlyInstallment', context),
               style: TextStyle(
                   color: HexColor('#363636'),
                   fontSize: width(0.036, context)
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            Text('$confirmMonthlyValue ${translate('jd', context)}'),
+            Text('$confirmMonthlyValue ${getTranslated('jd', context)}'),
             SizedBox(height: height(0.035, context),),
             Text(
-              translate('salary', context),
+              getTranslated('salary', context),
               style: TextStyle(
                   color: HexColor('#363636'),
                   fontSize: width(0.036, context)
               ),
             ),
             SizedBox(height: height(0.015, context),),
-            Text('$confirmSalaryValue ${translate('jd', context)}'),
+            Text('$confirmSalaryValue ${getTranslated('jd', context)}'),
 
           ],
         ),

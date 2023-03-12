@@ -117,7 +117,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                       ),
                                       SizedBox(width: width(0.03, context)),
                                       Text(
-                                        translate('forgotPassword', context),
+                                        getTranslated('forgotPassword', context),
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w700
                                         ),
@@ -142,7 +142,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    translate('enterNationalId', context),
+                                    getTranslated('enterNationalId', context),
                                   ),
                                   SizedBox(height: height(0.015, context)),
                                   buildTextFormField(themeNotifier, loginProvider,  loginProvider.nationalIdController, TextInputType.number),
@@ -224,7 +224,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 } else if(userSecuredStorage.email != ''){
                   showResetPasswordBody = true;
                 } else{
-                  showMyDialog(context, 'resetPasswordFailed', translate('userMobileNumberAndEmailAreEmptyPleaseReRegister', context),
+                  showMyDialog(context, 'resetPasswordFailed', getTranslated('userMobileNumberAndEmailAreEmptyPleaseReRegister', context),
                   'reRegister', themeNotifier, onPressed: (){
                     loginProvider.flag = 1;
                     loginProvider.notifyMe();
@@ -262,7 +262,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 )
             )
         ),
-        child: Text(translate('continue', context), style: const TextStyle(
+        child: Text(getTranslated('continue', context), style: const TextStyle(
             fontWeight: FontWeight.w300),),
       ),
     );
@@ -281,7 +281,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           : Colors.white,
       cursorWidth: 1,
       decoration: InputDecoration(
-          hintText: translate('ex', context) + '9999999999',
+          hintText: getTranslated('ex', context) + '9999999999',
           hintStyle: TextStyle(
               color: getGrey2Color(context).withOpacity(
                   themeNotifier.isLight()

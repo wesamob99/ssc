@@ -67,7 +67,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            translate('forthStep', context),
+                            getTranslated('forthStep', context),
                             style: TextStyle(
                                 color: HexColor('#979797'),
                                 fontSize: width(0.03, context)
@@ -75,7 +75,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                           ),
                           SizedBox(height: height(0.006, context),),
                           Text(
-                            translate('setPassword2', context),
+                            getTranslated('setPassword2', context),
                             style: TextStyle(
                                 color: HexColor('#5F5F5F'),
                                 fontSize: width(0.035, context)
@@ -89,7 +89,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                         children: [
                           const SizedBox.shrink(),
                           Text(
-                            translate('finished', context),
+                            getTranslated('finished', context),
                             style: TextStyle(
                                 color: HexColor('#979797'),
                                 fontSize: width(0.032, context)
@@ -99,7 +99,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                       ),
                       SizedBox(height: height(0.02, context),),
                       Text(
-                        translate('password', context),
+                        getTranslated('password', context),
                         style: TextStyle(
                             color: HexColor('#363636'),
                             fontSize: width(0.032, context)
@@ -111,7 +111,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                       }, isPassword: true, flag: 2),
                       SizedBox(height: height(0.02, context),),
                       Text(
-                        translate('confirmPassword', context),
+                        getTranslated('confirmPassword', context),
                         style: TextStyle(
                             color: HexColor('#363636'),
                             fontSize: width(0.032, context)
@@ -142,7 +142,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                                   borderRadius: BorderRadius.circular(8.0)
                               ),
                               child: Text(
-                                translate(validators[index], context),
+                                getTranslated(validators[index], context),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: validatorsCheck[index]
@@ -193,15 +193,15 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(translate('termsAndConditionsAndPoliciesAgreement1', context), style: getTextStyle(context, false),),
-                                  Text(translate('termsAndConditionsAndPoliciesAgreement2', context), style: getTextStyle(context, true)),
+                                  Text(getTranslated('termsAndConditionsAndPoliciesAgreement1', context), style: getTextStyle(context, false),),
+                                  Text(getTranslated('termsAndConditionsAndPoliciesAgreement2', context), style: getTextStyle(context, true)),
                                 ],
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(translate('termsAndConditionsAndPoliciesAgreement3', context), style: getTextStyle(context, true)),
-                                  Text(translate('termsAndConditionsAndPoliciesAgreement4', context), style: getTextStyle(context, false))
+                                  Text(getTranslated('termsAndConditionsAndPoliciesAgreement3', context), style: getTextStyle(context, true)),
+                                  Text(getTranslated('termsAndConditionsAndPoliciesAgreement4', context), style: getTextStyle(context, false))
                                 ],
                               )
                             ],

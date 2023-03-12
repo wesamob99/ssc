@@ -43,7 +43,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('updatePassword', context), style: const TextStyle(fontSize: 14),),
+        title: Text(getTranslated('updatePassword', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
       ),
       body: GestureDetector(
@@ -95,7 +95,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                     borderRadius: BorderRadius.circular(8.0)
                                 ),
                                 child: Text(
-                                  translate(validators[index], context),
+                                  getTranslated(validators[index], context),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: validatorsCheck[index]

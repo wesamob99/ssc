@@ -135,7 +135,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  translate('forthStep', context),
+                                  getTranslated('forthStep', context),
                                   style: TextStyle(
                                       color: HexColor('#979797'),
                                       fontSize: width(0.03, context)
@@ -143,7 +143,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                 ),
                                 SizedBox(height: height(0.006, context),),
                                 Text(
-                                  translate('documents', context),
+                                  getTranslated('documents', context),
                                   style: TextStyle(
                                       color: HexColor('#5F5F5F'),
                                       fontSize: width(0.035, context)
@@ -168,7 +168,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                       ),
                                     ),
                                     Text(
-                                      '${translate('next', context)}: ${translate(widget.nextStep, context)}',
+                                      '${getTranslated('next', context)}: ${getTranslated(widget.nextStep, context)}',
                                       style: TextStyle(
                                           color: HexColor('#979797'),
                                           fontSize: width(0.032, context)
@@ -181,7 +181,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                             const SizedBox(height: 18,),
                             if(servicesProvider.mandatoryDocuments.isNotEmpty)
                               Text(
-                                translate('mandatoryDocumentsRequired', context)
+                                getTranslated('mandatoryDocumentsRequired', context)
                                     + ' ( ${Provider.of<ServicesProvider>(context).documentIndex + 1} / ${(servicesProvider.mandatoryDocuments.length)} )',
                                 style: TextStyle(
                                   color: HexColor('#84692E'),
@@ -266,7 +266,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  translate(mandatoryDocumentFor["NATIONALITY"] == 1 ? 'jordanian' : 'nonJordanian', context),
+                                                  getTranslated(mandatoryDocumentFor["NATIONALITY"] == 1 ? 'jordanian' : 'nonJordanian', context),
                                                   style: TextStyle(
                                                     color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                                                   ),
@@ -306,7 +306,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    translate('forthStep', context),
+                                    getTranslated('forthStep', context),
                                     style: TextStyle(
                                         color: HexColor('#979797'),
                                         fontSize: width(0.03, context)
@@ -314,7 +314,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                   ),
                                   SizedBox(height: height(0.006, context),),
                                   Text(
-                                    translate('documents', context),
+                                    getTranslated('documents', context),
                                     style: TextStyle(
                                         color: HexColor('#5F5F5F'),
                                         fontSize: width(0.035, context)
@@ -339,7 +339,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                         ),
                                       ),
                                       Text(
-                                        '${translate('next', context)}: ${translate(widget.nextStep, context)}',
+                                        '${getTranslated('next', context)}: ${getTranslated(widget.nextStep, context)}',
                                         style: TextStyle(
                                             color: HexColor('#979797'),
                                             fontSize: width(0.032, context)
@@ -352,7 +352,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                               const SizedBox(height: 18,),
                               if(servicesProvider.selectedOptionalDocuments.isNotEmpty)
                                 Text(
-                                  translate('optionalDocuments', context)
+                                  getTranslated('optionalDocuments', context)
                                       + ' ( ${Provider.of<ServicesProvider>(context).documentIndex + 1} / ${(servicesProvider.selectedOptionalDocuments.length)} )',
                                   style: TextStyle(
                                     color: HexColor('#84692E'),
@@ -437,7 +437,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    translate(optionalDocumentFor["NATIONALITY"] == 1 ? 'jordanian' : 'nonJordanian', context),
+                                                    getTranslated(optionalDocumentFor["NATIONALITY"] == 1 ? 'jordanian' : 'nonJordanian', context),
                                                     style: TextStyle(
                                                       color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                                                     ),
@@ -475,7 +475,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    translate('forthStep', context),
+                                    getTranslated('forthStep', context),
                                     style: TextStyle(
                                         color: HexColor('#979797'),
                                         fontSize: width(0.03, context)
@@ -483,7 +483,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                   ),
                                   SizedBox(height: height(0.006, context),),
                                   Text(
-                                    translate('documents', context),
+                                    getTranslated('documents', context),
                                     style: TextStyle(
                                         color: HexColor('#5F5F5F'),
                                         fontSize: width(0.035, context)
@@ -508,7 +508,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                         ),
                                       ),
                                       Text(
-                                        '${translate('next', context)}: ${translate(widget.nextStep, context)}',
+                                        '${getTranslated('next', context)}: ${getTranslated(widget.nextStep, context)}',
                                         style: TextStyle(
                                             color: HexColor('#979797'),
                                             fontSize: width(0.032, context)
@@ -524,7 +524,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    translate('mandatoryDocuments', context) + ' ( ${(servicesProvider.mandatoryDocuments.length)} )',
+                                    getTranslated('mandatoryDocuments', context) + ' ( ${(servicesProvider.mandatoryDocuments.length)} )',
                                     style: TextStyle(
                                       color: HexColor('#84692E'),
                                       fontWeight: FontWeight.w500,
@@ -628,7 +628,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      translate('optionalDocuments', context) + ' ( ${(servicesProvider.selectedOptionalDocuments.length)} )',
+                                      getTranslated('optionalDocuments', context) + ' ( ${(servicesProvider.selectedOptionalDocuments.length)} )',
                                       style: TextStyle(
                                         color: HexColor('#84692E'),
                                         fontWeight: FontWeight.w500,
@@ -725,7 +725,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                   ],
                                 ),
                               if(servicesProvider.selectedOptionalDocuments.isEmpty && servicesProvider.mandatoryDocuments.isEmpty)
-                              Center(child: Text(translate('noDocumentsHaveBeenAttached', context)))
+                              Center(child: Text(getTranslated('noDocumentsHaveBeenAttached', context)))
                             ],
                           ),
                         ),
@@ -801,7 +801,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                       ? Column(
                         children: [
                           Text(
-                            translate(type == 1 ? 'mandatoryDocumentsRequired' : 'optionalDocuments', context),
+                            getTranslated(type == 1 ? 'mandatoryDocumentsRequired' : 'optionalDocuments', context),
                             style: TextStyle(
                               color: HexColor('#363636'),
                               fontSize: 16,
@@ -815,7 +815,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                       : Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Text(
-                          translate(type == 1 ? 'NoMandatoryDocumentsToAdd' : 'NoOptionalDocumentsToAdd', context),
+                          getTranslated(type == 1 ? 'NoMandatoryDocumentsToAdd' : 'NoOptionalDocumentsToAdd', context),
                         ),
                       ),
                       textButton(context, themeNotifier, (type == 1 ? servicesProvider.mandatoryDocuments.isEmpty : servicesProvider.selectedOptionalDocuments.isEmpty) ? 'continue' : 'startNow', HexColor('#445740'), HexColor('#FFFFFF'), (){
@@ -917,7 +917,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                               children: [
                                 SvgPicture.asset('assets/icons/delete.svg'),
                                 const SizedBox(width: 5.0,),
-                                Text(translate('delete', context))
+                                Text(getTranslated('delete', context))
                               ],
                             ),
                           ),
@@ -943,7 +943,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                   SvgPicture.asset('assets/icons/upload.svg'),
                   const SizedBox(height: 4.0),
                   Text(
-                    translate('attachFileHere', context),
+                    getTranslated('attachFileHere', context),
                     style: TextStyle(
                       fontSize: 12,
                       color: HexColor('#363636'),
@@ -951,7 +951,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    translate('chooseFile', context),
+                    getTranslated('chooseFile', context),
                     style: TextStyle(
                       color: HexColor('#2D452E'),
                     ),

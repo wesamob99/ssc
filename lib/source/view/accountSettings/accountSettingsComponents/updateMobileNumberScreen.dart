@@ -40,7 +40,7 @@ class _UpdateMobileNumberScreenState extends State<UpdateMobileNumberScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('updateMobileNumber', context), style: const TextStyle(fontSize: 14),),
+        title: Text(getTranslated('updateMobileNumber', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
       ),
       body: GestureDetector(
@@ -68,7 +68,7 @@ class _UpdateMobileNumberScreenState extends State<UpdateMobileNumberScreen> {
                             }, inputType: TextInputType.number),
                           ),
                           Text(
-                            translate('mobileUpdateDesc', context),
+                            getTranslated('mobileUpdateDesc', context),
                             style: TextStyle(
                               color: HexColor(themeNotifier.isLight() ? '#003C97' : '#00b0ff'),
                               fontSize: 14

@@ -51,7 +51,7 @@ class _ServicesTreeWidgetState extends State<ServicesTreeWidget> {
                       borderRadius: BorderRadius.circular(50)
                   ),
                   child: Text(
-                    translate(supTitles[index1], context),
+                    getTranslated(supTitles[index1], context),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: HexColor('#2D452E'),
@@ -95,7 +95,7 @@ class _ServicesTreeWidgetState extends State<ServicesTreeWidget> {
                             margin: EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0, bottom: (last != -1 && last != index2) ? 15.0 : 25.0),
                             width: width(1, context),
                             child: Text(
-                              translate(widget.servicesList[index2].title, context),
+                              getTranslated(widget.servicesList[index2].title, context),
                               style: TextStyle(
                                   fontSize: width(isTablet(context) ? 0.025 : 0.03, context)
                               ),

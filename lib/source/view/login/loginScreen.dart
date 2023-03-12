@@ -69,13 +69,13 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const LoginBody(),
               Center(
-                child: Text(translate('bottomSelfServices', context)),
+                child: Text(getTranslated('bottomSelfServices', context)),
               ),
               Center(
-                child: Text(translate('bottomTools', context)),
+                child: Text(getTranslated('bottomTools', context)),
               ),
               Center(
-                child: Text(translate('bottomMore', context)),
+                child: Text(getTranslated('bottomMore', context)),
               ),
             ],
           ),
@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: SvgPicture.asset(icon, color: iconColor, width: height(isScreenHasSmallHeight(context) ? 0.042 : 0.033, context)),
         ),
         pageIndex != index
-            ? Text(translate(text, context), style: textStyle,)
+            ? Text(getTranslated(text, context), style: textStyle,)
             : const SizedBox.shrink(),
       ],
     );

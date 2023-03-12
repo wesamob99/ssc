@@ -43,7 +43,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('report_a_sickness/work_injury_complaint', context)),
+        title: Text(getTranslated('report_a_sickness/work_injury_complaint', context)),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
@@ -149,7 +149,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('secondStep', context),
+                  getTranslated('secondStep', context),
                   style: TextStyle(
                       color: HexColor('#979797'),
                       fontSize: width(0.03, context)
@@ -157,7 +157,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                 ),
                 SizedBox(height: height(0.006, context),),
                 Text(
-                  translate('orderDetails', context),
+                  getTranslated('orderDetails', context),
                   style: TextStyle(
                       color: HexColor('#5F5F5F'),
                       fontSize: width(0.035, context)
@@ -182,7 +182,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                       ),
                     ),
                     Text(
-                      '${translate('next', context)}: ${translate('documents', context)}',
+                      '${getTranslated('next', context)}: ${getTranslated('documents', context)}',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.032, context)
@@ -194,7 +194,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
             ),
             SizedBox(height: height(0.02, context),),
             Text(
-              translate('injuryType', context),
+              getTranslated('injuryType', context),
               style: TextStyle(
                   color: HexColor('#363636'),
                   fontSize: width(0.032, context)
@@ -228,7 +228,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          translate('occupationalDisease', context),
+                          getTranslated('occupationalDisease', context),
                           style: TextStyle(
                             color: HexColor('#666666'),
                           ),
@@ -263,7 +263,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          translate('workInjury', context),
+                          getTranslated('workInjury', context),
                           style: TextStyle(
                             color: HexColor('#666666'),
                           ),
@@ -276,7 +276,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
             ),
             SizedBox(height: height(0.015, context),),
             Text(
-              translate('accidentsDateAndTime', context),
+              getTranslated('accidentsDateAndTime', context),
               style: TextStyle(
                   color: HexColor('#363636'),
                   fontSize: width(0.032, context)
@@ -341,7 +341,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
         child: Container(
           alignment: Alignment.center,
           height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
-          child: Text(translate('thirdStep', context)),
+          child: Text(getTranslated('thirdStep', context)),
         ),
       ),
     );
@@ -354,7 +354,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
         child: Container(
           alignment: Alignment.center,
           height: isTablet(context) ? height(0.8, context) : isScreenHasSmallHeight(context) ? height(0.75, context) : height(0.77, context),
-          child: Text(translate('forthStep', context)),
+          child: Text(getTranslated('forthStep', context)),
         ),
       ),
     );

@@ -157,7 +157,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
       ? HexColor('#445740') : HexColor('#ffffff'),
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('earlyRetirementRequest', context)),
+        title: Text(getTranslated('earlyRetirementRequest', context)),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
@@ -489,7 +489,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               int authorizedToSign = areYouAuthorizedToSignForCompany == 'yes' ? 1 : 0;
                               await servicesProvider.setEarlyRetirementApplication(docs, paymentInfo, authorizedToSign, wantInsurance).whenComplete(() {}).then((value) {
                                 if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
-                                  message = translate('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
+                                  message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
                                   if(value['PO_TYPE'] == 2){
                                     message = UserConfig.instance.checkLanguage()
                                         ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
@@ -614,7 +614,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('secondStep', context),
+                  getTranslated('secondStep', context),
                   style: TextStyle(
                       color: HexColor('#979797'),
                       fontSize: width(0.03, context)
@@ -622,7 +622,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 ),
                 SizedBox(height: height(0.006, context),),
                 Text(
-                  translate('ensureFinancialSolvency', context),
+                  getTranslated('ensureFinancialSolvency', context),
                   style: TextStyle(
                       color: HexColor('#5F5F5F'),
                       fontSize: width(0.035, context)
@@ -647,7 +647,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                       ),
                     ),
                     Text(
-                      '${translate('next', context)}: ${translate('confirmationOfDependentInformation', context)}',
+                      '${getTranslated('next', context)}: ${getTranslated('confirmationOfDependentInformation', context)}',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.032, context)
@@ -689,7 +689,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    translate('thirdStep', context),
+                    getTranslated('thirdStep', context),
                     style: TextStyle(
                         color: HexColor('#979797'),
                         fontSize: width(0.03, context)
@@ -697,7 +697,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   ),
                   SizedBox(height: height(0.006, context),),
                   Text(
-                    translate('confirmationOfDependentInformation', context),
+                    getTranslated('confirmationOfDependentInformation', context),
                     style: TextStyle(
                         color: HexColor('#5F5F5F'),
                         fontSize: width(0.035, context)
@@ -722,7 +722,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                         ),
                       ),
                       Text(
-                        '${translate('next', context)}: ${translate('documents', context)}',
+                        '${getTranslated('next', context)}: ${getTranslated('documents', context)}',
                         style: TextStyle(
                             color: HexColor('#979797'),
                             fontSize: width(0.032, context)
@@ -734,7 +734,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               ),
               SizedBox(height: height(0.02, context),),
               Text(
-                translate('numberOfDependents', context) + ' ( ${(pDependents.isNotEmpty  && pDependents[0].length != 0) ? dependentIndex + 1 : 0} / ${(pDependents.isNotEmpty  && pDependents[0].length != 0) ? pDependents[0].length : 0} )',
+                getTranslated('numberOfDependents', context) + ' ( ${(pDependents.isNotEmpty  && pDependents[0].length != 0) ? dependentIndex + 1 : 0} / ${(pDependents.isNotEmpty  && pDependents[0].length != 0) ? pDependents[0].length : 0} )',
                 style: TextStyle(
                   color: HexColor('#363636'),
                   fontWeight: FontWeight.w500,
@@ -915,7 +915,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               ),
                             ),
                             Text(
-                              translate(
+                              getTranslated(
                                   pDependents[0][dependentIndex]['NATIONALITY'] == 1
                                       ? 'jordanian' : 'nonJordanian',
                                   context),
@@ -933,7 +933,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  translate('maritalStatus', context),
+                                  getTranslated('maritalStatus', context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
                                     fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
@@ -941,7 +941,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 ),
                                 const SizedBox(height: 10.0,),
                                 Text(
-                                  translate(
+                                  getTranslated(
                                       (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 1
                                           ? UserConfig.instance.checkLanguage()
                                           ? 'single' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
@@ -966,7 +966,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  translate('employmentStatus', context),
+                                  getTranslated('employmentStatus', context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
                                     fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
@@ -974,7 +974,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 ),
                                 const SizedBox(height: 10.0,),
                                 Text(
-                                  translate(
+                                  getTranslated(
                                       (pDependents[0][dependentIndex]['WORK_STATUS'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
                                           ? 'unemployed' : 'employed',
                                       context),
@@ -989,7 +989,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  translate('status', context),
+                                  getTranslated('status', context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
                                     fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
@@ -997,7 +997,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 ),
                                 const SizedBox(height: 10.0,),
                                 Text(
-                                  translate(
+                                  getTranslated(
                                       pDependents[0][dependentIndex]['IS_ALIVE'] == 1
                                           ? 'alive' : 'dead',
                                       context),
@@ -1018,7 +1018,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  translate('hasDisability', context),
+                                  getTranslated('hasDisability', context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
                                     fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
@@ -1026,7 +1026,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 ),
                                 const SizedBox(height: 10.0,),
                                 Text(
-                                  translate(
+                                  getTranslated(
                                       (pDependents[0][dependentIndex]['DISABILITY'] ?? pDependents[0][dependentIndex]['IS_SUPPORT_TO_OTHER_PEN']) == 0
                                           ? 'no' : 'yes',
                                       context),
@@ -1041,7 +1041,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  translate('getsSalary', context),
+                                  getTranslated('getsSalary', context),
                                   style: TextStyle(
                                     color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
                                     fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
@@ -1049,7 +1049,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 ),
                                 const SizedBox(height: 10.0,),
                                 Text(
-                                  translate(
+                                  getTranslated(
                                       (pDependents[0][dependentIndex]['IS_RETIRED_A'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
                                           ? 'no' : 'yes',
                                       context),
@@ -1064,7 +1064,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  translate('getsSalary', context),
+                                  getTranslated('getsSalary', context),
                                   style: const TextStyle(
                                     color: Colors.transparent,
                                   ),
@@ -1143,7 +1143,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('fifthStep', context),
+                  getTranslated('fifthStep', context),
                   style: TextStyle(
                       color: HexColor('#979797'),
                       fontSize: width(0.03, context)
@@ -1151,7 +1151,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 ),
                 SizedBox(height: height(0.006, context),),
                 Text(
-                  translate('receiptOfAllowances', context),
+                  getTranslated('receiptOfAllowances', context),
                   style: TextStyle(
                       color: HexColor('#5F5F5F'),
                       fontSize: width(0.035, context)
@@ -1176,7 +1176,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                       ),
                     ),
                     Text(
-                      '${translate('next', context)}: ${translate('confirmRequest', context)}',
+                      '${getTranslated('next', context)}: ${getTranslated('confirmRequest', context)}',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.032, context)
@@ -1198,8 +1198,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
             if(selectedActivePayment['ID'] == 3) // inside jordan
             Text(
               servicesProvider.result["p_per_info"][0][0]["IBAN"] != null && servicesProvider.result["p_per_info"][0][0]["IBAN"].length == 30
-              ? '${translate('iban', context)}: ${servicesProvider.result["p_per_info"][0][0]["IBAN"]}'
-              : translate('goToYourBanksApplicationAndSendYourIBANToTheEscrow', context),
+              ? '${getTranslated('iban', context)}: ${servicesProvider.result["p_per_info"][0][0]["IBAN"]}'
+              : getTranslated('goToYourBanksApplicationAndSendYourIBANToTheEscrow', context),
             ),
             if(selectedActivePayment['ID'] == 5) // outside jordan
             Column(
@@ -1279,7 +1279,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                translate('fifthStep', context),
+                getTranslated('fifthStep', context),
                 style: TextStyle(
                     color: HexColor('#979797'),
                     fontSize: width(0.03, context)
@@ -1287,7 +1287,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               ),
               SizedBox(height: height(0.006, context),),
               Text(
-                translate('confirmRequest', context),
+                getTranslated('confirmRequest', context),
                 style: TextStyle(
                     color: HexColor('#5F5F5F'),
                     fontSize: width(0.035, context)
@@ -1312,7 +1312,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                     ),
                   ),
                   Text(
-                    translate('finished', context),
+                    getTranslated('finished', context),
                     style: TextStyle(
                         color: HexColor('#979797'),
                         fontSize: width(0.032, context)
@@ -1324,7 +1324,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
           ),
           SizedBox(height: height(0.02, context),),
           Text(
-            translate('reviewYourDetailedStatement', context),
+            getTranslated('reviewYourDetailedStatement', context),
             style: TextStyle(
               color: HexColor('#363636'),
             ),
@@ -1337,7 +1337,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               try{
                 await servicesProvider.getInquiryInsuredInformation().then((val1) async{
                   await servicesProvider.getInsuredInformationReport(val1).then((val2) async {
-                    await downloadPDF(val2, translate('detailedDisclosure', context)).whenComplete(() {
+                    await downloadPDF(val2, getTranslated('detailedDisclosure', context)).whenComplete(() {
                       if (kDebugMode) {
                         print('completed');
                       }
@@ -1365,7 +1365,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 )
               ),
               child: Text(
-                translate('detailedDisclosure', context),
+                getTranslated('detailedDisclosure', context),
                 style: TextStyle(
                   color: HexColor('#003C97'),
                 ),
@@ -1402,7 +1402,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               SizedBox(width: width(0.05, context),),
               Expanded(
                 child: Text(
-                  translate('earlyRetirementTermsAndConditions', context),
+                  getTranslated('earlyRetirementTermsAndConditions', context),
                   style: TextStyle(
                     fontSize: height(0.015, context),
                     color: HexColor('#595959'),
@@ -1456,7 +1456,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                       ? width(isTablet(context) ? 0.1 : 0.2, context) : 10,
                 ),
                 child: Text(
-                  translate('yes', context),
+                  getTranslated('yes', context),
                   style: TextStyle(
                     color: HexColor('#666666'),
                   ),
@@ -1504,7 +1504,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                       : 10,
                 ),
                 child: Text(
-                  translate('no', context),
+                  getTranslated('no', context),
                   style: TextStyle(
                     color: HexColor('#666666'),
                   ),
@@ -1572,7 +1572,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  translate(firstChoice, context),
+                  getTranslated(firstChoice, context),
                   style: TextStyle(
                     color: HexColor('#666666'),
                   ),
@@ -1633,7 +1633,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  translate(secondChoice, context),
+                  getTranslated(secondChoice, context),
                   style: TextStyle(
                     color: HexColor('#666666'),
                   ),
@@ -1691,7 +1691,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       flag == 1
-                      ? translate(choices[index], context)
+                      ? getTranslated(choices[index], context)
                       : UserConfig.instance.checkLanguage()
                       ? choices[index][flag == 2 ? 'REL_DESC_EN' : 'NAME_EN'] : choices[index][flag == 2 ? 'REL_DESC_AR' : 'NAME_AR'],
                       style: TextStyle(
@@ -1890,7 +1890,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                   ),
                                                 ),
                                                 Text(
-                                                  translate(
+                                                  getTranslated(
                                                       !isEdit
                                                           ? pDependents[0][index]['NATIONALITY'] == 1
                                                           ? 'jordanian' : 'nonJordanian'
@@ -2258,7 +2258,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
       children: <Widget>[
         SvgPicture.asset(icon, color: HexColor(iconColor),),
         const SizedBox(width: 10),
-        Text(translate(key, context))
+        Text(getTranslated(key, context))
       ],
     );
   }

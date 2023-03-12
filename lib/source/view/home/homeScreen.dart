@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           // ),
                           Padding(
                             padding: EdgeInsets.only(bottom: height(0.01, context)),
-                            child: Text(translate('myAccount', context),
+                            child: Text(getTranslated('myAccount', context),
                                 style: TextStyle(
                                     fontSize: isTablet(context) ? 20 : 14)),
                           ),
@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(translate('quickAccess', context),
+                                Text(getTranslated('quickAccess', context),
                                     style: TextStyle(
                                         fontSize: isTablet(context) ? 20 : 14)),
                                 InkWell(
@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
                                     child: Text(
                                         homeProviderListener.isEditQuickAccessActive
-                                        ? translate('editComplete', context) : translate('edit', context),
+                                        ? getTranslated('editComplete', context) : getTranslated('edit', context),
                                         style: TextStyle(
                                           fontSize: isTablet(context) ? 20 : 14,
                                           color: themeNotifier.isLight() 
@@ -177,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           QuickAccessWidget(),
                           Padding(
                             padding: EdgeInsets.only(bottom: height(0.007, context)),
-                            child: Text(translate('advertisements', context),
+                            child: Text(getTranslated('advertisements', context),
                                 style: TextStyle(
                                     fontSize: isTablet(context) ? 20 : 14)),
                           ),
@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: height(0.02, context),
                           ),
                           if(userInformation.curGetdata.isNotEmpty)
-                          Text(translate('pastYearsPays', context),
+                          Text(getTranslated('pastYearsPays', context),
                               style: TextStyle(
                                   fontSize: isTablet(context) ? 20 : 14)),
                           if(userInformation.curGetdata.isNotEmpty)
@@ -262,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           backgroundColor: Colors.black26,
                           foregroundColor: Colors.white,
-                          label: translate('hide', context),
+                          label: getTranslated('hide', context),
                         ),
                       ],
                     ),
@@ -285,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Row(
                               children: [
                                 Text(
-                                  translate('totalAmountToPay', context),
+                                  getTranslated('totalAmountToPay', context),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -307,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                     Text(
-                                      translate('jd', context),
+                                      getTranslated('jd', context),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -332,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
-                                  translate('pay', context),
+                                  getTranslated('pay', context),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

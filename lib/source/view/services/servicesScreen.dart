@@ -136,7 +136,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                       ),
                       SizedBox(height: height(0.006, context),),
                       Text(
-                        translate(sideBarItems[index]['title'], context),
+                        getTranslated(sideBarItems[index]['title'], context),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                         color: index == selectedIndex

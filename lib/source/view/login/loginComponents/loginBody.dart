@@ -97,7 +97,7 @@ class _LoginBodyState extends State<LoginBody> {
                           ),
                           SizedBox(height: height(0.04, context)),
                           Text(
-                            translate('login', context),
+                            getTranslated('login', context),
                             style: TextStyle(
                                 fontSize: width(0.045, context),
                                 fontWeight: FontWeight.w700
@@ -108,7 +108,7 @@ class _LoginBodyState extends State<LoginBody> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                translate('enterNationalId', context),
+                                getTranslated('enterNationalId', context),
                               ),
                               SizedBox(height: height(0.015, context)),
                               buildTextFormField(themeNotifier, loginProvider,  loginProvider.nationalIdController, TextInputType.number),
@@ -119,7 +119,7 @@ class _LoginBodyState extends State<LoginBody> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                translate('password', context),
+                                getTranslated('password', context),
                               ),
                               SizedBox(height: height(0.015, context)),
                               buildTextFormField(themeNotifier, loginProvider,  loginProvider.passwordController, TextInputType.visiblePassword),
@@ -139,7 +139,7 @@ class _LoginBodyState extends State<LoginBody> {
                               alignment: UserConfig.instance.checkLanguage()
                                   ? Alignment.bottomRight : Alignment.bottomLeft,
                               child: Text(
-                                translate('forgotPassword', context) + (UserConfig.instance.checkLanguage() ? ' ?' : ' ؟'),
+                                getTranslated('forgotPassword', context) + (UserConfig.instance.checkLanguage() ? ' ?' : ' ؟'),
                                 style: TextStyle(
                                   color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff')
                                 ),
@@ -153,7 +153,7 @@ class _LoginBodyState extends State<LoginBody> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                translate('dontHaveAnAccount', context),
+                                getTranslated('dontHaveAnAccount', context),
                               ),
                               SizedBox(width: width(0.005, context)),
                               InkWell(
@@ -165,7 +165,7 @@ class _LoginBodyState extends State<LoginBody> {
                                   );
                                 },
                                 child: Text(
-                                  translate('register', context),
+                                  getTranslated('register', context),
                                   style: TextStyle(
                                       color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff')
                                   ),
@@ -238,7 +238,7 @@ class _LoginBodyState extends State<LoginBody> {
                 }else{
                   loginProvider.numberOfAttempts++;
                   if(loginProvider.numberOfAttempts > 4){
-                    showMyDialog(context, 'loginFailed', translate('exceedNumberOfAllowedAttempts', context), 'resetPassword', themeNotifier).then((value){
+                    showMyDialog(context, 'loginFailed', getTranslated('exceedNumberOfAllowedAttempts', context), 'resetPassword', themeNotifier).then((value){
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context)=> const ForgotPasswordScreen(submitButtonEnabled: true)),
                       );
@@ -281,7 +281,7 @@ class _LoginBodyState extends State<LoginBody> {
                 )
             )
         ),
-        child: Text(translate('continue', context), style: const TextStyle(
+        child: Text(getTranslated('continue', context), style: const TextStyle(
         fontWeight: FontWeight.w300),),
       ),
     );
@@ -303,7 +303,7 @@ class _LoginBodyState extends State<LoginBody> {
       ),
       decoration: InputDecoration(
         hintText: controller ==  loginProvider.nationalIdController
-            ? translate('ex', context) + '9999999999'
+            ? getTranslated('ex', context) + '9999999999'
             : '',
         hintStyle: TextStyle(
           color: getGrey2Color(context).withOpacity(

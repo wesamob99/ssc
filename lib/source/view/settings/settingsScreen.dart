@@ -78,7 +78,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         width: 5.0,
                       ),
                       Text(
-                        translate('select_app_theme', context),
+                        getTranslated('select_app_theme', context),
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -129,7 +129,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(
-                            translate(value, context),
+                            getTranslated(value, context),
                             style: TextStyle(
                               color: themeNotifier.isLight()
                                   ? primaryColor
@@ -164,7 +164,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         width: 5.0,
                       ),
                       Text(
-                        translate('select_app_language', context),
+                        getTranslated('select_app_language', context),
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -356,7 +356,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   width: 5.0,
                 ),
                 Text(
-                  translate('logout', context),
+                  getTranslated('logout', context),
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

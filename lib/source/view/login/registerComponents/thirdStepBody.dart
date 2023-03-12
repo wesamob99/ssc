@@ -62,7 +62,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          translate('thirdStep', context),
+                          getTranslated('thirdStep', context),
                           style: TextStyle(
                               color: HexColor('#979797'),
                               fontSize: width(0.03, context)
@@ -70,7 +70,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                         ),
                         SizedBox(height: height(0.006, context),),
                         Text(
-                          translate('contactInformations', context),
+                          getTranslated('contactInformations', context),
                           style: TextStyle(
                               color: HexColor('#5F5F5F'),
                               fontSize: width(0.035, context)
@@ -84,7 +84,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                       children: [
                         const SizedBox.shrink(),
                         Text(
-                          '${translate('next', context)}: ${translate('setPassword', context)}',
+                          '${getTranslated('next', context)}: ${getTranslated('setPassword', context)}',
                           style: TextStyle(
                               color: HexColor('#979797'),
                               fontSize: width(0.032, context)
@@ -94,7 +94,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                     ),
                     SizedBox(height: height(0.02, context),),
                     Text(
-                      translate('wouldLikeToReceiveMessagesViaE-mail', context),
+                      getTranslated('wouldLikeToReceiveMessagesViaE-mail', context),
                       style: TextStyle(
                           color: HexColor('#363636'),
                           fontSize: width(0.032, context)
@@ -135,7 +135,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                         ),
                         SizedBox(width: width(0.03, context),),
                         Text(
-                          translate(item1['title'], context),
+                          getTranslated(item1['title'], context),
                           style: TextStyle(
                             fontSize: width(isTablet(context) ? 0.03 : 0.037, context),
                           ),
@@ -177,7 +177,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                         ),
                         SizedBox(width: width(0.03, context),),
                         Text(
-                          translate(item2['title'], context),
+                          getTranslated(item2['title'], context),
                           style: TextStyle(
                             fontSize: width(isTablet(context) ? 0.03 : 0.037, context),
                           ),
@@ -198,7 +198,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                       children: [
                         SizedBox(height: height(0.025, context),),
                         Text(
-                          translate('email', context),
+                          getTranslated('email', context),
                           style: TextStyle(
                               color: HexColor('#363636'),
                               fontSize: width(0.032, context)

@@ -82,17 +82,17 @@ class _SplashScreenState extends State<SplashScreen> {
       context: context,
       builder: (_) => BasicDialogAlert(
         title: Text(
-          translate('networkError', context),
+          getTranslated('networkError', context),
           style: const TextStyle(
             fontWeight: FontWeight.w500
           ),
         ),
         content: Text(
-          translate('networkErrorDescription', context)
+          getTranslated('networkErrorDescription', context)
         ),
         actions: [
           BasicDialogAction(
-            title: Text(translate('ok', context)),
+            title: Text(getTranslated('ok', context)),
             onPressed: (){
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(

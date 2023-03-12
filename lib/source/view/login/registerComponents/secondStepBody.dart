@@ -73,7 +73,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            translate('secondStep', context),
+                            getTranslated('secondStep', context),
                             style: TextStyle(
                                 color: HexColor('#979797'),
                                 fontSize: isTablet(context) ? width(0.025, context) : width(0.03, context)
@@ -81,7 +81,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                           ),
                           SizedBox(height: height(0.006, context),),
                           Text(
-                            translate('personalInformations', context),
+                            getTranslated('personalInformations', context),
                             style: TextStyle(
                                 color: HexColor('#5F5F5F'),
                                 fontSize: isTablet(context) ? width(0.028, context) : width(0.035, context)
@@ -95,7 +95,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                         children: [
                           const SizedBox.shrink(),
                           Text(
-                            '${translate('next', context)}: ${translate('contactInformations', context)}',
+                            '${getTranslated('next', context)}: ${getTranslated('contactInformations', context)}',
                             style: TextStyle(
                                 color: HexColor('#979797'),
                                 fontSize: isTablet(context) ? width(0.025, context) : width(0.032, context)
@@ -315,7 +315,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                   child: SizedBox(
                     width: width(0.7, context),
                     child: Text(
-                      translate(value, context),
+                      getTranslated(value, context),
                       style: TextStyle(
                         color: value != 'choose' && value != 'optionalChoose'
                             ? (themeNotifier.isLight()

@@ -40,7 +40,7 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('updateEmail', context), style: const TextStyle(fontSize: 14),),
+        title: Text(getTranslated('updateEmail', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
       ),
       body: GestureDetector(
@@ -68,7 +68,7 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                             }),
                           ),
                           Text(
-                            translate('emailUpdateDesc', context),
+                            getTranslated('emailUpdateDesc', context),
                             style: TextStyle(
                                 color: HexColor(themeNotifier.isLight() ? '#003C97' : '#00b0ff'),
                                 fontSize: 14

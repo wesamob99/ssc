@@ -50,7 +50,7 @@ class _PayScreenState extends State<PayScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('payments', context)),
+        title: Text(getTranslated('payments', context)),
         leading: leadingBackIcon(context),
       ),
       body: Stack(
@@ -158,7 +158,7 @@ class _PayScreenState extends State<PayScreen> {
                                     ),
                                   ),
                                   Text(
-                                    ' ${translate('jd', context)}',
+                                    ' ${getTranslated('jd', context)}',
                                     style: TextStyle(
                                       color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                                       fontSize: isTablet(context) ? 20 : 14,
@@ -204,7 +204,7 @@ class _PayScreenState extends State<PayScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        translate('totalSummation', context),
+                        getTranslated('totalSummation', context),
                         style: TextStyle(
                           color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
                           fontSize: isTablet(context) ? 20 : 14,
@@ -220,7 +220,7 @@ class _PayScreenState extends State<PayScreen> {
                             ),
                           ),
                           Text(
-                            ' ${translate('jd', context)}',
+                            ' ${getTranslated('jd', context)}',
                             style: TextStyle(
                               color: HexColor('#363636'),
                               fontSize: isTablet(context) ? 20 : 14,
@@ -249,7 +249,7 @@ class _PayScreenState extends State<PayScreen> {
                         payProvider.issuanceOfUnifiedPaymentCode(widget.payments).whenComplete((){}).then((value){
                           if(value['PO_STATUS'] == 0){
                             showMyDialog(
-                                context, 'unifiedPaymentCodeReleased', translate('yourUnifiedPaymentCodeIs', context),
+                                context, 'unifiedPaymentCodeReleased', getTranslated('yourUnifiedPaymentCodeIs', context),
                                 'continueToPay', themeNotifier, icon: 'assets/icons/unifiedCodeReleased.svg', titleColor: themeNotifier.isLight() ? '#363636' : '#ffffff',
                                 extraWidgetBody: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -291,7 +291,7 @@ class _PayScreenState extends State<PayScreen> {
                                               color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff'),
                                             ),
                                             label: Text(
-                                              translate('copy', context),
+                                              getTranslated('copy', context),
                                               style: TextStyle(
                                                   color: themeNotifier.isLight() ? HexColor('#003C97') : HexColor('#00b0ff'),
                                                   decoration: TextDecoration.underline
@@ -303,7 +303,7 @@ class _PayScreenState extends State<PayScreen> {
                                     ),
                                     const SizedBox(height: 15.0,),
                                     Text(
-                                      translate('codeExpiration', context),
+                                      getTranslated('codeExpiration', context),
                                       style: TextStyle(
                                         color: HexColor('#FF0000'),
                                         fontSize: isTablet(context) ? 18 : 12,

@@ -38,7 +38,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
       backgroundColor: themeNotifier.isLight() ? Colors.grey.shade100 : HexColor('212121'),
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('paymentManagement', context), style: const TextStyle(fontSize: 14),),
+        title: Text(getTranslated('paymentManagement', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
       ),
       body: Padding(
@@ -66,7 +66,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                translate('balanceToBePaid', context),
+                                getTranslated('balanceToBePaid', context),
                                 style: TextStyle(
                                   color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                   fontSize: 13,
@@ -84,7 +84,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                                     ),
                                   ),
                                   Text(
-                                    ' ${translate('jd', context)}',
+                                    ' ${getTranslated('jd', context)}',
                                     style: TextStyle(
                                       color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                       fontWeight: FontWeight.w400,
@@ -95,7 +95,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                               ),
                               const SizedBox(height: 12.0,),
                               Text(
-                                translate('unemploymentApplication', context),
+                                getTranslated('unemploymentApplication', context),
                                 style: TextStyle(
                                   color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                   fontSize: 13,
@@ -126,7 +126,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                translate('nextBatchDate', context),
+                                getTranslated('nextBatchDate', context),
                                 style: TextStyle(
                                   color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                   fontSize: 13,
@@ -144,7 +144,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                                     ),
                                   ),
                                   Text(
-                                    ' ${translate('jd', context)}',
+                                    ' ${getTranslated('jd', context)}',
                                     style: TextStyle(
                                       color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                       fontWeight: FontWeight.w400,
@@ -157,7 +157,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                               Row(
                                 children: [
                                   Text(
-                                    translate('onDate', context),
+                                    getTranslated('onDate', context),
                                     style: TextStyle(
                                       color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                                       fontSize: 13,
@@ -190,7 +190,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      translate('paymentHistory', context),
+                      getTranslated('paymentHistory', context),
                       style: TextStyle(
                         color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                         fontWeight: FontWeight.bold,
@@ -265,7 +265,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                       borderRadius: BorderRadius.circular(50.0)
                   ),
                   child: Text(
-                    translate(statusText, context),
+                    getTranslated(statusText, context),
                     style: TextStyle(
                       color: status == 1
                           ? !themeNotifier.isLight() ? HexColor('#ffd86d') : HexColor('#987803')
@@ -293,7 +293,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                           ),
                         ),
                         Text(
-                          ' ${translate('jd', context)}',
+                          ' ${getTranslated('jd', context)}',
                           style: TextStyle(
                             color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                             fontWeight: FontWeight.w400,
@@ -312,7 +312,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                       child: Row(
                         children: [
                           Text(
-                            translate('card', context),
+                            getTranslated('card', context),
                             style: TextStyle(
                               color: !themeNotifier.isLight() ? Colors.white : HexColor('#716F6F'),
                               fontSize: 14,
@@ -386,7 +386,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          translate('paymentDetail', context),
+                          getTranslated('paymentDetail', context),
                           style: TextStyle(
                             color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                             fontWeight: FontWeight.w600,
@@ -449,7 +449,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                           ),
                         ),
                         Text(
-                          ' ${translate('jd', context)}',
+                          ' ${getTranslated('jd', context)}',
                           style: TextStyle(
                             color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
                             fontWeight: FontWeight.bold,
@@ -463,7 +463,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          translate('card', context),
+                          getTranslated('card', context),
                           style: TextStyle(
                             color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#716F6F'),
                             fontSize: 14,
@@ -500,14 +500,14 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                translate('paymentStatus', context),
+                                getTranslated('paymentStatus', context),
                                 style: TextStyle(
                                   color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                                   fontSize: 14,
                                 ),
                               ),
                               Text(
-                                translate('paymentDueDate', context),
+                                getTranslated('paymentDueDate', context),
                                 style: TextStyle(
                                   color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                                   fontSize: 14,
@@ -520,7 +520,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                translate('payed', context),
+                                getTranslated('payed', context),
                                 style: TextStyle(
                                   color: !themeNotifier.isLight() ? Colors.white : HexColor('#595959'),
                                   fontSize: 14,
@@ -549,14 +549,14 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                translate('invoiceNumber', context),
+                                getTranslated('invoiceNumber', context),
                                 style: TextStyle(
                                   color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                                   fontSize: 14,
                                 ),
                               ),
                               Text(
-                                translate('payDate', context),
+                                getTranslated('payDate', context),
                                 style: TextStyle(
                                   color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),
                                   fontSize: 14,

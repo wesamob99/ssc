@@ -45,7 +45,7 @@ class _HistoricalPensionDetailsScreenState extends State<HistoricalPensionDetail
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('historicalPensionDetails', context)),
+        title: Text(getTranslated('historicalPensionDetails', context)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -118,7 +118,7 @@ class _HistoricalPensionDetailsScreenState extends State<HistoricalPensionDetail
                                                 crossAxisAlignment: CrossAxisAlignment.center,
                                                 children: [
                                                   Text(
-                                                    translate('theAmount', context),
+                                                    getTranslated('theAmount', context),
                                                     style: TextStyle(
                                                       color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
                                                     ),
@@ -134,7 +134,7 @@ class _HistoricalPensionDetailsScreenState extends State<HistoricalPensionDetail
                                                         ),
                                                       ),
                                                       Text(
-                                                        ' ${translate('jd', context)}',
+                                                        ' ${getTranslated('jd', context)}',
                                                         style: TextStyle(
                                                           color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
                                                           fontWeight: FontWeight.w400,
@@ -168,7 +168,7 @@ class _HistoricalPensionDetailsScreenState extends State<HistoricalPensionDetail
                             ),
                           );
                         }else {
-                          return Text(translate('thereAreNoData', context));
+                          return Text(getTranslated('thereAreNoData', context));
                         }
                       }
                       break;

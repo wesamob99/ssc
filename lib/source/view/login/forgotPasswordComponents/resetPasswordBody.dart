@@ -99,7 +99,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                   ),
                                   SizedBox(width: width(0.03, context)),
                                   Text(
-                                    translate('resetPassword', context),
+                                    getTranslated('resetPassword', context),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w700
                                     ),
@@ -125,7 +125,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                               children: [
                                 SizedBox(height: height(0.02, context),),
                                 Text(
-                                  translate('password', context),
+                                  getTranslated('password', context),
                                   style: TextStyle(
                                       color: HexColor('#363636'),
                                       fontSize: width(0.032, context)
@@ -137,7 +137,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                 }, isPassword: true, flag: 1),
                                 SizedBox(height: height(0.02, context),),
                                 Text(
-                                  translate('confirmPassword', context),
+                                  getTranslated('confirmPassword', context),
                                   style: TextStyle(
                                       color: HexColor('#363636'),
                                       fontSize: width(0.032, context)
@@ -169,7 +169,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                                 borderRadius: BorderRadius.circular(8.0)
                                             ),
                                             child: Text(
-                                              translate(validators[index], context),
+                                              getTranslated(validators[index], context),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: validatorsCheck[index]

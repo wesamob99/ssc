@@ -34,7 +34,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
       url,
       mode: LaunchMode.inAppWebView,
     )) {
-      showMyDialog(context, 'failed', translate('unableToOpenTheLink', context) + '\n $url', 'ok', themeNotifier);
+      showMyDialog(context, 'failed', getTranslated('unableToOpenTheLink', context) + '\n $url', 'ok', themeNotifier);
     }
   }
 
@@ -46,7 +46,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
     if(await canLaunchUrl(launchUri)) {
       await launchUrl(launchUri);
     } else{
-      showMyDialog(context, 'failed', translate('unableToOpenWhatsApp', context) + '\n $phoneNumber', 'ok', themeNotifier);
+      showMyDialog(context, 'failed', getTranslated('unableToOpenWhatsApp', context) + '\n $phoneNumber', 'ok', themeNotifier);
     }
   }
 
@@ -68,7 +68,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
     if(await canLaunchUrl(launchUri)) {
       await launchUrl(launchUri);
     } else{
-      showMyDialog(context, 'failed', translate('unableToOpenTheEmail', context) + '\n $mail', 'ok', themeNotifier);
+      showMyDialog(context, 'failed', getTranslated('unableToOpenTheEmail', context) + '\n $mail', 'ok', themeNotifier);
     }
   }
 
@@ -80,7 +80,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
     if(await canLaunchUrl(launchUri)) {
       await launchUrl(launchUri);
     } else{
-      showMyDialog(context, 'failed', translate('unableToMakePhoneCall', context) + '\n $phoneNumber', 'ok', themeNotifier);
+      showMyDialog(context, 'failed', getTranslated('unableToMakePhoneCall', context) + '\n $phoneNumber', 'ok', themeNotifier);
     }
   }
 
@@ -89,7 +89,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('callUs', context), style: const TextStyle(fontSize: 14),),
+        title: Text(getTranslated('callUs', context), style: const TextStyle(fontSize: 14),),
         leading: leadingBackIcon(context),
       ),
       body: Padding(
@@ -110,7 +110,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        translate('needHelp', context),
+                        getTranslated('needHelp', context),
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: HexColor('#363636'),
@@ -119,7 +119,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
                       ),
                       const SizedBox(height: 15),
                       Text(
-                        translate('needHelpDesc', context),
+                        getTranslated('needHelpDesc', context),
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: HexColor('#363636'),
@@ -147,7 +147,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
                         color: HexColor('#A6A6A6'),
                       ),
                       Text(
-                        translate('officialWorkingDays', context),
+                        getTranslated('officialWorkingDays', context),
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: HexColor('#363636'),
@@ -156,7 +156,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
                       ),
                       const SizedBox(height: 15),
                       Text(
-                        translate('officialWorkingDaysDesc', context),
+                        getTranslated('officialWorkingDaysDesc', context),
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: HexColor('#363636'),
@@ -168,7 +168,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
                         color: HexColor('#A6A6A6'),
                       ),
                       Text(
-                        translate('followUsOnSocialMedia', context),
+                        getTranslated('followUsOnSocialMedia', context),
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: HexColor('#363636'),

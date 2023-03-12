@@ -105,7 +105,7 @@ class _MainScreenState extends State<MainScreen> {
             showMyDialog(
                 context,
                 'fingerprintActivated',
-                translate('fingerprintActivatedDesc', context),
+                getTranslated('fingerprintActivatedDesc', context),
                 'ok',
                 themeNotifier,
                 titleColor: '#363636',
@@ -203,7 +203,7 @@ class _MainScreenState extends State<MainScreen> {
             const ServicesScreen(),
             Center(
               child: Text(
-                translate(pageTitle[2], context)
+                getTranslated(pageTitle[2], context)
               )
             ),
             const SettingsScreen(),
@@ -256,7 +256,7 @@ class _MainScreenState extends State<MainScreen> {
           child: SvgPicture.asset(icon, color: iconColor, width: height(isScreenHasSmallHeight(context) ? 0.042 : 0.033, context),),
         ),
         pageIndex != index
-            ? Text(translate(text, context), style: textStyle,)
+            ? Text(getTranslated(text, context), style: textStyle,)
             : const SizedBox.shrink(),
       ],
     );
