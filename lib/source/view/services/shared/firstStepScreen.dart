@@ -52,7 +52,6 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
     );
   }
 
-  /// TODO: if the mobile number is null make him fill it
   Widget firstStepBody(themeNotifier){
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String name = userSecuredStorage.userFullName;
