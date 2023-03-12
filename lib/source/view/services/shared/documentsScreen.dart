@@ -107,10 +107,10 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 Map optionalDocumentFor = {};
                 if(widget.dependents.isNotEmpty){
                   widget.dependents[0].forEach((element) {
-                    if(servicesProvider.mandatoryDocuments.isNotEmpty && element['NATIONALNUMBER'].toString() == servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['CODE'].toString()){
+                    if(servicesProvider.mandatoryDocuments.isNotEmpty && Provider.of<ServicesProvider>(context).documentsScreensStepNumber == 2 && element['NATIONALNUMBER'].toString() == servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['CODE'].toString()){
                       mandatoryDocumentFor = element;
                     }
-                    if(servicesProvider.optionalDocuments.isNotEmpty && element['NATIONALNUMBER'].toString() == servicesProvider.optionalDocuments[servicesProvider.documentIndex]['CODE'].toString()){
+                    if(servicesProvider.optionalDocuments.isNotEmpty && Provider.of<ServicesProvider>(context).documentsScreensStepNumber == 4 && element['NATIONALNUMBER'].toString() == servicesProvider.optionalDocuments[servicesProvider.documentIndex]['CODE'].toString()){
                       optionalDocumentFor = element;
                     }
                   });
