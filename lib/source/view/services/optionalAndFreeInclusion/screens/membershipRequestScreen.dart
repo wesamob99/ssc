@@ -76,7 +76,6 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
       currentSliderValue = minSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORDEC'].toString());
       maxSalary = double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MAXIMUMSALARYFORDEC'].toString());
       if(selectedCalculateAccordingTo == 'lastSalary'){
-        /// TODO: check calculate according to the last salary if the last salary is lower than MINIMUMSALARYFORCHOOSE
         currentSliderValue = double.tryParse(
             (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString()) > double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString())
                 ? servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] : servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE']).toString());
