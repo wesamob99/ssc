@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 
 import '../../../infrastructure/HTTPClientContract.dart';
@@ -326,7 +327,7 @@ class ServicesRepository{
 
 /// **************************************************************UPDATE USER MOBILE NUMBER - END***************************************************************
 
-/// **************************************************************RETIREMENT - START****************************************************************************
+/// **************************************************************EARLY RETIREMENT - START**********************************************************************
 
   Future getPensionsBasicInformationsService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
@@ -365,10 +366,10 @@ class ServicesRepository{
     return null;
   }
 
-  Future getEarlyRetirementService() async {
+  Future getApplicationService(int appType) async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String nationalId = userSecuredStorage.nationalId.toString();
-    var response = await HTTPClientContract.instance.getHTTP('/website/get_application?p_app_id=$nationalId&p_app_type=8&p_status=1&p_id=null&isDefense=null');
+    var response = await HTTPClientContract.instance.getHTTP('/website/get_application?p_app_id=$nationalId&p_app_type=$appType&p_status=1&p_id=null&isDefense=null');
     if (kDebugMode) {
       print(response);
     }
@@ -499,7 +500,7 @@ class ServicesRepository{
           {
             "row": row,
             "doc": docs,
-            "dep": result["P_Dep"].isNotEmpty ? result["P_Dep"][0] : [],
+            "dep": (result["P_DEP_INFO"].isNotEmpty || result["P_Dep"].isNotEmpty) ? (result["P_DEP_INFO"][0] ?? result["P_Dep"][0]) : [],
             "INHERITORS": [], // value always [] in early retirement
             "isWebsite": false
           }
@@ -520,56 +521,51 @@ class ServicesRepository{
   }
 
   // {"params":{"Obj":"{\"row\":{\"NAT\":\"111\",\"GENDER\":\"1\"},\"dep\":[]}"}}
-  Future checkDocumentDependentService(String gender,
-      {String natID,
-      String fName,
-      String sName,
-      String thName,
-      String lName,
-      String dateOfBirth,
-      int nationality,
-      List dependents}) async {
-    dependents.add({
-          "ID": "",
-          "FIRSTNAME": fName,
-          "SECONDNAME": sName,
-          "THIRDNAME": thName,
-          "LASTNAME": lName,
-          "BIRTHDATE": dateOfBirth,
-          "NATIONALITY": nationality,
-          "NATIONAL_NO": natID,
-          "RELATION": 2,
-          "GENDER": 1,
-          "AGE": "",
-          "MARITAL_STATUS": "",
-          "MARITAL_STATUS_A": 2,
-          "WORK_STATUS": "",
-          "WORK_STATUS_A": 1,
-          "IS_ALIVE": "",
-          "IS_ALIVE_A": "",
-          "LAST_EVENT_DATE": null,
-          "DISABILITY": 0,
-          "WANT_HEALTH_INSURANCE": "",
-          "PreLoad": 0,
-          "Added": 1,
-          "SOURCE_FLAG": 2,
-          "doc_dep": [],
-          "REQ_DOC": "",
-          "IS_RETIRED": "",
-          "IS_RETIRED_A": 1,
-          "DEP_CODE": "167559085073882",
-          "IS_STOP": ""
-        });
+  Future checkDocumentDependentService(List dependents) async {
+    // for (int i=0 ; i<dependents.length ; i++) {
+    //   dependents[i] = {
+    //   "FULL_NAME": dependents[i]["FULL_NAME"] ?? dependents[i]['NAME'],
+    //   "RELATION": dependents[i]["RELATION"] ?? dependents[i]["RELATIVETYPE"],
+    //   "IS_ALIVE": dependents[i]["IS_ALIVE"],
+    //   "WORK_STATUS": dependents[i]["RELATION"],
+    //   "IS_RETIRED": dependents[i]["IS_RETIRED"],
+    //   "DISABILITY": dependents[i]["DISABILITY"],
+    //   "GENDER": dependents[i]["GENDER"],
+    //   "ID": dependents[i]["ID"],
+    //   "SOURCE_FLAG": dependents[i]["SOURCE_FLAG"],
+    //   "NATIONAL_NO": dependents[i]["NATIONAL_NO"],
+    //   "NATIONALITY": dependents[i]["NATIONALITY"],
+    //   "BIRTHDATE": dependents[i]["BIRTHDATE"],
+    //   "AGE": dependents[i]["AGE"],
+    //   "WORK_STATUS_A": dependents[i]["WORK_STATUS_A"] ?? dependents[i]["IS_WORK"],
+    //   "IS_ALIVE_A": dependents[i]["IS_ALIVE_A"],
+    //   "IS_RETIRED_A": dependents[i]["IS_RETIRED_A"],
+    //   "LAST_EVENT_DATE": dependents[i]["LAST_EVENT_DATE"],
+    //   "WANT_HEALTH_INSURANCE": "",
+    //   "PreLoad": 0,
+    //   "Added": 1,
+    //   "doc_dep": [],
+    //   "DEP_CODE": dependents[i]["DEP_CODE"],
+    //   "IS_STOP": ""
+    // };
+    // }
+    print({"params": {
+      "Obj": jsonEncode({
+        "row": {
+          "NAT": "111",
+          "GENDER": "2"
+        },
+        "dep": dependents
+      })
+    }});
     var response = await HTTPClientContract.instance.postHTTP(
         '/website/check_doc_dep', {"params": {
             "Obj": jsonEncode({
               "row": {
                 "NAT": "111",
-                "GENDER": gender
+                "GENDER": "2"
               },
-              "dep": nationality != 1
-              ? dependents
-              : []
+              "dep": dependents
             })
           }
         }
@@ -583,6 +579,111 @@ class ServicesRepository{
     return '';
   }
 
-/// **************************************************************RETIREMENT - END******************************************************************************
+/// **************************************************************EARLY RETIREMENT - END************************************************************************
+
+/// **************************************************************DECEASED RETIREMENT - END*********************************************************************
+
+  Future setDeceasedRetirementApplicationService(result, docs, deadPersonInfo, int deathPlace) async {
+
+    var row = {
+      ...deadPersonInfo['cur_getdata'][0][0],
+      "REGDATE": null,
+      "PERSONAL_SECNO": result['p_per_info'][0][0]['SECNO'],
+      "PERSONAL_NAT_DESC": result['p_per_info'][0][0]['NAT_DESC'],
+      "PERSONAL_NAT": result['p_per_info'][0][0]['NATIONALITY_NO'],
+      "PERSONAL_NAT_NO": result['p_per_info'][0][0]['NAT_NO'],
+      "PERSONAL_FULL_NAME": result['p_per_info'][0][0]['FULL_NAME_AR'],
+      "PERSONAL_INTERNATIONAL_CODE": result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
+      "PERSONAL_RELATIVE_TYPE": deadPersonInfo['cur_getdata'][0][0]['RELATIVE_TYPE'],
+      "PERSONAL_PERS_NO": result['p_per_info'][0][0]['PERS_NO'],
+      "PERSONAL_MOBILE": result['p_per_info'][0][0]['MOBILE'],
+      "NAT_NO_DEATH": deadPersonInfo['cur_getdata'][0][0]['NAT_NO'],
+      "TRANSACTION_TYPE": 4, /// ***
+      "RELATION": deadPersonInfo['cur_getdata'][0][0]['RELATIVE_TYPE'],
+      "PLACE_OF_DEATH": deathPlace,
+      "DEATH_DATE": DateFormat('E%20MMM%20d%20y%20HH:mm:ss%20\'GMT\'', 'en_US').format(DateTime.parse(deadPersonInfo['cur_getdata'][0][0]['DEATH_DATE'].replaceAll('/', '-').split('-').reversed.join()).toUtc()).toString(),
+      "DEATH_BIRTH_DATE": null,
+      "IS_DEATH": 1,
+      "NAT_DEATH": "111",
+      "FULL_NAME": deadPersonInfo['cur_getdata'][0][0]['FULL_NAME_AR'],
+      "MOBILE": result['p_per_info'][0][0]['MOBILE'],
+      "dateChoice": 1, /// ***
+      "INS_NO_DEATH": deadPersonInfo['cur_getdata'][0][0]['SECNO'],
+      "PEN_NEWTYPE_DEATH": result['p_per_info'][0][0]['PEN_NEWTYPE'],
+      "INTERNATIONALCODE_DEATH": "+962", /// ***
+      "ACCEPTED": 1, /// ***
+      "APPLICANT_ID": result['p_per_info'][0][0]['NAT_NO'],
+      "APPLICANT_NO": result['p_per_info'][0][0]['NAT_NO'],
+      "SERVICE_TYPE": 11,
+      "IS_DEFENSE": null, /// ***
+      "APP_STATUS_EXTERNAL": 2, /// ***
+      "OTHER_DEPENDANTS": null, /// ***
+      "ID": "",
+      "LEAVE_START_DATE": null, /// ***
+      "LEAVE_END_DATE": null, /// ***
+      "BIRTH_DATE": null,
+      "AGREE_TERMS": 1,
+      "IBAN_CONFIG": "1"
+    };
+    var data = {
+      "params": {
+        "XML": jsonEncode(
+            {
+              "row": row,
+              "doc": docs,
+              "dep": [], // value always [] in deceased retirement
+              "INHERITORS": deadPersonInfo['cur_getdata2'].isNotEmpty ? deadPersonInfo['cur_getdata2'][0] : [],
+              "isWebsite": false
+            }
+        )
+      }
+    };
+
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/website/set_application', data
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+  Future penDeathLookup() async {
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/PEN_DEATH_Lookup');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+
+  Future deadPersonGetDetailsService(Map<String, dynamic> data) async {
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/PEN_DEATH_GetDetail?DEATH_NAT_NO=${data['natId']}&DEATH_NAT=${data['nationality']}&PEN_TYPE=${data['penType']}&nat_date_of_birth=${data['birthDate']}&death_date=${data['deathDate']}');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+
+  Future guardianGetDetailsService(String natNo, int nationality, String cardNo, String dateOfBirth) async {
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/Nat_Pers_match_GetDetail?NAT_NO=$natNo&nationality=$nationality&national_card_id=$cardNo&pi_DOB=$dateOfBirth');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+
+/// **************************************************************DECEASED RETIREMENT - END*********************************************************************
 
 }
