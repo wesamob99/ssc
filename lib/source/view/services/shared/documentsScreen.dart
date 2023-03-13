@@ -116,9 +116,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                   });
                 }
 
-                print(mandatoryDocumentFor);
-                print(optionalDocumentFor);
-
                 return Column(
                   children: [
                     if(Provider.of<ServicesProvider>(context).documentsScreensStepNumber == 1)
@@ -646,8 +643,8 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                             child: buildExpandableWidget(
                                                 context,
                                                 UserConfig.instance.checkLanguage()
-                                                ? '${servicesProvider.optionalDocuments[index]['NAME_EN']} (${servicesProvider.optionalDocuments[index]['NAME'] ?? ""})'
-                                                : '${servicesProvider.optionalDocuments[index]['NAME_AR']} (${servicesProvider.optionalDocuments[index]['NAME'] ?? ""})',
+                                                ? '${servicesProvider.optionalDocuments[index]['NAME_EN']}'
+                                                : '${servicesProvider.optionalDocuments[index]['NAME_AR']}',
                                                 ListView.builder(
                                                   physics: const NeverScrollableScrollPhysics(),
                                                   shrinkWrap: true,
