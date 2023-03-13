@@ -6,6 +6,7 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
@@ -102,6 +103,8 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
       } else{
         return servicesProvider.deadPersonInfo['cur_getdata2'].isEmpty || servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['validPhone'] && (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAME'] != "" && servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAME'] != null);
       }
+    } else if(flag == 5){
+      return termsChecked;
     }
   }
 
@@ -155,7 +158,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
           ? HexColor('#445740') : HexColor('#ffffff'),
       appBar: AppBar(
         centerTitle: false,
-        title: Text(translate('deceasedRetirementApplication', context)),
+        title: Text(getTranslated('deceasedRetirementApplication', context)),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
@@ -220,7 +223,6 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                       servicesProvider.documentsScreensStepNumber = 5;
                     }
                     break;
-                  case 6: servicesProvider.stepNumber = 5; break;
                 }
               }
               servicesProvider.notifyMe();
@@ -246,152 +248,199 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
               child: Container(
                 width: width(1, context),
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                      const FirstStepScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 4),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                      VerifyMobileNumberScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 4, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                      secondStep(context, themeNotifier),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                      thirdStep(context, themeNotifier),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-                      DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 4, data: {
-                        "DEATH_NAT": servicesProvider.deadPersonInfo['cur_getdata'][0][0]['NAT'],
-                        "RELATION": servicesProvider.penDeath['Relative_type_getdata'][0].where((element) => (UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR']) == relationshipTypes[relationshipType]).first['REL_ID'],
-                        "IS_INHERITOR": 0,
-                        "INHERITORS_FLAG": 1,
-                        "MILITARY_WORK_DOC": servicesProvider.deadPersonInfo['cur_getdata'][0][0]['MILITARY_WORK_DOC'],
-                      }, serviceType: 11, info: servicesProvider.deadPersonInfo['cur_getdata'][0][0], dependents: servicesProvider.deadPersonInfo['cur_getdata2']),
-                    if(!(Provider.of<ServicesProvider>(context).stepNumber == 4))
-                      textButton(context,
-                        themeNotifier,
-                        Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'send',
-                        checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
-                            ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
-                        checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
-                            ? HexColor('#ffffff') : HexColor('#363636'),
-                            () async {
-                          switch(servicesProvider.stepNumber){
-                            case 1: {
-                              if(checkContinueEnabled(flag: 1)){
-                                if(servicesProvider.isMobileNumberUpdated){
-                                  servicesProvider.isLoading = true;
-                                  servicesProvider.notifyMe();
-                                  String errorMessage = "";
-                                  try{
-                                    await servicesProvider.updateUserMobileNumberSendOTP(servicesProvider.mobileNumberController.text).whenComplete((){})
-                                        .then((val) async {
-                                      if(val['PO_STATUS'] == '1'){
-                                        servicesProvider.isMobileNumberUpdated = true;
-                                        servicesProvider.stepNumber = 2;
-                                      }else{
-                                        servicesProvider.isMobileNumberUpdated = false;
-                                        errorMessage = UserConfig.instance.checkLanguage()
-                                            ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
-                                        showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
-                                      }
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 1)
+                        const FirstStepScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 5),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                        VerifyMobileNumberScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 5, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                        secondStep(context, themeNotifier),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 3)
+                        thirdStep(context, themeNotifier),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 4)
+                        DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 5, data: {
+                          "DEATH_NAT": servicesProvider.deadPersonInfo['cur_getdata'][0][0]['NAT'],
+                          "RELATION": servicesProvider.penDeath['Relative_type_getdata'][0].where((element) => (UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR']) == relationshipTypes[relationshipType]).first['REL_ID'],
+                          "IS_INHERITOR": 0,
+                          "INHERITORS_FLAG": 1,
+                          "MILITARY_WORK_DOC": servicesProvider.deadPersonInfo['cur_getdata'][0][0]['MILITARY_WORK_DOC'],
+                        }, serviceType: 11, info: servicesProvider.deadPersonInfo['cur_getdata'][0][0], dependents: servicesProvider.deadPersonInfo['cur_getdata2']),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 5)
+                        fifthStep(context, themeNotifier),
+                      if(!(Provider.of<ServicesProvider>(context).stepNumber == 4))
+                        textButton(context,
+                          themeNotifier,
+                          Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'send',
+                          checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
+                              ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
+                          checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
+                              ? HexColor('#ffffff') : HexColor('#363636'),
+                              () async {
+                            switch(servicesProvider.stepNumber){
+                              case 1: {
+                                if(checkContinueEnabled(flag: 1)){
+                                  if(servicesProvider.isMobileNumberUpdated){
+                                    servicesProvider.isLoading = true;
+                                    servicesProvider.notifyMe();
+                                    String errorMessage = "";
+                                    try{
+                                      await servicesProvider.updateUserMobileNumberSendOTP(servicesProvider.mobileNumberController.text).whenComplete((){})
+                                          .then((val) async {
+                                        if(val['PO_STATUS'] == '1'){
+                                          servicesProvider.isMobileNumberUpdated = true;
+                                          servicesProvider.stepNumber = 2;
+                                        }else{
+                                          servicesProvider.isMobileNumberUpdated = false;
+                                          errorMessage = UserConfig.instance.checkLanguage()
+                                              ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                          showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                        }
+                                        servicesProvider.notifyMe();
+                                      });
+                                      servicesProvider.isLoading = false;
                                       servicesProvider.notifyMe();
-                                    });
-                                    servicesProvider.isLoading = false;
-                                    servicesProvider.notifyMe();
-                                  }catch(e){
-                                    servicesProvider.isMobileNumberUpdated = false;
-                                    servicesProvider.isLoading = false;
-                                    servicesProvider.notifyMe();
-                                    if (kDebugMode) {
-                                      print(e.toString());
+                                    }catch(e){
+                                      servicesProvider.isMobileNumberUpdated = false;
+                                      servicesProvider.isLoading = false;
+                                      servicesProvider.notifyMe();
+                                      if (kDebugMode) {
+                                        print(e.toString());
+                                      }
                                     }
-                                  }
-                                } else{
-                                  servicesProvider.stepNumber = 2;
-                                  servicesProvider.isMobileNumberUpdated = false;
-                                  servicesProvider.notifyMe();
-                                }
-                              }
-                            } break;
-                            case 2: {
-                              if(checkContinueEnabled(flag: 2)){
-                                if(servicesProvider.isMobileNumberUpdated){
-                                  servicesProvider.isLoading = true;
-                                  servicesProvider.notifyMe();
-                                  String errorMessage = "";
-                                  try{
-                                    await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
-                                        .then((val) async {
-                                      if(val['PO_STATUS'] == 1){
-                                        Provider.of<AccountSettingsProvider>(context, listen: false).updateUserInfo(2, servicesProvider.mobileNumberController.text).whenComplete((){}).then((value){
-                                          if(value["PO_STATUS"] == 0){
-                                            servicesProvider.stepNumber = 2;
-                                            servicesProvider.isMobileNumberUpdated = false;
-                                            UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
-                                          }else{
-                                            showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.checkLanguage()
-                                                ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"], 'retryAgain', themeNotifier).then((value) {
-                                                servicesProvider.mobileNumberController.text = '';
-                                                servicesProvider.stepNumber = 1;
-                                                servicesProvider.notifyMe();
-                                            });
-                                          }
-                                        });
-                                      }else{
-                                        servicesProvider.stepNumber = 2;
-                                        servicesProvider.isMobileNumberUpdated = true;
-                                        errorMessage = UserConfig.instance.checkLanguage()
-                                            ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
-                                        showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
-                                      }
-                                      servicesProvider.notifyMe();
-                                    });
-                                    servicesProvider.isLoading = false;
-                                    servicesProvider.notifyMe();
-                                  }catch(e){
+                                  } else{
                                     servicesProvider.stepNumber = 2;
-                                    servicesProvider.isMobileNumberUpdated = true;
-                                    servicesProvider.isLoading = false;
+                                    servicesProvider.isMobileNumberUpdated = false;
                                     servicesProvider.notifyMe();
-                                    if (kDebugMode) {
-                                      print(e.toString());
+                                  }
+                                }
+                              } break;
+                              case 2: {
+                                if(checkContinueEnabled(flag: 2)){
+                                  if(servicesProvider.isMobileNumberUpdated){
+                                    servicesProvider.isLoading = true;
+                                    servicesProvider.notifyMe();
+                                    String errorMessage = "";
+                                    try{
+                                      await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
+                                          .then((val) async {
+                                        if(val['PO_STATUS'] == 1){
+                                          Provider.of<AccountSettingsProvider>(context, listen: false).updateUserInfo(2, servicesProvider.mobileNumberController.text).whenComplete((){}).then((value){
+                                            if(value["PO_STATUS"] == 0){
+                                              servicesProvider.stepNumber = 2;
+                                              servicesProvider.isMobileNumberUpdated = false;
+                                              UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
+                                            }else{
+                                              showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.checkLanguage()
+                                                  ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"], 'retryAgain', themeNotifier).then((value) {
+                                                  servicesProvider.mobileNumberController.text = '';
+                                                  servicesProvider.stepNumber = 1;
+                                                  servicesProvider.notifyMe();
+                                              });
+                                            }
+                                          });
+                                        }else{
+                                          servicesProvider.stepNumber = 2;
+                                          servicesProvider.isMobileNumberUpdated = true;
+                                          errorMessage = UserConfig.instance.checkLanguage()
+                                              ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                          showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                        }
+                                        servicesProvider.notifyMe();
+                                      });
+                                      servicesProvider.isLoading = false;
+                                      servicesProvider.notifyMe();
+                                    }catch(e){
+                                      servicesProvider.stepNumber = 2;
+                                      servicesProvider.isMobileNumberUpdated = true;
+                                      servicesProvider.isLoading = false;
+                                      servicesProvider.notifyMe();
+                                      if (kDebugMode) {
+                                        print(e.toString());
+                                      }
+                                    }
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.pinPutCodeController.text = "";
+                                    servicesProvider.pinPutFilled = false;
+                                    servicesProvider.notifyMe();
+                                  } else{
+                                    if(checkContinueEnabled(flag: 2)) {
+                                      servicesProvider.stepNumber = 3;
+                                      servicesProvider.isMobileNumberUpdated = false;
                                     }
                                   }
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.pinPutCodeController.text = "";
-                                  servicesProvider.pinPutFilled = false;
-                                  servicesProvider.notifyMe();
-                                } else{
-                                  if(checkContinueEnabled(flag: 2)) {
-                                    servicesProvider.stepNumber = 3;
-                                    servicesProvider.isMobileNumberUpdated = false;
+                                }
+                              } break;
+                              case 3: {
+                                if(checkContinueEnabled(flag: 3)){
+                                  servicesProvider.documentsScreensStepNumber = 1;
+                                  if(dependentIndex < ((servicesProvider.deadPersonInfo['cur_getdata2'].length != 0  && servicesProvider.deadPersonInfo['cur_getdata2'][0].length != 0) ? servicesProvider.deadPersonInfo['cur_getdata2'][0].length - 1 : 0)){
+                                    dependentIndex++;
+                                    dependentMobileNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['MOBILE'] ?? '';
+                                    selectedInheritorMobileCountry = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['INTERNATIONAL_CODE'] ?? 962;
+                                    guardianNationalNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNATNO'] ?? "";
+                                    guardianshipNationality = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAT'] == 1 ? 'jordanian' : 'nonJordanian') ?? "jordanian";
+                                    guardianSecondFieldController.text = (guardianshipNationality == 'jordanian'
+                                        ? servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANCARDNO']
+                                        : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAME']
+                                    ) ?? "";
+                                  }else {
+                                    servicesProvider.notifyMe();
+                                    servicesProvider.stepNumber = 4;
                                   }
                                 }
-                              }
-                            } break;
-                            case 3: {
-                              if(checkContinueEnabled(flag: 3)){
-                                servicesProvider.documentsScreensStepNumber = 1;
-                                if(dependentIndex < ((servicesProvider.deadPersonInfo['cur_getdata2'].length != 0  && servicesProvider.deadPersonInfo['cur_getdata2'][0].length != 0) ? servicesProvider.deadPersonInfo['cur_getdata2'][0].length - 1 : 0)){
-                                  dependentIndex++;
-                                  dependentMobileNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['MOBILE'] ?? '';
-                                  selectedInheritorMobileCountry = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['INTERNATIONAL_CODE'] ?? 962;
-                                  guardianNationalNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNATNO'] ?? "";
-                                  guardianshipNationality = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAT'] == 1 ? 'jordanian' : 'nonJordanian') ?? "jordanian";
-                                  guardianSecondFieldController.text = (guardianshipNationality == 'jordanian'
-                                      ? servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANCARDNO']
-                                      : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAME']
-                                  ) ?? "";
-                                }else {
+                              } break;
+                              case 5: {
+                                try{
+                                  String message = '';
+                                  servicesProvider.isLoading = true;
+                                  servicesProvider.isModalLoading = false;
                                   servicesProvider.notifyMe();
-                                  servicesProvider.stepNumber = 4;
+                                  /// TODO : complete set application
+                                  List mandatoryDocs = await saveFiles('mandatory');
+                                  List optionalDocs = await saveFiles('optional');
+                                  docs.addAll(mandatoryDocs + optionalDocs);
+                                  await servicesProvider.setDeceasedRetirementApplication(docs, deathPlace).whenComplete(() {}).then((value) {
+                                    if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
+                                      message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
+                                      if(value['PO_TYPE'] == 2){
+                                        message = UserConfig.instance.checkLanguage()
+                                            ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                      }
+                                      showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
+                                          message, 'ok',
+                                          themeNotifier,
+                                          icon: 'assets/icons/serviceSuccess.svg').then((_){
+                                        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                          servicesProvider.selectedServiceRate = -1;
+                                          servicesProvider.notifyMe();
+                                          rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                        });
+                                      });
+                                    } else{
+                                      message = UserConfig.instance.checkLanguage()
+                                          ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                      showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
+                                    }
+                                  });
+                                  servicesProvider.isLoading = false;
+                                  servicesProvider.notifyMe();
+                                } catch(e){
+                                  servicesProvider.isLoading = false;
+                                  servicesProvider.notifyMe();
+                                  if (kDebugMode) {
+                                    print(e.toString());
+                                  }
                                 }
-                              }
-                            } break;
-                          }
-                          servicesProvider.notifyMe();
-                        },
-                      ),
-                  ],
+                              } break;
+                            }
+                            servicesProvider.notifyMe();
+                          },
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -431,23 +480,23 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                 "DOC_TYPE_DESC_EN": servicesProvider.uploadedFiles[type][i][j]["document"]["NAME_EN"],
                 "DOCUMENT_DATE": DateFormat('MM/dd/yyyy, HH:mm').format(DateTime.now()).toString(),
                 "required": type == 'mandatory' ? 0 : 1,
-                "APP_ID": servicesProvider.result['P_Result'][0][0]['ID'],
+                "APP_ID": '',
                 "ID": "",
                 "STATUS": 1,
                 "HIDE_ACTIONS": false
               };
               bool isDependentDoc = false;
-              if(type == 'mandatory' && servicesProvider.result["P_Dep"].isNotEmpty){
+              if(type == 'mandatory' && servicesProvider.deadPersonInfo['cur_getdata2'].isNotEmpty){
                 servicesProvider.deadPersonInfo['cur_getdata2'][0].forEach((element) {
-                  if(element['DEP_CODE'].toString() == servicesProvider.uploadedFiles[type][i][j]["document"]['CODE'].toString()){
+                  if(element['NATIONALNUMBER'].toString() == servicesProvider.uploadedFiles[type][i][j]["document"]['CODE'].toString()){
                     if (kDebugMode) {
                       print('value: $value');
                     }
                     isDependentDoc = true;
-                    if(element['doc_dep'] is String){
-                      element['doc_dep'] = [document];
+                    if(element['INHERITOR_DOCS'] is String){
+                      element['INHERITOR_DOCS'] = [document];
                     }else{
-                      element['doc_dep'].add(document);
+                      element['INHERITOR_DOCS'].add(document);
                     }
                   }
                 });
@@ -481,7 +530,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('secondStep', context),
+                  getTranslated('secondStep', context),
                   style: TextStyle(
                       color: HexColor('#979797'),
                       fontSize: width(0.03, context)
@@ -489,7 +538,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                 ),
                 SizedBox(height: height(0.006, context),),
                 Text(
-                  translate('orderDetails', context),
+                  getTranslated('orderDetails', context),
                   style: TextStyle(
                       color: HexColor('#5F5F5F'),
                       fontSize: width(0.035, context)
@@ -507,14 +556,14 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '2/4',
+                      '2/5',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.025, context)
                       ),
                     ),
                     Text(
-                      '${translate('next', context)}: ${translate('heirsInformation', context)}',
+                      '${getTranslated('next', context)}: ${getTranslated('heirsInformation', context)}',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.032, context)
@@ -605,7 +654,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                     ),
                                   ),
                                   Text(
-                                    translate(nationality, context),
+                                    getTranslated(nationality, context),
                                     style: TextStyle(
                                       color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                                     ),
@@ -616,7 +665,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                               Row(
                                 children: [
                                   Text(
-                                    translate('deathDate', context) + ": ",
+                                    getTranslated('deathDate', context) + ": ",
                                     style: TextStyle(
                                       color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                                     ),
@@ -783,7 +832,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        translate('thirdStep', context),
+                        getTranslated('thirdStep', context),
                         style: TextStyle(
                             color: HexColor('#979797'),
                             fontSize: width(0.03, context)
@@ -791,7 +840,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                       ),
                       SizedBox(height: height(0.006, context),),
                       Text(
-                        translate('heirsInformation', context),
+                        getTranslated('heirsInformation', context),
                         style: TextStyle(
                             color: HexColor('#5F5F5F'),
                             fontSize: width(0.035, context)
@@ -809,14 +858,14 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            '3/4',
+                            '3/5',
                             style: TextStyle(
                                 color: HexColor('#979797'),
                                 fontSize: width(0.025, context)
                             ),
                           ),
                           Text(
-                            '${translate('next', context)}: ${translate('documents', context)}',
+                            '${getTranslated('next', context)}: ${getTranslated('documents', context)}',
                             style: TextStyle(
                                 color: HexColor('#979797'),
                                 fontSize: width(0.032, context)
@@ -828,7 +877,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   ),
                   SizedBox(height: height(0.02, context),),
                   Text(
-                    translate('numberOfHeirs', context) + ' ( ${(servicesProvider.deadPersonInfo['cur_getdata2'].length != 0  && servicesProvider.deadPersonInfo['cur_getdata2'][0].length != 0) ? dependentIndex + 1 : 0} / ${(servicesProvider.deadPersonInfo['cur_getdata2'].length != 0  && servicesProvider.deadPersonInfo['cur_getdata2'][0].length != 0) ? servicesProvider.deadPersonInfo['cur_getdata2'][0].length : 0} )',
+                    getTranslated('numberOfHeirs', context) + ' ( ${(servicesProvider.deadPersonInfo['cur_getdata2'].length != 0  && servicesProvider.deadPersonInfo['cur_getdata2'][0].length != 0) ? dependentIndex + 1 : 0} / ${(servicesProvider.deadPersonInfo['cur_getdata2'].length != 0  && servicesProvider.deadPersonInfo['cur_getdata2'][0].length != 0) ? servicesProvider.deadPersonInfo['cur_getdata2'][0].length : 0} )',
                     style: TextStyle(
                       color: HexColor('#363636'),
                       fontWeight: FontWeight.w500,
@@ -866,7 +915,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                               padding: const EdgeInsets.symmetric(horizontal: 10.0),
                               width: width(0.9, context),
                               child: Text(
-                                translate('guardianshipArgumentWillBeRequestedInTheCompulsoryDocumentsStep', context),
+                                getTranslated('guardianshipArgumentWillBeRequestedInTheCompulsoryDocumentsStep', context),
                                 style: TextStyle(
                                   color: HexColor('##B48100'),
                                   fontSize: 12
@@ -1049,7 +1098,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                       ),
                                     ),
                                     Text(
-                                      translate(
+                                      getTranslated(
                                           servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['NATIONALITY'] == 1
                                               ? 'jordanian' : 'nonJordanian',
                                           context),
@@ -1067,7 +1116,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          translate('maritalStatus', context),
+                                          getTranslated('maritalStatus', context),
                                           style: TextStyle(
                                             color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
                                             fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
@@ -1075,7 +1124,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                         ),
                                         const SizedBox(height: 10.0,),
                                         Text(
-                                          translate(
+                                          getTranslated(
                                               servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['SOCIAL_STATUS'] == 1
                                                   ? UserConfig.instance.checkLanguage()
                                                   ? 'single' : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
@@ -1100,7 +1149,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          translate('employmentStatus', context),
+                                          getTranslated('employmentStatus', context),
                                           style: TextStyle(
                                             color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
                                             fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
@@ -1108,7 +1157,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                         ),
                                         const SizedBox(height: 10.0,),
                                         Text(
-                                          translate(
+                                          getTranslated(
                                               servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['IS_WORK_A'] == 0
                                                   ? 'unemployed' : 'employed',
                                               context),
@@ -1123,7 +1172,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          translate('status', context),
+                                          getTranslated('status', context),
                                           style: TextStyle(
                                             color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
                                             fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
@@ -1131,7 +1180,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                         ),
                                         const SizedBox(height: 10.0,),
                                         Text(
-                                          translate(
+                                          getTranslated(
                                               servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['IS_ALIVE'] == 1
                                                   ? 'alive' : 'dead',
                                               context),
@@ -1152,7 +1201,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          translate('hasDisability', context),
+                                          getTranslated('hasDisability', context),
                                           style: TextStyle(
                                             color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
                                             fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
@@ -1160,7 +1209,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                         ),
                                         const SizedBox(height: 10.0,),
                                         Text(
-                                          translate(
+                                          getTranslated(
                                               servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['DISABILITY'] == 0
                                                   ? 'no' : 'yes',
                                               context),
@@ -1175,7 +1224,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          translate('getsSalary', context),
+                                          getTranslated('getsSalary', context),
                                           style: TextStyle(
                                             color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
                                             fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
@@ -1183,7 +1232,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                         ),
                                         const SizedBox(height: 10.0,),
                                         Text(
-                                          translate(
+                                          getTranslated(
                                               servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['IS_RETIRED_A'] == 0
                                                   ? 'no' : 'yes',
                                               context),
@@ -1198,7 +1247,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          translate('getsSalary', context),
+                                          getTranslated('getsSalary', context),
                                           style: const TextStyle(
                                             color: Colors.transparent,
                                           ),
@@ -1220,7 +1269,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                       ),
                       const SizedBox(height: 20.0,),
                       Text(
-                        translate('mobileNumber', context),
+                        getTranslated('mobileNumber', context),
                         style: TextStyle(
                             color: HexColor('#363636'),
                             fontSize: width(0.032, context)
@@ -1349,7 +1398,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                             ),
                                           ),
                                           Text(
-                                            translate(guardianshipNationality, context),
+                                            getTranslated(guardianshipNationality, context),
                                             style: TextStyle(
                                               color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                                             ),
@@ -1391,7 +1440,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   if(servicesProvider.deadPersonInfo['cur_getdata2'].length == 0 || servicesProvider.deadPersonInfo['cur_getdata2'][0].length == 0)
                   Padding(
                     padding: const EdgeInsets.only(top: 100.0),
-                    child: Center(child: Text(translate('emptyList', context))),
+                    child: Center(child: Text(getTranslated('emptyList', context))),
                   )
                 ],
               ),
@@ -1437,6 +1486,104 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   borderColor: '#2D452E'
               ),
             )
+        ],
+      ),
+    );
+  }
+
+  Widget fifthStep(context, themeNotifier){
+    return SizedBox(
+      height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: height(0.02, context),),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                getTranslated('fifthStep', context),
+                style: TextStyle(
+                    color: HexColor('#979797'),
+                    fontSize: width(0.03, context)
+                ),
+              ),
+              SizedBox(height: height(0.006, context),),
+              Text(
+                getTranslated('confirmRequest', context),
+                style: TextStyle(
+                    color: HexColor('#5F5F5F'),
+                    fontSize: width(0.035, context)
+                ),
+              )
+            ],
+          ),
+          SizedBox(height: height(0.01, context),),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox.shrink(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '4/5',
+                    style: TextStyle(
+                        color: HexColor('#979797'),
+                        fontSize: width(0.025, context)
+                    ),
+                  ),
+                  Text(
+                    '${getTranslated('finished', context)}',
+                    style: TextStyle(
+                        color: HexColor('#979797'),
+                        fontSize: width(0.032, context)
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: height(0.02, context),),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: (){
+                  setState(() {
+                    termsChecked = !termsChecked;
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                      color: HexColor('#DADADA'),
+                      borderRadius: BorderRadius.circular(3.0)
+                  ),
+                  child: Container(
+                    width: width(0.04, context),
+                    height: width(0.04, context),
+                    decoration: BoxDecoration(
+                        color: termsChecked ? HexColor('#2D452E') : HexColor('#DADADA'),
+                        borderRadius: BorderRadius.circular(4.0)
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: width(0.05, context),),
+              Expanded(
+                child: Text(
+                  getTranslated('deceasedTermsAndConditions', context),
+                  style: TextStyle(
+                    fontSize: height(0.015, context),
+                    color: HexColor('#595959'),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -1515,7 +1662,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  translate(firstChoice, context),
+                  getTranslated(firstChoice, context),
                   style: TextStyle(
                     color: HexColor('#666666'),
                   ),
@@ -1594,7 +1741,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  translate(secondChoice, context),
+                  getTranslated(secondChoice, context),
                   style: TextStyle(
                     color: HexColor('#666666'),
                   ),
@@ -1653,7 +1800,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   child: SizedBox(
                     width: width(0.7, context),
                     child: Text(
-                        flag == 3 ? value : translate(value, context),
+                        flag == 3 ? value : getTranslated(value, context),
                       style: TextStyle(
                         fontSize: isTablet(context) ? 20 : 15,
                         color: value != 'choose' ? Colors.black87 : Colors.grey,
@@ -1668,8 +1815,6 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
         )
     );
   }
-
-  /// TODO: add death person's documents to the documents when get his data
 
   String getRelationType(int relation){
     String result = '';
@@ -1686,7 +1831,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
       children: <Widget>[
         SvgPicture.asset(icon, color: HexColor(iconColor),),
         const SizedBox(width: 10),
-        Text(translate(key, context))
+        Text(getTranslated(key, context))
       ],
     );
   }
@@ -1735,8 +1880,6 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                     "DEP_CODE": "${DateTime.now().millisecondsSinceEpoch}${((math.Random().nextDouble() * 10000) + 1).floor()}",
                     "INTERNATIONAL_CODE": servicesProvider.deadPersonInfo['cur_getdata2'][0][i]['INTERNATIONAL_CODE'] ?? 962
                   };
-
-                  print('element: ${jsonEncode(servicesProvider.deadPersonInfo['cur_getdata2'][0][i])}');
                 }
               }
             });
@@ -1754,7 +1897,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
       }catch(e){
         servicesProvider.isLoading = false;
         servicesProvider.notifyMe();
-        showMyDialog(context, 'failed', translate('somethingWrongHappened', context), 'ok', themeNotifier);
+        showMyDialog(context, 'failed', getTranslated('somethingWrongHappened', context), 'ok', themeNotifier);
         if (kDebugMode) {
           print(e.toString());
         }
@@ -1801,7 +1944,6 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                 for(int i=0 ; i<value['R_RESULT'][0].length ; i++){
                   if(!servicesProvider.dependentsDocuments.contains(value['R_RESULT'][0][i])) {
                     servicesProvider.dependentsDocuments.add(value['R_RESULT'][0][i]);
-                    print(servicesProvider.dependentsDocuments);
                   }
                 }
               }
@@ -1822,7 +1964,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
       }catch(e){
         servicesProvider.isLoading = false;
         servicesProvider.notifyMe();
-        showMyDialog(context, 'failed', translate('somethingWrongHappened', context), 'ok', themeNotifier);
+        showMyDialog(context, 'failed', getTranslated('somethingWrongHappened', context), 'ok', themeNotifier);
         if (kDebugMode) {
           print(e.toString());
         }
@@ -1855,14 +1997,13 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
           for(int i=0 ; i<value['R_RESULT'][0].length ; i++){
             if(!servicesProvider.dependentsDocuments.contains(value['R_RESULT'][0][i])) {
               servicesProvider.dependentsDocuments.add(value['R_RESULT'][0][i]);
-              print(servicesProvider.dependentsDocuments);
             }
           }
         }
       });
       servicesProvider.notifyMe();
       }catch(e){
-        showMyDialog(context, 'failed', translate('somethingWrongHappened', context), 'ok', themeNotifier);
+        showMyDialog(context, 'failed', getTranslated('somethingWrongHappened', context), 'ok', themeNotifier);
         if (kDebugMode) {
           print(e.toString());
         }
@@ -2052,7 +2193,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                                     ),
                                                   ),
                                                   Text(
-                                                    translate(
+                                                    getTranslated(
                                                         !addingNew
                                                             ? servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['NATIONALITY'] == 1
                                                             ? 'jordanian' : 'nonJordanian'
@@ -2197,7 +2338,6 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                             : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
                                             ? 'widow' : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["GENDER"] == 1 ? 'widowM' : 'widowF') ? 4 : 1;
                                         try{
-                                          /// TODO: complete checkDocumentDependent!
                                           var dependent = {
                                             "NATIONALNUMBER": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["NATIONALNUMBER"],
                                             "FULL_NAME": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["FULL_NAME"],
@@ -2233,7 +2373,6 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                           };
 
                                           servicesProvider.deadPersonInfo['cur_getdata2'][0][index] = dependent;
-                                          print('dependent: ${jsonEncode(dependent)}');
                                           await servicesProvider.getRequiredDocuments(
                                               jsonEncode({
                                                 "row": {
@@ -2257,7 +2396,6 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                                 value['R_RESULT'][0][i]["NAME"] = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]["FIRSTNAME"];
                                                 if(!servicesProvider.dependentsDocuments.contains(value['R_RESULT'][0][i])) {
                                                   servicesProvider.dependentsDocuments.add(value['R_RESULT'][0][i]);
-                                                  print(servicesProvider.dependentsDocuments);
                                                 }
                                               }
                                             }
@@ -2475,7 +2613,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         flag == 1
-                            ? translate(choices[index], context)
+                            ? getTranslated(choices[index], context)
                             : UserConfig.instance.checkLanguage()
                             ? choices[index][flag == 2 ? 'REL_DESC_EN' : 'NAME_EN'] : choices[index][flag == 2 ? 'REL_DESC_AR' : 'NAME_AR'],
                         style: TextStyle(
