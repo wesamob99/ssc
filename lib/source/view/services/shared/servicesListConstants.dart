@@ -84,13 +84,13 @@ class ServicesList{
 /// retirement Services ******************************************************
 
   static Service earlyRetirementRequest = Service(
-      title: "earlyRetirementRequest", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const EarlyRetirementRequestScreen(), serviceApiCall: ()=> _servicesRepository.getApplicationService(8)
+      title: "earlyRetirementRequest", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const EarlyRetirementRequestScreen(serviceType: 8,), serviceApiCall: ()=> _servicesRepository.getApplicationService(8)
   );
   static Service deceasedRetirementApplication = Service(
       title: "deceasedRetirementApplication", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const DeceasedRetirementApplicationScreen(), serviceApiCall: ()=> _servicesRepository.getApplicationService(11)
   );
   static Service applicationForOldAgePension = Service(
-      title: "applicationForOldAgePension", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
+      title: "applicationForOldAgePension", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const EarlyRetirementRequestScreen(serviceType: 1,), serviceApiCall: ()=> _servicesRepository.getApplicationService(1)
   );
   static Service applicationForPensionersLoan = Service(
       title: "applicationForPensionersLoan", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
