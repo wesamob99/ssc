@@ -108,147 +108,149 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
               child: Container(
                 width: width(1, context),
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                      const FirstStepScreen(nextStep: 'payCalculation', numberOfSteps: 3),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                      VerifyMobileNumberScreen(nextStep: 'payCalculation', numberOfSteps: 3, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                      secondStep(context, themeNotifier),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                      thirdStep(context, themeNotifier),
-                    textButton(context,
-                      themeNotifier,
-                      Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'send',
-                      checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
-                          ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
-                      checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
-                          ? HexColor('#ffffff') : HexColor('#363636'),
-                          () async {
-                        switch(servicesProvider.stepNumber){
-                          case 1: {
-                            if(checkContinueEnabled(flag: 1)){
-                              if(servicesProvider.isMobileNumberUpdated){
-                                servicesProvider.isLoading = true;
-                                servicesProvider.notifyMe();
-                                String errorMessage = "";
-                                try{
-                                  await servicesProvider.updateUserMobileNumberSendOTP(servicesProvider.mobileNumberController.text).whenComplete((){})
-                                      .then((val) async {
-                                    if(val['PO_STATUS'] == '1'){
-                                      servicesProvider.isMobileNumberUpdated = true;
-                                      servicesProvider.stepNumber = 2;
-                                    }else{
-                                      servicesProvider.isMobileNumberUpdated = false;
-                                      errorMessage = UserConfig.instance.checkLanguage()
-                                          ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
-                                      showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
-                                    }
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 1)
+                        const FirstStepScreen(nextStep: 'payCalculation', numberOfSteps: 3),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                        VerifyMobileNumberScreen(nextStep: 'payCalculation', numberOfSteps: 3, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                        secondStep(context, themeNotifier),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 3)
+                        thirdStep(context, themeNotifier),
+                      textButton(context,
+                        themeNotifier,
+                        Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'send',
+                        checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
+                            ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
+                        checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
+                            ? HexColor('#ffffff') : HexColor('#363636'),
+                            () async {
+                          switch(servicesProvider.stepNumber){
+                            case 1: {
+                              if(checkContinueEnabled(flag: 1)){
+                                if(servicesProvider.isMobileNumberUpdated){
+                                  servicesProvider.isLoading = true;
+                                  servicesProvider.notifyMe();
+                                  String errorMessage = "";
+                                  try{
+                                    await servicesProvider.updateUserMobileNumberSendOTP(servicesProvider.mobileNumberController.text).whenComplete((){})
+                                        .then((val) async {
+                                      if(val['PO_STATUS'] == '1'){
+                                        servicesProvider.isMobileNumberUpdated = true;
+                                        servicesProvider.stepNumber = 2;
+                                      }else{
+                                        servicesProvider.isMobileNumberUpdated = false;
+                                        errorMessage = UserConfig.instance.checkLanguage()
+                                            ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                        showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                      }
+                                      servicesProvider.notifyMe();
+                                    });
+                                    servicesProvider.isLoading = false;
                                     servicesProvider.notifyMe();
-                                  });
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.notifyMe();
-                                }catch(e){
-                                  servicesProvider.isMobileNumberUpdated = false;
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.notifyMe();
-                                  if (kDebugMode) {
-                                    print(e.toString());
+                                  }catch(e){
+                                    servicesProvider.isMobileNumberUpdated = false;
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                    if (kDebugMode) {
+                                      print(e.toString());
+                                    }
                                   }
-                                }
-                              } else{
-                                servicesProvider.stepNumber = 2;
-                                servicesProvider.isMobileNumberUpdated = false;
-                                servicesProvider.notifyMe();
-                              }
-                            }
-                          } break;
-                          case 2: {
-                            if(checkContinueEnabled(flag: 2)){
-                              if(servicesProvider.isMobileNumberUpdated){
-                                servicesProvider.isLoading = true;
-                                servicesProvider.notifyMe();
-                                String errorMessage = "";
-                                try{
-                                  await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
-                                      .then((val) async {
-                                    if(val['PO_STATUS'] == 1){
-                                      Provider.of<AccountSettingsProvider>(context, listen: false).updateUserInfo(2, servicesProvider.mobileNumberController.text).whenComplete((){}).then((value){
-                                        if(value["PO_STATUS"] == 0){
-                                          servicesProvider.stepNumber = 2;
-                                          servicesProvider.isMobileNumberUpdated = false;
-                                          UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
-                                        }else{
-                                          showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.checkLanguage()
-                                              ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"], 'retryAgain', themeNotifier).then((value) {
-                                            servicesProvider.mobileNumberController.text = '';
-                                            servicesProvider.stepNumber = 1;
-                                            servicesProvider.notifyMe();
-                                          });
-                                        }
-                                      });
-                                    }else{
-                                      servicesProvider.stepNumber = 2;
-                                      servicesProvider.isMobileNumberUpdated = true;
-                                      errorMessage = UserConfig.instance.checkLanguage()
-                                          ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
-                                      showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
-                                    }
-                                    servicesProvider.notifyMe();
-                                  });
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.notifyMe();
-                                }catch(e){
+                                } else{
                                   servicesProvider.stepNumber = 2;
-                                  servicesProvider.isMobileNumberUpdated = true;
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.notifyMe();
-                                  if (kDebugMode) {
-                                    print(e.toString());
-                                  }
-                                }
-                                servicesProvider.isLoading = false;
-                                servicesProvider.pinPutCodeController.text = "";
-                                servicesProvider.pinPutFilled = false;
-                                servicesProvider.notifyMe();
-                              } else{
-                                if(checkContinueEnabled(flag: 2)) {
-                                  servicesProvider.stepNumber = 3;
                                   servicesProvider.isMobileNumberUpdated = false;
+                                  servicesProvider.notifyMe();
                                 }
                               }
-                            }
-                          } break;
-                          case 3: {
-                            String message = getTranslated('somethingWrongHappened', context);
-                            servicesProvider.isLoading = true;
-                            servicesProvider.notifyMe();
-                            var value = await servicesProvider.submitOptionSubIncrement(int.tryParse(selectedRate.name.toString()), double.tryParse(confirmSalaryValue));
-                            servicesProvider.isLoading = false;
-                            servicesProvider.notifyMe();
-                            if(value != '') {
-                              message = UserConfig.instance.checkLanguage()
-                                  ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
-                            }
-                            showMyDialog(context, (value != '' && value['PO_status'] == 0) ? 'currentRateOfIncreaseDoneSuccessfully' : 'failed',
-                                message, (value != '' && value['PO_status'] == 0) ? '#ok' : 'cancel',
-                                themeNotifier,
-                                titleColor: (value != '' && value['PO_status'] == 0) ? '#2D452E' : '#ED3124',
-                                icon: (value != '' && value['PO_status'] == 0) ? 'assets/icons/serviceSuccess.svg' : 'assets/icons/loginError.svg').then((_){
-                              SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                                servicesProvider.selectedServiceRate = -1;
-                                servicesProvider.notifyMe();
-                                rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                            } break;
+                            case 2: {
+                              if(checkContinueEnabled(flag: 2)){
+                                if(servicesProvider.isMobileNumberUpdated){
+                                  servicesProvider.isLoading = true;
+                                  servicesProvider.notifyMe();
+                                  String errorMessage = "";
+                                  try{
+                                    await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
+                                        .then((val) async {
+                                      if(val['PO_STATUS'] == 1){
+                                        Provider.of<AccountSettingsProvider>(context, listen: false).updateUserInfo(2, servicesProvider.mobileNumberController.text).whenComplete((){}).then((value){
+                                          if(value["PO_STATUS"] == 0){
+                                            servicesProvider.stepNumber = 2;
+                                            servicesProvider.isMobileNumberUpdated = false;
+                                            UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
+                                          }else{
+                                            showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.checkLanguage()
+                                                ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"], 'retryAgain', themeNotifier).then((value) {
+                                              servicesProvider.mobileNumberController.text = '';
+                                              servicesProvider.stepNumber = 1;
+                                              servicesProvider.notifyMe();
+                                            });
+                                          }
+                                        });
+                                      }else{
+                                        servicesProvider.stepNumber = 2;
+                                        servicesProvider.isMobileNumberUpdated = true;
+                                        errorMessage = UserConfig.instance.checkLanguage()
+                                            ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                        showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                      }
+                                      servicesProvider.notifyMe();
+                                    });
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                  }catch(e){
+                                    servicesProvider.stepNumber = 2;
+                                    servicesProvider.isMobileNumberUpdated = true;
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                    if (kDebugMode) {
+                                      print(e.toString());
+                                    }
+                                  }
+                                  servicesProvider.isLoading = false;
+                                  servicesProvider.pinPutCodeController.text = "";
+                                  servicesProvider.pinPutFilled = false;
+                                  servicesProvider.notifyMe();
+                                } else{
+                                  if(checkContinueEnabled(flag: 2)) {
+                                    servicesProvider.stepNumber = 3;
+                                    servicesProvider.isMobileNumberUpdated = false;
+                                  }
+                                }
+                              }
+                            } break;
+                            case 3: {
+                              String message = getTranslated('somethingWrongHappened', context);
+                              servicesProvider.isLoading = true;
+                              servicesProvider.notifyMe();
+                              var value = await servicesProvider.submitOptionSubIncrement(int.tryParse(selectedRate.name.toString()), double.tryParse(confirmSalaryValue));
+                              servicesProvider.isLoading = false;
+                              servicesProvider.notifyMe();
+                              if(value != '') {
+                                message = UserConfig.instance.checkLanguage()
+                                    ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
+                              }
+                              showMyDialog(context, (value != '' && value['PO_status'] == 0) ? 'currentRateOfIncreaseDoneSuccessfully' : 'failed',
+                                  message, (value != '' && value['PO_status'] == 0) ? '#ok' : 'cancel',
+                                  themeNotifier,
+                                  titleColor: (value != '' && value['PO_status'] == 0) ? '#2D452E' : '#ED3124',
+                                  icon: (value != '' && value['PO_status'] == 0) ? 'assets/icons/serviceSuccess.svg' : 'assets/icons/loginError.svg').then((_){
+                                SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                  servicesProvider.selectedServiceRate = -1;
+                                  servicesProvider.notifyMe();
+                                  rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                });
                               });
-                            });
-                          } break;
-                        }
-                        servicesProvider.notifyMe();
-                      },
-                    )
-                  ],
+                            } break;
+                          }
+                          servicesProvider.notifyMe();
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

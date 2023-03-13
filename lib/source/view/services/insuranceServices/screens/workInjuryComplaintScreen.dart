@@ -77,57 +77,59 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
               child: Container(
                 width: width(1, context),
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                      const FirstStepScreen(nextStep: 'orderDetails', numberOfSteps: 4,),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                      VerifyMobileNumberScreen(nextStep: 'orderDetails', numberOfSteps: 4, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                      secondStep(context, themeNotifier),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                      thirdStep(context, themeNotifier),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-                      forthStep(context, themeNotifier),
-                    textButton(context,
-                      themeNotifier,
-                      Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'send',
-                      getPrimaryColor(context, themeNotifier),
-                      HexColor('#ffffff'),
-                          (){
-                        switch(servicesProvider.stepNumber){
-                          case 1: servicesProvider.stepNumber = 2; break;
-                          case 2:
-                            {
-                              if(servicesProvider.isMobileNumberUpdated){
-                                servicesProvider.stepNumber = 2;
-                                servicesProvider.isMobileNumberUpdated = false;
-                              } else{
-                                servicesProvider.stepNumber = 3;
-                              }
-                            } break;
-                          case 3: servicesProvider.stepNumber = 4; break;
-                          case 4: {
-                            SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                              servicesProvider.selectedServiceRate = -1;
-                              servicesProvider.notifyMe();
-                              rateServiceBottomSheet(context, themeNotifier, servicesProvider);
-                            });
-                          } break; /// TODO: finish service
-                        }
-                        servicesProvider.notifyMe();
-                      },
-                    )
-                    // SizedBox(height: height(0.01, context)),
-                    // textButton(context,
-                    //   themeNotifier,
-                    //   'saveAsDraft',
-                    //   MaterialStateProperty.all<Color>(Colors.transparent),
-                    //   HexColor('#003C97'),
-                    //       (){},
-                    // ),
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 1)
+                        const FirstStepScreen(nextStep: 'orderDetails', numberOfSteps: 4,),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                        VerifyMobileNumberScreen(nextStep: 'orderDetails', numberOfSteps: 4, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                        secondStep(context, themeNotifier),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 3)
+                        thirdStep(context, themeNotifier),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 4)
+                        forthStep(context, themeNotifier),
+                      textButton(context,
+                        themeNotifier,
+                        Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'send',
+                        getPrimaryColor(context, themeNotifier),
+                        HexColor('#ffffff'),
+                            (){
+                          switch(servicesProvider.stepNumber){
+                            case 1: servicesProvider.stepNumber = 2; break;
+                            case 2:
+                              {
+                                if(servicesProvider.isMobileNumberUpdated){
+                                  servicesProvider.stepNumber = 2;
+                                  servicesProvider.isMobileNumberUpdated = false;
+                                } else{
+                                  servicesProvider.stepNumber = 3;
+                                }
+                              } break;
+                            case 3: servicesProvider.stepNumber = 4; break;
+                            case 4: {
+                              SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                servicesProvider.selectedServiceRate = -1;
+                                servicesProvider.notifyMe();
+                                rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                              });
+                            } break; /// TODO: finish service
+                          }
+                          servicesProvider.notifyMe();
+                        },
+                      )
+                      // SizedBox(height: height(0.01, context)),
+                      // textButton(context,
+                      //   themeNotifier,
+                      //   'saveAsDraft',
+                      //   MaterialStateProperty.all<Color>(Colors.transparent),
+                      //   HexColor('#003C97'),
+                      //       (){},
+                      // ),
+                    ],
+                  ),
                 ),
               ),
             ),
