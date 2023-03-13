@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +12,7 @@ import 'package:path/path.dart' as path;
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/source/view/services/shared/documentsScreen.dart';
+import 'package:ssc/source/view/services/shared/paymentScreen.dart';
 import 'package:ssc/source/viewModel/services/servicesProvider.dart';
 import 'package:ssc/source/viewModel/utilities/theme/themeProvider.dart';
 
@@ -45,17 +45,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
 
   ServicesProvider servicesProvider;
   ThemeNotifier themeNotifier;
-  SelectedListItem selectedMobileCountry = SelectedListItem(
-    name: UserConfig.instance.checkLanguage() ? "Jordan" : "الأردن",
-    value: "962", natCode: 111,
-    flag: countries[110].flag,
-  );
 
-  SelectedListItem selectedPaymentCountry = SelectedListItem(
-    name: UserConfig.instance.checkLanguage() ? "Iraq" : "عراق",
-    value: "964", natCode: 112,
-    flag: countries.where((element) => element.dialCode == "964").first.flag,
-  );
   String areYouAuthorizedToSignForCompany = 'no';
   String areYouPartnerInLimitedLiabilityCompany = 'no';
   bool nonJordanianSubmitEnabled = false;
@@ -75,18 +65,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
 
   List pDependents = [];
 
-  Map selectedActivePayment;
-  List activePayment = [];
   DateTime selectedDateOfBirth = DateTime.now();
   TextEditingController nationalIdController = TextEditingController();
   TextEditingController quatrainNounController = TextEditingController();
-
-  TextEditingController bankNameController = TextEditingController();
-  TextEditingController bankBranchController = TextEditingController();
-  TextEditingController bankAddressController = TextEditingController();
-  TextEditingController accountNoController = TextEditingController();
-  TextEditingController swiftCodeController = TextEditingController();
-  TextEditingController mobileNumberController = TextEditingController();
 
 
   checkContinueEnabled({flag = 0}){
@@ -105,13 +86,13 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
         return true;
       }
     }else if(flag == 5){
-      if(selectedActivePayment['ID'] == 5){
-        return bankNameController.text.isNotEmpty &&
-            bankBranchController.text.isNotEmpty &&
-            bankAddressController.text.isNotEmpty &&
-            accountNoController.text.isNotEmpty &&
-            swiftCodeController.text.isNotEmpty &&
-            mobileNumberController.text.isNotEmpty;
+      if(servicesProvider.selectedActivePayment['ID'] == 5){
+        return servicesProvider.bankNameController.text.isNotEmpty &&
+            servicesProvider.bankBranchController.text.isNotEmpty &&
+            servicesProvider.bankAddressController.text.isNotEmpty &&
+            servicesProvider.accountNoController.text.isNotEmpty &&
+            servicesProvider.swiftCodeController.text.isNotEmpty &&
+            servicesProvider.paymentMobileNumberController.text.isNotEmpty;
       } else{
         return true;
       }
@@ -134,9 +115,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     }
     servicesProvider.getActivePayment("${widget.serviceType}", servicesProvider.result['p_per_info'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
       value['R_RESULT'][0].forEach((element){
-        activePayment.add(element);
+        servicesProvider.activePayment.add(element);
       });
-      selectedActivePayment = activePayment[0];
+      servicesProvider.selectedActivePayment = servicesProvider.activePayment[0];
     });
     servicesProvider.mobileNumberController.text = UserSecuredStorage.instance.realMobileNumber;
     servicesProvider.documentIndex = 0;
@@ -151,6 +132,16 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
       "mandatory": [],
       "optional": [],
     };
+    servicesProvider.selectedMobileCountry = SelectedListItem(
+      name: UserConfig.instance.checkLanguage() ? "Jordan" : "الأردن",
+      value: "962", natCode: 111,
+      flag: countries[110].flag,
+    );
+    servicesProvider.selectedPaymentCountry = SelectedListItem(
+      name: UserConfig.instance.checkLanguage() ? "Iraq" : "عراق",
+      value: "964", natCode: 112,
+      flag: countries.where((element) => element.dialCode == "964").first.flag,
+    );
     super.initState();
   }
 
@@ -331,7 +322,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                         "DEP_FLAG": 0
                       }, serviceType: widget.serviceType, dependents: pDependents,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 5)
-                        fifthStep(context, themeNotifier),
+                        const PaymentScreen(numberOfSteps: 6, nextStep: 'confirmRequest',),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 6)
                         sixthStep(context, themeNotifier),
                       if(!(Provider.of<ServicesProvider>(context).stepNumber == 4))
@@ -454,74 +445,76 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               }
                             } break;
                             case 6: {
-                              try{
-                                String message = '';
-                                servicesProvider.isLoading = true;
-                                servicesProvider.isModalLoading = false;
-                                servicesProvider.notifyMe();
-                                List mandatoryDocs = await saveFiles('mandatory');
-                                List optionalDocs = await saveFiles('optional');
-                                docs.addAll(mandatoryDocs + optionalDocs);
-                                Map<String, dynamic> paymentInfo = {
-                                  'PAYMENT_METHOD': selectedActivePayment['ID'],
-                                  'BANK_LOCATION': selectedActivePayment['ID'] == 5 ? bankAddressController.text : 0,
-                                  'BRANCH_ID': selectedActivePayment['ID'] == 5 ? '' : '',
-                                  'BRANCH_NAME': selectedActivePayment['ID'] == 5 ? bankBranchController.text : '',
-                                  'BANK_ID': selectedActivePayment['ID'] == 5 ? '' : '',
-                                  'BANK_NAME': selectedActivePayment['ID'] == 5 ? bankNameController.text : '',
-                                  'ACCOUNT_NAME': selectedActivePayment['ID'] == 5 ? accountNoController.text : '',
-                                  'PAYMENT_COUNTRY': selectedActivePayment['ID'] == 5 ? selectedPaymentCountry.name : '',
-                                  'PAYMENT_COUNTRY_CODE': selectedActivePayment['ID'] == 5 ? selectedPaymentCountry.value : '',
-                                  'PAYMENT_PHONE': selectedActivePayment['ID'] == 5 ? mobileNumberController.text : '',
-                                  'SWIFT_CODE': selectedActivePayment['ID'] == 5 ? swiftCodeController.text : '',
-                                  'BANK_DETAILS': selectedActivePayment['ID'] == 5 ? '' : '',
-                                  'IBAN': selectedActivePayment['ID'] == 3 ? servicesProvider.result['P_Result'][0][0]['IBAN'] : '',
-                                  'CASH_BANK_ID': selectedActivePayment['ID'] == 5 ? '' : '',
-                                  // معلومات الوكيل (REP)
-                                  'REP_NATIONALITY': selectedActivePayment['ID'] == 5 ? '' : '',
-                                  'REP_NATIONAL_NO': selectedActivePayment['ID'] == 5 ? '' : '',
-                                  'REP_NAME': selectedActivePayment['ID'] == 5 ? '' : '',
-                                  // معلومات المحفظه (WALLET)
-                                  'WALLET_TYPE': selectedActivePayment['ID'] == 5 ? '' : '',
-                                  'WALLET_OTP_VERIVIED': selectedActivePayment['ID'] == 5 ? '' : null,
-                                  'WALLET_OTP': selectedActivePayment['ID'] == 5 ? '' : null,
-                                  'WALLET_PHONE': selectedActivePayment['ID'] == 5 ? '' : '',
-                                  'WALLET_PHONE_VERIVIED': selectedActivePayment['ID'] == 5 ? '' : '',
-                                  'WALLET_PASSPORT_NUMBER': selectedActivePayment['ID'] == 5 ? '' : '',
-                                  'PEN_IBAN': selectedActivePayment['ID'] == 5 ? '' : null,
-                                };
-                                int wantInsurance = areYouPartnerInLimitedLiabilityCompany == 'yes' ? 1 : 0;
-                                int authorizedToSign = areYouAuthorizedToSignForCompany == 'yes' ? 1 : 0;
-                                await servicesProvider.setEarlyRetirementApplication(docs, paymentInfo, authorizedToSign, wantInsurance).whenComplete(() {}).then((value) {
-                                  if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
-                                    message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
-                                    if(value['PO_TYPE'] == 2){
+                              if(checkContinueEnabled(flag: 6)){
+                                try{
+                                  String message = '';
+                                  servicesProvider.isLoading = true;
+                                  servicesProvider.isModalLoading = false;
+                                  servicesProvider.notifyMe();
+                                  List mandatoryDocs = await saveFiles('mandatory');
+                                  List optionalDocs = await saveFiles('optional');
+                                  docs.addAll(mandatoryDocs + optionalDocs);
+                                  Map<String, dynamic> paymentInfo = {
+                                    'PAYMENT_METHOD': servicesProvider.selectedActivePayment['ID'],
+                                    'BANK_LOCATION': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankAddressController.text : 0,
+                                    'BRANCH_ID': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                    'BRANCH_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankBranchController.text : '',
+                                    'BANK_ID': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                    'BANK_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankNameController.text : '',
+                                    'ACCOUNT_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.accountNoController.text : '',
+                                    'PAYMENT_COUNTRY': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.selectedPaymentCountry.name : '',
+                                    'PAYMENT_COUNTRY_CODE': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.selectedPaymentCountry.value : '',
+                                    'PAYMENT_PHONE': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.paymentMobileNumberController.text : '',
+                                    'SWIFT_CODE': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.swiftCodeController.text : '',
+                                    'BANK_DETAILS': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                    'IBAN': servicesProvider.selectedActivePayment['ID'] == 3 ? servicesProvider.result["p_per_info"][0][0]["IBAN"] : '',
+                                    'CASH_BANK_ID': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                    // معلومات الوكيل (REP)
+                                    'REP_NATIONALITY': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                    'REP_NATIONAL_NO': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                    'REP_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                    // معلومات المحفظه (WALLET)
+                                    'WALLET_TYPE': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                    'WALLET_OTP_VERIVIED': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
+                                    'WALLET_OTP': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
+                                    'WALLET_PHONE': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                    'WALLET_PHONE_VERIVIED': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                    'WALLET_PASSPORT_NUMBER': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                    'PEN_IBAN': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
+                                  };
+                                  int wantInsurance = areYouPartnerInLimitedLiabilityCompany == 'yes' ? 1 : 0;
+                                  int authorizedToSign = areYouAuthorizedToSignForCompany == 'yes' ? 1 : 0;
+                                  await servicesProvider.setEarlyRetirementApplication(docs, paymentInfo, authorizedToSign, wantInsurance).whenComplete(() {}).then((value) {
+                                    if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
+                                      message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
+                                      if(value['PO_TYPE'] == 2){
+                                        message = UserConfig.instance.checkLanguage()
+                                            ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                      }
+                                      showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
+                                          message, 'ok',
+                                          themeNotifier,
+                                          icon: 'assets/icons/serviceSuccess.svg').then((_){
+                                        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                          servicesProvider.selectedServiceRate = -1;
+                                          servicesProvider.notifyMe();
+                                          rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                        });
+                                      });
+                                    } else{
                                       message = UserConfig.instance.checkLanguage()
                                           ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                      showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
                                     }
-                                    showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
-                                        message, 'ok',
-                                        themeNotifier,
-                                        icon: 'assets/icons/serviceSuccess.svg').then((_){
-                                      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                                        servicesProvider.selectedServiceRate = -1;
-                                        servicesProvider.notifyMe();
-                                        rateServiceBottomSheet(context, themeNotifier, servicesProvider);
-                                      });
-                                    });
-                                  } else{
-                                    message = UserConfig.instance.checkLanguage()
-                                        ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
-                                    showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
+                                  });
+                                  servicesProvider.isLoading = false;
+                                  servicesProvider.notifyMe();
+                                } catch(e){
+                                  servicesProvider.isLoading = false;
+                                  servicesProvider.notifyMe();
+                                  if (kDebugMode) {
+                                    print(e.toString());
                                   }
-                                });
-                                servicesProvider.isLoading = false;
-                                servicesProvider.notifyMe();
-                              } catch(e){
-                                servicesProvider.isLoading = false;
-                                servicesProvider.notifyMe();
-                                if (kDebugMode) {
-                                  print(e.toString());
                                 }
                               }
                             } break;
@@ -570,7 +563,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 "DOC_TYPE_DESC_EN": servicesProvider.uploadedFiles[type][i][j]["document"]["NAME_EN"],
                 "DOCUMENT_DATE": DateFormat('MM/dd/yyyy, HH:mm').format(DateTime.now()).toString(),
                 "required": type == 'mandatory' ? 0 : 1,
-                "APP_ID": servicesProvider.result['P_Result'][0][0]['ID'],
+                "APP_ID": servicesProvider.result['p_per_info'][0][0]['ID'],
                 "ID": "",
                 "STATUS": 1,
                 "HIDE_ACTIONS": false
@@ -787,6 +780,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                               onSelected: (ContextMenu result) async {
                                 switch (result.index) {
                                   case 0: {
+                                    nationality = pDependents[0][dependentIndex]['NATIONALITY'] == 1 ? 'jordanian' : 'nonJordanian';
                                     selectedStatus = pDependents[0][dependentIndex]['IS_ALIVE'] == 1
                                         ? 'alive' : 'dead';
                                     selectedJobStatus = (pDependents[0][dependentIndex]['WORK_STATUS'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
@@ -795,40 +789,45 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                         ? 'no' : 'yes';
                                     selectedHasDisability = (pDependents[0][dependentIndex]['DISABILITY'] ?? pDependents[0][dependentIndex]['IS_SUPPORT_TO_OTHER_PEN']) == 0
                                         ? 'no' : 'yes';
-                                    selectedMaritalStatus = (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 1
+                                    selectedMaritalStatus = (
+                                        pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 1
                                         ? UserConfig.instance.checkLanguage()
-                                        ? 'single' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
+                                        ? 'single' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'singleM' : 'singleF'
                                         : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 2
                                         ? UserConfig.instance.checkLanguage()
-                                        ? 'married' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF'
+                                        ? 'married' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'marriedM' : 'marriedF'
                                         : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 3
                                         ? UserConfig.instance.checkLanguage()
-                                        ? 'divorced' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF'
+                                        ? 'divorced' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'divorcedM' : 'divorcedF'
                                         : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 4
                                         ? UserConfig.instance.checkLanguage()
-                                        ? 'widow' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF' : 'single';
-                                    maritalList = (pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 11
-                                        ? [
-                                      UserConfig.instance.checkLanguage()
-                                          ? 'married'
-                                          : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
-                                      UserConfig.instance.checkLanguage()
-                                          ? 'divorced'
-                                          : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF',
-                                    ] : [
+                                        ? 'widow' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'widowM' : 'widowF' : 'single';
+                                    maritalList = [
                                       UserConfig.instance.checkLanguage()
                                           ? 'single'
-                                          : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF',
+                                          : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'singleM' : 'singleF',
                                       UserConfig.instance.checkLanguage()
                                           ? 'married'
-                                          : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
+                                          : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'marriedM' : 'marriedF',
                                       UserConfig.instance.checkLanguage()
                                           ? 'divorced'
-                                          : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF',
+                                          : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'divorcedM' : 'divorcedF',
                                       UserConfig.instance.checkLanguage()
-                                          ? 'widow'
-                                          : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF',
+                                          ? 'widow' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'widowM' : 'widowF'
                                     ];
+
+                                    if((pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 11){
+                                      maritalList.remove(UserConfig.instance.checkLanguage()
+                                          ? 'widow' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'widowM' : 'widowF');
+                                      maritalList.remove(UserConfig.instance.checkLanguage()
+                                          ? 'single' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'singleM' : 'singleF',);
+                                    }
+
+                                    if((pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 6){
+                                      maritalList.remove(UserConfig.instance.checkLanguage()
+                                          ? 'single' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'singleM' : 'singleF',);
+                                    }
+
                                     dependentModalBottomSheet(dependentIndex);
                                   } break;
                                   case 1: {
@@ -851,7 +850,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                     dependentIndex--;
                                                   });
                                                 }
-                                                showMyDialog(context, 'dependentWereDeleted', '', 'ok', themeNotifier, titleColor: '#2D452E');
+                                                showMyDialog(context, 'dependentWereDeleted', '', 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/serviceSuccess.svg');
                                               } else{
                                                 errorMessage = UserConfig.instance.checkLanguage()
                                                     ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
@@ -944,84 +943,90 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getTranslated('maritalStatus', context),
-                                  style: TextStyle(
-                                    color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
-                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    getTranslated('maritalStatus', context),
+                                    style: TextStyle(
+                                      color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 10.0,),
-                                Text(
-                                  getTranslated(
-                                      (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 1
-                                          ? UserConfig.instance.checkLanguage()
-                                          ? 'single' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
-                                          : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 2
-                                          ? UserConfig.instance.checkLanguage()
-                                          ? 'married' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF'
-                                          : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 3
-                                          ? UserConfig.instance.checkLanguage()
-                                          ? 'divorced' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF'
-                                          : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 4
-                                          ? UserConfig.instance.checkLanguage()
-                                          ? 'widow' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF' : 'single',
-                                      context),
-                                  style: TextStyle(
-                                    color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
-                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                  const SizedBox(height: 10.0,),
+                                  Text(
+                                    getTranslated(
+                                        (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 1
+                                            ? UserConfig.instance.checkLanguage()
+                                            ? 'single' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'singleM' : 'singleF'
+                                            : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 2
+                                            ? UserConfig.instance.checkLanguage()
+                                            ? 'married' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'marriedM' : 'marriedF'
+                                            : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 3
+                                            ? UserConfig.instance.checkLanguage()
+                                            ? 'divorced' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'divorcedM' : 'divorcedF'
+                                            : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 4
+                                            ? UserConfig.instance.checkLanguage()
+                                            ? 'widow' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'widowM' : 'widowF' : 'single',
+                                        context),
+                                    style: TextStyle(
+                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getTranslated('employmentStatus', context),
-                                  style: TextStyle(
-                                    color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
-                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    getTranslated('employmentStatus', context),
+                                    style: TextStyle(
+                                      color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 10.0,),
-                                Text(
-                                  getTranslated(
-                                      (pDependents[0][dependentIndex]['WORK_STATUS'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
-                                          ? 'unemployed' : 'employed',
-                                      context),
-                                  style: TextStyle(
-                                    color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
-                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                  const SizedBox(height: 10.0,),
+                                  Text(
+                                    getTranslated(
+                                        (pDependents[0][dependentIndex]['WORK_STATUS'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
+                                            ? 'unemployed' : 'employed',
+                                        context),
+                                    style: TextStyle(
+                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getTranslated('status', context),
-                                  style: TextStyle(
-                                    color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
-                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    getTranslated('status', context),
+                                    style: TextStyle(
+                                      color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 10.0,),
-                                Text(
-                                  getTranslated(
-                                      pDependents[0][dependentIndex]['IS_ALIVE'] == 1
-                                          ? 'alive' : 'dead',
-                                      context),
-                                  style: TextStyle(
-                                    color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
-                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                  const SizedBox(height: 10.0,),
+                                  Text(
+                                    getTranslated(
+                                        pDependents[0][dependentIndex]['IS_ALIVE'] == 1
+                                            ? 'alive' : 'dead',
+                                        context),
+                                    style: TextStyle(
+                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -1029,69 +1034,75 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getTranslated('hasDisability', context),
-                                  style: TextStyle(
-                                    color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
-                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    getTranslated('hasDisability', context),
+                                    style: TextStyle(
+                                      color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 10.0,),
-                                Text(
-                                  getTranslated(
-                                      (pDependents[0][dependentIndex]['DISABILITY'] ?? pDependents[0][dependentIndex]['IS_SUPPORT_TO_OTHER_PEN']) == 0
-                                          ? 'no' : 'yes',
-                                      context),
-                                  style: TextStyle(
-                                    color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
-                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                  const SizedBox(height: 10.0,),
+                                  Text(
+                                    getTranslated(
+                                        (pDependents[0][dependentIndex]['DISABILITY'] ?? pDependents[0][dependentIndex]['IS_SUPPORT_TO_OTHER_PEN']) == 0
+                                            ? 'no' : 'yes',
+                                        context),
+                                    style: TextStyle(
+                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getTranslated('getsSalary', context),
-                                  style: TextStyle(
-                                    color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
-                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    getTranslated('getsSalary', context),
+                                    style: TextStyle(
+                                      color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 10.0,),
-                                Text(
-                                  getTranslated(
-                                      (pDependents[0][dependentIndex]['IS_RETIRED_A'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
-                                          ? 'no' : 'yes',
-                                      context),
-                                  style: TextStyle(
-                                    color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
-                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                  const SizedBox(height: 10.0,),
+                                  Text(
+                                    getTranslated(
+                                        (pDependents[0][dependentIndex]['IS_RETIRED_A'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
+                                            ? 'no' : 'yes',
+                                        context),
+                                    style: TextStyle(
+                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getTranslated('getsSalary', context),
-                                  style: const TextStyle(
-                                    color: Colors.transparent,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    getTranslated('getsSalary', context),
+                                    style: const TextStyle(
+                                      color: Colors.transparent,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 10.0,),
-                                const Text(
-                                  'على قيد الحياة',
-                                  style: TextStyle(
-                                    color: Colors.white,
+                                  const SizedBox(height: 10.0,),
+                                  const Text(
+                                    'على قيد الحياة',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -1146,143 +1157,6 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     );
   }
 
-  Widget fifthStep(context, themeNotifier){
-    return SizedBox(
-      height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: height(0.02, context),),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  getTranslated('fifthStep', context),
-                  style: TextStyle(
-                      color: HexColor('#979797'),
-                      fontSize: width(0.03, context)
-                  ),
-                ),
-                SizedBox(height: height(0.006, context),),
-                Text(
-                  getTranslated('receiptOfAllowances', context),
-                  style: TextStyle(
-                      color: HexColor('#5F5F5F'),
-                      fontSize: width(0.035, context)
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: height(0.01, context),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox.shrink(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      '5/6',
-                      style: TextStyle(
-                          color: HexColor('#979797'),
-                          fontSize: width(0.025, context)
-                      ),
-                    ),
-                    Text(
-                      '${getTranslated('next', context)}: ${getTranslated('confirmRequest', context)}',
-                      style: TextStyle(
-                          color: HexColor('#979797'),
-                          fontSize: width(0.032, context)
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            //activePayment
-            SizedBox(height: height(0.02, context),),
-            buildFieldTitle(context, 'methodOfReceivingTheAllowance', required: false),
-            const SizedBox(height: 10.0,),
-            // customTwoRadioButtons(5, 'insideJordan', 'outsideJordan', setState),
-            SizedBox(
-              height: activePayment.length * 50.0,
-              child: customRadioButtonGroup(3, activePayment, setState),
-            ),
-            if(selectedActivePayment['ID'] == 3) // inside jordan
-            Text(
-              servicesProvider.result["p_per_info"][0][0]["IBAN"] != null && servicesProvider.result["p_per_info"][0][0]["IBAN"].length == 30
-              ? '${getTranslated('iban', context)}: ${servicesProvider.result["p_per_info"][0][0]["IBAN"]}'
-              : getTranslated('goToYourBanksApplicationAndSendYourIBANToTheEscrow', context),
-            ),
-            if(selectedActivePayment['ID'] == 5) // outside jordan
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildFieldTitle(context, 'country', required: false),
-                const SizedBox(height: 10.0,),
-                // buildTextFormField(context, themeNotifier, countryController, '', (val){
-                //   servicesProvider.notifyMe();
-                // }),
-                buildCountriesDropDown(selectedPaymentCountry, 1),
-                const SizedBox(height: 16,),
-                buildFieldTitle(context, 'bankName', required: false),
-                const SizedBox(height: 10.0,),
-                buildTextFormField(context, themeNotifier, bankNameController, '', (val){
-                  servicesProvider.notifyMe();
-                }),
-                const SizedBox(height: 16,),
-                buildFieldTitle(context, 'bankBranch', required: false),
-                const SizedBox(height: 10.0,),
-                buildTextFormField(context, themeNotifier, bankBranchController, '', (val){
-                  servicesProvider.notifyMe();
-                }),
-                const SizedBox(height: 16,),
-                buildFieldTitle(context, 'bankAddress', required: false),
-                const SizedBox(height: 10.0,),
-                buildTextFormField(context, themeNotifier, bankAddressController, '', (val){
-                  servicesProvider.notifyMe();
-                }),
-                const SizedBox(height: 16,),
-                buildFieldTitle(context, 'accountNumber', required: false),
-                const SizedBox(height: 10.0,),
-                buildTextFormField(context, themeNotifier, accountNoController, '', (val){
-                  servicesProvider.notifyMe();
-                }, inputType: TextInputType.number),
-                const SizedBox(height: 16,),
-                buildFieldTitle(context, 'swiftCode', required: false),
-                const SizedBox(height: 10.0,),
-                buildTextFormField(context, themeNotifier, swiftCodeController, '', (val){
-                  servicesProvider.notifyMe();
-                }, inputType: TextInputType.text),
-                const SizedBox(height: 16,),
-                buildFieldTitle(context, 'mobileNumber', required: false),
-                const SizedBox(height: 10.0,),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: buildTextFormField(context, themeNotifier, mobileNumberController, '', (val){
-                        servicesProvider.notifyMe();
-                      }, inputType: TextInputType.number),
-                    ),
-                    const SizedBox(width: 10.0,),
-                    Expanded(
-                      flex: 2,
-                      child: buildCountriesDropDown(selectedMobileCountry, 2),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20,),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget sixthStep(context, themeNotifier){
     return SizedBox(
       height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
@@ -1294,7 +1168,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                getTranslated('fifthStep', context),
+                getTranslated('sixthStep', context),
                 style: TextStyle(
                     color: HexColor('#979797'),
                     fontSize: width(0.03, context)
@@ -1680,7 +1554,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                         ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR'];
                   }
                   if(flag == 3) {
-                    selectedActivePayment = choices[index];
+                    servicesProvider.selectedActivePayment = choices[index];
                   }
                 });
               },
@@ -1698,7 +1572,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                     child: CircleAvatar(
                       radius: isTablet(context) ? 10 : 5,
                       backgroundColor: (flag == 1 && selectedMaritalStatus == choices[index]) || (flag == 2 && selectedRelation == (UserConfig.instance.checkLanguage()
-                          ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR']))  || (flag == 3 && selectedActivePayment == choices[index])
+                          ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR']))  || (flag == 3 && servicesProvider.selectedActivePayment == choices[index])
                           ? HexColor('#2D452E') : Colors.transparent,
                     ),
                   ),
@@ -1783,7 +1657,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   customTwoRadioButtons(6, 'jordanian', 'nonJordanian', setState, disabled: servicesProvider.isNationalIdValid),
                                   if(!servicesProvider.isNationalIdValid)
                                   const SizedBox(height: 20.0,),
-                                  buildFieldTitle(context, nationality == 'jordanian' ? 'nationalId' : 'personalId', required: false),
+                                  buildFieldTitle(context, nationality == 'jordanian' ? 'nationalId' : 'personalId', required: !servicesProvider.isNationalIdValid, filled: nationalIdController.text.length == 10),
                                   const SizedBox(height: 10.0,),
                                   buildTextFormField(
                                       context, themeNotifier, nationalIdController, servicesProvider.isNationalIdValid ? 'val${nationalIdController.text}' : '9999999999', (val) async {
@@ -2003,8 +1877,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   buildFieldTitle(context, 'maritalStatus', required: false),
                                   const SizedBox(height: 10.0,),
                                   customRadioButtonGroup(1, maritalList, setState),
-                                  // if(nationality == 'nonJordanian')
-                                  // const SizedBox(height: 10.0,),
+                                  if(nationality == 'nonJordanian')
+                                  const SizedBox(height: 10.0,),
                                   if(nationality == 'nonJordanian')
                                   buildFieldTitle(context, 'relativeRelation', required: false),
                                   if(nationality == 'nonJordanian')
@@ -2295,91 +2169,6 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
       }
     });
     return result;
-  }
-
-  Widget buildCountriesDropDown(SelectedListItem selectedCountry, int flag) {
-    List<SelectedListItem> selectedListItem = [];
-    for (var element in Provider.of<LoginProvider>(context, listen: false).countries) {
-      int inx = countries.indexWhere((value) => value.dialCode == element.callingCode);
-      if((flag == 1 && element.natcode != 111) || flag == 2) {
-        selectedListItem.add(
-        SelectedListItem(
-          name: UserConfig.instance.checkLanguage() ? countries[inx == -1
-              ? 0
-              : inx].name : element.country,
-          natCode: element.natcode,
-          value: countries[inx == -1 ? 0 : inx].dialCode,
-          isSelected: false,
-          flag: countries[inx == -1 ? 0 : inx].flag,
-        ),
-      );
-      }
-    }
-    return InkWell(
-      onTap: () {
-        DropDownState(
-          DropDown(
-            isSearchVisible: true,
-            data: selectedListItem ?? [],
-            selectedItems: (List<dynamic> selectedList) {
-              for (var item in selectedList) {
-                if (item is SelectedListItem) {
-                  setState(() {
-                    if(flag == 1){
-                      selectedPaymentCountry = item;
-                    }else if(flag == 2){
-                      selectedMobileCountry = item;
-                    }
-                  });
-                }
-              }
-            },
-            enableMultipleSelection: false,
-          ),
-        ).showModal(context);
-      },
-      child: Container(
-          alignment: UserConfig.instance.checkLanguage()
-              ? Alignment.centerLeft
-              : Alignment.centerRight,
-          padding: const EdgeInsets.symmetric(
-              horizontal: 16.0, vertical: 9.3),
-          decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(8.0),
-              border: Border.all(
-                  color: HexColor('#979797')
-              )
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    selectedCountry?.flag ?? "",
-                    style: const TextStyle(
-                      fontSize: 25,
-                    ),
-                  ),
-                  SizedBox(width: width(0.01, context),),
-                  Text(
-                    flag == 1 ? selectedCountry.name : selectedCountry?.value ?? "",
-                    style: TextStyle(
-                        color: HexColor('#363636'),
-                        fontSize: 15
-                    ),
-                  ),
-                ],
-              ),
-              Icon(
-                Icons.arrow_drop_down_outlined,
-                color: HexColor('#363636'),
-              )
-            ],
-          )
-      ),
-    );
   }
 
   checkNonJordanianInfo() {
