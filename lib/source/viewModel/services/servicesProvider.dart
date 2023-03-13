@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, prefer_typing_uninitialized_variables
 
+import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:ssc/source/model/services/servicesRepository.dart';
@@ -45,6 +46,19 @@ class ServicesProvider extends ChangeNotifier {
     "mandatory": [],
     "optional": [],
   };
+  /// **********************************************
+
+  /// payments screen controllers *****************
+  TextEditingController bankNameController = TextEditingController();
+  TextEditingController bankBranchController = TextEditingController();
+  TextEditingController bankAddressController = TextEditingController();
+  TextEditingController accountNoController = TextEditingController();
+  TextEditingController swiftCodeController = TextEditingController();
+  TextEditingController paymentMobileNumberController = TextEditingController();
+  SelectedListItem selectedMobileCountry;
+  SelectedListItem selectedPaymentCountry;
+  Map selectedActivePayment;
+  List activePayment = [];
   /// **********************************************
 
   Future<UserProfileData> getAccountData() async{
