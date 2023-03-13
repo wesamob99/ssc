@@ -30,8 +30,12 @@ import '../../../../viewModel/login/loginProvider.dart';
 import '../../shared/firstStepScreen.dart';
 import '../../shared/verifyMobileNumberScreen.dart';
 
+
+/// used for both early retirement and old age retirement
+/// if serviceType = 8 => early | else if serviceType = 1 => old age
 class EarlyRetirementRequestScreen extends StatefulWidget {
-  const EarlyRetirementRequestScreen({Key key}) : super(key: key);
+  final int serviceType;
+  const EarlyRetirementRequestScreen({Key key, @required this.serviceType}) : super(key: key);
 
   @override
   State<EarlyRetirementRequestScreen> createState() => _EarlyRetirementRequestScreenState();
@@ -128,7 +132,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     if(servicesProvider.result['P_Dep'].length != 0){
       pDependents = servicesProvider.result['P_Dep'];
     }
-    servicesProvider.getActivePayment("8", servicesProvider.result['p_per_info'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
+    servicesProvider.getActivePayment("${widget.serviceType}", servicesProvider.result['p_per_info'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
       value['R_RESULT'][0].forEach((element){
         activePayment.add(element);
       });
@@ -240,291 +244,293 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               child: Container(
                 width: width(1, context),
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                      const FirstStepScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 6),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                      VerifyMobileNumberScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 6, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                      secondStep(context, themeNotifier),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                      thirdStep(context, themeNotifier),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-                      DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 6, data: {
-                      "PAYMENT_METHOD": servicesProvider.result['p_per_info'][0][0]['PAYMENT_METHOD'],
-                      "BANK_LOCATION": servicesProvider.result['p_per_info'][0][0]['BANK_LOCATION'], /// update
-                      "BRANCH_ID": servicesProvider.result['p_per_info'][0][0]['BRANCH_ID'],
-                      "BRANCH_NAME": servicesProvider.result['p_per_info'][0][0]['BRANCH_NAME'],
-                      "BANK_ID": servicesProvider.result['p_per_info'][0][0]['BANK_ID'],
-                      "BANK_NAME": servicesProvider.result['p_per_info'][0][0]['BANK_NAME'],
-                      "ACCOUNT_NAME": servicesProvider.result['p_per_info'][0][0]['ACCOUNT_NAME'],
-                      "PAYMENT_COUNTRY": servicesProvider.result['p_per_info'][0][0]['PAYMENT_COUNTRY'],
-                      "PAYMENT_COUNTRY_CODE": servicesProvider.result['p_per_info'][0][0]['PAYMENT_COUNTRY_CODE'],
-                      "PAYMENT_PHONE": servicesProvider.result['p_per_info'][0][0]['PAYMENT_PHONE'],
-                      "IFSC": servicesProvider.result['p_per_info'][0][0]['IFSC'],
-                      "SWIFT_CODE": servicesProvider.result['p_per_info'][0][0]['SWIFT_CODE'], /// update
-                      "BANK_DETAILS": servicesProvider.result['p_per_info'][0][0]['BANK_DETAILS'], /// update
-                      "IBAN": servicesProvider.result['p_per_info'][0][0]['IBAN'],
-                      "CASH_BANK_ID": servicesProvider.result['p_per_info'][0][0]['CASH_BANK_ID'],
-                      "REP_NATIONALITY": servicesProvider.result['p_per_info'][0][0]['REP_NATIONALITY'], /// update
-                      "REP_NATIONAL_NO": servicesProvider.result['p_per_info'][0][0]['REP_NATIONAL_NO'], /// update
-                      "REP_NAME": servicesProvider.result['p_per_info'][0][0]['REP_NAME'], /// update
-                      "WALLET_TYPE": servicesProvider.result['p_per_info'][0][0]['WALLET_TYPE'],
-                      "WALLET_OTP_VERIVIED": null,
-                      "WALLET_OTP": null,
-                      "WALLET_PHONE": servicesProvider.result['p_per_info'][0][0]['WALLET_PHONE'],
-                      "WALLET_PHONE_VERIVIED": servicesProvider.result['p_per_info'][0][0]['WALLET_PHONE_VERIVIED'],
-                      "WALLET_PASSPORT_NUMBER": servicesProvider.result['p_per_info'][0][0]['WALLET_PASSPORT_NUMBER'],
-                      "PEN_IBAN": servicesProvider.result['p_per_info'][0][0]['PEN_IBAN'],
-                      "SECNO": servicesProvider.result['p_per_info'][0][0]['SECNO'],
-                      "NAT_DESC": servicesProvider.result['p_per_info'][0][0]['NAT_DESC'],
-                      "NAT": servicesProvider.result['p_per_info'][0][0]['NAT'],
-                      "NAT_NO": servicesProvider.result['p_per_info'][0][0]['NAT_NO'],
-                      "PERS_NO": servicesProvider.result['p_per_info'][0][0]['PERS_NO'],
-                      "LAST_EST_NAME": servicesProvider.result['p_per_info'][0][0]['LAST_EST_NAME'],
-                      "NAME1": servicesProvider.result['p_per_info'][0][0]['NAME1'],
-                      "NAME2": servicesProvider.result['p_per_info'][0][0]['NAME2'],
-                      "NAME3": servicesProvider.result['p_per_info'][0][0]['NAME3'],
-                      "NAME4": servicesProvider.result['p_per_info'][0][0]['NAME4'],
-                      "FULL_NAME_EN": servicesProvider.result['p_per_info'][0][0]['FULL_NAME_EN'],
-                      "EMAIL": servicesProvider.result['p_per_info'][0][0]['EMAIL'],
-                      "MOBILE": servicesProvider.result['p_per_info'][0][0]['MOBILE'],
-                      "INTERNATIONAL_CODE": servicesProvider.result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
-                      "INSURED_ADDRESS": servicesProvider.result['p_per_info'][0][0]['INSURED_ADDRESS'],
-                      "MARITAL_STATUS": servicesProvider.result['p_per_info'][0][0]['MARITAL_STATUS'] ?? servicesProvider.result['p_per_info'][0][0]['SOCIAL_STATUS'],
-                      "REGDATE": null,
-                      "REGRATE": null,
-                      "LAST_SALARY": null,
-                      "LAST_STODATE": servicesProvider.result['p_per_info'][0][0]['LAST_STODATE'],
-                      "ACTUAL_STODATE": servicesProvider.result['p_per_info'][0][0]['ACTUAL_STODATE'],
-                      "GENDER": servicesProvider.result['p_per_info'][0][0]['GENDER'],
-                      "CIVIL_WORK_DOC": servicesProvider.result['p_per_info'][0][0]['CIVIL_WORK_DOC'],
-                      "MILITARY_WORK_DOC": servicesProvider.result['p_per_info'][0][0]['MILITARY_WORK_DOC'],
-                      "CIV_MIL_RETIRED_DOC": servicesProvider.result['p_per_info'][0][0]['CIV_MIL_RETIRED_DOC'],
-                      "PEN_START_DATE": servicesProvider.result['p_per_info'][0][0]['PEN_START_DATE'],
-                      "GOVERNORATE": servicesProvider.result['p_per_info'][0][0]['GOVERNORATE'],
-                      "DETAILED_ADDRESS": null,
-                      "PASS_NO": null,
-                      "RESIDENCY_NO": null,
-                      "DOB": servicesProvider.result['p_per_info'][0][0]['DOB'],
-                      "JOB_NO": null,
-                      "JOB_DESC": servicesProvider.result['p_per_info'][0][0]['JOB_DESC'],
-                      "ENAME1": null,
-                      "ENAME2": null,
-                      "ENAME3": null,
-                      "ENAME4": null,
-                      "LAST_EST_NO": servicesProvider.result['p_per_info'][0][0]['LAST_EST_NO'], /// update
-                      "FAM_NO": null,
-                      "nextVaild": null,
-                      "wantAddFamily": null,
-                      "GENDER_DESC": servicesProvider.result['p_per_info'][0][0]['GENDER_DESC'],
-                      "PI_EPAY": null,
-                      "INSURED": null,
-                      "ID": servicesProvider.result['p_per_info'][0][0]['ID'], /// update
-                      "DEP_FLAG": 0
-                    }, serviceType: 8, dependents: pDependents,),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 5)
-                      fifthStep(context, themeNotifier),
-                    if(Provider.of<ServicesProvider>(context).stepNumber == 6)
-                      sixthStep(context, themeNotifier),
-                    if(!(Provider.of<ServicesProvider>(context).stepNumber == 4))
-                    textButton(context,
-                      themeNotifier,
-                      Provider.of<ServicesProvider>(context).stepNumber != 6 ? 'continue' : 'send',
-                      checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
-                          ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
-                      checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
-                          ? HexColor('#ffffff') : HexColor('#363636'),
-                          () async {
-                        switch(servicesProvider.stepNumber){
-                          case 1: {
-                            if(checkContinueEnabled(flag: 1)){
-                              if(servicesProvider.isMobileNumberUpdated){
-                                servicesProvider.isLoading = true;
-                                servicesProvider.notifyMe();
-                                String errorMessage = "";
-                                try{
-                                  await servicesProvider.updateUserMobileNumberSendOTP(servicesProvider.mobileNumberController.text).whenComplete((){})
-                                      .then((val) async {
-                                    if(val['PO_STATUS'] == '1'){
-                                      servicesProvider.isMobileNumberUpdated = true;
-                                      servicesProvider.stepNumber = 2;
-                                    }else{
-                                      servicesProvider.isMobileNumberUpdated = false;
-                                      errorMessage = UserConfig.instance.checkLanguage()
-                                          ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
-                                      showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
-                                    }
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 1)
+                        const FirstStepScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 6),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                        VerifyMobileNumberScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 6, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
+                        secondStep(context, themeNotifier),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 3)
+                        thirdStep(context, themeNotifier),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 4)
+                        DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 6, data: {
+                        "PAYMENT_METHOD": servicesProvider.result['p_per_info'][0][0]['PAYMENT_METHOD'],
+                        "BANK_LOCATION": servicesProvider.result['p_per_info'][0][0]['BANK_LOCATION'], /// update
+                        "BRANCH_ID": servicesProvider.result['p_per_info'][0][0]['BRANCH_ID'],
+                        "BRANCH_NAME": servicesProvider.result['p_per_info'][0][0]['BRANCH_NAME'],
+                        "BANK_ID": servicesProvider.result['p_per_info'][0][0]['BANK_ID'],
+                        "BANK_NAME": servicesProvider.result['p_per_info'][0][0]['BANK_NAME'],
+                        "ACCOUNT_NAME": servicesProvider.result['p_per_info'][0][0]['ACCOUNT_NAME'],
+                        "PAYMENT_COUNTRY": servicesProvider.result['p_per_info'][0][0]['PAYMENT_COUNTRY'],
+                        "PAYMENT_COUNTRY_CODE": servicesProvider.result['p_per_info'][0][0]['PAYMENT_COUNTRY_CODE'],
+                        "PAYMENT_PHONE": servicesProvider.result['p_per_info'][0][0]['PAYMENT_PHONE'],
+                        "IFSC": servicesProvider.result['p_per_info'][0][0]['IFSC'],
+                        "SWIFT_CODE": servicesProvider.result['p_per_info'][0][0]['SWIFT_CODE'], /// update
+                        "BANK_DETAILS": servicesProvider.result['p_per_info'][0][0]['BANK_DETAILS'], /// update
+                        "IBAN": servicesProvider.result['p_per_info'][0][0]['IBAN'],
+                        "CASH_BANK_ID": servicesProvider.result['p_per_info'][0][0]['CASH_BANK_ID'],
+                        "REP_NATIONALITY": servicesProvider.result['p_per_info'][0][0]['REP_NATIONALITY'], /// update
+                        "REP_NATIONAL_NO": servicesProvider.result['p_per_info'][0][0]['REP_NATIONAL_NO'], /// update
+                        "REP_NAME": servicesProvider.result['p_per_info'][0][0]['REP_NAME'], /// update
+                        "WALLET_TYPE": servicesProvider.result['p_per_info'][0][0]['WALLET_TYPE'],
+                        "WALLET_OTP_VERIVIED": null,
+                        "WALLET_OTP": null,
+                        "WALLET_PHONE": servicesProvider.result['p_per_info'][0][0]['WALLET_PHONE'],
+                        "WALLET_PHONE_VERIVIED": servicesProvider.result['p_per_info'][0][0]['WALLET_PHONE_VERIVIED'],
+                        "WALLET_PASSPORT_NUMBER": servicesProvider.result['p_per_info'][0][0]['WALLET_PASSPORT_NUMBER'],
+                        "PEN_IBAN": servicesProvider.result['p_per_info'][0][0]['PEN_IBAN'],
+                        "SECNO": servicesProvider.result['p_per_info'][0][0]['SECNO'],
+                        "NAT_DESC": servicesProvider.result['p_per_info'][0][0]['NAT_DESC'],
+                        "NAT": servicesProvider.result['p_per_info'][0][0]['NAT'],
+                        "NAT_NO": servicesProvider.result['p_per_info'][0][0]['NAT_NO'],
+                        "PERS_NO": servicesProvider.result['p_per_info'][0][0]['PERS_NO'],
+                        "LAST_EST_NAME": servicesProvider.result['p_per_info'][0][0]['LAST_EST_NAME'],
+                        "NAME1": servicesProvider.result['p_per_info'][0][0]['NAME1'],
+                        "NAME2": servicesProvider.result['p_per_info'][0][0]['NAME2'],
+                        "NAME3": servicesProvider.result['p_per_info'][0][0]['NAME3'],
+                        "NAME4": servicesProvider.result['p_per_info'][0][0]['NAME4'],
+                        "FULL_NAME_EN": servicesProvider.result['p_per_info'][0][0]['FULL_NAME_EN'],
+                        "EMAIL": servicesProvider.result['p_per_info'][0][0]['EMAIL'],
+                        "MOBILE": servicesProvider.result['p_per_info'][0][0]['MOBILE'],
+                        "INTERNATIONAL_CODE": servicesProvider.result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
+                        "INSURED_ADDRESS": servicesProvider.result['p_per_info'][0][0]['INSURED_ADDRESS'],
+                        "MARITAL_STATUS": servicesProvider.result['p_per_info'][0][0]['MARITAL_STATUS'] ?? servicesProvider.result['p_per_info'][0][0]['SOCIAL_STATUS'],
+                        "REGDATE": null,
+                        "REGRATE": null,
+                        "LAST_SALARY": null,
+                        "LAST_STODATE": servicesProvider.result['p_per_info'][0][0]['LAST_STODATE'],
+                        "ACTUAL_STODATE": servicesProvider.result['p_per_info'][0][0]['ACTUAL_STODATE'],
+                        "GENDER": servicesProvider.result['p_per_info'][0][0]['GENDER'],
+                        "CIVIL_WORK_DOC": servicesProvider.result['p_per_info'][0][0]['CIVIL_WORK_DOC'],
+                        "MILITARY_WORK_DOC": servicesProvider.result['p_per_info'][0][0]['MILITARY_WORK_DOC'],
+                        "CIV_MIL_RETIRED_DOC": servicesProvider.result['p_per_info'][0][0]['CIV_MIL_RETIRED_DOC'],
+                        "PEN_START_DATE": servicesProvider.result['p_per_info'][0][0]['PEN_START_DATE'],
+                        "GOVERNORATE": servicesProvider.result['p_per_info'][0][0]['GOVERNORATE'],
+                        "DETAILED_ADDRESS": null,
+                        "PASS_NO": null,
+                        "RESIDENCY_NO": null,
+                        "DOB": servicesProvider.result['p_per_info'][0][0]['DOB'],
+                        "JOB_NO": null,
+                        "JOB_DESC": servicesProvider.result['p_per_info'][0][0]['JOB_DESC'],
+                        "ENAME1": null,
+                        "ENAME2": null,
+                        "ENAME3": null,
+                        "ENAME4": null,
+                        "LAST_EST_NO": servicesProvider.result['p_per_info'][0][0]['LAST_EST_NO'], /// update
+                        "FAM_NO": null,
+                        "nextVaild": null,
+                        "wantAddFamily": null,
+                        "GENDER_DESC": servicesProvider.result['p_per_info'][0][0]['GENDER_DESC'],
+                        "PI_EPAY": null,
+                        "INSURED": null,
+                        "ID": servicesProvider.result['p_per_info'][0][0]['ID'], /// update
+                        "DEP_FLAG": 0
+                      }, serviceType: widget.serviceType, dependents: pDependents,),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 5)
+                        fifthStep(context, themeNotifier),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 6)
+                        sixthStep(context, themeNotifier),
+                      if(!(Provider.of<ServicesProvider>(context).stepNumber == 4))
+                      textButton(context,
+                        themeNotifier,
+                        Provider.of<ServicesProvider>(context).stepNumber != 6 ? 'continue' : 'send',
+                        checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
+                            ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
+                        checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
+                            ? HexColor('#ffffff') : HexColor('#363636'),
+                            () async {
+                          switch(servicesProvider.stepNumber){
+                            case 1: {
+                              if(checkContinueEnabled(flag: 1)){
+                                if(servicesProvider.isMobileNumberUpdated){
+                                  servicesProvider.isLoading = true;
+                                  servicesProvider.notifyMe();
+                                  String errorMessage = "";
+                                  try{
+                                    await servicesProvider.updateUserMobileNumberSendOTP(servicesProvider.mobileNumberController.text).whenComplete((){})
+                                        .then((val) async {
+                                      if(val['PO_STATUS'] == '1'){
+                                        servicesProvider.isMobileNumberUpdated = true;
+                                        servicesProvider.stepNumber = 2;
+                                      }else{
+                                        servicesProvider.isMobileNumberUpdated = false;
+                                        errorMessage = UserConfig.instance.checkLanguage()
+                                            ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                        showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                      }
+                                      servicesProvider.notifyMe();
+                                    });
+                                    servicesProvider.isLoading = false;
                                     servicesProvider.notifyMe();
-                                  });
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.notifyMe();
-                                }catch(e){
-                                  servicesProvider.isMobileNumberUpdated = false;
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.notifyMe();
-                                  if (kDebugMode) {
-                                    print(e.toString());
+                                  }catch(e){
+                                    servicesProvider.isMobileNumberUpdated = false;
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                    if (kDebugMode) {
+                                      print(e.toString());
+                                    }
                                   }
-                                }
-                              } else{
-                                servicesProvider.stepNumber = 2;
-                                servicesProvider.isMobileNumberUpdated = false;
-                                servicesProvider.notifyMe();
-                              }
-                            }
-                          } break;
-                          case 2: {
-                            if(checkContinueEnabled(flag: 2)){
-                              if(servicesProvider.isMobileNumberUpdated){
-                                servicesProvider.isLoading = true;
-                                servicesProvider.notifyMe();
-                                String errorMessage = "";
-                                try{
-                                  await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
-                                      .then((val) async {
-                                    if(val['PO_STATUS'] == 1){
-                                      Provider.of<AccountSettingsProvider>(context, listen: false).updateUserInfo(2, servicesProvider.mobileNumberController.text).whenComplete((){}).then((value){
-                                        if(value["PO_STATUS"] == 0){
-                                          servicesProvider.stepNumber = 2;
-                                          servicesProvider.isMobileNumberUpdated = false;
-                                          UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
-                                        }else{
-                                          showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.checkLanguage()
-                                              ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"], 'retryAgain', themeNotifier).then((value) {
-                                            servicesProvider.mobileNumberController.text = '';
-                                            servicesProvider.stepNumber = 1;
-                                            servicesProvider.notifyMe();
-                                          });
-                                        }
-                                      });
-                                    }else{
-                                      servicesProvider.stepNumber = 2;
-                                      servicesProvider.isMobileNumberUpdated = true;
-                                      errorMessage = UserConfig.instance.checkLanguage()
-                                          ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
-                                      showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
-                                    }
-                                    servicesProvider.notifyMe();
-                                  });
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.notifyMe();
-                                }catch(e){
+                                } else{
                                   servicesProvider.stepNumber = 2;
-                                  servicesProvider.isMobileNumberUpdated = true;
-                                  servicesProvider.isLoading = false;
+                                  servicesProvider.isMobileNumberUpdated = false;
                                   servicesProvider.notifyMe();
-                                  if (kDebugMode) {
-                                    print(e.toString());
+                                }
+                              }
+                            } break;
+                            case 2: {
+                              if(checkContinueEnabled(flag: 2)){
+                                if(servicesProvider.isMobileNumberUpdated){
+                                  servicesProvider.isLoading = true;
+                                  servicesProvider.notifyMe();
+                                  String errorMessage = "";
+                                  try{
+                                    await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
+                                        .then((val) async {
+                                      if(val['PO_STATUS'] == 1){
+                                        Provider.of<AccountSettingsProvider>(context, listen: false).updateUserInfo(2, servicesProvider.mobileNumberController.text).whenComplete((){}).then((value){
+                                          if(value["PO_STATUS"] == 0){
+                                            servicesProvider.stepNumber = 2;
+                                            servicesProvider.isMobileNumberUpdated = false;
+                                            UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
+                                          }else{
+                                            showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.checkLanguage()
+                                                ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"], 'retryAgain', themeNotifier).then((value) {
+                                              servicesProvider.mobileNumberController.text = '';
+                                              servicesProvider.stepNumber = 1;
+                                              servicesProvider.notifyMe();
+                                            });
+                                          }
+                                        });
+                                      }else{
+                                        servicesProvider.stepNumber = 2;
+                                        servicesProvider.isMobileNumberUpdated = true;
+                                        errorMessage = UserConfig.instance.checkLanguage()
+                                            ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                        showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                                      }
+                                      servicesProvider.notifyMe();
+                                    });
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                  }catch(e){
+                                    servicesProvider.stepNumber = 2;
+                                    servicesProvider.isMobileNumberUpdated = true;
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                    if (kDebugMode) {
+                                      print(e.toString());
+                                    }
+                                  }
+                                  servicesProvider.isLoading = false;
+                                  servicesProvider.pinPutCodeController.text = "";
+                                  servicesProvider.pinPutFilled = false;
+                                  servicesProvider.notifyMe();
+                                } else{
+                                  if(checkContinueEnabled(flag: 2)) {
+                                    servicesProvider.stepNumber = 3;
+                                    servicesProvider.isMobileNumberUpdated = false;
                                   }
                                 }
-                                servicesProvider.isLoading = false;
-                                servicesProvider.pinPutCodeController.text = "";
-                                servicesProvider.pinPutFilled = false;
-                                servicesProvider.notifyMe();
-                              } else{
-                                if(checkContinueEnabled(flag: 2)) {
-                                  servicesProvider.stepNumber = 3;
-                                  servicesProvider.isMobileNumberUpdated = false;
+                              }
+                            } break;
+                            case 3: {
+                              if(checkContinueEnabled(flag: 3)){
+                                servicesProvider.documentsScreensStepNumber = 1;
+                                if(dependentIndex < ((pDependents.isNotEmpty  && pDependents[0].length != 0) ? pDependents[0].length - 1 : 0)){
+                                  dependentIndex++;
+                                }else {
+                                  servicesProvider.notifyMe();
+                                  servicesProvider.stepNumber = 4;
                                 }
                               }
-                            }
-                          } break;
-                          case 3: {
-                            if(checkContinueEnabled(flag: 3)){
-                              servicesProvider.documentsScreensStepNumber = 1;
-                              if(dependentIndex < ((pDependents.isNotEmpty  && pDependents[0].length != 0) ? pDependents[0].length - 1 : 0)){
-                                dependentIndex++;
-                              }else {
-                                servicesProvider.notifyMe();
-                                servicesProvider.stepNumber = 4;
+                            } break;
+                            case 5: {
+                              if(checkContinueEnabled(flag: 5)){
+                                servicesProvider.stepNumber = 6;
                               }
-                            }
-                          } break;
-                          case 5: {
-                            if(checkContinueEnabled(flag: 5)){
-                              servicesProvider.stepNumber = 6;
-                            }
-                          } break;
-                          case 6: {
-                            try{
-                              String message = '';
-                              servicesProvider.isLoading = true;
-                              servicesProvider.isModalLoading = false;
-                              servicesProvider.notifyMe();
-                              List mandatoryDocs = await saveFiles('mandatory');
-                              List optionalDocs = await saveFiles('optional');
-                              docs.addAll(mandatoryDocs + optionalDocs);
-                              Map<String, dynamic> paymentInfo = {
-                                'PAYMENT_METHOD': selectedActivePayment['ID'],
-                                'BANK_LOCATION': selectedActivePayment['ID'] == 5 ? bankAddressController.text : 0,
-                                'BRANCH_ID': selectedActivePayment['ID'] == 5 ? '' : '',
-                                'BRANCH_NAME': selectedActivePayment['ID'] == 5 ? bankBranchController.text : '',
-                                'BANK_ID': selectedActivePayment['ID'] == 5 ? '' : '',
-                                'BANK_NAME': selectedActivePayment['ID'] == 5 ? bankNameController.text : '',
-                                'ACCOUNT_NAME': selectedActivePayment['ID'] == 5 ? accountNoController.text : '',
-                                'PAYMENT_COUNTRY': selectedActivePayment['ID'] == 5 ? selectedPaymentCountry.name : '',
-                                'PAYMENT_COUNTRY_CODE': selectedActivePayment['ID'] == 5 ? selectedPaymentCountry.value : '',
-                                'PAYMENT_PHONE': selectedActivePayment['ID'] == 5 ? mobileNumberController.text : '',
-                                'SWIFT_CODE': selectedActivePayment['ID'] == 5 ? swiftCodeController.text : '',
-                                'BANK_DETAILS': selectedActivePayment['ID'] == 5 ? '' : '',
-                                'IBAN': selectedActivePayment['ID'] == 3 ? servicesProvider.result['P_Result'][0][0]['IBAN'] : '',
-                                'CASH_BANK_ID': selectedActivePayment['ID'] == 5 ? '' : '',
-                                // معلومات الوكيل (REP)
-                                'REP_NATIONALITY': selectedActivePayment['ID'] == 5 ? '' : '',
-                                'REP_NATIONAL_NO': selectedActivePayment['ID'] == 5 ? '' : '',
-                                'REP_NAME': selectedActivePayment['ID'] == 5 ? '' : '',
-                                // معلومات المحفظه (WALLET)
-                                'WALLET_TYPE': selectedActivePayment['ID'] == 5 ? '' : '',
-                                'WALLET_OTP_VERIVIED': selectedActivePayment['ID'] == 5 ? '' : null,
-                                'WALLET_OTP': selectedActivePayment['ID'] == 5 ? '' : null,
-                                'WALLET_PHONE': selectedActivePayment['ID'] == 5 ? '' : '',
-                                'WALLET_PHONE_VERIVIED': selectedActivePayment['ID'] == 5 ? '' : '',
-                                'WALLET_PASSPORT_NUMBER': selectedActivePayment['ID'] == 5 ? '' : '',
-                                'PEN_IBAN': selectedActivePayment['ID'] == 5 ? '' : null,
-                              };
-                              int wantInsurance = areYouPartnerInLimitedLiabilityCompany == 'yes' ? 1 : 0;
-                              int authorizedToSign = areYouAuthorizedToSignForCompany == 'yes' ? 1 : 0;
-                              await servicesProvider.setEarlyRetirementApplication(docs, paymentInfo, authorizedToSign, wantInsurance).whenComplete(() {}).then((value) {
-                                if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
-                                  message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
-                                  if(value['PO_TYPE'] == 2){
+                            } break;
+                            case 6: {
+                              try{
+                                String message = '';
+                                servicesProvider.isLoading = true;
+                                servicesProvider.isModalLoading = false;
+                                servicesProvider.notifyMe();
+                                List mandatoryDocs = await saveFiles('mandatory');
+                                List optionalDocs = await saveFiles('optional');
+                                docs.addAll(mandatoryDocs + optionalDocs);
+                                Map<String, dynamic> paymentInfo = {
+                                  'PAYMENT_METHOD': selectedActivePayment['ID'],
+                                  'BANK_LOCATION': selectedActivePayment['ID'] == 5 ? bankAddressController.text : 0,
+                                  'BRANCH_ID': selectedActivePayment['ID'] == 5 ? '' : '',
+                                  'BRANCH_NAME': selectedActivePayment['ID'] == 5 ? bankBranchController.text : '',
+                                  'BANK_ID': selectedActivePayment['ID'] == 5 ? '' : '',
+                                  'BANK_NAME': selectedActivePayment['ID'] == 5 ? bankNameController.text : '',
+                                  'ACCOUNT_NAME': selectedActivePayment['ID'] == 5 ? accountNoController.text : '',
+                                  'PAYMENT_COUNTRY': selectedActivePayment['ID'] == 5 ? selectedPaymentCountry.name : '',
+                                  'PAYMENT_COUNTRY_CODE': selectedActivePayment['ID'] == 5 ? selectedPaymentCountry.value : '',
+                                  'PAYMENT_PHONE': selectedActivePayment['ID'] == 5 ? mobileNumberController.text : '',
+                                  'SWIFT_CODE': selectedActivePayment['ID'] == 5 ? swiftCodeController.text : '',
+                                  'BANK_DETAILS': selectedActivePayment['ID'] == 5 ? '' : '',
+                                  'IBAN': selectedActivePayment['ID'] == 3 ? servicesProvider.result['P_Result'][0][0]['IBAN'] : '',
+                                  'CASH_BANK_ID': selectedActivePayment['ID'] == 5 ? '' : '',
+                                  // معلومات الوكيل (REP)
+                                  'REP_NATIONALITY': selectedActivePayment['ID'] == 5 ? '' : '',
+                                  'REP_NATIONAL_NO': selectedActivePayment['ID'] == 5 ? '' : '',
+                                  'REP_NAME': selectedActivePayment['ID'] == 5 ? '' : '',
+                                  // معلومات المحفظه (WALLET)
+                                  'WALLET_TYPE': selectedActivePayment['ID'] == 5 ? '' : '',
+                                  'WALLET_OTP_VERIVIED': selectedActivePayment['ID'] == 5 ? '' : null,
+                                  'WALLET_OTP': selectedActivePayment['ID'] == 5 ? '' : null,
+                                  'WALLET_PHONE': selectedActivePayment['ID'] == 5 ? '' : '',
+                                  'WALLET_PHONE_VERIVIED': selectedActivePayment['ID'] == 5 ? '' : '',
+                                  'WALLET_PASSPORT_NUMBER': selectedActivePayment['ID'] == 5 ? '' : '',
+                                  'PEN_IBAN': selectedActivePayment['ID'] == 5 ? '' : null,
+                                };
+                                int wantInsurance = areYouPartnerInLimitedLiabilityCompany == 'yes' ? 1 : 0;
+                                int authorizedToSign = areYouAuthorizedToSignForCompany == 'yes' ? 1 : 0;
+                                await servicesProvider.setEarlyRetirementApplication(docs, paymentInfo, authorizedToSign, wantInsurance).whenComplete(() {}).then((value) {
+                                  if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
+                                    message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
+                                    if(value['PO_TYPE'] == 2){
+                                      message = UserConfig.instance.checkLanguage()
+                                          ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                    }
+                                    showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
+                                        message, 'ok',
+                                        themeNotifier,
+                                        icon: 'assets/icons/serviceSuccess.svg').then((_){
+                                      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                        servicesProvider.selectedServiceRate = -1;
+                                        servicesProvider.notifyMe();
+                                        rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                      });
+                                    });
+                                  } else{
                                     message = UserConfig.instance.checkLanguage()
                                         ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                    showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
                                   }
-                                  showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
-                                      message, 'ok',
-                                      themeNotifier,
-                                      icon: 'assets/icons/serviceSuccess.svg').then((_){
-                                    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                                      servicesProvider.selectedServiceRate = -1;
-                                      servicesProvider.notifyMe();
-                                      rateServiceBottomSheet(context, themeNotifier, servicesProvider);
-                                    });
-                                  });
-                                } else{
-                                  message = UserConfig.instance.checkLanguage()
-                                      ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
-                                  showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
+                                });
+                                servicesProvider.isLoading = false;
+                                servicesProvider.notifyMe();
+                              } catch(e){
+                                servicesProvider.isLoading = false;
+                                servicesProvider.notifyMe();
+                                if (kDebugMode) {
+                                  print(e.toString());
                                 }
-                              });
-                              servicesProvider.isLoading = false;
-                              servicesProvider.notifyMe();
-                            } catch(e){
-                              servicesProvider.isLoading = false;
-                              servicesProvider.notifyMe();
-                              if (kDebugMode) {
-                                print(e.toString());
                               }
-                            }
-                          } break;
-                        }
-                        servicesProvider.notifyMe();
-                      },
-                    ),
-                  ],
+                            } break;
+                          }
+                          servicesProvider.notifyMe();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -757,6 +763,144 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+                              decoration: BoxDecoration(
+                                color: (pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 11
+                                    ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                getRelationType(pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']),
+                                style: TextStyle(
+                                  color: (pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 11
+                                      ? HexColor('#003C97') : HexColor('#2D452E'),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10,),
+                            PopupMenuButton<ContextMenu>(
+                              onSelected: (ContextMenu result) async {
+                                switch (result.index) {
+                                  case 0: {
+                                    selectedStatus = pDependents[0][dependentIndex]['IS_ALIVE'] == 1
+                                        ? 'alive' : 'dead';
+                                    selectedJobStatus = (pDependents[0][dependentIndex]['WORK_STATUS'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
+                                        ? 'unemployed' : 'employed';
+                                    selectedGetsSalary = (pDependents[0][dependentIndex]['IS_RETIRED_A'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
+                                        ? 'no' : 'yes';
+                                    selectedHasDisability = (pDependents[0][dependentIndex]['DISABILITY'] ?? pDependents[0][dependentIndex]['IS_SUPPORT_TO_OTHER_PEN']) == 0
+                                        ? 'no' : 'yes';
+                                    selectedMaritalStatus = (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 1
+                                        ? UserConfig.instance.checkLanguage()
+                                        ? 'single' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
+                                        : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 2
+                                        ? UserConfig.instance.checkLanguage()
+                                        ? 'married' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF'
+                                        : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 3
+                                        ? UserConfig.instance.checkLanguage()
+                                        ? 'divorced' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF'
+                                        : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 4
+                                        ? UserConfig.instance.checkLanguage()
+                                        ? 'widow' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF' : 'single';
+                                    maritalList = (pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 11
+                                        ? [
+                                      UserConfig.instance.checkLanguage()
+                                          ? 'married'
+                                          : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
+                                      UserConfig.instance.checkLanguage()
+                                          ? 'divorced'
+                                          : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF',
+                                    ] : [
+                                      UserConfig.instance.checkLanguage()
+                                          ? 'single'
+                                          : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF',
+                                      UserConfig.instance.checkLanguage()
+                                          ? 'married'
+                                          : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
+                                      UserConfig.instance.checkLanguage()
+                                          ? 'divorced'
+                                          : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF',
+                                      UserConfig.instance.checkLanguage()
+                                          ? 'widow'
+                                          : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF',
+                                    ];
+                                    dependentModalBottomSheet(dependentIndex);
+                                  } break;
+                                  case 1: {
+                                    showMyDialog(
+                                        context, 'wouldYouLikeToConfirmDeletionOfDependents',
+                                        pDependents[0][dependentIndex]['NAME'] ?? pDependents[0][dependentIndex]['FULL_NAME'],
+                                        'yesContinue', themeNotifier, icon: 'assets/icons/dialogDeleteIcon.svg',
+                                        onPressed: () async{
+                                          String errorMessage = '';
+                                          servicesProvider.isLoading = true;
+                                          servicesProvider.notifyMe();
+                                          try{
+                                            await servicesProvider.deleteDependent(int.tryParse(pDependents[0][dependentIndex]["ID"].toString())).then((value){
+                                              Navigator.of(context).pop();
+                                              if(value['PO_RESULT'] == 1){
+                                                servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == pDependents[0][dependentIndex]["DEP_CODE"]);
+                                                pDependents[0].removeAt(dependentIndex);
+                                                if(dependentIndex == pDependents[0].length && dependentIndex != 0){
+                                                  setState(() {
+                                                    dependentIndex--;
+                                                  });
+                                                }
+                                                showMyDialog(context, 'dependentWereDeleted', '', 'ok', themeNotifier, titleColor: '#2D452E');
+                                              } else{
+                                                errorMessage = UserConfig.instance.checkLanguage()
+                                                    ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
+                                                showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
+                                              }
+                                            });
+                                            servicesProvider.isLoading = false;
+                                            servicesProvider.notifyMe();
+                                          }catch(e){
+                                            servicesProvider.isLoading = false;
+                                            servicesProvider.notifyMe();
+                                            if (kDebugMode) {
+                                              print(e.toString());
+                                            }
+                                          }
+                                        }, withCancelButton: true);
+                                  } break;
+                                  default: {} break;
+                                }
+                              },
+                              icon: Icon(
+                                Icons.more_vert,
+                                color: HexColor('#51504E'),
+                                size: 33,
+                              ),
+                              itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<ContextMenu>>[
+                                PopupMenuItem<ContextMenu>(
+                                  value: ContextMenu.edit,
+                                  child: contextMenuItem(
+                                      "edit",
+                                      'assets/icons/edit.svg',
+                                      '#363636'
+                                  ),
+                                ),
+                                PopupMenuItem<ContextMenu>(
+                                  value: ContextMenu.delete,
+                                  enabled: pDependents[0][dependentIndex]['SOURCE_FLAG'] == 2,
+                                  child: contextMenuItem(
+                                      "delete",
+                                      'assets/icons/delete.svg',
+                                      '#ED3124'
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
@@ -768,135 +912,6 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                                  decoration: BoxDecoration(
-                                    color: (pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 11
-                                        ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Text(
-                                    getRelationType(pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']),
-                                    style: TextStyle(
-                                      color: (pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 11
-                                          ? HexColor('#003C97') : HexColor('#2D452E'),
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
-                                    ),
-                                  ),
-                                ),
-                                PopupMenuButton<ContextMenu>(
-                                  onSelected: (ContextMenu result) async {
-                                    switch (result.index) {
-                                      case 0: {
-                                        selectedStatus = pDependents[0][dependentIndex]['IS_ALIVE'] == 1
-                                            ? 'alive' : 'dead';
-                                        selectedJobStatus = (pDependents[0][dependentIndex]['WORK_STATUS'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
-                                            ? 'unemployed' : 'employed';
-                                        selectedGetsSalary = (pDependents[0][dependentIndex]['IS_RETIRED_A'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
-                                            ? 'no' : 'yes';
-                                        selectedHasDisability = (pDependents[0][dependentIndex]['DISABILITY'] ?? pDependents[0][dependentIndex]['IS_SUPPORT_TO_OTHER_PEN']) == 0
-                                            ? 'no' : 'yes';
-                                        selectedMaritalStatus = (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 1
-                                            ? UserConfig.instance.checkLanguage()
-                                            ? 'single' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
-                                            : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 2
-                                            ? UserConfig.instance.checkLanguage()
-                                            ? 'married' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF'
-                                            : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 3
-                                            ? UserConfig.instance.checkLanguage()
-                                            ? 'divorced' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF'
-                                            : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 4
-                                            ? UserConfig.instance.checkLanguage()
-                                            ? 'widow' : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF' : 'single';
-                                        maritalList = [
-                                          UserConfig.instance.checkLanguage()
-                                              ? 'single'
-                                              : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF',
-                                          UserConfig.instance.checkLanguage()
-                                              ? 'married'
-                                              : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
-                                          UserConfig.instance.checkLanguage()
-                                              ? 'divorced'
-                                              : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF',
-                                          UserConfig.instance.checkLanguage()
-                                              ? 'widow'
-                                              : pDependents[0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF',
-                                        ];
-                                        dependentModalBottomSheet(dependentIndex);
-                                      } break;
-                                      case 1: {
-                                        showMyDialog(
-                                            context, 'wouldYouLikeToConfirmDeletionOfDependents',
-                                            pDependents[0][dependentIndex]['NAME'] ?? pDependents[0][dependentIndex]['FULL_NAME'],
-                                            'yesContinue', themeNotifier, icon: 'assets/icons/dialogDeleteIcon.svg',
-                                            onPressed: () async{
-                                              String errorMessage = '';
-                                              servicesProvider.isLoading = true;
-                                              servicesProvider.notifyMe();
-                                              try{
-                                                await servicesProvider.deleteDependent(int.tryParse(pDependents[0][dependentIndex]["ID"].toString())).then((value){
-                                                  Navigator.of(context).pop();
-                                                  if(value['PO_RESULT'] == 1){
-                                                    servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == pDependents[0][dependentIndex]["DEP_CODE"]);
-                                                    pDependents[0].removeAt(dependentIndex);
-                                                    if(dependentIndex == pDependents[0].length && dependentIndex != 0){
-                                                      setState(() {
-                                                        dependentIndex--;
-                                                      });
-                                                    }
-                                                    showMyDialog(context, 'dependentWereDeleted', '', 'ok', themeNotifier, titleColor: '#2D452E');
-                                                  } else{
-                                                    errorMessage = UserConfig.instance.checkLanguage()
-                                                        ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
-                                                    showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
-                                                  }
-                                                });
-                                                servicesProvider.isLoading = false;
-                                                servicesProvider.notifyMe();
-                                              }catch(e){
-                                                servicesProvider.isLoading = false;
-                                                servicesProvider.notifyMe();
-                                                if (kDebugMode) {
-                                                  print(e.toString());
-                                                }
-                                              }
-                                            }, withCancelButton: true);
-                                      } break;
-                                      default: {} break;
-                                    }
-                                  },
-                                  icon: Icon(
-                                    Icons.more_vert,
-                                    color: HexColor('#51504E'),
-                                    size: 22,
-                                  ),
-                                  itemBuilder: (BuildContext context) =>
-                                  <PopupMenuEntry<ContextMenu>>[
-                                    PopupMenuItem<ContextMenu>(
-                                      value: ContextMenu.edit,
-                                      child: contextMenuItem(
-                                          "edit",
-                                          'assets/icons/edit.svg',
-                                          '#363636'
-                                      ),
-                                    ),
-                                    PopupMenuItem<ContextMenu>(
-                                      value: ContextMenu.delete,
-                                      enabled: pDependents[0][dependentIndex]['SOURCE_FLAG'] == 2,
-                                      child: contextMenuItem(
-                                          "delete",
-                                          'assets/icons/delete.svg',
-                                          '#ED3124'
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
                           ],
                         ),
                         const SizedBox(height: 15.0,),
@@ -1972,19 +1987,19 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   buildFieldTitle(context, 'status', required: false),
                                   const SizedBox(height: 10.0,),
                                   customTwoRadioButtons(1, 'alive', 'dead', setState),
-                                  const SizedBox(height: 20.0,),
+                                  const SizedBox(height: 30.0,),
                                   buildFieldTitle(context, 'employmentStatus', required: false),
                                   const SizedBox(height: 10.0,),
                                   customTwoRadioButtons(2, 'unemployed', 'employed', setState),
-                                  const SizedBox(height: 20.0,),
+                                  const SizedBox(height: 30.0,),
                                   buildFieldTitle(context, 'getsSalary', required: false),
                                   const SizedBox(height: 10.0,),
                                   customTwoRadioButtons(3, 'yes', 'no', setState),
-                                  const SizedBox(height: 20.0,),
+                                  const SizedBox(height: 30.0,),
                                   buildFieldTitle(context, 'hasDisability', required: false),
                                   const SizedBox(height: 10.0,),
                                   customTwoRadioButtons(4, 'yes', 'no', setState),
-                                  const SizedBox(height: 20.0,),
+                                  const SizedBox(height: 30.0,),
                                   buildFieldTitle(context, 'maritalStatus', required: false),
                                   const SizedBox(height: 10.0,),
                                   customRadioButtonGroup(1, maritalList, setState),
@@ -2068,7 +2083,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 "dep": {
                                                   "dep": dependent
                                                 }
-                                              }), 8
+                                              }), widget.serviceType
                                           ).whenComplete((){}).then((value) {
                                             servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == pDependents[0][dependentIndex]["DEP_CODE"]);
                                             if(value['R_RESULT'].isNotEmpty){
@@ -2104,17 +2119,17 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       servicesProvider.isLoading = true;
                                       servicesProvider.isModalLoading = true;
                                       servicesProvider.notifyMe();
-                                      dynamic maritalStatus = selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                          ? 'single' : servicesProvider.dependentInfo['cur_getdata'][0][0]["GENDER"] == 1 ? 'singleM' : 'singleF') ? 1
-                                          : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                          ? 'married' : servicesProvider.dependentInfo['cur_getdata'][0][0]["GENDER"] == 1 ? 'marriedM' : 'marriedF') ? 2
-                                          : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                          ? 'divorced' : servicesProvider.dependentInfo['cur_getdata'][0][0]["GENDER"] == 1 ? 'divorcedM' : 'divorcedF') ? 3
-                                          : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                          ? 'widow' : servicesProvider.dependentInfo['cur_getdata'][0][0]["GENDER"] == 1 ? 'widowM' : 'widowF') ? 4 : 1;
                                       try{
                                         await servicesProvider.checkDocumentDependent((pDependents.isNotEmpty && pDependents[0].length != 0) ? pDependents[0] : []).then((value) async {
                                           if(value['P_RESULT'].isEmpty){
+                                            dynamic maritalStatus = selectedMaritalStatus == (UserConfig.instance.checkLanguage()
+                                                ? 'single' : selectedGender == 'male' ? 'singleM' : 'singleF') ? 1
+                                                : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
+                                                ? 'married' : selectedGender == 'male' ? 'marriedM' : 'marriedF') ? 2
+                                                : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
+                                                ? 'divorced' : selectedGender == 'male' ? 'divorcedM' : 'divorcedF') ? 3
+                                                : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
+                                                ? 'widow' : selectedGender == 'male' ? 'widowM' : 'widowF') ? 4 : 1;
                                             Map<String, dynamic> dependent;
                                             String id = "${DateTime.now().millisecondsSinceEpoch}${((math.Random().nextDouble() * 10000) + 1).floor()}";
                                             if(nationality == 'jordanian'){
@@ -2186,8 +2201,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                   "dep": {
                                                     "dep": dependent
                                                   }
-                                                }),
-                                                8
+                                                }), widget.serviceType
                                             ).whenComplete((){}).then((value) {
                                               if(value['R_RESULT'].isNotEmpty){
                                                 for(int i=0 ; i<value['R_RESULT'][0].length ; i++){
