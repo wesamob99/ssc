@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:ssc/infrastructure/HTTPClientContract.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
@@ -194,21 +195,27 @@ class UserSecuredStorage {
   }
 
   Future<void> initSecuredBox() async {
-    await hive_flutter.Hive.initFlutter();
-    if (Platform.isAndroid) {
-      const FlutterSecureStorage secureStorage = FlutterSecureStorage();
-      var containsEncryptionKey =
-          await secureStorage.containsKey(key: _BOX_NAME);
-      if (!containsEncryptionKey) {
-        await secureStorage.write(
-            key: _BOX_NAME, value: base64UrlEncode(Hive.generateSecureKey()));
-      }
+    try{
+      await hive_flutter.Hive.initFlutter();
+      if (Platform.isAndroid) {
+        const FlutterSecureStorage secureStorage = FlutterSecureStorage();
+        var containsEncryptionKey =
+            await secureStorage.containsKey(key: _BOX_NAME);
+        if (!containsEncryptionKey) {
+          await secureStorage.write(
+              key: _BOX_NAME, value: base64UrlEncode(Hive.generateSecureKey()));
+        }
 
-      String read = await secureStorage.read(key: _BOX_NAME);
-      await UserSecuredStorage.instance.openBox(
-          hiveCipher: HiveAesCipher(base64Url.decode(read)));
-    } else {
-      await UserSecuredStorage.instance.openBox();
+        String read = await secureStorage.read(key: _BOX_NAME);
+        await UserSecuredStorage.instance.openBox(
+            hiveCipher: HiveAesCipher(base64Url.decode(read)));
+      } else {
+        await UserSecuredStorage.instance.openBox();
+      }
+    }catch(e){
+      if (kDebugMode) {
+        print(e.toString());
+      }
     }
   }
 
