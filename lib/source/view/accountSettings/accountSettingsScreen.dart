@@ -22,6 +22,7 @@ import '../../viewModel/utilities/language/globalAppProvider.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
 import 'accountSettingsComponents/callUsScreen.dart';
 import 'accountSettingsComponents/frequentlyAskedQuestionsScreen.dart';
+import 'accountSettingsComponents/myFinances/myFinancesListScreen.dart';
 import 'accountSettingsComponents/profileScreen.dart';
 import 'accountSettingsComponents/suggestionsAndComplaintsScreen.dart';
 import 'accountSettingsComponents/termsAndConditionsScreen.dart';
@@ -135,6 +136,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           buildNavigationButton('accountStatement', (){
                             Navigator.of(context).push(
                                 MaterialPageRoute(builder: (context) => const AccountStatementScreen())
+                            );
+                          }),
+                          buildNavigationButton('myFinances', (){
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => const MyFinancesListScreen())
                             );
                           }),
                         ],
