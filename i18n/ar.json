@@ -460,6 +460,19 @@
   "submitGuardian": "تقديم الوصي",
   "addNewHeir": "اضافة وريث جديد",
   "relationshipWithTheDeceasedPerson": "صلة القرابه مع الشخص المتوفي",
-  "theNationalPersonalNumberAddedToTheDependents": "الرقم الوطني/الشخصي مضاف للمعالين"
+  "theNationalPersonalNumberAddedToTheDependents": "الرقم الوطني/الشخصي مضاف للمعالين",
+  "myFinances": "تمويلاتي ",
+  "earlyRepayment": "تسديد مبكر",
+  "reschedule": "إعادة الجدولة",
+  "personal": "شخصي",
+  "totalRemainingToPay": "مجموع ما تبقى للدفع",
+  "installmentDetails": "تفاصيل الأقساط",
+  "summary": "الملخص",
+  "nextBatch": "الدفعة القادمة",
+  "postponed": "تم التأجيل",
+  "theAmountTobePaidAfterDeductingInterest": "المبلغ المستحق للسداد بعد خصم الفوائد",
+  "earlyPaymentDesc": "للتسديد عليك التوجه الى اقرب فرع ضمان لك وايداع المبلغ المطلوب نقديا او من خلال شيك مصدق من البنك الخاص بك ",
+  "activeLoanBalance": "رصيد السلفة الفعالة",
+  "lastPaymentDate": "تاريخ اخر دفعة :"
 
 }

@@ -451,6 +451,19 @@
   "submitGuardian": "Submit guardian",
   "addNewHeir": "Add a new heir",
   "relationshipWithTheDeceasedPerson": "Relationship with the deceased person",
-  "theNationalPersonalNumberAddedToTheDependents": "The national/personal number already added to the dependents"
+  "theNationalPersonalNumberAddedToTheDependents": "The national/personal number already added to the dependents",
+  "myFinances": "My finances",
+  "earlyRepayment": "Early repayment",
+  "reschedule": "Reschedule",
+  "personal": "Personal",
+  "totalRemainingToPay": "Total remaining to pay",
+  "installmentDetails": "Installment details",
+  "summary": "Summary",
+  "nextBatch": "Next batch",
+  "postponed": "postponed",
+  "theAmountTobePaidAfterDeductingInterest": "The amount to be paid after deducting interest",
+  "earlyPaymentDesc": "To pay, you must go to the nearest Daman branch to you and deposit the required amount in cash or through a certified check from your bank",
+  "activeLoanBalance": "Active loan balance",
+  "lastPaymentDate:": "Last payment date:"
 
 }
