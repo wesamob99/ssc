@@ -375,6 +375,10 @@
   "status": "الحالة",
   "alive": "على قيد الحياة",
   "dead": "في ذمة الله",
+  "single": "أعزب/عزباء",
+  "married": "متزوج/متزوجه",
+  "divorced": "مطلق/مطلقة",
+  "widow": "أرمل/أرملة",
   "singleM": "أعزب",
   "singleF": "عزباء",
   "marriedM": "متزوج",
@@ -455,6 +459,7 @@
   "guardianName": "إسم الوصي",
   "submitGuardian": "تقديم الوصي",
   "addNewHeir": "اضافة وريث جديد",
-  "relationshipWithTheDeceasedPerson": "صلة القرابه مع الشخص المتوفي"
+  "relationshipWithTheDeceasedPerson": "صلة القرابه مع الشخص المتوفي",
+  "theNationalPersonalNumberAddedToTheDependents": "الرقم الوطني/الشخصي مضاف للمعالين"
 
 }

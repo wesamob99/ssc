@@ -450,6 +450,7 @@
   "guardianName": "Guardian name",
   "submitGuardian": "Submit guardian",
   "addNewHeir": "Add a new heir",
-  "relationshipWithTheDeceasedPerson": "Relationship with the deceased person"
+  "relationshipWithTheDeceasedPerson": "Relationship with the deceased person",
+  "theNationalPersonalNumberAddedToTheDependents": "The national/personal number already added to the dependents"
 
 }
