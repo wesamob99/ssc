@@ -320,7 +320,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                         "INSURED": null,
                         "ID": servicesProvider.result['p_per_info'][0][0]['ID'], /// update
                         "DEP_FLAG": 0
-                      }, serviceType: widget.serviceType, dependents: pDependents,),
+                      }, serviceType: widget.serviceType, dependents: pDependents, relations: servicesProvider.result['P_RELATION'][0],),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 5)
                         const PaymentScreen(numberOfSteps: 6, nextStep: 'confirmRequest',),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 6)
@@ -791,41 +791,27 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                         ? 'no' : 'yes';
                                     selectedMaritalStatus = (
                                         pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 1
-                                        ? UserConfig.instance.checkLanguage()
-                                        ? 'single' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'singleM' : 'singleF'
+                                        ? 'single'
                                         : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 2
-                                        ? UserConfig.instance.checkLanguage()
-                                        ? 'married' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'marriedM' : 'marriedF'
+                                        ? 'married'
                                         : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 3
-                                        ? UserConfig.instance.checkLanguage()
-                                        ? 'divorced' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'divorcedM' : 'divorcedF'
+                                        ? 'divorced'
                                         : (pDependents[0][dependentIndex]['MARITAL_STATUS'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 4
-                                        ? UserConfig.instance.checkLanguage()
-                                        ? 'widow' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'widowM' : 'widowF' : 'single';
+                                        ? 'widow' : 'single';
                                     maritalList = [
-                                      UserConfig.instance.checkLanguage()
-                                          ? 'single'
-                                          : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'singleM' : 'singleF',
-                                      UserConfig.instance.checkLanguage()
-                                          ? 'married'
-                                          : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'marriedM' : 'marriedF',
-                                      UserConfig.instance.checkLanguage()
-                                          ? 'divorced'
-                                          : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'divorcedM' : 'divorcedF',
-                                      UserConfig.instance.checkLanguage()
-                                          ? 'widow' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'widowM' : 'widowF'
+                                      'single',
+                                      'married',
+                                      'divorced',
+                                      'widow'
                                     ];
 
                                     if((pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 11){
-                                      maritalList.remove(UserConfig.instance.checkLanguage()
-                                          ? 'widow' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'widowM' : 'widowF');
-                                      maritalList.remove(UserConfig.instance.checkLanguage()
-                                          ? 'single' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'singleM' : 'singleF',);
+                                      maritalList.remove('widow');
+                                      maritalList.remove('single');
                                     }
 
                                     if((pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 6){
-                                      maritalList.remove(UserConfig.instance.checkLanguage()
-                                          ? 'single' : int.parse(pDependents[0][dependentIndex]['GENDER'].toString()) == 1 ? 'singleM' : 'singleF',);
+                                      maritalList.remove('single');
                                     }
 
                                     dependentModalBottomSheet(dependentIndex);
@@ -1032,77 +1018,54 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                         ),
                         const SizedBox(height: 40.0,),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    getTranslated('hasDisability', context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
-                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
-                                    ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  getTranslated('hasDisability', context),
+                                  style: TextStyle(
+                                    color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
-                                  const SizedBox(height: 10.0,),
-                                  Text(
-                                    getTranslated(
-                                        (pDependents[0][dependentIndex]['DISABILITY'] ?? pDependents[0][dependentIndex]['IS_SUPPORT_TO_OTHER_PEN']) == 0
-                                            ? 'no' : 'yes',
-                                        context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
-                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
-                                    ),
+                                ),
+                                const SizedBox(height: 10.0,),
+                                Text(
+                                  getTranslated(
+                                      (pDependents[0][dependentIndex]['DISABILITY'] ?? pDependents[0][dependentIndex]['IS_SUPPORT_TO_OTHER_PEN']) == 0
+                                          ? 'no' : 'yes',
+                                      context),
+                                  style: TextStyle(
+                                    color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    getTranslated('getsSalary', context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
-                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
-                                    ),
+                            const SizedBox(width: 20.0,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  getTranslated('getsSalary', context),
+                                  style: TextStyle(
+                                    color: themeNotifier.isLight() ? HexColor('#979797') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
-                                  const SizedBox(height: 10.0,),
-                                  Text(
-                                    getTranslated(
-                                        (pDependents[0][dependentIndex]['IS_RETIRED_A'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
-                                            ? 'no' : 'yes',
-                                        context),
-                                    style: TextStyle(
-                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
-                                      fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
-                                    ),
+                                ),
+                                const SizedBox(height: 10.0,),
+                                Text(
+                                  getTranslated(
+                                      (pDependents[0][dependentIndex]['IS_RETIRED_A'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
+                                          ? 'no' : 'yes',
+                                      context),
+                                  style: TextStyle(
+                                    color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white70,
+                                    fontSize: isScreenHasSmallWidth(context) ? 12 : 14,
                                   ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    getTranslated('getsSalary', context),
-                                    style: const TextStyle(
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10.0,),
-                                  const Text(
-                                    'على قيد الحياة',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -1134,17 +1097,12 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                   selectedHasDisability = 'no';
                   selectedGender = 'male';
                   selectedRelation = getRelationType(1);
-                  selectedMaritalStatus = UserConfig.instance.checkLanguage()
-                  ? 'single' : 'singleM';
+                  selectedMaritalStatus = 'single';
                   maritalList = [
-                    UserConfig.instance.checkLanguage()
-                    ? 'single' : 'singleM',
-                    UserConfig.instance.checkLanguage()
-                    ? 'married' : 'marriedM',
-                    UserConfig.instance.checkLanguage()
-                    ? 'divorced' : 'divorcedM',
-                    UserConfig.instance.checkLanguage()
-                    ? 'widow' : 'widowM',
+                    'single',
+                    'married',
+                    'divorced',
+                    'widow',
                   ];
                   ///
                   dependentModalBottomSheet(dependentIndex, isEdit: true);
@@ -1661,7 +1619,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   const SizedBox(height: 10.0,),
                                   buildTextFormField(
                                       context, themeNotifier, nationalIdController, servicesProvider.isNationalIdValid ? 'val${nationalIdController.text}' : '9999999999', (val) async {
-                                        if((val.length == 10 && nationality == 'jordanian')){
+                                        if(val.length == 10 && nationality == 'jordanian' && pDependents[0].where((element) => element['NATIONAL_NO'].toString() == val).isEmpty){
                                           FocusScope.of(context).requestFocus(FocusNode());
                                           String message = '';
                                           servicesProvider.isLoading = true;
@@ -1673,6 +1631,38 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 servicesProvider.isNationalIdValid = true;
                                                 setState((){
                                                   servicesProvider.dependentInfo = value;
+                                                  ///
+                                                  selectedStatus = value['cur_getdata'][0][0]['IS_ALIVE'] == 1
+                                                      ? 'alive' : 'dead';
+                                                  selectedJobStatus = (value['cur_getdata'][0][0]['WORK_STATUS'] ?? value['cur_getdata'][0][0]['IS_WORK']) == 0
+                                                      ? 'unemployed' : 'employed';
+                                                  selectedGetsSalary = (value['cur_getdata'][0][0]['IS_RETIRED_A'] ?? value['cur_getdata'][0][0]['IS_WORK']) == 0
+                                                      ? 'no' : 'yes';
+                                                  selectedHasDisability = (value['cur_getdata'][0][0]['DISABILITY'] ?? value['cur_getdata'][0][0]['IS_SUPPORT_TO_OTHER_PEN']) != 0
+                                                      ? 'yes' : 'no';
+                                                  selectedMaritalStatus = (value['cur_getdata'][0][0]['SOCIAL_STATUS'] ?? value['cur_getdata'][0][0]['MARITAL_STATUS_A']) == 1
+                                                      ? 'single'
+                                                      : (value['cur_getdata'][0][0]['SOCIAL_STATUS'] ?? value['cur_getdata'][0][0]['MARITAL_STATUS_A']) == 2
+                                                      ? 'married'
+                                                      : (value['cur_getdata'][0][0]['SOCIAL_STATUS'] ?? value['cur_getdata'][0][0]['MARITAL_STATUS_A']) == 3
+                                                      ? 'divorced'
+                                                      : (value['cur_getdata'][0][0]['SOCIAL_STATUS'] ?? value['cur_getdata'][0][0]['MARITAL_STATUS_A']) == 4
+                                                      ? 'widow' : 'single';
+                                                  maritalList = [
+                                                    'single',
+                                                    'married',
+                                                    'divorced',
+                                                    'widow'
+                                                  ];
+                                                  if((value['cur_getdata'][0][0]['RELATION'] ?? value['cur_getdata'][0][0]['RELATIVETYPE']) == 11){
+                                                    maritalList.remove('widow');
+                                                    maritalList.remove('single');
+                                                  }
+
+                                                  if((value['cur_getdata'][0][0]['RELATION'] ?? value['cur_getdata'][0][0]['RELATIVETYPE']) == 6){
+                                                    maritalList.remove('single');
+                                                  }
+                                                  ///
                                                   servicesProvider.notifyMe();
                                                 });
                                               } else{
@@ -1692,6 +1682,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                               print(e.toString());
                                             }
                                           }
+                                        } else if(pDependents[0].where((element) => element['NATIONAL_NO'].toString() == val).isNotEmpty){
+                                          showMyDialog(context, 'failed', getTranslated('theNationalPersonalNumberAddedToTheDependents', context), 'ok', themeNotifier);
                                         }
                                         setState((){
                                           checkNonJordanianInfo();
@@ -1725,14 +1717,17 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Text(
-                                                  !isEdit
-                                                      ? pDependents[0][index]['NAME'] ?? pDependents[0][index]['FULL_NAME']
-                                                      : '${servicesProvider.dependentInfo['cur_getdata'][0][0]['FULL_NAME'] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]['NAME']}',
-                                                  style: TextStyle(
-                                                    height: 1.4,
-                                                    color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
-                                                    fontWeight: FontWeight.bold,
+                                                SizedBox(
+                                                  width: width(0.6, context),
+                                                  child: Text(
+                                                    !isEdit
+                                                        ? pDependents[0][index]['NAME'] ?? pDependents[0][index]['FULL_NAME']
+                                                        : '${servicesProvider.dependentInfo['cur_getdata'][0][0]['FULL_NAME'] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]['NAME']}',
+                                                    style: TextStyle(
+                                                      height: 1.4,
+                                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
                                                   ),
                                                 ),
                                                 Container(
@@ -1908,14 +1903,10 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                     servicesProvider.isLoading = true;
                                     servicesProvider.isModalLoading = true;
                                     servicesProvider.notifyMe();
-                                    dynamic maritalStatus = selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                        ? 'single' : pDependents[0][index]["GENDER"] == 1 ? 'singleM' : 'singleF') ? 1
-                                        : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                        ? 'married' : pDependents[0][index]["GENDER"] == 1 ? 'marriedM' : 'marriedF') ? 2
-                                        : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                        ? 'divorced' : pDependents[0][index]["GENDER"] == 1 ? 'divorcedM' : 'divorcedF') ? 3
-                                        : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                        ? 'widow' : pDependents[0][index]["GENDER"] == 1 ? 'widowM' : 'widowF') ? 4 : 1;
+                                    dynamic maritalStatus = selectedMaritalStatus == 'single' ? 1
+                                        : selectedMaritalStatus == 'married' ? 2
+                                        : selectedMaritalStatus == 'divorced' ? 3
+                                        : selectedMaritalStatus == 'widow' ? 4 : 1;
                                     try{
                                       /// TODO: complete checkDocumentDependent!
                                       await servicesProvider.checkDocumentDependent((pDependents.isNotEmpty && pDependents[0].length != 0) ? pDependents[0] : []).then((value) async {
@@ -1996,14 +1987,10 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       try{
                                         await servicesProvider.checkDocumentDependent((pDependents.isNotEmpty && pDependents[0].length != 0) ? pDependents[0] : []).then((value) async {
                                           if(value['P_RESULT'].isEmpty){
-                                            dynamic maritalStatus = selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                                ? 'single' : selectedGender == 'male' ? 'singleM' : 'singleF') ? 1
-                                                : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                                ? 'married' : selectedGender == 'male' ? 'marriedM' : 'marriedF') ? 2
-                                                : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                                ? 'divorced' : selectedGender == 'male' ? 'divorcedM' : 'divorcedF') ? 3
-                                                : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                                ? 'widow' : selectedGender == 'male' ? 'widowM' : 'widowF') ? 4 : 1;
+                                            dynamic maritalStatus = selectedMaritalStatus == 'single' ? 1
+                                                : selectedMaritalStatus == 'married' ? 2
+                                                : selectedMaritalStatus == 'divorced' ? 3
+                                                : selectedMaritalStatus == 'widow' ? 4 : 1;
                                             Map<String, dynamic> dependent;
                                             String id = "${DateTime.now().millisecondsSinceEpoch}${((math.Random().nextDouble() * 10000) + 1).floor()}";
                                             if(nationality == 'jordanian'){
@@ -2020,7 +2007,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 "MARITAL_STATUS": servicesProvider.dependentInfo['cur_getdata'][0][0]["MARITAL_STATUS"] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]["SOCIAL_STATUS"],
                                                 "WORK_STATUS_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["WORK_STATUS_A"] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_WORK"],
                                                 "IS_ALIVE_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_ALIVE"],
-                                                "IS_ALIVE": servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_ALIVE"],
+                                                "IS_ALIVE": selectedStatus == 'alive' ? 1 : 0,
                                                 "IS_RETIRED_A": selectedGetsSalary == 'yes' ? 1 : 0,
                                                 "LAST_EVENT_DATE": servicesProvider.dependentInfo['cur_getdata'][0][0]["LAST_SOC_STATUS_DATE"],
                                                 "WANT_HEALTH_INSURANCE": "",
@@ -2041,7 +2028,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                               dependent = {
                                                 "NAME": quatrainNounController.text,
                                                 "RELATION": getRelationNumber(selectedRelation),
-                                                "IS_ALIVE": 1,
+                                                "IS_ALIVE": selectedStatus == 'alive' ? 1 : 0,
                                                 "WORK_STATUS": selectedJobStatus == 'unemployed' ? 0 : 1,
                                                 "IS_RETIRED": selectedGetsSalary == 'yes' ? 1 : 0,
                                                 "DISABILITY": selectedHasDisability == 'no' ? 0 : 1,
@@ -2070,13 +2057,14 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 jsonEncode({
                                                   "row": {
                                                     "NAT": "111",
-                                                    "GENDER": "2"
+                                                    "GENDER": "1"
                                                   },
                                                   "dep": {
                                                     "dep": dependent
                                                   }
                                                 }), widget.serviceType
                                             ).whenComplete((){}).then((value) {
+                                              servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == pDependents[0][dependentIndex]["DEP_CODE"]);
                                               if(value['R_RESULT'].isNotEmpty){
                                                 for(int i=0 ; i<value['R_RESULT'][0].length ; i++){
                                                   if(!servicesProvider.dependentsDocuments.contains(value['R_RESULT'][0][i])) {
