@@ -473,6 +473,7 @@
   "theAmountTobePaidAfterDeductingInterest": "المبلغ المستحق للسداد بعد خصم الفوائد",
   "earlyPaymentDesc": "للتسديد عليك التوجه الى اقرب فرع ضمان لك وايداع المبلغ المطلوب نقديا او من خلال شيك مصدق من البنك الخاص بك ",
   "activeLoanBalance": "رصيد السلفة الفعالة",
-  "lastPaymentDate": "تاريخ اخر دفعة :"
+  "lastPaymentDate": "تاريخ اخر دفعة :",
+  "age": "العمر"
 
 }

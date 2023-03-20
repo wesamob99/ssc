@@ -464,6 +464,7 @@
   "theAmountTobePaidAfterDeductingInterest": "The amount to be paid after deducting interest",
   "earlyPaymentDesc": "To pay, you must go to the nearest Daman branch to you and deposit the required amount in cash or through a certified check from your bank",
   "activeLoanBalance": "Active loan balance",
-  "lastPaymentDate:": "Last payment date:"
+  "lastPaymentDate:": "Last payment date:",
+  "age": "Age"
 
 }
