@@ -87,7 +87,7 @@ class _MyFinancesListScreenState extends State<MyFinancesListScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20.0,),
+              const SizedBox(height: 15.0,),
               SizedBox(
                 width: width(1, context),
                 child: Column(
@@ -101,7 +101,7 @@ class _MyFinancesListScreenState extends State<MyFinancesListScreen> {
                         fontSize: 16,
                       ),
                     ),
-                    const SizedBox(height: 20.0,),
+                    const SizedBox(height: 15.0,),
                     Text(
                       '4300',
                       style: TextStyle(
@@ -110,7 +110,7 @@ class _MyFinancesListScreenState extends State<MyFinancesListScreen> {
                         fontSize: 28,
                       ),
                     ),
-                    const SizedBox(height: 15.0,),
+                    const SizedBox(height: 10.0,),
                     SizedBox(
                       width: width(1, context),
                       child: Column(
@@ -139,7 +139,7 @@ class _MyFinancesListScreenState extends State<MyFinancesListScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 15.0,),
+                    const SizedBox(height: 10.0,),
                     Row(
                       children: [
                         Expanded(
