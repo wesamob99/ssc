@@ -465,6 +465,7 @@
   "earlyPaymentDesc": "To pay, you must go to the nearest Daman branch to you and deposit the required amount in cash or through a certified check from your bank",
   "activeLoanBalance": "Active loan balance",
   "lastPaymentDate:": "Last payment date:",
-  "age": "Age"
+  "age": "Age",
+  "dateOfLastIncident": "Date of last incident (marriage, divorce, widowhood)"
 
 }
