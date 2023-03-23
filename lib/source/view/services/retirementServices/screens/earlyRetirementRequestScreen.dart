@@ -114,6 +114,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     if(servicesProvider.result['P_Dep'].length != 0){
       pDependents = servicesProvider.result['P_Dep'];
     }
+    servicesProvider.activePayment = [];
     servicesProvider.getActivePayment("${widget.serviceType}", servicesProvider.result['p_per_info'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
       value['R_RESULT'][0].forEach((element){
         servicesProvider.activePayment.add(element);
@@ -153,7 +154,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
       ? HexColor('#445740') : HexColor('#ffffff'),
       appBar: AppBar(
         centerTitle: false,
-        title: Text(getTranslated('earlyRetirementRequest', context)),
+        title: Text(
+          getTranslated(widget.serviceType == 8 ? 'earlyRetirementRequest' : 'applicationForOldAgePension', context),
+        ),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
@@ -813,7 +816,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       maritalList.remove('single');
                                     }
 
-                                    if((pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 6){
+                                    if((pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 6 &&
+                                       (pDependents[0][dependentIndex]['MARITAL_STATUS_A'] ?? pDependents[0][dependentIndex]['SOCIAL_STATUS']) == 2){
                                       maritalList.remove('single');
                                     }
                                     dateOfLastIncident = DateTime.now();
@@ -1670,13 +1674,13 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                       ? 'no' : 'yes';
                                                   selectedHasDisability = (value['cur_getdata'][0][0]['DISABILITY'] ?? value['cur_getdata'][0][0]['IS_SUPPORT_TO_OTHER_PEN']) != 0
                                                       ? 'yes' : 'no';
-                                                  selectedMaritalStatus = (value['cur_getdata'][0][0]['SOCIAL_STATUS'] ?? value['cur_getdata'][0][0]['MARITAL_STATUS_A']) == 1
+                                                  selectedMaritalStatus = (value['cur_getdata'][0][0]['SOCIAL_STATUS'] ?? value['cur_getdata'][0][0]['MARITAL_STATUS']) == 1
                                                       ? 'single'
-                                                      : (value['cur_getdata'][0][0]['SOCIAL_STATUS'] ?? value['cur_getdata'][0][0]['MARITAL_STATUS_A']) == 2
+                                                      : (value['cur_getdata'][0][0]['SOCIAL_STATUS'] ?? value['cur_getdata'][0][0]['MARITAL_STATUS']) == 2
                                                       ? 'married'
-                                                      : (value['cur_getdata'][0][0]['SOCIAL_STATUS'] ?? value['cur_getdata'][0][0]['MARITAL_STATUS_A']) == 3
+                                                      : (value['cur_getdata'][0][0]['SOCIAL_STATUS'] ?? value['cur_getdata'][0][0]['MARITAL_STATUS']) == 3
                                                       ? 'divorced'
-                                                      : (value['cur_getdata'][0][0]['SOCIAL_STATUS'] ?? value['cur_getdata'][0][0]['MARITAL_STATUS_A']) == 4
+                                                      : (value['cur_getdata'][0][0]['SOCIAL_STATUS'] ?? value['cur_getdata'][0][0]['MARITAL_STATUS']) == 4
                                                       ? 'widow' : 'single';
                                                   maritalList = [
                                                     'single',
@@ -1689,7 +1693,8 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                     maritalList.remove('single');
                                                   }
 
-                                                  if((value['cur_getdata'][0][0]['RELATION'] ?? value['cur_getdata'][0][0]['RELATIVETYPE']) == 6){
+                                                  if((value['cur_getdata'][0][0]['RELATION'] ?? value['cur_getdata'][0][0]['RELATIVETYPE']) == 6 &&
+                                                     (value['cur_getdata'][0][0]['MARITAL_STATUS_A'] ?? value['cur_getdata'][0][0]['SOCIAL_STATUS']) == 2){
                                                     maritalList.remove('single');
                                                   }
                                                   ///
@@ -2005,6 +2010,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                             "IS_RETIRED": pDependents[0][index]["IS_RETIRED"],
                                             "DISABILITY": selectedHasDisability == 'no' ? 0 : 1,
                                             "MARITAL_STATUS": maritalStatus,
+                                            "SOCIAL_STATUS": maritalStatus,
                                             "GENDER": pDependents[0][index]["GENDER"],
                                             "ID": pDependents[0][index]["ID"],
                                             "SOURCE_FLAG": pDependents[0][index]["SOURCE_FLAG"],
@@ -2108,6 +2114,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 "AGE": servicesProvider.dependentInfo['cur_getdata'][0][0]["AGE"],
                                                 "MARITAL_STATUS_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["MARITAL_STATUS_A"] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]["SOCIAL_STATUS"],
                                                 "MARITAL_STATUS": maritalStatus,
+                                                "SOCIAL_STATUS": maritalStatus,
                                                 "WORK_STATUS_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["WORK_STATUS_A"] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_WORK"],
                                                 "IS_ALIVE_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_ALIVE"],
                                                 "LAST_SOC_STATUS_DATE": selectedMaritalStatus != 'single' ? DateFormat('dd/MM/yyyy').format(dateOfLastIncident) : null,
@@ -2138,14 +2145,15 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 "DISABILITY": selectedHasDisability == 'no' ? 0 : 1,
                                                 "MARITAL_STATUS": maritalStatus,
                                                 "MARITAL_STATUS_A": maritalStatus,
+                                                "SOCIAL_STATUS": maritalStatus,
                                                 "LAST_SOC_STATUS_DATE": selectedMaritalStatus != 'single' ? DateFormat('dd/MM/yyyy').format(dateOfLastIncident) : null,
                                                 "GENDER": selectedGender == 'male' ? 1 : 2,
                                                 "ID": id,
                                                 "SOURCE_FLAG": 2,
                                                 "NATIONAL_NO": nationalIdController.text,
-                                                "NATIONALITY": 2,
+                                                "NATIONALITY": 0,
                                                 "BIRTHDATE": DateFormat('dd/MM/yyyy').format(selectedDateOfBirth),
-                                                "AGE": 0,
+                                                "AGE": DateTime.now().difference(selectedDateOfBirth).inDays ~/ 365,
                                                 ///
                                                 "WORK_STATUS_A": selectedJobStatus == 'unemployed' ? 0 : 1,
                                                 "IS_ALIVE_A": 1,
@@ -2156,6 +2164,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 "Added": null,
                                                 "doc_dep": "",
                                                 "DEP_CODE": id,
+                                                "IS_STOP": ""
                                               };
                                             }
                                             await servicesProvider.getRequiredDocuments(
