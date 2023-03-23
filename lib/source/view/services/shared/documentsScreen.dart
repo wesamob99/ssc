@@ -7,6 +7,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_filex/open_filex.dart';
@@ -27,7 +28,8 @@ class DocumentsScreen extends StatefulWidget {
   final int serviceType;
   final Map info;
   final List dependents; // from early its dependents, from deceased its inheritors
-  const DocumentsScreen({Key key, this.nextStep, this.numberOfSteps, this.data, this.serviceType, this.info, this.dependents}) : super(key: key);
+  final List relations;
+  const DocumentsScreen({Key key, this.nextStep, this.numberOfSteps, this.data, this.serviceType, this.info, this.dependents, this.relations}) : super(key: key);
 
   @override
   State<DocumentsScreen> createState() => _DocumentsScreenState();
@@ -37,6 +39,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   Future documentsFuture;
   ServicesProvider servicesProvider;
   ThemeNotifier themeNotifier;
+  bool isFilePickerActive = false;
 
   @override
   void initState() {
@@ -74,9 +77,10 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               ); break;
             case ConnectionState.done:
               if(!snapshot.hasError && snapshot.hasData){
+                print(snapshot.data);
                 if(snapshot.data['R_RESULT'].isNotEmpty){
                   for(int i=0 ; i<snapshot.data['R_RESULT'][0].length ; i++){
-                    if(servicesProvider.dependentsDocuments.isNotEmpty && !servicesProvider.dependentsDocuments.contains(snapshot.data['R_RESULT'][0][i])){
+                    if(servicesProvider.dependentsDocuments.isNotEmpty && !servicesProvider.dependentsDocuments.contains(snapshot.data['R_RESULT'][0][i]) && widget.info != null){
                       snapshot.data['R_RESULT'][0][i]['CODE'] = widget.info['NAT_NO'];
                       snapshot.data['R_RESULT'][0][i]['NAME'] = widget.info["NAME1"];
                     }
@@ -107,10 +111,10 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 Map optionalDocumentFor = {};
                 if(widget.dependents.isNotEmpty){
                   widget.dependents[0].forEach((element) {
-                    if(servicesProvider.mandatoryDocuments.isNotEmpty && Provider.of<ServicesProvider>(context).documentsScreensStepNumber == 2 && element['NATIONALNUMBER'].toString() == servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['CODE'].toString()){
+                    if(servicesProvider.mandatoryDocuments.isNotEmpty && Provider.of<ServicesProvider>(context).documentsScreensStepNumber == 2 && (element['NATIONALNUMBER'].toString() == servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['CODE'].toString() || element['DEP_CODE'].toString() == servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['CODE'].toString())){
                       mandatoryDocumentFor = element;
                     }
-                    if(servicesProvider.optionalDocuments.isNotEmpty && Provider.of<ServicesProvider>(context).documentsScreensStepNumber == 4 && element['NATIONALNUMBER'].toString() == servicesProvider.optionalDocuments[servicesProvider.documentIndex]['CODE'].toString()){
+                    if(servicesProvider.optionalDocuments.isNotEmpty && Provider.of<ServicesProvider>(context).documentsScreensStepNumber == 4 && (element['NATIONALNUMBER'].toString() == servicesProvider.optionalDocuments[servicesProvider.documentIndex]['CODE'].toString() || element['DEP_CODE'].toString() == servicesProvider.optionalDocuments[servicesProvider.documentIndex]['CODE'].toString())){
                       optionalDocumentFor = element;
                     }
                   });
@@ -220,7 +224,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  mandatoryDocumentFor["FULL_NAME"],
+                                                  mandatoryDocumentFor["FULL_NAME"] ?? mandatoryDocumentFor["NAME"],
                                                   style: TextStyle(
                                                     height: 1.4,
                                                     color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
@@ -231,14 +235,14 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                                 Container(
                                                   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
                                                   decoration: BoxDecoration(
-                                                    color: mandatoryDocumentFor['RELATIVETYPE'] == 11
+                                                    color: (mandatoryDocumentFor['RELATIVETYPE'] ?? mandatoryDocumentFor['RELATION']) == 11
                                                         ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
                                                     borderRadius: BorderRadius.circular(8.0),
                                                   ),
                                                   child: Text(
-                                                    getRelationType(mandatoryDocumentFor['RELATIVETYPE']),
+                                                    getRelationType(mandatoryDocumentFor['RELATIVETYPE'] ?? mandatoryDocumentFor['RELATION']),
                                                     style: TextStyle(
-                                                      color: mandatoryDocumentFor['RELATIVETYPE'] == 11
+                                                      color: (mandatoryDocumentFor['RELATIVETYPE'] ?? mandatoryDocumentFor['RELATION']) == 11
                                                           ? HexColor('#003C97') : HexColor('#2D452E'),
                                                       fontWeight: FontWeight.w400,
                                                       fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
@@ -251,7 +255,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  mandatoryDocumentFor["NATIONALNUMBER"],
+                                                  mandatoryDocumentFor["NATIONALNUMBER"] ?? mandatoryDocumentFor["NATIONAL_NO"],
                                                   style: TextStyle(
                                                     color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                                                   ),
@@ -391,7 +395,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Text(
-                                                    optionalDocumentFor["FULL_NAME"],
+                                                    optionalDocumentFor["FULL_NAME"] ?? optionalDocumentFor["NAME"],
                                                     style: TextStyle(
                                                       height: 1.4,
                                                       color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
@@ -402,14 +406,14 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                                   Container(
                                                     padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
                                                     decoration: BoxDecoration(
-                                                      color: optionalDocumentFor['RELATIVETYPE'] == 11
+                                                      color: optionalDocumentFor['RELATIVETYPE'] ?? optionalDocumentFor['RELATION'] == 11
                                                           ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
                                                       borderRadius: BorderRadius.circular(8.0),
                                                     ),
                                                     child: Text(
-                                                      getRelationType(optionalDocumentFor['RELATIVETYPE']),
+                                                      getRelationType(optionalDocumentFor['RELATIVETYPE'] ?? optionalDocumentFor['RELATION']),
                                                       style: TextStyle(
-                                                        color: optionalDocumentFor['RELATIVETYPE'] == 11
+                                                        color: optionalDocumentFor['RELATIVETYPE'] ?? optionalDocumentFor['RELATION'] == 11
                                                             ? HexColor('#003C97') : HexColor('#2D452E'),
                                                         fontWeight: FontWeight.w400,
                                                         fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
@@ -422,7 +426,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                               Row(
                                                 children: [
                                                   Text(
-                                                    optionalDocumentFor["NATIONALNUMBER"],
+                                                    optionalDocumentFor["NATIONALNUMBER"] ?? optionalDocumentFor["NATIONAL_NO"],
                                                     style: TextStyle(
                                                       color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                                                     ),
@@ -851,28 +855,51 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
         child: InkWell(
           onTap: () async {
             if(!(servicesProvider.uploadedFiles[type == 1 ? "mandatory" : "optional"][servicesProvider.documentIndex].isNotEmpty && servicesProvider.uploadedFiles[type == 1 ? "mandatory" : "optional"][servicesProvider.documentIndex].length-1 >= index)){
-              FilePickerResult result = await FilePicker.platform.pickFiles(
-                allowMultiple: true,
-              );
-              if (result != null) {
-                List<File> files = result.paths.map((path) => File(path)).toList();
-                for (var element in files) {
-                  if(type == 1) {
-                    servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].add({
-                      "file": element,
-                      "document": servicesProvider.mandatoryDocuments[servicesProvider.documentIndex],
-                    });
-                  } else {
-                    servicesProvider.uploadedFiles["optional"][servicesProvider.documentIndex].add({
-                      "file": element,
-                      "document": servicesProvider.optionalDocuments[servicesProvider.documentIndex],
-                    });
+              if (!isFilePickerActive) {
+                try {
+                  setState(() {
+                    isFilePickerActive = true;
+                  });
+                  FilePickerResult result = await FilePicker.platform.pickFiles(
+                    allowMultiple: true,
+                  );
+                  if (result != null) {
+                    List<File> files = result.paths.map((path) => File(path)).toList();
+                    for (var element in files) {
+                      if(type == 1) {
+                        servicesProvider.uploadedFiles["mandatory"][servicesProvider.documentIndex].add({
+                          "file": element,
+                          "document": servicesProvider.mandatoryDocuments[servicesProvider.documentIndex],
+                        });
+                      } else {
+                        servicesProvider.uploadedFiles["optional"][servicesProvider.documentIndex].add({
+                          "file": element,
+                          "document": servicesProvider.optionalDocuments[servicesProvider.documentIndex],
+                        });
+                      }
+                    }
+                    setState(() {});
+                    servicesProvider.notifyMe();
                   }
+                } on PlatformException catch (e) {
+                  if (e.code == 'already_active') {
+                    if (kDebugMode) {
+                      print('File picker is already active');
+                    }
+                  } else {
+                    if (kDebugMode) {
+                      print('Error picking file: $e');
+                    }
+                  }
+                } finally {
+                  setState(() {
+                    isFilePickerActive = false;
+                  });
                 }
-                setState(() {});
-                servicesProvider.notifyMe();
               } else {
-                // User canceled the picker
+                if (kDebugMode) {
+                  print('File picker is already active');
+                }
               }
             }
           },
@@ -1041,11 +1068,11 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
 
   String getRelationType(int relation){
     String result = '';
-    servicesProvider.penDeath['Relative_type_getdata'][0].forEach((element){
+    for (var element in widget.relations) {
       if(element['REL_ID'].toString() == relation.toString()){
         result = UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR'];
       }
-    });
+    }
     return result;
   }
 }
