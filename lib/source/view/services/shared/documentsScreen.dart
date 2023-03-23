@@ -86,6 +86,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     }
                   }
                 }
+                if(snapshot.data['R_RESULT'].isEmpty){
+                  snapshot.data['R_RESULT'] = [[]];
+                }
                 if(servicesProvider.dependentsDocuments.isNotEmpty && !snapshot.data['R_RESULT'][0].contains(servicesProvider.dependentsDocuments)){
                   snapshot.data['R_RESULT'][0].addAll(servicesProvider.dependentsDocuments);
                 }
