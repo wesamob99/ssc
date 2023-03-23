@@ -432,18 +432,18 @@ class ServicesRepository{
       "PEN_IBAN": paymentInfo['PEN_IBAN'],
       "IBAN_CONFIG": "1",
       /// ***
-      "IFSC": result['P_Result'][0][0]['IFSC'] ?? "",
+      "IFSC": result['p_per_info'][0][0]['IFSC'] ?? "",
       "APPROVE_DISCLOSURE": 1,
       "NOT_APPROVE_REASON": null,
       "SIG_ATHORIZED": authorizedToSign,
       "WANT_INSURANCE": wantInsurance,
-      "OFFNO": result['P_Result'][0][0]['OFFNO'],
+      "OFFNO": result['p_per_info'][0][0]['OFFNO'],
       "AGREE_TERMS": 1,
       "SECNO": result['p_per_info'][0][0]['SECNO'],
       "NAT_DESC": result['p_per_info'][0][0]['NAT_DESC'],
-      "NAT": result['P_Result'][0][0]['NAT'],
-      "NAT_NO": result['P_Result'][0][0]['NAT_NO'],
-      "PERS_NO": result['P_Result'][0][0]['PERS_NO'],
+      "NAT": result['p_per_info'][0][0]['NAT'],
+      "NAT_NO": result['p_per_info'][0][0]['NAT_NO'],
+      "PERS_NO": result['p_per_info'][0][0]['PERS_NO'],
       "LAST_EST_NAME": result['p_per_info'][0][0]['LAST_EST_NAME'],
       "NAME1": result['p_per_info'][0][0]['NAME1'],
       "NAME2": result['p_per_info'][0][0]['NAME2'],
@@ -453,25 +453,25 @@ class ServicesRepository{
       "EMAIL": result['p_per_info'][0][0]['EMAIL'],
       "MOBILE": result['p_per_info'][0][0]['MOBILE'],
       "INTERNATIONAL_CODE": result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
-      "INSURED_ADDRESS": result['P_Result'][0][0]['INSURED_ADDRESS'],
-      "MARITAL_STATUS": result['P_Result'][0][0]['MARITAL_STATUS'],
+      "INSURED_ADDRESS": result['p_per_info'][0][0]['INSURED_ADDRESS'],
+      "MARITAL_STATUS": result['p_per_info'][0][0]['MARITAL_STATUS'],
       "REGDATE": null, /// not found
       "REGRATE": null, /// not found
       "LAST_SALARY": null, /// not found
-      "LAST_STODATE": result['P_Result'][0][0]['LAST_STODATE'],
-      "ACTUAL_STODATE": result['P_Result'][0][0]['ACTUAL_STODATE'],
+      "LAST_STODATE": result['p_per_info'][0][0]['LAST_STODATE'],
+      "ACTUAL_STODATE": result['p_per_info'][0][0]['ACTUAL_STODATE'],
       "GENDER": result['p_per_info'][0][0]['GENDER'],
-      "CIVIL_WORK_DOC": result['P_Result'][0][0]['CIVIL_WORK_DOC'],
-      "MILITARY_WORK_DOC": result['P_Result'][0][0]['MILITARY_WORK_DOC'],
-      "CIV_MIL_RETIRED_DOC": result['P_Result'][0][0]['CIV_MIL_RETIRED_DOC'],
-      "PEN_START_DATE": result['P_Result'][0][0]['PEN_START_DATE'],
-      "GOVERNORATE": result['P_Result'][0][0]['GOVERNORATE'],
+      "CIVIL_WORK_DOC": result['p_per_info'][0][0]['CIVIL_WORK_DOC'],
+      "MILITARY_WORK_DOC": result['p_per_info'][0][0]['MILITARY_WORK_DOC'],
+      "CIV_MIL_RETIRED_DOC": result['p_per_info'][0][0]['CIV_MIL_RETIRED_DOC'],
+      "PEN_START_DATE": result['p_per_info'][0][0]['PEN_START_DATE'],
+      "GOVERNORATE": result['p_per_info'][0][0]['GOVERNORATE'],
       "DETAILED_ADDRESS": null, /// not found
       "PASS_NO": null, /// not found
       "RESIDENCY_NO": null, /// not found
       "DOB": result['p_per_info'][0][0]['DOB'],
       "JOB_NO": null, /// not found
-      "JOB_DESC": result['P_Result'][0][0]['JOB_DESC'],
+      "JOB_DESC": result['p_per_info'][0][0]['JOB_DESC'],
       "ENAME1": null, /// not found
       "ENAME2": null, /// not found
       "ENAME3": null, /// not found
@@ -483,16 +483,16 @@ class ServicesRepository{
       "GENDER_DESC": result['p_per_info'][0][0]['GENDER_DESC'],
       "PI_EPAY": null, /// not found
       "INSURED": null, /// not found
-      "APPLICANT_ID": int.parse(result['P_Result'][0][0]['APPLICANT_ID'].toString()),
-      "APPLICANT_NO": result['P_Result'][0][0]['APPLICANT_NO'],
-      "SERVICE_TYPE": result['P_Result'][0][0]['SERVICE_TYPE'],
-      "IS_DEFENSE": result['P_Result'][0][0]['IS_DEFENSE'],
+      "APPLICANT_ID": int.tryParse(result['p_per_info'][0][0]['APPLICANT_ID'].toString()),
+      "APPLICANT_NO": result['p_per_info'][0][0]['APPLICANT_NO'],
+      "SERVICE_TYPE": result['p_per_info'][0][0]['SERVICE_TYPE'],
+      "IS_DEFENSE": result['p_per_info'][0][0]['IS_DEFENSE'],
       "APP_STATUS_EXTERNAL": 2,
-      "OTHER_DEPENDANTS": result['P_Result'][0][0]['OTHER_DEPENDANTS'],
-      "ID": result['P_Result'][0][0]['ID'],
-      "LEAVE_START_DATE": result['P_Result'][0][0]['LEAVE_START_DATE'],
-      "LEAVE_END_DATE": result['P_Result'][0][0]['LEAVE_END_DATE'],
-      "BIRTH_DATE": result['P_Result'][0][0]['BIRTH_DATE'],
+      "OTHER_DEPENDANTS": result['p_per_info'][0][0]['OTHER_DEPENDANTS'],
+      "ID": result['p_per_info'][0][0]['ID'],
+      "LEAVE_START_DATE": result['p_per_info'][0][0]['LEAVE_START_DATE'],
+      "LEAVE_END_DATE": result['p_per_info'][0][0]['LEAVE_END_DATE'],
+      "BIRTH_DATE": result['p_per_info'][0][0]['BIRTH_DATE'],
     };
     var data = {
       "params": {
@@ -597,23 +597,22 @@ class ServicesRepository{
       "PERSONAL_RELATIVE_TYPE": deadPersonInfo['cur_getdata'][0][0]['RELATIVE_TYPE'],
       "PERSONAL_PERS_NO": result['p_per_info'][0][0]['PERS_NO'],
       "PERSONAL_MOBILE": result['p_per_info'][0][0]['MOBILE'],
-      "NAT_NO_DEATH": deadPersonInfo['cur_getdata'][0][0]['NAT_NO'],
+      "NAT_NO_DEATH": deadPersonInfo['cur_getdata'][0][0]['NAT_NO'].toString(),
       "TRANSACTION_TYPE": 4, /// ***
       "RELATION": deadPersonInfo['cur_getdata'][0][0]['RELATIVE_TYPE'],
       "PLACE_OF_DEATH": deathPlace,
-      "DEATH_DATE": DateFormat('E%20MMM%20d%20y%20HH:mm:ss%20\'GMT\'', 'en_US').format(DateTime.parse(deadPersonInfo['cur_getdata'][0][0]['DEATH_DATE'].replaceAll('/', '-').split('-').reversed.join()).toUtc()).toString(),
       "DEATH_BIRTH_DATE": null,
-      "IS_DEATH": 1,
-      "NAT_DEATH": "111",
+      "IS_DEATH": 1, /// ***
+      "NAT_DEATH": deadPersonInfo['cur_getdata'][0][0]['NAT'],
       "FULL_NAME": deadPersonInfo['cur_getdata'][0][0]['FULL_NAME_AR'],
       "MOBILE": result['p_per_info'][0][0]['MOBILE'],
-      "dateChoice": 1, /// ***
+      "dateChoice": deadPersonInfo['cur_getdata'][0][0]['NAT'] == "111" ? 1 : 2,
       "INS_NO_DEATH": deadPersonInfo['cur_getdata'][0][0]['SECNO'],
-      "PEN_NEWTYPE_DEATH": result['p_per_info'][0][0]['PEN_NEWTYPE'],
-      "INTERNATIONALCODE_DEATH": "+962", /// ***
-      "ACCEPTED": 1, /// ***
-      "APPLICANT_ID": result['p_per_info'][0][0]['NAT_NO'],
-      "APPLICANT_NO": result['p_per_info'][0][0]['NAT_NO'],
+      "PEN_NEWTYPE_DEATH": deadPersonInfo['cur_getdata'][0][0]['PEN_NEWTYPE'],
+      "INTERNATIONALCODE_DEATH": "+${result['p_per_info'][0][0]['INTERNATIONAL_CODE']}",
+      "ACCEPTED": 1,
+      "APPLICANT_ID": result['p_per_info'][0][0]['NAT_NO'].toString(),
+      "APPLICANT_NO": result['p_per_info'][0][0]['NAT_NO'].toString(),
       "SERVICE_TYPE": 11,
       "IS_DEFENSE": null, /// ***
       "APP_STATUS_EXTERNAL": 2, /// ***
@@ -622,9 +621,13 @@ class ServicesRepository{
       "LEAVE_START_DATE": null, /// ***
       "LEAVE_END_DATE": null, /// ***
       "BIRTH_DATE": null,
-      "AGREE_TERMS": 1,
+      "AGREE_TERMS": 0,
       "IBAN_CONFIG": "1"
     };
+    row.remove('NAT_NO');
+    row.remove('NAT');
+    row.remove('RELATIVE_TYPE');
+    row['DEATH_DATE'] = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", 'en_US').format(DateTime.parse(deadPersonInfo['cur_getdata'][0][0]['DEATH_DATE'].replaceAll('/', '-').split('-').reversed.join()).toUtc()).toString();
     var data = {
       "params": {
         "XML": jsonEncode(
@@ -675,6 +678,18 @@ class ServicesRepository{
 
   Future guardianGetDetailsService(String natNo, int nationality, String cardNo, String dateOfBirth) async {
     var response = await HTTPClientContract.instance.getHTTP('/individuals/Nat_Pers_match_GetDetail?NAT_NO=$natNo&nationality=$nationality&national_card_id=$cardNo&pi_DOB=$dateOfBirth');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+
+
+  Future getHeirsInfoService(String heirsNatNo, String deathNatNo) async { // get heirs details when adding new heirs from the national ID
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/heris_GetDetail?deathNatNo=$deathNatNo&heirsNatNo=$heirsNatNo&natType=1');
     if (kDebugMode) {
       print(response);
     }

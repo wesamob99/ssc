@@ -19,6 +19,7 @@ class ServicesProvider extends ChangeNotifier {
   bool isNationalIdValid = false;
   List dependentsDocuments;
   var dependentInfo;
+  var heirsInfo;
   var deadPersonInfo;
   Map penDeath;
 
@@ -162,6 +163,10 @@ class ServicesProvider extends ChangeNotifier {
 
   Future getDependentInfo(String id) async{
     return await servicesRepository.getDependentInfoService(id);
+  }
+
+  Future getHeirsInfo(String heirsNatNo) async{
+    return await servicesRepository.getHeirsInfoService(heirsNatNo, deadPersonInfo['cur_getdata'][0][0]['NAT_NO'].toString());
   }
 
   Future getPensionPaymentSP(String year) async{
