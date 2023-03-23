@@ -101,7 +101,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             const SizedBox(height: 10.0,),
             // customTwoRadioButtons(5, 'insideJordan', 'outsideJordan', setState),
             SizedBox(
-              height: servicesProvider.activePayment.length * 50.0,
+              height: servicesProvider.activePayment.length * 40.0,
               child: customRadioButtonGroup(servicesProvider.activePayment, setState),
             ),
             if(servicesProvider.selectedActivePayment['ID'] == 3) // inside jordan
