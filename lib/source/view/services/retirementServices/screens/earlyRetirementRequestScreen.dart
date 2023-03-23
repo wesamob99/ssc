@@ -66,6 +66,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   List pDependents = [];
 
   DateTime selectedDateOfBirth = DateTime.now();
+  DateTime dateOfLastIncident = DateTime.now();
   TextEditingController nationalIdController = TextEditingController();
   TextEditingController quatrainNounController = TextEditingController();
 
@@ -672,8 +673,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
 
   Widget thirdStep(context, themeNotifier){
     // if(pDependents.isNotEmpty && pDependents[0].length != 0){
-    //   servicesProvider.checkDocumentDependent(pDependents[0]);
+    //  servicesProvider.checkDocumentDependent(pDependents[0]);
     // }
+
     return SizedBox(
       height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
       child: Column(
@@ -781,6 +783,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                 switch (result.index) {
                                   case 0: {
                                     nationality = pDependents[0][dependentIndex]['NATIONALITY'] == 1 ? 'jordanian' : 'nonJordanian';
+                                    quatrainNounController.text = pDependents[0][dependentIndex]["FULL_NAME"] ?? pDependents[0][dependentIndex]['NAME'];
                                     selectedStatus = pDependents[0][dependentIndex]['IS_ALIVE'] == 1
                                         ? 'alive' : 'dead';
                                     selectedJobStatus = (pDependents[0][dependentIndex]['WORK_STATUS'] ?? pDependents[0][dependentIndex]['IS_WORK']) == 0
@@ -813,7 +816,16 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                     if((pDependents[0][dependentIndex]['RELATION'] ?? pDependents[0][dependentIndex]['RELATIVETYPE']) == 6){
                                       maritalList.remove('single');
                                     }
-
+                                    dateOfLastIncident = DateTime.now();
+                                    if(pDependents[0][dependentIndex]['LAST_SOC_STATUS_DATE'] != null && pDependents[0][dependentIndex]['LAST_SOC_STATUS_DATE'].toString().replaceAll(' ', '').isNotEmpty){
+                                      try{
+                                        dateOfLastIncident = DateFormat('dd/MM/yyyy').parse(pDependents[0][dependentIndex]['LAST_SOC_STATUS_DATE'].toString());
+                                      }catch(e){
+                                        if (kDebugMode) {
+                                          print('invalid datetime format!');
+                                        }
+                                      }
+                                    }
                                     dependentModalBottomSheet(dependentIndex);
                                   } break;
                                   case 1: {
@@ -825,10 +837,26 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                           String errorMessage = '';
                                           servicesProvider.isLoading = true;
                                           servicesProvider.notifyMe();
-                                          try{
+                                          // try{
                                             await servicesProvider.deleteDependent(int.tryParse(pDependents[0][dependentIndex]["ID"].toString())).then((value){
                                               Navigator.of(context).pop();
                                               if(value['PO_RESULT'] == 1){
+                                                for(int i=0 ; i<servicesProvider.uploadedFiles['mandatory'].length ; i++){
+                                                  servicesProvider.uploadedFiles['mandatory'][i].forEach((element){
+                                                    if(element['document']['CODE'] == pDependents[0][dependentIndex]["DEP_CODE"]){
+                                                      servicesProvider.uploadedFiles['mandatory'].remove(servicesProvider.uploadedFiles['mandatory'][i]);
+                                                      i++;
+                                                    }
+                                                  });
+                                                }
+                                                for(int i=0 ; i<servicesProvider.uploadedFiles['optional'].length ; i++){
+                                                  servicesProvider.uploadedFiles['optional'][i].forEach((element){
+                                                    if(element['document']['CODE'] == pDependents[0][dependentIndex]["DEP_CODE"]){
+                                                      servicesProvider.uploadedFiles['optional'].remove(servicesProvider.uploadedFiles['optional'][i]);
+                                                      i++;
+                                                    }
+                                                  });
+                                                }
                                                 servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == pDependents[0][dependentIndex]["DEP_CODE"]);
                                                 pDependents[0].removeAt(dependentIndex);
                                                 if(dependentIndex == pDependents[0].length && dependentIndex != 0){
@@ -845,13 +873,13 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                             });
                                             servicesProvider.isLoading = false;
                                             servicesProvider.notifyMe();
-                                          }catch(e){
-                                            servicesProvider.isLoading = false;
-                                            servicesProvider.notifyMe();
-                                            if (kDebugMode) {
-                                              print(e.toString());
-                                            }
-                                          }
+                                          // }catch(e){
+                                          //   servicesProvider.isLoading = false;
+                                          //   servicesProvider.notifyMe();
+                                          //   if (kDebugMode) {
+                                          //     print(e.toString());
+                                          //   }
+                                          // }
                                         }, withCancelButton: true);
                                   } break;
                                   default: {} break;
@@ -1104,6 +1132,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                     'divorced',
                     'widow',
                   ];
+                  dateOfLastIncident = DateTime.now();
                   ///
                   dependentModalBottomSheet(dependentIndex, isEdit: true);
                 },
@@ -1557,6 +1586,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
   }
 
   dependentModalBottomSheet(int index, {bool isEdit = false}){
+
     return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0))
@@ -1683,6 +1713,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                             }
                                           }
                                         } else if(pDependents[0].where((element) => element['NATIONAL_NO'].toString() == val).isNotEmpty){
+                                          nationalIdController.clear();
                                           showMyDialog(context, 'failed', getTranslated('theNationalPersonalNumberAddedToTheDependents', context), 'ok', themeNotifier);
                                         }
                                         setState((){
@@ -1869,6 +1900,58 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   const SizedBox(height: 10.0,),
                                   customTwoRadioButtons(4, 'yes', 'no', setState),
                                   const SizedBox(height: 30.0,),
+                                  if(selectedMaritalStatus != 'single' && nationality == 'jordanian')
+                                  buildFieldTitle(context, 'dateOfLastIncident', required: false),
+                                  if(selectedMaritalStatus != 'single' && nationality == 'jordanian')
+                                  const SizedBox(height: 10.0,),
+                                  if(selectedMaritalStatus != 'single' && nationality == 'jordanian')
+                                  InkWell(
+                                    onTap: () {
+                                      DatePicker.showDatePicker(
+                                        context,
+                                        showTitleActions: true,
+                                        theme: DatePickerTheme(
+                                          headerColor: primaryColor,
+                                          backgroundColor: Colors.white,
+                                          itemStyle: TextStyle(
+                                            color: primaryColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
+                                          doneStyle: const TextStyle(color: Colors.white, fontSize: 16,),
+                                          cancelStyle: const TextStyle(color: Colors.white, fontSize: 16),
+                                        ),
+                                        maxTime: DateTime.now(),
+                                        onConfirm: (date) {
+                                          setState((){
+                                            dateOfLastIncident = date;
+                                          });
+                                        },
+                                        currentTime: dateOfLastIncident,
+                                        locale: LocaleType.en,
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(12.0),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: HexColor('#979797'),
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            DateFormat('dd/MM/yyyy').format(dateOfLastIncident),
+                                          ),
+                                          SvgPicture.asset('assets/icons/datePickerIcon.svg'),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  if(selectedMaritalStatus != 'single' && nationality == 'jordanian')
+                                  const SizedBox(height: 30.0,),
                                   buildFieldTitle(context, 'maritalStatus', required: false),
                                   const SizedBox(height: 10.0,),
                                   customRadioButtonGroup(1, maritalList, setState),
@@ -1895,10 +1978,10 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                textButton(context, themeNotifier, 'save', (!isEdit || (isEdit && nationality == 'jordanian' && servicesProvider.isNationalIdValid) || (isEdit && nationality == 'nonJordanian' && nonJordanianSubmitEnabled)) ? HexColor('#445740') : HexColor('DADADA'),
-                                    (!isEdit || (isEdit && nationality == 'jordanian' && servicesProvider.isNationalIdValid) || (isEdit && nationality == 'nonJordanian' && nonJordanianSubmitEnabled)) ? Colors.white : HexColor('#363636'), () async {
+                                textButton(context, themeNotifier, 'save', (!isEdit && quatrainNounController.text.replaceAll(' ', '').isNotEmpty || (isEdit && nationality == 'jordanian' && servicesProvider.isNationalIdValid) || (isEdit && nationality == 'nonJordanian' && nonJordanianSubmitEnabled)) ? HexColor('#445740') : HexColor('DADADA'),
+                                    (!isEdit && quatrainNounController.text.replaceAll(' ', '').isNotEmpty || (isEdit && nationality == 'jordanian' && servicesProvider.isNationalIdValid) || (isEdit && nationality == 'nonJordanian' && nonJordanianSubmitEnabled)) ? Colors.white : HexColor('#363636'), () async {
                                   FocusScope.of(context).requestFocus(FocusNode());
-                                  if(!isEdit) {
+                                  if(!isEdit  && quatrainNounController.text.replaceAll(' ', '').isNotEmpty) {
                                     String message = '';
                                     servicesProvider.isLoading = true;
                                     servicesProvider.isModalLoading = true;
@@ -1911,8 +1994,11 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       /// TODO: complete checkDocumentDependent!
                                       await servicesProvider.checkDocumentDependent((pDependents.isNotEmpty && pDependents[0].length != 0) ? pDependents[0] : []).then((value) async {
                                         if(value['P_RESULT'].isEmpty){
+                                          String id = "${DateTime.now().millisecondsSinceEpoch}${((math.Random().nextDouble() * 10000) + 1).floor()}";
                                           var dependent = {
-                                            "FULL_NAME": pDependents[0][index]["FULL_NAME"] ?? pDependents[0][index]['NAME'],
+                                            "FULL_NAME": (nationality == 'jordanian')
+                                                ? pDependents[0][index]["FULL_NAME"] ?? pDependents[0][index]['NAME']
+                                                : quatrainNounController.text,
                                             "RELATION": pDependents[0][index]["RELATION"] ?? pDependents[0][index]["RELATIVETYPE"],
                                             "IS_ALIVE": selectedStatus == 'alive' ? 1 : 0,
                                             "WORK_STATUS": selectedJobStatus == 'unemployed' ? 0 : 1,
@@ -1927,6 +2013,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                             "BIRTHDATE": pDependents[0][index]["BIRTHDATE"],
                                             "AGE": pDependents[0][index]["AGE"],
                                             "MARITAL_STATUS_A": pDependents[0][index]["MARITAL_STATUS_A"] ?? pDependents[0][index]["SOCIAL_STATUS"],
+                                            "LAST_SOC_STATUS_DATE": selectedMaritalStatus != 'single' ? DateFormat('dd/MM/yyyy').format(dateOfLastIncident) : null,
                                             "WORK_STATUS_A": pDependents[0][index]["WORK_STATUS_A"] ?? pDependents[0][index]["IS_WORK"],
                                             "IS_ALIVE_A": pDependents[0][index]["IS_ALIVE_A"],
                                             "IS_RETIRED_A": selectedGetsSalary == 'yes' ? 1 : 0,
@@ -1935,7 +2022,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                             "PreLoad": 0,
                                             "Added": 1,
                                             "doc_dep": [],
-                                            "DEP_CODE": pDependents[0][index]["DEP_CODE"],
+                                            "DEP_CODE": id,
                                             "IS_STOP": ""
                                           };
                                           pDependents[0][index] = dependent;
@@ -1950,7 +2037,23 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 }
                                               }), widget.serviceType
                                           ).whenComplete((){}).then((value) {
-                                            servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == pDependents[0][dependentIndex]["DEP_CODE"]);
+                                            for(int i=0 ; i<servicesProvider.uploadedFiles['mandatory'].length ; i++){
+                                              servicesProvider.uploadedFiles['mandatory'][i].forEach((element){
+                                                if(element['document']['CODE'] == id){
+                                                  servicesProvider.uploadedFiles['mandatory'].remove(servicesProvider.uploadedFiles['mandatory'][i]);
+                                                  i++;
+                                                }
+                                              });
+                                            }
+                                            for(int i=0 ; i<servicesProvider.uploadedFiles['optional'].length ; i++){
+                                              servicesProvider.uploadedFiles['optional'][i].forEach((element){
+                                                if(element['document']['CODE'] == id){
+                                                  servicesProvider.uploadedFiles['optional'].remove(servicesProvider.uploadedFiles['optional'][i]);
+                                                  i++;
+                                                }
+                                              });
+                                            }
+                                            servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == id);
                                             if(value['R_RESULT'].isNotEmpty){
                                               for(int i=0 ; i<value['R_RESULT'][0].length ; i++){
                                                 if(!servicesProvider.dependentsDocuments.contains(value['R_RESULT'][0][i])) {
@@ -2004,9 +2107,10 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 "BIRTHDATE": servicesProvider.dependentInfo['cur_getdata'][0][0]["BIRTHDATE"],
                                                 "AGE": servicesProvider.dependentInfo['cur_getdata'][0][0]["AGE"],
                                                 "MARITAL_STATUS_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["MARITAL_STATUS_A"] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]["SOCIAL_STATUS"],
-                                                "MARITAL_STATUS": servicesProvider.dependentInfo['cur_getdata'][0][0]["MARITAL_STATUS"] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]["SOCIAL_STATUS"],
+                                                "MARITAL_STATUS": maritalStatus,
                                                 "WORK_STATUS_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["WORK_STATUS_A"] ?? servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_WORK"],
                                                 "IS_ALIVE_A": servicesProvider.dependentInfo['cur_getdata'][0][0]["IS_ALIVE"],
+                                                "LAST_SOC_STATUS_DATE": selectedMaritalStatus != 'single' ? DateFormat('dd/MM/yyyy').format(dateOfLastIncident) : null,
                                                 "IS_ALIVE": selectedStatus == 'alive' ? 1 : 0,
                                                 "IS_RETIRED_A": selectedGetsSalary == 'yes' ? 1 : 0,
                                                 "LAST_EVENT_DATE": servicesProvider.dependentInfo['cur_getdata'][0][0]["LAST_SOC_STATUS_DATE"],
@@ -2034,6 +2138,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                 "DISABILITY": selectedHasDisability == 'no' ? 0 : 1,
                                                 "MARITAL_STATUS": maritalStatus,
                                                 "MARITAL_STATUS_A": maritalStatus,
+                                                "LAST_SOC_STATUS_DATE": selectedMaritalStatus != 'single' ? DateFormat('dd/MM/yyyy').format(dateOfLastIncident) : null,
                                                 "GENDER": selectedGender == 'male' ? 1 : 2,
                                                 "ID": id,
                                                 "SOURCE_FLAG": 2,
@@ -2064,7 +2169,23 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                                   }
                                                 }), widget.serviceType
                                             ).whenComplete((){}).then((value) {
-                                              servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == pDependents[0][dependentIndex]["DEP_CODE"]);
+                                              for(int i=0 ; i<servicesProvider.uploadedFiles['mandatory'].length ; i++){
+                                                servicesProvider.uploadedFiles['mandatory'][i].forEach((element){
+                                                  if(element['document']['CODE'] == id){
+                                                    servicesProvider.uploadedFiles['mandatory'].remove(servicesProvider.uploadedFiles['mandatory'][i]);
+                                                    i++;
+                                                  }
+                                                });
+                                              }
+                                              for(int i=0 ; i<servicesProvider.uploadedFiles['optional'].length ; i++){
+                                                servicesProvider.uploadedFiles['optional'][i].forEach((element){
+                                                  if(element['document']['CODE'] == id){
+                                                    servicesProvider.uploadedFiles['optional'].remove(servicesProvider.uploadedFiles['optional'][i]);
+                                                    i++;
+                                                  }
+                                                });
+                                              }
+                                              servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == id);
                                               if(value['R_RESULT'].isNotEmpty){
                                                 for(int i=0 ; i<value['R_RESULT'][0].length ; i++){
                                                   if(!servicesProvider.dependentsDocuments.contains(value['R_RESULT'][0][i])) {
@@ -2161,7 +2282,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
 
   checkNonJordanianInfo() {
     if (nationalIdController.text.length == 10 &&
-        quatrainNounController.text.isNotEmpty &&
+        quatrainNounController.text.replaceAll(' ', '').isNotEmpty &&
         DateFormat('dd/MM/yyyy').format(selectedDateOfBirth).isNotEmpty) {
       setState(() {
         nonJordanianSubmitEnabled = true;
