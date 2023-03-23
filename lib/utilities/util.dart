@@ -532,11 +532,14 @@ Widget buildFieldTitle(context, title, {required = true, filled = false}){
   ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
   return Row(
     children: [
-      Text(
-        getTranslated(title, context),
-        style: TextStyle(
-          color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
-          fontSize: isTablet(context) ? 20 : 14
+      SizedBox(
+        width: width(0.85, context),
+        child: Text(
+          getTranslated(title, context),
+          style: TextStyle(
+            color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff'),
+            fontSize: isTablet(context) ? 20 : 14
+          ),
         ),
       ),
       if(required)
