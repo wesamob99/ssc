@@ -212,7 +212,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        UserConfig.instance.checkLanguage()
+                        UserConfig.instance.isLanguageEnglish()
                         ? choices[index]['NAME_EN'] : choices[index]['NAME_AR'],
                         style: TextStyle(
                           color: HexColor('#666666'),
@@ -236,7 +236,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       if((flag == 1 && element.natcode != 111) || flag == 2) {
         selectedListItem.add(
           SelectedListItem(
-            name: UserConfig.instance.checkLanguage() ? countries[inx == -1
+            name: UserConfig.instance.isLanguageEnglish() ? countries[inx == -1
                 ? 0
                 : inx].name : element.country,
             natCode: element.natcode,
@@ -272,7 +272,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ).showModal(context);
       },
       child: Container(
-          alignment: UserConfig.instance.checkLanguage()
+          alignment: UserConfig.instance.isLanguageEnglish()
               ? Alignment.centerLeft
               : Alignment.centerRight,
           padding: const EdgeInsets.symmetric(

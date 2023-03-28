@@ -188,8 +188,8 @@ class _MainScreenState extends State<MainScreen> {
         ],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(UserConfig.instance.checkLanguage() ?  0 : 50),
-            bottomRight: Radius.circular(UserConfig.instance.checkLanguage() ?  50 : 0)
+            bottomLeft: Radius.circular(UserConfig.instance.isLanguageEnglish() ?  0 : 50),
+            bottomRight: Radius.circular(UserConfig.instance.isLanguageEnglish() ?  50 : 0)
           )
         ),
       ),

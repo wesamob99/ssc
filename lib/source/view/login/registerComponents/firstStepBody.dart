@@ -42,13 +42,13 @@ class _FirstStepBodyState extends State<FirstStepBody> {
     }
     loginProvider.isLoading = false;
     selectedCountryOfResident = selectedCountryForJoMobileNumber = SelectedListItem(
-      name: UserConfig.instance.checkLanguage() ? "Jordan" : "الأردن",
+      name: UserConfig.instance.isLanguageEnglish() ? "Jordan" : "الأردن",
       value: "962", natCode: 111,
       flag: countries[110].flag,
     );
 
     selectedExactNationality = selectedCountryForForeignMobileNumber = SelectedListItem(
-      name: UserConfig.instance.checkLanguage() ? "Palestine" : "فلسطين",
+      name: UserConfig.instance.isLanguageEnglish() ? "Palestine" : "فلسطين",
       value: "970", natCode: 188,
       flag: countries[168].flag,
     );
@@ -86,7 +86,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                           SizedBox(height: height(0.006, context),),
                           Text(
                             '${loginProvider.flag == 0 ? getTranslated('nationality', context) : ''}'
-                                '${UserConfig.instance.checkLanguage() && loginProvider.flag == 0 ? ', ' : ' '}'
+                                '${UserConfig.instance.isLanguageEnglish() && loginProvider.flag == 0 ? ', ' : ' '}'
                                 '${getTranslated('countryOfResidence', context)}'
                                 ' ${getTranslated('and', context)}'
                                 '${getTranslated('mobileNumber', context)}',
@@ -165,7 +165,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                                 loginProvider.registerContinueEnabled = mobileNumberValidate(loginProvider.jordanianMobileNumberController.text);
 
                                 selectedExactNationality = selectedCountryForForeignMobileNumber = SelectedListItem(
-                                  name: UserConfig.instance.checkLanguage() ? "Palestine" : "فلسطين",
+                                  name: UserConfig.instance.isLanguageEnglish() ? "Palestine" : "فلسطين",
                                   value: "970", natCode: 188,
                                   flag: countries[168].flag,
                                 );
@@ -303,7 +303,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                           await loginProvider.sendMobileOTP(int.parse(loginProvider.jordanianMobileNumberController.text), "00962", 0).whenComplete((){})
                               .then((val) async {
                             if(val["PO_STATUS_DESC_AR"] != null && val['PO_status'] != 1){
-                              errorMessage = UserConfig.instance.checkLanguage()
+                              errorMessage = UserConfig.instance.isLanguageEnglish()
                                   ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
                               showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
                             } else if(val['PO_status'] == 1){
@@ -376,7 +376,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
       int inx = countries.indexWhere((value) => value.dialCode == element.callingCode);
       selectedListItem.add(
         SelectedListItem(
-          name: UserConfig.instance.checkLanguage() ? countries[inx == -1
+          name: UserConfig.instance.isLanguageEnglish() ? countries[inx == -1
               ? 0
               : inx].name : element.country,
           natCode: element.natcode,
@@ -418,7 +418,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
         child: Opacity(
           opacity: index != 3 ? 1 : 0.3,
           child: Container(
-              alignment: UserConfig.instance.checkLanguage()
+              alignment: UserConfig.instance.isLanguageEnglish()
                   ? Alignment.centerLeft
                   : Alignment.centerRight,
               padding: const EdgeInsets.symmetric(

@@ -130,7 +130,7 @@ class _HomeOverviewWidgetState extends State<HomeOverviewWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(UserConfig.instance.checkLanguage()
+                          Text(UserConfig.instance.isLanguageEnglish()
                               ? 'Al-Qawasmi Company'
                               : 'شركة القواسمي وشركاة',
                               style: TextStyle(fontSize: isTablet(context) ? 18 : 12)),

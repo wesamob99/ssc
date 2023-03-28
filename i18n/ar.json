@@ -454,6 +454,7 @@
   "guardianNationality": "جنسية الوصي",
   "guardianNationalNumber": "الرقم الوطني للوصي",
   "guardianCardNumber": "رقم البطاقة للوصي",
+  "widowCardNumber": "رقم بطاقة الأرملة",
   "guardianInformation": "معلومات الوصي",
   "noDocumentsHaveBeenAttached": "لم يتم ارفاق اية وثائق",
   "guardianName": "إسم الوصي",
@@ -476,6 +477,10 @@
   "activeLoanBalance": "رصيد السلفة الفعالة",
   "lastPaymentDate": "تاريخ اخر دفعة :",
   "age": "العمر",
-  "dateOfLastIncident": "تاريخ اخر واقعه (زواج، طلاق، ترمل)"
+  "dateOfLastIncident": "تاريخ اخر واقعه (زواج، طلاق، ترمل)",
+  "loanType": "نوع السلفة",
+  "loanDetails": "تفاصيل السلفة",
+  "heirLoan": "سلفة وريث",
+  "personalRetirementLoan": "سلفة تقاعد شخصية"
 
 }

@@ -5,6 +5,7 @@ import '../../../model/services/servicesRepository.dart';
 import '../insuranceServices/screens/workInjuryComplaintScreen.dart';
 import '../optionalAndFreeInclusion/screens/continuityOfCoverageRequestScreen.dart';
 import '../optionalAndFreeInclusion/screens/membershipRequestScreen.dart';
+import '../retirementServices/screens/applicationForPensionersLoan.dart';
 import '../retirementServices/screens/deceasedRetirementApplicationScreen.dart';
 import '../retirementServices/screens/earlyRetirementRequestScreen.dart';
 import '../retirementServices/screens/historicalPensionDetailsScreen.dart';
@@ -93,7 +94,7 @@ class ServicesList{
       title: "applicationForOldAgePension", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const EarlyRetirementRequestScreen(serviceType: 1,), serviceApiCall: ()=> _servicesRepository.getApplicationService(1)
   );
   static Service applicationForPensionersLoan = Service(
-      title: "applicationForPensionersLoan", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
+      title: "applicationForPensionersLoan", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const ApplicationForPensionersLoan(), serviceApiCall: ()=> _servicesRepository.getApplicationService(10)
   );
   static Service applicationOfReschedulePensionersLoan = Service(
       title: "applicationOfReschedulePensionersLoan", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()

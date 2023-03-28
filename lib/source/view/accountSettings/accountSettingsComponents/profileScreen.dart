@@ -93,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       MaterialPageRoute(builder: (context) => UpdateEmailScreen(email: (data.email  ?? '').toString(),))
                                   );
                                 }),
-                                buildDataField('countryOfResidence', UserConfig.instance.checkLanguage() ? countryOfResidence.natdescEn : countryOfResidence.natdesc, onTap: (){
+                                buildDataField('countryOfResidence', UserConfig.instance.isLanguageEnglish() ? countryOfResidence.natdescEn : countryOfResidence.natdesc, onTap: (){
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) => UpdateCountryOfResidence(

@@ -980,7 +980,7 @@ leadingBackIcon(context){
         Navigator.of(context).pop();
       },
       child: Transform.rotate(
-        angle: UserConfig.instance.checkLanguage()
+        angle: UserConfig.instance.isLanguageEnglish()
             ? -math.pi / 1.0 : 0,
         child: SvgPicture.asset(
             'assets/icons/backWhite.svg'
@@ -1026,7 +1026,7 @@ buildExpandableWidget(context, String title, dynamic child, {bool needTranslate 
 }
 
 updateLanguageWidget(BuildContext context){
-  bool isEnglish = UserConfig.instance.checkLanguage();
+  bool isEnglish = UserConfig.instance.isLanguageEnglish();
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
   return InkWell(
@@ -1044,7 +1044,7 @@ updateLanguageWidget(BuildContext context){
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              UserConfig.instance.checkLanguage() ? 'عربي' : 'English',
+              UserConfig.instance.isLanguageEnglish() ? 'عربي' : 'English',
               style: TextStyle(
                 color: themeNotifier.isLight()
                     ? primaryColor

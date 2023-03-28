@@ -57,7 +57,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: ListView.builder(
                   itemCount: servicesList.length,
                   itemBuilder: (context, index){
-                    return (UserConfig.instance.checkLanguage()
+                    return (UserConfig.instance.isLanguageEnglish()
                     ? getTranslated(servicesList[index].title, context).toLowerCase().contains(mainProvider.searchController.text.toLowerCase())
                     : getTranslated(servicesList[index].title, context).contains(mainProvider.searchController.text))
                       ? Padding(
@@ -118,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               Container(
-                alignment: UserConfig.instance.checkLanguage() ? Alignment.topRight : Alignment.topLeft,
+                alignment: UserConfig.instance.isLanguageEnglish() ? Alignment.topRight : Alignment.topLeft,
                 width: width(1, context),
                 child: InkWell(
                     onTap: (){

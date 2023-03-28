@@ -99,7 +99,7 @@ class _UpdateEmailScreenState extends State<UpdateEmailScreen> {
                                           ))
                                       );
                                     }else{
-                                      errorMessage = UserConfig.instance.checkLanguage()
+                                      errorMessage = UserConfig.instance.isLanguageEnglish()
                                           ? value['PO_STATUS_DESC_EN'] : value['PO_STATUS_DESC_AR'];
                                       showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
                                     }

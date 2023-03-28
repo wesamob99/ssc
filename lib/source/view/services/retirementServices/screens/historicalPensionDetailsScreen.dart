@@ -34,7 +34,7 @@ class _HistoricalPensionDetailsScreenState extends State<HistoricalPensionDetail
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     listOfYears = [];
     selectedYear = SelectedListItem(name: DateFormat("dd/MM/yyyy").parse(servicesProvider.result['cur_getdata'][0][0]['STARDT']).year.toString(), natCode: null, flag: '');
-    for(int i=DateFormat("dd/MM/yyyy").parse(servicesProvider.result['cur_getdata'][0][0]['STARDT']).year ; i<=2022 ; i++){
+    for(int i=DateFormat("dd/MM/yyyy").parse(servicesProvider.result['cur_getdata'][0][0]['STARDT']).year ; i<=DateTime.now().year ; i++){
       listOfYears.add(SelectedListItem(name: '$i', natCode: null, flag: ''));
     }
     super.initState();
@@ -201,7 +201,7 @@ class _HistoricalPensionDetailsScreenState extends State<HistoricalPensionDetail
         ).showModal(context);
       },
       child: Container(
-          alignment: UserConfig.instance.checkLanguage()
+          alignment: UserConfig.instance.isLanguageEnglish()
               ? Alignment.centerLeft
               : Alignment.centerRight,
           padding: const EdgeInsets.symmetric(

@@ -248,7 +248,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  UserConfig.instance.checkLanguage()
+                  UserConfig.instance.isLanguageEnglish()
                       ? 'Pay an optional subscription fee' : 'تسديد رسوم اشتراك اختياري',
                   style: TextStyle(
                     color:!themeNotifier.isLight() ? Colors.white :  HexColor('#363636'),
@@ -408,7 +408,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            UserConfig.instance.checkLanguage()
+                            UserConfig.instance.isLanguageEnglish()
                                 ? 'Pay an optional subscription fee' : 'تسديد رسوم اشتراك اختياري',
                             style: TextStyle(
                               color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),
@@ -429,7 +429,7 @@ class _PaymentManagementScreenState extends State<PaymentManagementScreen> {
                     ),
                     const SizedBox(height: 30.0,),
                     Text(
-                      UserConfig.instance.checkLanguage()
+                      UserConfig.instance.isLanguageEnglish()
                           ? 'The amount paid' : 'المبلغ المدفوع',
                       style: TextStyle(
                         color: !themeNotifier.isLight() ? Colors.white : HexColor('#363636'),

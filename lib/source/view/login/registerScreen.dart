@@ -104,7 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     });
                                   },
                                   child: Transform.rotate(
-                                    angle: UserConfig.instance.checkLanguage()
+                                    angle: UserConfig.instance.isLanguageEnglish()
                                         ? -math.pi / 1.0 : 0,
                                     child: isTablet(context)
                                     ? SvgPicture.asset('assets/icons/back.svg', width: 55,)

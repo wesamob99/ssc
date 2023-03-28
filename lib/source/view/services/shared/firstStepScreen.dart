@@ -66,7 +66,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
       int selectedInx = servicesProvider.countries.indexWhere((value) => value.callingCode == internationalCode);
       int selectedInxF = countries.indexWhere((value) => value.dialCode == internationalCode);
       selectedCountry = SelectedListItem(
-        name: UserConfig.instance.checkLanguage() ? servicesProvider.countries[selectedInx].countryEn : servicesProvider.countries[selectedInx].country,
+        name: UserConfig.instance.isLanguageEnglish() ? servicesProvider.countries[selectedInx].countryEn : servicesProvider.countries[selectedInx].country,
         value: servicesProvider.countries[selectedInx].callingCode, natCode: servicesProvider.countries[selectedInx].natcode,
         flag: countries[selectedInxF].flag,
       );
@@ -78,7 +78,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
       int inx = countries.indexWhere((value) => value.dialCode == element.callingCode);
       selectedListItem.add(
         SelectedListItem(
-          name: UserConfig.instance.checkLanguage() ? countries[inx == -1 ? 0 : inx].name : element.country,
+          name: UserConfig.instance.isLanguageEnglish() ? countries[inx == -1 ? 0 : inx].name : element.country,
           natCode: element.natcode,
           value: countries[inx == -1 ? 0 : inx].dialCode,
           isSelected: false,

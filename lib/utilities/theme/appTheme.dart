@@ -56,11 +56,11 @@ class AppTheme {
       centerTitle: true,
       elevation: 0,
       titleTextStyle: TextStyle(
-        fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
+        fontFamily: UserConfig.instance.isLanguageEnglish() ? 'literata' : 'Noor',
       )
     ),
     scaffoldBackgroundColor: HexColor('#212121'),
-    fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
+    fontFamily: UserConfig.instance.isLanguageEnglish() ? 'literata' : 'Noor',
     highlightColor: primaryColorDark,
     textTheme: textTheme('dark'),
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red, brightness: Brightness.dark).copyWith(background: HexColor('#212121'))
@@ -80,10 +80,10 @@ class AppTheme {
           actionsIconTheme: const IconThemeData(color: Colors.black),
           iconTheme: const IconThemeData(color: Colors.white),
           titleTextStyle: TextStyle(
-            fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
+            fontFamily: UserConfig.instance.isLanguageEnglish() ? 'literata' : 'Noor',
           )
       ),
-      fontFamily: UserConfig.instance.checkLanguage() ? 'literata' : 'Noor',
+      fontFamily: UserConfig.instance.isLanguageEnglish() ? 'literata' : 'Noor',
       scaffoldBackgroundColor: const Color.fromRGBO(250, 250, 250, 1.0),
       highlightColor: primaryColor,
       textTheme: textTheme('light'),

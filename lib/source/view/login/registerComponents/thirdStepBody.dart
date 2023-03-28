@@ -235,7 +235,7 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                             await loginProvider.sendEmailOTP(loginProvider.emailController.text, 0).whenComplete((){})
                                 .then((val) async {
                               if(val['PO_status'] != 1){
-                                errorMessage = UserConfig.instance.checkLanguage()
+                                errorMessage = UserConfig.instance.isLanguageEnglish()
                                     ? val['PO_STATUS_DESC_EN'] : val['PO_STATUS_DESC_AR'];
                                 showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
                               } else {

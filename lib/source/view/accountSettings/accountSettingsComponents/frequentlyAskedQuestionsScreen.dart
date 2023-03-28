@@ -127,7 +127,7 @@ class _FrequentlyAskedQuestionsScreenState extends State<FrequentlyAskedQuestion
                     itemCount: frequentlyAskedQuestionsList.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index){
-                      return (UserConfig.instance.checkLanguage()
+                      return (UserConfig.instance.isLanguageEnglish()
                       ? getTranslated(frequentlyAskedQuestionsList[index]['question'], context).toLowerCase().contains(accountSettingsProvider.searchController.text.toLowerCase())
                       : getTranslated(frequentlyAskedQuestionsList[index]['question'], context).contains(accountSettingsProvider.searchController.text))
                       ? Column(

@@ -199,7 +199,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                 children: [
                                   const SizedBox(height: 20,),
                                   Text(
-                                    UserConfig.instance.checkLanguage()
+                                    UserConfig.instance.isLanguageEnglish()
                                         ? '${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME_EN']}'
                                         : '${servicesProvider.mandatoryDocuments[servicesProvider.documentIndex]['NAME_AR']}',
                                     style: TextStyle(
@@ -370,7 +370,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                   children: [
                                     const SizedBox(height: 40,),
                                     Text(
-                                      UserConfig.instance.checkLanguage()
+                                      UserConfig.instance.isLanguageEnglish()
                                           ? '${servicesProvider.selectedOptionalDocuments[servicesProvider.documentIndex]['NAME_EN']}'
                                           : '${servicesProvider.selectedOptionalDocuments[servicesProvider.documentIndex]['NAME_AR']}',
                                       style: TextStyle(
@@ -545,7 +545,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                           padding: const EdgeInsets.only(bottom: 10.0),
                                           child:  buildExpandableWidget(
                                             context,
-                                            UserConfig.instance.checkLanguage()
+                                            UserConfig.instance.isLanguageEnglish()
                                             ? '${servicesProvider.mandatoryDocuments[index]['NAME_EN']}' // (${servicesProvider.mandatoryDocuments[index]['NAME'] ?? ""})
                                             : '${servicesProvider.mandatoryDocuments[index]['NAME_AR']}', // (${servicesProvider.mandatoryDocuments[index]['NAME'] ?? ""})
                                             ListView.builder(
@@ -649,7 +649,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                             padding: const EdgeInsets.only(bottom: 10.0),
                                             child: buildExpandableWidget(
                                                 context,
-                                                UserConfig.instance.checkLanguage()
+                                                UserConfig.instance.isLanguageEnglish()
                                                 ? '${servicesProvider.optionalDocuments[index]['NAME_EN']}'
                                                 : '${servicesProvider.optionalDocuments[index]['NAME_AR']}',
                                                 ListView.builder(
@@ -1044,7 +1044,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                   SizedBox(
                     width: width(0.6, context),
                     child: Text(
-                      UserConfig.instance.checkLanguage()
+                      UserConfig.instance.isLanguageEnglish()
                           ? '${chunk[index]['NAME_EN']}'
                           : '${chunk[index]['NAME_AR']}',
                     ),
@@ -1073,7 +1073,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
     String result = '';
     for (var element in widget.relations) {
       if(element['REL_ID'].toString() == relation.toString()){
-        result = UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR'];
+        result = UserConfig.instance.isLanguageEnglish() ? element['REL_DESC_EN'] : element['REL_DESC_AR'];
       }
     }
     return result;

@@ -171,7 +171,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           buildCustomizableButton(
-                              !UserConfig.instance.checkLanguage() ? SvgPicture.asset(
+                              !UserConfig.instance.isLanguageEnglish() ? SvgPicture.asset(
                                 'assets/icons/profileIcons/checked.svg', height: 18, width: 18,
                               ) : const SizedBox.shrink(),
                               'العربية', (){
@@ -182,7 +182,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                 });
                               }, noTranslate: true),
                           buildCustomizableButton(
-                              UserConfig.instance.checkLanguage() ? SvgPicture.asset(
+                              UserConfig.instance.isLanguageEnglish() ? SvgPicture.asset(
                                 'assets/icons/profileIcons/checked.svg', height: 18, width: 18,
                               ) : const SizedBox.shrink(),
                               'English', (){
@@ -374,7 +374,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 SvgPicture.asset(extraIcon),
                 const SizedBox(width: 30.0,),
                 Transform.rotate(
-                  angle: UserConfig.instance.checkLanguage()
+                  angle: UserConfig.instance.isLanguageEnglish()
                       ? -math.pi / 1.0 : 0,
                   child: SvgPicture.asset('assets/icons/profileIcons/arrow.svg', color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,),
                 ),

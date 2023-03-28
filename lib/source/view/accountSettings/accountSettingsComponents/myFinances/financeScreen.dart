@@ -25,7 +25,7 @@ class _FinanceScreenState extends State<FinanceScreen> {
   @override
   void initState() {
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
-    isEnglish = UserConfig.instance.checkLanguage();
+    isEnglish = UserConfig.instance.isLanguageEnglish();
     super.initState();
   }
   @override
@@ -202,7 +202,51 @@ class _FinanceScreenState extends State<FinanceScreen> {
   }
 
   Widget summaryBody(){
-    return Container();
+    return Card(
+        elevation: 2.0,
+        shadowColor: Colors.black45,
+        color: getContainerColor(context),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Container(
+          width: width(1, context),
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              summaryRow('فئة التمويل', 'فئة التمويل'),
+              summaryRow('مبلغ القرض', '5000 د.أ'),
+              summaryRow('مجموع الفوائد', '1000 د.أ'),
+              summaryRow('مجموع الأقساط المدفوعة', '700 د.أ'),
+              summaryRow('مجموع الأقساط المتبقية', '4300 د.أ'),
+              summaryRow('تاريخ انتهاء التمويل', '27/02/2026'),
+              summaryRow('تاريخ بداية التمويل', '27/02/2023'),
+              summaryRow('تاريخ القسط التالي', '27/03/2023'),
+              summaryRow('مبلغ القسط التالي', '256.00 د.أ'),
+            ],
+          )
+        )
+    );
+  }
+
+  summaryRow(String title, String value){
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 25.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 3,
+            child: Text(title),
+          ),
+          Expanded(
+            flex: 1,
+            child: Text(value),
+          ),
+        ],
+      ),
+    );
   }
 
   paymentCard(String title, String amount, int status){
@@ -247,7 +291,7 @@ class _FinanceScreenState extends State<FinanceScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      UserConfig.instance.checkLanguage()
+                      UserConfig.instance.isLanguageEnglish()
                           ? 'Personal disk batch' : 'دفعة قرص شخصي',
                       style: TextStyle(
                         color: status == 2 ? HexColor('#363636') : HexColor('#363636').withOpacity(0.4),

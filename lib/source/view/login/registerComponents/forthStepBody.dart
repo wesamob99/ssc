@@ -224,7 +224,7 @@ class _ForthStepBodyState extends State<ForthStepBody> {
                                   loginProvider.registerData.password = value;
                                   await loginProvider.registerUser().whenComplete((){}).then((val) {
                                     if(val['PO_STATUS'] != 0){
-                                      message = UserConfig.instance.checkLanguage()
+                                      message = UserConfig.instance.isLanguageEnglish()
                                           ? val['PO_STATUS_DESC_EN'] : val['PO_STATUS_DESC_AR'];
                                       showMyDialog(context, 'registerFailed', message, 'retryAgain', themeNotifier);
                                     } else{

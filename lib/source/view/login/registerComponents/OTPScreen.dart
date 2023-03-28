@@ -138,7 +138,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                                   "00962", int.parse(pinController.text), 0)
                                                   .then((value){
                                                 if(value["PO_status_code"] == 0){
-                                                  errorMessage = UserConfig.instance.checkLanguage()
+                                                  errorMessage = UserConfig.instance.isLanguageEnglish()
                                                       ? "${value["PO_status_desc_en"]}" : "${value["PO_status_desc_ar"]}";
                                                   showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
                                                 }else{
@@ -153,7 +153,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                                   int.parse(pinController.text), widget.type == "emailFromReset" ? 1 : 0)
                                                   .then((value){
                                                 if(value["PO_status_code"] == 0){
-                                                  errorMessage = UserConfig.instance.checkLanguage()
+                                                  errorMessage = UserConfig.instance.isLanguageEnglish()
                                                       ? "${value["PO_status_desc_en"]}" : "${value["PO_status_desc_ar"]}";
                                                   showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
                                                 }else{
@@ -195,13 +195,13 @@ class _OTPScreenState extends State<OTPScreen> {
                                                         );
                                                       });
                                                     }else{
-                                                      message = UserConfig.instance.checkLanguage()
+                                                      message = UserConfig.instance.isLanguageEnglish()
                                                           ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
                                                       showMyDialog(context, 'updateMobileNumberFailed', message, 'retryAgain', themeNotifier);
                                                     }
                                                   });
                                                 }else{
-                                                  errorMessage = UserConfig.instance.checkLanguage()
+                                                  errorMessage = UserConfig.instance.isLanguageEnglish()
                                                       ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
                                                   showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
                                                 }
@@ -219,13 +219,13 @@ class _OTPScreenState extends State<OTPScreen> {
                                                         );
                                                       });
                                                     }else{
-                                                      message = UserConfig.instance.checkLanguage()
+                                                      message = UserConfig.instance.isLanguageEnglish()
                                                           ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
                                                       showMyDialog(context, 'emailUpdateFailed', message, 'retryAgain', themeNotifier);
                                                     }
                                                   });
                                                 }else{
-                                                  message = UserConfig.instance.checkLanguage()
+                                                  message = UserConfig.instance.isLanguageEnglish()
                                                       ? val["PO_status_desc_en"] : val["PO_status_desc_ar"];
                                                   showMyDialog(context, 'emailUpdateFailed', message, 'retryAgain', themeNotifier);
                                                 }

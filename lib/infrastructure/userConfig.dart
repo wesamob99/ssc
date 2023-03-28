@@ -59,7 +59,7 @@ class UserConfig {
 
   ////////////////
 
-  bool checkLanguage() {
+  bool isLanguageEnglish() {
     return language == 'English' ? true : false;
   }
 
@@ -90,10 +90,10 @@ class UserConfig {
                   await m.acquire();
                   flushBar?.then((value) => value.dismiss());
                   await showPlatformFlushBar(
-                      checkLanguage()
+                      isLanguageEnglish()
                           ? 'Your are connected now'
                           : 'انت متصل الان',
-                      checkLanguage()
+                      isLanguageEnglish()
                           ? 'You have successfully connected to the internet.'
                           : 'تم الاتصال بالشبكة.',
                       navigatorKey.currentContext,
@@ -111,10 +111,10 @@ class UserConfig {
                   await m.acquire();
                   flushBar?.then((value) => value.dismiss());
                   flushBar = showPlatformFlushBar(
-                      checkLanguage()
+                      isLanguageEnglish()
                           ? 'No internet Connection'
                           : 'لا يوجد اتصال بالانترنت. ',
-                      checkLanguage()
+                      isLanguageEnglish()
                           ? 'Please make sure your device is connected to internet.'
                           : 'الرجاء التاكد من الاتصال بالانترنت.',
                       navigatorKey.currentContext,

@@ -45,7 +45,7 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
       }
       setState((){
         selectedCountryOfResident = SelectedListItem(
-          name: UserConfig.instance.checkLanguage() ? c.countryEn : c.country,
+          name: UserConfig.instance.isLanguageEnglish() ? c.countryEn : c.country,
           natCode: c.natcode,
           value: c.callingCode,
           flag: country.flag,
@@ -94,7 +94,7 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
                                   );
                                 });
                               }else{
-                                message = UserConfig.instance.checkLanguage()
+                                message = UserConfig.instance.isLanguageEnglish()
                                     ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
                                 showMyDialog(context, 'failedToChangeYourResidentialAddress', message, 'retryAgain', themeNotifier);
                               }
@@ -137,7 +137,7 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
       int inx = countries.indexWhere((value) => value.dialCode == element.callingCode);
       selectedListItem.add(
         SelectedListItem(
-          name: UserConfig.instance.checkLanguage() ? countries[inx == -1
+          name: UserConfig.instance.isLanguageEnglish() ? countries[inx == -1
               ? 0
               : inx].name : element.country,
           natCode: element.natcode,
@@ -167,7 +167,7 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
         ).showModal(context);
       },
       child: Container(
-          alignment: UserConfig.instance.checkLanguage()
+          alignment: UserConfig.instance.isLanguageEnglish()
               ? Alignment.centerLeft
               : Alignment.centerRight,
           padding: const EdgeInsets.symmetric(

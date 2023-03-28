@@ -129,7 +129,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                                     );
                                   });
                                 }else{
-                                  message = UserConfig.instance.checkLanguage()
+                                  message = UserConfig.instance.isLanguageEnglish()
                                       ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
                                   showMyDialog(context, 'updatePasswordFailed', message, 'retryAgain', themeNotifier);
                                 }

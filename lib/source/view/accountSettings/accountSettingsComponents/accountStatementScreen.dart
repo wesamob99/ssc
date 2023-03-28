@@ -31,7 +31,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
     accountSettingsProvider = Provider.of<AccountSettingsProvider>(context, listen: false);
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     inquireInsuredInfo = accountSettingsProvider.getInquireInsuredInfo();
-    isEnglish = UserConfig.instance.checkLanguage();
+    isEnglish = UserConfig.instance.isLanguageEnglish();
     selectedIndex = 1;
     super.initState();
   }
@@ -253,7 +253,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                         ),
                         const SizedBox(width: 7.5,),
                         Text(
-                          UserConfig.instance.checkLanguage()
+                          UserConfig.instance.isLanguageEnglish()
                               ? 'Subscriptions' : 'إشتراكات',
                           style: TextStyle(
                             color: !themeNotifier.isLight() ? Colors.white70 : HexColor('#979797'),

@@ -136,10 +136,10 @@ class _LoginBodyState extends State<LoginBody> {
                               );
                             },
                             child: Container(
-                              alignment: UserConfig.instance.checkLanguage()
+                              alignment: UserConfig.instance.isLanguageEnglish()
                                   ? Alignment.bottomRight : Alignment.bottomLeft,
                               child: Text(
-                                getTranslated('forgotPassword', context) + (UserConfig.instance.checkLanguage() ? ' ?' : ' ؟'),
+                                getTranslated('forgotPassword', context) + (UserConfig.instance.isLanguageEnglish() ? ' ?' : ' ؟'),
                                 style: TextStyle(
                                   color: themeNotifier.isLight() ? HexColor('#363636') : HexColor('#ffffff')
                                 ),
@@ -224,7 +224,7 @@ class _LoginBodyState extends State<LoginBody> {
                   });
                 }
                 if(userData.poStatusDescEn != null){
-                  errorMessage = UserConfig.instance.checkLanguage()
+                  errorMessage = UserConfig.instance.isLanguageEnglish()
                       ? userData.poStatusDescEn : userData.poStatusDescAr;
                 } else{
                   errorMessage = '';

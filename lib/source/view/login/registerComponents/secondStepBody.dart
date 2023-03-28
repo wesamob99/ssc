@@ -212,7 +212,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                             ).whenComplete((){})
                                 .then((val) async {
                               if(val['PO_STATUS'] != 0){
-                                errorMessage = UserConfig.instance.checkLanguage()
+                                errorMessage = UserConfig.instance.isLanguageEnglish()
                                     ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
                                 showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
                               } else{

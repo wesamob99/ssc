@@ -445,6 +445,7 @@
   "guardianNationality": "Guardian's nationality",
   "guardianNationalNumber": "Guardian's national number",
   "guardianCardNumber": "Guardian's card number",
+  "widowCardNumber": "Widow card number",
   "guardianInformation": "Guardian information",
   "noDocumentsHaveBeenAttached": "No documents have been attached",
   "guardianName": "Guardian name",
@@ -467,6 +468,10 @@
   "activeLoanBalance": "Active loan balance",
   "lastPaymentDate:": "Last payment date:",
   "age": "Age",
-  "dateOfLastIncident": "Date of last incident (marriage, divorce, widowhood)"
+  "dateOfLastIncident": "Date of last incident (marriage, divorce, widowhood)",
+  "loanType": "Loan type",
+  "loanDetails": "Loan details",
+  "heirLoan": "Heir loan",
+  "personalRetirementLoan": "Personal retirement loan"
 
 }

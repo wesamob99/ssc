@@ -20,11 +20,11 @@ dynamic httpErrorMessage(dynamic responseData) {
     jsonData = jsonDecode(responseData.data);
   }
   if (jsonData != null && jsonData['customCode'] != null) {
-    return UserConfig.instance.checkLanguage()
+    return UserConfig.instance.isLanguageEnglish()
         ? jsonData['translatable']['en']
         : jsonData['translatable']['ar'];
   } else {
-    return UserConfig.instance.checkLanguage()
+    return UserConfig.instance.isLanguageEnglish()
         ? 'Server Error'
         : 'خطا من الخادم';
   }
@@ -166,10 +166,10 @@ class HTTPClientContract {
   checkInternetConnection() async {
     if(!await InternetConnectionChecker().hasConnection && !Provider.of<HomeProvider>(navigatorKey.currentContext, listen: false).isSplashScreenLoading) {
       UserConfig.instance.showPlatformFlushBar(
-          UserConfig.instance.checkLanguage()
+          UserConfig.instance.isLanguageEnglish()
               ? 'No internet Connection'
               : 'لا يوجد اتصال بالانترنت. ',
-          UserConfig.instance.checkLanguage()
+          UserConfig.instance.isLanguageEnglish()
               ? 'Please make sure your device is connected to internet.'
               : 'الرجاء التاكد من الاتصال بالانترنت.',
           navigatorKey.currentContext,

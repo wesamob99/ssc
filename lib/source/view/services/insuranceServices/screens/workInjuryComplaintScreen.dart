@@ -57,7 +57,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
               servicesProvider.notifyMe();
             },
             child: Transform.rotate(
-              angle: UserConfig.instance.checkLanguage()
+              angle: UserConfig.instance.isLanguageEnglish()
                   ? -math.pi / 1.0 : 0,
               child: SvgPicture.asset(
                   'assets/icons/backWhite.svg'

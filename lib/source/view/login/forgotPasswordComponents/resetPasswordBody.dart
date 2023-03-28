@@ -90,7 +90,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                       );
                                     },
                                     child: Transform.rotate(
-                                      angle: UserConfig.instance.checkLanguage()
+                                      angle: UserConfig.instance.isLanguageEnglish()
                                           ? -math.pi / 1.0 : 0,
                                       child: SvgPicture.asset(
                                           'assets/icons/back.svg'
@@ -200,7 +200,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                                         int.tryParse(widget.otpCode),
                                         widget.useMobile ? null : widget.email,
                                       ).whenComplete((){}).then((value){
-                                        message = UserConfig.instance.checkLanguage()
+                                        message = UserConfig.instance.isLanguageEnglish()
                                             ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
                                         if(value["PO_STATUS"] == 1){
                                           showMyDialog(context, 'resetPassword', message, 'login', themeNotifier).then((value) {

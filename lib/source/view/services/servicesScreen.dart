@@ -89,16 +89,16 @@ class _ServicesScreenState extends State<ServicesScreen> {
     return Material(
       elevation: 0.8,
       borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(UserConfig.instance.checkLanguage() ? 0 : 10),
-        bottomRight: Radius.circular(UserConfig.instance.checkLanguage() ? 10 : 0)
+        bottomLeft: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 0 : 10),
+        bottomRight: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 10 : 0)
       ),
       child: Container(
         decoration: BoxDecoration(
           color: themeNotifier.isLight()
             ? HexColor('#F0F2F0') : HexColor('#454545'),
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(UserConfig.instance.checkLanguage() ? 0 : 8),
-            bottomRight: Radius.circular(UserConfig.instance.checkLanguage() ? 8 : 0)
+            bottomLeft: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 0 : 8),
+            bottomRight: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 8 : 0)
         ),
         ),
         width: width(isTablet(context) ? 0.29 : 0.31, context),

@@ -319,7 +319,7 @@ class _PayScreenState extends State<PayScreen> {
                                 }
                             );
                           } else{
-                            errorMessage = UserConfig.instance.checkLanguage()
+                            errorMessage = UserConfig.instance.isLanguageEnglish()
                                 ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
                             showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
                           }

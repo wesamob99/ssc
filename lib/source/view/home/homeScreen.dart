@@ -234,8 +234,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   double.parse((financialInformation.mainPayCur[0][0].amt ?? '0').toString()).toStringAsFixed(2) != '0.00'
                   ? Padding(
                     padding: EdgeInsets.only(
-                      right: UserConfig.instance.checkLanguage() ? 0 : width(0.075, context),
-                      left: UserConfig.instance.checkLanguage() ? width(0.075, context) : 0,
+                      right: UserConfig.instance.isLanguageEnglish() ? 0 : width(0.075, context),
+                      left: UserConfig.instance.isLanguageEnglish() ? width(0.075, context) : 0,
                       bottom: 8.0
                     ),
                     child: Slidable(

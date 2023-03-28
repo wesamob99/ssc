@@ -151,7 +151,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               servicesProvider.notifyMe();
             },
             child: Transform.rotate(
-              angle: UserConfig.instance.checkLanguage()
+              angle: UserConfig.instance.isLanguageEnglish()
                   ? -math.pi / 1.0 : 0,
               child: SvgPicture.asset(
                   'assets/icons/backWhite.svg'
@@ -206,7 +206,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                         servicesProvider.stepNumber = 2;
                                       }else{
                                         servicesProvider.isMobileNumberUpdated = false;
-                                        errorMessage = UserConfig.instance.checkLanguage()
+                                        errorMessage = UserConfig.instance.isLanguageEnglish()
                                             ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
                                         showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
                                       }
@@ -245,7 +245,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                             servicesProvider.isMobileNumberUpdated = false;
                                             UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
                                           }else{
-                                            showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.checkLanguage()
+                                            showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.isLanguageEnglish()
                                                 ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"], 'retryAgain', themeNotifier).then((value) {
                                               servicesProvider.mobileNumberController.text = '';
                                               servicesProvider.stepNumber = 1;
@@ -256,7 +256,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                       }else{
                                         servicesProvider.stepNumber = 2;
                                         servicesProvider.isMobileNumberUpdated = true;
-                                        errorMessage = UserConfig.instance.checkLanguage()
+                                        errorMessage = UserConfig.instance.isLanguageEnglish()
                                             ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
                                         showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
                                       }
@@ -308,7 +308,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                 servicesProvider.isLoading = false;
                                 servicesProvider.notifyMe();
                                 if(value != '') {
-                                  message = UserConfig.instance.checkLanguage()
+                                  message = UserConfig.instance.isLanguageEnglish()
                                     ? value['PO_status_desc_en'] : value['PO_status_desc_ar'];
                                 }
                                 showMyDialog(context, (value != '' && value['PO_status'] == 1) ? 'youAreIncludedOptional' : 'failed',
@@ -622,7 +622,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               children: [
                 SizedBox(height: height(0.02, context),),
                 Text(
-                  getTranslated('monthlyInstallment', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
+                  getTranslated('monthlyInstallment', context) + (UserConfig.instance.isLanguageEnglish() ? ' is :' : ' هو :'),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -665,7 +665,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
               children: [
                 SizedBox(height: height(0.03, context),),
                 Text(
-                  getTranslated('salary', context) + (UserConfig.instance.checkLanguage() ? ' is :' : ' هو :'),
+                  getTranslated('salary', context) + (UserConfig.instance.isLanguageEnglish() ? ' is :' : ' هو :'),
                   style: TextStyle(
                       color: HexColor('#363636'),
                       fontSize: width(0.032, context)
@@ -911,7 +911,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
         ).showModal(context);
       },
       child: Container(
-          alignment: UserConfig.instance.checkLanguage()
+          alignment: UserConfig.instance.isLanguageEnglish()
               ? Alignment.centerLeft
               : Alignment.centerRight,
           padding: const EdgeInsets.symmetric(

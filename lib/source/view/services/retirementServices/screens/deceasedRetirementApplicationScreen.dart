@@ -43,7 +43,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
   int selectedInheritorMobileCountry = 962;
 
   SelectedListItem selectedMobileCountry = SelectedListItem(
-    name: UserConfig.instance.checkLanguage() ? "Jordan" : "الأردن",
+    name: UserConfig.instance.isLanguageEnglish() ? "Jordan" : "الأردن",
     value: "962", natCode: 111,
     flag: countries[110].flag,
   );
@@ -132,8 +132,8 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
     ///
     servicesProvider.penDeathLookup().whenComplete(() {}).then((value) {
       value['Relative_type_getdata'][0].forEach((element){
-        if(!relationshipTypes.contains(UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR'])){
-          relationshipTypes.add(UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR']);
+        if(!relationshipTypes.contains(UserConfig.instance.isLanguageEnglish() ? element['REL_DESC_EN'] : element['REL_DESC_AR'])){
+          relationshipTypes.add(UserConfig.instance.isLanguageEnglish() ? element['REL_DESC_EN'] : element['REL_DESC_AR']);
         }
       });
     });
@@ -143,7 +143,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
       int inx = countries.indexWhere((value) => value.dialCode == element.callingCode);
       selectedListItem.add(
         SelectedListItem(
-          name: UserConfig.instance.checkLanguage() ? countries[inx == -1 ? 0 : inx].name : element.country,
+          name: UserConfig.instance.isLanguageEnglish() ? countries[inx == -1 ? 0 : inx].name : element.country,
           natCode: element.natcode,
           value: countries[inx == -1 ? 0 : inx].dialCode,
           isSelected: false,
@@ -231,7 +231,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
               servicesProvider.notifyMe();
             },
             child: Transform.rotate(
-              angle: UserConfig.instance.checkLanguage()
+              angle: UserConfig.instance.isLanguageEnglish()
                   ? -math.pi / 1.0 : 0,
               child: SvgPicture.asset(
                   'assets/icons/backWhite.svg'
@@ -297,7 +297,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                           servicesProvider.stepNumber = 2;
                                         }else{
                                           servicesProvider.isMobileNumberUpdated = false;
-                                          errorMessage = UserConfig.instance.checkLanguage()
+                                          errorMessage = UserConfig.instance.isLanguageEnglish()
                                               ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
                                           showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
                                         }
@@ -336,7 +336,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                               servicesProvider.isMobileNumberUpdated = false;
                                               UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
                                             }else{
-                                              showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.checkLanguage()
+                                              showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.isLanguageEnglish()
                                                   ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"], 'retryAgain', themeNotifier).then((value) {
                                                   servicesProvider.mobileNumberController.text = '';
                                                   servicesProvider.stepNumber = 1;
@@ -347,7 +347,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                         }else{
                                           servicesProvider.stepNumber = 2;
                                           servicesProvider.isMobileNumberUpdated = true;
-                                          errorMessage = UserConfig.instance.checkLanguage()
+                                          errorMessage = UserConfig.instance.isLanguageEnglish()
                                               ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
                                           showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
                                         }
@@ -408,7 +408,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                     if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
                                       message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
                                       if(value['PO_TYPE'] == 2){
-                                        message = UserConfig.instance.checkLanguage()
+                                        message = UserConfig.instance.isLanguageEnglish()
                                             ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
                                       }
                                       showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
@@ -422,7 +422,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                         });
                                       });
                                     } else{
-                                      message = UserConfig.instance.checkLanguage()
+                                      message = UserConfig.instance.isLanguageEnglish()
                                           ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
                                       showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
                                     }
@@ -916,10 +916,10 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                               decoration: BoxDecoration(
                                   color: HexColor('#FFCA3A'),
                                   borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(UserConfig.instance.checkLanguage() ? 0.0 : 8.0),
-                                    bottomRight: Radius.circular(UserConfig.instance.checkLanguage() ? 0.0 : 8.0),
-                                    topLeft: Radius.circular(UserConfig.instance.checkLanguage() ? 8.0 : 0.0),
-                                    bottomLeft: Radius.circular(UserConfig.instance.checkLanguage() ? 8.0 : 0.0),
+                                    topRight: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 0.0 : 8.0),
+                                    bottomRight: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 0.0 : 8.0),
+                                    topLeft: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 8.0 : 0.0),
+                                    bottomLeft: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 8.0 : 0.0),
                                   )
                               ),
                             ),
@@ -1043,7 +1043,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                                             }
                                                             showMyDialog(context, 'dependentWereDeleted', '', 'ok', themeNotifier, titleColor: '#2D452E');
                                                           } else{
-                                                            errorMessage = UserConfig.instance.checkLanguage()
+                                                            errorMessage = UserConfig.instance.isLanguageEnglish()
                                                                 ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
                                                             showMyDialog(context, 'failed', errorMessage, 'ok', themeNotifier);
                                                           }
@@ -1136,16 +1136,16 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                         Text(
                                           getTranslated(
                                               servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['SOCIAL_STATUS'] == 1
-                                                  ? UserConfig.instance.checkLanguage()
+                                                  ? UserConfig.instance.isLanguageEnglish()
                                                   ? 'single' : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
                                                   : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['SOCIAL_STATUS'] == 2
-                                                  ? UserConfig.instance.checkLanguage()
+                                                  ? UserConfig.instance.isLanguageEnglish()
                                                   ? 'married' : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF'
                                                   : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['SOCIAL_STATUS'] == 3
-                                                  ? UserConfig.instance.checkLanguage()
+                                                  ? UserConfig.instance.isLanguageEnglish()
                                                   ? 'divorced' : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF'
                                                   : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['SOCIAL_STATUS'] == 4
-                                                  ? UserConfig.instance.checkLanguage()
+                                                  ? UserConfig.instance.isLanguageEnglish()
                                                   ? 'widow' : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF' : 'single',
                                               context),
                                           style: TextStyle(
@@ -1827,7 +1827,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
     String result = '';
     servicesProvider.penDeath['Relative_type_getdata'][0].forEach((element){
       if(element['REL_ID'].toString() == relation.toString()){
-        result = UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR'];
+        result = UserConfig.instance.isLanguageEnglish() ? element['REL_DESC_EN'] : element['REL_DESC_AR'];
       }
     });
     return result;
@@ -1836,7 +1836,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
   int getRelationNumber(String relation){
     int result = 0;
     servicesProvider.penDeath['Relative_type_getdata'][0].forEach((element){
-      if((UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR']) == relation){
+      if((UserConfig.instance.isLanguageEnglish() ? element['REL_DESC_EN'] : element['REL_DESC_AR']) == relation){
         result = element['REL_ID'];
       }
     });
@@ -1906,7 +1906,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
           } else{
             servicesProvider.isNationalIdValid = false;
             servicesProvider.deadPersonInfo = null;
-            message = UserConfig.instance.checkLanguage()
+            message = UserConfig.instance.isLanguageEnglish()
                 ? value['PO_status_desc_EN'] : value['PO_status_desc_AR'];
             showMyDialog(context, 'failed', message, 'ok', themeNotifier);
           }
@@ -1973,7 +1973,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
             servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANCARDNO'] = "";
             servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAT'] = null;
             servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAME'] = "";
-            message = UserConfig.instance.checkLanguage()
+            message = UserConfig.instance.isLanguageEnglish()
                 ? value['pO_status_desc_EN'] : value['pO_status_desc_AR'];
             showMyDialog(context, 'failed', message, 'ok', themeNotifier);
           }
@@ -2113,7 +2113,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                                 servicesProvider.notifyMe();
                                               });
                                             } else{
-                                              message = UserConfig.instance.checkLanguage()
+                                              message = UserConfig.instance.isLanguageEnglish()
                                                   ? value['PO_status_desc_EN'] : value['PO_status_desc_AR'];
                                               showMyDialog(context, 'failed', message, 'ok', themeNotifier);
                                             }
@@ -2535,7 +2535,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                                 // ignore: use_build_context_synchronously
                                                 Navigator.pop(context);
                                               } else{
-                                                message = UserConfig.instance.checkLanguage()
+                                                message = UserConfig.instance.isLanguageEnglish()
                                                     ? value['PO_status_desc_EN'] : value['PO_status_desc_AR'];
                                                 showMyDialog(context, 'failed', message, 'ok', themeNotifier);
                                               }
@@ -2598,7 +2598,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                       selectedMaritalStatus = choices[index];
                     }
                     if(flag == 2) {
-                      selectedRelation = UserConfig.instance.checkLanguage()
+                      selectedRelation = UserConfig.instance.isLanguageEnglish()
                       ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR'];
                     }
                     if(flag == 3) {
@@ -2619,7 +2619,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                       padding: const EdgeInsets.all(2.0),
                       child: CircleAvatar(
                         radius: isTablet(context) ? 10 : 5,
-                        backgroundColor: (flag == 1 && selectedMaritalStatus == choices[index]) || (flag == 2 && (selectedRelation == (UserConfig.instance.checkLanguage()
+                        backgroundColor: (flag == 1 && selectedMaritalStatus == choices[index]) || (flag == 2 && (selectedRelation == (UserConfig.instance.isLanguageEnglish()
                             ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR'])))  || (flag == 3 && selectedActivePayment == choices[index])
                             ? HexColor('#2D452E') : Colors.transparent,
                       ),
@@ -2629,7 +2629,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                       child: Text(
                         flag == 1
                             ? getTranslated(choices[index], context)
-                            : UserConfig.instance.checkLanguage()
+                            : UserConfig.instance.isLanguageEnglish()
                             ? choices[index][flag == 3 ? 'NAME_EN' : 'REL_DESC_EN'] : choices[index][flag == 3 ? 'NAME_AR' : 'REL_DESC_AR'],
                         style: TextStyle(
                           color: HexColor('#666666'),

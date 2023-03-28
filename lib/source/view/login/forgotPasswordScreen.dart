@@ -105,7 +105,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                           });
                                         },
                                         child: Transform.rotate(
-                                          angle: UserConfig.instance.checkLanguage()
+                                          angle: UserConfig.instance.isLanguageEnglish()
                                               ? -math.pi / 1.0 : 0,
                                           child: SvgPicture.asset(
                                             'assets/icons/back.svg',
@@ -195,7 +195,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   .then((val) async {
                 ResetPasswordGetDetail resetPasswordGetDetail = val;
                 if(resetPasswordGetDetail.poStatusDescEn != null && resetPasswordGetDetail.poStatus == -1){
-                  errorMessage = UserConfig.instance.checkLanguage()
+                  errorMessage = UserConfig.instance.isLanguageEnglish()
                       ? resetPasswordGetDetail.poStatusDescEn : resetPasswordGetDetail.poStatusDescAr;
                 } else{
                   errorMessage = '';
@@ -216,7 +216,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     });
                   }else{
                     if(errorMessage == ''){
-                      errorMessage = UserConfig.instance.checkLanguage()
+                      errorMessage = UserConfig.instance.isLanguageEnglish()
                           ? response["PO_STATUS_DESC_EN"] : response["PO_STATUS_DESC_AR"];
                     }
                     showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);

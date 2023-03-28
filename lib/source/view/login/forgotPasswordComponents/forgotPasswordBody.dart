@@ -119,7 +119,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                       ),
                       splashColor: getPrimaryColor(context, themeNotifier),
                       child: Container(
-                        alignment: UserConfig.instance.checkLanguage()
+                        alignment: UserConfig.instance.isLanguageEnglish()
                             ? Alignment.topLeft : Alignment.topRight,
                         // padding: EdgeInsets.symmetric(horizontal: width(0.11, context)),
                         child: Text(
@@ -190,7 +190,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                                       });
                                     }else{
                                       if(errorMessage == ''){
-                                        errorMessage = UserConfig.instance.checkLanguage()
+                                        errorMessage = UserConfig.instance.isLanguageEnglish()
                                             ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
                                       }
                                       showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
@@ -231,7 +231,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                                     await loginProvider.sendEmailOTP(emailController.text.replaceAll(' ', ''), 1)
                                     .then((value){
                                   if(value["PO_status"] == 1){
-                                    errorMessage = UserConfig.instance.checkLanguage()
+                                    errorMessage = UserConfig.instance.isLanguageEnglish()
                                         ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
 
                                     Navigator.of(context).pushAndRemoveUntil(
@@ -239,13 +239,13 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                                           (route) => false
                                     );
                                   }else{
-                                    errorMessage = UserConfig.instance.checkLanguage()
+                                    errorMessage = UserConfig.instance.isLanguageEnglish()
                                         ? "${value["PO_STATUS_DESC_EN"]}" : "${value["PO_STATUS_DESC_AR"]}";
                                     showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
                                   }
                                   });
                                   }else{
-                                    errorMessage = UserConfig.instance.checkLanguage()
+                                    errorMessage = UserConfig.instance.isLanguageEnglish()
                                         ? "${result["PO_STATUS_DESC_EN"]}" : "${result["PO_STATUS_DESC_AR"]}";
                                     showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
                                   }
@@ -278,7 +278,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                                 userSecuredStorage.internationalCode.toString(), int.parse(pinController.text), 1)
                                 .then((value){
                               if(value["PO_status_code"] == 0){
-                                errorMessage = UserConfig.instance.checkLanguage()
+                                errorMessage = UserConfig.instance.isLanguageEnglish()
                                     ? "${value["PO_status_desc_en"]}" : "${value["PO_status_desc_ar"]}";
                                 showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
                               }else{
