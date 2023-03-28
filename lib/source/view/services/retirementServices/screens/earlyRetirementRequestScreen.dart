@@ -457,7 +457,17 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   servicesProvider.notifyMe();
                                   List mandatoryDocs = await saveFiles('mandatory');
                                   List optionalDocs = await saveFiles('optional');
-                                  docs.addAll(mandatoryDocs + optionalDocs);
+                                  for (var element in mandatoryDocs) {
+                                    if(!docs.contains(element)){
+                                      docs.add(element);
+                                    }
+                                  }
+                                  for (var element in optionalDocs) {
+                                    if(!docs.contains(element)){
+                                      docs.add(element);
+                                    }
+                                  }
+                                  /// TODO prevent add document twice
                                   Map<String, dynamic> paymentInfo = {
                                     'PAYMENT_METHOD': servicesProvider.selectedActivePayment['ID'],
                                     'BANK_LOCATION': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankAddressController.text : 0,
@@ -488,7 +498,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   };
                                   int wantInsurance = areYouPartnerInLimitedLiabilityCompany == 'yes' ? 1 : 0;
                                   int authorizedToSign = areYouAuthorizedToSignForCompany == 'yes' ? 1 : 0;
-                                  await servicesProvider.setEarlyRetirementApplication(docs, paymentInfo, authorizedToSign, wantInsurance).whenComplete(() {}).then((value) {
+                                  await servicesProvider.setEarlyRetirementApplication(docs, paymentInfo, authorizedToSign, wantInsurance, widget.serviceType).whenComplete(() {}).then((value) {
                                     if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
                                       message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
                                       if(value['PO_TYPE'] == 2){
@@ -498,7 +508,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                       showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
                                           message, 'ok',
                                           themeNotifier,
-                                          icon: 'assets/icons/serviceSuccess.svg').then((_){
+                                          icon: 'assets/icons/serviceSuccess.svg', titleColor: '#2D452E').then((_){
                                         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
                                           servicesProvider.selectedServiceRate = -1;
                                           servicesProvider.notifyMe();
@@ -575,6 +585,9 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
               bool isDependentDoc = false;
               if(type == 'mandatory' && servicesProvider.result["P_DEP_INFO"].isNotEmpty){
                 pDependents[0].forEach((element) {
+                  if(element['doc_dep'] is !List){
+                    element['doc_dep'] = [];
+                  }
                   if(element['DEP_CODE'].toString() == servicesProvider.uploadedFiles[type][i][j]["document"]['CODE'].toString()){
                     if (kDebugMode) {
                       print('value: $value');
