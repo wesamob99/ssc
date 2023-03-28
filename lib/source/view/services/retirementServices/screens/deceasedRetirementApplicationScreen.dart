@@ -65,16 +65,20 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
   Map selectedActivePayment;
   List activePayment = [];
   TextEditingController nationalIdController = TextEditingController();
+  TextEditingController deceasedNationalIdController = TextEditingController();
   TextEditingController quatrainNounController = TextEditingController();
   TextEditingController dependentMobileNumberController = TextEditingController();
 
   TextEditingController guardianNationalNumberController = TextEditingController();
   TextEditingController guardianSecondFieldController = TextEditingController(); // if the guardian is jordanian => the controller is for (guardian card number) else => the controller is for the (guardian name)
+  TextEditingController ageController = TextEditingController();
 
   ///
 
+  bool nonJordanianSaveEnabled = false;
   String nationality = 'jordanian';
   String guardianshipNationality = 'jordanian';
+  String heirNationality = 'jordanian';
   int deathType = 0;
   int deathPlace = 0;
   int relationshipType = 0;
@@ -92,9 +96,9 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
         return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
       } else{
         if(nationality == 'jordanian'){
-          return nationalIdController.text.isNotEmpty && servicesProvider.isNationalIdValid && deathType != 0 && deathPlace != 0;
+          return deceasedNationalIdController.text.isNotEmpty && servicesProvider.isNationalIdValid && deathType != 0 && deathPlace != 0;
         }else{
-          return nationalIdController.text.isNotEmpty && servicesProvider.isNationalIdValid && deathType != 0 && deathPlace != 0;
+          return deceasedNationalIdController.text.isNotEmpty && servicesProvider.isNationalIdValid && deathType != 0 && deathPlace != 0;
         }
       }
     } else if(flag == 3){
@@ -132,7 +136,6 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
           relationshipTypes.add(UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR']);
         }
       });
-      relationshipType = servicesProvider.deadPersonInfo['cur_getdata'][0][0]['RELATIVE_TYPE'];
     });
     servicesProvider.isNationalIdValid = false;
     selectedListItem = [];
@@ -205,7 +208,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                     {
                       if(dependentIndex > 0){
                         dependentIndex--;
-                        dependentMobileNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['MOBILE'] ?? '';
+                        dependentMobileNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['MOBILE'].toString() ?? '';
                         selectedInheritorMobileCountry = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['INTERNATIONAL_CODE'] ?? 962;
                         guardianshipNationality = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAT'] == 1 ? 'jordanian' : 'nonJordanian') ?? "jordanian";
                           guardianNationalNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNATNO'] ?? "";
@@ -263,17 +266,17 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                       if(Provider.of<ServicesProvider>(context).stepNumber == 4)
                         DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 5, data: {
                           "DEATH_NAT": servicesProvider.deadPersonInfo['cur_getdata'][0][0]['NAT'],
-                          "RELATION": servicesProvider.penDeath['Relative_type_getdata'][0].where((element) => (UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR']) == relationshipTypes[relationshipType]).first['REL_ID'],
+                          "RELATION": servicesProvider.penDeath['Relative_type_getdata'][0].where((element) => element['REL_ID'] == relationshipType).first['REL_ID'],
                           "IS_INHERITOR": 0,
                           "INHERITORS_FLAG": 1,
                           "MILITARY_WORK_DOC": servicesProvider.deadPersonInfo['cur_getdata'][0][0]['MILITARY_WORK_DOC'],
-                        }, serviceType: 11, info: servicesProvider.deadPersonInfo['cur_getdata'][0][0], dependents: servicesProvider.deadPersonInfo['cur_getdata2']),
+                        }, serviceType: 11, info: servicesProvider.deadPersonInfo['cur_getdata'][0][0], dependents: servicesProvider.deadPersonInfo['cur_getdata2'], relations: servicesProvider.penDeath['Relative_type_getdata'][0]),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 5)
                         fifthStep(context, themeNotifier),
                       if(!(Provider.of<ServicesProvider>(context).stepNumber == 4))
                         textButton(context,
                           themeNotifier,
-                          Provider.of<ServicesProvider>(context).stepNumber != 4 ? 'continue' : 'send',
+                          Provider.of<ServicesProvider>(context).stepNumber != 5 ? 'continue' : 'send',
                           checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
                               ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
                           checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
@@ -378,7 +381,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                   servicesProvider.documentsScreensStepNumber = 1;
                                   if(dependentIndex < ((servicesProvider.deadPersonInfo['cur_getdata2'].length != 0  && servicesProvider.deadPersonInfo['cur_getdata2'][0].length != 0) ? servicesProvider.deadPersonInfo['cur_getdata2'][0].length - 1 : 0)){
                                     dependentIndex++;
-                                    dependentMobileNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['MOBILE'] ?? '';
+                                    dependentMobileNumberController.text = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['MOBILE'] ?? '').toString() ?? '';
                                     selectedInheritorMobileCountry = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['INTERNATIONAL_CODE'] ?? 962;
                                     guardianNationalNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNATNO'] ?? "";
                                     guardianshipNationality = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAT'] == 1 ? 'jordanian' : 'nonJordanian') ?? "jordanian";
@@ -398,7 +401,6 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                   servicesProvider.isLoading = true;
                                   servicesProvider.isModalLoading = false;
                                   servicesProvider.notifyMe();
-                                  /// TODO : complete set application
                                   List mandatoryDocs = await saveFiles('mandatory');
                                   List optionalDocs = await saveFiles('optional');
                                   docs.addAll(mandatoryDocs + optionalDocs);
@@ -412,7 +414,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                       showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
                                           message, 'ok',
                                           themeNotifier,
-                                          icon: 'assets/icons/serviceSuccess.svg').then((_){
+                                          icon: 'assets/icons/serviceSuccess.svg', titleColor: '#2D452E').then((_){
                                         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
                                           servicesProvider.selectedServiceRate = -1;
                                           servicesProvider.notifyMe();
@@ -478,7 +480,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                 "FILE_NAME": path.basename(value['path'].toString()),
                 "DOC_TYPE_DESC_AR": servicesProvider.uploadedFiles[type][i][j]["document"]["NAME_AR"],
                 "DOC_TYPE_DESC_EN": servicesProvider.uploadedFiles[type][i][j]["document"]["NAME_EN"],
-                "DOCUMENT_DATE": DateFormat('MM/dd/yyyy, HH:mm').format(DateTime.now()).toString(),
+                "DOCUMENT_DATE": DateFormat("dd/MM/yyyy", 'en').format(DateTime.now()),
                 "required": type == 'mandatory' ? 0 : 1,
                 "APP_ID": '',
                 "ID": "",
@@ -488,10 +490,20 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
               bool isDependentDoc = false;
               if(type == 'mandatory' && servicesProvider.deadPersonInfo['cur_getdata2'].isNotEmpty){
                 servicesProvider.deadPersonInfo['cur_getdata2'][0].forEach((element) {
+                  element['INHERITOR_DOCS'] = [];
                   if(element['NATIONALNUMBER'].toString() == servicesProvider.uploadedFiles[type][i][j]["document"]['CODE'].toString()){
-                    if (kDebugMode) {
-                      print('value: $value');
-                    }
+                    document = {
+                      "PATH": value['path'],
+                      "DOC_TYPE": servicesProvider.uploadedFiles[type][i][j]["document"]["ID"],
+                      "FILE": {},
+                      "DIRTY": false,
+                      "DEP_ID": "${DateTime.now().millisecondsSinceEpoch}${((math.Random().nextDouble() * 10000) + 1).floor()}",
+                      "FILE_NAME": path.basename(value['path'].toString()),
+                      "DOCUMENT_DATE": DateFormat("dd/MM/yyyy", 'en').format(DateTime.now()),
+                      "required": type == 'mandatory' ? 0 : 1,
+                      "ID": "",
+                      "STATUS": 1,
+                    };
                     isDependentDoc = true;
                     if(element['INHERITOR_DOCS'] is String){
                       element['INHERITOR_DOCS'] = [document];
@@ -578,10 +590,10 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
             const SizedBox(height: 10.0,),
             customTwoRadioButtons(1, 'jordanian', 'nonJordanian', setState),
             const SizedBox(height: 20.0,),
-            buildFieldTitle(context, nationality == 'jordanian' ? 'theNationalNumberOfTheDeceased' : 'thePersonalNumberOfTheDeceased', required: true, filled: nationalIdController.text.length == 10),
+            buildFieldTitle(context, nationality == 'jordanian' ? 'theNationalNumberOfTheDeceased' : 'thePersonalNumberOfTheDeceased', required: true, filled: deceasedNationalIdController.text.length == 10),
             const SizedBox(height: 10.0,),
             buildTextFormField(
-                context, themeNotifier, nationalIdController, servicesProvider.isNationalIdValid ? 'val${nationalIdController.text}' : '9999999999', (val) async {
+                context, themeNotifier, deceasedNationalIdController, servicesProvider.isNationalIdValid ? 'val${deceasedNationalIdController.text}' : '9999999999', (val) async {
                 setState(() {});
                 deadPersonSubmitGetDetails();
               }, inputType: TextInputType.number,
@@ -975,6 +987,8 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                           onSelected: (ContextMenu result) async {
                                             switch (result.index) {
                                               case 0: {
+                                                heirNationality = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['NATIONALITY'] == 1) ? 'jordanian' : 'nonJordanian';
+                                                servicesProvider.isNationalIdValid = true;
                                                 selectedStatus = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['IS_ALIVE'] == 1
                                                     ? 'alive' : 'dead';
                                                 selectedJobStatus = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['IS_WORK_A'] == 0
@@ -984,30 +998,18 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                                 selectedHasDisability = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['DISABILITY'] == 0
                                                     ? 'no' : 'yes';
                                                 selectedMaritalStatus = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['SOCIAL_STATUS'] == 1
-                                                    ? UserConfig.instance.checkLanguage()
-                                                    ? 'single' : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF'
+                                                    ? 'single'
                                                     : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['SOCIAL_STATUS'] == 2
-                                                    ? UserConfig.instance.checkLanguage()
-                                                    ? 'married' : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF'
+                                                    ? 'married'
                                                     : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['SOCIAL_STATUS'] == 3
-                                                    ? UserConfig.instance.checkLanguage()
-                                                    ? 'divorced' : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF'
+                                                    ? 'divorced'
                                                     : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['SOCIAL_STATUS'] == 4
-                                                    ? UserConfig.instance.checkLanguage()
-                                                    ? 'widow' : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF' : 'single';
+                                                    ? 'widow' : 'single';
                                                 maritalList = [
-                                                  UserConfig.instance.checkLanguage()
-                                                      ? 'single'
-                                                      : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'singleM' : 'singleF',
-                                                  UserConfig.instance.checkLanguage()
-                                                      ? 'married'
-                                                      : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'marriedM' : 'marriedF',
-                                                  UserConfig.instance.checkLanguage()
-                                                      ? 'divorced'
-                                                      : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'divorcedM' : 'divorcedF',
-                                                  UserConfig.instance.checkLanguage()
-                                                      ? 'widow'
-                                                      : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GENDER'] == 1 ? 'widowM' : 'widowF',
+                                                  'single',
+                                                  'married',
+                                                  'divorced',
+                                                  'widow'
                                                 ];
                                                 inheritorModalBottomSheet(dependentIndex);
                                               } break;
@@ -1029,6 +1031,14 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                                             if(dependentIndex == servicesProvider.deadPersonInfo['cur_getdata2'][0].length && dependentIndex != 0){
                                                               setState(() {
                                                                 dependentIndex--;
+                                                                dependentMobileNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['MOBILE'].toString() ?? '';
+                                                                selectedInheritorMobileCountry = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['INTERNATIONAL_CODE'] ?? 962;
+                                                                guardianshipNationality = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAT'] == 1 ? 'jordanian' : 'nonJordanian') ?? "jordanian";
+                                                                guardianNationalNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNATNO'] ?? "";
+                                                                guardianSecondFieldController.text = (guardianshipNationality == 'jordanian'
+                                                                    ? servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANCARDNO']
+                                                                    : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAME']
+                                                                ) ?? "";
                                                               });
                                                             }
                                                             showMyDialog(context, 'dependentWereDeleted', '', 'ok', themeNotifier, titleColor: '#2D452E');
@@ -1453,9 +1463,11 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   context, themeNotifier, 'addNewHeir', Colors.transparent, HexColor('#2D452E'),
                     (){
                     // nonJordanianSubmitEnabled = false;
-                    servicesProvider.dependentInfo = null;
+                    nonJordanianSaveEnabled = false;
+                    servicesProvider.heirsInfo = null;
                     nationalIdController = TextEditingController();
                     quatrainNounController = TextEditingController();
+                    ageController = TextEditingController();
                     selectedDateOfBirth = DateTime.now();
                     nationality = 'jordanian';
                     servicesProvider.isNationalIdValid = false;
@@ -1468,17 +1480,12 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                     selectedHasDisability = 'no';
                     selectedGender = 'male';
                     selectedRelation = getRelationType(1);
-                    selectedMaritalStatus = UserConfig.instance.checkLanguage()
-                        ? 'single' : 'singleM';
+                    selectedMaritalStatus = 'single';
                     maritalList = [
-                      UserConfig.instance.checkLanguage()
-                          ? 'single' : 'singleM',
-                      UserConfig.instance.checkLanguage()
-                          ? 'married' : 'marriedM',
-                      UserConfig.instance.checkLanguage()
-                          ? 'divorced' : 'divorcedM',
-                      UserConfig.instance.checkLanguage()
-                          ? 'widow' : 'widowM',
+                      'single',
+                      'married',
+                      'divorced',
+                      'widow'
                     ];
                     ///
                     inheritorModalBottomSheet(dependentIndex, addingNew: true);
@@ -1601,7 +1608,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   deathPlace = 0;
                   relationshipType = 0;
                   nationality = firstChoice;
-                  nationalIdController.clear();
+                  deceasedNationalIdController.clear();
                   servicesProvider.isNationalIdValid = false;
                   selectedDateOfBirth = DateTime.now();
                   selectedDeathDate = DateTime.now();
@@ -1622,7 +1629,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   // selectedMethodOfReceiving = firstChoice;
                 }
                 if(flag == 7) {
-                  nationality = firstChoice;
+                  heirNationality = firstChoice;
                 }
                 if(flag == 8) {
                   selectedGender = firstChoice;
@@ -1654,7 +1661,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   radius: isTablet(context) ? 10 : 5,
                   backgroundColor: (flag == 1 && nationality == firstChoice) || (flag == 2 && selectedStatus == firstChoice) || (flag == 3 && selectedJobStatus == firstChoice) ||
                       (flag == 4 && selectedGetsSalary == firstChoice) || (flag == 5 && selectedHasDisability == firstChoice) ||
-                      (flag == 7 && nationality == firstChoice) || (flag == 8 && selectedGender == firstChoice) || (flag == 9 && guardianshipNationality == firstChoice)
+                      (flag == 7 && heirNationality == firstChoice) || (flag == 8 && selectedGender == firstChoice) || (flag == 9 && guardianshipNationality == firstChoice)
                       ? disabled ? Colors.grey : HexColor('#2D452E')
                       : Colors.transparent,
                 ),
@@ -1681,7 +1688,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   deathPlace = 0;
                   relationshipType = 0;
                   nationality = secondChoice;
-                  nationalIdController.clear();
+                  deceasedNationalIdController.clear();
                   servicesProvider.isNationalIdValid = false;
                   selectedDateOfBirth = DateTime.now();
                   selectedDeathDate = DateTime.now();
@@ -1702,7 +1709,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   // selectedMethodOfReceiving = firstChoice;
                 }
                 if(flag == 7) {
-                  nationality = secondChoice;
+                  heirNationality = secondChoice;
                 }
                 if(flag == 8) {
                   selectedGender = secondChoice;
@@ -1734,7 +1741,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   radius: isTablet(context) ? 10 : 5,
                   backgroundColor: (flag == 1 && nationality == secondChoice) || (flag == 2 && selectedStatus == secondChoice) || (flag == 3 && selectedJobStatus == secondChoice) ||
                       (flag == 4 && selectedGetsSalary == secondChoice) || (flag == 5 && selectedHasDisability == secondChoice) ||
-                      (flag == 7 && nationality == secondChoice) || (flag == 8 && selectedGender == secondChoice) || (flag == 9 && guardianshipNationality == secondChoice)
+                      (flag == 7 && heirNationality == secondChoice) || (flag == 8 && selectedGender == secondChoice) || (flag == 9 && guardianshipNationality == secondChoice)
                       ? disabled ? Colors.grey : HexColor('#2D452E') : Colors.transparent,
                 ),
               ),
@@ -1789,7 +1796,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                   }
                   if(flag == 3){
                     relationshipType = menuList.indexOf(value);
-                    servicesProvider.deadPersonInfo['cur_getdata'][0][0]['RELATIVE_TYPE'] = servicesProvider.penDeath['Relative_type_getdata'][0].where((element) => (UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR']) == relationshipTypes[relationshipType]).first['REL_ID'];
+                    servicesProvider.deadPersonInfo['cur_getdata'][0][0]['RELATIVE_TYPE'] = servicesProvider.penDeath['Relative_type_getdata'][0].where((element) => element['REL_ID'] == relationshipType).first['REL_ID'];
                     deadPersonSubmitGetDetails();
                   }
                 });
@@ -1826,6 +1833,16 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
     return result;
   }
 
+  int getRelationNumber(String relation){
+    int result = 0;
+    servicesProvider.penDeath['Relative_type_getdata'][0].forEach((element){
+      if((UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR']) == relation){
+        result = element['REL_ID'];
+      }
+    });
+    return result;
+  }
+
   Widget contextMenuItem(String key, String icon, String iconColor) {
     return Row(
       children: <Widget>[
@@ -1837,7 +1854,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
   }
 
   deadPersonSubmitGetDetails() async {
-    if(nationalIdController.text.length == 10 && deathType != 0){
+    if(deceasedNationalIdController.text.length == 10 && deathType != 0){
       FocusScope.of(context).requestFocus(FocusNode());
       String message = '';
       servicesProvider.isLoading = true;
@@ -1845,7 +1862,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
       try{
         int penType = (deathType == 1) ? 4 : (deathType == 2) ? 5 : 1;
         Map<String, dynamic> data = {
-          "natId": nationalIdController.text,
+          "natId": deceasedNationalIdController.text,
           "nationality": nationality == 'jordanian' ? 1 : 2,
           "penType": penType,
           "birthDate": nationality == 'jordanian' ? null : DateFormat('E%20MMM%20d%20y%20HH:mm:ss%20\'GMT\'', 'en_US').format(selectedDateOfBirth.toUtc()).toString(),
@@ -1856,7 +1873,9 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
             servicesProvider.isNationalIdValid = true;
             setState((){
               servicesProvider.deadPersonInfo = value;
-              servicesProvider.deadPersonInfo['cur_getdata'][0][0]['RELATIVE_TYPE'] = servicesProvider.penDeath['Relative_type_getdata'][0].where((element) => (UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR']) == relationshipTypes[relationshipType]).first['REL_ID'];
+              relationshipType = servicesProvider.deadPersonInfo['cur_getdata'][0][0]['RELATIVE_TYPE'];
+              servicesProvider.penDeath['Relative_type_getdata'][0].where((element) => element['REL_ID'] == relationshipType).first['REL_ID'];
+              // servicesProvider.deadPersonInfo['cur_getdata'][0][0]['RELATIVE_TYPE'] = servicesProvider.penDeath['Relative_type_getdata'][0].where((element) => (UserConfig.instance.checkLanguage() ? element['REL_DESC_EN'] : element['REL_DESC_AR']) == relationshipTypes[relationshipType]).first['REL_ID'];
               if(servicesProvider.deadPersonInfo['cur_getdata2'].isNotEmpty){
                 for(int i=0 ; i<servicesProvider.deadPersonInfo['cur_getdata2'][0].length ; i++){
                   servicesProvider.deadPersonInfo['cur_getdata2'][0][i] = {
@@ -2029,7 +2048,8 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
       backgroundColor: const Color.fromRGBO(250, 250, 250, 1.0),
       isScrollControlled: true,
       constraints: BoxConstraints(
-          maxHeight: height(0.9, context)
+          maxHeight: height(0.9, context),
+          minHeight: height(0.9, context),
       ),
       builder: (BuildContext context) {
         return StatefulBuilder(
@@ -2049,268 +2069,229 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                     padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0).copyWith(top: 15.0),
                     child: Stack(
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  width: 45,
-                                  height: 6,
-                                  decoration: BoxDecoration(
-                                      color: !themeNotifier.isLight() ? Colors.white : HexColor('#000000'),
-                                      borderRadius: const BorderRadius.all(Radius.circular(25.0))),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 25.0,),
-                            if(addingNew)
-                              Column(
-                                children: [
-                                  buildFieldTitle(context, 'nationality', required: false),
-                                  const SizedBox(height: 10.0,),
-                                  customTwoRadioButtons(7, 'jordanian', 'nonJordanian', setState, disabled: servicesProvider.isNationalIdValid),
-                                  const SizedBox(height: 20.0,),
-                                  buildFieldTitle(context, nationality == 'jordanian' ? 'nationalId' : 'personalId', required: false),
-                                  const SizedBox(height: 10.0,),
-                                  buildTextFormField(
-                                      context, themeNotifier, nationalIdController, servicesProvider.isNationalIdValid ? 'val${nationalIdController.text}' : '9999999999', (val) async {
-                                    if((val.length == 10 && nationality == 'jordanian')){
-                                      FocusScope.of(context).requestFocus(FocusNode());
-                                      String message = '';
-                                      servicesProvider.isLoading = true;
-                                      servicesProvider.isModalLoading = true;
-                                      servicesProvider.notifyMe();
-                                      try{
-                                        await servicesProvider.getDependentInfo(val).whenComplete((){}).then((value) {
-                                          if(value['PO_status'] == 0){
-                                            servicesProvider.isNationalIdValid = true;
-                                            setState((){
-                                              servicesProvider.dependentInfo = value;
-                                              servicesProvider.notifyMe();
-                                            });
-                                          } else{
-                                            message = UserConfig.instance.checkLanguage()
-                                                ? value['PO_status_desc_EN'] : value['PO_status_desc_AR'];
-                                            showMyDialog(context, 'failed', message, 'ok', themeNotifier);
-                                          }
-                                        });
-                                        servicesProvider.isLoading = false;
-                                        servicesProvider.isModalLoading = false;
-                                        servicesProvider.notifyMe();
-                                      }catch(e){
-                                        servicesProvider.isLoading = false;
-                                        servicesProvider.isModalLoading = false;
-                                        servicesProvider.notifyMe();
-                                        if (kDebugMode) {
-                                          print(e.toString());
-                                        }
-                                      }
-                                    }
-                                    setState((){
-                                      // checkNonJordanianInfo();
-                                    });
-                                  },
-                                      inputType: TextInputType.number, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid
+                        SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    width: 45,
+                                    height: 6,
+                                    decoration: BoxDecoration(
+                                        color: !themeNotifier.isLight() ? Colors.white : HexColor('#000000'),
+                                        borderRadius: const BorderRadius.all(Radius.circular(25.0))),
                                   ),
-                                  const SizedBox(height: 15.0,),
                                 ],
                               ),
-                            if((nationality == 'jordanian' && servicesProvider.isNationalIdValid) || nationality == 'nonJordanian')
-                              ListView(
-                                shrinkWrap: true,
-                                children: [
-                                  if(nationality == 'jordanian')
-                                    Card(
-                                        elevation: 5.0,
-                                        shadowColor: Colors.black45,
-                                        color: getContainerColor(context),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15.0),
-                                        ),
-                                        child: Container(
-                                          width: width(1, context),
-                                          padding: const EdgeInsets.all(15.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    !addingNew
-                                                        ? servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['FULL_NAME']
-                                                        : '${servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['FULL_NAME']}',
-                                                    style: TextStyle(
-                                                      height: 1.4,
-                                                      color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                                                    decoration: BoxDecoration(
-                                                      color: !addingNew
-                                                          ? servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['RELATIVETYPE'] == 11
-                                                          ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38)
-                                                          : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['RELATIVETYPE'] == 11
-                                                          ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
-                                                      borderRadius: BorderRadius.circular(8.0),
-                                                    ),
-                                                    child: Text(
+                              const SizedBox(height: 25.0,),
+                              if(addingNew)
+                                Column(
+                                  children: [
+                                    buildFieldTitle(context, 'nationality', required: false),
+                                    const SizedBox(height: 10.0,),
+                                    customTwoRadioButtons(7, 'jordanian', 'nonJordanian', setState, disabled: servicesProvider.isNationalIdValid),
+                                    const SizedBox(height: 20.0,),
+                                    buildFieldTitle(context, heirNationality == 'jordanian' ? 'nationalId' : 'personalId', required: false),
+                                    const SizedBox(height: 10.0,),
+                                    buildTextFormField(
+                                        context, themeNotifier, nationalIdController, servicesProvider.isNationalIdValid ? 'val${nationalIdController.text}' : '9999999999', (val) async {
+                                      if((val.length == 10 && heirNationality == 'jordanian') && servicesProvider.deadPersonInfo['cur_getdata2'][0].where((element) => (element['NATIONAL_NO'] ?? element['NATIONALNUMBER']).toString() == val).isEmpty){
+                                        FocusScope.of(context).requestFocus(FocusNode());
+                                        String message = '';
+                                        servicesProvider.isLoading = true;
+                                        servicesProvider.isModalLoading = true;
+                                        servicesProvider.notifyMe();
+                                        try{
+                                          await servicesProvider.getHeirsInfo(val).whenComplete((){}).then((value) {
+                                            if(value['PO_status'] == 0){
+                                              servicesProvider.isNationalIdValid = true;
+                                              setState((){
+                                                servicesProvider.heirsInfo = value;
+                                                servicesProvider.notifyMe();
+                                              });
+                                            } else{
+                                              message = UserConfig.instance.checkLanguage()
+                                                  ? value['PO_status_desc_EN'] : value['PO_status_desc_AR'];
+                                              showMyDialog(context, 'failed', message, 'ok', themeNotifier);
+                                            }
+                                          });
+                                          servicesProvider.isLoading = false;
+                                          servicesProvider.isModalLoading = false;
+                                          servicesProvider.notifyMe();
+                                        }catch(e){
+                                          servicesProvider.isLoading = false;
+                                          servicesProvider.isModalLoading = false;
+                                          servicesProvider.notifyMe();
+                                          if (kDebugMode) {
+                                            print(e.toString());
+                                          }
+                                        }
+                                      } else if(heirNationality == 'nonJordanian'  && servicesProvider.deadPersonInfo['cur_getdata2'][0].where((element) => (element['NATIONAL_NO'] ?? element['NATIONALNUMBER']).toString() == val).isEmpty){
+                                        nonJordanianSaveEnabled = (ageController.text.isNotEmpty && quatrainNounController.text.length >=5 && val.length == 10);
+                                      } else if(servicesProvider.deadPersonInfo['cur_getdata2'][0].where((element) => (element['NATIONAL_NO'] ?? element['NATIONALNUMBER']).toString() == val).isNotEmpty){
+                                        nationalIdController.clear();
+                                        showMyDialog(context, 'failed', getTranslated('theNationalPersonalNumberAddedToTheHeirs', context), 'ok', themeNotifier);
+                                      }
+
+                                      setState((){});
+                                    },
+                                        inputType: TextInputType.number, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid
+                                    ),
+                                    const SizedBox(height: 15.0,),
+                                    if(heirNationality == 'jordanian' && !servicesProvider.isNationalIdValid)
+                                      SizedBox(height: height(1, context),),
+                                  ],
+                                ),
+                              if((heirNationality == 'jordanian' && servicesProvider.isNationalIdValid) || heirNationality == 'nonJordanian')
+                                Column(
+                                  // shrinkWrap: true,
+                                  children: [
+                                    if(heirNationality == 'jordanian')
+                                      Card(
+                                          elevation: 5.0,
+                                          shadowColor: Colors.black45,
+                                          color: getContainerColor(context),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(15.0),
+                                          ),
+                                          child: Container(
+                                            width: width(1, context),
+                                            padding: const EdgeInsets.all(15.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text(
                                                       !addingNew
-                                                          ? getRelationType(servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['RELATIVETYPE'])
-                                                          : getRelationType(servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['RELATIVETYPE']),
+                                                          ? servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['FULL_NAME']
+                                                          : '${servicesProvider.heirsInfo['cur_getdata'][0][0]['FULL_NAME']}',
                                                       style: TextStyle(
-                                                        color: !addingNew
-                                                            ? servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['RELATIVETYPE'] == 11
-                                                            ? HexColor('#003C97') : HexColor('#2D452E')
-                                                            : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['RELATIVETYPE'] == 11
-                                                            ? HexColor('#003C97') : HexColor('#2D452E'),
-                                                        fontWeight: FontWeight.w400,
+                                                        height: 1.4,
+                                                        color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
+                                                        fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 15.0,),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    !addingNew
-                                                        ? servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['NATIONALNUMBER']
-                                                        : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['NATIONALNUMBER'],
-                                                    style: TextStyle(
-                                                      color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    ' / ',
-                                                    style: TextStyle(
-                                                      color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    getTranslated(
+                                                    Container(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                                                      decoration: BoxDecoration(
+                                                        color: !addingNew
+                                                            ? servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['RELATIVETYPE'] == 11
+                                                            ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38)
+                                                            : servicesProvider.heirsInfo['cur_getdata'][0][0]['RELATIVETYPE'] == 11
+                                                            ? HexColor('#9EBDF8') : const Color.fromRGBO(0, 121, 5, 0.38),
+                                                        borderRadius: BorderRadius.circular(8.0),
+                                                      ),
+                                                      child: Text(
                                                         !addingNew
-                                                            ? servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['NATIONALITY'] == 1
-                                                            ? 'jordanian' : 'nonJordanian'
-                                                            : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['NATIONALITY'] == 1
-                                                            ? 'jordanian' : 'nonJordanian',
-                                                        context),
-                                                    style: TextStyle(
-                                                      color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                            ? getRelationType(servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['RELATIVETYPE'])
+                                                            : getRelationType(servicesProvider.heirsInfo['cur_getdata'][0][0]['RELATIVETYPE']),
+                                                        style: TextStyle(
+                                                          color: !addingNew
+                                                              ? servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['RELATIVETYPE'] == 11
+                                                              ? HexColor('#003C97') : HexColor('#2D452E')
+                                                              : servicesProvider.heirsInfo['cur_getdata'][0][0]['RELATIVETYPE'] == 11
+                                                              ? HexColor('#003C97') : HexColor('#2D452E'),
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                    ),
-                                  if(nationality == 'nonJordanian')
-                                    Column(
-                                      children: [
-                                        buildFieldTitle(context, 'quatrainNoun', required: false),
-                                        const SizedBox(height: 10.0,),
-                                        buildTextFormField(context, themeNotifier, quatrainNounController, '', (val){setState((){});}, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid),
-                                        const SizedBox(height: 10.0,),
-                                        buildFieldTitle(context, 'sex', required: false),
-                                        const SizedBox(height: 10.0,),
-                                        customTwoRadioButtons(8, 'male', 'female', setState),
-                                        const SizedBox(height: 20.0,),
-                                        buildFieldTitle(context, 'DateOfBirth', required: false),
-                                        SizedBox(height: height(0.015, context),),
-                                        InkWell(
-                                          onTap: () {
-                                            DatePicker.showDatePicker(
-                                              context,
-                                              showTitleActions: true,
-                                              theme: DatePickerTheme(
-                                                headerColor: primaryColor,
-                                                backgroundColor: Colors.white,
-                                                itemStyle: TextStyle(
-                                                  color: primaryColor,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18,
+                                                  ],
                                                 ),
-                                                doneStyle: const TextStyle(color: Colors.white, fontSize: 16,),
-                                                cancelStyle: const TextStyle(color: Colors.white, fontSize: 16),
-                                              ),
-                                              maxTime: DateTime.now(),
-                                              onConfirm: (date) {
-                                                setState((){
-                                                  selectedDateOfBirth = date;
-                                                  // checkNonJordanianInfo();
-                                                });
-                                              },
-                                              currentTime: selectedDateOfBirth,
-                                              locale: LocaleType.en,
-                                            );
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(12.0),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: HexColor('#979797'),
-                                              ),
-                                              borderRadius: BorderRadius.circular(8),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  DateFormat('dd/MM/yyyy').format(selectedDateOfBirth),
+                                                const SizedBox(height: 15.0,),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      !addingNew
+                                                          ? servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['NATIONALNUMBER']
+                                                          : servicesProvider.heirsInfo['cur_getdata'][0][0]['NATIONALNUMBER'],
+                                                      style: TextStyle(
+                                                        color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ' / ',
+                                                      style: TextStyle(
+                                                        color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      getTranslated(
+                                                          !addingNew
+                                                              ? servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['NATIONALITY'] == 1
+                                                              ? 'jordanian' : 'nonJordanian'
+                                                              : servicesProvider.heirsInfo['cur_getdata'][0][0]['NATIONALITY'] == 1
+                                                              ? 'jordanian' : 'nonJordanian',
+                                                          context),
+                                                      style: TextStyle(
+                                                        color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                SvgPicture.asset('assets/icons/datePickerIcon.svg'),
                                               ],
                                             ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  const SizedBox(height: 20.0,),
-                                  if(!addingNew)
+                                          )
+                                      ),
+                                    if(heirNationality == 'nonJordanian')
+                                      Column(
+                                        children: [
+                                          buildFieldTitle(context, 'quatrainNoun', required: false),
+                                          const SizedBox(height: 10.0,),
+                                          buildTextFormField(context, themeNotifier, quatrainNounController, '', (val){
+                                            nonJordanianSaveEnabled = (ageController.text.isNotEmpty && val.length >=5 && nationalIdController.text.length == 10);
+                                            setState((){});
+                                          }, enabled: !Provider.of<ServicesProvider>(context).isNationalIdValid),
+                                          const SizedBox(height: 10.0,),
+                                          buildFieldTitle(context, 'sex', required: false),
+                                          const SizedBox(height: 10.0,),
+                                          customTwoRadioButtons(8, 'male', 'female', setState),
+                                          const SizedBox(height: 20.0,),
+                                          buildFieldTitle(context, 'age', required: false),
+                                          SizedBox(height: height(0.015, context),),
+                                          buildTextFormField(context, themeNotifier, ageController, '', (val){
+                                            nonJordanianSaveEnabled = (val.isNotEmpty && quatrainNounController.text.length >=5 && nationalIdController.text.length == 10);
+                                            setState((){});
+                                          }, inputType: TextInputType.number)
+                                        ],
+                                      ),
+                                    const SizedBox(height: 20.0,),
                                     buildFieldTitle(context, 'status', required: false),
-                                  if(!addingNew)
                                     const SizedBox(height: 10.0,),
-                                  if(!addingNew)
                                     customTwoRadioButtons(2, 'alive', 'dead', setState),
-                                  if(!addingNew)
-                                    const SizedBox(height: 20.0,),
-                                  buildFieldTitle(context, 'employmentStatus', required: false),
-                                  const SizedBox(height: 10.0,),
-                                  customTwoRadioButtons(3, 'unemployed', 'employed', setState),
-                                  const SizedBox(height: 20.0,),
-                                  buildFieldTitle(context, 'getsSalary', required: false),
-                                  const SizedBox(height: 10.0,),
-                                  customTwoRadioButtons(4, 'yes', 'no', setState),
-                                  const SizedBox(height: 20.0,),
-                                  buildFieldTitle(context, 'hasDisability', required: false),
-                                  const SizedBox(height: 10.0,),
-                                  customTwoRadioButtons(5, 'yes', 'no', setState),
-                                  if(!addingNew)
-                                    const SizedBox(height: 20.0,),
-                                  if(!addingNew)
+                                    const SizedBox(height: 30.0,),
+                                    buildFieldTitle(context, 'employmentStatus', required: false),
+                                    const SizedBox(height: 10.0,),
+                                    customTwoRadioButtons(3, 'unemployed', 'employed', setState),
+                                    const SizedBox(height: 30.0,),
+                                    buildFieldTitle(context, 'getsSalary', required: false),
+                                    const SizedBox(height: 10.0,),
+                                    customTwoRadioButtons(4, 'yes', 'no', setState),
+                                    const SizedBox(height: 30.0,),
+                                    buildFieldTitle(context, 'hasDisability', required: false),
+                                    const SizedBox(height: 10.0,),
+                                    customTwoRadioButtons(5, 'yes', 'no', setState),
+                                    const SizedBox(height: 30.0,),
                                     buildFieldTitle(context, 'maritalStatus', required: false),
-                                  if(!addingNew)
                                     const SizedBox(height: 10.0,),
-                                  if(!addingNew)
                                     customRadioButtonGroup(1, maritalList, setState),
-                                  if(nationality == 'nonJordanian')
-                                    const SizedBox(height: 20.0,),
-                                  if(nationality == 'nonJordanian')
-                                    buildFieldTitle(context, 'relativeRelation', required: false),
-                                  if(nationality == 'nonJordanian')
+                                    if(heirNationality == 'nonJordanian')
                                     const SizedBox(height: 10.0,),
-                                  if(nationality == 'nonJordanian')
-                                    customRadioButtonGroup(2, servicesProvider.result['P_RELATION'][0], setState),
-                                  SizedBox(height: height(isScreenHasSmallHeight(context) ? 0.2 : 0.11, context),),
-                                ],
-                              ),
-                          ],
+                                    if(heirNationality == 'nonJordanian')
+                                    buildFieldTitle(context, 'relativeRelation', required: false),
+                                    if(heirNationality == 'nonJordanian')
+                                    const SizedBox(height: 10.0,),
+                                    if(heirNationality == 'nonJordanian')
+                                    customRadioButtonGroup(2, servicesProvider.deadPersonInfo['cur_getdata3'][0], setState),
+                                    SizedBox(height: height(isScreenHasSmallHeight(context) ? 0.2 : 0.11, context),),
+                                  ],
+                                ),
+                            ],
+                          ),
                         ),
                         Positioned(
                           bottom: 0,
@@ -2321,22 +2302,22 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                textButton(context, themeNotifier, 'save', (!addingNew || (addingNew && nationality == 'jordanian' && servicesProvider.isNationalIdValid) || (addingNew && nationality == 'nonJordanian')) ? HexColor('#445740') : HexColor('DADADA'),
-                                    (!addingNew || (addingNew && nationality == 'jordanian' && servicesProvider.isNationalIdValid) || (addingNew && nationality == 'nonJordanian')) ? Colors.white : HexColor('#363636'), () async {
+                                textButton(context, themeNotifier, 'save', (!addingNew || (addingNew && heirNationality == 'jordanian' && servicesProvider.isNationalIdValid) || (addingNew && heirNationality == 'nonJordanian' && nonJordanianSaveEnabled)) ? HexColor('#445740') : HexColor('DADADA'),
+                                    (!addingNew || (addingNew && heirNationality == 'jordanian' && servicesProvider.isNationalIdValid) || (addingNew && heirNationality == 'nonJordanian' && nonJordanianSaveEnabled)) ? Colors.white : HexColor('#363636'), () async {
                                       FocusScope.of(context).requestFocus(FocusNode());
                                       if(!addingNew) {
                                         // String message = '';
                                         servicesProvider.isLoading = true;
                                         servicesProvider.isModalLoading = true;
                                         servicesProvider.notifyMe();
-                                        dynamic maritalStatus = selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                            ? 'single' : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["GENDER"] == 1 ? 'singleM' : 'singleF') ? 1
-                                            : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                            ? 'married' : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["GENDER"] == 1 ? 'marriedM' : 'marriedF') ? 2
-                                            : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                            ? 'divorced' : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["GENDER"] == 1 ? 'divorcedM' : 'divorcedF') ? 3
-                                            : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                            ? 'widow' : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["GENDER"] == 1 ? 'widowM' : 'widowF') ? 4 : 1;
+                                        dynamic maritalStatus =  (selectedMaritalStatus = servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['SOCIAL_STATUS'] == 1
+                                            ? 'single'
+                                            : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['SOCIAL_STATUS'] == 2
+                                            ? 'married'
+                                            : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['SOCIAL_STATUS'] == 3
+                                            ? 'divorced'
+                                            : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]['SOCIAL_STATUS'] == 4
+                                            ? 'widow' : 'single');
                                         try{
                                           var dependent = {
                                             "NATIONALNUMBER": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["NATIONALNUMBER"],
@@ -2370,6 +2351,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                             "MOBILE": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["MOBILE"],
                                             "SOURCE_FLAG": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["SOURCE_FLAG"],
                                             "validPhone": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["validPhone"],
+                                            'INHERITOR_DOCS': [],
                                           };
 
                                           servicesProvider.deadPersonInfo['cur_getdata2'][0][index] = dependent;
@@ -2386,9 +2368,11 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                                 }
                                               }), 11
                                           ).whenComplete((){}).then((value) {
-                                            for(int i=0 ; i<value['R_RESULT'][0].length ; i++){
-                                              value['R_RESULT'][0][i]['CODE'] = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['NATIONALNUMBER'];
-                                              value['R_RESULT'][0][i]['NAME'] = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]["FIRSTNAME"];
+                                            if(value['R_RESULT'].isNotEmpty){
+                                              for(int i=0 ; i<value['R_RESULT'][0].length ; i++){
+                                                value['R_RESULT'][0][i]['CODE'] = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['NATIONALNUMBER'];
+                                                value['R_RESULT'][0][i]['NAME'] = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]["FIRSTNAME"];
+                                              }
                                             }
                                             servicesProvider.dependentsDocuments.removeWhere((element) => element["CODE"] == servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]["DEP_CODE"]);
                                             if(value['R_RESULT'].isNotEmpty){
@@ -2414,71 +2398,91 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                           }
                                         }
                                       } else{
-                                        if((nationality == 'jordanian' && servicesProvider.isNationalIdValid) || (nationality == 'nonJordanian')){
+                                        if((heirNationality == 'jordanian' && servicesProvider.isNationalIdValid) || (heirNationality == 'nonJordanian' && nonJordanianSaveEnabled)){
                                           String message = '';
                                           servicesProvider.isLoading = true;
                                           servicesProvider.isModalLoading = true;
                                           servicesProvider.notifyMe();
-                                          dynamic maritalStatus = selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                              ? 'single' : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["GENDER"] == 1 ? 'singleM' : 'singleF') ? 1
-                                              : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                              ? 'married' : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["GENDER"] == 1 ? 'marriedM' : 'marriedF') ? 2
-                                              : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                              ? 'divorced' : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["GENDER"] == 1 ? 'divorcedM' : 'divorcedF') ? 3
-                                              : selectedMaritalStatus == (UserConfig.instance.checkLanguage()
-                                              ? 'widow' : servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["GENDER"] == 1 ? 'widowM' : 'widowF') ? 4 : 1;
+                                          dynamic maritalStatus = (selectedMaritalStatus == ('single') ? 1
+                                              : selectedMaritalStatus == ('married') ? 2
+                                              : selectedMaritalStatus == ('divorced') ? 3
+                                              : selectedMaritalStatus == ('widow') ? 4 : 1);
                                           try{
                                             await servicesProvider.checkDocumentDependent((servicesProvider.deadPersonInfo['cur_getdata2'].isNotEmpty && servicesProvider.deadPersonInfo['cur_getdata2'][0].length != 0) ? servicesProvider.deadPersonInfo['cur_getdata2'][0] : []).then((value) async {
                                               if(value['P_RESULT'].isEmpty){
                                                 Map<String, dynamic> dependent;
                                                 String id = "${DateTime.now().millisecondsSinceEpoch}${((math.Random().nextDouble() * 10000) + 1).floor()}";
-                                                if(nationality == 'jordanian'){
+                                                if(heirNationality == 'jordanian'){
                                                   dependent = {
-                                                    "NAME": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["FULL_NAME"],
-                                                    "GENDER": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["GENDER"],
-                                                    "FIRSTNAME": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["FIRSTNAME"],
-                                                    "SECONDNAME": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["SECONDNAME"],
-                                                    "THIRDNAME": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["THIRDNAME"],
-                                                    "LASTNAME": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["LASTNAME"],
-                                                    "BIRTHDATE": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["BIRTHDATE"],
-                                                    "AGE": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["AGE"],
-                                                    "MARITAL_STATUS_A": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["SOCIAL_STATUS"],
-                                                    "MARITAL_STATUS": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["SOCIAL_STATUS"],
-                                                    "WORK_STATUS_A": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["IS_WORK"],
-                                                    "IS_ALIVE_A": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["IS_ALIVE"],
-                                                    "IS_ALIVE": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["IS_ALIVE"],
+                                                    "NATIONALNUMBER": servicesProvider.heirsInfo['cur_getdata'][0][0]["NATIONALNUMBER"],
+                                                    "FULL_NAME": servicesProvider.heirsInfo['cur_getdata'][0][0]["FULL_NAME"],
+                                                    "FIRSTNAME": servicesProvider.heirsInfo['cur_getdata'][0][0]["FIRSTNAME"],
+                                                    "SECONDNAME": servicesProvider.heirsInfo['cur_getdata'][0][0]["SECONDNAME"],
+                                                    "THIRDNAME": servicesProvider.heirsInfo['cur_getdata'][0][0]["THIRDNAME"],
+                                                    "LASTNAME": servicesProvider.heirsInfo['cur_getdata'][0][0]["LASTNAME"],
+                                                    "NAME1": "",
+                                                    "NAME2": "",
+                                                    "NAME3": "",
+                                                    "NAME4": "",
+                                                    "NATIONALITY": servicesProvider.heirsInfo['cur_getdata'][0][0]["NATIONALITY"],
+                                                    "RELATIVETYPE": servicesProvider.heirsInfo['cur_getdata'][0][0]["RELATIVETYPE"],
+                                                    "GENDER": servicesProvider.heirsInfo['cur_getdata'][0][0]["GENDER"],
+                                                    "AGE": servicesProvider.heirsInfo['cur_getdata'][0][0]["AGE"],
+                                                    "SOCIAL_STATUS": maritalStatus,
+                                                    "SOCIAL_STATUS_A": servicesProvider.heirsInfo['cur_getdata'][0][0]["SOCIAL_STATUS"],
+                                                    "IS_ALIVE": selectedStatus == 'alive' ? 1 : 0,
+                                                    "IS_ALIVE_A": servicesProvider.heirsInfo['cur_getdata'][0][0]["IS_ALIVE"],
+                                                    "IS_WORK": servicesProvider.heirsInfo['cur_getdata'][0][0]["IS_WORK"],
+                                                    "IS_WORK_A": selectedJobStatus == 'unemployed' ? 0 : 1,
+                                                    "IS_RETIRED": servicesProvider.heirsInfo['cur_getdata'][0][0]["IS_RETIRED"],
                                                     "IS_RETIRED_A": selectedGetsSalary == 'yes' ? 1 : 0,
-                                                    "LAST_EVENT_DATE": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["LAST_SOC_STATUS_DATE"],
-                                                    "WANT_HEALTH_INSURANCE": "",
-                                                    "PreLoad": null,
-                                                    "Added": null,
-                                                    "doc_dep": "",
-                                                    "RELATION": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["RELATIVETYPE"],
-                                                    "WORK_STATUS": selectedJobStatus == 'unemployed' ? 0 : 1,
-                                                    "IS_RETIRED": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["IS_RETIRED"],
+                                                    "GUARDIANNATNO": "",
+                                                    "GUARDIANCARDNO": "",
+                                                    "GUARDIANNAT": "",
+                                                    "GUARDIANNAME": "",
                                                     "DISABILITY": selectedHasDisability == 'no' ? 0 : 1,
-                                                    "ID": id,
-                                                    "DEP_CODE": id,
+                                                    "MOBILE": servicesProvider.heirsInfo['cur_getdata'][0][0]["MOBILE"],
                                                     "SOURCE_FLAG": 2,
-                                                    "NATIONAL_NO": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["NATIONALNUMBER"],
-                                                    "NATIONALITY": servicesProvider.deadPersonInfo['cur_getdata2'][0][index]["NATIONALITY"],
+                                                    "validPhone": false,
+                                                    'INHERITOR_DOCS': [],
+                                                    "dateOfLastStatus": {
+                                                      "NATIONALNUMBER": servicesProvider.heirsInfo['cur_getdata'][0][0]["NATIONALNUMBER"],
+                                                      "FULL_NAME": servicesProvider.heirsInfo['cur_getdata'][0][0]["FULL_NAME"],
+                                                      "FIRSTNAME": servicesProvider.heirsInfo['cur_getdata'][0][0]["FIRSTNAME"],
+                                                      "SECONDNAME": servicesProvider.heirsInfo['cur_getdata'][0][0]["SECONDNAME"],
+                                                      "THIRDNAME": servicesProvider.heirsInfo['cur_getdata'][0][0]["THIRDNAME"],
+                                                      "LASTNAME": servicesProvider.heirsInfo['cur_getdata'][0][0]["LASTNAME"],
+                                                      "NATIONALITY": servicesProvider.heirsInfo['cur_getdata'][0][0]["NATIONALITY"],
+                                                      "RELATIVETYPE": servicesProvider.heirsInfo['cur_getdata'][0][0]["RELATIVETYPE"],
+                                                      "GENDER": servicesProvider.heirsInfo['cur_getdata'][0][0]["GENDER"],
+                                                      "AGE": servicesProvider.heirsInfo['cur_getdata'][0][0]["AGE"],
+                                                      "SOCIAL_STATUS": maritalStatus,
+                                                      "IS_ALIVE": selectedStatus == 'alive' ? 1 : 0,
+                                                      "IS_WORK": servicesProvider.heirsInfo['cur_getdata'][0][0]["IS_WORK"],
+                                                      "IS_RETIRED": servicesProvider.heirsInfo['cur_getdata'][0][0]["IS_RETIRED"],
+                                                      "LAST_SOC_STATUS_DATE": null,
+                                                      "DEAD_DATE": null,
+                                                      "BIRTHDATE": DateFormat('dd/MM/yyyy').format(selectedDateOfBirth),
+                                                    },
+                                                    /// TODO: continue from here ... adding new heir
                                                   };
                                                 } else{
                                                   dependent = {
-                                                    "NAME": quatrainNounController.text,
-                                                    "IS_ALIVE": 1,
-                                                    "WORK_STATUS": selectedJobStatus == 'unemployed' ? 0 : 1,
+                                                    "FULL_NAME": quatrainNounController.text,
+                                                    "IS_ALIVE": selectedStatus == 'alive' ? 1 : 2,
+                                                    "IS_WORK": selectedJobStatus == 'unemployed' ? 0 : 1,
+                                                    "IS_WORK_A": selectedJobStatus == 'unemployed' ? 0 : 1,
                                                     "IS_RETIRED": selectedGetsSalary == 'yes' ? 1 : 0,
                                                     "DISABILITY": selectedHasDisability == 'no' ? 0 : 1,
-                                                    "MARITAL_STATUS": maritalStatus,
-                                                    "MARITAL_STATUS_A": maritalStatus,
+                                                    "SOCIAL_STATUS": maritalStatus,
+                                                    "SOCIAL_STATUS_A": maritalStatus,
                                                     "GENDER": selectedGender == 'male' ? 1 : 2,
                                                     "ID": id,
                                                     "SOURCE_FLAG": 2,
-                                                    "NATIONAL_NO": nationalIdController.text,
+                                                    "NATIONALNUMBER": nationalIdController.text,
                                                     "NATIONALITY": 2,
                                                     "BIRTHDATE": DateFormat('dd/MM/yyyy').format(selectedDateOfBirth),
-                                                    "AGE": 0,
+                                                    "AGE": ageController.text,
                                                     ///
                                                     "WORK_STATUS_A": selectedJobStatus == 'unemployed' ? 0 : 1,
                                                     "IS_ALIVE_A": 1,
@@ -2489,13 +2493,25 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                                                     "Added": null,
                                                     "doc_dep": "",
                                                     "DEP_CODE": id,
+                                                    ///
+                                                    "INHERITOR_DOCS": [],
+                                                    "NATIONAL_NO": nationalIdController.text,
+                                                    "MARITAL_STATUS_A": maritalStatus,
+                                                    "WORK_STATUS": selectedJobStatus == 'unemployed' ? 0 : 1,
+                                                    "RELATION": getRelationNumber(selectedRelation),
+                                                    "RELATIVETYPE": getRelationNumber(selectedRelation),
+                                                    "GUARDIANNAT": (double.tryParse(ageController.text) < 18) ? 1 : null,
+                                                    "validPhone": false,
+                                                    "INTERNATIONAL_CODE": 962
                                                   };
                                                 }
                                                 await servicesProvider.getRequiredDocuments(
                                                     jsonEncode({
                                                       "row": {
-                                                        "NAT": "111",
-                                                        "GENDER": "2"
+                                                        "IS_INHERITOR": 1,
+                                                        "MILITARY_WORK_DOC": servicesProvider.deadPersonInfo['cur_getdata'][0][0]['MILITARY_WORK_DOC'],
+                                                        "DEATH_NAT": servicesProvider.deadPersonInfo['cur_getdata'][0][0]['NAT'],
+                                                        "INHERITORS_FLAG": 1
                                                       },
                                                       "dep": {
                                                         "dep": dependent
@@ -2567,7 +2583,6 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
     );
   }
 
-  /// TODO: complete inheritor's EDIT and ADD NEW
   Widget customRadioButtonGroup(int flag, List choices, setState){
     return ListView.builder(
         shrinkWrap: true,
@@ -2584,7 +2599,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                     }
                     if(flag == 2) {
                       selectedRelation = UserConfig.instance.checkLanguage()
-                          ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR'];
+                      ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR'];
                     }
                     if(flag == 3) {
                       selectedActivePayment = choices[index];
@@ -2604,8 +2619,8 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                       padding: const EdgeInsets.all(2.0),
                       child: CircleAvatar(
                         radius: isTablet(context) ? 10 : 5,
-                        backgroundColor: (flag == 1 && selectedMaritalStatus == choices[index]) || (flag == 2 && selectedRelation == (UserConfig.instance.checkLanguage()
-                            ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR']))  || (flag == 3 && selectedActivePayment == choices[index])
+                        backgroundColor: (flag == 1 && selectedMaritalStatus == choices[index]) || (flag == 2 && (selectedRelation == (UserConfig.instance.checkLanguage()
+                            ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR'])))  || (flag == 3 && selectedActivePayment == choices[index])
                             ? HexColor('#2D452E') : Colors.transparent,
                       ),
                     ),
@@ -2615,7 +2630,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                         flag == 1
                             ? getTranslated(choices[index], context)
                             : UserConfig.instance.checkLanguage()
-                            ? choices[index][flag == 2 ? 'REL_DESC_EN' : 'NAME_EN'] : choices[index][flag == 2 ? 'REL_DESC_AR' : 'NAME_AR'],
+                            ? choices[index][flag == 3 ? 'NAME_EN' : 'REL_DESC_EN'] : choices[index][flag == 3 ? 'NAME_AR' : 'REL_DESC_AR'],
                         style: TextStyle(
                           color: HexColor('#666666'),
                         ),
