@@ -132,8 +132,8 @@ class ServicesProvider extends ChangeNotifier {
     return response;
   }
 
-  Future setEarlyRetirementApplication(docs, Map paymentInfo, int authorizedToSign, int wantInsurance) async{
-    return await servicesRepository.setEarlyRetirementApplicationService(result, docs, paymentInfo, authorizedToSign, wantInsurance);
+  Future setEarlyRetirementApplication(docs, Map paymentInfo, int authorizedToSign, int wantInsurance, int serviceType) async{
+    return await servicesRepository.setEarlyRetirementApplicationService(result, docs, paymentInfo, authorizedToSign, wantInsurance, serviceType);
   }
 
   Future setDeceasedRetirementApplication(docs, deathPlace) async{

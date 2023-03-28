@@ -403,7 +403,7 @@ class ServicesRepository{
     return '';
   }
 
-  Future setEarlyRetirementApplicationService(result, docs, paymentInfo, int authorizedToSign, int wantInsurance) async {
+  Future setEarlyRetirementApplicationService(result, docs, paymentInfo, int authorizedToSign, int wantInsurance, int serviceType) async {
     var row = {
       /// payment info
       "PAYMENT_METHOD": paymentInfo['PAYMENT_METHOD'],
@@ -483,9 +483,9 @@ class ServicesRepository{
       "GENDER_DESC": result['p_per_info'][0][0]['GENDER_DESC'],
       "PI_EPAY": null, /// not found
       "INSURED": null, /// not found
-      "APPLICANT_ID": int.tryParse(result['p_per_info'][0][0]['APPLICANT_ID'].toString()),
-      "APPLICANT_NO": result['p_per_info'][0][0]['APPLICANT_NO'],
-      "SERVICE_TYPE": result['p_per_info'][0][0]['SERVICE_TYPE'],
+      "APPLICANT_ID": result['p_per_info'][0][0]['NAT_NO'],
+      "APPLICANT_NO": result['p_per_info'][0][0]['NAT_NO'],
+      "SERVICE_TYPE": serviceType,
       "IS_DEFENSE": result['p_per_info'][0][0]['IS_DEFENSE'],
       "APP_STATUS_EXTERNAL": 2,
       "OTHER_DEPENDANTS": result['p_per_info'][0][0]['OTHER_DEPENDANTS'],
@@ -549,7 +549,8 @@ class ServicesRepository{
     //   "IS_STOP": ""
     // };
     // }
-    print({"params": {
+    if (kDebugMode) {
+      print({"params": {
       "Obj": jsonEncode({
         "row": {
           "NAT": "111",
@@ -558,6 +559,7 @@ class ServicesRepository{
         "dep": dependents
       })
     }});
+    }
     var response = await HTTPClientContract.instance.postHTTP(
         '/website/check_doc_dep', {"params": {
             "Obj": jsonEncode({
