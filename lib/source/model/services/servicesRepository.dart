@@ -25,6 +25,17 @@ class ServicesRepository{
     return null;
   }
 
+  Future getDecExistence() async {
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/dec_existence');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+
   Future getInquiryInsuredInformationService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
@@ -689,7 +700,6 @@ class ServicesRepository{
     return null;
   }
 
-
   Future getHeirsInfoService(String heirsNatNo, String deathNatNo) async { // get heirs details when adding new heirs from the national ID
     var response = await HTTPClientContract.instance.getHTTP('/individuals/heris_GetDetail?deathNatNo=$deathNatNo&heirsNatNo=$heirsNatNo&natType=1');
     if (kDebugMode) {
@@ -702,5 +712,22 @@ class ServicesRepository{
   }
 
 /// **************************************************************DECEASED RETIREMENT - END*********************************************************************
+
+/// **************************************************************RETIREMENT LOAN - START***********************************************************************
+
+  Future loanCalculationService(int piFlag, double payNet, double payTot, double currentFinancialCommitment, double currentLoanValue, currentNumberOfInstallments, String loanType) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/individuals/loan_calc', {"PI_FLG":"$piFlag","p_penpay_tot":"$payTot","p_penpay_net":"$payNet","p_out_debt":currentFinancialCommitment,"p_loan_amt":currentLoanValue,"p_duration":currentNumberOfInstallments,"p_loan_typ":loanType,"prev_bal":""}
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+/// **************************************************************RETIREMENT LOAN  - END************************************************************************
 
 }
