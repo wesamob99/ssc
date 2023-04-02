@@ -134,15 +134,10 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
       "mandatory": [],
       "optional": [],
     };
-    servicesProvider.selectedMobileCountry = SelectedListItem(
-      name: UserConfig.instance.isLanguageEnglish() ? "Jordan" : "الأردن",
-      value: "962", natCode: 111,
-      flag: countries[110].flag,
-    );
     servicesProvider.selectedPaymentCountry = SelectedListItem(
-      name: UserConfig.instance.isLanguageEnglish() ? "Iraq" : "عراق",
-      value: "964", natCode: 112,
-      flag: countries.where((element) => element.dialCode == "964").first.flag,
+      name: UserConfig.instance.isLanguageEnglish() ? "Palestine" : "فلسطين",
+      value: "970", natCode: 188,
+      flag: countries.where((element) => element.dialCode == "970").first.flag,
     );
     super.initState();
   }
@@ -326,7 +321,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                         "DEP_FLAG": 0
                       }, serviceType: widget.serviceType, dependents: pDependents, relations: servicesProvider.result['P_RELATION'][0],),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 5)
-                        const PaymentScreen(numberOfSteps: 6, nextStep: 'confirmRequest',),
+                        const PaymentScreen(numberOfSteps: 6, nextStep: 'confirmRequest', stepText: 'fifthStep', stepNumber: 5,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 6)
                         sixthStep(context, themeNotifier),
                       if(!(Provider.of<ServicesProvider>(context).stepNumber == 4))
