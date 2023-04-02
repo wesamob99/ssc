@@ -14,9 +14,11 @@ import '../../../viewModel/services/servicesProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class PaymentScreen extends StatefulWidget {
+  final String stepText;
   final String nextStep;
   final int numberOfSteps;
-  const PaymentScreen({Key key, this.numberOfSteps, this.nextStep}) : super(key: key);
+  final int stepNumber;
+  const PaymentScreen({Key key, this.stepText, this.stepNumber, this.numberOfSteps, this.nextStep}) : super(key: key);
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -52,7 +54,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  getTranslated('fifthStep', context),
+                  getTranslated(widget.stepText, context),
                   style: TextStyle(
                       color: HexColor('#979797'),
                       fontSize: width(0.03, context)
@@ -78,7 +80,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '5/${widget.numberOfSteps}',
+                      '${widget.stepNumber}/${widget.numberOfSteps}',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.025, context)
@@ -164,7 +166,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       const SizedBox(width: 10.0,),
                       Expanded(
                         flex: 2,
-                        child: buildCountriesDropDown(servicesProvider.selectedMobileCountry, 2),
+                        child: buildCountriesDropDown(servicesProvider.selectedPaymentCountry, 2),
                       ),
                     ],
                   ),
@@ -257,11 +259,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               for (var item in selectedList) {
                 if (item is SelectedListItem) {
                   setState(() {
-                    if(flag == 1){
-                      servicesProvider.selectedPaymentCountry = item;
-                    }else if(flag == 2){
-                      servicesProvider.selectedMobileCountry = item;
-                    }
+                    servicesProvider.selectedPaymentCountry = item;
                     servicesProvider.notifyMe();
                   });
                 }
