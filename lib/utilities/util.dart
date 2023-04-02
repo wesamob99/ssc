@@ -528,6 +528,44 @@ SizedBox textButtonWithIcon(context, ThemeNotifier themeNotifier, String textKey
   );
 }
 
+buildNoteField(context, note){
+  return Container(
+      width: width(1, context),
+      decoration: BoxDecoration(
+          color: HexColor('#FFF2CF'),
+          borderRadius: BorderRadius.circular(8.0)
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 10.0,
+            height: 50,
+            decoration: BoxDecoration(
+                color: HexColor('#FFCA3A'),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 0.0 : 8.0),
+                  bottomRight: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 0.0 : 8.0),
+                  topLeft: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 8.0 : 0.0),
+                  bottomLeft: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 8.0 : 0.0),
+                )
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            width: width(0.9, context),
+            child: Text(
+              getTranslated(note, context),
+              style: TextStyle(
+                  color: HexColor('##B48100'),
+                  fontSize: 12
+              ),
+            ),
+          ),
+        ],
+      )
+  );
+}
+
 Widget buildFieldTitle(context, title, {required = true, filled = false}){
   ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context);
   return Row(
