@@ -472,6 +472,19 @@
   "loanType": "Loan type",
   "loanDetails": "Loan details",
   "heirLoan": "Heir loan",
-  "personalRetirementLoan": "Personal retirement loan"
-
+  "personalRetirementLoan": "Personal retirement loan",
+  "loanCategory": "Loan category",
+  "loanValue": "Loan value",
+  "numberOfInstallments": "Number of installments",
+  "financialCommitment": "Financial commitment",
+  "month": "Month",
+  "calculate": "Calculate",
+  "theValueOfTheAdvanceAfterDeductingRiskInsurance": "The value of the advance after deducting risk insurance",
+  "interestRate": "Interest rate",
+  "theStartDateOfTheDeductionForPayment": "The start date of the deduction for payment",
+  "approximately": "Approximately",
+  "submitApplication": "Submit application",
+  "toWhomItMayConcernLetter": "To whom it may concern letter",
+  "issuingRetirementDecision": "Issuing a retirement decision",
+  "officialBooks": "Official books"
 }

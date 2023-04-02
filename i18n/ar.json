@@ -481,6 +481,20 @@
   "loanType": "نوع السلفة",
   "loanDetails": "تفاصيل السلفة",
   "heirLoan": "سلفة وريث",
-  "personalRetirementLoan": "سلفة تقاعد شخصية"
+  "personalRetirementLoan": "سلفة تقاعد شخصية",
+  "loanCategory": "فئة السلفة",
+  "loanValue": "قيمة السلفة",
+  "numberOfInstallments": "عدد الأقساط",
+  "financialCommitment": "الالتزام المالي",
+  "month": "شهر",
+  "calculate": "إحتساب",
+  "theValueOfTheAdvanceAfterDeductingRiskInsurance": "قيمة السلفة بعد خصم تأمين المخاطر",
+  "interestRate": "نسبة الفائدة",
+  "theStartDateOfTheDeductionForPayment": "تاريخ بدء الاقتطاع للسداد",
+  "approximately": "ما يقارب ال",
+  "submitApplication": "تقديم الطلب",
+  "toWhomItMayConcernLetter": "كتاب لمن يهمه الإمر",
+  "issuingRetirementDecision": "تبليغ قرار التقاعد",
+  "officialBooks": "كتب رسميه"
 
 }
