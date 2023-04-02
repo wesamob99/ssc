@@ -280,7 +280,7 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
                               if(value["PO_status_code"] == 0){
                                 errorMessage = UserConfig.instance.isLanguageEnglish()
                                     ? "${value["PO_status_desc_en"]}" : "${value["PO_status_desc_ar"]}";
-                                showMyDialog(context, 'registerFailed', errorMessage, 'retryAgain', themeNotifier);
+                                showMyDialog(context, 'resetPasswordFailed', errorMessage, 'retryAgain', themeNotifier);
                               }else{
                                 Navigator.of(context).push(
                                     MaterialPageRoute(builder: (context) => ResetPasswordBody(otpCode: pinController.text, useMobile: true))
