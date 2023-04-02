@@ -99,10 +99,7 @@ class ServicesList{
   static Service applicationOfReschedulePensionersLoan = Service(
       title: "applicationOfReschedulePensionersLoan", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
-  // static Service dependentInformationUpdate = Service(
-  //     title: "dependentInformationUpdate", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
-  // );
-  ///<<********>>///
+
   static Service pensionDetails = Service(
       title: "pensionDetails", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
@@ -114,7 +111,20 @@ class ServicesList{
 
 /// **************************************************************************
 
-  static List<Service> allServices = [quickAccessServices, mostVisitedServices, insuranceBenefitsServices, optionalAndFreeInclusionServices, retirementServices].expand((element) => element).toList();
+  /// retirement Services ******************************************************
+
+  static Service toWhomItMayConcernLetter = Service(
+      title: "toWhomItMayConcernLetter", supTitle: "officialBooks", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
+  );
+  static Service issuingRetirementDecision = Service(
+      title: "issuingRetirementDecision", supTitle: "officialBooks", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const HistoricalPensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.getDecExistence()
+  );
+
+  static List<Service> otherServices = [toWhomItMayConcernLetter, issuingRetirementDecision];
+
+  /// **************************************************************************
+
+  static List<Service> allServices = [quickAccessServices, mostVisitedServices, insuranceBenefitsServices, optionalAndFreeInclusionServices, retirementServices, otherServices].expand((element) => element).toList();
 
 }
 
