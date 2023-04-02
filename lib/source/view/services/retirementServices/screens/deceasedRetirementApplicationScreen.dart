@@ -902,41 +902,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if(double.tryParse(servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['AGE'].toString()) < 18)
-                      Container(
-                        width: width(1, context),
-                        decoration: BoxDecoration(
-                          color: HexColor('#FFF2CF'),
-                          borderRadius: BorderRadius.circular(8.0)
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 10.0,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  color: HexColor('#FFCA3A'),
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 0.0 : 8.0),
-                                    bottomRight: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 0.0 : 8.0),
-                                    topLeft: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 8.0 : 0.0),
-                                    bottomLeft: Radius.circular(UserConfig.instance.isLanguageEnglish() ? 8.0 : 0.0),
-                                  )
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                              width: width(0.9, context),
-                              child: Text(
-                                getTranslated('guardianshipArgumentWillBeRequestedInTheCompulsoryDocumentsStep', context),
-                                style: TextStyle(
-                                  color: HexColor('##B48100'),
-                                  fontSize: 12
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ),
+                      buildNoteField(context, 'guardianshipArgumentWillBeRequestedInTheCompulsoryDocumentsStep'),
                       const SizedBox(height: 20.0,),
                       Card(
                           elevation: 6.0,
