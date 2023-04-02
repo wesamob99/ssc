@@ -288,7 +288,8 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                           ((widget.serviceTitle == 'applicationForOldAgePension') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// old age retirement - تقاعد شيخوخه
                                           ((widget.serviceTitle == 'report_a_sickness/work_injury_complaint') && value != null) || /// report_a_sickness/work_injury_complaint - تبليغ عن حادث العمل / مرض مهني
                                           ((widget.serviceTitle == 'deceasedRetirementApplication') && value != null) || /// report_a_sickness/work_injury_complaint - تبليغ عن حادث العمل / مرض مهني
-                                          ((widget.serviceTitle == 'applicationForPensionersLoan') && value != null) /// Application for pensioners loan - طلب سلفة تقاعد
+                                          ((widget.serviceTitle == 'applicationForPensionersLoan') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// Application for pensioners loan - طلب سلفة تقاعد
+                                          ((widget.serviceTitle == 'issuingRetirementDecision') && value['PO_STATUS'] == 0) /// Issuing a retirement decision - تبليغ قرار التقاعد
                                         )
                                       ){
                                         servicesProvider.result = value;
@@ -296,10 +297,13 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                             MaterialPageRoute(builder: (context) => widget.serviceScreen)
                                         );
                                       } else{
-                                        if((widget.serviceTitle == 'earlyRetirementRequest')){
+                                        if((widget.serviceTitle == 'earlyRetirementRequest') || (widget.serviceTitle == 'applicationForPensionersLoan')){
                                           errorMessage = UserConfig.instance.isLanguageEnglish()
                                           ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
-                                        } else{
+                                        } else if((widget.serviceTitle == 'issuingRetirementDecision')){
+                                          errorMessage = UserConfig.instance.isLanguageEnglish()
+                                              ? value["PO_status_desc_EN"] : value["PO_status_desc_AR"];
+                                        }else{
                                           errorMessage = UserConfig.instance.isLanguageEnglish()
                                               ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
                                         }
