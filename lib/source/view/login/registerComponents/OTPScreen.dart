@@ -207,10 +207,10 @@ class _OTPScreenState extends State<OTPScreen> {
                                                 }
                                               });
                                             } else{
-                                              await Provider.of<ServicesProvider>(context, listen: false).updateUserEmailCheckOTP(accountSettingsProvider.emailController.text, int.tryParse(pinController.text), 1)
+                                              await Provider.of<ServicesProvider>(context, listen: false).updateUserEmailCheckOTP(accountSettingsProvider.emailController.text.replaceAll(' ', ''), int.tryParse(pinController.text), 1)
                                                   .whenComplete((){}).then((val){
                                                 if(val['PO_status_code'] == 1){
-                                                  accountSettingsProvider.updateUserInfo(3, accountSettingsProvider.emailController.text).whenComplete((){}).then((value){
+                                                  accountSettingsProvider.updateUserInfo(3, accountSettingsProvider.emailController.text.replaceAll(' ', '')).whenComplete((){}).then((value){
                                                     if(value["PO_STATUS"] == 0){
                                                       showMyDialog(context, 'emailUpdatedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/emailUpdated.svg').then((value) {
                                                         Navigator.of(context).pushAndRemoveUntil(
