@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/source/view/services/mostVisited/mostVisitedBody.dart';
+import 'package:ssc/source/view/services/otherServices/otherServicesBody.dart';
 import 'package:ssc/source/view/services/retirementServices/retirementBody.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/util.dart';
@@ -76,7 +77,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 if(selectedIndex == 2)
                 const OptionalAndFreeInclusionBody(),
                 if(selectedIndex == 5)
-                const InsuranceBody()
+                const InsuranceBody(),
+                if(selectedIndex == 6)
+                const OtherServicesBody()
               ],
             ),
           )
