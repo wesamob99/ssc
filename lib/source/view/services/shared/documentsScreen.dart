@@ -77,7 +77,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               ); break;
             case ConnectionState.done:
               if(!snapshot.hasError && snapshot.hasData){
-                print(snapshot.data);
                 if(snapshot.data['R_RESULT'].isNotEmpty){
                   for(int i=0 ; i<snapshot.data['R_RESULT'][0].length ; i++){
                     if(servicesProvider.dependentsDocuments.isNotEmpty && !servicesProvider.dependentsDocuments.contains(snapshot.data['R_RESULT'][0][i]) && widget.info != null){
