@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:ssc/source/model/services/servicesRepository.dart';
 
+import '../../../infrastructure/userConfig.dart';
 import '../../../models/login/countries.dart';
 import '../../../models/accountSettings/userProfileData.dart';
 
@@ -56,11 +57,14 @@ class ServicesProvider extends ChangeNotifier {
   TextEditingController accountNoController = TextEditingController();
   TextEditingController swiftCodeController = TextEditingController();
   TextEditingController paymentMobileNumberController = TextEditingController();
-  SelectedListItem selectedMobileCountry;
   SelectedListItem selectedPaymentCountry;
   Map selectedActivePayment;
   List activePayment = [];
   /// **********************************************
+
+  double currentLoanValue = 1;
+  double currentNumberOfInstallments = 1;
+  double currentFinancialCommitment = 0;
 
   Future<UserProfileData> getAccountData() async{
     return await servicesRepository.getAccountDataService();
@@ -167,6 +171,16 @@ class ServicesProvider extends ChangeNotifier {
 
   Future getHeirsInfo(String heirsNatNo) async{
     return await servicesRepository.getHeirsInfoService(heirsNatNo, deadPersonInfo['cur_getdata'][0][0]['NAT_NO'].toString());
+  }
+
+  Future loanCalculation(double currentFinancialCommitment, double currentLoanValue, currentNumberOfInstallments, selectedLoanCategory) async{
+    int piFlag = result['p_per_info'][0][0]['DUAL_FLG'];
+    double payNet = double.tryParse(result['p_per_info'][0][0]['NET_PAY'].toString());
+    double payTot = double.tryParse(result['p_per_info'][0][0]['TOT_PAY'].toString());
+    String loanType = result['P_LAON_TYPE'][0].where((element) => (UserConfig.instance.isLanguageEnglish()
+        ? element['DESC_EN'] : element['DESC_AR']) == selectedLoanCategory).first['COD'];
+
+    return await servicesRepository.loanCalculationService(piFlag, payNet, payTot, currentFinancialCommitment, currentLoanValue, currentNumberOfInstallments, loanType);
   }
 
   Future getPensionPaymentSP(String year) async{
