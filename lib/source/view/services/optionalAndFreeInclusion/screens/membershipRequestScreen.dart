@@ -493,7 +493,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Slider(
-                              activeColor: HexColor('#363636'),
+                              activeColor: HexColor('#2D452E'),
                               inactiveColor: HexColor('#E0E0E0'),
                               value: currentSliderValue,
                               min: minSalary,
