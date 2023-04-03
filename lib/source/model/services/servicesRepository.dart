@@ -634,7 +634,7 @@ class ServicesRepository{
       "LEAVE_START_DATE": null, /// ***
       "LEAVE_END_DATE": null, /// ***
       "BIRTH_DATE": null,
-      "AGREE_TERMS": 0,
+      "AGREE_TERMS": 1,
       "IBAN_CONFIG": "1"
     };
     row.remove('NAT_NO');
@@ -728,6 +728,146 @@ class ServicesRepository{
     return '';
   }
 
+  Future setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment) async {
+
+    var row = {
+      /// payment info
+      "PAYMENT_METHOD": paymentInfo['PAYMENT_METHOD'],
+      "BANK_LOCATION": paymentInfo['BANK_LOCATION'],
+      "BRANCH_ID": paymentInfo['BRANCH_ID'],
+      "BRANCH_NAME": paymentInfo['BRANCH_NAME'],
+      "BANK_ID": paymentInfo['BANK_ID'],
+      "BANK_NAME": paymentInfo['BANK_NAME'],
+      "ACCOUNT_NAME": paymentInfo['ACCOUNT_NAME'],
+      "PAYMENT_COUNTRY": paymentInfo['PAYMENT_COUNTRY'],
+      "PAYMENT_COUNTRY_CODE": paymentInfo['PAYMENT_COUNTRY_CODE'],
+      "PAYMENT_PHONE": paymentInfo['PAYMENT_PHONE'],
+      "SWIFT_CODE": paymentInfo['SWIFT_CODE'],
+      "BANK_DETAILS": paymentInfo['BANK_DETAILS'],
+      "IBAN": paymentInfo['IBAN'] ?? "",
+      "CASH_BANK_ID": paymentInfo['CASH_BANK_ID'],
+      "REP_NATIONALITY": paymentInfo['REP_NATIONALITY'],
+      "REP_NATIONAL_NO": paymentInfo['REP_NATIONAL_NO'],
+      "REP_NAME": paymentInfo['REP_NAME'],
+      "WALLET_TYPE": paymentInfo['WALLET_TYPE'],
+      "WALLET_OTP_VERIVIED": paymentInfo['WALLET_OTP_VERIVIED'],
+      "WALLET_OTP": paymentInfo['WALLET_OTP'],
+      "WALLET_PHONE": paymentInfo['WALLET_PHONE'],
+      "WALLET_PHONE_VERIVIED": paymentInfo['WALLET_PHONE_VERIVIED'],
+      "WALLET_PASSPORT_NUMBER": paymentInfo['WALLET_PASSPORT_NUMBER'],
+      "PEN_IBAN": paymentInfo['PEN_IBAN'],
+      "IBAN_CONFIG": "1",
+      /// ***
+      "IFSC": "",
+      "AGREE_TERMS": 1,
+      "SECNO": result['p_per_info'][0][0]['SECNO'],
+      "NAT_DESC": result['p_per_info'][0][0]['NAT_DESC'],
+      "NAT": result['p_per_info'][0][0]['NAT'],
+      "NAT_NO": result['p_per_info'][0][0]['NAT_NO'],
+      "PERS_NO": result['p_per_info'][0][0]['PERS_NO'],
+      "LAST_EST_NAME": null,
+      "NAME1": result['p_per_info'][0][0]['NAME1'],
+      "NAME2": result['p_per_info'][0][0]['NAME2'],
+      "NAME3": result['p_per_info'][0][0]['NAME3'],
+      "NAME4": result['p_per_info'][0][0]['NAME4'],
+      "FULL_NAME_EN": result['p_per_info'][0][0]['FULL_NAME_EN'],
+      "EMAIL": result['p_per_info'][0][0]['EMAIL'],
+      "MOBILE": result['p_per_info'][0][0]['MOBILE'],
+      "INTERNATIONAL_CODE": result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
+      "INSURED_ADDRESS": "",
+      "MARITAL_STATUS": null,
+      "REGDATE": null,
+      "REGRATE": null,
+      "LAST_SALARY": null,
+      "LAST_STODATE": null,
+      "ACTUAL_STODATE": null,
+      "GENDER": result['p_per_info'][0][0]['GENDER'],
+      "CIVIL_WORK_DOC": null,
+      "MILITARY_WORK_DOC": null,
+      "CIV_MIL_RETIRED_DOC": null,
+      "PEN_START_DATE": null,
+      "GOVERNORATE": null, /// city address
+      "DETAILED_ADDRESS": null,
+      "PASS_NO": null,
+      "RESIDENCY_NO": null,
+      "DOB": result['p_per_info'][0][0]['DOB'],
+      "JOB_NO": null,
+      "JOB_DESC": null,
+      "ENAME1": null,
+      "ENAME2": null,
+      "ENAME3": null,
+      "ENAME4": null,
+      "LAST_EST_NO": null,
+      "FAM_NO": null,
+      "nextVaild": null,
+      "wantAddFamily": null,
+      "GENDER_DESC": result['p_per_info'][0][0]['GENDER_DESC'],
+      "PI_EPAY": null,
+      "INSURED": null,
+      "SECNO_DEAD": "",
+      "CARDNO": "",
+      "NAT_NO_DEAD": "",
+      "FULL_NAME_DEAD": "",
+      "NET_PAY": result['p_per_info'][0][0]['NET_PAY'],
+      "TYPE_OF_ADVANCE": '$typeOfAdvance',
+      "OFFNO": result['p_per_info'][0][0]['OFFNO'],
+      "DURATION": currentNumberOfInstallments,
+      "TOT_PAY": result['p_per_info'][0][0]['TOT_PAY'],
+      "OUT_DEBT": currentFinancialCommitment,
+      "LOAN_AMT": currentLoanValue,
+      "LAON_TYPE": "$loanType",
+      "STARTDT": loanResultInfo['PO_STARTDT'],
+      "MONTHLY_PAY_AMT": loanResultInfo['po_monthly_pay_amt'],
+      "LOAN_PAID_AMT": loanResultInfo['po_loan_paid_amt'],
+      "TOT_LOAN_AMT": loanResultInfo['po_loan_amt'],
+      "nextValid": true,
+      "DOC_FLG": result['p_per_info'][0][0]['DOC_FLG'],
+      "PENCODE": result['p_per_info'][0][0]['PENCODE'],
+      "PENSTART": result['p_per_info'][0][0]['PENSTARTnet'],
+      "DUAL_FLG": result['p_per_info'][0][0]['DUAL_FLG'],
+      "MAX_AMT": result['p_per_info'][0][0]['MAX_AMT'],
+      "MAX_DUR": result['p_per_info'][0][0]['MAX_DUR'],
+      "PREV_BAL": "",
+      "LAST_PDATE": "",
+      "RELAT": result['p_per_info'][0][0]['RELAT'],
+      "RELAT_DESC": result['p_per_info'][0][0]['RELAT_DESC'],
+      "BANK_DOC_FLG": loanResultInfo['po_bank_doc_flg'],
+      "APPLICANT_ID": result['p_per_info'][0][0]['NAT_NO'],
+      "APPLICANT_NO": result['p_per_info'][0][0]['NAT_NO'],
+      "SERVICE_TYPE": 10,
+      "IS_DEFENSE": null,
+      "APP_STATUS_EXTERNAL": 2,
+      "OTHER_DEPENDANTS": null,
+      "ID": "",
+      "LEAVE_START_DATE": null,
+      "LEAVE_END_DATE": null,
+      "BIRTH_DATE": null,
+    };
+    var data = {
+      "params": {
+        "XML": jsonEncode(
+            {
+              "row": row,
+              "doc": docs,
+              "dep": [], // value always [] in retirement loan
+              "INHERITORS": [], // value always [] in retirement loan
+              "isWebsite": false
+            }
+        )
+      }
+    };
+
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/website/set_application', data
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
 /// **************************************************************RETIREMENT LOAN  - END************************************************************************
 
 }

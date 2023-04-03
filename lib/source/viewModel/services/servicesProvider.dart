@@ -187,6 +187,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.getPensionPaymentSPService(year);
   }
 
+  Future setRetirementLoanApplication(docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo) async{
+    return await servicesRepository.setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment);
+  }
+
   Future<void> readCountriesJson() async {
     countries = [];
     final String response = await rootBundle.loadString('assets/jsonFiles/countries.json');

@@ -3,6 +3,7 @@
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
@@ -40,8 +41,9 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
   bool termsChecked = false;
   String selectedLoanType = 'heirLoan';
   String selectedLoanCategory = '';
+  List docs = [];
 
-  var loanResultInfo;
+  Map loanResultInfo;
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
@@ -468,7 +470,75 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                               } break;
                               case 6: {
                                 if(checkContinueEnabled(flag: 6)){
-
+                                  try{
+                                    String message = '';
+                                    servicesProvider.isLoading = true;
+                                    servicesProvider.isModalLoading = false;
+                                    servicesProvider.notifyMe();
+                                    List mandatoryDocs = await saveFiles('mandatory');
+                                    List optionalDocs = await saveFiles('optional');
+                                    docs.addAll(mandatoryDocs + optionalDocs);
+                                    Map<String, dynamic> paymentInfo = {
+                                      'PAYMENT_METHOD': servicesProvider.selectedActivePayment['ID'],
+                                      'BANK_LOCATION': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankAddressController.text : 0,
+                                      'BRANCH_ID': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'BRANCH_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankBranchController.text : '',
+                                      'BANK_ID': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'BANK_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankNameController.text : '',
+                                      'ACCOUNT_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.accountNoController.text : '',
+                                      'PAYMENT_COUNTRY': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.selectedPaymentCountry.name : '',
+                                      'PAYMENT_COUNTRY_CODE': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.selectedPaymentCountry.value : '',
+                                      'PAYMENT_PHONE': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.paymentMobileNumberController.text : '',
+                                      'SWIFT_CODE': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.swiftCodeController.text : '',
+                                      'BANK_DETAILS': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'IBAN': servicesProvider.selectedActivePayment['ID'] == 3 ? servicesProvider.result["p_per_info"][0][0]["IBAN"] : '',
+                                      'CASH_BANK_ID': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      // معلومات الوكيل (REP)
+                                      'REP_NATIONALITY': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'REP_NATIONAL_NO': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'REP_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      // معلومات المحفظه (WALLET)
+                                      'WALLET_TYPE': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'WALLET_OTP_VERIVIED': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
+                                      'WALLET_OTP': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
+                                      'WALLET_PHONE': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'WALLET_PHONE_VERIVIED': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'WALLET_PASSPORT_NUMBER': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'PEN_IBAN': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
+                                    };
+                                    String loanType = servicesProvider.result['P_LAON_TYPE'][0].where((element) => selectedLoanCategory == ((UserConfig.instance.isLanguageEnglish() ? element['DESC_EN'] : element['DESC_AR']))).first['COD'];
+                                    await servicesProvider.setRetirementLoanApplication(docs, paymentInfo, 1, loanType, loanResultInfo).whenComplete(() {}).then((value) {
+                                      if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
+                                        message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
+                                        if(value['PO_TYPE'] == 2){
+                                          message = UserConfig.instance.isLanguageEnglish()
+                                              ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                        }
+                                        showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
+                                            message, 'ok',
+                                            themeNotifier,
+                                            icon: 'assets/icons/serviceSuccess.svg', titleColor: '#2D452E').then((_){
+                                          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                            servicesProvider.selectedServiceRate = -1;
+                                            servicesProvider.notifyMe();
+                                            rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                          });
+                                        });
+                                      } else{
+                                        message = UserConfig.instance.isLanguageEnglish()
+                                            ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                        showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
+                                      }
+                                    });
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                  } catch(e){
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                    if (kDebugMode) {
+                                      print(e.toString());
+                                    }
+                                  }
                                 }
                               } break;
                             }
@@ -727,7 +797,9 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
 
   Widget thirdStep(context, themeNotifier){
     String selectedLoanCod = '';
-    selectedLoanCod = servicesProvider.result['P_LAON_TYPE'][0].where((element) => selectedLoanCategory == ((UserConfig.instance.isLanguageEnglish() ? element['DESC_EN'] : element['DESC_AR']))).first['COD'];
+    if(selectedLoanCategory != ''){
+      selectedLoanCod = servicesProvider.result['P_LAON_TYPE'][0].where((element) => selectedLoanCategory == ((UserConfig.instance.isLanguageEnglish() ? element['DESC_EN'] : element['DESC_AR']))).first['COD'];
+    }
     return SizedBox(
       height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
       child: SingleChildScrollView(
