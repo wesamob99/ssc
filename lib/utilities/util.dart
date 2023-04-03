@@ -528,7 +528,7 @@ SizedBox textButtonWithIcon(context, ThemeNotifier themeNotifier, String textKey
   );
 }
 
-buildNoteField(context, note){
+buildNoteField(context, note, height){
   return Container(
       width: width(1, context),
       decoration: BoxDecoration(
@@ -539,7 +539,7 @@ buildNoteField(context, note){
         children: [
           Container(
             width: 10.0,
-            height: 50,
+            height: height,
             decoration: BoxDecoration(
                 color: HexColor('#FFCA3A'),
                 borderRadius: BorderRadius.only(
