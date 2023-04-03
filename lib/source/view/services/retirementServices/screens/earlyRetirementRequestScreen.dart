@@ -319,7 +319,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                         "INSURED": null,
                         "ID": servicesProvider.result['p_per_info'][0][0]['ID'], /// update
                         "DEP_FLAG": 0
-                      }, serviceType: widget.serviceType, dependents: pDependents, relations: servicesProvider.result['P_RELATION'][0],),
+                      }, serviceType: widget.serviceType, dependents: pDependents, relations: servicesProvider.result['P_RELATION'][0], nextStepNumber: 5,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 5)
                         const PaymentScreen(numberOfSteps: 6, nextStep: 'confirmRequest', stepText: 'fifthStep', stepNumber: 5,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 6)

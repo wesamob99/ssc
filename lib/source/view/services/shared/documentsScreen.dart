@@ -23,13 +23,14 @@ import '../../../viewModel/utilities/theme/themeProvider.dart';
 
 class DocumentsScreen extends StatefulWidget {
   final String nextStep;
+  final int nextStepNumber;
   final int numberOfSteps;
   final Map data;
   final int serviceType;
   final Map info;
   final List dependents; // from early its dependents, from deceased its inheritors
   final List relations;
-  const DocumentsScreen({Key key, this.nextStep, this.numberOfSteps, this.data, this.serviceType, this.info, this.dependents, this.relations}) : super(key: key);
+  const DocumentsScreen({Key key, this.nextStep, this.nextStepNumber, this.numberOfSteps, this.data, this.serviceType, this.info, this.dependents, this.relations}) : super(key: key);
 
   @override
   State<DocumentsScreen> createState() => _DocumentsScreenState();
@@ -746,7 +747,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                       ? HexColor('#ffffff') : HexColor('#363636'),
                       () async {
                         if(servicesProvider.documentsScreensStepNumber == 5){
-                          servicesProvider.stepNumber = 5;
+                          servicesProvider.stepNumber = widget.nextStepNumber;
                         } else{
                           if(servicesProvider.documentsScreensStepNumber == 2 && servicesProvider.uploadedFiles['mandatory'].isNotEmpty && servicesProvider.uploadedFiles['mandatory'][servicesProvider.documentIndex].isNotEmpty){
                             if(servicesProvider.documentIndex < servicesProvider.mandatoryDocuments.length-1){

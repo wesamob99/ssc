@@ -270,7 +270,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                           "IS_INHERITOR": 0,
                           "INHERITORS_FLAG": 1,
                           "MILITARY_WORK_DOC": servicesProvider.deadPersonInfo['cur_getdata'][0][0]['MILITARY_WORK_DOC'],
-                        }, serviceType: 11, info: servicesProvider.deadPersonInfo['cur_getdata'][0][0], dependents: servicesProvider.deadPersonInfo['cur_getdata2'], relations: servicesProvider.penDeath['Relative_type_getdata'][0]),
+                        }, serviceType: 11, info: servicesProvider.deadPersonInfo['cur_getdata'][0][0], dependents: servicesProvider.deadPersonInfo['cur_getdata2'], relations: servicesProvider.penDeath['Relative_type_getdata'][0], nextStepNumber: 5,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 5)
                         fifthStep(context, themeNotifier),
                       if(!(Provider.of<ServicesProvider>(context).stepNumber == 4))
@@ -902,7 +902,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if(double.tryParse(servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['AGE'].toString()) < 18)
-                      buildNoteField(context, 'guardianshipArgumentWillBeRequestedInTheCompulsoryDocumentsStep'),
+                      buildNoteField(context, 'guardianshipArgumentWillBeRequestedInTheCompulsoryDocumentsStep', 50.0),
                       const SizedBox(height: 20.0,),
                       Card(
                           elevation: 6.0,

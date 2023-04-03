@@ -65,6 +65,8 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
       } else{
         return true;
       }
+    } else if(flag == 6){
+      return termsChecked;
     }
   }
 
@@ -183,6 +185,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
           GestureDetector(
             onTap: (){
               FocusScope.of(context).requestFocus(FocusNode());
+              servicesProvider.notifyMe();
             },
             child: WillPopScope(
               onWillPop: () async => false,
@@ -304,7 +307,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                           "RELAT": servicesProvider.result['p_per_info'][0][0]['RELAT'],
                           "RELAT_DESC": servicesProvider.result['p_per_info'][0][0]['RELAT_DESC'],
                           "BANK_DOC_FLG": loanResultInfo['po_bank_doc_flg'],
-                        }, serviceType: 10, info: const {}, dependents: const [], relations: const []),
+                        }, serviceType: 10, info: const {}, dependents: const [], relations: const [], nextStepNumber: 6,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 6)
                         fifthStep(context, themeNotifier),
                       if(!(Provider.of<ServicesProvider>(context).stepNumber == 5))
@@ -461,6 +464,11 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                               case 4: {
                                 if(checkContinueEnabled(flag: 4)){
                                   servicesProvider.stepNumber = 5;
+                                }
+                              } break;
+                              case 6: {
+                                if(checkContinueEnabled(flag: 6)){
+
                                 }
                               } break;
                             }
@@ -718,6 +726,8 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
   }
 
   Widget thirdStep(context, themeNotifier){
+    String selectedLoanCod = '';
+    selectedLoanCod = servicesProvider.result['P_LAON_TYPE'][0].where((element) => selectedLoanCategory == ((UserConfig.instance.isLanguageEnglish() ? element['DESC_EN'] : element['DESC_AR']))).first['COD'];
     return SizedBox(
       height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
       child: SingleChildScrollView(
@@ -774,14 +784,18 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
             ),
             SizedBox(height: height(0.02, context),),
             buildFieldTitle(context, 'loanCategory', required: false),
-            const SizedBox(height: 5.0,),
             customRadioButtonGroup(servicesProvider.result['P_LAON_TYPE'][0], setState),
-            const SizedBox(height: 4.0,),
-            buildNoteField(context, 'guardianshipArgumentWillBeRequestedInTheCompulsoryDocumentsStep'),
             if(selectedLoanCategory != '')
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 4.0,),
+                buildNoteField(
+                  context,
+                  selectedLoanCod == 'I'
+                    ? 'islamicMurabahaLoanDesc' : selectedLoanCod == 'P'
+                      ? 'personalLoanDesc' : 'developmentProjectsLoan', 70.0
+                ),
                 const SizedBox(height: 30.0,),
                 buildFieldTitle(context, 'loanValue', required: false),
                 const SizedBox(height: 20.0,),
@@ -887,7 +901,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
               SizedBox(width: width(0.05, context),),
               Expanded(
                 child: Text(
-                  getTranslated('deceasedTermsAndConditions', context),
+                  getTranslated('retirementLoanTermsAndConditions', context),
                   style: TextStyle(
                     fontSize: height(0.015, context),
                     color: HexColor('#595959'),
@@ -1119,6 +1133,8 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                           servicesProvider.currentFinancialCommitment = minValue;
                         }
                       }
+                    },
+                    onEditingComplete: (){
                       servicesProvider.notifyMe();
                     },
                   ),
