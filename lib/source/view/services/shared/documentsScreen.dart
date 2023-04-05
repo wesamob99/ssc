@@ -41,6 +41,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   ServicesProvider servicesProvider;
   ThemeNotifier themeNotifier;
   bool isFilePickerActive = false;
+  bool isDeletedAndRequired = false;
 
   @override
   void initState() {
@@ -122,6 +123,14 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     }
                   });
                 }
+
+                servicesProvider.uploadedFiles["mandatory"].length = servicesProvider.mandatoryDocuments.length;
+                isDeletedAndRequired = false;
+                servicesProvider.uploadedFiles["mandatory"].forEach((element){
+                  if(element.length == 0){
+                    isDeletedAndRequired = true;
+                  }
+                });
 
                 return Column(
                   children: [
@@ -593,11 +602,31 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                                           child: Column(
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              SizedBox(
-                                                                width: width(0.6, context),
-                                                                child: Text(
-                                                                  path.basename(servicesProvider.uploadedFiles["mandatory"][index][index2]['file'].toString().split("'")[1]),
-                                                                ),
+                                                              Row(
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: width(0.6, context),
+                                                                    child: Text(
+                                                                      path.basename(servicesProvider.uploadedFiles["mandatory"][index][index2]['file'].toString().split("'")[1]),
+                                                                    ),
+                                                                  ),
+                                                                  InkWell(
+                                                                    onTap: (){
+                                                                      servicesProvider.uploadedFiles["mandatory"][index].removeAt(index2);
+                                                                      servicesProvider.notifyMe();
+                                                                    },
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          SvgPicture.asset('assets/icons/delete.svg'),
+                                                                          const SizedBox(width: 5.0,),
+                                                                          Text(getTranslated('delete', context))
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                               const SizedBox(height: 20.0,),
                                                               Container(
@@ -697,9 +726,29 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                                               child: Column(
                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                 children: [
-                                                                  SizedBox(
-                                                                    width: width(0.6, context),
-                                                                    child: Text(path.basename(servicesProvider.uploadedFiles["optional"][index][index2]['file'].toString().split("'")[1])),
+                                                                  Row(
+                                                                    children: [
+                                                                      SizedBox(
+                                                                        width: width(0.6, context),
+                                                                        child: Text(path.basename(servicesProvider.uploadedFiles["optional"][index][index2]['file'].toString().split("'")[1])),
+                                                                      ),
+                                                                      InkWell(
+                                                                        onTap: (){
+                                                                          servicesProvider.uploadedFiles["optional"][index].removeAt(index2);
+                                                                          servicesProvider.notifyMe();
+                                                                        },
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                                          child: Row(
+                                                                            children: [
+                                                                              SvgPicture.asset('assets/icons/delete.svg'),
+                                                                              const SizedBox(width: 5.0,),
+                                                                              Text(getTranslated('delete', context))
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                   const SizedBox(height: 20.0,),
                                                                   Container(
@@ -739,15 +788,17 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                       themeNotifier, 'continue',
                       (servicesProvider.documentsScreensStepNumber == 2 && servicesProvider.uploadedFiles['mandatory'].isNotEmpty && servicesProvider.uploadedFiles['mandatory'][servicesProvider.documentIndex].isNotEmpty) ||
                       (servicesProvider.documentsScreensStepNumber == 4 && servicesProvider.uploadedFiles['optional'].isNotEmpty && servicesProvider.uploadedFiles['optional'][servicesProvider.documentIndex].isNotEmpty) ||
-                      servicesProvider.documentsScreensStepNumber == 5
+                      (servicesProvider.documentsScreensStepNumber == 5 && !isDeletedAndRequired)
                       ? getPrimaryColor(context, themeNotifier) : HexColor('#DADADA'),
                       (servicesProvider.documentsScreensStepNumber == 2 && servicesProvider.uploadedFiles['mandatory'].isNotEmpty && servicesProvider.uploadedFiles['mandatory'][servicesProvider.documentIndex].isNotEmpty) ||
                       (servicesProvider.documentsScreensStepNumber == 4 && servicesProvider.uploadedFiles['optional'].isNotEmpty && servicesProvider.uploadedFiles['optional'][servicesProvider.documentIndex].isNotEmpty) ||
-                      servicesProvider.documentsScreensStepNumber == 5
+                      (servicesProvider.documentsScreensStepNumber == 5 && !isDeletedAndRequired)
                       ? HexColor('#ffffff') : HexColor('#363636'),
                       () async {
                         if(servicesProvider.documentsScreensStepNumber == 5){
-                          servicesProvider.stepNumber = widget.nextStepNumber;
+                          if(!isDeletedAndRequired){
+                            servicesProvider.stepNumber = widget.nextStepNumber;
+                          }
                         } else{
                           if(servicesProvider.documentsScreensStepNumber == 2 && servicesProvider.uploadedFiles['mandatory'].isNotEmpty && servicesProvider.uploadedFiles['mandatory'][servicesProvider.documentIndex].isNotEmpty){
                             if(servicesProvider.documentIndex < servicesProvider.mandatoryDocuments.length-1){
