@@ -173,10 +173,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.getHeirsInfoService(heirsNatNo, deadPersonInfo['cur_getdata'][0][0]['NAT_NO'].toString());
   }
 
-  Future loanCalculation(double currentFinancialCommitment, double currentLoanValue, currentNumberOfInstallments, selectedLoanCategory) async{
+  Future loanCalculation(double currentFinancialCommitment, double currentLoanValue, currentNumberOfInstallments, selectedLoanCategory, selectedLoanType) async{
     int piFlag = result['p_per_info'][0][0]['DUAL_FLG'];
-    double payNet = double.tryParse(result['p_per_info'][0][0]['NET_PAY'].toString());
-    double payTot = double.tryParse(result['p_per_info'][0][0]['TOT_PAY'].toString());
+    double payNet = double.tryParse(result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['NET_PAY'].toString());
+    double payTot = double.tryParse(result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['TOT_PAY'].toString());
     String loanType = result['P_LAON_TYPE'][0].where((element) => (UserConfig.instance.isLanguageEnglish()
         ? element['DESC_EN'] : element['DESC_AR']) == selectedLoanCategory).first['COD'];
 
@@ -187,8 +187,8 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.getPensionPaymentSPService(year);
   }
 
-  Future setRetirementLoanApplication(docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo) async{
-    return await servicesRepository.setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment);
+  Future setRetirementLoanApplication(docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, selectedLoanType) async{
+    return await servicesRepository.setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment, selectedLoanType);
   }
 
   Future<void> readCountriesJson() async {

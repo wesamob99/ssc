@@ -598,6 +598,7 @@ class ServicesRepository{
 
   Future setDeceasedRetirementApplicationService(result, docs, deadPersonInfo, int deathPlace) async {
 
+    ///TODO: check dead person info in case he was not jordanian
     var row = {
       ...deadPersonInfo['cur_getdata'][0][0],
       "REGDATE": null,
@@ -728,7 +729,7 @@ class ServicesRepository{
     return '';
   }
 
-  Future setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment) async {
+  Future setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment, selectedLoanType) async {
 
     var row = {
       /// payment info
@@ -804,15 +805,15 @@ class ServicesRepository{
       "GENDER_DESC": result['p_per_info'][0][0]['GENDER_DESC'],
       "PI_EPAY": null,
       "INSURED": null,
-      "SECNO_DEAD": "",
-      "CARDNO": "",
-      "NAT_NO_DEAD": "",
-      "FULL_NAME_DEAD": "",
-      "NET_PAY": result['p_per_info'][0][0]['NET_PAY'],
+      "SECNO_DEAD": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['SECNO_DEAD'],
+      "CARDNO": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['CARDNO'],
+      "NAT_NO_DEAD": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['NAT_NO_DEAD'],
+      "FULL_NAME_DEAD": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['FULL_NAME_DEAD'],
+      "NET_PAY": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['NET_PAY'],
       "TYPE_OF_ADVANCE": '$typeOfAdvance',
       "OFFNO": result['p_per_info'][0][0]['OFFNO'],
       "DURATION": currentNumberOfInstallments,
-      "TOT_PAY": result['p_per_info'][0][0]['TOT_PAY'],
+      "TOT_PAY": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['TOT_PAY'],
       "OUT_DEBT": currentFinancialCommitment,
       "LOAN_AMT": currentLoanValue,
       "LAON_TYPE": "$loanType",
@@ -821,12 +822,12 @@ class ServicesRepository{
       "LOAN_PAID_AMT": loanResultInfo['po_loan_paid_amt'],
       "TOT_LOAN_AMT": loanResultInfo['po_loan_amt'],
       "nextValid": true,
-      "DOC_FLG": result['p_per_info'][0][0]['DOC_FLG'],
-      "PENCODE": result['p_per_info'][0][0]['PENCODE'],
-      "PENSTART": result['p_per_info'][0][0]['PENSTARTnet'],
+      "DOC_FLG": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['DOC_FLG'],
+      "PENCODE": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['PENCODE'],
+      "PENSTART": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['PENSTARTnet'],
       "DUAL_FLG": result['p_per_info'][0][0]['DUAL_FLG'],
-      "MAX_AMT": result['p_per_info'][0][0]['MAX_AMT'],
-      "MAX_DUR": result['p_per_info'][0][0]['MAX_DUR'],
+      "MAX_AMT": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['MAX_AMT'],
+      "MAX_DUR": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['MAX_DUR'],
       "PREV_BAL": "",
       "LAST_PDATE": "",
       "RELAT": result['p_per_info'][0][0]['RELAT'],
