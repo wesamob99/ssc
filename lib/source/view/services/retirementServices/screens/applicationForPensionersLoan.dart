@@ -39,7 +39,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
   ServicesProvider servicesProvider;
   ThemeNotifier themeNotifier;
   bool termsChecked = false;
-  String selectedLoanType = 'heirLoan';
+  String selectedLoanType;
   String selectedLoanCategory = '';
   List docs = [];
 
@@ -79,7 +79,17 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
     servicesProvider.mobileNumberController.text = UserSecuredStorage.instance.realMobileNumber;
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     servicesProvider.stepNumber = 1;
+    servicesProvider.documentIndex = 0;
+    servicesProvider.documentsScreensStepNumber = 1;
     servicesProvider.dependentsDocuments = [];
+    servicesProvider.mandatoryDocuments = [];
+    servicesProvider.optionalDocuments = [];
+    servicesProvider.optionalDocumentsCheckBox = [];
+    servicesProvider.selectedOptionalDocuments = [];
+    servicesProvider.uploadedFiles = {
+      "mandatory": [],
+      "optional": [],
+    };
     servicesProvider.activePayment = [];
     servicesProvider.getActivePayment("10", servicesProvider.result['p_per_info'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
       value['R_RESULT'][0].forEach((element){
@@ -95,6 +105,9 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
       value: "970", natCode: 188,
       flag: countries.where((element) => element.dialCode == "970").first.flag,
     );
+    selectedLoanType = servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] == 2
+        ? 'heirLoan'
+        : 'personalRetirementLoan';
     super.initState();
   }
 
@@ -150,7 +163,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                   case 2: servicesProvider.stepNumber = 1; break;
                   case 3:
                     {
-                      if(servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] == 3){
+                      if(servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] != 1){
                         servicesProvider.stepNumber = 2;
                       }else{
                         servicesProvider.stepNumber = 1;
@@ -240,7 +253,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                           /// *****************************
                           "SECNO": servicesProvider.result['p_per_info'][0][0]['SECNO'],
                           "NAT_DESC": servicesProvider.result['p_per_info'][0][0]['NAT_DESC'],
-                          "NAT": int.tryParse(servicesProvider.result['p_per_info'][0][0]['NAT_NO'].toString()),
+                          "NAT": int.tryParse(servicesProvider.result['p_per_info'][0][0]['NAT'].toString()),
                           "NAT_NO": servicesProvider.result['p_per_info'][0][0]['NAT_NO'],
                           "PERS_NO": servicesProvider.result['p_per_info'][0][0]['PERS_NO'],
                           "LAST_EST_NAME": null,
@@ -280,15 +293,15 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                           "INSURED": null,
                           "ID": null,
                           "DEP_FLAG": 0,
-                          "SECNO_DEAD": "",
-                          "CARDNO": "",
-                          "NAT_NO_DEAD": "",
-                          "FULL_NAME_DEAD": "",
-                          "NET_PAY": servicesProvider.result['p_per_info'][0][0]['NET_PAY'],
-                          "TYPE_OF_ADVANCE": "1",
+                          "SECNO_DEAD": servicesProvider.result['P_DEAD_LOAN'][0][0]['SECNO_DEAD'],
+                          "CARDNO": servicesProvider.result['P_DEAD_LOAN'][0][0]['CARDNO'],
+                          "NAT_NO_DEAD": servicesProvider.result['P_DEAD_LOAN'][0][0]['NAT_NO_DEAD'],
+                          "FULL_NAME_DEAD": servicesProvider.result['P_DEAD_LOAN'][0][0]['FULL_NAME_DEAD'],
+                          "NET_PAY": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['NET_PAY'],
+                          "TYPE_OF_ADVANCE": (selectedLoanType == 'heirLoan' ? 2 : 1),
                           "OFFNO": servicesProvider.result['p_per_info'][0][0]['OFFNO'],
                           "DURATION": servicesProvider.currentNumberOfInstallments,
-                          "TOT_PAY": servicesProvider.result['p_per_info'][0][0]['TOT_PAY'],
+                          "TOT_PAY": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['TOT_PAY'],
                           "OUT_DEBT": servicesProvider.currentFinancialCommitment,
                           "LOAN_AMT": servicesProvider.currentLoanValue,
                           "LAON_TYPE": servicesProvider.result['P_LAON_TYPE'][0].where((element) => (UserConfig.instance.isLanguageEnglish()
@@ -298,16 +311,16 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                           "LOAN_PAID_AMT": loanResultInfo['po_loan_paid_amt'],
                           "TOT_LOAN_AMT": loanResultInfo['po_loan_amt'],
                           "nextValid": true,
-                          "DOC_FLG": servicesProvider.result['p_per_info'][0][0]['DOC_FLG'],
-                          "PENCODE": servicesProvider.result['p_per_info'][0][0]['PENCODE'],
-                          "PENSTART": servicesProvider.result['p_per_info'][0][0]['PENSTART'],
+                          "DOC_FLG": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['DOC_FLG'],
+                          "PENCODE": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['PENCODE'],
+                          "PENSTART": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['PENSTART'],
                           "DUAL_FLG": servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'],
-                          "MAX_AMT": servicesProvider.result['p_per_info'][0][0]['MAX_AMT'],
-                          "MAX_DUR": servicesProvider.result['p_per_info'][0][0]['MAX_DUR'],
+                          "MAX_AMT": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['MAX_AMT'],
+                          "MAX_DUR": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['MAX_DUR'],
                           "PREV_BAL": "",
                           "LAST_PDATE": "",
-                          "RELAT": servicesProvider.result['p_per_info'][0][0]['RELAT'],
-                          "RELAT_DESC": servicesProvider.result['p_per_info'][0][0]['RELAT_DESC'],
+                          "RELAT": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['RELAT'],
+                          "RELAT_DESC": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['RELAT_DESC'],
                           "BANK_DOC_FLG": loanResultInfo['po_bank_doc_flg'],
                         }, serviceType: 10, info: const {}, dependents: const [], relations: const [], nextStepNumber: 6,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 6)
@@ -315,7 +328,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                       if(!(Provider.of<ServicesProvider>(context).stepNumber == 5))
                         textButton(context,
                           themeNotifier,
-                          Provider.of<ServicesProvider>(context).stepNumber != 5
+                          Provider.of<ServicesProvider>(context).stepNumber != 6
                               ? (Provider.of<ServicesProvider>(context).stepNumber != 3 ? 'continue' : 'calculate')
                               : 'send',
                           checkContinueEnabled(flag: Provider.of<ServicesProvider>(context).stepNumber)
@@ -334,8 +347,8 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                                       await servicesProvider.updateUserMobileNumberSendOTP(servicesProvider.mobileNumberController.text).whenComplete((){})
                                           .then((val) async {
                                         if(val['PO_STATUS'] == '1'){
-                                          if(servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] == 3){
-                                            servicesProvider.isMobileNumberUpdated = true;
+                                          if(servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] != 1){
+                                            servicesProvider.isMobileNumberUpdated = false;
                                             servicesProvider.stepNumber = 2;
                                           }else{
                                             servicesProvider.stepNumber = 3;
@@ -360,8 +373,8 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                                       }
                                     }
                                   } else{
-                                    if(servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] == 3){
-                                      servicesProvider.isMobileNumberUpdated = true;
+                                    if(servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] != 1){
+                                      servicesProvider.isMobileNumberUpdated = false;
                                       servicesProvider.stepNumber = 2;
                                     }else{
                                       servicesProvider.stepNumber = 3;
@@ -434,7 +447,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                                   loanResultInfo = null;
                                   String errorMessage = "";
                                   try{
-                                    await servicesProvider.loanCalculation(servicesProvider.currentFinancialCommitment, servicesProvider.currentLoanValue, servicesProvider.currentNumberOfInstallments, selectedLoanCategory).whenComplete((){})
+                                    await servicesProvider.loanCalculation(servicesProvider.currentFinancialCommitment, servicesProvider.currentLoanValue, servicesProvider.currentNumberOfInstallments, selectedLoanCategory, selectedLoanType).whenComplete((){})
                                         .then((val) async {
                                       if(val['PO_status_no'] == 0){
                                         loanResultInfo = val;
@@ -470,7 +483,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                               } break;
                               case 6: {
                                 if(checkContinueEnabled(flag: 6)){
-                                  try{
+                                  // try{
                                     String message = '';
                                     servicesProvider.isLoading = true;
                                     servicesProvider.isModalLoading = false;
@@ -507,7 +520,13 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                                       'PEN_IBAN': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
                                     };
                                     String loanType = servicesProvider.result['P_LAON_TYPE'][0].where((element) => selectedLoanCategory == ((UserConfig.instance.isLanguageEnglish() ? element['DESC_EN'] : element['DESC_AR']))).first['COD'];
-                                    await servicesProvider.setRetirementLoanApplication(docs, paymentInfo, 1, loanType, loanResultInfo).whenComplete(() {}).then((value) {
+                                    int typeOfAdvance = 1;
+                                    if(servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] == 3){
+                                      typeOfAdvance = (selectedLoanType == 'heirLoan' ? 2 : 1);
+                                    } else if(servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] == 2){
+                                      typeOfAdvance = 2;
+                                    }
+                                    await servicesProvider.setRetirementLoanApplication(docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, selectedLoanType).whenComplete(() {}).then((value) {
                                       if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
                                         message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
                                         if(value['PO_TYPE'] == 2){
@@ -532,13 +551,13 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                                     });
                                     servicesProvider.isLoading = false;
                                     servicesProvider.notifyMe();
-                                  } catch(e){
-                                    servicesProvider.isLoading = false;
-                                    servicesProvider.notifyMe();
-                                    if (kDebugMode) {
-                                      print(e.toString());
-                                    }
-                                  }
+                                  // } catch(e){
+                                  //   servicesProvider.isLoading = false;
+                                  //   servicesProvider.notifyMe();
+                                  //   if (kDebugMode) {
+                                  //     print(e.toString());
+                                  //   }
+                                  // }
                                 }
                               } break;
                             }
@@ -591,35 +610,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                 "STATUS": 1,
                 "HIDE_ACTIONS": false
               };
-              bool isDependentDoc = false;
-              if(type == 'mandatory' && servicesProvider.deadPersonInfo['cur_getdata2'].isNotEmpty){
-                servicesProvider.deadPersonInfo['cur_getdata2'][0].forEach((element) {
-                  element['INHERITOR_DOCS'] = [];
-                  if(element['NATIONALNUMBER'].toString() == servicesProvider.uploadedFiles[type][i][j]["document"]['CODE'].toString()){
-                    document = {
-                      "PATH": value['path'],
-                      "DOC_TYPE": servicesProvider.uploadedFiles[type][i][j]["document"]["ID"],
-                      "FILE": {},
-                      "DIRTY": false,
-                      "DEP_ID": "${DateTime.now().millisecondsSinceEpoch}${((math.Random().nextDouble() * 10000) + 1).floor()}",
-                      "FILE_NAME": path.basename(value['path'].toString()),
-                      "DOCUMENT_DATE": DateFormat("dd/MM/yyyy", 'en').format(DateTime.now()),
-                      "required": type == 'mandatory' ? 0 : 1,
-                      "ID": "",
-                      "STATUS": 1,
-                    };
-                    isDependentDoc = true;
-                    if(element['INHERITOR_DOCS'] is String){
-                      element['INHERITOR_DOCS'] = [document];
-                    }else{
-                      element['INHERITOR_DOCS'].add(document);
-                    }
-                  }
-                });
-              }
-              if(!isDependentDoc) {
-                docs.add(document);
-              }
+              docs.add(document);
             });
             j++;
           }catch(e){
@@ -690,9 +681,11 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
               ],
             ),
             SizedBox(height: height(0.02, context),),
-            buildFieldTitle(context, 'loanType', required: false),
+            buildFieldTitle(context, servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] == 3 ? 'loanType' : 'heirLoan', required: false),
             const SizedBox(height: 10.0,),
+            if(servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] == 3)
             customTwoRadioButtons('heirLoan', 'personalRetirementLoan', setState),
+            if(servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] == 3)
             const SizedBox(height: 20.0,),
             if(selectedLoanType == 'heirLoan')
             Card(
@@ -719,7 +712,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '1',
+                              servicesProvider.result['P_DEAD_LOAN'][0][0]['FULL_NAME_DEAD'],
                               style: TextStyle(
                                 height: 1.4,
                                 color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
@@ -734,7 +727,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                               child: Text(
-                                '2',
+                                servicesProvider.result['P_DEAD_LOAN'][0][0]['RELAT_DESC'],
                                 style: TextStyle(
                                   color: HexColor('#2D452E'),
                                   fontWeight: FontWeight.w400,
@@ -747,23 +740,23 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                         Row(
                           children: [
                             Text(
-                              '3',
+                              servicesProvider.result['P_DEAD_LOAN'][0][0]['NAT_NO_DEAD'].toString(),
                               style: TextStyle(
                                 color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                               ),
                             ),
-                            Text(
-                              ' / ',
-                              style: TextStyle(
-                                color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
-                              ),
-                            ),
-                            Text(
-                              '4',
-                              style: TextStyle(
-                                color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
-                              ),
-                            ),
+                            // Text(
+                            //   ' / ',
+                            //   style: TextStyle(
+                            //     color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                            //   ),
+                            // ),
+                            // Text(
+                            //   servicesProvider.result['P_DEAD_LOAN'][0][0]['RELAT_DESC'],
+                            //   style: TextStyle(
+                            //     color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                            //   ),
+                            // ),
                           ],
                         ),
                         const SizedBox(height: 15.0,),
@@ -776,7 +769,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                               ),
                             ),
                             Text(
-                              '5',
+                              servicesProvider.result['P_DEAD_LOAN'][0][0]['CARDNO'].toString(),
                               style: TextStyle(
                                 color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                               ),
@@ -1123,7 +1116,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
 
     if(flag == 1){
       minValue = 1.0;
-      maxValue = servicesProvider.result['p_per_info'][0][0]['MAX_AMT'] * 1.0;
+      maxValue = double.tryParse(servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['MAX_AMT'].toString());
     } else if(flag == 2){
       minValue = 1;
       maxValue = 60;
