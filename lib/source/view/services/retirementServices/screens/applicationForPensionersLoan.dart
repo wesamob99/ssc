@@ -105,7 +105,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
       value: "970", natCode: 188,
       flag: countries.where((element) => element.dialCode == "970").first.flag,
     );
-    selectedLoanType = servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] == 2
+    selectedLoanType = servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] != 1
         ? 'heirLoan'
         : 'personalRetirementLoan';
     super.initState();
