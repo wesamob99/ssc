@@ -123,6 +123,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
     });
     servicesProvider.mobileNumberController.text = UserSecuredStorage.instance.realMobileNumber;
     servicesProvider.documentIndex = 0;
+    servicesProvider.documentsScreensStepNumber = 1;
     servicesProvider.dependentsDocuments = [];
     servicesProvider.mandatoryDocuments = [];
     servicesProvider.optionalDocuments = [];
