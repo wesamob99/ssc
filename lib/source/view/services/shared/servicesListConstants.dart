@@ -111,8 +111,7 @@ class ServicesList{
   static List<Service> retirementServices = [earlyRetirementRequest, applicationForOldAgePension, deceasedRetirementApplication, applicationForPensionersLoan, applicationOfReschedulePensionersLoan, pensionDetails, historicalPensionDetails];
 
 /// **************************************************************************
-
-  /// retirement Services ******************************************************
+/// retirement Services ******************************************************
 
   static Service toWhomItMayConcernLetter = Service(
       title: "toWhomItMayConcernLetter", supTitle: "officialBooks", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
@@ -123,9 +122,21 @@ class ServicesList{
 
   static List<Service> otherServices = [toWhomItMayConcernLetter, issuingRetirementDecision];
 
-  /// **************************************************************************
+/// **************************************************************************
+/// maternity Services *******************************************************
 
-  static List<Service> allServices = [quickAccessServices, mostVisitedServices, insuranceBenefitsServices, optionalAndFreeInclusionServices, retirementServices, otherServices].expand((element) => element).toList();
+  static Service maternityAllowanceApplication = Service(
+      title: "maternityAllowanceApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.getApplicationService(4)
+  );
+  static Service careRequest = Service(
+      title: "careRequest", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const IssuingRetirementDecisionScreen(), serviceApiCall: ()=> _servicesRepository.getDecExistence()
+  );
+
+  static List<Service> maternityServices = [maternityAllowanceApplication, careRequest];
+
+/// **************************************************************************
+
+  static List<Service> allServices = [quickAccessServices, mostVisitedServices, insuranceBenefitsServices, optionalAndFreeInclusionServices, retirementServices, otherServices, maternityServices].expand((element) => element).toList();
 
 }
 
