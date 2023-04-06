@@ -490,5 +490,10 @@
   "retirementLoanTermsAndConditions": "I declare that I have reviewed all the terms and conditions of granting advances to retirees and beneficiaries of social security, and I undertake to fulfill the obligations incurred by me according to this request, and I authorize the Corporation to deduct the due installments from my pension / share allocated to me, or any funds accruing to me from the Corporation. It is required to grant an advance to the widow Presenting a bill of exchange for the full value of the installment or bills according to the installments due on each of them.\nthe previous",
   "developmentProjectsLoanDesc": "It is an advance for the development of existing small development projects (individuals, joint ventures, simple partnerships, and self-employed), and the application for it requires the following documents to be attached: (a recent commercial registration + a valid profession license or any valid license to practice the profession)",
   "personalLoanDesc": "It is a cash loan to meet personal needs and no evidence is required.",
-  "islamicMurabahaLoanDesc": "It is an Islamic financing advance for the purposes of purchases such as building materials or furniture. Obtaining this advance requires completing the transaction through the Islamic Bank and bringing an invoice for the value of the purchases. There is no cash receipt with this type of advance."
+  "islamicMurabahaLoanDesc": "It is an Islamic financing advance for the purposes of purchases such as building materials or furniture. Obtaining this advance requires completing the transaction through the Islamic Bank and bringing an invoice for the value of the purchases. There is no cash receipt with this type of advance.",
+  "aRetirementDecisionCannotBeIssuedWithoutSubmittingRetirementApplication": "A retirement decision cannot be issued without submitting a retirement application",
+  "submitRetirementApplication": "Submit a retirement application",
+  "chooseTheRetirementApplicationYouWouldLikeToApplyFor": "Choose the retirement application you would like to apply for",
+  "maternityAllowanceApplication": "Maternity allowance application",
+  "careRequest": "Care request"
 }
