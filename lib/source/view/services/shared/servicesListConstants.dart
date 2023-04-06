@@ -5,6 +5,7 @@ import '../../../model/services/servicesRepository.dart';
 import '../insuranceServices/screens/workInjuryComplaintScreen.dart';
 import '../optionalAndFreeInclusion/screens/continuityOfCoverageRequestScreen.dart';
 import '../optionalAndFreeInclusion/screens/membershipRequestScreen.dart';
+import '../otherServices/screens/issuingRetirementDecisionScreen.dart';
 import '../retirementServices/screens/applicationForPensionersLoan.dart';
 import '../retirementServices/screens/deceasedRetirementApplicationScreen.dart';
 import '../retirementServices/screens/earlyRetirementRequestScreen.dart';
@@ -117,7 +118,7 @@ class ServicesList{
       title: "toWhomItMayConcernLetter", supTitle: "officialBooks", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service issuingRetirementDecision = Service(
-      title: "issuingRetirementDecision", supTitle: "officialBooks", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const HistoricalPensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.getDecExistence()
+      title: "issuingRetirementDecision", supTitle: "officialBooks", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const IssuingRetirementDecisionScreen(), serviceApiCall: ()=> _servicesRepository.getDecExistence()
   );
 
   static List<Service> otherServices = [toWhomItMayConcernLetter, issuingRetirementDecision];

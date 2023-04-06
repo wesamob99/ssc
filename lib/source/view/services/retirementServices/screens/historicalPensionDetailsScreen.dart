@@ -3,6 +3,7 @@
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/models/services/pensionPaymentModel.dart';
@@ -13,6 +14,7 @@ import '../../../../../infrastructure/userConfig.dart';
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/theme/themes.dart';
 import '../../../../../utilities/util.dart';
+import 'dart:math' as math;
 
 class HistoricalPensionDetailsScreen extends StatefulWidget {
   const HistoricalPensionDetailsScreen({Key key}) : super(key: key);
@@ -46,6 +48,19 @@ class _HistoricalPensionDetailsScreenState extends State<HistoricalPensionDetail
       appBar: AppBar(
         centerTitle: false,
         title: Text(getTranslated('historicalPensionDetails', context)),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: InkWell(
+            onTap: (){},
+            child: Transform.rotate(
+              angle: UserConfig.instance.isLanguageEnglish()
+                  ? -math.pi / 1.0 : 0,
+              child: SvgPicture.asset(
+                  'assets/icons/backWhite.svg'
+              ),
+            ),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

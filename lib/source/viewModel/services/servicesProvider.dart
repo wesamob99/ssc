@@ -191,6 +191,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment, selectedLoanType);
   }
 
+  Future getDecExistence() async{
+    return await servicesRepository.getDecExistence();
+  }
+
   Future<void> readCountriesJson() async {
     countries = [];
     final String response = await rootBundle.loadString('assets/jsonFiles/countries.json');
