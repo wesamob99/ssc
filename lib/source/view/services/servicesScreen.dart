@@ -13,6 +13,7 @@ import 'package:ssc/utilities/util.dart';
 
 import '../../viewModel/utilities/theme/themeProvider.dart';
 import 'insuranceServices/insuranceBody.dart';
+import 'maternityServices/maternitybody.dart';
 import 'optionalAndFreeInclusion/optionalAndFreeInclusionBody.dart';
 
 class ServicesScreen extends StatefulWidget {
@@ -76,6 +77,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 const RetirementBody(),
                 if(selectedIndex == 2)
                 const OptionalAndFreeInclusionBody(),
+                if(selectedIndex == 4)
+                const MaternityBody(),
                 if(selectedIndex == 5)
                 const InsuranceBody(),
                 if(selectedIndex == 6)
