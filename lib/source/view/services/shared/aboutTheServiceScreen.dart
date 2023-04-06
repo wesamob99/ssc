@@ -11,6 +11,7 @@ import 'package:ssc/utilities/util.dart';
 import '../../../../../utilities/theme/themes.dart';
 import '../../../../infrastructure/userConfig.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
+import 'dart:ui' as ui;
 
 class AboutTheServiceScreen extends StatefulWidget {
   final String serviceTitle;
@@ -35,6 +36,7 @@ class AboutTheServiceScreen extends StatefulWidget {
 
 class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
   ServicesProvider servicesProvider;
+  ThemeNotifier themeNotifier;
   bool termsChecked = false;
 
   getTextStyle(context, isColored){
@@ -47,6 +49,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
+    themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     servicesProvider.stepNumber = 1;
     servicesProvider.isLoading = false;
     super.initState();
@@ -289,7 +292,8 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                           ((widget.serviceTitle == 'report_a_sickness/work_injury_complaint') && value != null) || /// report_a_sickness/work_injury_complaint - تبليغ عن حادث العمل / مرض مهني
                                           ((widget.serviceTitle == 'deceasedRetirementApplication') && value != null) || /// report_a_sickness/work_injury_complaint - تبليغ عن حادث العمل / مرض مهني
                                           ((widget.serviceTitle == 'applicationForPensionersLoan') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// Application for pensioners loan - طلب سلفة تقاعد
-                                          ((widget.serviceTitle == 'issuingRetirementDecision') && value['PO_STATUS'] == 0) /// Issuing a retirement decision - تبليغ قرار التقاعد
+                                          ((widget.serviceTitle == 'issuingRetirementDecision') && value['PO_STATUS'] == 0) || /// Issuing a retirement decision - تبليغ قرار التقاعد
+                                          ((widget.serviceTitle == 'maternityAllowanceApplication') && value != null) /// Maternity allowance application - طلب بدل امومة
                                         )
                                       ){
                                         servicesProvider.result = value;
@@ -300,14 +304,24 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                         if((widget.serviceTitle == 'earlyRetirementRequest') || (widget.serviceTitle == 'applicationForPensionersLoan')){
                                           errorMessage = UserConfig.instance.isLanguageEnglish()
                                           ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                          showMyDialog(context, 'failed', errorMessage ?? getTranslated('thereAreNoData', context), 'ok', themeNotifier);
+                                        } else if((widget.serviceTitle == 'issuingRetirementDecision') && value['PO_STATUS'] == -3) {
+                                          showMyDialog(context, 'aRetirementDecisionCannotBeIssuedWithoutSubmittingRetirementApplication', '',
+                                              'submitRetirementApplication', themeNotifier, icon: 'assets/icons/failedApplication.svg', titleColor: '#363636',
+                                            buttonBackgroundColor: '#ffffff', buttonForegroundColor: '#003C97', onPressed: (){
+                                              Navigator.of(context).pop();
+                                              showRetirementsBottomSheet();
+                                            }
+                                          );
                                         } else if((widget.serviceTitle == 'issuingRetirementDecision')){
                                           errorMessage = UserConfig.instance.isLanguageEnglish()
                                               ? value["PO_status_desc_EN"] : value["PO_status_desc_AR"];
-                                        }else{
+                                          showMyDialog(context, 'failed', errorMessage ?? getTranslated('thereAreNoData', context), 'ok', themeNotifier);
+                                        } else{
                                           errorMessage = UserConfig.instance.isLanguageEnglish()
                                               ? value["pO_status_desc_en"] : value["pO_status_desc_ar"];
+                                          showMyDialog(context, 'failed', errorMessage ?? getTranslated('thereAreNoData', context), 'ok', themeNotifier);
                                         }
-                                        showMyDialog(context, 'failed', errorMessage ?? getTranslated('thereAreNoData', context), 'ok', themeNotifier);
                                       }
                                     });
                                     servicesProvider.isLoading = false;
@@ -344,6 +358,104 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
       ),
     );
   }
+
+  showRetirementsBottomSheet(){
+    /// TODO: Navigate to both [earlyRetirementRequest, applicationForOldAgePension] services
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        isDismissible: true,
+        enableDrag: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(25.0))
+        ),
+        constraints: BoxConstraints(
+            maxHeight: height(0.6, context)
+        ),
+        context: context,
+        barrierColor: Colors.black26,
+        builder: (context) {
+          return GestureDetector(
+            onTap: (){
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: BackdropFilter(
+              filter: ui.ImageFilter.blur(
+                sigmaX: 2.0,
+                sigmaY: 2.0,
+              ),
+              child: Material(
+                elevation: 100,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(25.0),
+                  topRight: Radius.circular(25.0),
+                ),
+                color: const Color.fromRGBO(250, 250, 250, 0.9),
+                shadowColor: Colors.black,
+                child: IntrinsicHeight(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0).copyWith(top: 15.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(),
+                            Container(
+                              width: 45,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                  color: HexColor('#000000'),
+                                  borderRadius: const BorderRadius.all(Radius.circular(25.0))),
+                            ),
+                            InkWell(
+                              onTap: (){
+                                Navigator.of(context).pop();
+                              },
+                              child: SvgPicture.asset('assets/icons/close.svg'),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 25.0,),
+                        Text(
+                          getTranslated('chooseTheRetirementApplicationYouWouldLikeToApplyFor', context),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(height: 20.0,),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: textButton(
+                                context, themeNotifier, 'earlyRetirementRequest',
+                                Colors.white, HexColor('#363636'), (){}, verticalPadding: 30.0
+                              ),
+                            ),
+                            const SizedBox(width: 10.0,),
+                            Expanded(
+                              child: textButton(
+                                  context, themeNotifier, 'applicationForOldAgePension',
+                                  Colors.white, HexColor('#363636'), (){}, verticalPadding: 30.0
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20.0,),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+    );
+  }
+
 }
 
 
