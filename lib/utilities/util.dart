@@ -287,6 +287,8 @@ Future<void> showMyDialog(
     icon = 'assets/icons/loginError.svg',
     withPayButton = false,
     Widget extraWidgetBody = const SizedBox.shrink(),
+    String buttonBackgroundColor = '',
+    String buttonForegroundColor = '',
     // ignore: avoid_init_to_null
     onPressed = null}
     ) async {
@@ -392,11 +394,13 @@ Future<void> showMyDialog(
               },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
-                    withPayButton ? Colors.transparent : themeNotifier.isLight()
+                    buttonBackgroundColor != '' ? HexColor(buttonBackgroundColor)
+                    : withPayButton ? Colors.transparent : themeNotifier.isLight()
                         ? primaryColor : HexColor('#445740'),
                   ),
                   foregroundColor:  MaterialStateProperty.all<Color>(
-                     withPayButton ? HexColor('#363636') : Colors.white
+                     buttonForegroundColor != '' ? HexColor(buttonForegroundColor)
+                     : withPayButton ? HexColor('#363636') : Colors.white
                   ),
                   fixedSize:  MaterialStateProperty.all<Size>(
                     Size(width(1, context), height(0.05, context)),
