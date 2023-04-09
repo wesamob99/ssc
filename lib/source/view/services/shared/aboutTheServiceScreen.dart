@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:ssc/source/view/services/shared/servicesListConstants.dart';
 import 'package:ssc/source/viewModel/services/servicesProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/util.dart';
@@ -38,6 +39,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
   ServicesProvider servicesProvider;
   ThemeNotifier themeNotifier;
   bool termsChecked = false;
+  List<Service> earlyAndOldRetirements = ServicesList.earlyAndOldRetirements;
 
   getTextStyle(context, isColored){
     return TextStyle(
@@ -360,7 +362,6 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
   }
 
   showRetirementsBottomSheet(){
-    /// TODO: Navigate to both [earlyRetirementRequest, applicationForOldAgePension] services
     return showModalBottomSheet(
         isScrollControlled: true,
         isDismissible: true,
@@ -432,14 +433,58 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                             Expanded(
                               child: textButton(
                                 context, themeNotifier, 'earlyRetirementRequest',
-                                Colors.white, HexColor('#363636'), (){}, verticalPadding: 30.0
+                                Colors.white, HexColor('#363636'), (){
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => AboutTheServiceScreen(
+                                        serviceTitle: earlyAndOldRetirements[0].title,
+                                        aboutServiceDescription: earlyAndOldRetirements[0].description,
+                                        termsOfTheService: const [
+                                          'موظفي القطاع الخاص',
+                                          'موظف موقوف عن العمل',
+                                          'لديك 36 اشتراك او رصيد اكثر من 300 د.ا',
+                                          'ان تكون قد استفدت من بدل التعطل ثلاث مرات او اقل خلال فتره الشمول',
+                                        ],
+                                        stepsOfTheService: const [
+                                          'التأكد من المعلومات الشخصية لمقدم الخدمة',
+                                          'تعبئة طلب الخدمة',
+                                          'تقديم الطلب'
+                                        ],
+                                        serviceScreen: earlyAndOldRetirements[0].screen,
+                                        serviceApiCall: earlyAndOldRetirements[0].serviceApiCall,
+                                      ),
+                                    )
+                                );
+                              }, verticalPadding: 30.0
                               ),
                             ),
                             const SizedBox(width: 10.0,),
                             Expanded(
                               child: textButton(
-                                  context, themeNotifier, 'applicationForOldAgePension',
-                                  Colors.white, HexColor('#363636'), (){}, verticalPadding: 30.0
+                                context, themeNotifier, 'applicationForOldAgePension',
+                                Colors.white, HexColor('#363636'), (){
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => AboutTheServiceScreen(
+                                        serviceTitle: earlyAndOldRetirements[1].title,
+                                        aboutServiceDescription: earlyAndOldRetirements[1].description,
+                                        termsOfTheService: const [
+                                          'موظفي القطاع الخاص',
+                                          'موظف موقوف عن العمل',
+                                          'لديك 36 اشتراك او رصيد اكثر من 300 د.ا',
+                                          'ان تكون قد استفدت من بدل التعطل ثلاث مرات او اقل خلال فتره الشمول',
+                                        ],
+                                        stepsOfTheService: const [
+                                          'التأكد من المعلومات الشخصية لمقدم الخدمة',
+                                          'تعبئة طلب الخدمة',
+                                          'تقديم الطلب'
+                                        ],
+                                        serviceScreen: earlyAndOldRetirements[1].screen,
+                                        serviceApiCall: earlyAndOldRetirements[1].serviceApiCall,
+                                      ),
+                                    )
+                                );
+                                }, verticalPadding: 30.0
                               ),
                             ),
                           ],
