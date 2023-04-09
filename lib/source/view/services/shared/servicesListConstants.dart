@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../model/services/servicesRepository.dart';
 import '../insuranceServices/screens/workInjuryComplaintScreen.dart';
+import '../maternityServices/screens/maternityAllowanceApplicationScreen.dart';
 import '../optionalAndFreeInclusion/screens/continuityOfCoverageRequestScreen.dart';
 import '../optionalAndFreeInclusion/screens/membershipRequestScreen.dart';
 import '../otherServices/screens/issuingRetirementDecisionScreen.dart';
@@ -109,6 +110,7 @@ class ServicesList{
   );
 
   static List<Service> retirementServices = [earlyRetirementRequest, applicationForOldAgePension, deceasedRetirementApplication, applicationForPensionersLoan, applicationOfReschedulePensionersLoan, pensionDetails, historicalPensionDetails];
+  static List<Service> earlyAndOldRetirements = [earlyRetirementRequest, applicationForOldAgePension];
 
 /// **************************************************************************
 /// retirement Services ******************************************************
@@ -126,7 +128,7 @@ class ServicesList{
 /// maternity Services *******************************************************
 
   static Service maternityAllowanceApplication = Service(
-      title: "maternityAllowanceApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.getApplicationService(4)
+      title: "maternityAllowanceApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const MaternityAllowanceApplicationScreen(), serviceApiCall: ()=> _servicesRepository.getApplicationService(4)
   );
   static Service careRequest = Service(
       title: "careRequest", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const IssuingRetirementDecisionScreen(), serviceApiCall: ()=> _servicesRepository.getDecExistence()
