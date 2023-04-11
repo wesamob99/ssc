@@ -504,6 +504,13 @@
   "submitRetirementApplication": "تقديم طلب تقاعد",
   "chooseTheRetirementApplicationYouWouldLikeToApplyFor": "إختر طلب التقاعد الذي تود التقديم عليه",
   "maternityAllowanceApplication": "طلب بدل امومة",
-  "careRequest": "طلب الرعاية"
-
+  "careRequest": "طلب الرعاية",
+  "newbornNationality": "جنسية المولود",
+  "placeOfBirth": "مكان الولادة",
+  "newbornNationalNumber": "الرقم الوطني للمولود",
+  "doYouAgreeWithTheDecision": "هل تتفق مع هذا القرار؟",
+  "agree": "موافق",
+  "disagree": "اعترض على قرار التبيلغ",
+  "agreeReason": "سبب الموافقة",
+  "agreeReasonHint": "يجب ان يكون السبب مكون من 50 حرف"
 }

@@ -495,5 +495,13 @@
   "submitRetirementApplication": "Submit a retirement application",
   "chooseTheRetirementApplicationYouWouldLikeToApplyFor": "Choose the retirement application you would like to apply for",
   "maternityAllowanceApplication": "Maternity allowance application",
-  "careRequest": "Care request"
+  "careRequest": "Care request",
+  "newbornNationality": "Newborn nationality",
+  "placeOfBirth": "Place of birth",
+  "newbornNationalNumber": "Newborn national number",
+  "doYouAgreeWithTheDecision": "Do you agree with the decision?",
+  "agree": "Agree",
+  "disagree": "Disagree to the notification decision",
+  "agreeReason": "Agree reason",
+  "agreeReasonHint": "Reason must be 50 characters long"
 }
