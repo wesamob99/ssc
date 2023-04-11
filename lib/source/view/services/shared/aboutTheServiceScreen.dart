@@ -295,7 +295,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                           ((widget.serviceTitle == 'deceasedRetirementApplication') && value != null) || /// report_a_sickness/work_injury_complaint - تبليغ عن حادث العمل / مرض مهني
                                           ((widget.serviceTitle == 'applicationForPensionersLoan') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// Application for pensioners loan - طلب سلفة تقاعد
                                           ((widget.serviceTitle == 'issuingRetirementDecision') && value['PO_STATUS'] == 0) || /// Issuing a retirement decision - تبليغ قرار التقاعد
-                                          ((widget.serviceTitle == 'maternityAllowanceApplication') && value != null) /// Maternity allowance application - طلب بدل امومة
+                                          ((widget.serviceTitle == 'maternityAllowanceApplication') && value['P_Message'][0][0]['PO_STATUS'] == 0) /// Maternity allowance application - طلب بدل امومة
                                         )
                                       ){
                                         servicesProvider.result = value;
@@ -318,6 +318,10 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                         } else if((widget.serviceTitle == 'issuingRetirementDecision')){
                                           errorMessage = UserConfig.instance.isLanguageEnglish()
                                               ? value["PO_status_desc_EN"] : value["PO_status_desc_AR"];
+                                          showMyDialog(context, 'failed', errorMessage ?? getTranslated('thereAreNoData', context), 'ok', themeNotifier);
+                                        } else if((widget.serviceTitle == 'maternityAllowanceApplication')){
+                                          errorMessage = UserConfig.instance.isLanguageEnglish()
+                                              ? value['P_Message'][0][0]["PO_STATUS_DESC_EN"] : value['P_Message'][0][0]["PO_STATUS_DESC_AR"];
                                           showMyDialog(context, 'failed', errorMessage ?? getTranslated('thereAreNoData', context), 'ok', themeNotifier);
                                         } else{
                                           errorMessage = UserConfig.instance.isLanguageEnglish()
