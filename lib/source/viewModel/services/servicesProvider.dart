@@ -2,12 +2,14 @@
 
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:ssc/source/model/services/servicesRepository.dart';
 
 import '../../../infrastructure/userConfig.dart';
 import '../../../models/login/countries.dart';
 import '../../../models/accountSettings/userProfileData.dart';
+import '../../../utilities/util.dart';
 
 class ServicesProvider extends ChangeNotifier {
 
@@ -189,6 +191,23 @@ class ServicesProvider extends ChangeNotifier {
 
   Future setRetirementLoanApplication(docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, selectedLoanType) async{
     return await servicesRepository.setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment, selectedLoanType);
+  }
+
+  Future getDecision() async{
+    return await servicesRepository.getDecisionService(result['V_ID']);
+  }
+
+  Future getRetirementDecisionPDFFileDetails(dynamic folderName, context) async{
+    var res;
+    await servicesRepository.getRetirementDecisionPDFFileDetailsService(folderName).then((value) async {
+      res = await downloadPDF(value, getTranslated('تبليغ قرار التقاعد', context)).whenComplete(() {
+        if (kDebugMode) {
+          print('completed');
+        }
+      });
+    });
+
+    return res;
   }
 
   Future getDecExistence() async{

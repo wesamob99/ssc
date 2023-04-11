@@ -873,5 +873,27 @@ class ServicesRepository{
 
 /// **************************************************************ISSUING RETIREMENT DECISION  - START**********************************************************
 
+  Future getDecisionService(int vID) async {
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/get_decision?V_ID=$vID');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+
+  Future getRetirementDecisionPDFFileDetailsService(dynamic folderName) async {
+    var response = await HTTPClientContract.instance.getHTTP('/ftp/getFileFromSSC?folderName=$folderName.pdf&fileName=&type=1');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return response.data;
+    }
+    return null;
+  }
+
 /// **************************************************************ISSUING RETIREMENT DECISION  - END************************************************************
 }
