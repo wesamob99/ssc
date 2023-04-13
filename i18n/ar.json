@@ -512,5 +512,9 @@
   "agree": "موافق",
   "disagree": "اعترض على قرار التبيلغ",
   "agreeReason": "سبب الموافقة",
-  "agreeReasonHint": "يجب ان يكون السبب مكون من 50 حرف"
+  "agreeReasonHint": "يجب ان يكون السبب مكون من 15 حرف",
+  "fileDownloadedAt": "تم تحميل الملف في",
+  "WithdrawalOfObjection": "سحب اعتراض (يعني قبول القرار وإلغاء الاعتراض السابق من طرفكم )",
+  "don'tWantToRetireAndWantToStayInclusive": "لا أرغب بالتقاعد وأرغب باستمرار شمولي",
+  "submitIssuingApplicationDesc": "سيتم إعاده اصدار قرار التقاعد الخاص خلال 10-15 يوم\u2028يمكنك التحقق من الاقرار من خلال خدمات اخرى"
 }
