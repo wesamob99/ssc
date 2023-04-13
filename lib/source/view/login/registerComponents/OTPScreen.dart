@@ -22,7 +22,8 @@ class OTPScreen extends StatefulWidget {
   final String contactTarget;
   final String type;
   final int flag; /// 1 for register & 2 for update (mobile number & email) from profile screen
-  const OTPScreen({Key key, this.contactTarget, this.type, this.flag = 1}) : super(key: key);
+  final int pActionType;
+  const OTPScreen({Key key, this.contactTarget, this.type, this.flag = 1, this.pActionType}) : super(key: key);
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -240,16 +241,49 @@ class _OTPScreenState extends State<OTPScreen> {
                                                 print(e.toString());
                                               }
                                             }
+                                        } else if(widget.flag == 3){
+                                          ServicesProvider servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
+                                          loginProvider.isLoading = true;
+                                          loginProvider.notifyMe();
+                                          String message = '';
+                                          try{
+                                            await servicesProvider.submitIssuingRetirementDecision(int.tryParse(pinController.text), widget.pActionType, servicesProvider.reasonController.text).whenComplete((){}).then((val){
+                                              if(val['PO_STATUS'] == 0){
+                                                showMyDialog(context, 'yourRequestHasBeenSentSuccessfully', getTranslated('submitIssuingApplicationDesc', context), 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/emailUpdated.svg').then((value) {
+                                                  Navigator.of(context).pushAndRemoveUntil(
+                                                      MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                                          (route) => false
+                                                  );
+                                                });
+                                              }else{
+                                                message = UserConfig.instance.isLanguageEnglish()
+                                                    ? val["PO_status_desc_EN"] : val["PO_status_desc_AR"];
+                                                showMyDialog(context, 'failed', message, 'retryAgain', themeNotifier);
+                                              }
+                                            });
+                                            loginProvider.isLoading = false;
+                                            loginProvider.notifyMe();
+                                          }catch(e){
+                                            loginProvider.isLoading = false;
+                                            loginProvider.notifyMe();
+                                            if (kDebugMode) {
+                                              print(e.toString());
+                                            }
+                                          }
                                         }
                                   }}
                               ),
                               SizedBox(height: height(0.018, context),),
                               textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
                                   HexColor('#DADADA')), HexColor('#363636'), (){
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                        (route) => false
-                                );
+                                if(widget.flag == 3){
+                                  Navigator.of(context).pop();
+                                } else{
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                          (route) => false
+                                  );
+                                }
                               }),
                             ],
                           ),

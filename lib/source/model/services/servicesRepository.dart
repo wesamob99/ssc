@@ -895,5 +895,80 @@ class ServicesRepository{
     return null;
   }
 
+  Future penUpdateSeenService(String vID) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/individuals/pen_update_seen', {"v_id": vID}
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+  Future sendDecOtpService(String vID) async {
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/individuals/SEND_DEC_OTP', {"V_ID": int.tryParse(vID)}
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+  Future approveRetirementReportForArchive() async {
+    var response = await HTTPClientContract.instance.postHTTP(
+      '/individuals/AproveRetiremenReportForArchive', {
+        "params": jsonEncode({
+          "obj": {
+            "o_cust_sec": 9621022224,
+            "o_cust_name": "عدنان احمد ابراهيم القرى",
+            "TOTAL_SALARY": "",
+            "STARDT": "",
+            "APPROVE_DISCLOSURE": 2,
+            "P_REJECT_REASON": "asd",
+            "Nat_No": "9621001393"
+          }
+        })
+      }
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+  Future submitIssuingRetirementDecisionService(int vID, int pCode, int pActionTaken, String pActionJustify) async {
+    print({
+      "p_id": vID,
+      "P_code": pCode,
+      "P_ACTION_TAKEN": pActionTaken,
+      "P_ACTION_JUSTIFY": pActionJustify
+    });
+    var response = await HTTPClientContract.instance.postHTTP(
+      '/individuals/insert_action', {
+        "p_id": vID,
+        "P_code": pCode,
+        "P_ACTION_TAKEN": pActionTaken,
+        "P_ACTION_JUSTIFY": pActionJustify
+      }
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
 /// **************************************************************ISSUING RETIREMENT DECISION  - END************************************************************
 }

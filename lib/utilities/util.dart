@@ -656,7 +656,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
             ),
             fontSize:  isTablet(context) ? 19 : 14,
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: isTablet(context) ? 20 : minLines != 1 ? 5 : 0),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: isTablet(context) ? 20 : minLines != 1 ? 10 : 0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
@@ -1108,7 +1108,7 @@ updateLanguageWidget(BuildContext context){
 
 /// TODO: download the file correctly
 // Function to download a PDF file from the server
-Future<void> downloadPDF(Response response, String fileName) async {
+Future<void> downloadAndOpenPDF(dynamic pdf, String fileName) async {
   try {
     // Get the directory to store the file
     var documentsDirectory = await getApplicationDocumentsDirectory();
@@ -1118,10 +1118,31 @@ Future<void> downloadPDF(Response response, String fileName) async {
     pdfFile = await pdfFile.create();
 
     // Write file content to the file
-    await pdfFile.writeAsBytes(utf8.encode(response.data));
+    await pdfFile.writeAsBytes(utf8.encode(pdf));
 
     // Open the file on the device
     OpenFilex.open(pdfFile.path);
+  } catch (e) {
+    if (kDebugMode) {
+      print(e);
+    }
+  }
+}
+
+// Function to download a PDF file from the server
+Future downloadPDF(dynamic pdf, String fileName) async {
+  try {
+    // Get the directory to store the file
+    var documentsDirectory = await getApplicationDocumentsDirectory();
+
+    // Create the file on the device
+    File pdfFile = File('${documentsDirectory.path}/$fileName.pdf');
+    pdfFile = await pdfFile.create();
+
+    // Write file content to the file
+    await pdfFile.writeAsBytes(utf8.encode(pdf));
+
+    return pdfFile;
   } catch (e) {
     if (kDebugMode) {
       print(e);

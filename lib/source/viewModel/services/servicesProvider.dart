@@ -68,6 +68,9 @@ class ServicesProvider extends ChangeNotifier {
   double currentNumberOfInstallments = 1;
   double currentFinancialCommitment = 0;
 
+  TextEditingController reasonController = TextEditingController();
+
+
   Future<UserProfileData> getAccountData() async{
     return await servicesRepository.getAccountDataService();
   }
@@ -212,6 +215,18 @@ class ServicesProvider extends ChangeNotifier {
 
   Future getDecExistence() async{
     return await servicesRepository.getDecExistence();
+  }
+
+  Future penUpdateSeen() async{
+    return await servicesRepository.penUpdateSeenService(result['V_ID'].toString());
+  }
+
+  Future sendDecOtp() async{
+    return await servicesRepository.sendDecOtpService(result['V_ID'].toString());
+  }
+
+  Future submitIssuingRetirementDecision(int pCode, int pActionTaken, String pActionJustify) async{
+    return await servicesRepository.submitIssuingRetirementDecisionService(result['V_ID'], pCode, pActionTaken, pActionJustify);
   }
 
   Future<void> readCountriesJson() async {
