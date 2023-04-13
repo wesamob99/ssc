@@ -947,12 +947,6 @@ class ServicesRepository{
   }
 
   Future submitIssuingRetirementDecisionService(int vID, int pCode, int pActionTaken, String pActionJustify) async {
-    print({
-      "p_id": vID,
-      "P_code": pCode,
-      "P_ACTION_TAKEN": pActionTaken,
-      "P_ACTION_JUSTIFY": pActionJustify
-    });
     var response = await HTTPClientContract.instance.postHTTP(
       '/individuals/insert_action', {
         "p_id": vID,
