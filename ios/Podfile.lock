@@ -58,6 +58,8 @@ PODS:
   - smart_auth (0.0.1):
     - Flutter
   - SwiftyGif (5.4.3)
+  - syncfusion_flutter_pdfviewer (0.0.1):
+    - Flutter
   - url_launcher_ios (0.0.1):
     - Flutter
 
@@ -73,6 +75,7 @@ DEPENDENCIES:
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - smart_auth (from `.symlinks/plugins/smart_auth/ios`)
+  - syncfusion_flutter_pdfviewer (from `.symlinks/plugins/syncfusion_flutter_pdfviewer/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
@@ -105,6 +108,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_foundation/ios"
   smart_auth:
     :path: ".symlinks/plugins/smart_auth/ios"
+  syncfusion_flutter_pdfviewer:
+    :path: ".symlinks/plugins/syncfusion_flutter_pdfviewer/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
@@ -124,6 +129,7 @@ SPEC CHECKSUMS:
   shared_preferences_foundation: 297b3ebca31b34ec92be11acd7fb0ba932c822ca
   smart_auth: 4bedbc118723912d0e45a07e8ab34039c19e04f2
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
+  syncfusion_flutter_pdfviewer: bb9998884b864cfedf72628df3503bdf57e397c0
   url_launcher_ios: ae1517e5e344f5544fb090b079e11f399dfbe4d2
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
