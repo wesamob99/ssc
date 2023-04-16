@@ -28,7 +28,8 @@ import '../../shared/paymentScreen.dart';
 import '../../shared/verifyMobileNumberScreen.dart';
 
 class ApplicationForPensionersLoan extends StatefulWidget {
-  const ApplicationForPensionersLoan({Key key}) : super(key: key);
+  final int serviceType;
+  const ApplicationForPensionersLoan({Key key, this.serviceType}) : super(key: key);
 
   @override
   State<ApplicationForPensionersLoan> createState() => _ApplicationForPensionersLoanState();
@@ -91,7 +92,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
       "optional": [],
     };
     servicesProvider.activePayment = [];
-    servicesProvider.getActivePayment("10", servicesProvider.result['p_per_info'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
+    servicesProvider.getActivePayment("${widget.serviceType}", servicesProvider.result['p_per_info'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
       value['R_RESULT'][0].forEach((element){
         servicesProvider.activePayment.add(element);
       });
@@ -293,10 +294,10 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                           "INSURED": null,
                           "ID": null,
                           "DEP_FLAG": 0,
-                          "SECNO_DEAD": servicesProvider.result['P_DEAD_LOAN'][0][0]['SECNO_DEAD'],
-                          "CARDNO": servicesProvider.result['P_DEAD_LOAN'][0][0]['CARDNO'],
-                          "NAT_NO_DEAD": servicesProvider.result['P_DEAD_LOAN'][0][0]['NAT_NO_DEAD'],
-                          "FULL_NAME_DEAD": servicesProvider.result['P_DEAD_LOAN'][0][0]['FULL_NAME_DEAD'],
+                          "SECNO_DEAD": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['SECNO_DEAD'],
+                          "CARDNO": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['CARDNO'],
+                          "NAT_NO_DEAD": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['NAT_NO_DEAD'],
+                          "FULL_NAME_DEAD": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['FULL_NAME_DEAD'],
                           "NET_PAY": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['NET_PAY'],
                           "TYPE_OF_ADVANCE": (selectedLoanType == 'heirLoan' ? 2 : 1),
                           "OFFNO": servicesProvider.result['p_per_info'][0][0]['OFFNO'],
@@ -322,7 +323,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                           "RELAT": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['RELAT'],
                           "RELAT_DESC": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['RELAT_DESC'],
                           "BANK_DOC_FLG": loanResultInfo['po_bank_doc_flg'],
-                        }, serviceType: 10, info: const {}, dependents: const [], relations: const [], nextStepNumber: 6,),
+                        }, serviceType: widget.serviceType, info: const {}, dependents: const [], relations: const [], nextStepNumber: 6,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 6)
                         fifthStep(context, themeNotifier),
                       if(!(Provider.of<ServicesProvider>(context).stepNumber == 5))
@@ -483,7 +484,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                               } break;
                               case 6: {
                                 if(checkContinueEnabled(flag: 6)){
-                                  // try{
+                                  try{
                                     String message = '';
                                     servicesProvider.isLoading = true;
                                     servicesProvider.isModalLoading = false;
@@ -526,7 +527,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                                     } else if(servicesProvider.result['p_per_info'][0][0]['DUAL_FLG'] == 2){
                                       typeOfAdvance = 2;
                                     }
-                                    await servicesProvider.setRetirementLoanApplication(docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, selectedLoanType).whenComplete(() {}).then((value) {
+                                    await servicesProvider.setRetirementLoanApplication(docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, selectedLoanType, widget.serviceType).whenComplete(() {}).then((value) {
                                       if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
                                         message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
                                         if(value['PO_TYPE'] == 2){
@@ -551,13 +552,13 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                                     });
                                     servicesProvider.isLoading = false;
                                     servicesProvider.notifyMe();
-                                  // } catch(e){
-                                  //   servicesProvider.isLoading = false;
-                                  //   servicesProvider.notifyMe();
-                                  //   if (kDebugMode) {
-                                  //     print(e.toString());
-                                  //   }
-                                  // }
+                                  } catch(e){
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                    if (kDebugMode) {
+                                      print(e.toString());
+                                    }
+                                  }
                                 }
                               } break;
                             }
