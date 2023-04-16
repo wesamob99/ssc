@@ -507,6 +507,9 @@
   "fileDownloadedAt": "File downloaded at",
   "WithdrawalOfObjection": "Withdrawal of an objection (means acceptance of the decision and cancellation of the previous objection by you)",
   "don'tWantToRetireAndWantToStayInclusive": "I don't want to retire and I want to stay inclusive",
-  "submitIssuingApplicationDesc": "The private retirement decision will be re-issued within 10-15 days. You can check the decision through other services"
+  "submitIssuingApplicationDesc": "The private retirement decision will be re-issued within 10-15 days. You can check the decision through other services",
+  "total": "Total",
+  "deductions": "Deductions",
+  "salariesAndBonuses": "Salaries and bonuses"
 
 }

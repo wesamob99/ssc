@@ -355,7 +355,7 @@
   "applicationForOldAgePension": "طلب تقاعد شيخوخة",
   "deceasedRetirementApplication": "طلب تقاعد متوفي",
   "applicationForPensionersLoan": "طلب سلفة تقاعد",
-  "applicationOfReschedulePensionersLoan": "إعادة جدولة السلفة",
+  "applicationOfReschedulePensionersLoan": "إعادة جدولة سلف المتقاعدين",
   "dependentInformationUpdate": "تحديث معلومات المعالين",
   "theAmount": "المبلغ",
   "ensureFinancialSolvency": "التأكد من الملاءة المالية",
@@ -516,5 +516,8 @@
   "fileDownloadedAt": "تم تحميل الملف في",
   "WithdrawalOfObjection": "سحب اعتراض (يعني قبول القرار وإلغاء الاعتراض السابق من طرفكم )",
   "don'tWantToRetireAndWantToStayInclusive": "لا أرغب بالتقاعد وأرغب باستمرار شمولي",
-  "submitIssuingApplicationDesc": "سيتم إعاده اصدار قرار التقاعد الخاص خلال 10-15 يوم\u2028يمكنك التحقق من الاقرار من خلال خدمات اخرى"
+  "submitIssuingApplicationDesc": "سيتم إعاده اصدار قرار التقاعد الخاص خلال 10-15 يوم\u2028يمكنك التحقق من الاقرار من خلال خدمات اخرى",
+  "total": "المجموع",
+  "deductions": "الاقتطاعات",
+  "salariesAndBonuses": "الرواتب والعلاوات"
 }
