@@ -192,8 +192,8 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.getPensionPaymentSPService(year);
   }
 
-  Future setRetirementLoanApplication(docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, selectedLoanType) async{
-    return await servicesRepository.setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment, selectedLoanType);
+  Future setRetirementLoanApplication(docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, selectedLoanType, int serviceType) async{
+    return await servicesRepository.setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment, selectedLoanType, serviceType);
   }
 
   Future getDecision() async{
@@ -215,6 +215,10 @@ class ServicesProvider extends ChangeNotifier {
 
   Future getDecExistence() async{
     return await servicesRepository.getDecExistence();
+  }
+
+  Future getPensionSalaryDetails(String month, String year, int pType) async{
+    return await servicesRepository.getPensionSalaryDetailsService(month, year, pType);
   }
 
   Future penUpdateSeen() async{

@@ -36,6 +36,18 @@ class ServicesRepository{
     return null;
   }
 
+  Future getPensionSalaryDetailsService(String month, String year, int pType) async {
+    print('/individuals/pensionSalaryDetails?month=$month&year=$year&P_TYPE=$pType');
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/pensionSalaryDetails?month=$month&year=$year&P_TYPE=$pType');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+
   Future getInquiryInsuredInformationService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
@@ -729,7 +741,7 @@ class ServicesRepository{
     return '';
   }
 
-  Future setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment, selectedLoanType) async {
+  Future setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment, selectedLoanType, int serviceType) async {
 
     var row = {
       /// payment info
@@ -835,7 +847,7 @@ class ServicesRepository{
       "BANK_DOC_FLG": loanResultInfo['po_bank_doc_flg'],
       "APPLICANT_ID": result['p_per_info'][0][0]['NAT_NO'],
       "APPLICANT_NO": result['p_per_info'][0][0]['NAT_NO'],
-      "SERVICE_TYPE": 10,
+      "SERVICE_TYPE": serviceType,
       "IS_DEFENSE": null,
       "APP_STATUS_EXTERNAL": 2,
       "OTHER_DEPENDANTS": null,

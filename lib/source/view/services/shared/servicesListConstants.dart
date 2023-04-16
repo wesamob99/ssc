@@ -11,7 +11,6 @@ import '../retirementServices/screens/applicationForPensionersLoan.dart';
 import '../retirementServices/screens/deceasedRetirementApplicationScreen.dart';
 import '../retirementServices/screens/earlyRetirementRequestScreen.dart';
 import '../retirementServices/screens/historicalPensionDetailsScreen.dart';
-import '../retirementServices/screens/pensionDetailsScreen.dart';
 
 class ServicesList{
 
@@ -96,32 +95,27 @@ class ServicesList{
       title: "applicationForOldAgePension", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const EarlyRetirementRequestScreen(serviceType: 1,), serviceApiCall: ()=> _servicesRepository.getApplicationService(1)
   );
   static Service applicationForPensionersLoan = Service(
-      title: "applicationForPensionersLoan", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const ApplicationForPensionersLoan(), serviceApiCall: ()=> _servicesRepository.getApplicationService(10)
+      title: "applicationForPensionersLoan", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const ApplicationForPensionersLoan(serviceType: 10), serviceApiCall: ()=> _servicesRepository.getApplicationService(10)
   );
   static Service applicationOfReschedulePensionersLoan = Service(
-      title: "applicationOfReschedulePensionersLoan", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
-  );
-
-  static Service pensionDetails = Service(
-      title: "pensionDetails", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
+      title: "applicationOfReschedulePensionersLoan", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const ApplicationForPensionersLoan(serviceType: 14), serviceApiCall: ()=> _servicesRepository.getApplicationService(14)
   );
   static Service historicalPensionDetails = Service(
       title: "historicalPensionDetails", supTitle: "retirementServices", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const HistoricalPensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.getPensionsBasicInformationsService()
   );
 
-  static List<Service> retirementServices = [earlyRetirementRequest, applicationForOldAgePension, deceasedRetirementApplication, applicationForPensionersLoan, applicationOfReschedulePensionersLoan, pensionDetails, historicalPensionDetails];
+  static List<Service> retirementServices = [earlyRetirementRequest, applicationForOldAgePension, deceasedRetirementApplication, applicationForPensionersLoan, applicationOfReschedulePensionersLoan, historicalPensionDetails];
   static List<Service> earlyAndOldRetirements = [earlyRetirementRequest, applicationForOldAgePension];
 
 /// **************************************************************************
-/// retirement Services ******************************************************
+/// other Services ******************************************************
 
   static Service toWhomItMayConcernLetter = Service(
-      title: "toWhomItMayConcernLetter", supTitle: "officialBooks", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const PensionDetailsScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
+      title: "toWhomItMayConcernLetter", supTitle: "officialBooks", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  Container(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
   static Service issuingRetirementDecision = Service(
       title: "issuingRetirementDecision", supTitle: "officialBooks", description: "this supposed to be about the service description", icon: 'assets/icons/servicesIcons/retiredServices.svg', screen:  const IssuingRetirementDecisionScreen(), serviceApiCall: ()=> _servicesRepository.getDecExistence()
   );
-
   static List<Service> otherServices = [toWhomItMayConcernLetter, issuingRetirementDecision];
 
 /// **************************************************************************
