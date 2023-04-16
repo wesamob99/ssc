@@ -39,20 +39,11 @@ class ServicesList{
   static List<Service> quickAccessServices = [earlyRetirementRequest, deceasedRetirementApplication, individualsUnemploymentApplication, onePayment, reportAnAccident, accountStatement, membershipRequest];
 
   /// **************************************************************************
-  /// Most Visited Services ****************************************************
+  /// Insurance Benefits Services **********************************************
 
-  static Service requestRetiredLoan = Service(
-      title: "requestRetiredLoan", supTitle: "retired", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
-  );
   static Service reportSicknessComplaint = Service(
       title: "report_a_sickness/work_injury_complaint", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.getAccountDataService()
   );
-
-  static List<Service> mostVisitedServices = [requestRetiredLoan, individualsUnemploymentApplication, maternityUnemploymentApplication];
-
-  /// **************************************************************************
-  /// Insurance Benefits Services **********************************************
-
   static Service oneTimeCompensationRequest = Service(
       title: "oneTimeCompensationRequest", supTitle: "compensation", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
@@ -105,7 +96,6 @@ class ServicesList{
   );
 
   static List<Service> retirementServices = [earlyRetirementRequest, applicationForOldAgePension, deceasedRetirementApplication, applicationForPensionersLoan, applicationOfReschedulePensionersLoan, historicalPensionDetails];
-  static List<Service> earlyAndOldRetirements = [earlyRetirementRequest, applicationForOldAgePension];
 
 /// **************************************************************************
 /// other Services ******************************************************
@@ -132,7 +122,11 @@ class ServicesList{
 
 /// **************************************************************************
 
-  static List<Service> allServices = [quickAccessServices, mostVisitedServices, insuranceBenefitsServices, optionalAndFreeInclusionServices, retirementServices, otherServices, maternityServices].expand((element) => element).toList();
+  static List<Service> earlyAndOldRetirements = [earlyRetirementRequest, applicationForOldAgePension];
+
+  static List<Service> mostVisitedServices = [applicationForPensionersLoan, individualsUnemploymentApplication, maternityUnemploymentApplication];
+
+  static List<Service> allServices = [quickAccessServices, insuranceBenefitsServices, optionalAndFreeInclusionServices, retirementServices, otherServices, maternityServices].expand((element) => element).toList();
 
 }
 
