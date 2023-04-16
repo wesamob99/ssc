@@ -33,6 +33,9 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
   ServicesProvider servicesProvider;
   ThemeNotifier themeNotifier;
   bool termsChecked = false;
+  String selectedNewbornNationality = 'jordanian';
+  String selectedPlaceOfBirth = 'insideJordan';
+  TextEditingController newbornNationalNumberController = TextEditingController();
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
@@ -78,7 +81,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
           ? HexColor('#445740') : HexColor('#ffffff'),
       appBar: AppBar(
         centerTitle: false,
-        title: Text(getTranslated('deceasedRetirementApplication', context)),
+        title: Text(getTranslated('maternityAllowanceApplication', context)),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
@@ -431,8 +434,18 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 ),
               ],
             ),
-            const SizedBox(height: 20.0,),
-
+            const SizedBox(height: 10.0,),
+            buildFieldTitle(context, 'newbornNationality', required: false),
+            const SizedBox(height: 10.0,),
+            customTwoRadioButtons(1, 'jordanian', 'nonJordanian', setState),
+            const SizedBox(height: 15.0,),
+            buildFieldTitle(context, 'placeOfBirth', required: false),
+            const SizedBox(height: 10.0,),
+            customTwoRadioButtons(2, 'insideJordan', 'outsideJordan', setState),
+            const SizedBox(height: 15.0,),
+            buildFieldTitle(context, 'newbornNationalNumber', required: false),
+            const SizedBox(height: 10.0,),
+            buildTextFormField(context, themeNotifier, newbornNationalNumberController, '9999999999', (value){}),
             const SizedBox(height: 15.0,),
           ],
         ),
@@ -565,6 +578,94 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
           ],
         ),
       ),
+    );
+  }
+
+  Widget customTwoRadioButtons(int flag, String firstChoice, String secondChoice, setState){
+    return Row(
+      children: [
+        InkWell(
+          onTap: (){
+            setState(() {
+              if(flag == 1){
+                selectedNewbornNationality = firstChoice;
+              }else if(flag == 2){
+                selectedPlaceOfBirth = firstChoice;
+              }
+            });
+          },
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(500.0),
+                  border: Border.all(
+                    color: HexColor('#2D452E'),
+                  ),
+                ),
+                padding: const EdgeInsets.all(2.0),
+                child: CircleAvatar(
+                  radius: isTablet(context) ? 10 : 5,
+                  backgroundColor: (flag == 1 && selectedNewbornNationality == firstChoice) || (flag == 2 && selectedPlaceOfBirth == firstChoice)
+                      ? HexColor('#2D452E')
+                      : Colors.transparent,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  getTranslated(firstChoice, context),
+                  style: TextStyle(
+                    color: HexColor('#666666'),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 10.0,),
+        InkWell(
+          onTap: (){
+            setState(() {
+              if(flag == 1){
+                selectedNewbornNationality = secondChoice;
+              }else if(flag == 2){
+                selectedPlaceOfBirth = secondChoice;
+              }
+            });
+          },
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(500.0),
+                  border: Border.all(
+                    color: HexColor('#2D452E'),
+                  ),
+                ),
+                padding: const EdgeInsets.all(2.0),
+                child: CircleAvatar(
+                  radius: isTablet(context) ? 10 : 5,
+                  backgroundColor: (flag == 1 && selectedNewbornNationality == secondChoice) || (flag == 2 && selectedPlaceOfBirth == secondChoice)
+                      ? HexColor('#2D452E')
+                      : Colors.transparent,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  getTranslated(secondChoice, context),
+                  style: TextStyle(
+                    color: HexColor('#666666'),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
