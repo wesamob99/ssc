@@ -296,7 +296,8 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                           ((widget.serviceTitle == 'applicationForPensionersLoan') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// Application for pensioners loan - طلب سلفة تقاعد
                                           ((widget.serviceTitle == 'applicationOfReschedulePensionersLoan') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// Application of reschedule pensioners loan - إعادة جدولة سلف المتقاعدين
                                           ((widget.serviceTitle == 'issuingRetirementDecision') && value['PO_STATUS'] == 0) || /// Issuing a retirement decision - تبليغ قرار التقاعد
-                                          ((widget.serviceTitle == 'maternityAllowanceApplication') && value['P_Message'][0][0]['PO_STATUS'] == 0) /// Maternity allowance application - طلب بدل امومة
+                                          ((widget.serviceTitle == 'maternityAllowanceApplication') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// Maternity allowance application - طلب بدل امومة
+                                          ((widget.serviceTitle == 'oneTimeCompensationRequest') && value['P_Message'][0][0]['PO_STATUS'] == 0) /// One-time compensation request - طلب  تعويض الدفعة الواحده
                                         )
                                       ){
                                         servicesProvider.result = value;
