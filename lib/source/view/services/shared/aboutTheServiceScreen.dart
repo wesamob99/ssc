@@ -321,7 +321,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                           errorMessage = UserConfig.instance.isLanguageEnglish()
                                               ? value["PO_status_desc_EN"] : value["PO_status_desc_AR"];
                                           showMyDialog(context, 'failed', errorMessage ?? getTranslated('thereAreNoData', context), 'ok', themeNotifier);
-                                        } else if((widget.serviceTitle == 'maternityAllowanceApplication')){
+                                        } else if((widget.serviceTitle == 'maternityAllowanceApplication') || (widget.serviceTitle == 'oneTimeCompensationRequest')){
                                           errorMessage = UserConfig.instance.isLanguageEnglish()
                                               ? value['P_Message'][0][0]["PO_STATUS_DESC_EN"] : value['P_Message'][0][0]["PO_STATUS_DESC_AR"];
                                           showMyDialog(context, 'failed', errorMessage ?? getTranslated('thereAreNoData', context), 'ok', themeNotifier);
