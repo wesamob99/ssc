@@ -98,9 +98,9 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
                                     ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
                                 showMyDialog(context, 'failedToChangeYourResidentialAddress', message, 'retryAgain', themeNotifier);
                               }
+                              accountSettingsProvider.isLoading = false;
+                              accountSettingsProvider.notifyMe();
                             });
-                            accountSettingsProvider.isLoading = false;
-                            accountSettingsProvider.notifyMe();
                           }catch(e){
                             accountSettingsProvider.isLoading = false;
                             accountSettingsProvider.notifyMe();
@@ -209,6 +209,5 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
       ),
     );
   }
-
 
 }
