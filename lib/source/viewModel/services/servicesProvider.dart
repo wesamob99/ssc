@@ -80,7 +80,13 @@ class ServicesProvider extends ChangeNotifier {
   }
 
   Future getInsuredInformationReport(value) async{
-    return await servicesRepository.getInsuredInformationReportService(value);
+    await servicesRepository.getInsuredInformationReportService(value).then((value) async {
+      await downloadAndOpenPDF(value, 'تبليغ قرار التقاعد').whenComplete(() {
+        if (kDebugMode) {
+          print('completed');
+        }
+      });
+    });
   }
 
   Future getActivePayment(String serviceType, String nat) async{
@@ -209,7 +215,6 @@ class ServicesProvider extends ChangeNotifier {
         }
       });
     });
-
     return res;
   }
 

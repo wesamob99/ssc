@@ -66,15 +66,16 @@ class ServicesRepository{
       "formObj": jsonEncode(value["cur_getdata"][0][0]),
       "periods": jsonEncode(value["cur_getdata2"][0]),
       "salaries": jsonEncode(value["cur_getdata3"][0]),
+      "data": jsonEncode(value),
     };
     var response = await HTTPClientContract.instance.postHTTP(
         '/individuals/InsuredInformationReport', data
     );
     if (kDebugMode) {
-      print(response);
+      print(response.data);
     }
     if (response != null && response.statusCode == 200) {
-      return response;
+      return response.data;
     }
     return '';
   }
