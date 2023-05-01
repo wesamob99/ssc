@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -57,17 +58,12 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
   bool termsChecked = false;
   int dependentIndex = 0;
   List docs = [];
+  SelectedListItem reasonForRequestingCompensation = SelectedListItem(name: '', natCode: null, flag: '');
+  List<SelectedListItem> listOfReasonsForRequestingCompensation = [];
 
   Map selectedActivePayment;
   List activePayment = [];
-  TextEditingController nationalIdController = TextEditingController();
-  TextEditingController deceasedNationalIdController = TextEditingController();
-  TextEditingController quatrainNounController = TextEditingController();
-  TextEditingController dependentMobileNumberController = TextEditingController();
-
-  TextEditingController guardianNationalNumberController = TextEditingController();
-  TextEditingController guardianSecondFieldController = TextEditingController(); // if the guardian is jordanian => the controller is for (guardian card number) else => the controller is for the (guardian name)
-  TextEditingController ageController = TextEditingController();
+  TextEditingController clearanceSerialNumber = TextEditingController();
 
   ///
 
@@ -91,10 +87,26 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
       if(servicesProvider.isMobileNumberUpdated){
         return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
       } else{
+        return (reasonForRequestingCompensation.name != '' &&
+            (
+                (
+                    servicesProvider.result['p_per_info'][0][0]['CLEARANCE_FLAG'] == 2 &&
+                    clearanceSerialNumber.text.isNotEmpty && clearanceSerialNumber.text.length <= 11) ||
+                (servicesProvider.result['p_per_info'][0][0]['CLEARANCE_FLAG'] == 1)
+            )
+        );
+      }
+    } else if(flag == 4){
+      if(servicesProvider.selectedActivePayment['ID'] == 5){
+        return servicesProvider.bankNameController.text.isNotEmpty &&
+            servicesProvider.bankBranchController.text.isNotEmpty &&
+            servicesProvider.bankAddressController.text.isNotEmpty &&
+            servicesProvider.accountNoController.text.isNotEmpty &&
+            servicesProvider.swiftCodeController.text.isNotEmpty &&
+            servicesProvider.paymentMobileNumberController.text.isNotEmpty;
+      } else{
         return true;
       }
-    } else if(flag == 3){
-      return true;
     } else if(flag == 5){
       return termsChecked;
     }
@@ -120,12 +132,18 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
       "optional": [],
     };
     ///
-    servicesProvider.penDeathLookup().whenComplete(() {}).then((value) {
-      value['Relative_type_getdata'][0].forEach((element){
-        if(!relationshipTypes.contains(UserConfig.instance.isLanguageEnglish() ? element['REL_DESC_EN'] : element['REL_DESC_AR'])){
-          relationshipTypes.add(UserConfig.instance.isLanguageEnglish() ? element['REL_DESC_EN'] : element['REL_DESC_AR']);
-        }
+    servicesProvider.activePayment = [];
+    servicesProvider.getActivePayment("2", servicesProvider.result['p_per_info'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
+      value['R_RESULT'][0].forEach((element){
+        servicesProvider.activePayment.add(element);
       });
+      servicesProvider.selectedActivePayment = servicesProvider.activePayment[0];
+    });
+    listOfReasonsForRequestingCompensation = [];
+    servicesProvider.getOnePaymentReason().whenComplete(() {}).then((value) {
+      for(int i=0 ; i<value.length ; i++){
+        listOfReasonsForRequestingCompensation.add(SelectedListItem(name: '${value[i]['DES']}', natCode: null, flag: '${value[i]['COD']}'));
+      }
     });
     servicesProvider.isNationalIdValid = false;
     selectedListItem = [];
@@ -141,11 +159,17 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
         ),
       );
     }
+    servicesProvider.selectedPaymentCountry = SelectedListItem(
+      name: UserConfig.instance.isLanguageEnglish() ? "Palestine" : "فلسطين",
+      value: "970", natCode: 188,
+      flag: countries.where((element) => element.dialCode == "970").first.flag,
+    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(reasonForRequestingCompensation.flag);
     return Scaffold(
       backgroundColor: (servicesProvider.documentsScreensStepNumber == 1 || servicesProvider.documentsScreensStepNumber == 3) && servicesProvider.stepNumber == 3
           ? HexColor('#445740') : HexColor('#ffffff'),
@@ -194,26 +218,14 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
                 switch(servicesProvider.stepNumber){
                   case 1: Navigator.of(context).pop(); break;
                   case 2: servicesProvider.stepNumber = 1; break;
-                  case 3:
+                  case 4:
                     {
-                      if(dependentIndex > 0){
-                        dependentIndex--;
-                        dependentMobileNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['MOBILE'].toString() ?? '';
-                        selectedInheritorMobileCountry = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['INTERNATIONAL_CODE'] ?? 962;
-                        guardianshipNationality = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAT'] == 1 ? 'jordanian' : 'nonJordanian') ?? "jordanian";
-                        guardianNationalNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNATNO'] ?? "";
-                        guardianSecondFieldController.text = (guardianshipNationality == 'jordanian'
-                            ? servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANCARDNO']
-                            : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAME']
-                        ) ?? "";
-                      } else{
-                        servicesProvider.stepNumber = 2;
-                      }
+                      servicesProvider.stepNumber = 3;
+                      servicesProvider.documentsScreensStepNumber = 5;
                     } break;
                   case 5:
                     {
                       servicesProvider.stepNumber = 4;
-                      servicesProvider.documentsScreensStepNumber = 5;
                     }
                     break;
                 }
@@ -252,80 +264,83 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
                       if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
                         secondStep(context, themeNotifier),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                        const DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 5, data: {
-                          "PAYMENT_METHOD": 3,
-                          "BANK_LOCATION": 1,
-                          "BRANCH_ID": 1002,
-                          "BRANCH_NAME": "",
-                          "BANK_ID": 1000,
-                          "BANK_NAME": "",
-                          "ACCOUNT_NAME": "",
-                          "PAYMENT_COUNTRY": "",
-                          "PAYMENT_COUNTRY_CODE": "",
-                          "PAYMENT_PHONE": "",
+                        DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 5, data: {
+                          'PAYMENT_METHOD': "",
+                          'BANK_LOCATION': "",
+                          'BRANCH_ID': '',
+                          'BRANCH_NAME': '',
+                          'BANK_ID': '',
+                          'BANK_NAME': '',
+                          'ACCOUNT_NAME': '',
+                          'PAYMENT_COUNTRY': '',
+                          'PAYMENT_COUNTRY_CODE': '',
+                          'PAYMENT_PHONE': '',
+                          'SWIFT_CODE': '',
+                          'BANK_DETAILS': '',
+                          'IBAN': '',
+                          'CASH_BANK_ID': '',
+                          // معلومات الوكيل (REP)
+                          'REP_NATIONALITY': '',
+                          'REP_NATIONAL_NO': '',
+                          'REP_NAME': '',
+                          // معلومات المحفظه (WALLET)
+                          'WALLET_TYPE': '',
+                          'WALLET_OTP_VERIVIED': null,
+                          'WALLET_OTP': null,
+                          'WALLET_PHONE': '',
+                          'WALLET_PHONE_VERIVIED': '',
+                          'WALLET_PASSPORT_NUMBER': '',
+                          'PEN_IBAN': null,
                           "IFSC": "",
-                          "SWIFT_CODE": "",
-                          "BANK_DETAILS": "",
-                          "IBAN": null,
-                          "CASH_BANK_ID": "",
-                          "REP_NATIONALITY": "",
-                          "REP_NATIONAL_NO": "",
-                          "REP_NAME": "",
-                          "WALLET_TYPE": "",
-                          "WALLET_OTP_VERIVIED": null,
-                          "WALLET_OTP": null,
-                          "WALLET_PHONE": "",
-                          "WALLET_PHONE_VERIVIED": "",
-                          "WALLET_PASSPORT_NUMBER": "",
-                          "PEN_IBAN": null,
-                          "SECNO": 9762053076,
-                          "NAT_DESC": "الاردن",
-                          "NAT": 111,
-                          "NAT_NO": 9762053076,
-                          "PERS_NO": null,
-                          "LAST_EST_NAME": "شركةالأزياء التقليديه لصناعة الألبسه ذ.م.م",
-                          "NAME1": "عنده",
-                          "NAME2": "عناد",
-                          "NAME3": "ذياب",
-                          "NAME4": "الدياب",
-                          "FULL_NAME_EN": "",
-                          "EMAIL": null,
-                          "MOBILE": 789992354,
-                          "INTERNATIONAL_CODE": 962,
-                          "INSURED_ADDRESS": "s",
+                          /// *****************************
+                          "SECNO": servicesProvider.result['p_per_info'][0][0]['SECNO'],
+                          "NAT_DESC": servicesProvider.result['p_per_info'][0][0]['NAT_DESC'],
+                          "NAT": int.tryParse(servicesProvider.result['p_per_info'][0][0]['NAT'].toString()),
+                          "NAT_NO": servicesProvider.result['p_per_info'][0][0]['NAT_NO'],
+                          "PERS_NO": servicesProvider.result['p_per_info'][0][0]['PERS_NO'],
+                          "LAST_EST_NAME": null,
+                          "NAME1": servicesProvider.result['p_per_info'][0][0]['NAME1'],
+                          "NAME2": servicesProvider.result['p_per_info'][0][0]['NAME2'],
+                          "NAME3": servicesProvider.result['p_per_info'][0][0]['NAME3'],
+                          "NAME4": servicesProvider.result['p_per_info'][0][0]['NAME4'],
+                          "FULL_NAME_EN": servicesProvider.result['p_per_info'][0][0]['FULL_NAME_EN'],
+                          "EMAIL": servicesProvider.result['p_per_info'][0][0]['EMAIL'],
+                          "MOBILE": servicesProvider.result['p_per_info'][0][0]['MOBILE'],
+                          "INTERNATIONAL_CODE": servicesProvider.result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
+                          "INSURED_ADDRESS": "",
                           "MARITAL_STATUS": null,
                           "REGDATE": null,
                           "REGRATE": null,
                           "LAST_SALARY": null,
-                          "LAST_STODATE": "01/01/2022",
-                          "GENDER": "2",
+                          "LAST_STODATE": null,
+                          "GENDER": servicesProvider.result['p_per_info'][0][0]['GENDER'],
                           "PEN_START_DATE": null,
                           "DETAILED_ADDRESS": null,
                           "PASS_NO": null,
                           "RESIDENCY_NO": null,
-                          "DOB": "22/08/1976",
+                          "DOB": servicesProvider.result['p_per_info'][0][0]['DOB'],
                           "JOB_NO": null,
                           "JOB_DESC": null,
                           "ENAME1": null,
                           "ENAME2": null,
                           "ENAME3": null,
                           "ENAME4": null,
-                          "LAST_EST_NO": 1621500,
+                          "LAST_EST_NO": null,
                           "FAM_NO": null,
                           "nextVaild": null,
                           "wantAddFamily": null,
-                          "GENDER_DESC": "غير معرف",
+                          "GENDER_DESC": servicesProvider.result['p_per_info'][0][0]['GENDER_DESC'],
                           "PI_EPAY": null,
                           "INSURED": null,
-                          "COMPENSATION_REASON": 5,
-                          "CLEARANCE_NO": null,
-                          "OFFNO": 60,
-                          "CLEARANCE_FLAG": 1,
+                          "ID": null,
+                          "DEP_FLAG": 0,
+                          "OFFNO": servicesProvider.result['p_per_info'][0][0]['OFFNO'],
+                          "COMPENSATION_REASON": reasonForRequestingCompensation.flag,
+                          "CLEARANCE_NO": clearanceSerialNumber.text,
+                          "CLEARANCE_FLAG": servicesProvider.result['p_per_info'][0][0]['CLEARANCE_FLAG'],
                           "IS_ARMY": 0,
                           "Marriage_contract": 0,
-                          "ID": null,
-                          "DEP_FLAG": 0
-                        }, serviceType: 11, dependents: [], relations: [], nextStepNumber: 4,),
+                        }, serviceType: 2, dependents: [], relations: [], nextStepNumber: 4,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 4)
                         const PaymentScreen(numberOfSteps: 5, nextStep: 'confirmRequest', stepText: 'forthStep', stepNumber: 4,),
                       if(!(Provider.of<ServicesProvider>(context).stepNumber == 3))
@@ -433,21 +448,21 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
                               } break;
                               case 3: {
                                 if(checkContinueEnabled(flag: 3)){
-                                  servicesProvider.documentsScreensStepNumber = 1;
-                                  if(dependentIndex < ((servicesProvider.deadPersonInfo['cur_getdata2'].length != 0  && servicesProvider.deadPersonInfo['cur_getdata2'][0].length != 0) ? servicesProvider.deadPersonInfo['cur_getdata2'][0].length - 1 : 0)){
-                                    dependentIndex++;
-                                    dependentMobileNumberController.text = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['MOBILE'] ?? '').toString() ?? '';
-                                    selectedInheritorMobileCountry = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['INTERNATIONAL_CODE'] ?? 962;
-                                    guardianNationalNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNATNO'] ?? "";
-                                    guardianshipNationality = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAT'] == 1 ? 'jordanian' : 'nonJordanian') ?? "jordanian";
-                                    guardianSecondFieldController.text = (guardianshipNationality == 'jordanian'
-                                        ? servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANCARDNO']
-                                        : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAME']
-                                    ) ?? "";
-                                  }else {
-                                    servicesProvider.notifyMe();
-                                    servicesProvider.stepNumber = 4;
-                                  }
+                                  // servicesProvider.documentsScreensStepNumber = 1;
+                                  // if(dependentIndex < ((servicesProvider.deadPersonInfo['cur_getdata2'].length != 0  && servicesProvider.deadPersonInfo['cur_getdata2'][0].length != 0) ? servicesProvider.deadPersonInfo['cur_getdata2'][0].length - 1 : 0)){
+                                  //   dependentIndex++;
+                                  //   dependentMobileNumberController.text = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['MOBILE'] ?? '').toString() ?? '';
+                                  //   selectedInheritorMobileCountry = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['INTERNATIONAL_CODE'] ?? 962;
+                                  //   guardianNationalNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNATNO'] ?? "";
+                                  //   guardianshipNationality = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAT'] == 1 ? 'jordanian' : 'nonJordanian') ?? "jordanian";
+                                  //   guardianSecondFieldController.text = (guardianshipNationality == 'jordanian'
+                                  //       ? servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANCARDNO']
+                                  //       : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAME']
+                                  //   ) ?? "";
+                                  // }else {
+                                  //   servicesProvider.notifyMe();
+                                  //   servicesProvider.stepNumber = 4;
+                                  // }
                                 }
                               } break;
                               case 5: {
@@ -641,7 +656,21 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
               ],
             ),
             const SizedBox(height: 20.0,),
-
+            buildFieldTitle(context, 'reasonForRequestingCompensation', required: false),
+            const SizedBox(height: 10.0,),
+            buildDropDown(context, listOfReasonsForRequestingCompensation),
+            if(servicesProvider.result['p_per_info'][0][0]['CLEARANCE_FLAG'] == 2)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20.0,),
+                buildFieldTitle(context, 'clearanceSerialNumber', required: false),
+                const SizedBox(height: 10.0,),
+                buildTextFormField(context, themeNotifier, clearanceSerialNumber, '', (value){
+                  servicesProvider.notifyMe();
+                }),
+              ],
+            )
           ],
         ),
       ),
@@ -806,6 +835,80 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
             ],
           );
         }
+    );
+  }
+
+  Widget buildDropDown(context, List listOfItems) {
+    return InkWell(
+      onTap: () {
+        DropDownState(
+          DropDown(
+            isSearchVisible: true,
+            data: listOfItems ?? [],
+            selectedItems: (List selectedList) async {
+              for (var item in selectedList) {
+                setState((){
+                  reasonForRequestingCompensation = item;
+                });
+                String errorMessage = '';
+                servicesProvider.isLoading = true;
+                servicesProvider.notifyMe();
+                try{
+                  await servicesProvider.getOnePaymentReasonValidate(reasonForRequestingCompensation.flag).whenComplete(() {}).then((val) {
+                    if(val['PO_status'] == 0){
+
+                    }else{
+                      reasonForRequestingCompensation = SelectedListItem(name: '', natCode: null, flag: '');
+                      errorMessage = UserConfig.instance.isLanguageEnglish()
+                          ? val["PO_status_desc_EN"] : val["PO_status_desc_AR"];
+                      showMyDialog(context, 'failed', errorMessage, 'retryAgain', themeNotifier);
+                    }
+                  });
+                  servicesProvider.isLoading = false;
+                  servicesProvider.notifyMe();
+                }catch(e){
+                  servicesProvider.isLoading = false;
+                  servicesProvider.notifyMe();
+                  if (kDebugMode) {
+                    print(e.toString());
+                  }
+                }
+              }
+            },
+            enableMultipleSelection: false,
+          ),
+        ).showModal(context);
+      },
+      child: Container(
+          alignment: UserConfig.instance.isLanguageEnglish()
+              ? Alignment.centerLeft
+              : Alignment.centerRight,
+          padding: const EdgeInsets.symmetric(
+              horizontal: 16.0, vertical: 9.3),
+          decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(
+                  color: HexColor('#979797')
+              )
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                reasonForRequestingCompensation.name,
+                style: TextStyle(
+                    color: HexColor('#363636'),
+                    fontSize: 15
+                ),
+              ),
+              Icon(
+                Icons.arrow_drop_down_outlined,
+                color: HexColor('#363636'),
+              )
+            ],
+          )
+      ),
     );
   }
 
