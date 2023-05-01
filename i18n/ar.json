@@ -521,5 +521,7 @@
   "deductions": "الاقتطاعات",
   "salariesAndBonuses": "الرواتب والعلاوات",
   "totalSubscriptions": "مجموع الإشتراكات",
-  "theNumberOfCompaniesYouHaveWorkedFor": "عدد الشركات التي عملت بها"
+  "theNumberOfCompaniesYouHaveWorkedFor": "عدد الشركات التي عملت بها",
+  "reasonForRequestingCompensation": "سبب طلب التعويض",
+  "clearanceSerialNumber": "الرقم التسلسلي لبراءة الذمة"
 }

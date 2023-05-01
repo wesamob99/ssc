@@ -512,6 +512,7 @@
   "deductions": "Deductions",
   "salariesAndBonuses": "Salaries and bonuses",
   "totalSubscriptions": "Total subscriptions",
-  "theNumberOfCompaniesYouHaveWorkedFor": "The number of companies you have worked for"
-
+  "theNumberOfCompaniesYouHaveWorkedFor": "The number of companies you have worked for",
+  "reasonForRequestingCompensation": "Reason for requesting compensation",
+  "clearanceSerialNumber": "Clearance serial number"
 }
