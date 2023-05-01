@@ -523,5 +523,11 @@
   "totalSubscriptions": "مجموع الإشتراكات",
   "theNumberOfCompaniesYouHaveWorkedFor": "عدد الشركات التي عملت بها",
   "reasonForRequestingCompensation": "سبب طلب التعويض",
-  "clearanceSerialNumber": "الرقم التسلسلي لبراءة الذمة"
+  "clearanceSerialNumber": "الرقم التسلسلي لبراءة الذمة",
+  "oneTimeRefundInquiry": "استفسار اعادة تعويض الدفعه الواحده",
+  "addNewRequest": "إضافة طلب جديد",
+  "paidOff": "تم الصرف",
+  "exchangeDate": "تاريخ الصرف",
+  "totalAmount": "المبلغ الإجمالي",
+  "returnMoney": "إعاده المبلغ"
 }

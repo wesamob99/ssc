@@ -514,5 +514,11 @@
   "totalSubscriptions": "Total subscriptions",
   "theNumberOfCompaniesYouHaveWorkedFor": "The number of companies you have worked for",
   "reasonForRequestingCompensation": "Reason for requesting compensation",
-  "clearanceSerialNumber": "Clearance serial number"
+  "clearanceSerialNumber": "Clearance serial number",
+  "oneTimeRefundInquiry": "One-time refund inquiry",
+  "addNewRequest": "Add a new request",
+  "paidOff": "Paid off",
+  "exchangeDate": "Exchange date",
+  "totalAmount": "Total amount",
+  "returnMoney": "Return money"
 }
