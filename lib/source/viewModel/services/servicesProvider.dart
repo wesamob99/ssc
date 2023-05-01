@@ -234,6 +234,18 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.sendDecOtpService(result['V_ID'].toString());
   }
 
+  Future getOnePaymentReason() async{
+    return await servicesRepository.getOnePaymentReasonService();
+  }
+
+  Future getOnePaymentReasonValidate(reasonType) async{
+    return await servicesRepository.getOnePaymentReasonValidateService(reasonType);
+  }
+
+  Future getOneTimeRefundInquiry() async{
+    return await servicesRepository.getOneTimeRefundInquiryService();
+  }
+
   Future submitIssuingRetirementDecision(int pCode, int pActionTaken, String pActionJustify) async{
     return await servicesRepository.submitIssuingRetirementDecisionService(result['V_ID'], pCode, pActionTaken, pActionJustify);
   }

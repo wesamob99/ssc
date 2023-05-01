@@ -37,7 +37,6 @@ class ServicesRepository{
   }
 
   Future getPensionSalaryDetailsService(String month, String year, int pType) async {
-    print('/individuals/pensionSalaryDetails?month=$month&year=$year&P_TYPE=$pType');
     var response = await HTTPClientContract.instance.getHTTP('/individuals/pensionSalaryDetails?month=$month&year=$year&P_TYPE=$pType');
     if (kDebugMode) {
       print(response);
@@ -978,4 +977,45 @@ class ServicesRepository{
   }
 
 /// **************************************************************ISSUING RETIREMENT DECISION  - END************************************************************
+
+/// **************************************************************ONE-TIME COMPENSATION REQUEST  - START********************************************************
+
+  Future getOnePaymentReasonService() async {
+    var response = await HTTPClientContract.instance.getHTTP('/website/get_onePayment_reason');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return null;
+  }
+
+  Future getOnePaymentReasonValidateService(reasonType) async {
+    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+    String internalKey = userSecuredStorage.insuranceNumber.toString();
+    var response = await HTTPClientContract.instance.getHTTP('/website/ols_validate?PI_RES_TYPE=$reasonType&SECNO=$internalKey');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return null;
+  }
+
+  Future getOneTimeRefundInquiryService() async {
+    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+    String internalKey = userSecuredStorage.insuranceNumber.toString();
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/lamp_sum_pensionSP?pi_secno=$internalKey');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return null;
+  }
 }
+/// **************************************************************ONE-TIME COMPENSATION REQUEST  - END**********************************************************
+
