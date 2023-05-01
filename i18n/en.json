@@ -510,6 +510,8 @@
   "submitIssuingApplicationDesc": "The private retirement decision will be re-issued within 10-15 days. You can check the decision through other services",
   "total": "Total",
   "deductions": "Deductions",
-  "salariesAndBonuses": "Salaries and bonuses"
+  "salariesAndBonuses": "Salaries and bonuses",
+  "totalSubscriptions": "Total subscriptions",
+  "theNumberOfCompaniesYouHaveWorkedFor": "The number of companies you have worked for"
 
 }

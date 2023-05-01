@@ -519,5 +519,7 @@
   "submitIssuingApplicationDesc": "سيتم إعاده اصدار قرار التقاعد الخاص خلال 10-15 يوم\u2028يمكنك التحقق من الاقرار من خلال خدمات اخرى",
   "total": "المجموع",
   "deductions": "الاقتطاعات",
-  "salariesAndBonuses": "الرواتب والعلاوات"
+  "salariesAndBonuses": "الرواتب والعلاوات",
+  "totalSubscriptions": "مجموع الإشتراكات",
+  "theNumberOfCompaniesYouHaveWorkedFor": "عدد الشركات التي عملت بها"
 }
