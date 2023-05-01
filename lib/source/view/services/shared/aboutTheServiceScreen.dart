@@ -219,7 +219,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                       padding: const EdgeInsets.all(10.0),
                       color: const Color.fromRGBO(250, 250, 250, 1.0),
                       alignment: Alignment.center,
-                      width: width(1, context),
+                      width: width(1, context) - 32.0,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.center,
