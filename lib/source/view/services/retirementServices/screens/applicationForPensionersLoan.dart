@@ -91,6 +91,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
       "mandatory": [],
       "optional": [],
     };
+    servicesProvider.selectedInsideOutsideJordan = 'insideJordan';
     servicesProvider.activePayment = [];
     servicesProvider.getActivePayment("${widget.serviceType}", servicesProvider.result['p_per_info'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
       value['R_RESULT'][0].forEach((element){
