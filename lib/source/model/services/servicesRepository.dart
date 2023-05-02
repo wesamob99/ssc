@@ -10,12 +10,13 @@ import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import '../../../infrastructure/HTTPClientContract.dart';
 import '../../../models/services/pensionPaymentModel.dart';
 
-class ServicesRepository{
+class ServicesRepository {
 
   Future getAccountDataService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/GET_INDIVIDUALUSERINFOSP?PIINSURANCENO=$internalKey');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/GET_INDIVIDUALUSERINFOSP?PIINSURANCENO=$internalKey');
     if (kDebugMode) {
       print(response);
     }
@@ -26,7 +27,8 @@ class ServicesRepository{
   }
 
   Future getDecExistence() async {
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/dec_existence');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/dec_existence');
     if (kDebugMode) {
       print(response);
     }
@@ -36,8 +38,10 @@ class ServicesRepository{
     return null;
   }
 
-  Future getPensionSalaryDetailsService(String month, String year, int pType) async {
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/pensionSalaryDetails?month=$month&year=$year&P_TYPE=$pType');
+  Future getPensionSalaryDetailsService(String month, String year,
+      int pType) async {
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/pensionSalaryDetails?month=$month&year=$year&P_TYPE=$pType');
     if (kDebugMode) {
       print(response);
     }
@@ -50,7 +54,8 @@ class ServicesRepository{
   Future getInquiryInsuredInformationService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/inquiryInsuredInformation?sceNo=$internalKey');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/inquiryInsuredInformation?sceNo=$internalKey');
     if (kDebugMode) {
       print(response);
     }
@@ -80,7 +85,8 @@ class ServicesRepository{
   }
 
   Future getActivePaymentService(String serviceType, String nat) async {
-    var response = await HTTPClientContract.instance.getHTTP('/website/getActivePayment?p_service_type=$serviceType&NAT=$nat');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/website/getActivePayment?p_service_type=$serviceType&NAT=$nat');
     if (kDebugMode) {
       print(response);
     }
@@ -92,7 +98,7 @@ class ServicesRepository{
 
   Future getRequiredDocumentsService(result, serviceNo) async {
     var data = {
-      "params":{
+      "params": {
         "Data": result,
         "SERVICE_NO": serviceNo
       }
@@ -114,7 +120,8 @@ class ServicesRepository{
 
   Future saveFileService(file) async {
     var formData = FormData();
-    formData.files.add(MapEntry("Excel", await MultipartFile.fromFile(file.path)));
+    formData.files.add(
+        MapEntry("Excel", await MultipartFile.fromFile(file.path)));
 
     var response = await HTTPClientContract.instance.postHTTP(
         '/ftp/saveFile?fileName=&folderName=24', formData
@@ -132,7 +139,8 @@ class ServicesRepository{
   Future optionalSubGetDetailService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/OptionalSub_GetDetail_new?PI_user_name=$internalKey');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/OptionalSub_GetDetail_new?PI_user_name=$internalKey');
     if (kDebugMode) {
       print(response);
     }
@@ -143,7 +151,10 @@ class ServicesRepository{
   }
 
   /// if (isFirstOptionalSub == [0] or [2]) -> send membership request will call this service
-  Future optionalSubInsertNewService(result, int firstOptionalSub,double monthlyPay, double appliedSalary ,int submissionType, int selectedNumberOfIncrements, int selectedMaxPerForInc, String percentDecreaseVal, String selectedMonth) async {
+  Future optionalSubInsertNewService(result, int firstOptionalSub,
+      double monthlyPay, double appliedSalary, int submissionType,
+      int selectedNumberOfIncrements, int selectedMaxPerForInc,
+      String percentDecreaseVal, String selectedMonth) async {
     var data = {
       "SECNO": result['SECNO'],
       "NAME1": result['NAME1'],
@@ -174,7 +185,8 @@ class ServicesRepository{
       "SELECTED_NOOFINCREMENTS": selectedNumberOfIncrements,
       "SELECTED_MAX_PER_OF_INC": selectedMaxPerForInc,
       "APPLIED_SALARY": firstOptionalSub == 2 ? 0 : appliedSalary,
-      "PERCENT_DECREASEVAL": percentDecreaseVal != 'null' ? double.parse(percentDecreaseVal) : null,
+      "PERCENT_DECREASEVAL": percentDecreaseVal != 'null' ? double.parse(
+          percentDecreaseVal) : null,
       "HASBENEFITOFDEC": result['HASBENEFITOFDEC'],
       "HASBENEFITOFINC": result['HASBENEFITOFINC'],
       "MINIMUMSALARYFORDEC": result['MINIMUMSALARYFORDEC'],
@@ -198,7 +210,8 @@ class ServicesRepository{
   }
 
   /// if (isFirstOptionalSub == [1]) -> send membership request will call this service
-  Future optionalSubFirstInsertNewService(result, double monthlyPay, double salaryRequest ,int submissionType) async {
+  Future optionalSubFirstInsertNewService(result, double monthlyPay,
+      double salaryRequest, int submissionType) async {
     var data = {
       "SECNO": result['SECNO'],
       "NAME1": result['NAME1'],
@@ -256,7 +269,8 @@ class ServicesRepository{
   Future optionalSubIncGetDetailNewService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/OptionalSub_Inc_GetDetail_new?secno=$internalKey');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/OptionalSub_Inc_GetDetail_new?secno=$internalKey');
     if (kDebugMode) {
       print(response);
     }
@@ -266,9 +280,14 @@ class ServicesRepository{
     return null;
   }
 
-  Future submitOptionSubIncrementService(int selectedRate, double newSalary) async {
+  Future submitOptionSubIncrementService(int selectedRate,
+      double newSalary) async {
     var response = await HTTPClientContract.instance.postHTTP(
-        '/individuals/SubmitOptionSubIncrement', {"SELECTED_MAX_PER_OF_INC":selectedRate,"BRANCH":60,"SALARYAFTER":newSalary}
+        '/individuals/SubmitOptionSubIncrement', {
+      "SELECTED_MAX_PER_OF_INC": selectedRate,
+      "BRANCH": 60,
+      "SALARYAFTER": newSalary
+    }
     );
     if (kDebugMode) {
       print(response);
@@ -278,15 +297,23 @@ class ServicesRepository{
     }
     return '';
   }
-/// **************************************************************MEMBERSHIP - END******************************************************************************
 
-/// **************************************************************UPDATE USER MOBILE NUMBER - START*************************************************************
+  /// **************************************************************MEMBERSHIP - END******************************************************************************
+
+  /// **************************************************************UPDATE USER MOBILE NUMBER - START*************************************************************
   Future updateUserMobileNumberSendOTPService(String newNumber) async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-    int internationalCode = int.tryParse(userSecuredStorage.internationalCode.toString());
+    int internationalCode = int.tryParse(
+        userSecuredStorage.internationalCode.toString());
     String nationalId = userSecuredStorage.nationalId.toString();
     var response = await HTTPClientContract.instance.postHTTP(
-        '/individuals/UPD_USER_PROFILE_INDV_SENDOTP', {"params":{"PI_USERNAME":nationalId,"PI_INTERNATIONALCODE":internationalCode,"PI_MOBILENO":newNumber}}
+        '/individuals/UPD_USER_PROFILE_INDV_SENDOTP', {
+      "params": {
+        "PI_USERNAME": nationalId,
+        "PI_INTERNATIONALCODE": internationalCode,
+        "PI_MOBILENO": newNumber
+      }
+    }
     );
     if (kDebugMode) {
       print(response);
@@ -301,7 +328,8 @@ class ServicesRepository{
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String nationalId = userSecuredStorage.nationalId.toString();
     var response = await HTTPClientContract.instance.postHTTP(
-        '/individuals/UPD_USER_PROFILE_INDV_CHECKOTP', {"params":{"PI_OTP":code,"PI_USER_NAME":nationalId}}
+        '/individuals/UPD_USER_PROFILE_INDV_CHECKOTP',
+        {"params": {"PI_OTP": code, "PI_USER_NAME": nationalId}}
     );
     if (kDebugMode) {
       print(response);
@@ -330,13 +358,14 @@ class ServicesRepository{
     return '';
   }
 
-  Future updateUserEmailCheckOTPService(String email, int code, int firstTime) async {
+  Future updateUserEmailCheckOTPService(String email, int code,
+      int firstTime) async {
     var response = await HTTPClientContract.instance.postHTTP(
         '/mobile/email-code-verify',
         {
-          "email": email,// string // user email
+          "email": email, // string // user email
           "code": code, // number // OTP code
-          "reset": firstTime// number // 0 -> first time, 1-> reset
+          "reset": firstTime // number // 0 -> first time, 1-> reset
         }
     );
     if (kDebugMode) {
@@ -348,14 +377,15 @@ class ServicesRepository{
     return '';
   }
 
-/// **************************************************************UPDATE USER MOBILE NUMBER - END***************************************************************
+  /// **************************************************************UPDATE USER MOBILE NUMBER - END***************************************************************
 
-/// **************************************************************EARLY RETIREMENT - START**********************************************************************
+  /// **************************************************************EARLY RETIREMENT - START**********************************************************************
 
   Future getPensionsBasicInformationsService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/pensionsBasicInformation?sceNo=$internalKey');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/pensionsBasicInformation?sceNo=$internalKey');
     if (kDebugMode) {
       print(response);
     }
@@ -365,8 +395,10 @@ class ServicesRepository{
     return null;
   }
 
-  Future getDependentInfoService(String id) async { // get dependent details when adding new dependent from the national ID
-    var response = await HTTPClientContract.instance.getHTTP('/website/support_GetDetail?pi_relative_nat_pers_no=$id&PI_relatiev_nat=1');
+  Future getDependentInfoService(String id) async {
+    // get dependent details when adding new dependent from the national ID
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/website/support_GetDetail?pi_relative_nat_pers_no=$id&PI_relatiev_nat=1');
     if (kDebugMode) {
       print(response);
     }
@@ -379,7 +411,8 @@ class ServicesRepository{
   Future<PensionPaymentModel> getPensionPaymentSPService(String year) async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/pension_paymentSP?pi_secno=$internalKey&Pi_year=$year');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/pension_paymentSP?pi_secno=$internalKey&Pi_year=$year');
     if (kDebugMode) {
       print(response);
     }
@@ -392,7 +425,8 @@ class ServicesRepository{
   Future getApplicationService(int appType) async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String nationalId = userSecuredStorage.nationalId.toString();
-    var response = await HTTPClientContract.instance.getHTTP('/website/get_application?p_app_id=$nationalId&p_app_type=$appType&p_status=1&p_id=null&isDefense=null');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/website/get_application?p_app_id=$nationalId&p_app_type=$appType&p_status=1&p_id=null&isDefense=null');
     if (kDebugMode) {
       print(response);
     }
@@ -403,7 +437,8 @@ class ServicesRepository{
   }
 
   Future addNewDependentService(String natID) async {
-    var response = await HTTPClientContract.instance.getHTTP('/website/support_GetDetail?pi_relative_nat_pers_no=$natID&PI_relatiev_nat=1');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/website/support_GetDetail?pi_relative_nat_pers_no=$natID&PI_relatiev_nat=1');
     if (kDebugMode) {
       print(response);
     }
@@ -426,7 +461,8 @@ class ServicesRepository{
     return '';
   }
 
-  Future setEarlyRetirementApplicationService(result, docs, paymentInfo, int authorizedToSign, int wantInsurance, int serviceType) async {
+  Future setEarlyRetirementApplicationService(result, docs, paymentInfo,
+      int authorizedToSign, int wantInsurance, int serviceType) async {
     var row = {
       /// payment info
       "PAYMENT_METHOD": paymentInfo['PAYMENT_METHOD'],
@@ -454,6 +490,7 @@ class ServicesRepository{
       "WALLET_PASSPORT_NUMBER": paymentInfo['WALLET_PASSPORT_NUMBER'],
       "PEN_IBAN": paymentInfo['PEN_IBAN'],
       "IBAN_CONFIG": "1",
+
       /// ***
       "IFSC": result['p_per_info'][0][0]['IFSC'] ?? "",
       "APPROVE_DISCLOSURE": 1,
@@ -478,9 +515,15 @@ class ServicesRepository{
       "INTERNATIONAL_CODE": result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
       "INSURED_ADDRESS": result['p_per_info'][0][0]['INSURED_ADDRESS'],
       "MARITAL_STATUS": result['p_per_info'][0][0]['MARITAL_STATUS'],
-      "REGDATE": null, /// not found
-      "REGRATE": null, /// not found
-      "LAST_SALARY": null, /// not found
+      "REGDATE": null,
+
+      /// not found
+      "REGRATE": null,
+
+      /// not found
+      "LAST_SALARY": null,
+
+      /// not found
       "LAST_STODATE": result['p_per_info'][0][0]['LAST_STODATE'],
       "ACTUAL_STODATE": result['p_per_info'][0][0]['ACTUAL_STODATE'],
       "GENDER": result['p_per_info'][0][0]['GENDER'],
@@ -489,23 +532,49 @@ class ServicesRepository{
       "CIV_MIL_RETIRED_DOC": result['p_per_info'][0][0]['CIV_MIL_RETIRED_DOC'],
       "PEN_START_DATE": result['p_per_info'][0][0]['PEN_START_DATE'],
       "GOVERNORATE": result['p_per_info'][0][0]['GOVERNORATE'],
-      "DETAILED_ADDRESS": null, /// not found
-      "PASS_NO": null, /// not found
-      "RESIDENCY_NO": null, /// not found
+      "DETAILED_ADDRESS": null,
+
+      /// not found
+      "PASS_NO": null,
+
+      /// not found
+      "RESIDENCY_NO": null,
+
+      /// not found
       "DOB": result['p_per_info'][0][0]['DOB'],
-      "JOB_NO": null, /// not found
+      "JOB_NO": null,
+
+      /// not found
       "JOB_DESC": result['p_per_info'][0][0]['JOB_DESC'],
-      "ENAME1": null, /// not found
-      "ENAME2": null, /// not found
-      "ENAME3": null, /// not found
-      "ENAME4": null, /// not found
+      "ENAME1": null,
+
+      /// not found
+      "ENAME2": null,
+
+      /// not found
+      "ENAME3": null,
+
+      /// not found
+      "ENAME4": null,
+
+      /// not found
       "LAST_EST_NO": result['p_per_info'][0][0]['LAST_EST_NO'],
-      "FAM_NO": null, /// not found
-      "nextVaild": null, /// not found
-      "wantAddFamily": null, /// not found
+      "FAM_NO": null,
+
+      /// not found
+      "nextVaild": null,
+
+      /// not found
+      "wantAddFamily": null,
+
+      /// not found
       "GENDER_DESC": result['p_per_info'][0][0]['GENDER_DESC'],
-      "PI_EPAY": null, /// not found
-      "INSURED": null, /// not found
+      "PI_EPAY": null,
+
+      /// not found
+      "INSURED": null,
+
+      /// not found
       "APPLICANT_ID": result['p_per_info'][0][0]['NAT_NO'],
       "APPLICANT_NO": result['p_per_info'][0][0]['NAT_NO'],
       "SERVICE_TYPE": serviceType,
@@ -520,13 +589,15 @@ class ServicesRepository{
     var data = {
       "params": {
         "XML": jsonEncode(
-          {
-            "row": row,
-            "doc": docs,
-            "dep": (result["P_DEP_INFO"].isNotEmpty || result["P_Dep"].isNotEmpty) ? (result["P_DEP_INFO"][0] ?? result["P_Dep"][0]) : [],
-            "INHERITORS": [], // value always [] in early retirement
-            "isWebsite": false
-          }
+            {
+              "row": row,
+              "doc": docs,
+              "dep": (result["P_DEP_INFO"].isNotEmpty ||
+                  result["P_Dep"].isNotEmpty) ? (result["P_DEP_INFO"][0] ??
+                  result["P_Dep"][0]) : [],
+              "INHERITORS": [], // value always [] in early retirement
+              "isWebsite": false
+            }
         )
       }
     };
@@ -574,6 +645,17 @@ class ServicesRepository{
     // }
     if (kDebugMode) {
       print({"params": {
+        "Obj": jsonEncode({
+          "row": {
+            "NAT": "111",
+            "GENDER": "2"
+          },
+          "dep": dependents
+        })
+      }});
+    }
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/website/check_doc_dep', {"params": {
       "Obj": jsonEncode({
         "row": {
           "NAT": "111",
@@ -581,19 +663,8 @@ class ServicesRepository{
         },
         "dep": dependents
       })
-    }});
     }
-    var response = await HTTPClientContract.instance.postHTTP(
-        '/website/check_doc_dep', {"params": {
-            "Obj": jsonEncode({
-              "row": {
-                "NAT": "111",
-                "GENDER": "2"
-              },
-              "dep": dependents
-            })
-          }
-        }
+    }
     );
     if (kDebugMode) {
       print(response);
@@ -604,11 +675,12 @@ class ServicesRepository{
     return '';
   }
 
-/// **************************************************************EARLY RETIREMENT - END************************************************************************
+  /// **************************************************************EARLY RETIREMENT - END************************************************************************
 
-/// **************************************************************DECEASED RETIREMENT - END*********************************************************************
+  /// **************************************************************DECEASED RETIREMENT - END*********************************************************************
 
-  Future setDeceasedRetirementApplicationService(result, docs, deadPersonInfo, int deathPlace) async {
+  Future setDeceasedRetirementApplicationService(result, docs, deadPersonInfo,
+      int deathPlace) async {
 
     ///TODO: check dead person info in case he was not jordanian
     var row = {
@@ -624,11 +696,15 @@ class ServicesRepository{
       "PERSONAL_PERS_NO": result['p_per_info'][0][0]['PERS_NO'],
       "PERSONAL_MOBILE": result['p_per_info'][0][0]['MOBILE'],
       "NAT_NO_DEATH": deadPersonInfo['cur_getdata'][0][0]['NAT_NO'].toString(),
-      "TRANSACTION_TYPE": 4, /// ***
+      "TRANSACTION_TYPE": 4,
+
+      /// ***
       "RELATION": deadPersonInfo['cur_getdata'][0][0]['RELATIVE_TYPE'],
       "PLACE_OF_DEATH": deathPlace,
       "DEATH_BIRTH_DATE": null,
-      "IS_DEATH": 1, /// ***
+      "IS_DEATH": 1,
+
+      /// ***
       "NAT_DEATH": deadPersonInfo['cur_getdata'][0][0]['NAT'],
       "FULL_NAME": deadPersonInfo['cur_getdata'][0][0]['FULL_NAME_AR'],
       "MOBILE": result['p_per_info'][0][0]['MOBILE'],
@@ -640,12 +716,22 @@ class ServicesRepository{
       "APPLICANT_ID": result['p_per_info'][0][0]['NAT_NO'].toString(),
       "APPLICANT_NO": result['p_per_info'][0][0]['NAT_NO'].toString(),
       "SERVICE_TYPE": 11,
-      "IS_DEFENSE": null, /// ***
-      "APP_STATUS_EXTERNAL": 2, /// ***
-      "OTHER_DEPENDANTS": null, /// ***
+      "IS_DEFENSE": null,
+
+      /// ***
+      "APP_STATUS_EXTERNAL": 2,
+
+      /// ***
+      "OTHER_DEPENDANTS": null,
+
+      /// ***
       "ID": "",
-      "LEAVE_START_DATE": null, /// ***
-      "LEAVE_END_DATE": null, /// ***
+      "LEAVE_START_DATE": null,
+
+      /// ***
+      "LEAVE_END_DATE": null,
+
+      /// ***
       "BIRTH_DATE": null,
       "AGREE_TERMS": 1,
       "IBAN_CONFIG": "1"
@@ -653,7 +739,13 @@ class ServicesRepository{
     row.remove('NAT_NO');
     row.remove('NAT');
     row.remove('RELATIVE_TYPE');
-    row['DEATH_DATE'] = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", 'en_US').format(DateTime.parse(deadPersonInfo['cur_getdata'][0][0]['DEATH_DATE'].replaceAll('/', '-').split('-').reversed.join()).toUtc()).toString();
+    row['DEATH_DATE'] =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", 'en_US').format(
+            DateTime.parse(deadPersonInfo['cur_getdata'][0][0]['DEATH_DATE']
+                .replaceAll('/', '-')
+                .split('-')
+                .reversed
+                .join()).toUtc()).toString();
     var data = {
       "params": {
         "XML": jsonEncode(
@@ -661,7 +753,9 @@ class ServicesRepository{
               "row": row,
               "doc": docs,
               "dep": [], // value always [] in deceased retirement
-              "INHERITORS": deadPersonInfo['cur_getdata2'].isNotEmpty ? deadPersonInfo['cur_getdata2'][0] : [],
+              "INHERITORS": deadPersonInfo['cur_getdata2'].isNotEmpty
+                  ? deadPersonInfo['cur_getdata2'][0]
+                  : [],
               "isWebsite": false
             }
         )
@@ -681,7 +775,8 @@ class ServicesRepository{
   }
 
   Future penDeathLookup() async {
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/PEN_DEATH_Lookup');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/PEN_DEATH_Lookup');
     if (kDebugMode) {
       print(response);
     }
@@ -692,7 +787,8 @@ class ServicesRepository{
   }
 
   Future deadPersonGetDetailsService(Map<String, dynamic> data) async {
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/PEN_DEATH_GetDetail?DEATH_NAT_NO=${data['natId']}&DEATH_NAT=${data['nationality']}&PEN_TYPE=${data['penType']}&nat_date_of_birth=${data['birthDate']}&death_date=${data['deathDate']}');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/PEN_DEATH_GetDetail?DEATH_NAT_NO=${data['natId']}&DEATH_NAT=${data['nationality']}&PEN_TYPE=${data['penType']}&nat_date_of_birth=${data['birthDate']}&death_date=${data['deathDate']}');
     if (kDebugMode) {
       print(response);
     }
@@ -702,8 +798,10 @@ class ServicesRepository{
     return null;
   }
 
-  Future guardianGetDetailsService(String natNo, int nationality, String cardNo, String dateOfBirth) async {
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/Nat_Pers_match_GetDetail?NAT_NO=$natNo&nationality=$nationality&national_card_id=$cardNo&pi_DOB=$dateOfBirth');
+  Future guardianGetDetailsService(String natNo, int nationality, String cardNo,
+      String dateOfBirth) async {
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/Nat_Pers_match_GetDetail?NAT_NO=$natNo&nationality=$nationality&national_card_id=$cardNo&pi_DOB=$dateOfBirth');
     if (kDebugMode) {
       print(response);
     }
@@ -713,8 +811,10 @@ class ServicesRepository{
     return null;
   }
 
-  Future getHeirsInfoService(String heirsNatNo, String deathNatNo) async { // get heirs details when adding new heirs from the national ID
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/heris_GetDetail?deathNatNo=$deathNatNo&heirsNatNo=$heirsNatNo&natType=1');
+  Future getHeirsInfoService(String heirsNatNo, String deathNatNo) async {
+    // get heirs details when adding new heirs from the national ID
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/heris_GetDetail?deathNatNo=$deathNatNo&heirsNatNo=$heirsNatNo&natType=1');
     if (kDebugMode) {
       print(response);
     }
@@ -724,13 +824,24 @@ class ServicesRepository{
     return null;
   }
 
-/// **************************************************************DECEASED RETIREMENT - END*********************************************************************
+  /// **************************************************************DECEASED RETIREMENT - END*********************************************************************
 
-/// **************************************************************RETIREMENT LOAN - START***********************************************************************
+  /// **************************************************************RETIREMENT LOAN - START***********************************************************************
 
-  Future loanCalculationService(int piFlag, double payNet, double payTot, double currentFinancialCommitment, double currentLoanValue, currentNumberOfInstallments, String loanType) async {
+  Future loanCalculationService(int piFlag, double payNet, double payTot,
+      double currentFinancialCommitment, double currentLoanValue,
+      currentNumberOfInstallments, String loanType) async {
     var response = await HTTPClientContract.instance.postHTTP(
-        '/individuals/loan_calc', {"PI_FLG":"$piFlag","p_penpay_tot":"$payTot","p_penpay_net":"$payNet","p_out_debt":currentFinancialCommitment,"p_loan_amt":currentLoanValue,"p_duration":currentNumberOfInstallments,"p_loan_typ":loanType,"prev_bal":""}
+        '/individuals/loan_calc', {
+      "PI_FLG": "$piFlag",
+      "p_penpay_tot": "$payTot",
+      "p_penpay_net": "$payNet",
+      "p_out_debt": currentFinancialCommitment,
+      "p_loan_amt": currentLoanValue,
+      "p_duration": currentNumberOfInstallments,
+      "p_loan_typ": loanType,
+      "prev_bal": ""
+    }
     );
     if (kDebugMode) {
       print(response);
@@ -741,8 +852,10 @@ class ServicesRepository{
     return '';
   }
 
-  Future setRetirementLoanApplicationService(result, docs, paymentInfo, typeOfAdvance, loanType, loanResultInfo, currentLoanValue, currentNumberOfInstallments, currentFinancialCommitment, selectedLoanType, int serviceType) async {
-
+  Future setRetirementLoanApplicationService(result, docs, paymentInfo,
+      typeOfAdvance, loanType, loanResultInfo, currentLoanValue,
+      currentNumberOfInstallments, currentFinancialCommitment, selectedLoanType,
+      int serviceType) async {
     var row = {
       /// payment info
       "PAYMENT_METHOD": paymentInfo['PAYMENT_METHOD'],
@@ -770,6 +883,7 @@ class ServicesRepository{
       "WALLET_PASSPORT_NUMBER": paymentInfo['WALLET_PASSPORT_NUMBER'],
       "PEN_IBAN": paymentInfo['PEN_IBAN'],
       "IBAN_CONFIG": "1",
+
       /// ***
       "IFSC": "",
       "AGREE_TERMS": 1,
@@ -799,7 +913,9 @@ class ServicesRepository{
       "MILITARY_WORK_DOC": null,
       "CIV_MIL_RETIRED_DOC": null,
       "PEN_START_DATE": null,
-      "GOVERNORATE": null, /// city address
+      "GOVERNORATE": null,
+
+      /// city address
       "DETAILED_ADDRESS": null,
       "PASS_NO": null,
       "RESIDENCY_NO": null,
@@ -817,15 +933,27 @@ class ServicesRepository{
       "GENDER_DESC": result['p_per_info'][0][0]['GENDER_DESC'],
       "PI_EPAY": null,
       "INSURED": null,
-      "SECNO_DEAD": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['SECNO_DEAD'],
-      "CARDNO": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['CARDNO'],
-      "NAT_NO_DEAD": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['NAT_NO_DEAD'],
-      "FULL_NAME_DEAD": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['FULL_NAME_DEAD'],
-      "NET_PAY": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['NET_PAY'],
+      "SECNO_DEAD": result[selectedLoanType == 'heirLoan'
+          ? 'P_DEAD_LOAN'
+          : 'p_per_info'][0][0]['SECNO_DEAD'],
+      "CARDNO": result[selectedLoanType == 'heirLoan'
+          ? 'P_DEAD_LOAN'
+          : 'p_per_info'][0][0]['CARDNO'],
+      "NAT_NO_DEAD": result[selectedLoanType == 'heirLoan'
+          ? 'P_DEAD_LOAN'
+          : 'p_per_info'][0][0]['NAT_NO_DEAD'],
+      "FULL_NAME_DEAD": result[selectedLoanType == 'heirLoan'
+          ? 'P_DEAD_LOAN'
+          : 'p_per_info'][0][0]['FULL_NAME_DEAD'],
+      "NET_PAY": result[selectedLoanType == 'heirLoan'
+          ? 'P_DEAD_LOAN'
+          : 'p_per_info'][0][0]['NET_PAY'],
       "TYPE_OF_ADVANCE": '$typeOfAdvance',
       "OFFNO": result['p_per_info'][0][0]['OFFNO'],
       "DURATION": currentNumberOfInstallments,
-      "TOT_PAY": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['TOT_PAY'],
+      "TOT_PAY": result[selectedLoanType == 'heirLoan'
+          ? 'P_DEAD_LOAN'
+          : 'p_per_info'][0][0]['TOT_PAY'],
       "OUT_DEBT": currentFinancialCommitment,
       "LOAN_AMT": currentLoanValue,
       "LAON_TYPE": "$loanType",
@@ -834,12 +962,22 @@ class ServicesRepository{
       "LOAN_PAID_AMT": loanResultInfo['po_loan_paid_amt'],
       "TOT_LOAN_AMT": loanResultInfo['po_loan_amt'],
       "nextValid": true,
-      "DOC_FLG": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['DOC_FLG'],
-      "PENCODE": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['PENCODE'],
-      "PENSTART": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['PENSTARTnet'],
+      "DOC_FLG": result[selectedLoanType == 'heirLoan'
+          ? 'P_DEAD_LOAN'
+          : 'p_per_info'][0][0]['DOC_FLG'],
+      "PENCODE": result[selectedLoanType == 'heirLoan'
+          ? 'P_DEAD_LOAN'
+          : 'p_per_info'][0][0]['PENCODE'],
+      "PENSTART": result[selectedLoanType == 'heirLoan'
+          ? 'P_DEAD_LOAN'
+          : 'p_per_info'][0][0]['PENSTARTnet'],
       "DUAL_FLG": result['p_per_info'][0][0]['DUAL_FLG'],
-      "MAX_AMT": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['MAX_AMT'],
-      "MAX_DUR": result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['MAX_DUR'],
+      "MAX_AMT": result[selectedLoanType == 'heirLoan'
+          ? 'P_DEAD_LOAN'
+          : 'p_per_info'][0][0]['MAX_AMT'],
+      "MAX_DUR": result[selectedLoanType == 'heirLoan'
+          ? 'P_DEAD_LOAN'
+          : 'p_per_info'][0][0]['MAX_DUR'],
       "PREV_BAL": "",
       "LAST_PDATE": "",
       "RELAT": result['p_per_info'][0][0]['RELAT'],
@@ -881,12 +1019,14 @@ class ServicesRepository{
     }
     return '';
   }
-/// **************************************************************RETIREMENT LOAN  - END************************************************************************
 
-/// **************************************************************ISSUING RETIREMENT DECISION  - START**********************************************************
+  /// **************************************************************RETIREMENT LOAN  - END************************************************************************
+
+  /// **************************************************************ISSUING RETIREMENT DECISION  - START**********************************************************
 
   Future getDecisionService(int vID) async {
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/get_decision?V_ID=$vID');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/get_decision?V_ID=$vID');
     if (kDebugMode) {
       print(response);
     }
@@ -897,7 +1037,8 @@ class ServicesRepository{
   }
 
   Future getRetirementDecisionPDFFileDetailsService(dynamic folderName) async {
-    var response = await HTTPClientContract.instance.getHTTP('/ftp/getFileFromSSC?folderName=$folderName.pdf&fileName=&type=1');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/ftp/getFileFromSSC?folderName=$folderName.pdf&fileName=&type=1');
     if (kDebugMode) {
       print(response);
     }
@@ -935,19 +1076,19 @@ class ServicesRepository{
 
   Future approveRetirementReportForArchive() async {
     var response = await HTTPClientContract.instance.postHTTP(
-      '/individuals/AproveRetiremenReportForArchive', {
-        "params": jsonEncode({
-          "obj": {
-            "o_cust_sec": 9621022224,
-            "o_cust_name": "عدنان احمد ابراهيم القرى",
-            "TOTAL_SALARY": "",
-            "STARDT": "",
-            "APPROVE_DISCLOSURE": 2,
-            "P_REJECT_REASON": "asd",
-            "Nat_No": "9621001393"
-          }
-        })
-      }
+        '/individuals/AproveRetiremenReportForArchive', {
+      "params": jsonEncode({
+        "obj": {
+          "o_cust_sec": 9621022224,
+          "o_cust_name": "عدنان احمد ابراهيم القرى",
+          "TOTAL_SALARY": "",
+          "STARDT": "",
+          "APPROVE_DISCLOSURE": 2,
+          "P_REJECT_REASON": "asd",
+          "Nat_No": "9621001393"
+        }
+      })
+    }
     );
     if (kDebugMode) {
       print(response);
@@ -958,14 +1099,15 @@ class ServicesRepository{
     return '';
   }
 
-  Future submitIssuingRetirementDecisionService(int vID, int pCode, int pActionTaken, String pActionJustify) async {
+  Future submitIssuingRetirementDecisionService(int vID, int pCode,
+      int pActionTaken, String pActionJustify) async {
     var response = await HTTPClientContract.instance.postHTTP(
-      '/individuals/insert_action', {
-        "p_id": vID,
-        "P_code": pCode,
-        "P_ACTION_TAKEN": pActionTaken,
-        "P_ACTION_JUSTIFY": pActionJustify
-      }
+        '/individuals/insert_action', {
+      "p_id": vID,
+      "P_code": pCode,
+      "P_ACTION_TAKEN": pActionTaken,
+      "P_ACTION_JUSTIFY": pActionJustify
+    }
     );
     if (kDebugMode) {
       print(response);
@@ -976,12 +1118,13 @@ class ServicesRepository{
     return '';
   }
 
-/// **************************************************************ISSUING RETIREMENT DECISION  - END************************************************************
+  /// **************************************************************ISSUING RETIREMENT DECISION  - END************************************************************
 
-/// **************************************************************ONE-TIME COMPENSATION REQUEST  - START********************************************************
+  /// **************************************************************ONE-TIME COMPENSATION REQUEST  - START********************************************************
 
   Future getOnePaymentReasonService() async {
-    var response = await HTTPClientContract.instance.getHTTP('/website/get_onePayment_reason');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/website/get_onePayment_reason');
     if (kDebugMode) {
       print(response);
     }
@@ -994,7 +1137,8 @@ class ServicesRepository{
   Future getOnePaymentReasonValidateService(reasonType) async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
-    var response = await HTTPClientContract.instance.getHTTP('/website/ols_validate?PI_RES_TYPE=$reasonType&SECNO=$internalKey');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/website/ols_validate?PI_RES_TYPE=$reasonType&SECNO=$internalKey');
     if (kDebugMode) {
       print(response);
     }
@@ -1007,7 +1151,8 @@ class ServicesRepository{
   Future getOneTimeRefundInquiryService() async {
     UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
     String internalKey = userSecuredStorage.insuranceNumber.toString();
-    var response = await HTTPClientContract.instance.getHTTP('/individuals/lamp_sum_pensionSP?pi_secno=$internalKey');
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/individuals/lamp_sum_pensionSP?pi_secno=$internalKey');
     if (kDebugMode) {
       print(response);
     }
@@ -1016,6 +1161,132 @@ class ServicesRepository{
     }
     return null;
   }
-}
+
+
+  Future setOneTimeCompensationRequestService(result, docs, paymentInfo, clearanceNo, compensationReason, marriageContract, isArmy) async {
+    var row = {
+      /// payment info
+      "PAYMENT_METHOD": paymentInfo['PAYMENT_METHOD'],
+      "BANK_LOCATION": paymentInfo['BANK_LOCATION'],
+      "BRANCH_ID": paymentInfo['BRANCH_ID'],
+      "BRANCH_NAME": paymentInfo['BRANCH_NAME'],
+      "BANK_ID": paymentInfo['BANK_ID'],
+      "BANK_NAME": paymentInfo['BANK_NAME'],
+      "ACCOUNT_NAME": paymentInfo['ACCOUNT_NAME'],
+      "PAYMENT_COUNTRY": paymentInfo['PAYMENT_COUNTRY'],
+      "PAYMENT_COUNTRY_CODE": paymentInfo['PAYMENT_COUNTRY_CODE'],
+      "PAYMENT_PHONE": paymentInfo['PAYMENT_PHONE'],
+      "SWIFT_CODE": paymentInfo['SWIFT_CODE'],
+      "BANK_DETAILS": paymentInfo['BANK_DETAILS'],
+      "IBAN": paymentInfo['IBAN'] ?? "",
+      "CASH_BANK_ID": paymentInfo['CASH_BANK_ID'],
+      "REP_NATIONALITY": paymentInfo['REP_NATIONALITY'],
+      "REP_NATIONAL_NO": paymentInfo['REP_NATIONAL_NO'],
+      "REP_NAME": paymentInfo['REP_NAME'],
+      "WALLET_TYPE": paymentInfo['WALLET_TYPE'],
+      "WALLET_OTP_VERIVIED": paymentInfo['WALLET_OTP_VERIVIED'],
+      "WALLET_OTP": paymentInfo['WALLET_OTP'],
+      "WALLET_PHONE": paymentInfo['WALLET_PHONE'],
+      "WALLET_PHONE_VERIVIED": paymentInfo['WALLET_PHONE_VERIVIED'],
+      "WALLET_PASSPORT_NUMBER": paymentInfo['WALLET_PASSPORT_NUMBER'],
+      "PEN_IBAN": paymentInfo['PEN_IBAN'],
+      "IBAN_CONFIG": "1",
+
+      /// ***
+      "IFSC": "",
+      "APPROVE_DISCLOSURE": 1,
+      "NOT_APPROVE_REASON": "",
+      "SIG_ATHORIZED": null,
+      "WANT_INSURANCE": null,
+      "OFFNO": result['p_per_info'][0][0]['OFFNO'],
+      "AGREE_TERMS": 1,
+      "SECNO": result['p_per_info'][0][0]['SECNO'],
+      "NAT_DESC": result['p_per_info'][0][0]['NAT_DESC'],
+      "NAT": result['p_per_info'][0][0]['NAT'],
+      "NAT_NO": result['p_per_info'][0][0]['NAT_NO'],
+      "PERS_NO": result['p_per_info'][0][0]['PERS_NO'],
+      "LAST_EST_NAME": result['p_per_info'][0][0]['LAST_EST_NAME'],
+      "NAME1": result['p_per_info'][0][0]['NAME1'],
+      "NAME2": result['p_per_info'][0][0]['NAME2'],
+      "NAME3": result['p_per_info'][0][0]['NAME3'],
+      "NAME4": result['p_per_info'][0][0]['NAME4'],
+      "FULL_NAME_EN": result['p_per_info'][0][0]['FULL_NAME_EN'],
+      "EMAIL": result['p_per_info'][0][0]['EMAIL'],
+      "MOBILE": result['p_per_info'][0][0]['MOBILE'],
+      "INTERNATIONAL_CODE": result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
+      "INSURED_ADDRESS": "ssss",
+      "MARITAL_STATUS": null,
+      "REGDATE": null,
+      "REGRATE": null,
+      "LAST_SALARY": null,
+      "LAST_STODATE": result['p_per_info'][0][0]['LAST_STODATE'],
+      "ACTUAL_STODATE": null,
+      "GENDER": result['p_per_info'][0][0]['GENDER'],
+      "CIVIL_WORK_DOC": null,
+      "MILITARY_WORK_DOC": null,
+      "CIV_MIL_RETIRED_DOC": null,
+      "PEN_START_DATE": null,
+      "DETAILED_ADDRESS": null,
+      "PASS_NO": null,
+      "RESIDENCY_NO": null,
+      "DOB": result['p_per_info'][0][0]['DOB'],
+      "JOB_NO": null,
+      "JOB_DESC": null,
+      "ENAME1": null,
+      "ENAME2": null,
+      "ENAME3": null,
+      "ENAME4": null,
+      "LAST_EST_NO": result['p_per_info'][0][0]['LAST_EST_NO'],
+      "FAM_NO": null,
+      "nextVaild": null,
+      "wantAddFamily": null,
+      "GENDER_DESC": result['p_per_info'][0][0]['GENDER_DESC'],
+      "PI_EPAY": null,
+      "INSURED": null,
+      "COMPENSATION_REASON": compensationReason,
+      "CLEARANCE_NO": clearanceNo,
+      "CLEARANCE_FLAG": result['p_per_info'][0][0]['CLEARANCE_FLAG'],
+      "IS_ARMY": isArmy,
+      "Marriage_contract": marriageContract,
+      "APPLICANT_ID": result['p_per_info'][0][0]['NAT_NO'].toString(),
+      "APPLICANT_NO": result['p_per_info'][0][0]['NAT_NO'].toString(),
+      "SERVICE_TYPE": 2,
+      "IS_DEFENSE": null,
+      "APP_STATUS_EXTERNAL": 2,
+      "OTHER_DEPENDANTS": null,
+      "ID": "",
+      "LEAVE_START_DATE": null,
+      "LEAVE_END_DATE": null,
+      "BIRTH_DATE": null,
+      "REQUEST_FROM": 1,
+    };
+    var data = {
+      "params": {
+        "XML": jsonEncode(
+            {
+              "row": row,
+              "doc": docs,
+              "dep": [],
+              "INHERITORS": [],
+              "isWebsite": false
+            }
+        )
+      }
+    };
+
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/website/set_application', data
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
 /// **************************************************************ONE-TIME COMPENSATION REQUEST  - END**********************************************************
 
+
+}

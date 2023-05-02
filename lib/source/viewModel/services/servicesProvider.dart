@@ -156,6 +156,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.setDeceasedRetirementApplicationService(result, docs, deadPersonInfo, deathPlace);
   }
 
+  Future setOneTimeCompensationRequest(docs, paymentInfo, clearanceNo, compensationReason, marriageContract, isArmy) async{
+    return await servicesRepository.setOneTimeCompensationRequestService(result, docs, paymentInfo, clearanceNo, compensationReason, marriageContract, isArmy);
+  }
+
   Future checkDocumentDependent(List dependents) async{
     return await servicesRepository.checkDocumentDependentService(dependents);
   }
