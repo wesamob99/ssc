@@ -132,6 +132,7 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
       "optional": [],
     };
     ///
+    servicesProvider.selectedInsideOutsideJordan = 'insideJordan';
     servicesProvider.activePayment = [];
     servicesProvider.getActivePayment("2", servicesProvider.result['p_per_info'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
       value['R_RESULT'][0].forEach((element){
@@ -169,7 +170,6 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
 
   @override
   Widget build(BuildContext context) {
-    print(reasonForRequestingCompensation.flag);
     return Scaffold(
       backgroundColor: (servicesProvider.documentsScreensStepNumber == 1 || servicesProvider.documentsScreensStepNumber == 3) && servicesProvider.stepNumber == 3
           ? HexColor('#445740') : HexColor('#ffffff'),
@@ -340,7 +340,7 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
                           "CLEARANCE_FLAG": servicesProvider.result['p_per_info'][0][0]['CLEARANCE_FLAG'],
                           "IS_ARMY": 0,
                           "Marriage_contract": 0,
-                        }, serviceType: 2, dependents: [], relations: [], nextStepNumber: 4,),
+                        }, serviceType: 2, dependents: const [], relations: const [], nextStepNumber: 4,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 4)
                         const PaymentScreen(numberOfSteps: 5, nextStep: 'confirmRequest', stepText: 'forthStep', stepNumber: 4,),
                       if(!(Provider.of<ServicesProvider>(context).stepNumber == 3))
