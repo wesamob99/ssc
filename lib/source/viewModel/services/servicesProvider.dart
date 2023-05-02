@@ -251,6 +251,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.getOneTimeRefundInquiryService();
   }
 
+  Future getMaternityChildService(childNatNo) async{
+    return await servicesRepository.getMaternityChildService(childNatNo);
+  }
+
   Future submitIssuingRetirementDecision(int pCode, int pActionTaken, String pActionJustify) async{
     return await servicesRepository.submitIssuingRetirementDecisionService(result['V_ID'], pCode, pActionTaken, pActionJustify);
   }

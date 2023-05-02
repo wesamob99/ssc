@@ -1288,5 +1288,21 @@ class ServicesRepository {
 
 /// **************************************************************ONE-TIME COMPENSATION REQUEST  - END**********************************************************
 
+/// **************************************************************MATERNITY ALLOWANCE APPLICATION  - START******************************************************
+
+  Future getMaternityChildService(childNatNo) async {
+    var response = await HTTPClientContract.instance.getHTTP(
+        '/website/mat_get_birth_date?pi_secno=null&pi_child_natno=$childNatNo');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return null;
+  }
+
+/// **************************************************************MATERNITY ALLOWANCE APPLICATION  - END********************************************************
+
 
 }
