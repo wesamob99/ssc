@@ -37,48 +37,18 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
 
   ServicesProvider servicesProvider;
   ThemeNotifier themeNotifier;
-  int selectedInheritorMobileCountry = 962;
 
-  SelectedListItem selectedMobileCountry = SelectedListItem(
-    name: UserConfig.instance.isLanguageEnglish() ? "Jordan" : "الأردن",
-    value: "962", natCode: 111,
-    flag: countries[110].flag,
-  );
-  List<SelectedListItem> selectedListItem = [];
-
-
-  String selectedStatus;
-  String selectedJobStatus;
-  String selectedGetsSalary;
-  String selectedHasDisability;
-  String selectedMaritalStatus;
-  String selectedGender;
-  String selectedRelation;
-  List<String> maritalList;
+  int isArmy = 0;
+  int marriageContract = 0;
   bool termsChecked = false;
-  int dependentIndex = 0;
   List docs = [];
   SelectedListItem reasonForRequestingCompensation = SelectedListItem(name: '', natCode: null, flag: '');
   List<SelectedListItem> listOfReasonsForRequestingCompensation = [];
 
   Map selectedActivePayment;
-  List activePayment = [];
   TextEditingController clearanceSerialNumber = TextEditingController();
 
   ///
-
-  bool nonJordanianSaveEnabled = false;
-  String nationality = 'jordanian';
-  String guardianshipNationality = 'jordanian';
-  String heirNationality = 'jordanian';
-  int deathType = 0;
-  int deathPlace = 0;
-  int relationshipType = 0;
-  List<String> deathTypes = ['choose', 'aNaturalDeathWithinTheService', 'injuriesDeath'];
-  List<String> deathPlaces = ['choose', 'insideJordan', 'outsideJordan'];
-  List<String> relationshipTypes = [];
-  DateTime selectedDateOfBirth = DateTime.now();
-  DateTime selectedDeathDate = DateTime.now();
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
@@ -147,19 +117,6 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
       }
     });
     servicesProvider.isNationalIdValid = false;
-    selectedListItem = [];
-    for (var element in servicesProvider.countries) {
-      int inx = countries.indexWhere((value) => value.dialCode == element.callingCode);
-      selectedListItem.add(
-        SelectedListItem(
-          name: UserConfig.instance.isLanguageEnglish() ? countries[inx == -1 ? 0 : inx].name : element.country,
-          natCode: element.natcode,
-          value: countries[inx == -1 ? 0 : inx].dialCode,
-          isSelected: false,
-          flag: countries[inx == -1 ? 0 : inx].flag,
-        ),
-      );
-    }
     servicesProvider.selectedPaymentCountry = SelectedListItem(
       name: UserConfig.instance.isLanguageEnglish() ? "Palestine" : "فلسطين",
       value: "970", natCode: 188,
@@ -338,11 +295,13 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
                           "COMPENSATION_REASON": reasonForRequestingCompensation.flag,
                           "CLEARANCE_NO": clearanceSerialNumber.text,
                           "CLEARANCE_FLAG": servicesProvider.result['p_per_info'][0][0]['CLEARANCE_FLAG'],
-                          "IS_ARMY": 0,
-                          "Marriage_contract": 0,
+                          "IS_ARMY": isArmy,
+                          "Marriage_contract": marriageContract,
                         }, serviceType: 2, dependents: const [], relations: const [], nextStepNumber: 4,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 4)
                         const PaymentScreen(numberOfSteps: 5, nextStep: 'confirmRequest', stepText: 'forthStep', stepNumber: 4,),
+                      if(Provider.of<ServicesProvider>(context).stepNumber == 5)
+                        fifthStep(context, themeNotifier),
                       if(!(Provider.of<ServicesProvider>(context).stepNumber == 3))
                         textButton(context,
                           themeNotifier,
@@ -446,64 +405,80 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
                                   }
                                 }
                               } break;
-                              case 3: {
-                                if(checkContinueEnabled(flag: 3)){
-                                  // servicesProvider.documentsScreensStepNumber = 1;
-                                  // if(dependentIndex < ((servicesProvider.deadPersonInfo['cur_getdata2'].length != 0  && servicesProvider.deadPersonInfo['cur_getdata2'][0].length != 0) ? servicesProvider.deadPersonInfo['cur_getdata2'][0].length - 1 : 0)){
-                                  //   dependentIndex++;
-                                  //   dependentMobileNumberController.text = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['MOBILE'] ?? '').toString() ?? '';
-                                  //   selectedInheritorMobileCountry = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['INTERNATIONAL_CODE'] ?? 962;
-                                  //   guardianNationalNumberController.text = servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNATNO'] ?? "";
-                                  //   guardianshipNationality = (servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAT'] == 1 ? 'jordanian' : 'nonJordanian') ?? "jordanian";
-                                  //   guardianSecondFieldController.text = (guardianshipNationality == 'jordanian'
-                                  //       ? servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANCARDNO']
-                                  //       : servicesProvider.deadPersonInfo['cur_getdata2'][0][dependentIndex]['GUARDIANNAME']
-                                  //   ) ?? "";
-                                  // }else {
-                                  //   servicesProvider.notifyMe();
-                                  //   servicesProvider.stepNumber = 4;
-                                  // }
+                              case 4: {
+                                if(checkContinueEnabled(flag: 4)){
+                                  servicesProvider.stepNumber = 5;
                                 }
                               } break;
                               case 5: {
-                                try{
-                                  String message = '';
-                                  servicesProvider.isLoading = true;
-                                  servicesProvider.isModalLoading = false;
-                                  servicesProvider.notifyMe();
-                                  List mandatoryDocs = await saveFiles('mandatory');
-                                  List optionalDocs = await saveFiles('optional');
-                                  docs.addAll(mandatoryDocs + optionalDocs);
-                                  await servicesProvider.setDeceasedRetirementApplication(docs, deathPlace).whenComplete(() {}).then((value) {
-                                    if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
-                                      message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
-                                      if(value['PO_TYPE'] == 2){
+                                if(checkContinueEnabled(flag: 5)){
+                                  try{
+                                    String message = '';
+                                    servicesProvider.isLoading = true;
+                                    servicesProvider.isModalLoading = false;
+                                    servicesProvider.notifyMe();
+                                    Map<String, dynamic> paymentInfo = {
+                                      'PAYMENT_METHOD': servicesProvider.selectedActivePayment['ID'],
+                                      'BANK_LOCATION': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankAddressController.text : 0,
+                                      'BRANCH_ID': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'BRANCH_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankBranchController.text : '',
+                                      'BANK_ID': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'BANK_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankNameController.text : '',
+                                      'ACCOUNT_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.accountNoController.text : '',
+                                      'PAYMENT_COUNTRY': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.selectedPaymentCountry.name : '',
+                                      'PAYMENT_COUNTRY_CODE': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.selectedPaymentCountry.value : '',
+                                      'PAYMENT_PHONE': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.paymentMobileNumberController.text : '',
+                                      'SWIFT_CODE': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.swiftCodeController.text : '',
+                                      'BANK_DETAILS': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'IBAN': servicesProvider.selectedActivePayment['ID'] == 3 ? servicesProvider.result["p_per_info"][0][0]["IBAN"] : '',
+                                      'CASH_BANK_ID': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      // معلومات الوكيل (REP)
+                                      'REP_NATIONALITY': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'REP_NATIONAL_NO': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'REP_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      // معلومات المحفظه (WALLET)
+                                      'WALLET_TYPE': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'WALLET_OTP_VERIVIED': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
+                                      'WALLET_OTP': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
+                                      'WALLET_PHONE': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'WALLET_PHONE_VERIVIED': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'WALLET_PASSPORT_NUMBER': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'PEN_IBAN': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
+                                    };
+                                    List mandatoryDocs = await saveFiles('mandatory');
+                                    List optionalDocs = await saveFiles('optional');
+                                    docs.addAll(mandatoryDocs + optionalDocs);
+                                    await servicesProvider.setOneTimeCompensationRequest(docs, paymentInfo, clearanceSerialNumber.text, reasonForRequestingCompensation.flag, marriageContract, isArmy).whenComplete(() {}).then((value) {
+                                      if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
+                                        message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
+                                        if(value['PO_TYPE'] == 2){
+                                          message = UserConfig.instance.isLanguageEnglish()
+                                              ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                        }
+                                        showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
+                                            message, 'ok',
+                                            themeNotifier,
+                                            icon: 'assets/icons/serviceSuccess.svg', titleColor: '#2D452E').then((_){
+                                          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                            servicesProvider.selectedServiceRate = -1;
+                                            servicesProvider.notifyMe();
+                                            rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                          });
+                                        });
+                                      } else{
                                         message = UserConfig.instance.isLanguageEnglish()
                                             ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                        showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
                                       }
-                                      showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
-                                          message, 'ok',
-                                          themeNotifier,
-                                          icon: 'assets/icons/serviceSuccess.svg', titleColor: '#2D452E').then((_){
-                                        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                                          servicesProvider.selectedServiceRate = -1;
-                                          servicesProvider.notifyMe();
-                                          rateServiceBottomSheet(context, themeNotifier, servicesProvider);
-                                        });
-                                      });
-                                    } else{
-                                      message = UserConfig.instance.isLanguageEnglish()
-                                          ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
-                                      showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
+                                    });
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                  } catch(e){
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                    if (kDebugMode) {
+                                      print(e.toString());
                                     }
-                                  });
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.notifyMe();
-                                } catch(e){
-                                  servicesProvider.isLoading = false;
-                                  servicesProvider.notifyMe();
-                                  if (kDebugMode) {
-                                    print(e.toString());
                                   }
                                 }
                               } break;
@@ -557,35 +532,7 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
                 "STATUS": 1,
                 "HIDE_ACTIONS": false
               };
-              bool isDependentDoc = false;
-              if(type == 'mandatory' && servicesProvider.deadPersonInfo['cur_getdata2'].isNotEmpty){
-                servicesProvider.deadPersonInfo['cur_getdata2'][0].forEach((element) {
-                  element['INHERITOR_DOCS'] = [];
-                  if(element['NATIONALNUMBER'].toString() == servicesProvider.uploadedFiles[type][i][j]["document"]['CODE'].toString()){
-                    document = {
-                      "PATH": value['path'],
-                      "DOC_TYPE": servicesProvider.uploadedFiles[type][i][j]["document"]["ID"],
-                      "FILE": {},
-                      "DIRTY": false,
-                      "DEP_ID": "${DateTime.now().millisecondsSinceEpoch}${((math.Random().nextDouble() * 10000) + 1).floor()}",
-                      "FILE_NAME": path.basename(value['path'].toString()),
-                      "DOCUMENT_DATE": DateFormat("dd/MM/yyyy", 'en').format(DateTime.now()),
-                      "required": type == 'mandatory' ? 0 : 1,
-                      "ID": "",
-                      "STATUS": 1,
-                    };
-                    isDependentDoc = true;
-                    if(element['INHERITOR_DOCS'] is String){
-                      element['INHERITOR_DOCS'] = [document];
-                    }else{
-                      element['INHERITOR_DOCS'].add(document);
-                    }
-                  }
-                });
-              }
-              if(!isDependentDoc) {
-                docs.add(document);
-              }
+              docs.add(document);
             });
             j++;
           }catch(e){
@@ -688,7 +635,7 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                getTranslated('fifthStep', context),
+                getTranslated('sixthStep', context),
                 style: TextStyle(
                     color: HexColor('#979797'),
                     fontSize: width(0.03, context)
@@ -714,14 +661,14 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '4/5',
+                    '6/6',
                     style: TextStyle(
                         color: HexColor('#979797'),
                         fontSize: width(0.025, context)
                     ),
                   ),
                   Text(
-                    '${getTranslated('finished', context)}',
+                    getTranslated('finished', context),
                     style: TextStyle(
                         color: HexColor('#979797'),
                         fontSize: width(0.032, context)
@@ -732,6 +679,56 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
             ],
           ),
           SizedBox(height: height(0.02, context),),
+          Text(
+            getTranslated('reviewYourDetailedStatement', context),
+            style: TextStyle(
+              color: HexColor('#363636'),
+            ),
+          ),
+          const SizedBox(height: 20.0,),
+          InkWell(
+            onTap: () async{
+              servicesProvider.isLoading = true;
+              servicesProvider.notifyMe();
+              try{
+                await servicesProvider.getInquiryInsuredInformation().then((val1) async{
+                  await servicesProvider.getInsuredInformationReport(val1).then((val2) async {
+                    await downloadAndOpenPDF(val2.data, getTranslated('detailedDisclosure', context)).whenComplete(() {
+                      if (kDebugMode) {
+                        print('completed');
+                      }
+                    });
+                  });
+                });
+                servicesProvider.isLoading = false;
+                servicesProvider.notifyMe();
+              } catch(e){
+                servicesProvider.isLoading = false;
+                servicesProvider.notifyMe();
+                if (kDebugMode) {
+                  print(e.toString());
+                }
+              }
+            },
+            child: Container(
+              width: width(1, context),
+              padding: const EdgeInsets.all(14.0),
+              decoration: BoxDecoration(
+                  color: const Color.fromRGBO(208, 208, 208, 0.26),
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(
+                      color: HexColor('#979797')
+                  )
+              ),
+              child: Text(
+                getTranslated('detailedDisclosure', context),
+                style: TextStyle(
+                  color: HexColor('#003C97'),
+                ),
+              ),
+            ),
+          ),
+          Expanded(child: Container()),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -761,7 +758,7 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
               SizedBox(width: width(0.05, context),),
               Expanded(
                 child: Text(
-                  getTranslated('deceasedTermsAndConditions', context),
+                  getTranslated('earlyRetirementTermsAndConditions', context),
                   style: TextStyle(
                     fontSize: height(0.015, context),
                     color: HexColor('#595959'),
@@ -770,6 +767,7 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
               ),
             ],
           ),
+          const SizedBox(height: 30.0,)
         ],
       ),
     );
@@ -786,16 +784,7 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
               InkWell(
                 onTap: (){
                   setState(() {
-                    if(flag == 1) {
-                      selectedMaritalStatus = choices[index];
-                    }
-                    if(flag == 2) {
-                      selectedRelation = UserConfig.instance.isLanguageEnglish()
-                          ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR'];
-                    }
-                    if(flag == 3) {
-                      selectedActivePayment = choices[index];
-                    }
+                    selectedActivePayment = choices[index];
                   });
                 },
                 child: Row(
@@ -811,8 +800,7 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
                       padding: const EdgeInsets.all(2.0),
                       child: CircleAvatar(
                         radius: isTablet(context) ? 10 : 5,
-                        backgroundColor: (flag == 1 && selectedMaritalStatus == choices[index]) || (flag == 2 && (selectedRelation == (UserConfig.instance.isLanguageEnglish()
-                            ? choices[index]['REL_DESC_EN'] : choices[index]['REL_DESC_AR'])))  || (flag == 3 && selectedActivePayment == choices[index])
+                        backgroundColor: (flag == 3 && selectedActivePayment == choices[index])
                             ? HexColor('#2D452E') : Colors.transparent,
                       ),
                     ),
@@ -856,7 +844,8 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
                 try{
                   await servicesProvider.getOnePaymentReasonValidate(reasonForRequestingCompensation.flag).whenComplete(() {}).then((val) {
                     if(val['PO_status'] == 0){
-
+                      marriageContract = val['PO_Marriage_contract'];
+                      isArmy = val['PO_IS_ARMY'];
                     }else{
                       reasonForRequestingCompensation = SelectedListItem(name: '', natCode: null, flag: '');
                       errorMessage = UserConfig.instance.isLanguageEnglish()
