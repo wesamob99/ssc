@@ -34,8 +34,11 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
   ServicesProvider servicesProvider;
   ThemeNotifier themeNotifier;
   bool termsChecked = false;
+  bool isNewBornValidID = false;
+  var newBornData;
   String selectedNewbornNationality = 'jordanian';
   String selectedPlaceOfBirth = 'insideJordan';
+  String isTherePermitToExpectHisBirth = 'yes';
   TextEditingController newbornNationalNumberController = TextEditingController();
 
   checkContinueEnabled({flag = 0}){
@@ -88,7 +91,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: (servicesProvider.documentsScreensStepNumber == 1 || servicesProvider.documentsScreensStepNumber == 3) && servicesProvider.stepNumber == 4
+      backgroundColor: (servicesProvider.documentsScreensStepNumber == 1 || servicesProvider.documentsScreensStepNumber == 3) && servicesProvider.stepNumber == 3
           ? HexColor('#445740') : HexColor('#ffffff'),
       appBar: AppBar(
         centerTitle: false,
@@ -456,8 +459,162 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
             const SizedBox(height: 15.0,),
             buildFieldTitle(context, 'newbornNationalNumber', required: false),
             const SizedBox(height: 10.0,),
-            buildTextFormField(context, themeNotifier, newbornNationalNumberController, '9999999999', (value){}),
+            buildTextFormField(context, themeNotifier, newbornNationalNumberController, '9999999999', (value) async {
+              if((selectedNewbornNationality == 'jordanian' && value.length == 10) || selectedNewbornNationality != 'jordanian'){
+                FocusScope.of(context).requestFocus(FocusNode());
+                String message = '';
+                servicesProvider.isLoading = true;
+                servicesProvider.notifyMe();
+                try{
+                  await servicesProvider.getMaternityChildService(value).whenComplete((){}).then((value) async {
+                    if(value['PO_status'] == 0){
+                      setState(() {
+                        isNewBornValidID = true;
+                      });
+                      newBornData = value;
+                      servicesProvider.notifyMe();
+                    } else{
+                      setState(() {
+                        isNewBornValidID = false;
+                      });
+                      newBornData = null;
+                      servicesProvider.notifyMe();
+                      message = UserConfig.instance.isLanguageEnglish()
+                          ? value['pO_status_desc_EN'] : value['pO_status_desc_AR'];
+                      showMyDialog(context, 'failed', message, 'ok', themeNotifier);
+                    }
+                  });
+                  servicesProvider.isLoading = false;
+                  servicesProvider.notifyMe();
+                }catch(e){
+                  servicesProvider.isLoading = false;
+                  servicesProvider.notifyMe();
+                  showMyDialog(context, 'failed', getTranslated('somethingWrongHappened', context), 'ok', themeNotifier);
+                  if (kDebugMode) {
+                    print(e.toString());
+                  }
+                }
+              } else{
+                setState(() {
+                  isNewBornValidID = false;
+                });
+                newBornData = null;
+                servicesProvider.notifyMe();
+              }
+            }),
             const SizedBox(height: 15.0,),
+            if(isNewBornValidID)
+            Column(
+              children: [
+                buildFieldTitle(context, 'isTherePermitToExpectHisBirth', required: false),
+                const SizedBox(height: 10.0,),
+                customTwoRadioButtons(3, 'yes', 'no', setState),
+                const SizedBox(height: 15.0,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(getTranslated('theStartDateOfTheLeave', context)),
+                        const SizedBox(height: 5.0,),
+                        Text(
+                          '${getTranslated('choose', context)} ${getTranslated('theStartDateOfTheLeave', context)}',
+                          style: TextStyle(
+                            color: HexColor('#A6A6A6'),
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SvgPicture.asset('assets/icons/calenderBox.svg')
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 30.0,),
+            if(isNewBornValidID && newBornData != null)
+            Card(
+                elevation: 5.0,
+                shadowColor: Colors.black45,
+                color: getContainerColor(context),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Container(
+                  width: width(1, context),
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: width(0.6, context),
+                            child: Text(
+                              '${newBornData['cur_getdata'][0][0]['C_M_NAME1']??''} ${newBornData['cur_getdata'][0][0]['C_M_NAME2']??''} ${newBornData['cur_getdata'][0][0]['C_M_NAME3']??''} ${newBornData['cur_getdata'][0][0]['C_M_NAME4']??''}',
+                              style: TextStyle(
+                                height: 1.4,
+                                color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15.0,),
+                      Row(
+                        children: [
+                          Text(
+                            newbornNationalNumberController.text,
+                            style: TextStyle(
+                              color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                            ),
+                          ),
+                          Text(
+                            ' / ',
+                            style: TextStyle(
+                              color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                            ),
+                          ),
+                          Text(
+                            getTranslated(selectedNewbornNationality, context),
+                            style: TextStyle(
+                              color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15.0,),
+                      Row(
+                        children: [
+                          Text(
+                            getTranslated('theDateTheLeaveEnds', context),
+                            style: TextStyle(
+                              color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                            ),
+                          ),
+                          Text(
+                            ' : ',
+                            style: TextStyle(
+                              color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                            ),
+                          ),
+                          Text(
+                            '4',
+                            style: TextStyle(
+                              color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+            ),
           ],
         ),
       ),
@@ -538,8 +695,15 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 selectedNewbornNationality = firstChoice;
               }else if(flag == 2){
                 selectedPlaceOfBirth = firstChoice;
+              }else if(flag == 3){
+                isTherePermitToExpectHisBirth = firstChoice;
               }
             });
+            setState(() {
+              isNewBornValidID = false;
+            });
+            newBornData = null;
+            servicesProvider.notifyMe();
           },
           child: Row(
             children: [
@@ -554,7 +718,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 padding: const EdgeInsets.all(2.0),
                 child: CircleAvatar(
                   radius: isTablet(context) ? 10 : 5,
-                  backgroundColor: (flag == 1 && selectedNewbornNationality == firstChoice) || (flag == 2 && selectedPlaceOfBirth == firstChoice)
+                  backgroundColor: (flag == 1 && selectedNewbornNationality == firstChoice) || (flag == 2 && selectedPlaceOfBirth == firstChoice) || (flag == 3 && isTherePermitToExpectHisBirth == firstChoice)
                       ? HexColor('#2D452E')
                       : Colors.transparent,
                 ),
@@ -579,8 +743,15 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 selectedNewbornNationality = secondChoice;
               }else if(flag == 2){
                 selectedPlaceOfBirth = secondChoice;
+              }else if(flag == 3){
+                isTherePermitToExpectHisBirth = secondChoice;
               }
             });
+            setState(() {
+              isNewBornValidID = false;
+            });
+            newBornData = null;
+            servicesProvider.notifyMe();
           },
           child: Row(
             children: [
@@ -595,7 +766,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 padding: const EdgeInsets.all(2.0),
                 child: CircleAvatar(
                   radius: isTablet(context) ? 10 : 5,
-                  backgroundColor: (flag == 1 && selectedNewbornNationality == secondChoice) || (flag == 2 && selectedPlaceOfBirth == secondChoice)
+                  backgroundColor: (flag == 1 && selectedNewbornNationality == secondChoice) || (flag == 2 && selectedPlaceOfBirth == secondChoice) || (flag == 3 && isTherePermitToExpectHisBirth == secondChoice)
                       ? HexColor('#2D452E')
                       : Colors.transparent,
                 ),
