@@ -79,111 +79,96 @@ class _OneTimeRefundInquiryScreenState extends State<OneTimeRefundInquiryScreen>
                             ); break;
                           case ConnectionState.done:
                             if(!snapshot.hasError && snapshot.hasData){
-                              return  SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Card(
-                                        elevation: 6.0,
-                                        shadowColor: Colors.black45,
-                                        color: getContainerColor(context),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15.0),
-                                        ),
-                                        child: Container(
-                                          width: width(1, context),
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                children: [
-                                                  Container(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                                                    decoration: BoxDecoration(
-                                                      color: const Color.fromRGBO(153, 216, 140, 0.4),
-                                                      borderRadius: BorderRadius.circular(8.0),
+                              return  snapshot.data['cur_getdata1'].isNotEmpty
+                              ? Padding(
+                                padding: const EdgeInsets.only(bottom: 40.0),
+                                child: ListView.builder(
+                                  itemCount: snapshot.data['cur_getdata1'][0].length,
+                                  itemBuilder: (context, index){
+                                    return Padding(
+                                      padding: const EdgeInsets.only(bottom: 10.0),
+                                      child: Card(
+                                          elevation: 6.0,
+                                          shadowColor: Colors.black45,
+                                          color: getContainerColor(context),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(15.0),
+                                          ),
+                                          child: Container(
+                                            width: width(1, context),
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    Container(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                                                      decoration: BoxDecoration(
+                                                        color: const Color.fromRGBO(153, 216, 140, 0.4),
+                                                        borderRadius: BorderRadius.circular(8.0),
+                                                      ),
+                                                      child: Text(
+                                                        getTranslated('paidOff', context),
+                                                        style: TextStyle(
+                                                          color: HexColor('#363636'),
+                                                          fontWeight: FontWeight.w400,
+                                                          fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
+                                                        ),
+                                                      ),
                                                     ),
-                                                    child: Text(
-                                                      getTranslated('paidOff', context),
+                                                  ],
+                                                ),
+                                                Text(
+                                                  '${snapshot.data['cur_getdata1'][0][index]['REASON']}',
+                                                  style: TextStyle(
+                                                    height: 1.4,
+                                                    color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 15.0,),
+                                                Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: width(0.3, context),
+                                                      child: Text(
+                                                        getTranslated('exchangeDate', context),
+                                                        style: TextStyle(
+                                                          color: HexColor('#716F6F'),
+                                                          fontWeight: FontWeight.w400,
+                                                          fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      '${snapshot.data['cur_getdata1'][0][index]['CDAT']}',
                                                       style: TextStyle(
                                                         color: HexColor('#363636'),
                                                         fontWeight: FontWeight.w400,
                                                         fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Text(
-                                                'سلفة من حساب التعويض تمكين 2',
-                                                style: TextStyle(
-                                                  height: 1.4,
-                                                  color: themeNotifier.isLight() ? HexColor('#363636') : Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
+                                                  ],
                                                 ),
-                                              ),
-                                              const SizedBox(height: 20.0,),
-                                              Row(
-                                                children: [
-                                                  SizedBox(
-                                                    width: width(0.3, context),
-                                                    child: Text(
-                                                      getTranslated('exchangeDate', context),
-                                                      style: TextStyle(
-                                                        color: HexColor('#716F6F'),
-                                                        fontWeight: FontWeight.w400,
-                                                        fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    '12/10/2023',
-                                                    style: TextStyle(
-                                                      color: HexColor('#363636'),
-                                                      fontWeight: FontWeight.w400,
-                                                      fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 20.0,),
-                                              Row(
-                                                children: [
-                                                  SizedBox(
-                                                    width: width(0.3, context),
-                                                    child: Text(
-                                                      getTranslated('totalAmount', context),
-                                                      style: TextStyle(
-                                                        color: HexColor('#716F6F'),
-                                                        fontWeight: FontWeight.w400,
-                                                        fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    '300 ${getTranslated('jd', context)}',
-                                                    style: const TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 20.0,),
-                                              Divider(color: HexColor('#363636'), thickness: 0.2,),
-                                              const SizedBox(height: 10.0,),
-                                              InkWell(
-                                                onTap: (){},
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                const SizedBox(height: 15.0,),
+                                                Row(
                                                   children: [
-                                                    const Icon(Icons.refresh),
-                                                    const SizedBox(width: 5.0,),
+                                                    SizedBox(
+                                                      width: width(0.3, context),
+                                                      child: Text(
+                                                        getTranslated('totalAmount', context),
+                                                        style: TextStyle(
+                                                          color: HexColor('#716F6F'),
+                                                          fontWeight: FontWeight.w400,
+                                                          fontSize: isScreenHasSmallWidth(context) ? 13 : 15,
+                                                        ),
+                                                      ),
+                                                    ),
                                                     Text(
-                                                      getTranslated('returnMoney', context),
+                                                      '${snapshot.data['cur_getdata1'][0][index]['AMT']} ${getTranslated('jd', context)}',
                                                       style: const TextStyle(
                                                         fontSize: 13,
                                                         fontWeight: FontWeight.bold,
@@ -191,12 +176,39 @@ class _OneTimeRefundInquiryScreenState extends State<OneTimeRefundInquiryScreen>
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                    ),
-                                  ],
+                                                const SizedBox(height: 10.0,),
+                                                Divider(color: HexColor('#363636'), thickness: 0.2,),
+                                                const SizedBox(height: 10.0,),
+                                                InkWell(
+                                                  onTap: (){},
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      const Icon(Icons.refresh),
+                                                      const SizedBox(width: 5.0,),
+                                                      Text(
+                                                        getTranslated('returnMoney', context),
+                                                        style: const TextStyle(
+                                                          fontSize: 13,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )
+                              : Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.only(bottom: 50.0),
+                                child: Text(
+                                  getTranslated('thereAreNoPreviousRequests', context),
                                 ),
                               );
                             }
