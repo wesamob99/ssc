@@ -19,6 +19,7 @@ import '../../../../../utilities/util.dart';
 import 'dart:math' as math;
 import '../../../../viewModel/login/loginProvider.dart';
 import '../../shared/firstStepScreen.dart';
+import '../../shared/paymentScreen.dart';
 import '../../shared/verifyMobileNumberScreen.dart';
 
 class MaternityAllowanceApplicationScreen extends StatefulWidget {
@@ -46,11 +47,21 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
       } else{
         return true;
       }
-    } else if(flag == 3){
-      return true;
+    } else if(flag == 4){
+      if(servicesProvider.selectedActivePayment['ID'] == 5){
+        return servicesProvider.bankNameController.text.isNotEmpty &&
+            servicesProvider.bankBranchController.text.isNotEmpty &&
+            servicesProvider.bankAddressController.text.isNotEmpty &&
+            servicesProvider.accountNoController.text.isNotEmpty &&
+            servicesProvider.swiftCodeController.text.isNotEmpty &&
+            servicesProvider.paymentMobileNumberController.text.isNotEmpty;
+      } else{
+        return true;
+      }
     } else if(flag == 5){
       return termsChecked;
     }
+    return true;
   }
 
   @override
@@ -86,9 +97,9 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
             onTap: (){
-              if(servicesProvider.stepNumber == 4){
+              if(servicesProvider.stepNumber == 3){
                 switch(servicesProvider.documentsScreensStepNumber){
-                  case 1: servicesProvider.stepNumber = 3; break;
+                  case 1: servicesProvider.stepNumber = 2; break;
                   case 2: {
                     if(servicesProvider.documentIndex > 0){
                       servicesProvider.documentIndex--;
@@ -124,14 +135,14 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 switch(servicesProvider.stepNumber){
                   case 1: Navigator.of(context).pop(); break;
                   case 2: servicesProvider.stepNumber = 1; break;
-                  case 3:
+                  case 4:
                     {
-                      servicesProvider.stepNumber = 2;
+                      servicesProvider.stepNumber = 3;
+                      servicesProvider.documentsScreensStepNumber = 5;
                     } break;
                   case 5:
                     {
                       servicesProvider.stepNumber = 4;
-                      servicesProvider.documentsScreensStepNumber = 5;
                     }
                     break;
                 }
@@ -170,12 +181,12 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                       if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
                         secondStep(context, themeNotifier),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                        thirdStep(context, themeNotifier),
+                        const DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 5, data: {}, serviceType: 4, dependents: [], relations: [], nextStepNumber: 4,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 4)
-                        DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 5, data: const {}, serviceType: 11, info: servicesProvider.deadPersonInfo['cur_getdata'][0][0], dependents: servicesProvider.deadPersonInfo['cur_getdata2'], relations: servicesProvider.penDeath['Relative_type_getdata'][0], nextStepNumber: 5,),
+                        const PaymentScreen(numberOfSteps: 5, nextStep: 'confirmRequest', stepText: 'forthStep', stepNumber: 4,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 5)
                         fifthStep(context, themeNotifier),
-                      if(!(Provider.of<ServicesProvider>(context).stepNumber == 4))
+                      if(!(Provider.of<ServicesProvider>(context).stepNumber == 3))
                         textButton(context,
                           themeNotifier,
                           Provider.of<ServicesProvider>(context).stepNumber != 5 ? 'continue' : 'send',
@@ -232,7 +243,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                                       await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
                                           .then((val) async {
                                         if(val['PO_STATUS'] == 1){
-                                          Provider.of<AccountSettingsProvider>(context, listen: false).updateUserInfo(2, servicesProvider.mobileNumberController.text).whenComplete((){}).then((value){
+                                          Provider.of<AccountSettingsProvider>(context, listen: false).updateUserInfo(4, servicesProvider.mobileNumberController.text).whenComplete((){}).then((value){
                                             if(value["PO_STATUS"] == 0){
                                               servicesProvider.stepNumber = 2;
                                               servicesProvider.isMobileNumberUpdated = false;
@@ -446,70 +457,6 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
             buildFieldTitle(context, 'newbornNationalNumber', required: false),
             const SizedBox(height: 10.0,),
             buildTextFormField(context, themeNotifier, newbornNationalNumberController, '9999999999', (value){}),
-            const SizedBox(height: 15.0,),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget thirdStep(context, themeNotifier){
-    return SizedBox(
-      height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: height(0.02, context),),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  getTranslated('secondStep', context),
-                  style: TextStyle(
-                      color: HexColor('#979797'),
-                      fontSize: width(0.03, context)
-                  ),
-                ),
-                SizedBox(height: height(0.006, context),),
-                Text(
-                  getTranslated('orderDetails', context),
-                  style: TextStyle(
-                      color: HexColor('#5F5F5F'),
-                      fontSize: width(0.035, context)
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: height(0.01, context),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox.shrink(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      '2/5',
-                      style: TextStyle(
-                          color: HexColor('#979797'),
-                          fontSize: width(0.025, context)
-                      ),
-                    ),
-                    Text(
-                      '${getTranslated('next', context)}: ${getTranslated('heirsInformation', context)}',
-                      style: TextStyle(
-                          color: HexColor('#979797'),
-                          fontSize: width(0.032, context)
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 20.0,),
-
             const SizedBox(height: 15.0,),
           ],
         ),
