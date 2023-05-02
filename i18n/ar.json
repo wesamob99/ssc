@@ -529,5 +529,6 @@
   "paidOff": "تم الصرف",
   "exchangeDate": "تاريخ الصرف",
   "totalAmount": "المبلغ الإجمالي",
-  "returnMoney": "إعاده المبلغ"
+  "returnMoney": "إعاده المبلغ",
+  "thereAreNoPreviousRequests": "لا يوجد طلبات سابقه"
 }

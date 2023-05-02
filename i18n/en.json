@@ -520,5 +520,6 @@
   "paidOff": "Paid off",
   "exchangeDate": "Exchange date",
   "totalAmount": "Total amount",
-  "returnMoney": "Return money"
+  "returnMoney": "Return money",
+  "thereAreNoPreviousRequests": "There are no previous requests"
 }
