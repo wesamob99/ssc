@@ -135,6 +135,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
       "mandatory": [],
       "optional": [],
     };
+    servicesProvider.selectedInsideOutsideJordan = 'insideJordan';
     servicesProvider.selectedPaymentCountry = SelectedListItem(
       name: UserConfig.instance.isLanguageEnglish() ? "Palestine" : "فلسطين",
       value: "970", natCode: 188,
