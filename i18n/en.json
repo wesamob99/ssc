@@ -521,5 +521,8 @@
   "exchangeDate": "Exchange date",
   "totalAmount": "Total amount",
   "returnMoney": "Return money",
-  "thereAreNoPreviousRequests": "There are no previous requests"
+  "thereAreNoPreviousRequests": "There are no previous requests",
+  "isTherePermitToExpectHisBirth": "Is there a permit to expect his birth?",
+  "theStartDateOfTheLeave": "The start date of the leave",
+  "theDateTheLeaveEnds": "The date the leave ends"
 }

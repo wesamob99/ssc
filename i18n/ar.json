@@ -530,5 +530,8 @@
   "exchangeDate": "تاريخ الصرف",
   "totalAmount": "المبلغ الإجمالي",
   "returnMoney": "إعاده المبلغ",
-  "thereAreNoPreviousRequests": "لا يوجد طلبات سابقه"
+  "thereAreNoPreviousRequests": "لا يوجد طلبات سابقه",
+  "isTherePermitToExpectHisBirth": "هل يوجد اجازه  توقع ولاده؟",
+  "theStartDateOfTheLeave": "تاريخ بداية الإجازة",
+  "theDateTheLeaveEnds": "تاريخ انتهاء الإجازه"
 }
