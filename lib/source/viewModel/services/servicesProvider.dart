@@ -61,6 +61,7 @@ class ServicesProvider extends ChangeNotifier {
   TextEditingController paymentMobileNumberController = TextEditingController();
   SelectedListItem selectedPaymentCountry;
   Map selectedActivePayment;
+  String selectedInsideOutsideJordan = 'insideJordan';
   List activePayment = [];
   /// **********************************************
 
