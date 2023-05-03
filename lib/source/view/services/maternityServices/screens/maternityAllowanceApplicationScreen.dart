@@ -41,6 +41,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
   DateTime minDate;
   DateTime maxDate;
   DateTime selectedMinDate;
+  DateTime selectedDateOfBirth = DateTime.now();
   String selectedNewbornNationality = 'jordanian';
   String selectedPlaceOfBirth = 'insideJordan';
   String isTherePermitToExpectHisBirth = 'yes';
@@ -53,7 +54,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
       if(servicesProvider.isMobileNumberUpdated){
         return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
       } else{
-        return true;
+        return newBornData != null || (selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan');
       }
     } else if(flag == 4){
       if(servicesProvider.selectedActivePayment['ID'] == 5){
@@ -74,6 +75,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
 
   @override
   void initState() {
+    themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     Provider.of<LoginProvider>(context, listen: false).readCountriesJson();
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     servicesProvider.mobileNumberController.text = UserSecuredStorage.instance.realMobileNumber;
@@ -84,7 +86,13 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
     servicesProvider.optionalDocuments = [];
     servicesProvider.optionalDocumentsCheckBox = [];
     servicesProvider.selectedOptionalDocuments = [];
-    themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+    servicesProvider.activePayment = [];
+    servicesProvider.getActivePayment("2", servicesProvider.result['p_per_info'][0][0]['NAT'] == "111" ? '1' : '2').whenComplete(() {}).then((value) {
+      value['R_RESULT'][0].forEach((element){
+        servicesProvider.activePayment.add(element);
+      });
+      servicesProvider.selectedActivePayment = servicesProvider.activePayment[0];
+    });
     servicesProvider.stepNumber = 1;
     servicesProvider.uploadedFiles = {
       "mandatory": [],
@@ -189,7 +197,91 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                       if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
                         secondStep(context, themeNotifier),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 3)
-                        const DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 5, data: {}, serviceType: 4, dependents: [], relations: [], nextStepNumber: 4,),
+                        DocumentsScreen(nextStep: 'receiptOfAllowances', numberOfSteps: 5, data: {
+                          'PAYMENT_METHOD': "",
+                          'BANK_LOCATION': "",
+                          'BRANCH_ID': '',
+                          'BRANCH_NAME': '',
+                          'BANK_ID': '',
+                          'BANK_NAME': '',
+                          'ACCOUNT_NAME': '',
+                          'PAYMENT_COUNTRY': '',
+                          'PAYMENT_COUNTRY_CODE': '',
+                          'PAYMENT_PHONE': '',
+                          'SWIFT_CODE': '',
+                          'BANK_DETAILS': '',
+                          'IBAN': '',
+                          'CASH_BANK_ID': '',
+                          // معلومات الوكيل (REP)
+                          'REP_NATIONALITY': '',
+                          'REP_NATIONAL_NO': '',
+                          'REP_NAME': '',
+                          // معلومات المحفظه (WALLET)
+                          'WALLET_TYPE': '',
+                          'WALLET_OTP_VERIVIED': null,
+                          'WALLET_OTP': null,
+                          'WALLET_PHONE': '',
+                          'WALLET_PHONE_VERIVIED': '',
+                          'WALLET_PASSPORT_NUMBER': '',
+                          'PEN_IBAN': null,
+                          "IFSC": "",
+                          "SECNO": servicesProvider.result['p_per_info'][0][0]['SECNO'],
+                          "NAT_DESC": servicesProvider.result['p_per_info'][0][0]['NAT_DESC'],
+                          "NAT": int.tryParse(servicesProvider.result['p_per_info'][0][0]['NAT'].toString()),
+                          "NAT_NO": servicesProvider.result['p_per_info'][0][0]['NAT_NO'],
+                          "PERS_NO": servicesProvider.result['p_per_info'][0][0]['PERS_NO'],
+                          "LAST_EST_NAME": servicesProvider.result['p_per_info'][0][0]['LAST_EST_NAME'],
+                          "NAME1": servicesProvider.result['p_per_info'][0][0]['NAME1'],
+                          "NAME2": servicesProvider.result['p_per_info'][0][0]['NAME2'],
+                          "NAME3": servicesProvider.result['p_per_info'][0][0]['NAME3'],
+                          "NAME4": servicesProvider.result['p_per_info'][0][0]['NAME4'],
+                          "FULL_NAME_EN": servicesProvider.result['p_per_info'][0][0]['FULL_NAME_EN'],
+                          "EMAIL": servicesProvider.result['p_per_info'][0][0]['EMAIL'],
+                          "MOBILE": servicesProvider.result['p_per_info'][0][0]['MOBILE'],
+                          "INTERNATIONAL_CODE": servicesProvider.result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
+                          "MARITAL_STATUS": null,
+                          "REGDATE": null,
+                          "REGRATE": null,
+                          "LAST_SALARY": null,
+                          "LAST_STODATE": null,
+                          "GENDER": servicesProvider.result['p_per_info'][0][0]['GENDER'],
+                          "PEN_START_DATE": null,
+                          "DETAILED_ADDRESS": null,
+                          "PASS_NO": null,
+                          "RESIDENCY_NO": null,
+                          "DOB": servicesProvider.result['p_per_info'][0][0]['DOB'],
+                          "JOB_NO": null,
+                          "JOB_DESC": null,
+                          "ENAME1": null,
+                          "ENAME2": null,
+                          "ENAME3": null,
+                          "ENAME4": null,
+                          "LAST_EST_NO": servicesProvider.result['p_per_info'][0][0]['LAST_EST_NO'],
+                          "FAM_NO": null,
+                          "nextVaild": null,
+                          "wantAddFamily": null,
+                          "GENDER_DESC": servicesProvider.result['p_per_info'][0][0]['GENDER_DESC'],
+                          "PI_EPAY": null,
+                          "INSURED": null,
+                          "ID": null,
+                          "DEP_FLAG": 0,
+                          "OFFNO": servicesProvider.result['p_per_info'][0][0]['OFFNO'],
+                          "BIRTH_PLACE": selectedPlaceOfBirth == 'insideJordan' ? 1 : 0,
+                          "CHILD_NATIONALITY": selectedNewbornNationality == 'jordanian' ? 1 : 0,
+                          "CHILD_NAT_NO": null,
+                          "CHILD_SERIAL_NO": !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newbornNationalNumberController.text : null,
+                          "BIRTH_DATE": !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan')
+                          ? DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']).toString()
+                          : selectedDateOfBirth.toString(),
+                          "BIRTH_EXPECTATION": isTherePermitToExpectHisBirth == 'yes' ? 1 : 0,
+                          "LEAVE_START_DATE": minDate.toIso8601String(),
+                          "LEAVE_END_DATE": selectedMinDate.add(Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1)).toIso8601String(),
+                          "MOTHER_NAME": null,
+                          "C_M_NAME1": !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newBornData['cur_getdata'][0][0]['C_M_NAME1'] : null,
+                          "C_M_NAME2": !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newBornData['cur_getdata'][0][0]['C_M_NAME2'] : null,
+                          "C_M_NAME3": !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newBornData['cur_getdata'][0][0]['C_M_NAME3'] : null,
+                          "C_M_NAME4": !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newBornData['cur_getdata'][0][0]['C_M_NAME4'] : null,
+                        }, serviceType: 4, dependents: const [], relations: const [], nextStepNumber: 4,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 4)
                         const PaymentScreen(numberOfSteps: 5, nextStep: 'confirmRequest', stepText: 'forthStep', stepNumber: 4,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 5)
@@ -269,7 +361,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                                           servicesProvider.stepNumber = 2;
                                           servicesProvider.isMobileNumberUpdated = true;
                                           errorMessage = UserConfig.instance.isLanguageEnglish()
-                                              ? val["PO_STATUS_DESC_EN"] : val["PO_STATUS_DESC_AR"];
+                                              ? val["pO_status_desc_EN"] : val["pO_status_desc_AR"];
                                           showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
                                         }
                                         servicesProvider.notifyMe();
@@ -297,13 +389,83 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                                   }
                                 }
                               } break;
-                              case 3: {
-                                if(checkContinueEnabled(flag: 3)){
-
+                              case 4: {
+                                if(checkContinueEnabled(flag: 4)){
+                                  servicesProvider.stepNumber = 5;
                                 }
                               } break;
                               case 5: {
-
+                                /// TODO: create maternity set application and finish the service
+                                if(checkContinueEnabled(flag: 5)){
+                                  try{
+                                    String message = '';
+                                    servicesProvider.isLoading = true;
+                                    servicesProvider.isModalLoading = false;
+                                    servicesProvider.notifyMe();
+                                    Map<String, dynamic> paymentInfo = {
+                                      'PAYMENT_METHOD': servicesProvider.selectedActivePayment['ID'],
+                                      'BANK_LOCATION': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankAddressController.text : 0,
+                                      'BRANCH_ID': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'BRANCH_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankBranchController.text : '',
+                                      'BANK_ID': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'BANK_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.bankNameController.text : '',
+                                      'ACCOUNT_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.accountNoController.text : '',
+                                      'PAYMENT_COUNTRY': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.selectedPaymentCountry.name : '',
+                                      'PAYMENT_COUNTRY_CODE': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.selectedPaymentCountry.value : '',
+                                      'PAYMENT_PHONE': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.paymentMobileNumberController.text : '',
+                                      'SWIFT_CODE': servicesProvider.selectedActivePayment['ID'] == 5 ? servicesProvider.swiftCodeController.text : '',
+                                      'BANK_DETAILS': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'IBAN': servicesProvider.selectedActivePayment['ID'] == 3 ? servicesProvider.result["p_per_info"][0][0]["IBAN"] : '',
+                                      'CASH_BANK_ID': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      // معلومات الوكيل (REP)
+                                      'REP_NATIONALITY': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'REP_NATIONAL_NO': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'REP_NAME': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      // معلومات المحفظه (WALLET)
+                                      'WALLET_TYPE': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'WALLET_OTP_VERIVIED': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
+                                      'WALLET_OTP': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
+                                      'WALLET_PHONE': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'WALLET_PHONE_VERIVIED': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'WALLET_PASSPORT_NUMBER': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
+                                      'PEN_IBAN': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
+                                    };
+                                    // List mandatoryDocs = await saveFiles('mandatory');
+                                    // List optionalDocs = await saveFiles('optional');
+                                    // docs.addAll(mandatoryDocs + optionalDocs);
+                                    // await servicesProvider.setOneTimeCompensationRequest(docs, paymentInfo, clearanceSerialNumber.text, reasonForRequestingCompensation.flag, marriageContract, isArmy).whenComplete(() {}).then((value) {
+                                    //   if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
+                                    //     message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
+                                    //     if(value['PO_TYPE'] == 2){
+                                    //       message = UserConfig.instance.isLanguageEnglish()
+                                    //           ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                    //     }
+                                    //     showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
+                                    //         message, 'ok',
+                                    //         themeNotifier,
+                                    //         icon: 'assets/icons/serviceSuccess.svg', titleColor: '#2D452E').then((_){
+                                    //       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                    //         servicesProvider.selectedServiceRate = -1;
+                                    //         servicesProvider.notifyMe();
+                                    //         rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                    //       });
+                                    //     });
+                                    //   } else{
+                                    //     message = UserConfig.instance.isLanguageEnglish()
+                                    //         ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                    //     showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
+                                    //   }
+                                    // });
+                                    // servicesProvider.isLoading = false;
+                                    // servicesProvider.notifyMe();
+                                  } catch(e){
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
+                                    if (kDebugMode) {
+                                      print(e.toString());
+                                    }
+                                  }
+                                }
                               } break;
                             }
                             servicesProvider.notifyMe();
@@ -462,70 +624,141 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
             const SizedBox(height: 10.0,),
             customTwoRadioButtons(2, 'insideJordan', 'outsideJordan', setState),
             const SizedBox(height: 15.0,),
-            buildFieldTitle(context, selectedNewbornNationality == 'jordanian' ? 'newbornNationalNumber' : 'newbornNationalID', required: false),
-            const SizedBox(height: 10.0,),
-            buildTextFormField(context, themeNotifier, newbornNationalNumberController, '9999999999', (value) async {
-              if((selectedNewbornNationality == 'jordanian' && value.length == 10) || selectedNewbornNationality != 'jordanian'){
-                FocusScope.of(context).requestFocus(FocusNode());
-                String message = '';
-                servicesProvider.isLoading = true;
-                servicesProvider.notifyMe();
-                try{
-                  await servicesProvider.getMaternityChildService(value).whenComplete((){}).then((value) async {
-                    if(value['PO_status'] == 0){
-                      setState(() {
-                        isNewBornValidID = true;
-                        newBornData = value;
-                        minDate = DateFormat('dd/MM/yyyy').parse(value['cur_getdata'][0][0]['CHILD_BIRTHDATE']);
-                        selectedMinDate = minDate;
-                        maxDate = DateFormat('dd/MM/yyyy').parse(value['cur_getdata'][0][0]['CHILD_BIRTHDATE']).add(
-                            Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1)
-                        );
+            if(!(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan'))
+            Column(
+              children: [
+                buildFieldTitle(context, selectedNewbornNationality == 'jordanian' ? 'newbornNationalNumber' : 'newbornNationalID', required: false),
+                const SizedBox(height: 10.0,),
+                buildTextFormField(context, themeNotifier, newbornNationalNumberController, '9999999999', (value) async {
+                  if((selectedNewbornNationality == 'jordanian' && value.length == 10) || selectedNewbornNationality != 'jordanian'){
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    String message = '';
+                    servicesProvider.isLoading = true;
+                    servicesProvider.notifyMe();
+                    try{
+                      await servicesProvider.getMaternityChildService(value).whenComplete((){}).then((value) async {
+                        if(value['PO_status'] == 0){
+                          setState(() {
+                            isNewBornValidID = true;
+                            newBornData = value;
+                            minDate = DateFormat('dd/MM/yyyy').parse(value['cur_getdata'][0][0]['CHILD_BIRTHDATE']);
+                            selectedMinDate = minDate;
+                            maxDate = DateFormat('dd/MM/yyyy').parse(value['cur_getdata'][0][0]['CHILD_BIRTHDATE']).add(
+                                Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1)
+                            );
+                          });
+                          servicesProvider.notifyMe();
+                        } else{
+                          setState(() {
+                            isNewBornValidID = false;
+                            newBornData = null;
+                            minDate = null;
+                            selectedMinDate = minDate;
+                            maxDate = null;
+                          });
+                          servicesProvider.notifyMe();
+                          message = UserConfig.instance.isLanguageEnglish()
+                              ? value['pO_status_desc_EN'] : value['pO_status_desc_AR'];
+                          showMyDialog(context, 'failed', message, 'ok', themeNotifier);
+                        }
                       });
+                      servicesProvider.isLoading = false;
                       servicesProvider.notifyMe();
-                    } else{
-                      setState(() {
-                        isNewBornValidID = false;
-                        newBornData = null;
-                        minDate = null;
-                        selectedMinDate = minDate;
-                        maxDate = null;
-                      });
+                    }catch(e){
+                      servicesProvider.isLoading = false;
                       servicesProvider.notifyMe();
-                      message = UserConfig.instance.isLanguageEnglish()
-                          ? value['pO_status_desc_EN'] : value['pO_status_desc_AR'];
-                      showMyDialog(context, 'failed', message, 'ok', themeNotifier);
+                      showMyDialog(context, 'failed', getTranslated('somethingWrongHappened', context), 'ok', themeNotifier);
+                      if (kDebugMode) {
+                        print(e.toString());
+                      }
                     }
-                  });
-                  servicesProvider.isLoading = false;
-                  servicesProvider.notifyMe();
-                }catch(e){
-                  servicesProvider.isLoading = false;
-                  servicesProvider.notifyMe();
-                  showMyDialog(context, 'failed', getTranslated('somethingWrongHappened', context), 'ok', themeNotifier);
-                  if (kDebugMode) {
-                    print(e.toString());
+                  } else{
+                    setState(() {
+                      isNewBornValidID = false;
+                      newBornData = null;
+                      minDate = null;
+                      selectedMinDate = minDate;
+                      maxDate = null;
+                    });
+                    servicesProvider.notifyMe();
                   }
-                }
-              } else{
-                setState(() {
-                  isNewBornValidID = false;
-                  newBornData = null;
-                  minDate = null;
-                  selectedMinDate = minDate;
-                  maxDate = null;
-                });
-                servicesProvider.notifyMe();
-              }
-            }),
+                }),
+              ],
+            ),
+            if(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan')
+            Column(
+              children: [
+                buildFieldTitle(context, 'DateOfBirth', required: false),
+                const SizedBox(height: 10.0,),
+                InkWell(
+                  onTap: () {
+                    DatePicker.showDatePicker(
+                      context,
+                      showTitleActions: true,
+                      theme: DatePickerTheme(
+                        headerColor: primaryColor,
+                        backgroundColor: Colors.white,
+                        itemStyle: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                        doneStyle: const TextStyle(color: Colors.white, fontSize: 16,),
+                        cancelStyle: const TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      maxTime: DateTime.now(),
+                      onConfirm: (date) {
+                        setState(() {
+                          selectedDateOfBirth = date;
+                          if(isTherePermitToExpectHisBirth == 'yes'){
+                            minDate = date.subtract(
+                              Duration(days: servicesProvider.result['p_per_info'][0][0]['MAX_EXP_VAC']),
+                            );
+                            selectedMinDate = minDate;
+                            maxDate = date;
+                          }else {
+                            minDate = date;
+                            selectedMinDate = minDate;
+                            maxDate = date.add(
+                              Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1),
+                            );
+                          }
+                        });
+                      },
+                      currentTime: DateTime.now(),
+                      locale: LocaleType.en,
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(12.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: HexColor('#979797'),
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          DateFormat('dd/MM/yyyy').format(selectedDateOfBirth),
+                        ),
+                        SvgPicture.asset('assets/icons/datePickerIcon.svg'),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 15.0,),
-            if(isNewBornValidID)
+            if(isNewBornValidID || (selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan'))
             Column(
               children: [
                 buildFieldTitle(context, 'isTherePermitToExpectHisBirth', required: false),
                 const SizedBox(height: 10.0,),
                 customTwoRadioButtons(3, 'yes', 'no', setState),
-                const SizedBox(height: 15.0,),
+                SizedBox(height: isTherePermitToExpectHisBirth == 'yes' ? 15.0 : 0.0,),
+                if(isTherePermitToExpectHisBirth == 'yes')
                 Column(
                   children: [
                     Row(
@@ -539,9 +772,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                             Text(getTranslated('theStartDateOfTheLeave', context)),
                             const SizedBox(height: 10.0,),
                             Text(
-                              isTherePermitToExpectHisBirth == 'yes'
-                              ? '${getTranslated('choose', context)} ${getTranslated('theStartDateOfTheLeave', context)}'
-                              : DateFormat('dd/MM/yyyy').format(minDate),
+                              '${getTranslated('choose', context)} ${getTranslated('theStartDateOfTheLeave', context)}',
                               style: TextStyle(
                                 color: HexColor('#A6A6A6'),
                                 fontSize: 12,
@@ -549,7 +780,6 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                             ),
                           ],
                         ),
-                        if(isTherePermitToExpectHisBirth == 'yes')
                         InkWell(
                           onTap: (){
                             DatePicker.showDatePicker(
@@ -581,8 +811,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                         )
                       ],
                     ),
-                    SizedBox(height: isTherePermitToExpectHisBirth == 'yes' ? 10.0 : 0,),
-                    if(isTherePermitToExpectHisBirth == 'yes')
+                    const SizedBox(height: 10.0),
                     SizedBox(
                       height: 82.0,
                       child: ListView.builder(
@@ -645,8 +874,8 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 ),
               ],
             ),
-            const SizedBox(height: 20.0,),
-            if(isNewBornValidID && newBornData != null)
+            SizedBox(height: isTherePermitToExpectHisBirth == 'yes' ? 20.0 : 10.0,),
+            if(isNewBornValidID && newBornData != null  || (selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan'))
             Card(
                 elevation: 5.0,
                 shadowColor: Colors.black45,
@@ -660,6 +889,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if(!(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan'))
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -679,12 +909,14 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                       const SizedBox(height: 15.0,),
                       Row(
                         children: [
+                          if(!(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan'))
                           Text(
                             newbornNationalNumberController.text,
                             style: TextStyle(
                               color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                             ),
                           ),
+                          if(!(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan'))
                           Text(
                             ' / ',
                             style: TextStyle(
@@ -693,6 +925,29 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                           ),
                           Text(
                             getTranslated(selectedNewbornNationality, context),
+                            style: TextStyle(
+                              color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15.0,),
+                      Row(
+                        children: [
+                          Text(
+                            getTranslated('theStartDateOfTheLeave', context),
+                            style: TextStyle(
+                              color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                            ),
+                          ),
+                          Text(
+                            ' : ',
+                            style: TextStyle(
+                              color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
+                            ),
+                          ),
+                          Text(
+                            DateFormat('dd/MM/yyyy').format(selectedMinDate),
                             style: TextStyle(
                               color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                             ),
@@ -726,6 +981,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                   ),
                 )
             ),
+            const SizedBox(height: 20.0,),
           ],
         ),
       ),
@@ -735,63 +991,148 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
   Widget fifthStep(context, themeNotifier){
     return SizedBox(
       height: isTablet(context) ? height(0.78, context) : isScreenHasSmallHeight(context) ? height(0.73, context) : height(0.75, context),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: height(0.02, context),),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  getTranslated('secondStep', context),
-                  style: TextStyle(
-                      color: HexColor('#979797'),
-                      fontSize: width(0.03, context)
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: height(0.02, context),),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                getTranslated('sixthStep', context),
+                style: TextStyle(
+                    color: HexColor('#979797'),
+                    fontSize: width(0.03, context)
+                ),
+              ),
+              SizedBox(height: height(0.006, context),),
+              Text(
+                getTranslated('confirmRequest', context),
+                style: TextStyle(
+                    color: HexColor('#5F5F5F'),
+                    fontSize: width(0.035, context)
+                ),
+              )
+            ],
+          ),
+          SizedBox(height: height(0.01, context),),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox.shrink(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '6/6',
+                    style: TextStyle(
+                        color: HexColor('#979797'),
+                        fontSize: width(0.025, context)
+                    ),
+                  ),
+                  Text(
+                    getTranslated('finished', context),
+                    style: TextStyle(
+                        color: HexColor('#979797'),
+                        fontSize: width(0.032, context)
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: height(0.02, context),),
+          Text(
+            getTranslated('reviewYourDetailedStatement', context),
+            style: TextStyle(
+              color: HexColor('#363636'),
+            ),
+          ),
+          const SizedBox(height: 20.0,),
+          InkWell(
+            onTap: () async{
+              servicesProvider.isLoading = true;
+              servicesProvider.notifyMe();
+              try{
+                await servicesProvider.getInquiryInsuredInformation().then((val1) async{
+                  await servicesProvider.getInsuredInformationReport(val1).then((val2) async {
+                    await downloadAndOpenPDF(val2.data, getTranslated('detailedDisclosure', context)).whenComplete(() {
+                      if (kDebugMode) {
+                        print('completed');
+                      }
+                    });
+                  });
+                });
+                servicesProvider.isLoading = false;
+                servicesProvider.notifyMe();
+              } catch(e){
+                servicesProvider.isLoading = false;
+                servicesProvider.notifyMe();
+                if (kDebugMode) {
+                  print(e.toString());
+                }
+              }
+            },
+            child: Container(
+              width: width(1, context),
+              padding: const EdgeInsets.all(14.0),
+              decoration: BoxDecoration(
+                  color: const Color.fromRGBO(208, 208, 208, 0.26),
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(
+                      color: HexColor('#979797')
+                  )
+              ),
+              child: Text(
+                getTranslated('detailedDisclosure', context),
+                style: TextStyle(
+                  color: HexColor('#003C97'),
+                ),
+              ),
+            ),
+          ),
+          Expanded(child: Container()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: (){
+                  setState(() {
+                    termsChecked = !termsChecked;
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                      color: HexColor('#DADADA'),
+                      borderRadius: BorderRadius.circular(3.0)
+                  ),
+                  child: Container(
+                    width: width(0.04, context),
+                    height: width(0.04, context),
+                    decoration: BoxDecoration(
+                        color: termsChecked ? HexColor('#2D452E') : HexColor('#DADADA'),
+                        borderRadius: BorderRadius.circular(4.0)
+                    ),
                   ),
                 ),
-                SizedBox(height: height(0.006, context),),
-                Text(
-                  getTranslated('orderDetails', context),
+              ),
+              SizedBox(width: width(0.05, context),),
+              Expanded(
+                child: Text(
+                  getTranslated('maternityTermsAndConditions', context),
                   style: TextStyle(
-                      color: HexColor('#5F5F5F'),
-                      fontSize: width(0.035, context)
+                    fontSize: height(0.015, context),
+                    color: HexColor('#595959'),
                   ),
-                )
-              ],
-            ),
-            SizedBox(height: height(0.01, context),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox.shrink(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      '2/5',
-                      style: TextStyle(
-                          color: HexColor('#979797'),
-                          fontSize: width(0.025, context)
-                      ),
-                    ),
-                    Text(
-                      '${getTranslated('next', context)}: ${getTranslated('heirsInformation', context)}',
-                      style: TextStyle(
-                          color: HexColor('#979797'),
-                          fontSize: width(0.032, context)
-                      ),
-                    ),
-                  ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 20.0,),
-
-            const SizedBox(height: 15.0,),
-          ],
-        ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 30.0,)
+        ],
       ),
     );
   }
@@ -818,11 +1159,19 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 maxDate = null;
               }else if(flag == 3){
                 isTherePermitToExpectHisBirth = firstChoice;
-                minDate = DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']).subtract(
-                  Duration(days: servicesProvider.result['p_per_info'][0][0]['MAX_EXP_VAC']),
-                );
-                selectedMinDate = minDate;
-                maxDate = DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']);
+                if(selectedPlaceOfBirth == 'outsideJordan' && selectedNewbornNationality == 'nonJordanian'){
+                  minDate = selectedDateOfBirth.subtract(
+                    Duration(days: servicesProvider.result['p_per_info'][0][0]['MAX_EXP_VAC']),
+                  );
+                  selectedMinDate = minDate;
+                  maxDate = selectedDateOfBirth;
+                }else {
+                  minDate = DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']).subtract(
+                    Duration(days: servicesProvider.result['p_per_info'][0][0]['MAX_EXP_VAC']),
+                  );
+                  selectedMinDate = minDate;
+                  maxDate = DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']);
+                }
               }
             });
             servicesProvider.notifyMe();
@@ -868,20 +1217,47 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 minDate = null;
                 selectedMinDate = minDate;
                 maxDate = null;
+                if(selectedPlaceOfBirth == 'outsideJordan' && isTherePermitToExpectHisBirth == 'yes'){
+                  minDate = selectedDateOfBirth.subtract(
+                    Duration(days: servicesProvider.result['p_per_info'][0][0]['MAX_EXP_VAC']),
+                  );
+                  selectedMinDate = minDate;
+                  maxDate = selectedDateOfBirth;
+                }else {
+                  minDate = null;
+                  selectedMinDate = minDate;
+                  maxDate = null;
+                }
               }else if(flag == 2){
                 selectedPlaceOfBirth = secondChoice;
                 isNewBornValidID = false;
                 newBornData = null;
-                minDate = null;
-                selectedMinDate = minDate;
-                maxDate = null;
+                if(selectedNewbornNationality == 'nonJordanian' && isTherePermitToExpectHisBirth == 'yes'){
+                  minDate = selectedDateOfBirth.subtract(
+                    Duration(days: servicesProvider.result['p_per_info'][0][0]['MAX_EXP_VAC']),
+                  );
+                  selectedMinDate = minDate;
+                  maxDate = selectedDateOfBirth;
+                }else {
+                  minDate = null;
+                  selectedMinDate = minDate;
+                  maxDate = null;
+                }
               }else if(flag == 3){
                 isTherePermitToExpectHisBirth = secondChoice;
-                minDate = DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']);
-                selectedMinDate = minDate;
-                maxDate = DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']).add(
-                  Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1),
-                );
+                if(selectedPlaceOfBirth == 'outsideJordan' && selectedNewbornNationality == 'nonJordanian'){
+                  minDate = selectedDateOfBirth;
+                  selectedMinDate = minDate;
+                  maxDate = selectedDateOfBirth.add(
+                    Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1),
+                  );
+                }else {
+                  minDate = DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']);
+                  selectedMinDate = minDate;
+                  maxDate = DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']).add(
+                    Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1),
+                  );
+                }
               }
             });
             servicesProvider.notifyMe();
