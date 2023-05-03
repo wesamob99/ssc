@@ -508,6 +508,7 @@
   "newbornNationality": "جنسية المولود",
   "placeOfBirth": "مكان الولادة",
   "newbornNationalNumber": "الرقم الوطني للمولود",
+  "newbornNationalID": "الرقم التسلسلي للمولود",
   "doYouAgreeWithTheDecision": "هل تتفق مع هذا القرار؟",
   "agree": "موافق",
   "disagree": "اعترض على قرار التبيلغ",
