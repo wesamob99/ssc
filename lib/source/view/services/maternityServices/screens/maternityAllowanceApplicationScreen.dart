@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter_svg/svg.dart';
@@ -35,7 +36,11 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
   ThemeNotifier themeNotifier;
   bool termsChecked = false;
   bool isNewBornValidID = false;
+  // ignore: prefer_typing_uninitialized_variables
   var newBornData;
+  DateTime minDate;
+  DateTime maxDate;
+  DateTime selectedMinDate;
   String selectedNewbornNationality = 'jordanian';
   String selectedPlaceOfBirth = 'insideJordan';
   String isTherePermitToExpectHisBirth = 'yes';
@@ -457,7 +462,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
             const SizedBox(height: 10.0,),
             customTwoRadioButtons(2, 'insideJordan', 'outsideJordan', setState),
             const SizedBox(height: 15.0,),
-            buildFieldTitle(context, 'newbornNationalNumber', required: false),
+            buildFieldTitle(context, selectedNewbornNationality == 'jordanian' ? 'newbornNationalNumber' : 'newbornNationalID', required: false),
             const SizedBox(height: 10.0,),
             buildTextFormField(context, themeNotifier, newbornNationalNumberController, '9999999999', (value) async {
               if((selectedNewbornNationality == 'jordanian' && value.length == 10) || selectedNewbornNationality != 'jordanian'){
@@ -470,14 +475,22 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                     if(value['PO_status'] == 0){
                       setState(() {
                         isNewBornValidID = true;
+                        newBornData = value;
+                        minDate = DateFormat('dd/MM/yyyy').parse(value['cur_getdata'][0][0]['CHILD_BIRTHDATE']);
+                        selectedMinDate = minDate;
+                        maxDate = DateFormat('dd/MM/yyyy').parse(value['cur_getdata'][0][0]['CHILD_BIRTHDATE']).add(
+                            Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1)
+                        );
                       });
-                      newBornData = value;
                       servicesProvider.notifyMe();
                     } else{
                       setState(() {
                         isNewBornValidID = false;
+                        newBornData = null;
+                        minDate = null;
+                        selectedMinDate = minDate;
+                        maxDate = null;
                       });
-                      newBornData = null;
                       servicesProvider.notifyMe();
                       message = UserConfig.instance.isLanguageEnglish()
                           ? value['pO_status_desc_EN'] : value['pO_status_desc_AR'];
@@ -497,8 +510,11 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
               } else{
                 setState(() {
                   isNewBornValidID = false;
+                  newBornData = null;
+                  minDate = null;
+                  selectedMinDate = minDate;
+                  maxDate = null;
                 });
-                newBornData = null;
                 servicesProvider.notifyMe();
               }
             }),
@@ -510,31 +526,126 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 const SizedBox(height: 10.0,),
                 customTwoRadioButtons(3, 'yes', 'no', setState),
                 const SizedBox(height: 15.0,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                Column(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(getTranslated('theStartDateOfTheLeave', context)),
-                        const SizedBox(height: 5.0,),
-                        Text(
-                          '${getTranslated('choose', context)} ${getTranslated('theStartDateOfTheLeave', context)}',
-                          style: TextStyle(
-                            color: HexColor('#A6A6A6'),
-                            fontSize: 12,
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(getTranslated('theStartDateOfTheLeave', context)),
+                            const SizedBox(height: 10.0,),
+                            Text(
+                              isTherePermitToExpectHisBirth == 'yes'
+                              ? '${getTranslated('choose', context)} ${getTranslated('theStartDateOfTheLeave', context)}'
+                              : DateFormat('dd/MM/yyyy').format(minDate),
+                              style: TextStyle(
+                                color: HexColor('#A6A6A6'),
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
                         ),
+                        if(isTherePermitToExpectHisBirth == 'yes')
+                        InkWell(
+                          onTap: (){
+                            DatePicker.showDatePicker(
+                              context,
+                              showTitleActions: true,
+                              theme: DatePickerTheme(
+                                headerColor: primaryColor,
+                                backgroundColor: Colors.white,
+                                itemStyle: TextStyle(
+                                  color: primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                                doneStyle: const TextStyle(color: Colors.white, fontSize: 16,),
+                                cancelStyle: const TextStyle(color: Colors.white, fontSize: 16),
+                              ),
+                              minTime: minDate,
+                              maxTime: maxDate,
+                              onConfirm: (date) {
+                                setState(() {
+                                  selectedMinDate = date;
+                                });
+                              },
+                              currentTime: selectedMinDate,
+                              locale: LocaleType.en,
+                            );
+                          },
+                          child: SvgPicture.asset('assets/icons/calenderBox.svg'),
+                        )
                       ],
                     ),
-                    SvgPicture.asset('assets/icons/calenderBox.svg')
+                    SizedBox(height: isTherePermitToExpectHisBirth == 'yes' ? 10.0 : 0,),
+                    if(isTherePermitToExpectHisBirth == 'yes')
+                    SizedBox(
+                      height: 82.0,
+                      child: ListView.builder(
+                        itemCount: maxDate.difference(minDate).inDays + 1,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index){
+                          DateTime date = minDate.add(Duration(days: index));
+                          String dayName = DateFormat('EEEE').format(date);
+                          String dayNumber = DateFormat('d').format(date);
+                          return Row(
+                            children: [
+                              InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    selectedMinDate = date;
+                                  });
+                                },
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  width: 80,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    color: selectedMinDate == date ? primaryColor : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    border: Border.all(
+                                      color: selectedMinDate == date ? Colors.transparent : HexColor('#979797'),
+                                    )
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        dayNumber,
+                                        style: TextStyle(
+                                          color: selectedMinDate == date ? HexColor('#FFFFFF') : HexColor('#363636'),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5.0,),
+                                      Text(
+                                        dayName,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: selectedMinDate == date ? HexColor('#FFFFFF') : HexColor('#363636'),
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10.0,),
+                            ],
+                          );
+                        },
+                      ),
+                    )
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 30.0,),
+            const SizedBox(height: 20.0,),
             if(isNewBornValidID && newBornData != null)
             Card(
                 elevation: 5.0,
@@ -604,7 +715,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                             ),
                           ),
                           Text(
-                            '4',
+                            DateFormat('dd/MM/yyyy').format(selectedMinDate.add(Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1))),
                             style: TextStyle(
                               color: themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white70,
                             ),
@@ -693,16 +804,27 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
             setState(() {
               if(flag == 1){
                 selectedNewbornNationality = firstChoice;
+                isNewBornValidID = false;
+                newBornData = null;
+                minDate = null;
+                selectedMinDate = minDate;
+                maxDate = null;
               }else if(flag == 2){
                 selectedPlaceOfBirth = firstChoice;
+                isNewBornValidID = false;
+                newBornData = null;
+                minDate = null;
+                selectedMinDate = minDate;
+                maxDate = null;
               }else if(flag == 3){
                 isTherePermitToExpectHisBirth = firstChoice;
+                minDate = DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']).subtract(
+                  Duration(days: servicesProvider.result['p_per_info'][0][0]['MAX_EXP_VAC']),
+                );
+                selectedMinDate = minDate;
+                maxDate = DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']);
               }
             });
-            setState(() {
-              isNewBornValidID = false;
-            });
-            newBornData = null;
             servicesProvider.notifyMe();
           },
           child: Row(
@@ -741,16 +863,27 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
             setState(() {
               if(flag == 1){
                 selectedNewbornNationality = secondChoice;
+                isNewBornValidID = false;
+                newBornData = null;
+                minDate = null;
+                selectedMinDate = minDate;
+                maxDate = null;
               }else if(flag == 2){
                 selectedPlaceOfBirth = secondChoice;
+                isNewBornValidID = false;
+                newBornData = null;
+                minDate = null;
+                selectedMinDate = minDate;
+                maxDate = null;
               }else if(flag == 3){
                 isTherePermitToExpectHisBirth = secondChoice;
+                minDate = DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']);
+                selectedMinDate = minDate;
+                maxDate = DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']).add(
+                  Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1),
+                );
               }
             });
-            setState(() {
-              isNewBornValidID = false;
-            });
-            newBornData = null;
             servicesProvider.notifyMe();
           },
           child: Row(
