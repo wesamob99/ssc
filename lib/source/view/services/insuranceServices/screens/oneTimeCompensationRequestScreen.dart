@@ -758,7 +758,7 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
               SizedBox(width: width(0.05, context),),
               Expanded(
                 child: Text(
-                  getTranslated('earlyRetirementTermsAndConditions', context),
+                  getTranslated('oneTimeCompensationTermsAndConditions', context),
                   style: TextStyle(
                     fontSize: height(0.015, context),
                     color: HexColor('#595959'),
