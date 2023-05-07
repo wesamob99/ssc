@@ -1431,5 +1431,125 @@ class ServicesRepository {
 
 /// **************************************************************MATERNITY ALLOWANCE APPLICATION  - END********************************************************
 
+/// **************************************************************UNEMPLOYMENT APPLICATION  - START*************************************************************
+
+  Future setUnemploymentApplicationService(result, docs, paymentInfo) async {
+    var row = {
+      /// payment info
+      "PAYMENT_METHOD": paymentInfo['PAYMENT_METHOD'],
+      "BANK_LOCATION": paymentInfo['BANK_LOCATION'],
+      "BRANCH_ID": paymentInfo['BRANCH_ID'],
+      "BRANCH_NAME": paymentInfo['BRANCH_NAME'],
+      "BANK_ID": paymentInfo['BANK_ID'],
+      "BANK_NAME": paymentInfo['BANK_NAME'],
+      "ACCOUNT_NAME": paymentInfo['ACCOUNT_NAME'],
+      "PAYMENT_COUNTRY": paymentInfo['PAYMENT_COUNTRY'],
+      "PAYMENT_COUNTRY_CODE": paymentInfo['PAYMENT_COUNTRY_CODE'],
+      "PAYMENT_PHONE": paymentInfo['PAYMENT_PHONE'],
+      "SWIFT_CODE": paymentInfo['SWIFT_CODE'],
+      "BANK_DETAILS": paymentInfo['BANK_DETAILS'],
+      "IBAN": paymentInfo['IBAN'] ?? "",
+      "CASH_BANK_ID": paymentInfo['CASH_BANK_ID'],
+      "REP_NATIONALITY": paymentInfo['REP_NATIONALITY'],
+      "REP_NATIONAL_NO": paymentInfo['REP_NATIONAL_NO'],
+      "REP_NAME": paymentInfo['REP_NAME'],
+      "WALLET_TYPE": paymentInfo['WALLET_TYPE'],
+      "WALLET_OTP_VERIVIED": paymentInfo['WALLET_OTP_VERIVIED'],
+      "WALLET_OTP": paymentInfo['WALLET_OTP'],
+      "WALLET_PHONE": paymentInfo['WALLET_PHONE'],
+      "WALLET_PHONE_VERIVIED": paymentInfo['WALLET_PHONE_VERIVIED'],
+      "WALLET_PASSPORT_NUMBER": paymentInfo['WALLET_PASSPORT_NUMBER'],
+      "PEN_IBAN": paymentInfo['PEN_IBAN'],
+      "IBAN_CONFIG": "1",
+
+      /// ***
+      "IFSC": "",
+      "APPROVE_DISCLOSURE": 1,
+      "NOT_APPROVE_REASON": "",
+      "SIG_ATHORIZED": null,
+      "WANT_INSURANCE": null,
+      "OFFNO": result['p_per_info'][0][0]['OFFNO'],
+      "AGREE_TERMS": 1,
+      "SECNO": result['p_per_info'][0][0]['SECNO'],
+      "NAT_DESC": result['p_per_info'][0][0]['NAT_DESC'],
+      "NAT": result['p_per_info'][0][0]['NAT'],
+      "NAT_NO": result['p_per_info'][0][0]['NAT_NO'],
+      "PERS_NO": result['p_per_info'][0][0]['PERS_NO'],
+      "LAST_EST_NAME": result['p_per_info'][0][0]['LAST_EST_NAME'],
+      "NAME1": result['p_per_info'][0][0]['NAME1'],
+      "NAME2": result['p_per_info'][0][0]['NAME2'],
+      "NAME3": result['p_per_info'][0][0]['NAME3'],
+      "NAME4": result['p_per_info'][0][0]['NAME4'],
+      "FULL_NAME_EN": result['p_per_info'][0][0]['FULL_NAME_EN'],
+      "EMAIL": result['p_per_info'][0][0]['EMAIL'],
+      "MOBILE": result['p_per_info'][0][0]['MOBILE'],
+      "INTERNATIONAL_CODE": result['p_per_info'][0][0]['INTERNATIONAL_CODE'],
+      "MARITAL_STATUS": null,
+      "REGDATE": null,
+      "REGRATE": null,
+      "LAST_SALARY": null,
+      "LAST_STODATE": result['p_per_info'][0][0]['LAST_STODATE'],
+      "ACTUAL_STODATE": null,
+      "GENDER": result['p_per_info'][0][0]['GENDER'],
+      "CIVIL_WORK_DOC": null,
+      "MILITARY_WORK_DOC": null,
+      "CIV_MIL_RETIRED_DOC": null,
+      "PEN_START_DATE": null,
+      "DETAILED_ADDRESS": null,
+      "PASS_NO": null,
+      "RESIDENCY_NO": null,
+      "DOB": result['p_per_info'][0][0]['DOB'],
+      "JOB_NO": null,
+      "JOB_DESC": null,
+      "ENAME1": null,
+      "ENAME2": null,
+      "ENAME3": null,
+      "ENAME4": null,
+      "LAST_EST_NO": result['p_per_info'][0][0]['LAST_EST_NO'],
+      "FAM_NO": null,
+      "nextVaild": null,
+      "wantAddFamily": null,
+      "GENDER_DESC": result['p_per_info'][0][0]['GENDER_DESC'],
+      "PI_EPAY": null,
+      "INSURED": null,
+      "APPLICANT_ID": result['p_per_info'][0][0]['NAT_NO'].toString(),
+      "APPLICANT_NO": result['p_per_info'][0][0]['NAT_NO'].toString(),
+      "SERVICE_TYPE": 3,
+      "IS_DEFENSE": null,
+      "APP_STATUS_EXTERNAL": 2,
+      "OTHER_DEPENDANTS": null,
+      "ID": "",
+      "LEAVE_START_DATE": null,
+      "LEAVE_END_DATE": null,
+      "BIRTH_DATE": null,
+    };
+    var data = {
+      "params": {
+        "XML": jsonEncode(
+            {
+              "row": row,
+              "doc": docs,
+              "dep": [],
+              "INHERITORS": [],
+              "isWebsite": false
+            }
+        )
+      }
+    };
+
+    var response = await HTTPClientContract.instance.postHTTP(
+        '/website/set_application', data
+    );
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.data);
+    }
+    return '';
+  }
+
+/// **************************************************************UNEMPLOYMENT APPLICATION  - END***************************************************************
+
 
 }

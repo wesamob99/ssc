@@ -408,38 +408,29 @@ class _UnemploymentApplicationScreenState extends State<UnemploymentApplicationS
                                     List mandatoryDocs = await saveFiles('mandatory');
                                     List optionalDocs = await saveFiles('optional');
                                     docs.addAll(mandatoryDocs + optionalDocs);
-                                    // await servicesProvider.setMaternityAllowanceApplication(
-                                    //     docs, paymentInfo,
-                                    //     !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newBornData : null,
-                                    //     isTherePermitToExpectHisBirth == 'yes' ? 1 : 0,
-                                    //     !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newbornNationalNumberController.text : null,
-                                    //     (selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newbornNationalNumberController.text : null,
-                                    //     selectedNewbornNationality == 'jordanian' ? 1 : 0,
-                                    //     selectedPlaceOfBirth == 'insideJordan' ? 1 : 0,
-                                    //     selectedMinDate, selectedMinDate.add(Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1)), selectedDateOfBirth
-                                    // ).whenComplete(() {}).then((value) {
-                                    //   if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
-                                    //     message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
-                                    //     if(value['PO_TYPE'] == 2){
-                                    //       message = UserConfig.instance.isLanguageEnglish()
-                                    //           ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
-                                    //     }
-                                    //     showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
-                                    //         message, 'ok',
-                                    //         themeNotifier,
-                                    //         icon: 'assets/icons/serviceSuccess.svg', titleColor: '#2D452E').then((_){
-                                    //       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                                    //         servicesProvider.selectedServiceRate = -1;
-                                    //         servicesProvider.notifyMe();
-                                    //         rateServiceBottomSheet(context, themeNotifier, servicesProvider);
-                                    //       });
-                                    //     });
-                                    //   } else{
-                                    //     message = UserConfig.instance.isLanguageEnglish()
-                                    //         ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
-                                    //     showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
-                                    //   }
-                                    // });
+                                    await servicesProvider.setUnemploymentApplication(docs, paymentInfo).whenComplete(() {}).then((value) {
+                                      if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
+                                        message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
+                                        if(value['PO_TYPE'] == 2){
+                                          message = UserConfig.instance.isLanguageEnglish()
+                                              ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                        }
+                                        showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
+                                            message, 'ok',
+                                            themeNotifier,
+                                            icon: 'assets/icons/serviceSuccess.svg', titleColor: '#2D452E').then((_){
+                                          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                            servicesProvider.selectedServiceRate = -1;
+                                            servicesProvider.notifyMe();
+                                            rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                          });
+                                        });
+                                      } else{
+                                        message = UserConfig.instance.isLanguageEnglish()
+                                            ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                        showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
+                                      }
+                                    });
                                     servicesProvider.isLoading = false;
                                     servicesProvider.notifyMe();
                                   } catch(e){

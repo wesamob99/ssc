@@ -164,6 +164,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.setMaternityAllowanceApplicationService(result, docs, paymentInfo, newBornData, birthExpectation, childSerialNo, childNatNo, childNationality, birthPlace, leaveStartDate, leaveEndDate, birthDate);
   }
 
+  Future setUnemploymentApplication(docs, paymentInfo) async{
+    return await servicesRepository.setUnemploymentApplicationService(result, docs, paymentInfo);
+  }
+
   Future checkDocumentDependent(List dependents) async{
     return await servicesRepository.checkDocumentDependentService(dependents);
   }
