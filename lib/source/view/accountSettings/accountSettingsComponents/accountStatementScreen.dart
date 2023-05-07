@@ -1,10 +1,12 @@
 // ignore_for_file: file_names
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/source/viewModel/accountSettings/accountSettingsProvider.dart';
+import 'package:ssc/source/viewModel/services/servicesProvider.dart';
 import 'package:ssc/source/viewModel/utilities/theme/themeProvider.dart';
 import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
@@ -20,6 +22,7 @@ class AccountStatementScreen extends StatefulWidget {
 
 class _AccountStatementScreenState extends State<AccountStatementScreen> {
 
+  /// TODO: add the missed informations
   Future inquireInsuredInfo;
   AccountSettingsProvider accountSettingsProvider;
   ThemeNotifier themeNotifier;
@@ -32,127 +35,228 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     inquireInsuredInfo = accountSettingsProvider.getInquireInsuredInfo();
     isEnglish = UserConfig.instance.isLanguageEnglish();
+    accountSettingsProvider.isLoading = false;
     selectedIndex = 1;
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: Text(getTranslated('accountStatement', context), style: const TextStyle(fontSize: 14),),
-        leading: leadingBackIcon(context),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0).copyWith(top: 25.0),
-        child: FutureBuilder(
-            future: inquireInsuredInfo,
-            builder: (context, snapshot){
-              switch(snapshot.connectionState){
-                case ConnectionState.none:
-                  return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc'); break;
-                case ConnectionState.waiting:
-                case ConnectionState.active:
-                  return Container(
-                      height: height(1, context),
-                      alignment: Alignment.center,
-                      child: animatedLoader(context)
-                  ); break;
-                case ConnectionState.done:
-                  if(snapshot.hasData && !snapshot.hasError){
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Row(
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            centerTitle: false,
+            title: Text(getTranslated('accountStatement', context), style: const TextStyle(fontSize: 14),),
+            leading: leadingBackIcon(context),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0).copyWith(top: 25.0),
+            child: FutureBuilder(
+                future: inquireInsuredInfo,
+                builder: (context, snapshot){
+                  switch(snapshot.connectionState){
+                    case ConnectionState.none:
+                      return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc'); break;
+                    case ConnectionState.waiting:
+                    case ConnectionState.active:
+                      return Container(
+                          height: height(1, context),
+                          alignment: Alignment.center,
+                          child: animatedLoader(context)
+                      ); break;
+                    case ConnectionState.done:
+                      if(snapshot.hasData && !snapshot.hasError){
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Expanded(
-                              child: InkWell(
-                                onTap: (){
-                                  setState(() {
-                                    selectedIndex = 1;
-                                  });
-                                },
-                                highlightColor: Colors.transparent,
-                                child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 300),
-                                  padding: const EdgeInsets.all(16.0),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: selectedIndex == 1 ? getPrimaryColor(context, themeNotifier) : getContainerColor(context),
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(isEnglish ? 12.0 : 0),
-                                        bottomLeft: Radius.circular(isEnglish ? 12.0 : 0),
-                                        topRight: Radius.circular(isEnglish ? 0 : 12.0),
-                                        bottomRight: Radius.circular(isEnglish ? 0 : 12.0),
-                                      )
-                                  ),
-                                  child: Text(
-                                    getTranslated('subscriptionPeriods', context),
-                                    style: TextStyle(
-                                      color: selectedIndex == 1 ? HexColor('#FFFFFF')
-                                          : themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: (){
+                                      setState(() {
+                                        selectedIndex = 1;
+                                      });
+                                    },
+                                    highlightColor: Colors.transparent,
+                                    child: AnimatedContainer(
+                                      duration: const Duration(milliseconds: 300),
+                                      padding: const EdgeInsets.all(16.0),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: selectedIndex == 1 ? getPrimaryColor(context, themeNotifier) : getContainerColor(context),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(isEnglish ? 12.0 : 0),
+                                            bottomLeft: Radius.circular(isEnglish ? 12.0 : 0),
+                                            topRight: Radius.circular(isEnglish ? 0 : 12.0),
+                                            bottomRight: Radius.circular(isEnglish ? 0 : 12.0),
+                                          )
+                                      ),
+                                      child: Text(
+                                        getTranslated('subscriptionPeriods', context),
+                                        style: TextStyle(
+                                          color: selectedIndex == 1 ? HexColor('#FFFFFF')
+                                              : themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Expanded(
-                              child: InkWell(
-                                onTap: (){
-                                  setState(() {
-                                    selectedIndex = 2;
-                                  });
-                                },
-                                highlightColor: Colors.transparent,
-                                child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 300),
-                                  padding: const EdgeInsets.all(16.0),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: selectedIndex == 2 ? getPrimaryColor(context, themeNotifier) : getContainerColor(context),
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(isEnglish ? 0 : 12.0),
-                                        bottomLeft: Radius.circular(isEnglish ? 0 : 12.0),
-                                        topRight: Radius.circular(isEnglish ? 12.0 : 0),
-                                        bottomRight: Radius.circular(isEnglish ? 12.0 : 0),
-                                      )
-                                  ),
-                                  child: Text(
-                                    getTranslated('financialSalaries', context),
-                                    style: TextStyle(
-                                      color: selectedIndex == 2 ? HexColor('#FFFFFF')
-                                          : themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: (){
+                                      setState(() {
+                                        selectedIndex = 2;
+                                      });
+                                    },
+                                    highlightColor: Colors.transparent,
+                                    child: AnimatedContainer(
+                                      duration: const Duration(milliseconds: 300),
+                                      padding: const EdgeInsets.all(16.0),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: selectedIndex == 2 ? getPrimaryColor(context, themeNotifier) : getContainerColor(context),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(isEnglish ? 0 : 12.0),
+                                            bottomLeft: Radius.circular(isEnglish ? 0 : 12.0),
+                                            topRight: Radius.circular(isEnglish ? 12.0 : 0),
+                                            bottomRight: Radius.circular(isEnglish ? 12.0 : 0),
+                                          )
+                                      ),
+                                      child: Text(
+                                        getTranslated('financialSalaries', context),
+                                        style: TextStyle(
+                                          color: selectedIndex == 2 ? HexColor('#FFFFFF')
+                                              : themeNotifier.isLight() ? HexColor('#716F6F') : Colors.white,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0, top: 15.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  // SvgPicture.asset('assets/icons/profileIcons/filter.svg', width: 40,),
+                                  // const SizedBox(width: 5.0,),
+                                  InkWell(
+                                    onTap: () async {
+                                      accountSettingsProvider.isLoading = true;
+                                      accountSettingsProvider.notifyMe();
+                                      try{
+                                        await Provider.of<ServicesProvider>(context, listen: false).getInsuredInformationReport(snapshot.data);
+                                        accountSettingsProvider.isLoading = false;
+                                        accountSettingsProvider.notifyMe();
+                                      }catch(e){
+                                        accountSettingsProvider.isLoading = false;
+                                        accountSettingsProvider.notifyMe();
+                                        if (kDebugMode) {
+                                          print(e.toString());
+                                        }
+                                      }
+                                    },
+                                    child: SvgPicture.asset('assets/icons/profileIcons/pdf.svg', width: 40,),
+                                  ),
+                                ],
                               ),
                             ),
+                            if(selectedIndex == 1)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Card(
+                                      elevation: 3.0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0),
+                                      ),
+                                      child: Container(
+                                        height: 75,
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              getTranslated('totalSubscriptions', context),
+                                              style: const TextStyle(
+                                                  fontSize: 11
+                                              ),
+                                            ),
+                                            // const SizedBox(height: 10.0,),
+                                            const Text(
+                                              '511',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10.0,),
+                                  Expanded(
+                                    child: Card(
+                                      elevation: 3.0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0),
+                                      ),
+                                      child: Container(
+                                        height: 75,
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              getTranslated('theNumberOfCompaniesYouHaveWorkedFor', context),
+                                              style: const TextStyle(
+                                                  fontSize: 11
+                                              ),
+                                            ),
+                                            // const SizedBox(height: 10.0,),
+                                            const Text(
+                                              '5',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            if(selectedIndex == 1)
+                            subscriptionPeriodsBody(snapshot.data['cur_getdata2']),
+                            if(selectedIndex == 2)
+                            financialSalariesBody(snapshot.data['cur_getdata3']),
                           ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20.0, top: 15.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              SvgPicture.asset('assets/icons/profileIcons/filter.svg'),
-                              const SizedBox(width: 5.0,),
-                              SvgPicture.asset('assets/icons/profileIcons/pdf.svg'),
-                            ],
-                          ),
-                        ),
-                        if(selectedIndex == 1)
-                        subscriptionPeriodsBody(snapshot.data['cur_getdata2']),
-                        if(selectedIndex == 2)
-                        financialSalariesBody(snapshot.data['cur_getdata3']),
-                      ],
-                    );
+                        );
+                      }
+                      break;
                   }
-                  break;
-              }
-              return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc');
-            }
+                  return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc');
+                }
+            ),
+          ),
         ),
-      ),
+        if(Provider.of<AccountSettingsProvider>(context).isLoading)
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          width: width(1, context),
+          height: height(1, context),
+          color: themeNotifier.isLight() ? Colors.white70 : Colors.black45,
+          child: Center(
+            child: animatedLoader(context),
+          ),
+        ),
+      ],
     );
   }
 
