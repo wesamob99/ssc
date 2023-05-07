@@ -528,35 +528,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 "STATUS": 1,
                 "HIDE_ACTIONS": false
               };
-              bool isDependentDoc = false;
-              if(type == 'mandatory' && servicesProvider.deadPersonInfo['cur_getdata2'].isNotEmpty){
-                servicesProvider.deadPersonInfo['cur_getdata2'][0].forEach((element) {
-                  element['INHERITOR_DOCS'] = [];
-                  if(element['NATIONALNUMBER'].toString() == servicesProvider.uploadedFiles[type][i][j]["document"]['CODE'].toString()){
-                    document = {
-                      "PATH": value['path'],
-                      "DOC_TYPE": servicesProvider.uploadedFiles[type][i][j]["document"]["ID"],
-                      "FILE": {},
-                      "DIRTY": false,
-                      "DEP_ID": "${DateTime.now().millisecondsSinceEpoch}${((math.Random().nextDouble() * 10000) + 1).floor()}",
-                      "FILE_NAME": path.basename(value['path'].toString()),
-                      "DOCUMENT_DATE": DateFormat("dd/MM/yyyy", 'en').format(DateTime.now()),
-                      "required": type == 'mandatory' ? 0 : 1,
-                      "ID": "",
-                      "STATUS": 1,
-                    };
-                    isDependentDoc = true;
-                    if(element['INHERITOR_DOCS'] is String){
-                      element['INHERITOR_DOCS'] = [document];
-                    }else{
-                      element['INHERITOR_DOCS'].add(document);
-                    }
-                  }
-                });
-              }
-              if(!isDependentDoc) {
-                docs.add(document);
-              }
+              docs.add(document);
             });
             j++;
           }catch(e){
