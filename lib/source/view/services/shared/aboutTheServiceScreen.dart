@@ -297,7 +297,8 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                           ((widget.serviceTitle == 'applicationOfReschedulePensionersLoan') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// Application of reschedule pensioners loan - إعادة جدولة سلف المتقاعدين
                                           ((widget.serviceTitle == 'issuingRetirementDecision') && value['PO_STATUS'] == 0) || /// Issuing a retirement decision - تبليغ قرار التقاعد
                                           ((widget.serviceTitle == 'maternityAllowanceApplication') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// Maternity allowance application - طلب بدل امومة
-                                          ((widget.serviceTitle == 'oneTimeCompensationRequest') && value['P_Message'][0][0]['PO_STATUS'] == 0) /// One-time compensation request - طلب  تعويض الدفعة الواحده
+                                          ((widget.serviceTitle == 'oneTimeCompensationRequest') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// One-time compensation request - طلب  تعويض الدفعة الواحده
+                                          ((widget.serviceTitle == 'unemploymentApplication') && value['P_Message'][0][0]['PO_STATUS'] == 0) /// inactivity application - بدل تعطل
                                         )
                                       ){
                                         servicesProvider.result = value;
@@ -305,7 +306,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                             MaterialPageRoute(builder: (context) => widget.serviceScreen)
                                         );
                                       } else{
-                                        if((widget.serviceTitle == 'earlyRetirementRequest') || (widget.serviceTitle == 'applicationForPensionersLoan')){
+                                        if((widget.serviceTitle == 'earlyRetirementRequest') || (widget.serviceTitle == 'applicationForPensionersLoan') || (widget.serviceTitle == 'unemploymentApplication')){
                                           errorMessage = UserConfig.instance.isLanguageEnglish()
                                           ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
                                           showMyDialog(context, 'failed', errorMessage ?? getTranslated('thereAreNoData', context), 'ok', themeNotifier);
