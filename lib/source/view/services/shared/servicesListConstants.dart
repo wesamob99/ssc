@@ -20,11 +20,8 @@ class ServicesList{
   
   /// Quick Access Services ****************************************************
 
-  static Service individualsUnemploymentApplication = Service(
+  static Service unemploymentApplication = Service(
     title: "unemploymentApplication", supTitle: "individuals", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const UnemploymentApplicationScreen(), duplicated: true, serviceApiCall: ()=> _servicesRepository.getApplicationService(3)
-  );
-  static Service maternityUnemploymentApplication = Service(
-      title: "unemploymentApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const UnemploymentApplicationScreen(), duplicated: true, serviceApiCall: ()=> _servicesRepository.getApplicationService(3)
   );
   static Service onePayment = Service(
       title: "onePayment", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/onePaymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
@@ -38,7 +35,7 @@ class ServicesList{
   static Service accountStatement = Service(
       title: "accountStatement", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/accountStatementIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
-  static List<Service> quickAccessServices = [earlyRetirementRequest, deceasedRetirementApplication, individualsUnemploymentApplication, onePayment, reportAnAccident, accountStatement, membershipRequest];
+  static List<Service> quickAccessServices = [earlyRetirementRequest, deceasedRetirementApplication, unemploymentApplication, onePayment, reportAnAccident, accountStatement, membershipRequest];
 
   /// **************************************************************************
   /// Insurance Benefits Services **********************************************
@@ -55,7 +52,7 @@ class ServicesList{
   static Service workInjuryInsurance = Service(
       title: "workInjuryInsurance", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
   );
-  static List<Service> insuranceBenefitsServices = [oneTimeCompensationRequest, savingsBalanceDisbursementRequest, reportSicknessComplaint, workInjuryInsurance];
+  static List<Service> insuranceBenefitsServices = [oneTimeCompensationRequest, savingsBalanceDisbursementRequest, unemploymentApplication, reportSicknessComplaint, workInjuryInsurance];
 
   /// **************************************************************************
   /// optional And Free Inclusion Services *************************************
@@ -126,7 +123,7 @@ class ServicesList{
 
   static List<Service> earlyAndOldRetirements = [earlyRetirementRequest, applicationForOldAgePension];
 
-  static List<Service> mostVisitedServices = [applicationForPensionersLoan, individualsUnemploymentApplication, maternityUnemploymentApplication];
+  static List<Service> mostVisitedServices = [applicationForPensionersLoan, unemploymentApplication, maternityAllowanceApplication];
 
   static List<Service> allServices = [quickAccessServices, insuranceBenefitsServices, optionalAndFreeInclusionServices, retirementServices, otherServices, maternityServices].expand((element) => element).toList();
 
