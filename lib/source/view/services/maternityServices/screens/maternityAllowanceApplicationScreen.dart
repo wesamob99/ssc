@@ -276,7 +276,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                           ? DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']).toString()
                           : selectedDateOfBirth.toString(),
                           "BIRTH_EXPECTATION": isTherePermitToExpectHisBirth == 'yes' ? 1 : 0,
-                          "LEAVE_START_DATE": minDate.toIso8601String(),
+                          "LEAVE_START_DATE": selectedMinDate.toIso8601String(),
                           "LEAVE_END_DATE": selectedMinDate.add(Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1)).toIso8601String(),
                           "MOTHER_NAME": null,
                           "C_M_NAME1": !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newBornData['cur_getdata'][0][0]['C_M_NAME1'] : null,
@@ -436,12 +436,14 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                                     List optionalDocs = await saveFiles('optional');
                                     docs.addAll(mandatoryDocs + optionalDocs);
                                     await servicesProvider.setMaternityAllowanceApplication(
-                                        docs, paymentInfo, isTherePermitToExpectHisBirth == 'yes' ? 1 : 0,
+                                      docs, paymentInfo,
+                                      !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newBornData : null,
+                                      isTherePermitToExpectHisBirth == 'yes' ? 1 : 0,
                                       !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newbornNationalNumberController.text : null,
                                       (selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newbornNationalNumberController.text : null,
                                       selectedNewbornNationality == 'jordanian' ? 1 : 0,
                                       selectedPlaceOfBirth == 'insideJordan' ? 1 : 0,
-                                      minDate, maxDate, selectedDateOfBirth
+                                      selectedMinDate, selectedMinDate.add(Duration(days: servicesProvider.result['p_per_info'][0][0]['MAT_VAC_PERIOD'] - 1)), selectedDateOfBirth
                                     ).whenComplete(() {}).then((value) {
                                       if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
                                         message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);

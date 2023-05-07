@@ -1303,7 +1303,7 @@ class ServicesRepository {
   }
 
 
-  Future setMaternityAllowanceApplicationService(result, docs, paymentInfo, birthExpectation, childSerialNo, childNatNo, childNationality, birthPlace, leaveStartDate, leaveEndDate, birthDate) async {
+  Future setMaternityAllowanceApplicationService(result, docs, paymentInfo, newBornData, birthExpectation, childSerialNo, childNatNo, childNationality, birthPlace, leaveStartDate, leaveEndDate, birthDate) async {
     var row = {
       /// payment info
       "PAYMENT_METHOD": paymentInfo['PAYMENT_METHOD'],
@@ -1398,10 +1398,10 @@ class ServicesRepository {
       "CHILD_SERIAL_NO": childSerialNo,
       "BIRTH_EXPECTATION": birthExpectation,
       "MOTHER_NAME": null,
-      "C_M_NAME1": result['p_per_info'][0][0]['NAME1'],
-      "C_M_NAME2": result['p_per_info'][0][0]['NAME2'],
-      "C_M_NAME3": result['p_per_info'][0][0]['NAME3'],
-      "C_M_NAME4": result['p_per_info'][0][0]['NAME4'],
+      "C_M_NAME1": newBornData != null ? newBornData['cur_getdata'][0][0]['C_M_NAME1'] : null,
+      "C_M_NAME2": newBornData != null ? newBornData['cur_getdata'][0][0]['C_M_NAME2'] : null,
+      "C_M_NAME3": newBornData != null ? newBornData['cur_getdata'][0][0]['C_M_NAME3'] : null,
+      "C_M_NAME4": newBornData != null ? newBornData['cur_getdata'][0][0]['C_M_NAME4'] : null,
     };
     var data = {
       "params": {
