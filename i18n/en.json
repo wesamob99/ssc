@@ -489,6 +489,7 @@
   "officialBooks": "Official books",
   "retirementLoanTermsAndConditions": "I declare that I have reviewed all the terms and conditions of granting advances to retirees and beneficiaries of social security, and I undertake to fulfill the obligations incurred by me according to this request, and I authorize the Corporation to deduct the due installments from my pension / share allocated to me, or any funds accruing to me from the Corporation. It is required to grant an advance to the widow Presenting a bill of exchange for the full value of the installment or bills according to the installments due on each of them.\nthe previous",
   "maternityTermsAndConditions": "In the event that the insured person finds a new occupation during the maternity leave period, the maternity leave allowance shall be suspended. • I declare that I have read all the terms and conditions related to disbursing the insurance benefit. I bear full legal responsibility if I violate any of these terms and conditions and the financial consequences thereof in accordance with the provisions of the law and the related issued legislation.",
+  "unemploymentTermsAndConditions": "Unemployment allowance will be suspended if it was proved to SSC that the insured has returned to a paid job or has practiced a self-employed commercial business. SSC shall recover all the amounts disbursed illegally after applying specified financial penalty in accordance to the provisions of the applicable legislation. I acknowledge that I have reviewed all the terms and conditions related to the disbursement of the insurance benefit, and I bear full legal responsibility in the event that I violate any of these terms and conditions, and the financial implications that result from that in accordance with the provisions of the law and the legislation issued pursuant thereto.",
   "oneTimeCompensationTermsAndConditions": "I acknowledge that I have reviewed all the terms and conditions related to the disbursement of the lump-sum compensation, and I bear full legal responsibility in the event that I violate any of these terms and conditions, and the financial implications of that in accordance with the provisions of the law and the legislation issued pursuant thereto.",
   "developmentProjectsLoanDesc": "It is an advance for the development of existing small development projects (individuals, joint ventures, simple partnerships, and self-employed), and the application for it requires the following documents to be attached: (a recent commercial registration + a valid profession license or any valid license to practice the profession)",
   "personalLoanDesc": "It is a cash loan to meet personal needs and no evidence is required.",
@@ -527,6 +528,9 @@
   "thereAreNoPreviousRequests": "There are no previous requests",
   "isTherePermitToExpectHisBirth": "Is there a permit to expect his birth?",
   "theStartDateOfTheLeave": "The start date of the leave",
-  "theDateTheLeaveEnds": "The date the leave ends"
+  "theDateTheLeaveEnds": "The date the leave ends",
+  "lastFirmName": "Last firm name",
+  "lastFirmNumber": "Last firm number",
+  "dateOfDiscontinuation": "Date of discontinuation"
 
 }
