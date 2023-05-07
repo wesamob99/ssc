@@ -5,6 +5,7 @@ import '../../../model/services/servicesRepository.dart';
 import '../insuranceServices/screens/oneTimeCompensationRequestScreen.dart';
 import '../insuranceServices/screens/workInjuryComplaintScreen.dart';
 import '../maternityServices/screens/maternityAllowanceApplicationScreen.dart';
+import '../mostVisited/screens/unemploymentApplicationScreen.dart';
 import '../optionalAndFreeInclusion/screens/continuityOfCoverageRequestScreen.dart';
 import '../optionalAndFreeInclusion/screens/membershipRequestScreen.dart';
 import '../otherServices/screens/issuingRetirementDecisionScreen.dart';
@@ -20,10 +21,10 @@ class ServicesList{
   /// Quick Access Services ****************************************************
 
   static Service individualsUnemploymentApplication = Service(
-    title: "unemploymentApplication", supTitle: "individuals", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), duplicated: true, serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
+    title: "unemploymentApplication", supTitle: "individuals", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const UnemploymentApplicationScreen(), duplicated: true, serviceApiCall: ()=> _servicesRepository.getApplicationService(3)
   );
   static Service maternityUnemploymentApplication = Service(
-      title: "unemploymentApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), duplicated: true, serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
+      title: "unemploymentApplication", supTitle: "maternity", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const UnemploymentApplicationScreen(), duplicated: true, serviceApiCall: ()=> _servicesRepository.getApplicationService(3)
   );
   static Service onePayment = Service(
       title: "onePayment", supTitle: "optionalAndFreeInclusionServices", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/onePaymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
