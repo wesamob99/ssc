@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
@@ -46,6 +47,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
   String selectedPlaceOfBirth = 'insideJordan';
   String isTherePermitToExpectHisBirth = 'yes';
   TextEditingController newbornNationalNumberController = TextEditingController();
+  List docs = [];
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
@@ -268,7 +270,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                           "OFFNO": servicesProvider.result['p_per_info'][0][0]['OFFNO'],
                           "BIRTH_PLACE": selectedPlaceOfBirth == 'insideJordan' ? 1 : 0,
                           "CHILD_NATIONALITY": selectedNewbornNationality == 'jordanian' ? 1 : 0,
-                          "CHILD_NAT_NO": null,
+                          "CHILD_NAT_NO": (selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newbornNationalNumberController.text : null,
                           "CHILD_SERIAL_NO": !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newbornNationalNumberController.text : null,
                           "BIRTH_DATE": !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan')
                           ? DateFormat('dd/MM/yyyy').parse(newBornData['cur_getdata'][0][0]['CHILD_BIRTHDATE']).toString()
@@ -430,34 +432,41 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                                       'WALLET_PASSPORT_NUMBER': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : '',
                                       'PEN_IBAN': servicesProvider.selectedActivePayment['ID'] == 5 ? '' : null,
                                     };
-                                    // List mandatoryDocs = await saveFiles('mandatory');
-                                    // List optionalDocs = await saveFiles('optional');
-                                    // docs.addAll(mandatoryDocs + optionalDocs);
-                                    // await servicesProvider.setOneTimeCompensationRequest(docs, paymentInfo, clearanceSerialNumber.text, reasonForRequestingCompensation.flag, marriageContract, isArmy).whenComplete(() {}).then((value) {
-                                    //   if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
-                                    //     message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
-                                    //     if(value['PO_TYPE'] == 2){
-                                    //       message = UserConfig.instance.isLanguageEnglish()
-                                    //           ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
-                                    //     }
-                                    //     showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
-                                    //         message, 'ok',
-                                    //         themeNotifier,
-                                    //         icon: 'assets/icons/serviceSuccess.svg', titleColor: '#2D452E').then((_){
-                                    //       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                                    //         servicesProvider.selectedServiceRate = -1;
-                                    //         servicesProvider.notifyMe();
-                                    //         rateServiceBottomSheet(context, themeNotifier, servicesProvider);
-                                    //       });
-                                    //     });
-                                    //   } else{
-                                    //     message = UserConfig.instance.isLanguageEnglish()
-                                    //         ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
-                                    //     showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
-                                    //   }
-                                    // });
-                                    // servicesProvider.isLoading = false;
-                                    // servicesProvider.notifyMe();
+                                    List mandatoryDocs = await saveFiles('mandatory');
+                                    List optionalDocs = await saveFiles('optional');
+                                    docs.addAll(mandatoryDocs + optionalDocs);
+                                    await servicesProvider.setMaternityAllowanceApplication(
+                                        docs, paymentInfo, isTherePermitToExpectHisBirth == 'yes' ? 1 : 0,
+                                      !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newbornNationalNumberController.text : null,
+                                      (selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newbornNationalNumberController.text : null,
+                                      selectedNewbornNationality == 'jordanian' ? 1 : 0,
+                                      selectedPlaceOfBirth == 'insideJordan' ? 1 : 0,
+                                      minDate, maxDate, selectedDateOfBirth
+                                    ).whenComplete(() {}).then((value) {
+                                      if(value != null && value['P_Message'] != null && value['P_Message'][0][0]['PO_STATUS'] == 0){
+                                        message = getTranslated('youCanCheckAndFollowItsStatusFromMyOrdersScreen', context);
+                                        if(value['PO_TYPE'] == 2){
+                                          message = UserConfig.instance.isLanguageEnglish()
+                                              ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                        }
+                                        showMyDialog(context, 'yourRequestHasBeenSentSuccessfully',
+                                            message, 'ok',
+                                            themeNotifier,
+                                            icon: 'assets/icons/serviceSuccess.svg', titleColor: '#2D452E').then((_){
+                                          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                                            servicesProvider.selectedServiceRate = -1;
+                                            servicesProvider.notifyMe();
+                                            rateServiceBottomSheet(context, themeNotifier, servicesProvider);
+                                          });
+                                        });
+                                      } else{
+                                        message = UserConfig.instance.isLanguageEnglish()
+                                            ? value['P_Message'][0][0]['PO_STATUS_DESC_EN'] : value['P_Message'][0][0]['PO_STATUS_DESC_AR'];
+                                        showMyDialog(context, 'failed', message, 'cancel', themeNotifier);
+                                      }
+                                    });
+                                    servicesProvider.isLoading = false;
+                                    servicesProvider.notifyMe();
                                   } catch(e){
                                     servicesProvider.isLoading = false;
                                     servicesProvider.notifyMe();

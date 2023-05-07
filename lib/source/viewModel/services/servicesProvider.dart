@@ -160,6 +160,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.setOneTimeCompensationRequestService(result, docs, paymentInfo, clearanceNo, compensationReason, marriageContract, isArmy);
   }
 
+  Future setMaternityAllowanceApplication(docs, paymentInfo, birthExpectation, childSerialNo, childNatNo, childNationality, birthPlace, leaveStartDate, leaveEndDate, birthDate) async{
+    return await servicesRepository.setMaternityAllowanceApplicationService(result, docs, paymentInfo, birthExpectation, childSerialNo, childNatNo, childNationality, birthPlace, leaveStartDate, leaveEndDate, birthDate);
+  }
+
   Future checkDocumentDependent(List dependents) async{
     return await servicesRepository.checkDocumentDependentService(dependents);
   }
