@@ -66,6 +66,14 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                       ); break;
                     case ConnectionState.done:
                       if(snapshot.hasData && !snapshot.hasError){
+                        int totalSubscriptions = 0;
+                        List companiesYouHaveWorkedFor = [];
+                        snapshot.data['cur_getdata2'][0].forEach((element){
+                          totalSubscriptions += element['MONTH_COUNT'];
+                          if(!companiesYouHaveWorkedFor.contains(element['ESTNO'])){
+                            companiesYouHaveWorkedFor.add(element['ESTNO']);
+                          }
+                        });
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -187,9 +195,9 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                               ),
                                             ),
                                             // const SizedBox(height: 10.0,),
-                                            const Text(
-                                              '511',
-                                              style: TextStyle(
+                                            Text(
+                                              '$totalSubscriptions',
+                                              style: const TextStyle(
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -218,9 +226,9 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                                               ),
                                             ),
                                             // const SizedBox(height: 10.0,),
-                                            const Text(
-                                              '5',
-                                              style: TextStyle(
+                                            Text(
+                                              '${companiesYouHaveWorkedFor.length}',
+                                              style: const TextStyle(
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
