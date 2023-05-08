@@ -700,7 +700,7 @@ loginSuggestionsModalBottomSheet(context, themeNotifier, supportState, authentic
             color: Colors.white,
             shadowColor: Colors.black,
             child: SizedBox(
-              height: height(supportState == SupportState.supported ? 0.5 : isScreenHasSmallHeight(context) ? 0.45 : 0.42, context),
+              height: height(supportState ? 0.5 : isScreenHasSmallHeight(context) ? 0.45 : 0.42, context),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -751,7 +751,7 @@ loginSuggestionsModalBottomSheet(context, themeNotifier, supportState, authentic
                             ),
                           ),
                           SizedBox(height: height(0.04, context),),
-                          supportState == SupportState.supported
+                          supportState
                           ? TextButton(
                             onPressed: authenticate,
                             style: ButtonStyle(
@@ -774,7 +774,7 @@ loginSuggestionsModalBottomSheet(context, themeNotifier, supportState, authentic
                             ),
                           )
                           : const SizedBox.shrink(),
-                          SizedBox(height: height(supportState == SupportState.supported ? 0.015 : 0.0, context),),
+                          SizedBox(height: height(supportState ? 0.015 : 0.0, context),),
                           TextButton(
                             onPressed: (){
                               Navigator.of(context).pop();
