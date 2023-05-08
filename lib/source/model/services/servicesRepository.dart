@@ -38,6 +38,17 @@ class ServicesRepository {
     return null;
   }
 
+  Future getIndividualsDetailsService() async {
+    var response = await HTTPClientContract.instance.getHTTP('/individuals/GetDetail');
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response != null && response.statusCode == 200) {
+      return jsonDecode(response.toString());
+    }
+    return null;
+  }
+
   Future getPensionSalaryDetailsService(String month, String year,
       int pType) async {
     var response = await HTTPClientContract.instance.getHTTP(

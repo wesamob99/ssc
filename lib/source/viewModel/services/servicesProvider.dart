@@ -235,6 +235,10 @@ class ServicesProvider extends ChangeNotifier {
     return await servicesRepository.getDecExistence();
   }
 
+  Future getIndividualsDetails() async{
+    return await servicesRepository.getIndividualsDetailsService();
+  }
+
   Future getPensionSalaryDetails(String month, String year, int pType) async{
     return await servicesRepository.getPensionSalaryDetailsService(month, year, pType);
   }
