@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:ssc/infrastructure/userConfig.dart';
 import 'package:ssc/source/viewModel/utilities/theme/themeProvider.dart';
 
 import '../../../../../utilities/hexColor.dart';
@@ -25,11 +26,13 @@ class _MyFinancesListScreenState extends State<MyFinancesListScreen> {
 
   ServicesProvider servicesProvider;
   ThemeNotifier themeNotifier;
+  Future myFinancesFuture;
 
   @override
   void initState() {
     servicesProvider = Provider.of<ServicesProvider>(context, listen: false);
     themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+    myFinancesFuture = servicesProvider.getIndividualsDetails();
     super.initState();
   }
 
@@ -42,30 +45,64 @@ class _MyFinancesListScreenState extends State<MyFinancesListScreen> {
         leading: leadingBackIcon(context),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: 1,
-          itemBuilder: (context, index){
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 10.0),
-              child: InkWell(
-                onTap: (){
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => FinanceScreen(
-                        card: buildFinanceCard(),
-                      ))
-                  );
-                },
-                child: buildFinanceCard(),
-              ),
-            );
-          },
-        )
+        padding: const EdgeInsets.all(20.0),
+        child: FutureBuilder(
+            future: myFinancesFuture,
+            builder: (context, snapshot){
+              switch(snapshot.connectionState){
+                case ConnectionState.none:
+                  return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc'); break;
+                case ConnectionState.waiting:
+                case ConnectionState.active:
+                  return Center(
+                    child: animatedLoader(context),
+                  ); break;
+                case ConnectionState.done:
+                  if(snapshot.hasData && !snapshot.hasError){
+                    if(snapshot.data['cur_getdata'].isNotEmpty) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data['cur_getdata'][0].length,
+                        itemBuilder: (context, index){
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: InkWell(
+                              onTap: (){
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => FinanceScreen(
+                                      card: buildFinanceCard(snapshot.data['cur_getdata'][0][index]),
+                                      data: snapshot.data,
+                                      index: index,
+                                    )
+                                  ),
+                                );
+                              },
+                              child: buildFinanceCard(snapshot.data['cur_getdata'][0][index]),
+                            ),
+                          );
+                        },
+                      );
+                    } else{
+                      return Center(
+                        child: Text(
+                          UserConfig.instance.isLanguageEnglish()
+                          ? snapshot.data['pO_status_desc_EN'].toString()
+                          : snapshot.data['pO_status_desc_AR'].toString()
+                        ),
+                      );
+                    }
+                  }
+                  break;
+              }
+              return somethingWrongWidget(context, 'somethingWrongHappened', 'somethingWrongHappenedDesc');
+            }
+        ),
       ),
     );
   }
 
-  Widget buildFinanceCard(){
+  Widget buildFinanceCard(data){
     return Card(
         elevation: 5.0,
         shadowColor: Colors.black45,
@@ -86,7 +123,9 @@ class _MyFinancesListScreenState extends State<MyFinancesListScreen> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: Text(
-                  getTranslated('personal', context),
+                  UserConfig.instance.isLanguageEnglish()
+                      ? data['L_TYP_EN']
+                      : data['L_TYP_AR'],
                   style: TextStyle(
                     color: HexColor('#363636'),
                     fontWeight: FontWeight.w400,
@@ -109,7 +148,7 @@ class _MyFinancesListScreenState extends State<MyFinancesListScreen> {
                     ),
                     const SizedBox(height: 15.0,),
                     Text(
-                      '4300',
+                      data['UNPAID_SCH'],
                       style: TextStyle(
                         color: HexColor('#B3913E'),
                         fontWeight: FontWeight.w700,
@@ -124,9 +163,8 @@ class _MyFinancesListScreenState extends State<MyFinancesListScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            '40/60',
-                            style: TextStyle(
-                                fontSize: isTablet(context) ? 19 : 13),
+                            '${data['PAID_PMT']}/${data['DURATION']}',
+                            style: TextStyle(fontSize: isTablet(context) ? 19 : 13),
                           ),
                           Container(
                             width: width(1, context),
@@ -134,7 +172,7 @@ class _MyFinancesListScreenState extends State<MyFinancesListScreen> {
                             padding: const EdgeInsets.all(5),
                             child: AirLinearStateProgressIndicator(
                               size: const Size(0, 0),
-                              value: 40,
+                              value: double.tryParse((data['PAID_PMT'] / data['DURATION']).toString()) * 100,
                               valueColor: HexColor('#2D452E'),
                               pathColor: HexColor('#EAEAEA'),
                               pathStrokeWidth: isTablet(context) ? 12 : 7,
