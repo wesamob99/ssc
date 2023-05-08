@@ -239,80 +239,77 @@ class _FinanceScreenState extends State<FinanceScreen> {
   }
 
   paymentCard(String title, String status, String amount){
-    return InkWell(
-      onTap: (){},
-      child: Card(
-          elevation: 2.0,
-          shadowColor: Colors.black45,
-          color: getContainerColor(context),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Container(
-            width: width(1, context),
-            padding: const EdgeInsets.all(15.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
+    return Card(
+        elevation: 2.0,
+        shadowColor: Colors.black45,
+        color: getContainerColor(context),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Container(
+          width: width(1, context),
+          padding: const EdgeInsets.all(15.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: HexColor('#363636'),
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  const SizedBox(height: 20.0,),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                    decoration: BoxDecoration(
+                        color: const Color.fromRGBO(129, 221, 199, 0.49),
+                        borderRadius: BorderRadius.circular(50.0)
+                    ),
+                    child: Text(
+                      status,
                       style: TextStyle(
-                        color: HexColor('#363636'),
-                        fontWeight: FontWeight.bold
+                        color: HexColor('#248389'),
+                        fontSize: 14,
                       ),
                     ),
-                    const SizedBox(height: 20.0,),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                      decoration: BoxDecoration(
-                          color: const Color.fromRGBO(129, 221, 199, 0.49),
-                          borderRadius: BorderRadius.circular(50.0)
-                      ),
-                      child: Text(
-                        status,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        amount,
                         style: TextStyle(
-                          color: HexColor('#248389'),
-                          fontSize: 14,
+                          color: HexColor('#363636'),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 19,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          amount,
-                          style: TextStyle(
-                            color: HexColor('#363636'),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 19,
-                          ),
+                      Text(
+                        ' ${getTranslated('jd', context)}',
+                        style: TextStyle(
+                          color: HexColor('#363636'),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
                         ),
-                        Text(
-                          ' ${getTranslated('jd', context)}',
-                          style: TextStyle(
-                            color: HexColor('#363636'),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 25.0,),
-                    SvgPicture.asset('assets/icons/arrow.svg', height: 18, color: HexColor('#363636'),)
-                  ],
-                )
-              ],
-            ),
-          )
-      ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 25.0,),
+                  // SvgPicture.asset('assets/icons/arrow.svg', height: 18, color: HexColor('#363636'),)
+                ],
+              )
+            ],
+          ),
+        )
     );
   }
 }
