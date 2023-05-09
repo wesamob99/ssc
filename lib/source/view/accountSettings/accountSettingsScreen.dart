@@ -338,7 +338,8 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   Text(
                     getTranslated(title, context),
                     style: TextStyle(
-                        color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
+                      color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
+                      fontSize: UserConfig.instance.isLanguageEnglish() ? 12.0 : 14.0,
                     ),
                   ),
                 ],
@@ -366,6 +367,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               getTranslated(text, context),
               style: TextStyle(
                 color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
+                fontSize: UserConfig.instance.isLanguageEnglish() ? 12.0 : 14.0,
               ),
             ),
             Row(
@@ -399,6 +401,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               noTranslate ? text : getTranslated(text, context),
               style: TextStyle(
                 color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
+                fontSize: UserConfig.instance.isLanguageEnglish() ? 12.0 : 14.0,
               ),
             ),
             Row(
