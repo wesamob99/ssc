@@ -86,7 +86,7 @@ class _FirstStepBodyState extends State<FirstStepBody> {
                           SizedBox(height: height(0.006, context),),
                           Text(
                             '${loginProvider.flag == 0 ? getTranslated('nationality', context) : ''}'
-                                '${UserConfig.instance.isLanguageEnglish() && loginProvider.flag == 0 ? ', ' : ' '}'
+                                '${loginProvider.flag == 0 ? (UserConfig.instance.isLanguageEnglish() ? ', ' : '، ') : ''}'
                                 '${getTranslated('countryOfResidence', context)}'
                                 ' ${getTranslated('and', context)}'
                                 '${getTranslated('mobileNumber', context)}',
