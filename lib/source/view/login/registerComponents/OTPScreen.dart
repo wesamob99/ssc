@@ -213,6 +213,8 @@ class _OTPScreenState extends State<OTPScreen> {
                                                 if(val['PO_status_code'] == 1){
                                                   accountSettingsProvider.updateUserInfo(3, accountSettingsProvider.emailController.text.replaceAll(' ', '')).whenComplete((){}).then((value){
                                                     if(value["PO_STATUS"] == 0){
+                                                      loginProvider.isLoading = false;
+                                                      loginProvider.notifyMe();
                                                       showMyDialog(context, 'emailUpdatedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/emailUpdated.svg').then((value) {
                                                         Navigator.of(context).pushAndRemoveUntil(
                                                             MaterialPageRoute(builder: (context) => const SplashScreen()),
@@ -220,20 +222,22 @@ class _OTPScreenState extends State<OTPScreen> {
                                                         );
                                                       });
                                                     }else{
+                                                      loginProvider.isLoading = false;
+                                                      loginProvider.notifyMe();
                                                       message = UserConfig.instance.isLanguageEnglish()
                                                           ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
                                                       showMyDialog(context, 'emailUpdateFailed', message, 'retryAgain', themeNotifier);
                                                     }
                                                   });
                                                 }else{
+                                                  loginProvider.isLoading = false;
+                                                  loginProvider.notifyMe();
                                                   message = UserConfig.instance.isLanguageEnglish()
                                                       ? val["PO_status_desc_en"] : val["PO_status_desc_ar"];
                                                   showMyDialog(context, 'emailUpdateFailed', message, 'retryAgain', themeNotifier);
                                                 }
                                               });
                                             }
-                                            loginProvider.isLoading = false;
-                                            loginProvider.notifyMe();
                                           }catch(e){
                                             loginProvider.isLoading = false;
                                             loginProvider.notifyMe();
@@ -276,7 +280,7 @@ class _OTPScreenState extends State<OTPScreen> {
                               SizedBox(height: height(0.018, context),),
                               textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
                                   HexColor('#DADADA')), HexColor('#363636'), (){
-                                if(widget.flag == 3){
+                                if(widget.flag == 3 || widget.flag == 2){
                                   Navigator.of(context).pop();
                                 } else{
                                   Navigator.of(context).pushAndRemoveUntil(
