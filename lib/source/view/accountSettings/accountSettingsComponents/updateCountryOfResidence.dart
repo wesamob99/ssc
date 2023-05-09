@@ -69,51 +69,45 @@ class _UpdateCountryOfResidenceState extends State<UpdateCountryOfResidence> {
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0).copyWith(top: 25),
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: height(1, context),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    buildCountriesDropDown(selectedCountryOfResident),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: height(0.25, context)),
-                      child: textButton(context, themeNotifier, 'update', getPrimaryColor(context, themeNotifier),
-                        HexColor('#ffffff'), () async {
-                        /// TODO :
-                          accountSettingsProvider.isLoading = true;
-                          accountSettingsProvider.notifyMe();
-                          String message = '';
-                          try{
-                          accountSettingsProvider.updateUserInfo(1, selectedCountryOfResident.natCode).whenComplete((){}).then((value){
-                              if(value["PO_STATUS"] == 0){
-                                showMyDialog(context, 'yourResidentialAddressHasBeenChangedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/locationUpdated.svg').then((value) {
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(builder: (context) => const SplashScreen()),
-                                          (route) => false
-                                  );
-                                });
-                              }else{
-                                message = UserConfig.instance.isLanguageEnglish()
-                                    ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
-                                showMyDialog(context, 'failedToChangeYourResidentialAddress', message, 'retryAgain', themeNotifier);
-                              }
-                              accountSettingsProvider.isLoading = false;
-                              accountSettingsProvider.notifyMe();
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildCountriesDropDown(selectedCountryOfResident),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30.0),
+                  child: textButton(context, themeNotifier, 'update', getPrimaryColor(context, themeNotifier),
+                    HexColor('#ffffff'), () async {
+                      accountSettingsProvider.isLoading = true;
+                      accountSettingsProvider.notifyMe();
+                      String message = '';
+                      try{
+                      accountSettingsProvider.updateUserInfo(1, selectedCountryOfResident.natCode).whenComplete((){}).then((value){
+                          if(value["PO_STATUS"] == 0){
+                            showMyDialog(context, 'yourResidentialAddressHasBeenChangedSuccessfully', message, 'ok', themeNotifier, titleColor: '#2D452E', icon: 'assets/icons/profileIcons/locationUpdated.svg').then((value) {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(builder: (context) => const SplashScreen()),
+                                      (route) => false
+                              );
                             });
-                          }catch(e){
-                            accountSettingsProvider.isLoading = false;
-                            accountSettingsProvider.notifyMe();
-                            if (kDebugMode) {
-                              print(e.toString());
-                            }
+                          }else{
+                            message = UserConfig.instance.isLanguageEnglish()
+                                ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                            showMyDialog(context, 'failedToChangeYourResidentialAddress', message, 'retryAgain', themeNotifier);
                           }
+                          accountSettingsProvider.isLoading = false;
+                          accountSettingsProvider.notifyMe();
+                        });
+                      }catch(e){
+                        accountSettingsProvider.isLoading = false;
+                        accountSettingsProvider.notifyMe();
+                        if (kDebugMode) {
+                          print(e.toString());
                         }
-                      ),
-                    ),
-                  ],
+                      }
+                    }
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
           if(Provider.of<AccountSettingsProvider>(context).isLoading)

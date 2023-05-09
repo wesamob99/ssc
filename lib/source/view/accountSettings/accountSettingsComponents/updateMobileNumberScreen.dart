@@ -51,78 +51,73 @@ class _UpdateMobileNumberScreenState extends State<UpdateMobileNumberScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0).copyWith(top: 25.0),
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  height: height(1, context),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          buildFieldTitle(context, 'mobileNumber', required: false),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
-                            child: buildTextFormField(context, themeNotifier, accountSettingsProvider.mobileNumberController, '', (val){
-                              accountSettingsProvider.notifyMe();
-                            }, inputType: TextInputType.number),
-                          ),
-                          Text(
-                            getTranslated('mobileUpdateDesc', context),
-                            style: TextStyle(
-                              color: HexColor(themeNotifier.isLight() ? '#003C97' : '#00b0ff'),
-                              fontSize: 14
-                            ),
-                          ),
-                        ],
-                      ),
+                      buildFieldTitle(context, 'mobileNumber', required: false),
                       Padding(
-                        padding: EdgeInsets.only(bottom: height(0.25, context)),
-                        child: textButton(context, themeNotifier, 'update', (!mobileNumberValidate(Provider.of<AccountSettingsProvider>(context).mobileNumberController.text) ||
-                            Provider.of<AccountSettingsProvider>(context).mobileNumberController.text == widget.mobileNumber)
-                            ? HexColor('#DADADA')
-                            : getPrimaryColor(context, themeNotifier),
-                            (mobileNumberValidate(Provider.of<AccountSettingsProvider>(context).mobileNumberController.text) &&
-                                Provider.of<AccountSettingsProvider>(context).mobileNumberController.text != widget.mobileNumber)
-                                ? HexColor('#ffffff') : HexColor('#363636'), () async {
-                          if(mobileNumberValidate(Provider.of<AccountSettingsProvider>(context, listen: false).mobileNumberController.text) &&
-                              accountSettingsProvider.mobileNumberController.text != widget.mobileNumber){
-                            accountSettingsProvider.isLoading = true;
-                            accountSettingsProvider.notifyMe();
-                            String errorMessage = '';
-                            try{
-                              await Provider.of<ServicesProvider>(context, listen: false).updateUserMobileNumberSendOTP(accountSettingsProvider.mobileNumberController.text)
-                                  .whenComplete((){}).then((value){
-                                if(value['PO_STATUS'] == '1'){
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => OTPScreen(
-                                      contactTarget: accountSettingsProvider.mobileNumberController.text,
-                                      type: 'phone',
-                                      flag: 2,
-                                    ))
-                                  );
-                                }else{
-                                  errorMessage = UserConfig.instance.isLanguageEnglish()
-                                      ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
-                                  showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
-                                }
-                              });
-                              accountSettingsProvider.isLoading = false;
-                              accountSettingsProvider.notifyMe();
-                            }catch(e){
-                              accountSettingsProvider.isLoading = false;
-                              accountSettingsProvider.notifyMe();
-                              if (kDebugMode) {
-                                print(e.toString());
-                              }
-                            }
-                            }
-                          }
+                        padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
+                        child: buildTextFormField(context, themeNotifier, accountSettingsProvider.mobileNumberController, '', (val){
+                          accountSettingsProvider.notifyMe();
+                        }, inputType: TextInputType.number),
+                      ),
+                      Text(
+                        getTranslated('mobileUpdateDesc', context),
+                        style: TextStyle(
+                          color: HexColor(themeNotifier.isLight() ? '#003C97' : '#00b0ff'),
+                          fontSize: 14
                         ),
                       ),
                     ],
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 30.0),
+                    child: textButton(context, themeNotifier, 'update', (!mobileNumberValidate(Provider.of<AccountSettingsProvider>(context).mobileNumberController.text) ||
+                        Provider.of<AccountSettingsProvider>(context).mobileNumberController.text == widget.mobileNumber)
+                        ? HexColor('#DADADA')
+                        : getPrimaryColor(context, themeNotifier),
+                        (mobileNumberValidate(Provider.of<AccountSettingsProvider>(context).mobileNumberController.text) &&
+                            Provider.of<AccountSettingsProvider>(context).mobileNumberController.text != widget.mobileNumber)
+                            ? HexColor('#ffffff') : HexColor('#363636'), () async {
+                      if(mobileNumberValidate(Provider.of<AccountSettingsProvider>(context, listen: false).mobileNumberController.text) &&
+                          accountSettingsProvider.mobileNumberController.text != widget.mobileNumber){
+                        accountSettingsProvider.isLoading = true;
+                        accountSettingsProvider.notifyMe();
+                        String errorMessage = '';
+                        try{
+                          await Provider.of<ServicesProvider>(context, listen: false).updateUserMobileNumberSendOTP(accountSettingsProvider.mobileNumberController.text)
+                              .whenComplete((){}).then((value){
+                            if(value['PO_STATUS'] == '1'){
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => OTPScreen(
+                                  contactTarget: accountSettingsProvider.mobileNumberController.text,
+                                  type: 'phone',
+                                  flag: 2,
+                                ))
+                              );
+                            }else{
+                              errorMessage = UserConfig.instance.isLanguageEnglish()
+                                  ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"];
+                              showMyDialog(context, 'updateMobileNumberFailed', errorMessage, 'retryAgain', themeNotifier);
+                            }
+                          });
+                          accountSettingsProvider.isLoading = false;
+                          accountSettingsProvider.notifyMe();
+                        }catch(e){
+                          accountSettingsProvider.isLoading = false;
+                          accountSettingsProvider.notifyMe();
+                          if (kDebugMode) {
+                            print(e.toString());
+                          }
+                        }
+                        }
+                      }
+                    ),
+                  ),
+                ],
               ),
             ),
             if(Provider.of<AccountSettingsProvider>(context).isLoading)
