@@ -32,7 +32,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
     accountSettingsProvider.newPasswordController.text = "";
     accountSettingsProvider.confirmNewPasswordController.text = "";
     accountSettingsProvider.isLoading = false;
-    accountSettingsProvider.updatePasswordIsObscure = true;
+    accountSettingsProvider.updatePasswordIsObscure = [true, true, true];
     accountSettingsProvider.updatePasswordEnabled = false;
     super.initState();
   }
@@ -67,13 +67,13 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                     SizedBox(height: height(0.015, context),),
                     buildTextFormField(context, themeNotifier, accountSettingsProvider.newPasswordController, '', (val){
                       passwordValidator(val, accountSettingsProvider);
-                    }, isPassword: true, flag: 3),
+                    }, isPassword: true, flag: 4),
                     SizedBox(height: height(0.02, context),),
                     buildFieldTitle(context, 'confirmNewPassword', required: false),
                     SizedBox(height: height(0.015, context),),
                     buildTextFormField(context, themeNotifier, accountSettingsProvider.confirmNewPasswordController, '', (val){
                       passwordValidator(val, accountSettingsProvider);
-                    }, isPassword: true, flag: 3),
+                    }, isPassword: true, flag: 5),
                     SizedBox(height: height(0.015, context),),
                     SizedBox(
                       height: height(0.25, context),

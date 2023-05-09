@@ -22,7 +22,7 @@ class AccountSettingsProvider extends ChangeNotifier {
   TextEditingController searchController = TextEditingController();
   UserProfileData accountData;
   SelectedListItem nationality;
-  bool updatePasswordIsObscure = true;
+  List<bool> updatePasswordIsObscure = [true, true, true];
   bool updatePasswordEnabled = false;
   bool showFloatingButton = true;
   bool isLoading = true;

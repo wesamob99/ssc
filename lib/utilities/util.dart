@@ -612,7 +612,7 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
       controller: controller,
       keyboardType: inputType,
       inputFormatters: (inputType == TextInputType.number) ? [FilteringTextInputFormatter.allow(RegExp('[0-9]'))] : [],
-      obscureText: isPassword && ((Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2) || (Provider.of<AccountSettingsProvider>(context).updatePasswordIsObscure && flag == 3)) ,
+      obscureText: isPassword && ((Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2) || (Provider.of<AccountSettingsProvider>(context).updatePasswordIsObscure[flag-3] && [3, 4, 5].contains(flag))) ,
       readOnly: !enabled,
       style: TextStyle(
         fontSize: isTablet(context) ? 20 : 13,
@@ -632,14 +632,14 @@ Container buildTextFormField(context, ThemeNotifier themeNotifier, TextEditingCo
                 loginProvider.resetObscurePassword = !loginProvider.resetObscurePassword;
               } else if(flag == 2) {
                 loginProvider.registerObscurePassword = !loginProvider.registerObscurePassword;
-              } else if(flag == 3) {
-                accountSettingsProvider.updatePasswordIsObscure = !accountSettingsProvider.updatePasswordIsObscure;
+              } else if([3, 4, 5].contains(flag)) {
+                accountSettingsProvider.updatePasswordIsObscure[flag-3] = !accountSettingsProvider.updatePasswordIsObscure[flag-3];
               }
               loginProvider.notifyMe();
               accountSettingsProvider.notifyMe();
             },
             child: Icon(
-              (Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2 || (Provider.of<AccountSettingsProvider>(context).updatePasswordIsObscure && flag == 3))
+              (Provider.of<LoginProvider>(context).resetObscurePassword && flag == 1) || (Provider.of<LoginProvider>(context).registerObscurePassword && flag == 2 || (Provider.of<AccountSettingsProvider>(context).updatePasswordIsObscure[flag-3] && [3, 4, 5].contains(flag)))
                   ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
               size: 20,
               color: themeNotifier.isLight()
