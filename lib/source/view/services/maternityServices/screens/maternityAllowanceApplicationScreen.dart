@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -15,6 +16,7 @@ import 'package:ssc/source/viewModel/utilities/theme/themeProvider.dart';
 
 import '../../../../../infrastructure/userConfig.dart';
 import '../../../../../infrastructure/userSecuredStorage.dart';
+import '../../../../../utilities/countries.dart';
 import '../../../../../utilities/hexColor.dart';
 import '../../../../../utilities/theme/themes.dart';
 import '../../../../../utilities/util.dart';
@@ -95,6 +97,11 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
       });
       servicesProvider.selectedActivePayment = servicesProvider.activePayment[0];
     });
+    servicesProvider.selectedPaymentCountry = SelectedListItem(
+      name: UserConfig.instance.isLanguageEnglish() ? "Palestine" : "فلسطين",
+      value: "970", natCode: 188,
+      flag: countries.where((element) => element.dialCode == "970").first.flag,
+    );
     servicesProvider.stepNumber = 1;
     servicesProvider.uploadedFiles = {
       "mandatory": [],
