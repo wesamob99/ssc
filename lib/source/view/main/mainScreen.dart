@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -32,12 +32,10 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
 
   final LocalAuthentication authentication = LocalAuthentication();
-  _SupportState supportState = _SupportState.unknown;
+  bool supportState = false;
   String authorized = 'Not Authorized';
   bool isAuthenticating = false;
-
-
-
+  ThemeNotifier themeNotifier;
   UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   final PageController _pageController = PageController(initialPage: 0);
@@ -48,18 +46,15 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    // ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+    themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     UserConfig.instance.checkDataConnection();
 
     //check whether there is local authentication available on this device or not
-    authentication.isDeviceSupported().then((bool isSupported){
-      setState(() {
-        supportState = isSupported ? _SupportState.supported : _SupportState.unsupported;
-      });
-    });
+    // authentication.canCheckBiometrics.then((bool isSupported){
+    //   // TODO: *** Login Suggestion ***
+    //   showLoginSuggestion(themeNotifier, isSupported);
+    // });
 
-    // TODO: *** Login Suggestion ***
-    // showLoginSuggestion(themeNotifier, supportState);
     super.initState();
   }
 
@@ -78,6 +73,23 @@ class _MainScreenState extends State<MainScreen> {
           stickyAuth: true, biometricOnly: true
         )
       );
+      if (authenticated) {
+        showMyDialog(
+            context,
+            'fingerprintActivated',
+            getTranslated('fingerprintActivatedDesc', context),
+            'ok',
+            themeNotifier,
+            titleColor: '#363636',
+            icon: 'assets/icons/fingerprint.svg'
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Face ID authentication failed.'),
+          ),
+        );
+      }
       setState(() {
         isAuthenticating = false;
       });
@@ -94,7 +106,7 @@ class _MainScreenState extends State<MainScreen> {
     setState(() => authorized = authenticated ? "Authorized" : "Not authorized");
   }
 
-  showLoginSuggestion(themeNotifier, _SupportState supportState){
+  showLoginSuggestion(themeNotifier, bool supportState){
     prefs.then((value) {
       firstLogin = value.getString(Constants.FIRST_LOGIN) ?? 'true';
       if(firstLogin == 'true') {
@@ -102,19 +114,9 @@ class _MainScreenState extends State<MainScreen> {
           loginSuggestionsModalBottomSheet(context, themeNotifier, supportState, (){
             _authenticate();
             Navigator.of(context).pop();
-            showMyDialog(
-                context,
-                'fingerprintActivated',
-                getTranslated('fingerprintActivatedDesc', context),
-                'ok',
-                themeNotifier,
-                titleColor: '#363636',
-                icon: 'assets/icons/fingerprint.svg'
-            );
             Navigator.of(context).pop();
           });
         });
-        value.setString(Constants.FIRST_LOGIN, 'false');
       }
     });
   }
@@ -261,10 +263,4 @@ class _MainScreenState extends State<MainScreen> {
       ],
     );
   }
-}
-
-enum _SupportState{
-  unknown,
-  supported,
-  unsupported
 }
