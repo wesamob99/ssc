@@ -173,14 +173,14 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
                                   servicesProvider.notifyMe();
                                   String errorMessage = "";
                                   try{
-                                    await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){})
-                                        .then((val) async {
+                                    await servicesProvider.updateUserMobileNumberCheckOTP(servicesProvider.pinPutCodeController.text).whenComplete((){}).then((val) async {
                                       if(val['PO_STATUS'] == 1){
-                                        Provider.of<AccountSettingsProvider>(context, listen: false).updateUserInfo(2, servicesProvider.mobileNumberController.text).whenComplete((){}).then((value){
+                                        await Provider.of<AccountSettingsProvider>(context, listen: false).updateUserInfo(2, servicesProvider.mobileNumberController.text).whenComplete((){}).then((value){
                                           if(value["PO_STATUS"] == 0){
                                             servicesProvider.stepNumber = 2;
                                             servicesProvider.isMobileNumberUpdated = false;
                                             UserSecuredStorage.instance.realMobileNumber = servicesProvider.mobileNumberController.text;
+                                            setState(() {});
                                           }else{
                                             showMyDialog(context, 'updateMobileNumberFailed', UserConfig.instance.isLanguageEnglish()
                                                 ? value["PO_STATUS_DESC_EN"] : value["PO_STATUS_DESC_AR"], 'retryAgain', themeNotifier).then((value) {
@@ -210,7 +210,6 @@ class _ContinuityOfCoverageRequestScreenState extends State<ContinuityOfCoverage
                                       print(e.toString());
                                     }
                                   }
-                                  servicesProvider.isLoading = false;
                                   servicesProvider.pinPutCodeController.text = "";
                                   servicesProvider.pinPutFilled = false;
                                   servicesProvider.notifyMe();
