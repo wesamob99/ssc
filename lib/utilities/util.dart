@@ -392,23 +392,23 @@ Future<void> showMyDialog(
                 Navigator.of(context).pop();
               },
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                    buttonBackgroundColor != '' ? HexColor(buttonBackgroundColor)
-                    : withPayButton ? Colors.transparent : themeNotifier.isLight()
-                        ? primaryColor : HexColor('#445740'),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  buttonBackgroundColor != '' ? HexColor(buttonBackgroundColor)
+                  : withPayButton ? Colors.transparent : themeNotifier.isLight()
+                      ? primaryColor : HexColor('#445740'),
+                ),
+                foregroundColor:  MaterialStateProperty.all<Color>(
+                   buttonForegroundColor != '' ? HexColor(buttonForegroundColor)
+                   : withPayButton ? HexColor('#363636') : Colors.white
+                ),
+                fixedSize:  MaterialStateProperty.all<Size>(
+                  Size(width(1, context), height(0.05, context)),
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  foregroundColor:  MaterialStateProperty.all<Color>(
-                     buttonForegroundColor != '' ? HexColor(buttonForegroundColor)
-                     : withPayButton ? HexColor('#363636') : Colors.white
-                  ),
-                  fixedSize:  MaterialStateProperty.all<Size>(
-                    Size(width(1, context), height(0.05, context)),
-                  ),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)
-                      )
-                  )
+                ),
               ),
               child: Text(getTranslated(buttonText, context)),
             ),

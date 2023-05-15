@@ -612,8 +612,23 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                                                   ),
                                                                   InkWell(
                                                                     onTap: (){
-                                                                      servicesProvider.uploadedFiles["mandatory"][index].removeAt(index2);
-                                                                      servicesProvider.notifyMe();
+                                                                      showMyDialog(
+                                                                        context,
+                                                                        'areYouSureYouWantToDeleteThisFile',
+                                                                        getTranslated('areYouSureYouWantToDeleteThisFileDesc', context),
+                                                                        'no',
+                                                                        themeNotifier,
+                                                                        icon: 'assets/icons/delete.svg',
+                                                                        titleColor: '#000000',
+                                                                        extraWidgetBody: Padding(
+                                                                          padding: const EdgeInsets.only(top: 10.0),
+                                                                          child: textButton(context, themeNotifier, 'yes', primaryColor, Colors.white, (){
+                                                                            servicesProvider.uploadedFiles["mandatory"][index].removeAt(index2);
+                                                                            servicesProvider.notifyMe();
+                                                                            Navigator.of(context).pop();
+                                                                          }),
+                                                                        )
+                                                                      );
                                                                     },
                                                                     child: Padding(
                                                                       padding: const EdgeInsets.symmetric(vertical: 8.0),
