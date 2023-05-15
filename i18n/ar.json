@@ -540,5 +540,8 @@
   "theDateTheLeaveEnds": "تاريخ انتهاء الإجازه",
   "lastFirmName": "إسم آخر منشأه",
   "lastFirmNumber": "رقم آخر منشأه",
-  "dateOfDiscontinuation": "تاريخ الإيقاف"
+  "dateOfDiscontinuation": "تاريخ الإيقاف",
+  "areYouSureYouWantToDeleteThisFile": "هل أنت متأكد أنك تريد حذف هذا الملف",
+  "areYouSureYouWantToDeleteThisFileDesc": "اذا قمت بحذف جميع المفات الخاصه بوثيقه اجباريه سيتعين عليك الرجوع الى صفحة الوثائق وارفاق الوثيقه المطلوبه."
+
 }

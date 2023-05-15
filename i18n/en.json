@@ -531,6 +531,8 @@
   "theDateTheLeaveEnds": "The date the leave ends",
   "lastFirmName": "Last firm name",
   "lastFirmNumber": "Last firm number",
-  "dateOfDiscontinuation": "Date of discontinuation"
+  "dateOfDiscontinuation": "Date of discontinuation",
+  "areYouSureYouWantToDeleteThisFile": "Are you sure you want to delete this file",
+  "areYouSureYouWantToDeleteThisFileDesc": "If you delete all files of a mandatory document, you will have to go back to the documents page and attach the required document."
 
 }
