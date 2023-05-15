@@ -276,6 +276,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   InkWell(
                     onTap: (){},
                     child: Container(
+                      margin: const EdgeInsets.only(bottom: 10.0),
                       padding: const EdgeInsets.all(12.0),
                       decoration: BoxDecoration(
                           color: getContainerColor(context),
@@ -297,7 +298,6 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10.0),
                   Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: BoxDecoration(
