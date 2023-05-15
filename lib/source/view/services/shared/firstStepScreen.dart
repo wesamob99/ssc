@@ -29,6 +29,8 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
   AccountSettingsProvider accountSettingsProvider;
   SelectedListItem selectedCountry;
   bool isFirstTime;
+  UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
+  String name, natId, insuranceNo, mobileNo;
 
   @override
   void initState() {
@@ -40,6 +42,13 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
     servicesProvider.isMobileNumberUpdated = false;
     servicesProvider.mobileNumberController.text = UserSecuredStorage.instance.realMobileNumber;
     isFirstTime = true;
+
+    name = userSecuredStorage.userFullName;
+    natId = userSecuredStorage.nationalId;
+    insuranceNo = userSecuredStorage.insuranceNumber;
+    mobileNo = userSecuredStorage.realMobileNumber;
+
+    servicesProvider.mobileNumberController.text = (mobileNo != 'null' ? mobileNo : '');
     super.initState();
   }
 
@@ -53,13 +62,6 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
   }
 
   Widget firstStepBody(themeNotifier){
-    UserSecuredStorage userSecuredStorage = UserSecuredStorage.instance;
-    String name = userSecuredStorage.userFullName;
-    String natId = userSecuredStorage.nationalId;
-    String insuranceNo = userSecuredStorage.insuranceNumber;
-    String mobileNo = userSecuredStorage.realMobileNumber;
-
-    servicesProvider.mobileNumberController.text = (mobileNo != 'null' ? mobileNo : '');
 
     if(isFirstTime){
       String internationalCode = userSecuredStorage.internationalCode;
@@ -175,10 +177,10 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
         buildFieldTitle(
           context,
           'mobileNumber',
-          required: !mobileNumberValidate(servicesProvider.mobileNumberController.text),
-          filled: mobileNumberValidate(servicesProvider.mobileNumberController.text),
+          required: true,
+          filled: mobileNumberValidate(Provider.of<ServicesProvider>(context).mobileNumberController.text),
         ),
-        SizedBox(height: height(0.015, context),),
+        SizedBox(height: height(0.014, context),),
         Row(
           children: [
             Expanded(

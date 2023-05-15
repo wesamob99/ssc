@@ -594,7 +594,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                       ),
                     ),
                     Text(
-                      '${getTranslated('next', context)}: ${getTranslated('heirsInformation', context)}',
+                      '${getTranslated('next', context)}: ${getTranslated('documents', context)}',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.032, context)
