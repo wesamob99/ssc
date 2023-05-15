@@ -20,6 +20,7 @@ import 'dart:math' as math;
 import '../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../viewModel/utilities/language/globalAppProvider.dart';
 import '../../viewModel/utilities/theme/themeProvider.dart';
+import '../splash/splashScreen.dart';
 import 'accountSettingsComponents/callUsScreen.dart';
 import 'accountSettingsComponents/frequentlyAskedQuestionsScreen.dart';
 import 'accountSettingsComponents/myFinances/myFinancesListScreen.dart';
@@ -290,6 +291,55 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             getTranslated('rateTheApp', context),
                             style: TextStyle(
                                 color: themeNotifier.isLight() ? HexColor('#445740') : Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  Container(
+                    padding: const EdgeInsets.all(15.0),
+                    decoration: BoxDecoration(
+                        color: getContainerColor(context),
+                        borderRadius: BorderRadius.circular(8.0)
+                    ),
+                    width: width(1, context),
+                    child: InkWell(
+                      onTap: () async{
+                        accountSettingsProvider.isLoading = true;
+                        accountSettingsProvider.notifyMe();
+                        try{
+                          await accountSettingsProvider.logout().then((value) {
+                            // if(value.toString() == 'true'){
+                            setState(() {
+                              UserSecuredStorage.instance.clearUserData();
+                            });
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => const SplashScreen()
+                                ), (route) => false);
+                            // }
+                          });
+                          accountSettingsProvider.isLoading = false;
+                          accountSettingsProvider.notifyMe();
+                        }catch(e){
+                          accountSettingsProvider.isLoading = false;
+                          accountSettingsProvider.notifyMe();
+                          if (kDebugMode) {
+                            print(e.toString());
+                          }
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset('assets/icons/profileIcons/logout.svg', color: themeNotifier.isLight() ? HexColor('#BC0D0D') : HexColor('#e53935')),
+                          const SizedBox(width: 10.0),
+                          Text(
+                            getTranslated('logout', context),
+                            style: TextStyle(
+                                color: themeNotifier.isLight() ? HexColor('#BC0D0D') : HexColor('#e53935')
                             ),
                           ),
                         ],

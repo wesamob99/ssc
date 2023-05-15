@@ -12,14 +12,12 @@ import 'package:ssc/source/view/accountSettings/accountSettingsComponents/update
 import 'package:ssc/source/view/accountSettings/accountSettingsComponents/updateMobileNumberScreen.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
-import '../../../../infrastructure/userSecuredStorage.dart';
 import '../../../../models/accountSettings/listOfNationalities.dart';
 import '../../../../models/accountSettings/userProfileData.dart';
 import '../../../../utilities/hexColor.dart';
 import '../../../../utilities/util.dart';
 import '../../../viewModel/accountSettings/accountSettingsProvider.dart';
 import '../../../viewModel/utilities/theme/themeProvider.dart';
-import '../../splash/splashScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final List<ListOfNationalities> nationalities;
@@ -106,54 +104,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 buildDataField('nationalId', data.userName ?? '', withEditIcon: false),
                                 buildDataField('securityNumber', (data.insuranceno ?? '').toString(), withEditIcon: false),
                                 buildDataField('DateOfBirth', data.dateofbirth  ?? '', withEditIcon: false),
-                                Container(
-                                  padding: const EdgeInsets.all(15.0),
-                                  decoration: BoxDecoration(
-                                      color: getContainerColor(context),
-                                      borderRadius: BorderRadius.circular(8.0)
-                                  ),
-                                  width: width(1, context),
-                                  child: InkWell(
-                                    onTap: () async{
-                                      accountSettingsProvider.isLoading = true;
-                                      accountSettingsProvider.notifyMe();
-                                      try{
-                                        await accountSettingsProvider.logout().then((value) {
-                                          // if(value.toString() == 'true'){
-                                            setState(() {
-                                              UserSecuredStorage.instance.clearUserData();
-                                            });
-                                            Navigator.of(context).pushAndRemoveUntil(
-                                                MaterialPageRoute(
-                                                    builder: (context) => const SplashScreen()
-                                                ), (route) => false);
-                                          // }
-                                        });
-                                        accountSettingsProvider.isLoading = false;
-                                        accountSettingsProvider.notifyMe();
-                                      }catch(e){
-                                        accountSettingsProvider.isLoading = false;
-                                        accountSettingsProvider.notifyMe();
-                                        if (kDebugMode) {
-                                          print(e.toString());
-                                        }
-                                      }
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        SvgPicture.asset('assets/icons/profileIcons/logout.svg', color: themeNotifier.isLight() ? HexColor('#BC0D0D') : HexColor('#e53935')),
-                                        const SizedBox(width: 10.0),
-                                        Text(
-                                          getTranslated('logout', context),
-                                          style: TextStyle(
-                                              color: themeNotifier.isLight() ? HexColor('#BC0D0D') : HexColor('#e53935')
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
                               ],
                             )
                         ),
