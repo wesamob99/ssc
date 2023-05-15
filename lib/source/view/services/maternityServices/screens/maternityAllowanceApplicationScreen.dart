@@ -619,7 +619,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 buildFieldTitle(context, selectedNewbornNationality == 'jordanian' ? 'newbornNationalNumber' : 'newbornNationalID', required: false),
                 const SizedBox(height: 10.0,),
                 buildTextFormField(context, themeNotifier, newbornNationalNumberController, '9999999999', (value) async {
-                  if((selectedNewbornNationality == 'jordanian' && value.length == 10) || selectedNewbornNationality != 'jordanian'){
+                  if((selectedNewbornNationality == 'jordanian' && value.length == 10) || (selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan')){
                     FocusScope.of(context).requestFocus(FocusNode());
                     String message = '';
                     servicesProvider.isLoading = true;
@@ -671,7 +671,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                     });
                     servicesProvider.notifyMe();
                   }
-                }),
+                }, inputType: TextInputType.number),
               ],
             ),
             if(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan')
@@ -793,7 +793,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                                 });
                               },
                               currentTime: selectedMinDate,
-                              locale: LocaleType.en,
+                              locale: UserConfig.instance.isLanguageEnglish() ? LocaleType.en : LocaleType.ar,
                             );
                           },
                           child: SvgPicture.asset('assets/icons/calenderBox.svg'),
