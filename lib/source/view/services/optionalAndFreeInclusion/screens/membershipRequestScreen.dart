@@ -314,7 +314,7 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                                 showMyDialog(context, (value != '' && value['PO_status'] == 1) ? 'youAreIncludedOptional' : 'failed',
                                     message, (value != '' && value['PO_status'] == 1) ? 'ok' : 'cancel',
                                     themeNotifier, withPayButton: (value != '' && value['PO_status'] == 1) ? true : false,
-                                    icon: (value != '' && value['PO_status'] == 1) ? 'assets/icons/serviceSuccess.svg' : 'assets/icons/loginError.svg').then((_){
+                                    icon: (value != '' && value['PO_status'] == 1) ? 'assets/icons/serviceSuccess.svg' : 'assets/icons/loginError.svg', titleColor: (value != '' && value['PO_status'] == 1) ? '#000000' : '#ED3124').then((_){
                                   if(value['PO_status'] == 1){
                                     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
                                       servicesProvider.selectedServiceRate = -1;
