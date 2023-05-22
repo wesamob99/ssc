@@ -72,6 +72,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
         value: servicesProvider.countries[selectedInx].callingCode, natCode: servicesProvider.countries[selectedInx].natcode,
         flag: countries[selectedInxF].flag,
       );
+      servicesProvider.disableMobileValidations = selectedCountry.value != '962';
       isFirstTime = false;
     }
 
@@ -178,7 +179,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
           context,
           'mobileNumber',
           required: true,
-          filled: mobileNumberValidate(Provider.of<ServicesProvider>(context).mobileNumberController.text),
+          filled: servicesProvider.disableMobileValidations ? true : mobileNumberValidate(Provider.of<ServicesProvider>(context).mobileNumberController.text),
         ),
         SizedBox(height: height(0.014, context),),
         Row(
@@ -205,6 +206,8 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                         if(item is SelectedListItem) {
                           setState(() {
                             selectedCountry = item;
+                            servicesProvider.disableMobileValidations = selectedCountry.value != '962';
+                            servicesProvider.notifyMe();
                           });
                         }
                       }
@@ -245,42 +248,6 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
             ),
           ],
         )
-        // IntlPhoneField(
-        //   controller: servicesProvider.mobileNumberController,
-        //   disableLengthCheck: true,
-        //   cursorColor: getPrimaryColor(context, themeNotifier),
-        //   cursorWidth: 1,
-        //   decoration: InputDecoration(
-        //     prefixIconColor: Colors.red,
-        //     contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-        //       errorText: null,
-        //       errorBorder: OutlineInputBorder(
-        //         borderRadius: BorderRadius.circular(8),
-        //         borderSide: BorderSide(
-        //           color: getPrimaryColor(context, themeNotifier),
-        //           width: 0.5,
-        //         ),
-        //       ),
-        //       border: OutlineInputBorder(
-        //         borderRadius: BorderRadius.circular(8),
-        //         borderSide: BorderSide(
-        //           color: getPrimaryColor(context, themeNotifier),
-        //           width: 0.5,
-        //         ),
-        //       ),
-        //       focusedBorder: OutlineInputBorder(
-        //         borderRadius: BorderRadius.circular(8),
-        //         borderSide: BorderSide(
-        //           color: getPrimaryColor(context, themeNotifier),
-        //           width: 0.8,
-        //         ),
-        //       )
-        //   ),
-        //   initialCountryCode: 'JO',
-        //   onChanged: (phone) {
-        //     print(phone.completeNumber);
-        //   },
-        // )
       ],
     );
   }

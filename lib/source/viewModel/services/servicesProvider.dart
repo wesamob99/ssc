@@ -17,6 +17,7 @@ class ServicesProvider extends ChangeNotifier {
   int selectedServiceRate = -1;
   bool isMobileNumberUpdated = false;
   bool isLoading = false;
+  bool disableMobileValidations = false;
 
   bool isModalLoading = false;
   bool isNationalIdValid = false;

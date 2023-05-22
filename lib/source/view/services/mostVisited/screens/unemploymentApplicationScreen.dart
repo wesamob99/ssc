@@ -39,7 +39,7 @@ class _UnemploymentApplicationScreenState extends State<UnemploymentApplicationS
 
   checkContinueEnabled({flag = 0}){
     if(flag == 1){
-      return mobileNumberValidate(servicesProvider.mobileNumberController.text);
+      return servicesProvider.disableMobileValidations ? servicesProvider.mobileNumberController.text.isNotEmpty : mobileNumberValidate(servicesProvider.mobileNumberController.text);
     } else if(flag == 2){
       if(servicesProvider.isMobileNumberUpdated){
         return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
