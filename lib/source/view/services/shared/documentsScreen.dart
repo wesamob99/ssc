@@ -25,12 +25,13 @@ class DocumentsScreen extends StatefulWidget {
   final String nextStep;
   final int nextStepNumber;
   final int numberOfSteps;
+  final String stepText;
   final Map data;
   final int serviceType;
   final Map info;
   final List dependents; // from early its dependents, from deceased its inheritors
   final List relations;
-  const DocumentsScreen({Key key, this.nextStep, this.nextStepNumber, this.numberOfSteps, this.data, this.serviceType, this.info, this.dependents, this.relations}) : super(key: key);
+  const DocumentsScreen({Key key, this.nextStep, this.nextStepNumber, this.numberOfSteps, this.data, this.serviceType, this.info, this.dependents, this.relations, this.stepText}) : super(key: key);
 
   @override
   State<DocumentsScreen> createState() => _DocumentsScreenState();
@@ -148,7 +149,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  getTranslated('forthStep', context),
+                                  getTranslated(widget.stepText, context),
                                   style: TextStyle(
                                       color: HexColor('#979797'),
                                       fontSize: width(0.03, context)
@@ -174,7 +175,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      '4/${widget.numberOfSteps}',
+                                      '${widget.nextStepNumber - 1}/${widget.numberOfSteps}',
                                       style: TextStyle(
                                           color: HexColor('#979797'),
                                           fontSize: width(0.025, context)
@@ -488,7 +489,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    getTranslated('forthStep', context),
+                                    getTranslated(widget.stepText, context),
                                     style: TextStyle(
                                         color: HexColor('#979797'),
                                         fontSize: width(0.03, context)
@@ -514,7 +515,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                        '4/${widget.numberOfSteps}',
+                                        '${widget.nextStepNumber - 1}/${widget.numberOfSteps}',
                                         style: TextStyle(
                                             color: HexColor('#979797'),
                                             fontSize: width(0.025, context)

@@ -271,7 +271,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                           "IS_INHERITOR": 0,
                           "INHERITORS_FLAG": 1,
                           "MILITARY_WORK_DOC": servicesProvider.deadPersonInfo['cur_getdata'][0][0]['MILITARY_WORK_DOC'],
-                        }, serviceType: 11, info: servicesProvider.deadPersonInfo['cur_getdata'][0][0], dependents: servicesProvider.deadPersonInfo['cur_getdata2'], relations: servicesProvider.penDeath['Relative_type_getdata'][0], nextStepNumber: 5,),
+                        }, serviceType: 11, info: servicesProvider.deadPersonInfo['cur_getdata'][0][0], dependents: servicesProvider.deadPersonInfo['cur_getdata2'], relations: servicesProvider.penDeath['Relative_type_getdata'][0], nextStepNumber: 5, stepText: 'forthStep',),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 5)
                         fifthStep(context, themeNotifier),
                       if(!(Provider.of<ServicesProvider>(context).stepNumber == 4))

@@ -297,7 +297,7 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
                           "CLEARANCE_FLAG": servicesProvider.result['p_per_info'][0][0]['CLEARANCE_FLAG'],
                           "IS_ARMY": isArmy,
                           "Marriage_contract": marriageContract,
-                        }, serviceType: 2, dependents: const [], relations: const [], nextStepNumber: 4,),
+                        }, serviceType: 2, dependents: const [], relations: const [], nextStepNumber: 4, stepText: 'thirdStep',),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 4)
                         const PaymentScreen(numberOfSteps: 5, nextStep: 'confirmRequest', stepText: 'forthStep', stepNumber: 4,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 5)

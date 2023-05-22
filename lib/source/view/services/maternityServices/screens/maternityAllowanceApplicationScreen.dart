@@ -290,7 +290,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                           "C_M_NAME2": !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newBornData['cur_getdata'][0][0]['C_M_NAME2'] : null,
                           "C_M_NAME3": !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newBornData['cur_getdata'][0][0]['C_M_NAME3'] : null,
                           "C_M_NAME4": !(selectedNewbornNationality == 'nonJordanian' && selectedPlaceOfBirth == 'outsideJordan') ? newBornData['cur_getdata'][0][0]['C_M_NAME4'] : null,
-                        }, serviceType: 4, dependents: const [], relations: const [], nextStepNumber: 4,),
+                        }, serviceType: 4, dependents: const [], relations: const [], nextStepNumber: 4, stepText: 'thirdStep',),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 4)
                         const PaymentScreen(numberOfSteps: 5, nextStep: 'confirmRequest', stepText: 'forthStep', stepNumber: 4,),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 5)
@@ -988,7 +988,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                getTranslated('sixthStep', context),
+                getTranslated('fifthStep', context),
                 style: TextStyle(
                     color: HexColor('#979797'),
                     fontSize: width(0.03, context)
@@ -1014,7 +1014,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '6/6',
+                    '5/5',
                     style: TextStyle(
                         color: HexColor('#979797'),
                         fontSize: width(0.025, context)

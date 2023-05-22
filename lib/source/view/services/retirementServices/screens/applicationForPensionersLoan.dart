@@ -324,7 +324,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                           "RELAT": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['RELAT'],
                           "RELAT_DESC": servicesProvider.result[selectedLoanType == 'heirLoan' ? 'P_DEAD_LOAN' : 'p_per_info'][0][0]['RELAT_DESC'],
                           "BANK_DOC_FLG": loanResultInfo['po_bank_doc_flg'],
-                        }, serviceType: widget.serviceType, info: const {}, dependents: const [], relations: const [], nextStepNumber: 6,),
+                        }, serviceType: widget.serviceType, info: const {}, dependents: const [], relations: const [], nextStepNumber: 6, stepText: 'fifthStep',),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 6)
                         fifthStep(context, themeNotifier),
                       if(!(Provider.of<ServicesProvider>(context).stepNumber == 5))
