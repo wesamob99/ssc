@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:group_radio_button/group_radio_button.dart';
 import 'package:provider/provider.dart';
 import 'package:ssc/infrastructure/userSecuredStorage.dart';
 import 'package:ssc/source/view/services/shared/firstStepScreen.dart';
@@ -427,49 +426,50 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
             if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             SizedBox(height: height(0.015, context),),
             if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
-            RadioGroup<String>.builder(
-              activeColor: HexColor('#2D452E'),
-              direction: Axis.vertical,
-              horizontalAlignment: MainAxisAlignment.start,
-              groupValue: selectedCalculateAccordingTo,
-              // spacebetween: 40,
-              textStyle: isTablet(context)
-              ? TextStyle(
-                fontSize: width(0.025, context)
-              ) : const TextStyle(),
-              onChanged: (value) => setState(() {
-                    selectedCalculateAccordingTo = value;
-                    if(selectedCalculateAccordingTo == 'lastSalary'){
-                      submissionType = 1;
-                      currentSliderValue = double.tryParse(
-                          (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString()) > double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString())
-                                  ? servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] : servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE']).toString());
-                      confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
-                      confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
-                    }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
-                      submissionType = 2;
-                      currentSliderValue = double.tryParse(
-                          (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString()) > double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString())
-                                  ? servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] : servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE']).toString());
-                      selectedRate = selectedYear = SelectedListItem(name: '0', natCode: null, flag: '');
-                      confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
-                      confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
-                    } else if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
-                      submissionType = 3;
-                      currentSliderValue = maxSalary;
-                      servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(3);
-                      confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
-                      confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
-                    } else if(selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw'){
-                      submissionType = 5;
-                    }
-              }),
-              items: calculateAccordingToList,
-              itemBuilder: (item) =>
-                RadioButtonBuilder(
-                  getTranslated(item, context),
-                ),
-            ),
+            // RadioGroup<String>.builder(
+            //   activeColor: HexColor('#2D452E'),
+            //   direction: Axis.vertical,
+            //   horizontalAlignment: MainAxisAlignment.start,
+            //   groupValue: selectedCalculateAccordingTo,
+            //   // spacebetween: 40,
+            //   textStyle: isTablet(context)
+            //   ? TextStyle(
+            //     fontSize: width(0.025, context)
+            //   ) : const TextStyle(),
+            //   onChanged: (value) => setState(() {
+            //         selectedCalculateAccordingTo = value;
+            //         if(selectedCalculateAccordingTo == 'lastSalary'){
+            //           submissionType = 1;
+            //           currentSliderValue = double.tryParse(
+            //               (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString()) > double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString())
+            //                       ? servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] : servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE']).toString());
+            //           confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
+            //           confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
+            //         }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
+            //           submissionType = 2;
+            //           currentSliderValue = double.tryParse(
+            //               (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString()) > double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString())
+            //                       ? servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] : servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE']).toString());
+            //           selectedRate = selectedYear = SelectedListItem(name: '0', natCode: null, flag: '');
+            //           confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
+            //           confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
+            //         } else if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
+            //           submissionType = 3;
+            //           currentSliderValue = maxSalary;
+            //           servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(3);
+            //           confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
+            //           confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
+            //         } else if(selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw'){
+            //           submissionType = 5;
+            //         }
+            //   }),
+            //   items: calculateAccordingToList,
+            //   itemBuilder: (item) =>
+            //     RadioButtonBuilder(
+            //       getTranslated(item, context),
+            //     ),
+            // ),
+            customRadioButtonGroup(calculateAccordingToList, setState),
             if(servicesProvider.result['PO_is_it_firstOptionalSub'] == 0)
             SizedBox(height: height(0.02, context),),
             if(servicesProvider.result['PO_is_it_firstOptionalSub'] != 0 || selectedCalculateAccordingTo == 'discountNotMoreThan-20')
@@ -700,7 +700,8 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
                         ),
                       ],
                     )
-                )
+                ),
+                SizedBox(height: height(0.02, context),),
               ],
             ),
           ],
@@ -944,4 +945,79 @@ class _MembershipRequestScreenState extends State<MembershipRequestScreen> {
       ),
     );
   }
+
+  Widget customRadioButtonGroup(List choices, setState){
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: choices.length,
+        itemBuilder: (context, index){
+          return Column(
+            children: [
+              InkWell(
+                onTap: (){
+                  setState(() {
+                    selectedCalculateAccordingTo = choices[index];
+                    if(selectedCalculateAccordingTo == 'lastSalary'){
+                      submissionType = 1;
+                      currentSliderValue = double.tryParse(
+                          (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString()) > double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString())
+                              ? servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] : servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE']).toString());
+                      confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
+                      confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
+                    }else if(selectedCalculateAccordingTo == 'increaseInAllowanceForDeductionYears'){
+                      submissionType = 2;
+                      currentSliderValue = double.tryParse(
+                          (double.tryParse(servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'].toString()) > double.tryParse(servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE'].toString())
+                              ? servicesProvider.result['cur_getdata'][0][0]['LAST_SALARY'] : servicesProvider.result['cur_getdata'][0][0]['MINIMUMSALARYFORCHOOSE']).toString());
+                      selectedRate = selectedYear = SelectedListItem(name: '0', natCode: null, flag: '');
+                      confirmSalaryValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue)).toStringAsFixed(3);
+                      confirmMonthlyValue = ((currentSliderValue * (double.tryParse(selectedRate.name) / 100) + currentSliderValue) * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
+                    } else if(selectedCalculateAccordingTo == 'discountNotMoreThan-20'){
+                      submissionType = 3;
+                      currentSliderValue = maxSalary;
+                      servicesProvider.monthlyInstallmentController.text = currentSliderValue.toStringAsFixed(3);
+                      confirmSalaryValue = currentSliderValue.toStringAsFixed(2);
+                      confirmMonthlyValue = (currentSliderValue * ((double.tryParse(servicesProvider.result['cur_getdata'][0][0]['REG_PER'].toString())) / 100)).toStringAsFixed(3);
+                    } else if(selectedCalculateAccordingTo == 'lastSalaryAccordingToTheDefenseLaw'){
+                      submissionType = 5;
+                    }
+                  });
+                },
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(500.0),
+                        border: Border.all(
+                          color: HexColor('#2D452E'),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(2.0),
+                      child: CircleAvatar(
+                        radius: isTablet(context) ? 10 : 5,
+                        backgroundColor: choices[index] == selectedCalculateAccordingTo
+                            ? HexColor('#2D452E') : Colors.transparent,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        getTranslated(choices[index], context),
+                        style: TextStyle(
+                          color: HexColor('#666666'),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10.0,)
+            ],
+          );
+        }
+    );
+  }
+
 }
