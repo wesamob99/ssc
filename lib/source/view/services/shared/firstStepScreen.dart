@@ -141,35 +141,17 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
           ],
         ),
         SizedBox(height: height(0.02, context),),
-        Text(
-          getTranslated('quatrainNoun', context),
-          style: TextStyle(
-              color: HexColor('#363636'),
-              fontSize: width(0.032, context)
-          ),
-        ),
+        buildFieldTitle(context, 'quatrainNoun', required: false),
         SizedBox(height: height(0.015, context),),
         buildTextFormField(context, themeNotifier, TextEditingController(text: name), '', (val){}, enabled: false),
         SizedBox(height: height(0.015, context),),
-        Text(
-          getTranslated('nationalId', context),
-          style: TextStyle(
-              color: HexColor('#363636'),
-              fontSize: width(0.032, context)
-          ),
-        ),
+        buildFieldTitle(context, 'nationalId', required: false),
         SizedBox(height: height(0.015, context),),
         buildTextFormField(context, themeNotifier, TextEditingController(text: natId), '', (val){}, enabled: false),
         if(insuranceNo != '')
         SizedBox(height: height(0.015, context),),
         if(insuranceNo != '')
-        Text(
-          getTranslated('securityNumber', context),
-          style: TextStyle(
-              color: HexColor('#363636'),
-              fontSize: width(0.032, context)
-          ),
-        ),
+        buildFieldTitle(context, 'securityNumber', required: false),
         if(insuranceNo != '')
         SizedBox(height: height(0.015, context),),
         if(insuranceNo != '')

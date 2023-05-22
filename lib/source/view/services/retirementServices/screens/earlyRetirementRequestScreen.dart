@@ -1430,6 +1430,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 }
                 if(flag == 6) {
                   nationality = firstChoice;
+                  nationalIdController.clear();
                 }
                 if(flag == 7) {
                   selectedGender = firstChoice;
@@ -1492,6 +1493,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                 }
                 if(flag == 6) {
                   nationality = secondChoice;
+                  nationalIdController.clear();
                 }
                 if(flag == 7) {
                   selectedGender = secondChoice;
