@@ -809,7 +809,8 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index){
                           DateTime date = minDate.add(Duration(days: index));
-                          String dayName = DateFormat('EEEE').format(date);
+                          String dayNameArabic = DateFormat.EEEE('ar').format(date); // Get the day name in Arabic
+                          String dayNameEnglish = DateFormat.EEEE('en').format(date); // Get the day name in English
                           String dayNumber = DateFormat('d').format(date);
                           return Row(
                             children: [
@@ -842,7 +843,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                                       ),
                                       const SizedBox(height: 5.0,),
                                       Text(
-                                        dayName,
+                                        UserConfig.instance.isLanguageEnglish() ? dayNameEnglish : dayNameArabic,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: selectedMinDate == date ? HexColor('#FFFFFF') : HexColor('#363636'),
