@@ -13,7 +13,6 @@ import 'package:ssc/utilities/hexColor.dart';
 import 'package:ssc/utilities/theme/themes.dart';
 
 import '../../../infrastructure/userSecuredStorage.dart';
-import '../../../utilities/constants.dart';
 import '../../../utilities/util.dart';
 import 'dart:math' as math;
 
@@ -196,38 +195,38 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         ],
                       )
                   ),
-                  /// TODO: update icon
-                  buildButtonsContainer(
-                      'select_app_theme',
-                      'assets/icons/profileIcons/language.svg',
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          buildCustomizableButton(
-                              themeNotifier.isLight() ? SvgPicture.asset(
-                                'assets/icons/profileIcons/checked.svg', height: 18, width: 18,
-                              ) : const SizedBox.shrink(),
-                              'Light', (){
-                            themeNotifier.setThemeMode(ThemeMode.light);
-                            prefs.then((value) {
-                              value.setString(Constants.APP_THEME, Constants.LIGHT);
-                            });
-                            setState(() {});
-                          }),
-                          buildCustomizableButton(
-                              !themeNotifier.isLight() ? SvgPicture.asset(
-                                'assets/icons/profileIcons/checked.svg', height: 18, width: 18,
-                              ) : const SizedBox.shrink(),
-                              'Dark', (){
-                            themeNotifier.setThemeMode(ThemeMode.dark);
-                            prefs.then((value) {
-                              value.setString(Constants.APP_THEME, Constants.DARK);
-                            });
-                            setState(() {});
-                          }),
-                        ],
-                      )
-                  ),
+                  /// TODO: show app theme
+                  // buildButtonsContainer(
+                  //     'select_app_theme',
+                  //     'assets/icons/profileIcons/language.svg',
+                  //     Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         buildCustomizableButton(
+                  //             themeNotifier.isLight() ? SvgPicture.asset(
+                  //               'assets/icons/profileIcons/checked.svg', height: 18, width: 18,
+                  //             ) : const SizedBox.shrink(),
+                  //             'Light', (){
+                  //           themeNotifier.setThemeMode(ThemeMode.light);
+                  //           prefs.then((value) {
+                  //             value.setString(Constants.APP_THEME, Constants.LIGHT);
+                  //           });
+                  //           setState(() {});
+                  //         }),
+                  //         buildCustomizableButton(
+                  //             !themeNotifier.isLight() ? SvgPicture.asset(
+                  //               'assets/icons/profileIcons/checked.svg', height: 18, width: 18,
+                  //             ) : const SizedBox.shrink(),
+                  //             'Dark', (){
+                  //           themeNotifier.setThemeMode(ThemeMode.dark);
+                  //           prefs.then((value) {
+                  //             value.setString(Constants.APP_THEME, Constants.DARK);
+                  //           });
+                  //           setState(() {});
+                  //         }),
+                  //       ],
+                  //     )
+                  // ),
                   buildButtonsContainer(
                       'supportAndAssistance',
                       'assets/icons/profileIcons/headphone.svg',
