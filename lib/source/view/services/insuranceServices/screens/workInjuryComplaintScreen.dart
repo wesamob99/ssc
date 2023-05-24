@@ -308,7 +308,7 @@ class _WorkInjuryComplaintScreenState extends State<WorkInjuryComplaintScreen> {
                     });
                   },
                   currentTime: selectedDateTime,
-                  locale: LocaleType.en,
+                  locale: UserConfig.instance.isLanguageEnglish() ? LocaleType.en : LocaleType.ar,
                 );
               },
               child: Container(

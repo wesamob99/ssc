@@ -745,7 +745,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                           deadPersonSubmitGetDetails();
                         },
                         currentTime: selectedDateOfBirth,
-                        locale: LocaleType.en,
+                        locale: UserConfig.instance.isLanguageEnglish() ? LocaleType.en : LocaleType.ar,
                       );
                     },
                     child: Container(
@@ -794,7 +794,7 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                           deadPersonSubmitGetDetails();
                         },
                         currentTime: selectedDeathDate,
-                        locale: LocaleType.en,
+                        locale: UserConfig.instance.isLanguageEnglish() ? LocaleType.en : LocaleType.ar,
                       );
                     },
                     child: Container(

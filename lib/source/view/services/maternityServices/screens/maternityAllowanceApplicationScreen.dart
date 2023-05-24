@@ -715,7 +715,7 @@ class _MaternityAllowanceApplicationScreenState extends State<MaternityAllowance
                         });
                       },
                       currentTime: DateTime.now(),
-                      locale: LocaleType.en,
+                      locale: UserConfig.instance.isLanguageEnglish() ? LocaleType.en : LocaleType.ar,
                     );
                   },
                   child: Container(

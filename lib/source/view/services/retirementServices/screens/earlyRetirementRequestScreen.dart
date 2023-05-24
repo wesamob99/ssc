@@ -1875,7 +1875,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                               });
                                             },
                                             currentTime: selectedDateOfBirth,
-                                            locale: LocaleType.en,
+                                            locale: UserConfig.instance.isLanguageEnglish() ? LocaleType.en : LocaleType.ar,
                                           );
                                         },
                                         child: Container(
@@ -1944,7 +1944,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                           });
                                         },
                                         currentTime: dateOfLastIncident,
-                                        locale: LocaleType.en,
+                                        locale: UserConfig.instance.isLanguageEnglish() ? LocaleType.en : LocaleType.ar,
                                       );
                                     },
                                     child: Container(

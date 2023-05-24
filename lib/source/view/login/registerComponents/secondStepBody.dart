@@ -159,7 +159,7 @@ class _SecondStepBodyState extends State<SecondStepBody> {
                               loginProvider.notifyMe();
                             },
                             currentTime: loginProvider.selectedDateOfBirth,
-                            locale: LocaleType.en,
+                            locale: UserConfig.instance.isLanguageEnglish() ? LocaleType.en : LocaleType.ar,
                           );
                         },
                         child: Container(
