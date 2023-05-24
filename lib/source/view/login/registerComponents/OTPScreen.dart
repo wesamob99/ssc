@@ -109,7 +109,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                      widget.contactTarget != ''
                                      ? widget.type == 'phone'
                                         ? widget.contactTarget.replaceRange(0, widget.contactTarget.length - 2, '*' * (widget.contactTarget.length - 2))
-                                        : widget.contactTarget.replaceRange(2, widget.contactTarget.indexOf('@'), '*' * (widget.contactTarget.indexOf('@')))
+                                        : widget.contactTarget.replaceRange(widget.contactTarget.indexOf('@') ~/ 3, widget.contactTarget.indexOf('@'), '*' * (widget.contactTarget.indexOf('@') - widget.contactTarget.indexOf('@') ~/ 3))
                                     : "**********",
                                     textDirection: TextDirection.ltr,
                                     style: TextStyle(
@@ -280,7 +280,7 @@ class _OTPScreenState extends State<OTPScreen> {
                               SizedBox(height: height(0.018, context),),
                               textButton(themeNotifier, 'cancel', MaterialStateProperty.all<Color>(
                                   HexColor('#DADADA')), HexColor('#363636'), (){
-                                if(widget.flag == 3 || widget.flag == 2){
+                                if(widget.flag == 3 || widget.flag == 2 || (widget.flag == 1 && widget.type == 'email')){
                                   Navigator.of(context).pop();
                                 } else{
                                   Navigator.of(context).pushAndRemoveUntil(

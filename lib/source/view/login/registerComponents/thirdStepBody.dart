@@ -248,7 +248,6 @@ class _ThirdStepBodyState extends State<ThirdStepBody> {
                                     ),
                                   ),
                                 );
-                                loginProvider.registerContinueEnabled = false;
                               }
                               loginProvider.notifyMe();
                             });
