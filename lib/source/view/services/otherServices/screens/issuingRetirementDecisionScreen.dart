@@ -97,9 +97,11 @@ class _IssuingRetirementDecisionScreenState extends State<IssuingRetirementDecis
                                   buildFieldTitle(context, 'doYouAgreeWithTheDecision', required: false),
                                   const SizedBox(height: 10.0,),
                                   customTwoRadioButtons(1, 'agree', 'disagree', setState),
-                                  const SizedBox(height: 20.0,),
-                                  buildFieldTitle(context, 'agreeReason', required: false),
-                                  const SizedBox(height: 10.0,),
+                                  SizedBox(height: doYouAgreeWithTheDecision != '' ? 20.0 : 0,),
+                                  if(doYouAgreeWithTheDecision != '')
+                                  buildFieldTitle(context, doYouAgreeWithTheDecision == 'agree' ? 'agreeReason' : 'disagreeReason', required: false),
+                                  SizedBox(height: doYouAgreeWithTheDecision != '' ? 10.0 : 0,),
+                                  if(doYouAgreeWithTheDecision != '')
                                   buildTextFormField(context, themeNotifier, servicesProvider.reasonController, 'val${getTranslated('agreeReasonHint', context)}', (value){}, minLines: 5),
                                   const SizedBox(height: 20.0,),
                                 ],
@@ -444,10 +446,15 @@ class _IssuingRetirementDecisionScreenState extends State<IssuingRetirementDecis
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  getTranslated(firstChoice, context),
-                  style: TextStyle(
-                    color: HexColor('#666666'),
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: width(0.35, context),
+                  ),
+                  child: Text(
+                    getTranslated(firstChoice, context),
+                    style: TextStyle(
+                      color: HexColor('#666666'),
+                    ),
                   ),
                 ),
               ),
@@ -483,10 +490,15 @@ class _IssuingRetirementDecisionScreenState extends State<IssuingRetirementDecis
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  getTranslated(secondChoice, context),
-                  style: TextStyle(
-                    color: HexColor('#666666'),
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: width(0.35, context),
+                  ),
+                  child: Text(
+                    getTranslated(secondChoice, context),
+                    style: TextStyle(
+                      color: HexColor('#666666'),
+                    ),
                   ),
                 ),
               ),

@@ -507,6 +507,7 @@
   "agree": "Agree",
   "disagree": "Disagree to the notification decision",
   "agreeReason": "Agree reason",
+  "disagreeReason": "Disagree reason",
   "agreeReasonHint": "Reason must be 15 characters long",
   "fileDownloadedAt": "File downloaded at",
   "WithdrawalOfObjection": "Withdrawal of an objection (means acceptance of the decision and cancellation of the previous objection by you)",

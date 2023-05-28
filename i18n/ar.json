@@ -516,6 +516,7 @@
   "agree": "موافق",
   "disagree": "اعترض على قرار التبيلغ",
   "agreeReason": "سبب الموافقة",
+  "disagreeReason": "سبب الإعتراض",
   "agreeReasonHint": "يجب ان يكون السبب مكون من 15 حرف",
   "fileDownloadedAt": "تم تحميل الملف في",
   "WithdrawalOfObjection": "سحب اعتراض (يعني قبول القرار وإلغاء الاعتراض السابق من طرفكم )",

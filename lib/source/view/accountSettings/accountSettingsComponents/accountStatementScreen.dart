@@ -296,7 +296,7 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                         borderRadius: BorderRadius.circular(50.0),
                       ),
                       child: Text(
-                        '${data[0][index]['descr'] ?? getTranslated('onTopOfHisWork', context)}',
+                        '${(UserConfig.instance.isLanguageEnglish() ? data[0][index]['descr_en'] : data[0][index]['descr']) ?? getTranslated('onTopOfHisWork', context)}',
                         //translate('onTopOfHisWork', context)
                         style: TextStyle(
                           color: themeNotifier.isLight()
