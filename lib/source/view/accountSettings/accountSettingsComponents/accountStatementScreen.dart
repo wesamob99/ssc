@@ -297,7 +297,6 @@ class _AccountStatementScreenState extends State<AccountStatementScreen> {
                       ),
                       child: Text(
                         '${(UserConfig.instance.isLanguageEnglish() ? data[0][index]['descr_en'] : data[0][index]['descr']) ?? getTranslated('onTopOfHisWork', context)}',
-                        //translate('onTopOfHisWork', context)
                         style: TextStyle(
                           color: themeNotifier.isLight()
                           ? data[0][index]['descr'] == null ? HexColor('#2D452E') : HexColor('#987803')
