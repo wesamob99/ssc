@@ -22,7 +22,6 @@ class AccountStatementScreen extends StatefulWidget {
 
 class _AccountStatementScreenState extends State<AccountStatementScreen> {
 
-  /// TODO: add the missed informations
   Future inquireInsuredInfo;
   AccountSettingsProvider accountSettingsProvider;
   ThemeNotifier themeNotifier;
