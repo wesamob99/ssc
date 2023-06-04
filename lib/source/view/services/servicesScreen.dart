@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -72,17 +72,17 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 // ),
                 SizedBox(height: height(0.02, context)),
                 if(selectedIndex == 0)
-                const MostVisitedBody(),
+                  MostVisitedBody(),
                 if(selectedIndex == 1)
-                const RetirementBody(),
+                  RetirementBody(),
                 if(selectedIndex == 2)
-                const OptionalAndFreeInclusionBody(),
+                  OptionalAndFreeInclusionBody(),
                 if(selectedIndex == 4)
-                const MaternityBody(),
+                  MaternityBody(),
                 if(selectedIndex == 5)
-                const InsuranceBody(),
+                  InsuranceBody(),
                 if(selectedIndex == 6)
-                const OtherServicesBody()
+                  OtherServicesBody()
               ],
             ),
           )

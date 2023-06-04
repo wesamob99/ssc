@@ -202,7 +202,8 @@ class _MainScreenState extends State<MainScreen> {
           physics: const NeverScrollableScrollPhysics(),
           children: [
             const HomeScreen(),
-            const ServicesScreen(),
+            // ignore: prefer_const_constructors
+            ServicesScreen(),
             Center(
               child: Text(
                 getTranslated(pageTitle[2], context)
