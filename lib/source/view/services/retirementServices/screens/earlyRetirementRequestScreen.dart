@@ -78,7 +78,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
       if(servicesProvider.isMobileNumberUpdated){
         return Provider.of<ServicesProvider>(context, listen: false).pinPutFilled;
       } else{
-        return true;
+        return areYouPartnerInLimitedLiabilityCompany == 'no' || areYouAuthorizedToSignForCompany == 'no';
       }
     } else if(flag == 3){
       if(servicesProvider.isMobileNumberUpdated){
@@ -1765,7 +1765,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 SizedBox(
-                                                  width: width(0.6, context),
+                                                  width: width(0.5, context),
                                                   child: Text(
                                                     !isEdit
                                                         ? pDependents[0][index]['NAME'] ?? pDependents[0][index]['FULL_NAME']
@@ -1979,7 +1979,7 @@ class _EarlyRetirementRequestScreenState extends State<EarlyRetirementRequestScr
                                   const SizedBox(height: 10.0,),
                                   if(nationality == 'nonJordanian')
                                   customRadioButtonGroup(2, servicesProvider.result['P_RELATION'][0], setState),
-                                  SizedBox(height: height(isScreenHasSmallHeight(context) ? 0.25 : 0.15, context),),
+                                  SizedBox(height: height(0.25, context),),
                                 ],
                               ),
                             ],
