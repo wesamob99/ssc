@@ -228,7 +228,7 @@ class _OneTimeRefundInquiryScreenState extends State<OneTimeRefundInquiryScreen>
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          textButton(
+                          textButtonWithIcon(
                               context, themeNotifier, 'addNewRequest', HexColor('#ffffff'), getPrimaryColor(context, themeNotifier),
                                   () async {
                                     Navigator.of(context).push(
