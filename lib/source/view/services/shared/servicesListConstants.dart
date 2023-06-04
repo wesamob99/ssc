@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../model/services/servicesRepository.dart';
 import '../insuranceServices/screens/oneTimeCompensationRequestScreen.dart';
+import '../insuranceServices/screens/savingsBalanceDisbursementRequestScreen.dart';
 import '../insuranceServices/screens/workInjuryComplaintScreen.dart';
 import '../maternityServices/screens/maternityAllowanceApplicationScreen.dart';
 import '../mostVisited/screens/unemploymentApplicationScreen.dart';
@@ -47,7 +48,7 @@ class ServicesList{
       title: "oneTimeCompensationRequest", supTitle: "compensation", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const OneTimeCompensationRequestScreen(), serviceApiCall: ()=> _servicesRepository.getApplicationService(2)
   );
   static Service savingsBalanceDisbursementRequest = Service(
-      title: "savingsBalanceDisbursementRequest", supTitle: "savingsBalance", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()
+      title: "savingsBalanceDisbursementRequest", supTitle: "savingsBalance", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const SavingsBalanceDisbursementRequestScreen(), serviceApiCall: ()=> _servicesRepository.getSavingsBalanceDisbursementRequestDetailService()
   );
   static Service workInjuryInsurance = Service(
       title: "workInjuryInsurance", supTitle: "workInjuries", description: "this supposed to be about the service description", icon: 'assets/icons/quickAccessIcons/unemploymentIcon.svg', screen:  const WorkInjuryComplaintScreen(), serviceApiCall: ()=> _servicesRepository.optionalSubGetDetailService()

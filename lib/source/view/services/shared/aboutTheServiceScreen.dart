@@ -298,7 +298,8 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                           ((widget.serviceTitle == 'issuingRetirementDecision') && value['PO_STATUS'] == 0) || /// Issuing a retirement decision - تبليغ قرار التقاعد
                                           ((widget.serviceTitle == 'maternityAllowanceApplication') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// Maternity allowance application - طلب بدل امومة
                                           ((widget.serviceTitle == 'oneTimeCompensationRequest') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// One-time compensation request - طلب  تعويض الدفعة الواحده
-                                          ((widget.serviceTitle == 'unemploymentApplication') && value['P_Message'][0][0]['PO_STATUS'] == 0) /// inactivity application - بدل تعطل
+                                          ((widget.serviceTitle == 'unemploymentApplication') && value['P_Message'][0][0]['PO_STATUS'] == 0) || /// inactivity application - بدل تعطل
+                                          ((widget.serviceTitle == 'savingsBalanceDisbursementRequest') && value['PO_status_no'] == 0) /// Savings balance disbursement request" - طلب صرف الرصيد الادخاري
                                         )
                                       ){
                                         servicesProvider.result = value;
@@ -318,7 +319,7 @@ class _AboutTheServiceScreenState extends State<AboutTheServiceScreen> {
                                               showRetirementsBottomSheet();
                                             }
                                           );
-                                        } else if((widget.serviceTitle == 'issuingRetirementDecision')){
+                                        } else if((widget.serviceTitle == 'issuingRetirementDecision') || (widget.serviceTitle == 'savingsBalanceDisbursementRequest')){
                                           errorMessage = UserConfig.instance.isLanguageEnglish()
                                               ? value["PO_status_desc_EN"] : value["PO_status_desc_AR"];
                                           showMyDialog(context, 'failed', errorMessage ?? getTranslated('thereAreNoData', context), 'ok', themeNotifier);
