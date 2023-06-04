@@ -543,6 +543,10 @@
   "lastFirmNumber": "رقم آخر منشأه",
   "dateOfDiscontinuation": "تاريخ الإيقاف",
   "areYouSureYouWantToDeleteThisFile": "هل أنت متأكد أنك تريد حذف هذا الملف",
-  "areYouSureYouWantToDeleteThisFileDesc": "اذا قمت بحذف جميع المفات الخاصه بوثيقه اجباريه سيتعين عليك الرجوع الى صفحة الوثائق وارفاق الوثيقه المطلوبه."
+  "areYouSureYouWantToDeleteThisFileDesc": "اذا قمت بحذف جميع المفات الخاصه بوثيقه اجباريه سيتعين عليك الرجوع الى صفحة الوثائق وارفاق الوثيقه المطلوبه.",
+  "workingStatus": "حالة العمل",
+  "exchangePurposes": "غايات الصرف",
+  "ifYouAreSuspendedFromYourWorkDesc": "اذا كنت متوقف عن عملك يجب عليك التبليغ عن حالتك لكي لا تترتب عليك مبالغ قانونيه للضمان",
+  "areYouStillOnTopOfYourJob": "هل ما زلت على رأس عملك؟"
 
 }

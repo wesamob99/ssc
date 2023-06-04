@@ -534,6 +534,10 @@
   "lastFirmNumber": "Last firm number",
   "dateOfDiscontinuation": "Date of discontinuation",
   "areYouSureYouWantToDeleteThisFile": "Are you sure you want to delete this file",
-  "areYouSureYouWantToDeleteThisFileDesc": "If you delete all files of a mandatory document, you will have to go back to the documents page and attach the required document."
+  "areYouSureYouWantToDeleteThisFileDesc": "If you delete all files of a mandatory document, you will have to go back to the documents page and attach the required document.",
+  "workingStatus": "Working status",
+  "exchangePurposes": "Exchange purposes",
+  "ifYouAreSuspendedFromYourWorkDesc": "If you are suspended from your work, you must report your condition to you You do not have to pay legal amounts for the guarantee",
+  "areYouStillOnTopOfYourJob": "Are you still on top of your job?"
 
 }
