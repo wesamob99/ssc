@@ -257,9 +257,9 @@ class _DeceasedRetirementApplicationScreenState extends State<DeceasedRetirement
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                        const FirstStepScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 5),
+                        const FirstStepScreen(nextStep: 'orderDetails', numberOfSteps: 5),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                        VerifyMobileNumberScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 5, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                        VerifyMobileNumberScreen(nextStep: 'orderDetails', numberOfSteps: 5, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
                         secondStep(context, themeNotifier),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 3)

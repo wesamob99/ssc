@@ -214,9 +214,9 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       if(Provider.of<ServicesProvider>(context).stepNumber == 1)
-                        const FirstStepScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 6),
+                        const FirstStepScreen(nextStep: 'loanType', numberOfSteps: 6),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 2 && Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
-                        VerifyMobileNumberScreen(nextStep: 'ensureFinancialSolvency', numberOfSteps: 6, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
+                        VerifyMobileNumberScreen(nextStep: 'loanType', numberOfSteps: 6, mobileNo: servicesProvider.mobileNumberController.text ?? ''),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 2 && !Provider.of<ServicesProvider>(context).isMobileNumberUpdated)
                         secondStep(context, themeNotifier),
                       if(Provider.of<ServicesProvider>(context).stepNumber == 3)
@@ -838,7 +838,7 @@ class _ApplicationForPensionersLoanState extends State<ApplicationForPensionersL
                       ),
                     ),
                     Text(
-                      '${getTranslated('next', context)}: ${getTranslated('documents', context)}',
+                      '${getTranslated('next', context)}: ${getTranslated('receiptOfAllowances', context)}',
                       style: TextStyle(
                           color: HexColor('#979797'),
                           fontSize: width(0.032, context)
