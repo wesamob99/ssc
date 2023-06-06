@@ -161,7 +161,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
           context,
           'mobileNumber',
           required: true,
-          filled: servicesProvider.disableMobileValidations ? true : mobileNumberValidate(Provider.of<ServicesProvider>(context).mobileNumberController.text),
+          filled: servicesProvider.disableMobileValidations ? Provider.of<ServicesProvider>(context).mobileNumberController.text.isNotEmpty : mobileNumberValidate(Provider.of<ServicesProvider>(context).mobileNumberController.text),
         ),
         SizedBox(height: height(0.014, context),),
         Row(
