@@ -830,7 +830,7 @@ class _OneTimeCompensationRequestScreenState extends State<OneTimeCompensationRe
       onTap: () {
         DropDownState(
           DropDown(
-            isSearchVisible: true,
+            isSearchVisible: false,
             data: listOfItems ?? [],
             selectedItems: (List selectedList) async {
               for (var item in selectedList) {
